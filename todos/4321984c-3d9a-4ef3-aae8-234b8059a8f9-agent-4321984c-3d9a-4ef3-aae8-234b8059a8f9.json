@@ -1,0 +1,17 @@
+[
+  {
+    "content": "related_menu_htmlの構造を確認",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "リンクのホバー時のスタイルを確認",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "CSSでリンクの下線表示を修正",
+    "status": "completed",
+    "id": "3"
+  }
+]

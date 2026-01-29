@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Examine current main.py routing structure",
+    "status": "completed",
+    "priority": "high",
+    "id": "examine-main"
+  },
+  {
+    "content": "Read rohan backend main.py to understand the API structure",
+    "status": "completed",
+    "priority": "high",
+    "id": "read-rohan-backend"
+  },
+  {
+    "content": "Create URL routing in main.py to handle /rohan/ paths",
+    "status": "completed",
+    "priority": "high",
+    "id": "create-routing"
+  },
+  {
+    "content": "Add proper imports and configuration for rohan backend integration",
+    "status": "completed",
+    "priority": "medium",
+    "id": "add-imports"
+  },
+  {
+    "content": "Test the routing implementation",
+    "status": "completed",
+    "priority": "medium",
+    "id": "test-routing"
+  }
+]

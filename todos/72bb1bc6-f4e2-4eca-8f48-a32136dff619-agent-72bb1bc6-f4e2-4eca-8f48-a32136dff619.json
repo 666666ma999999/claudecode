@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Phase 1: 後処理エンドポイントの統合（-625行）",
+    "status": "completed",
+    "activeForm": "Phase 1: 後処理エンドポイントを統合中"
+  },
+  {
+    "content": "Phase 2: メタデータ解析の統合（~200行）",
+    "status": "in_progress",
+    "activeForm": "Phase 2: メタデータ解析を統合中"
+  },
+  {
+    "content": "Phase 3: Router依存注入の統合（~150行）",
+    "status": "pending",
+    "activeForm": "Phase 3: Router依存注入を統合中"
+  },
+  {
+    "content": "Phase 4: フロントエンドパス探索の統合（~40行）",
+    "status": "pending",
+    "activeForm": "Phase 4: フロントエンドパス探索を統合中"
+  },
+  {
+    "content": "Phase 5: FEダウンロード処理の統合（~70行）",
+    "status": "pending",
+    "activeForm": "Phase 5: FEダウンロード処理を統合中"
+  },
+  {
+    "content": "サーバー再起動と最終テスト",
+    "status": "pending",
+    "activeForm": "サーバー再起動と最終テスト中"
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "content": "Add scroll detection JavaScript for related_menu_html section",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Create popup modal CSS styles with X button",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Implement popup show/hide functionality",
+    "status": "completed",
+    "id": "3"
+  },
+  {
+    "content": "Add X button click handler to close popup",
+    "status": "completed",
+    "id": "4"
+  }
+]

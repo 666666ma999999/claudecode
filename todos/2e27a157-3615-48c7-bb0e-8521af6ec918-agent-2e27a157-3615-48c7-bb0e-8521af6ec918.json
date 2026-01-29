@@ -1,0 +1,22 @@
+[
+  {
+    "content": "ポップアップのスクロール機能を調査",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "ポップアップCSS設定を確認",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "スクロール機能を修復",
+    "status": "completed",
+    "id": "3"
+  },
+  {
+    "content": "ポップアップ動作をテスト",
+    "status": "completed",
+    "id": "4"
+  }
+]

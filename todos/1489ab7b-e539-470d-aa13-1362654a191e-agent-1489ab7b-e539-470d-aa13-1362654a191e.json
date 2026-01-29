@@ -1,0 +1,17 @@
+[
+  {
+    "content": "問題が発生しているHTMLファイルを特定する",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "HTMLファイル内の該当箇所を新しいクラス名に変更する",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "修正後の動作確認を行う",
+    "status": "completed",
+    "id": "3"
+  }
+]

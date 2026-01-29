@@ -1,0 +1,17 @@
+[
+  {
+    "content": "README未記載ファイルの確認・整理",
+    "status": "completed",
+    "id": "check-unmentioned-files"
+  },
+  {
+    "content": "READMEに.gitignoreと.env.exampleを追加",
+    "status": "completed",
+    "id": "add-missing-files-to-readme"
+  },
+  {
+    "content": "Git状態のクリーンアップ",
+    "status": "completed",
+    "id": "cleanup-git-status"
+  }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "content": "browser_automation.pyにfile_id入力を追加",
+    "status": "completed",
+    "activeForm": "file_id入力を追加中"
+  },
+  {
+    "content": "サーバーを再起動",
+    "status": "completed",
+    "activeForm": "サーバーを再起動中"
+  },
+  {
+    "content": "再テストを実行",
+    "status": "in_progress",
+    "activeForm": "再テストを実行中"
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "content": "transcriptionディレクトリ内の全Pythonファイルを確認",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "各ファイルの内容と用途を分析",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "不要なファイルを特定して削除",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  }
+]

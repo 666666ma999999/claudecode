@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Find the @app.post(\"/submit\") endpoint and make_param function",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Modify make_param to handle partner_flag=0 case (bsurname1->bsurnameyomi1, bgivenname1->bgivennameyomi1)",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Modify make_param to handle partner_flag=1 case (bsurname2->bsurnameyomi1, bgivenname2->bgivennameyomi1)",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  }
+]

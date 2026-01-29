@@ -1,0 +1,14 @@
+[
+  {
+    "content": "main.pyの処理を軽量化するためのリファクタリング",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "原稿生成時に読み込んだファイル情報を表示する機能を追加",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  }
+]

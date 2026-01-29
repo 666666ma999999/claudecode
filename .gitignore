@@ -1,0 +1,22 @@
+# 一時ファイル・キャッシュ（端末固有）
+history.jsonl
+cache/
+debug/
+file-history/
+paste-cache/
+plans/
+session-env/
+shell-snapshots/
+stats-cache.json
+
+# プラグイン（各端末でインストール）
+plugins/
+
+# プロジェクト固有設定（各プロジェクトのリポジトリで管理）
+projects/
+
+# ランタイム
+statsig/
+
+# OS
+.DS_Store

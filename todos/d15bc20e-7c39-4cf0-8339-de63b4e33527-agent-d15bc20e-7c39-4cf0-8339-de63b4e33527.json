@@ -1,0 +1,14 @@
+[
+  {
+    "content": "参照したカラム名を表示する機能を追加",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "表示フォーマットを更新",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  }
+]

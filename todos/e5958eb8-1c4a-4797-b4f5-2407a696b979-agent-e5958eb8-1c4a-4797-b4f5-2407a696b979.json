@@ -1,0 +1,22 @@
+[
+  {
+    "content": "データフレームからsitte_idが一致し特定カラムに値がある行のppv_idを取得するロジックを実装",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "ppv_idリストをユニーク化する処理を追加",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "HTMLテンプレートに{{ related menu }}変数を挿入する処理を実装",
+    "status": "completed",
+    "id": "3"
+  },
+  {
+    "content": "全体の処理フローを統合してテスト",
+    "status": "completed",
+    "id": "4"
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "content": "/configエンドポイント追加（環境変数・定数の一元配信）",
+    "status": "completed",
+    "activeForm": "/configエンドポイントを実装中"
+  },
+  {
+    "content": "ManuscriptType定義をAPIから取得可能に",
+    "status": "completed",
+    "activeForm": "ManuscriptType APIを実装中"
+  },
+  {
+    "content": "エラータイプ+配色をBEから配信",
+    "status": "completed",
+    "activeForm": "エラータイプAPIを実装中"
+  },
+  {
+    "content": "FE側を統合APIに対応させる",
+    "status": "in_progress",
+    "activeForm": "FE側を統合API対応に修正中"
+  },
+  {
+    "content": "サーバー再起動・動作確認",
+    "status": "pending",
+    "activeForm": "サーバー再起動・動作確認中"
+  }
+]

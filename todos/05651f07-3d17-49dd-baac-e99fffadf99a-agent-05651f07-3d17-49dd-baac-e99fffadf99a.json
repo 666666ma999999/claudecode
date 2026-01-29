@@ -1,0 +1,37 @@
+[
+  {
+    "content": "#1 後処理結果ファイル名 - BEレスポンスのファイル名を使用",
+    "status": "in_progress",
+    "activeForm": "後処理結果ファイル名統合中"
+  },
+  {
+    "content": "#2 HTML/改行サニタイズ統合",
+    "status": "pending",
+    "activeForm": "HTML/改行サニタイズ統合中"
+  },
+  {
+    "content": "#3 ダウンロードタイムスタンプ統合",
+    "status": "pending",
+    "activeForm": "タイムスタンプ統合中"
+  },
+  {
+    "content": "#4 冒頭・締めファイル名テンプレート統合",
+    "status": "pending",
+    "activeForm": "冒頭・締めファイル名統合中"
+  },
+  {
+    "content": "#5 添付ファイル検証統合",
+    "status": "pending",
+    "activeForm": "添付ファイル検証統合中"
+  },
+  {
+    "content": "#6 ロジック名抽出統合",
+    "status": "pending",
+    "activeForm": "ロジック名抽出統合中"
+  },
+  {
+    "content": "サーバー再起動・動作確認",
+    "status": "pending",
+    "activeForm": "サーバー再起動中"
+  }
+]

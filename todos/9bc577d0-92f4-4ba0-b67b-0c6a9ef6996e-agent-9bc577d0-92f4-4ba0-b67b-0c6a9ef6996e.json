@@ -1,0 +1,17 @@
+[
+  {
+    "content": "Examine the broken design layout",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Identify the cause of the layout issue",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Fix the CSS/HTML causing the problem",
+    "status": "completed",
+    "id": "3"
+  }
+]

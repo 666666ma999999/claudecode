@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Selenium環境をDockerで構築",
+    "status": "completed",
+    "activeForm": "Selenium環境をDockerで構築中"
+  },
+  {
+    "content": "Seleniumを使ったTwitter収集スクリプト作成",
+    "status": "completed",
+    "activeForm": "Seleniumを使ったTwitter収集スクリプト作成中"
+  },
+  {
+    "content": "Dockerイメージをビルド",
+    "status": "completed",
+    "activeForm": "Dockerイメージをビルド中"
+  },
+  {
+    "content": "Twitterにログインしてcookie保存",
+    "status": "in_progress",
+    "activeForm": "Twitterにログインしてcookie保存中"
+  },
+  {
+    "content": "12月9日の投稿を収集",
+    "status": "pending",
+    "activeForm": "12月9日の投稿を収集中"
+  },
+  {
+    "content": "収集データを分析してレポート作成",
+    "status": "pending",
+    "activeForm": "収集データを分析してレポート作成中"
+  }
+]

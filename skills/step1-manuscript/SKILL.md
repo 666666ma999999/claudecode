@@ -1,0 +1,229 @@
+---
+name: step1-manuscript
+description: |
+  STEP 1: 原稿生成・PPV ID発行（商品登録）
+  auto.htmlの機能を使用して原稿を生成し、PPV IDを発行する。
+  ブラウザ自動化は不要（API呼び出しのみ）。
+  キーワード: STEP1, 原稿生成, PPV ID, 商品登録, API
+---
+
+# STEP 1: 原稿生成・PPV ID発行
+
+## 概要
+
+Rohan（auto.html）の原稿生成機能を使用して、占い商品の原稿を生成し、PPV IDを発行する。
+
+## 対象システム
+
+- **URL**: `http://localhost:5558/auto.html` （ローカルサーバー）
+- **認証**: 不要
+- **方式**: API呼び出し
+
+## 前提条件
+
+1. ローカルサーバーが起動していること
+   ```bash
+   ./start_unified_server.sh
+   ```
+2. 以下の入力データが必要:
+   - `site_id`: サイトID
+   - `site_name`: サイト名
+   - `ppv_id`: PPV ID（5桁数字）
+   - `ppv_title`: 商品タイトル
+   - `manuscript_type`: 原稿タイプ（ppv, monthly, free）
+   - `subtitles`: 小見出し情報（CSVまたはJSON）
+
+## 実行フロー
+
+### 1. 入力データ準備
+
+```json
+{
+  "site_id": 482,
+  "site_name": "izumo",
+  "ppv_id": "10001",
+  "ppv_title": "【恋愛占い】彼の本音",
+  "manuscript_type": "ppv",
+  "subtitles": [
+    {
+      "title": "【冒頭/あいさつ】",
+      "body": "",
+      "order": 1,
+      "mid_id": "1026"
+    }
+  ]
+}
+```
+
+### 2. 原稿生成API呼び出し
+
+```
+POST http://localhost:5558/api/generate-all
+
+Body: 上記JSONデータ
+```
+
+### 3. 結果取得
+
+```json
+{
+  "success": true,
+  "ppv_id": "10001",
+  "menu_id": "monthlyAffinity001.001",
+  "subtitles": [
+    {
+      "title": "【冒頭/あいさつ】",
+      "body": "01\t生成された原稿テキスト...",
+      "order": 1,
+      "mid_id": "1026"
+    }
+  ]
+}
+```
+
+## API エンドポイント
+
+| エンドポイント | メソッド | 説明 |
+|---------------|---------|------|
+| `/api/generate-all` | POST | 全小見出し一括生成 |
+| `/api/generate-sample` | POST | サンプル生成（1件） |
+| `/api/generate-single` | POST | 単一小見出し生成 |
+
+## 入力フォーマット
+
+### 小見出しCSV形式
+
+```csv
+order,title,mid_id
+1,【冒頭/あいさつ】,1026
+2,彼の心の中でのランキング,1027
+3,今の彼に必要なこと,1028
+```
+
+### 小見出しJSON形式
+
+```json
+[
+  {"order": 1, "title": "【冒頭/あいさつ】", "mid_id": "1026"},
+  {"order": 2, "title": "彼の心の中でのランキング", "mid_id": "1027"}
+]
+```
+
+## 出力
+
+- `success`: 成功/失敗
+- `ppv_id`: 発行されたPPV ID
+- `menu_id`: 発行されたmenu_id
+- `subtitles`: 生成された原稿（小見出しリスト）
+- `session_id`: セッションID（後続STEPで使用）
+
+## エラーハンドリング
+
+| エラー | 対応 |
+|--------|------|
+| サーバー未起動 | `./start_unified_server.sh` を実行 |
+| API エラー | エラーメッセージ確認、入力データ検証 |
+| 生成失敗 | Gemini API設定確認 |
+
+## 使用例
+
+```
+/step1
+
+入力:
+- site_id: 482
+- site_name: izumo
+- ppv_id: 10001
+- ppv_title: 【恋愛占い】彼の本音
+- manuscript_type: ppv
+- subtitles_csv: /path/to/subtitles.csv
+```
+
+## 補足
+
+### STEP 1 はブラウザ自動化不要
+
+STEP 1 はローカルAPIを呼び出すだけなので、Playwright MCPは使用しない。
+生成された原稿データをSTEP 2以降で使用する。
+
+### セッション管理
+
+STEP 1 で生成されたセッションIDを使用して、STEP 2-8 の進捗を追跡する。
+
+```json
+{
+  "session_id": "abc12345",
+  "step_progress": [
+    {"step": 1, "status": "completed", "ppv_id": "10001"}
+  ]
+}
+```
+
+## 完了確認（必須）
+
+**STEP 1 実行後、以下の確認を必ず行うこと：**
+
+### 確認手順
+
+```
+1. APIレスポンスまたはセッションデータを確認
+   GET http://localhost:5558/api/registration-session/{record_id}
+
+2. 以下を確認:
+   - ppv_id が8桁数字で発行されている
+   - menu_id が生成されている（例: monthlyAffinity001.001）
+   - subtitles の件数が入力と一致
+   - 各小見出しにbodyが生成されている
+```
+
+### 確認項目
+
+| 項目 | 成功条件 | 確認方法 |
+|------|----------|----------|
+| ppv_id | 8桁数字（例: 48200038） | セッションデータ |
+| menu_id | 形式: {prefix}{number}.{subtitle} | セッションデータ |
+| subtitles | 件数が入力と一致 | セッションデータ |
+| body | 各小見出しにテキスト生成済み | subtitles配列の各要素 |
+
+### 確認コード例
+
+```bash
+# セッションデータ確認
+curl -s "http://localhost:5558/api/registration-session/{record_id}" | python3 -m json.tool
+
+# 確認項目
+# - ids.ppv_id が8桁数字
+# - ids.menu_id が空でない
+# - product.subtitles の件数が期待値と一致
+```
+
+### 失敗時の対処
+
+| 症状 | 原因 | 対処 |
+|------|------|------|
+| ppv_id未発行 | 発行API失敗 | /api/ppv-ids/issue を再実行 |
+| menu_id未生成 | 原稿生成失敗 | Gemini API設定を確認 |
+| subtitles空 | 生成処理失敗 | ログを確認して再実行 |
+| サーバーエラー | サーバー未起動 | ./start_unified_server.sh |
+
+---
+
+## 依存関係
+
+**STEP 1 は全フローの起点。完了後に STEP 2 を実行すること。**
+
+### 実行順序
+```
+STEP 1: 原稿生成・PPV ID発行 ← このスキル
+    ↓ （完了確認後）
+STEP 2: メニュー登録（原稿管理CMS）
+```
+
+### STEP 2への引き渡しデータ
+STEP 1 完了時に以下を STEP 2 に引き渡す：
+- `ppv_id`: 発行されたPPV ID
+- `menu_id`: 発行されたmenu_id
+- `subtitles`: 生成された原稿（小見出しリスト）
+- `session_id`: セッションID
+
+STEP 1 が失敗した場合、STEP 2 以降は実行不可。

@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Read main.py to understand the current code structure and identify the df variable issue",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Fix the NameError: name 'df' is not defined in submit_form function",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Test the fix to ensure the error is resolved",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  }
+]

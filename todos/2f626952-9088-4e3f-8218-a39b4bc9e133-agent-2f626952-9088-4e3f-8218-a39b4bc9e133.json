@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Analyze the target directory structure and existing files",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Create Python script with CamelCase parsing logic",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Implement directory matching with numeric prefix handling",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Add dry-run preview functionality",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Add user confirmation before execution",
+    "status": "completed",
+    "priority": "high",
+    "id": "5"
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Vault直下のファイルをスキャンして先頭タグ付きファイルを特定",
+    "status": "completed",
+    "activeForm": "Vault直下のファイルをスキャンして先頭タグ付きファイルを特定中"
+  },
+  {
+    "content": "更新されたファイルを含めた先頭タグ付きファイルの最終一覧を作成",
+    "status": "completed",
+    "activeForm": "更新されたファイルを含めた先頭タグ付きファイルの最終一覧を作成中"
+  },
+  {
+    "content": "タグ解析・整形と移動先ディレクトリ決定",
+    "status": "in_progress",
+    "activeForm": "タグ解析・整形と移動先ディレクトリ決定中"
+  },
+  {
+    "content": "移動プレビューを生成してユーザーに確認",
+    "status": "pending",
+    "activeForm": "移動プレビューを生成してユーザーに確認中"
+  },
+  {
+    "content": "承認後にファイルの移動とタグ整形を実行",
+    "status": "pending",
+    "activeForm": "承認後にファイルの移動とタグ整形を実行中"
+  },
+  {
+    "content": "処理完了レポートの生成",
+    "status": "pending",
+    "activeForm": "処理完了レポートの生成中"
+  }
+]

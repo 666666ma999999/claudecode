@@ -1,0 +1,7 @@
+[
+  {
+    "content": "Fix popup re-display issue - ensure popup doesn't show again after closing",
+    "status": "completed",
+    "id": "1"
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "STEP 1-8 全ステップ連続テスト実行",
+  "description": "STEP 1-8の全ステップを連続テスト実行する。\n- サイトID: 482\n- ロジックID: 293\n- 料金: 2000\n- ロジック: 通変-10\n- 文字数: 300〜350文字",
+  "activeForm": "STEP 1-8を連続実行中",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

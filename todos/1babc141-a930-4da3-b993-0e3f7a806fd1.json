@@ -1,0 +1,26 @@
+[
+  {
+    "content": "元のHTMLファイルを読み取り、現在の状態を把握する",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "HTMLをモダンでリッチなデザインにリファクタリングする",
+    "status": "pending",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "CSSを改良してより洗練されたスタイルにする",
+    "status": "pending",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "レスポンシブデザインとアクセシビリティを向上させる",
+    "status": "pending",
+    "priority": "high",
+    "id": "4"
+  }
+]

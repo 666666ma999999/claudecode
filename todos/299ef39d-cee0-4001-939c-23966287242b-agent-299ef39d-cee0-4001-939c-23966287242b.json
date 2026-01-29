@@ -1,0 +1,20 @@
+[
+  {
+    "content": "backend/main.pyでsubtitle_count:10の処理を確認",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "プロンプトファイルの処理を確認",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "9個しか生成されない原因を特定して修正",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  }
+]

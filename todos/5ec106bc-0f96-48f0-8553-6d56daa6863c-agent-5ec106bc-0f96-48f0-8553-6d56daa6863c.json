@@ -1,0 +1,12 @@
+[
+  {
+    "content": "HTMLテンプレートを変数として外出しする",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "rel_menu_title、rel_freemenu_idの変数化を改善する",
+    "status": "completed",
+    "id": "2"
+  }
+]

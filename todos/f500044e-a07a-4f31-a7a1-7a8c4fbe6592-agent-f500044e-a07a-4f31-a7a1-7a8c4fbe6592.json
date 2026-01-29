@@ -1,0 +1,20 @@
+[
+  {
+    "content": "docker-compose.ymlファイルの確認",
+    "status": "pending",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Dockerfileの確認",
+    "status": "pending",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "エラーメッセージの詳細を確認",
+    "status": "pending",
+    "priority": "high",
+    "id": "3"
+  }
+]

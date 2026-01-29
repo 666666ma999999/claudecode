@@ -1,0 +1,14 @@
+[
+  {
+    "content": "404エラーの原因を調査",
+    "status": "completed",
+    "priority": "high",
+    "id": "debug-404-error"
+  },
+  {
+    "content": "APIルーティングを確認",
+    "status": "completed",
+    "priority": "high",
+    "id": "check-api-routing"
+  }
+]

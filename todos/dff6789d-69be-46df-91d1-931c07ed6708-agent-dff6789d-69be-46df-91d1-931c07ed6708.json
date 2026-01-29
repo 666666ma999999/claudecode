@@ -1,0 +1,26 @@
+[
+  {
+    "content": "frontend/index.htmlの不要コード削除",
+    "status": "completed",
+    "priority": "medium",
+    "id": "1"
+  },
+  {
+    "content": "frontend/styles.cssの不要コード削除",
+    "status": "completed",
+    "priority": "medium",
+    "id": "2"
+  },
+  {
+    "content": "frontend/script.jsの不要コード削除",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  },
+  {
+    "content": "backend/main.pyの不要コード削除",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "content": "launchdのログファイルを確認",
+    "status": "in_progress",
+    "activeForm": "launchdのログファイルを確認中"
+  },
+  {
+    "content": "plistファイルの設定を確認",
+    "status": "pending",
+    "activeForm": "plistファイルの設定を確認中"
+  },
+  {
+    "content": "cronログを確認",
+    "status": "pending",
+    "activeForm": "cronログを確認中"
+  },
+  {
+    "content": "問題の原因を特定して解決策を提示",
+    "status": "pending",
+    "activeForm": "問題の原因を特定して解決策を提示中"
+  }
+]

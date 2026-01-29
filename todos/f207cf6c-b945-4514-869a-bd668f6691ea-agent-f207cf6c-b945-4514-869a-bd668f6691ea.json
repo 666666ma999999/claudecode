@@ -1,0 +1,26 @@
+[
+  {
+    "content": "現在のmanuscript保存パスを確認",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "バックエンドコードでのパス参照箇所を特定",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "パスを相対パスまたは環境変数に修正",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "修正後の動作をテスト",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  }
+]

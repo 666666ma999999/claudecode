@@ -1,0 +1,22 @@
+[
+  {
+    "content": "ManuscriptLogManagerの使い方を確認",
+    "status": "completed",
+    "activeForm": "ManuscriptLogManagerの使い方を確認中"
+  },
+  {
+    "content": "サンプル生成にログマネージャーを追加",
+    "status": "completed",
+    "activeForm": "サンプル生成にログマネージャーを追加中"
+  },
+  {
+    "content": "各小見出しの生成結果をログに記録",
+    "status": "in_progress",
+    "activeForm": "各小見出しの生成結果をログに記録中"
+  },
+  {
+    "content": "サーバー再起動・動作確認",
+    "status": "pending",
+    "activeForm": "サーバー再起動・動作確認中"
+  }
+]

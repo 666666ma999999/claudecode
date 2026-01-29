@@ -1,0 +1,32 @@
+[
+  {
+    "content": "現在のプロジェクト構成を確認する",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "適切なAWSデプロイ方法を提案する",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "AWS App Runner用のapprunner.yamlを作成する",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "GitHubリポジトリのセットアップ手順を説明する",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "AWS App Runnerでのデプロイ手順を説明する",
+    "status": "completed",
+    "priority": "high",
+    "id": "5"
+  }
+]

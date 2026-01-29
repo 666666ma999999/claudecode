@@ -1,0 +1,26 @@
+[
+  {
+    "content": "既存のマークダウンファイルを分析し、構造を理解する",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "文書の構造を改善し、読みやすくリファクタリングする",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "冗長な部分を削減し、重要な情報を整理する",
+    "status": "pending",
+    "priority": "medium",
+    "id": "3"
+  },
+  {
+    "content": "技術仕様とAPI仕様を明確化する",
+    "status": "pending",
+    "priority": "medium",
+    "id": "4"
+  }
+]

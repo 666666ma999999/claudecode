@@ -1,0 +1,22 @@
+[
+  {
+    "content": "docker-composeを停止",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "gitでリモートから最新版をpull",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "ローカルの変更をリセット",
+    "status": "completed",
+    "id": "3"
+  },
+  {
+    "content": "環境を再構築",
+    "status": "completed",
+    "id": "4"
+  }
+]

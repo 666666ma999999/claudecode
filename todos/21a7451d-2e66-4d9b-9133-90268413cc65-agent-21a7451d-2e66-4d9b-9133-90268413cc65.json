@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Analyze project structure and identify Python dependencies",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Create requirements.txt file",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Create Dockerfile",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Create docker-compose.yml",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "content": "Phase 1: 不要なバックアップファイルを削除する",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Phase 2: data_cache.pyを作成してキャッシュモジュールを統合する",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Phase 3: text_processor.pyを作成してテキスト処理を統合する",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Phase 4: main.pyのバリデーション処理を簡素化する",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Phase 5: データ読み込み最適化を実装する",
+    "status": "completed",
+    "priority": "high",
+    "id": "5"
+  },
+  {
+    "content": "不要になった元ファイルを削除する",
+    "status": "completed",
+    "priority": "medium",
+    "id": "6"
+  },
+  {
+    "content": "インポート文を修正する",
+    "status": "completed",
+    "priority": "medium",
+    "id": "7"
+  },
+  {
+    "content": "動作確認テストを実行する",
+    "status": "completed",
+    "priority": "high",
+    "id": "8"
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "content": "原稿生成エリアに画像貼り付け機能を追加",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "完成原稿エリアを新規作成",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "生成ボタンの追加と処理実装",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "3"
+  }
+]

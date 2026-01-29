@@ -1,0 +1,27 @@
+[
+  {
+    "content": "Enhance clean_content function to detect placeholder-replaced subtitle titles",
+    "status": "completed",
+    "activeForm": "Enhancing clean_content function to detect placeholder-replaced subtitle titles"
+  },
+  {
+    "content": "Add strict rule in AiUranaiManuscriptPrompt.md to prevent subtitle title duplication",
+    "status": "completed",
+    "activeForm": "Adding strict rule in AiUranaiManuscriptPrompt.md to prevent subtitle title duplication"
+  },
+  {
+    "content": "Improve keyword-based detection for paraphrased subtitle titles",
+    "status": "completed",
+    "activeForm": "Improving keyword-based detection for paraphrased subtitle titles"
+  },
+  {
+    "content": "Restart server to apply all changes",
+    "status": "completed",
+    "activeForm": "Restarting server to apply all changes"
+  },
+  {
+    "content": "Test the fix with manuscript generation",
+    "status": "pending",
+    "activeForm": "Testing the fix with manuscript generation"
+  }
+]
