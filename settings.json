@@ -19,6 +19,15 @@
             "command": "~/.claude/hooks/notification-alert/scripts/check-and-enable.sh"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/auto-git-pull.sh"
+          }
+        ]
       }
     ],
     "PreToolUse": [
