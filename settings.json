@@ -16,7 +16,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/notification-alert/scripts/check-and-enable.sh"
+            "command": "~/.claude/skills/notification-alert/scripts/check-and-enable.sh"
           }
         ]
       },
