@@ -237,6 +237,8 @@ function getSettingPattern(menuId) {
 - rowSize: 139 → 138
 - COL_DISPLAY_FLAG: 21 → 20, COL_KAKUSU: 40 → 39, COL_ZOUKAN: 94 → 93
 - COL_DAY_CHANGE: 95 → 94, COL_KANPOU: 101 → 100, COL_JISHO: 102 → 101
+- 旧コードで誤入力された隣接フィールド（partner_flg[21], searchNumber[40], relation[95], transitPillar[102]）を自動クリアする機能を追加
+- メニュータイプ判定を明示的に（fixedCode / monthlyAffinity|boinGyoun）に分離し、未知のプレフィックスには触れないよう変更
 
 **教訓**:
 - CMSフォーム構造が変更される可能性があるため、カラムインデックスは**実際のCMSページで `document.querySelectorAll('input[type="text"], input:not([type])').length` を実行して検証**すること
