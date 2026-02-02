@@ -4,8 +4,8 @@ description: |
   STEP 5: 売上集計登録（MKBアクセス解析）
   MKBアクセス解析にCSVをアップロードして売上集計を登録する。
   Playwright MCPを使用してブラウザ操作を自動化。
-  ※VPN接続が必須
-  キーワード: STEP5, MKB, 売上集計, CSVアップロード, VPN, Playwright MCP
+  ※Squidプロキシ経由でアクセス（VPN不要）
+  キーワード: STEP5, MKB, 売上集計, CSVアップロード, Playwright MCP
 ---
 
 # STEP 5: 売上集計登録（MKBアクセス解析）
