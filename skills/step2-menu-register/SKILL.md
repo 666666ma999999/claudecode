@@ -336,3 +336,24 @@ STEP 3: PPV情報登録（?p=cms_ppv）
 ### STEP 3への引き渡しデータ
 - `menu_id`: 登録確定したmenu_id（STEP 3以降で使用）
 - セッションは維持されるため、同じブラウザでSTEP 3に進む
+
+### komi_type DB保存成功・本文パターン埋め込み
+
+**症状**:
+- 各小見出しにAI判定のkomi_type（komi_honne1, komi_jyuyou1等）を設定したい
+- 以前は全てkomi_normalに強制されていた
+
+**原因と解決**:
+- browser_automation.py の「サマリー形式チェック」がkomi_normalを強制していた → 削除
+- komi selectのオプションがロードされるまで`wait_for_function`で待機
+- komi-convertチェックボックスをONにしてからchangeイベント発火 → 本文にkomiパターン埋め込み
+- CMS save API (`event.js` L162): `komi: Elements.elm_komi.options[selectedIndex].getAttribute("data-key")` でPOSTされる
+- **komi値はDB保存される**（edit APIレスポンスで確認済み）
+
+**CMS komi アーキテクチャ**:
+- komi select: 各小見出し保存時に`data-key`がPOSTされDB保存
+- 本文テキスト: `code\tkomi_pattern\ttext` 形式でパターン埋め込み（チェッカー検証用）
+- komi-convert checkbox: ONの場合のみchangeイベントで本文変換が発動
+- `komi_jyuyou1`のパターンに`<span>`タグが含まれ、チェッカーで40エラーになるが「原稿UP」は可能
+
+**解決済み**: 2026-02-02
