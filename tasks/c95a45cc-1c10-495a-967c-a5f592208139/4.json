@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "#4 showError() 共通化",
+  "description": "frontend/utils.jsにshowError()追加、auto.htmlとtxt_dl.htmlの関数定義削除",
+  "activeForm": "Consolidating showError()",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
