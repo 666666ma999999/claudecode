@@ -3,7 +3,7 @@
   "subject": "A1: PPV ID自動発行 (step1_pipeline.py)",
   "description": "L383付近にPPV ID自動発行ロジックを追加",
   "activeForm": "Implementing PPV ID auto-issue",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }

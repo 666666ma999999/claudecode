@@ -3,7 +3,7 @@
   "subject": "A4: menu_prefix自動設定 + LOGIC_MENU_PREFIX定義",
   "description": "logic_definitions.pyにLOGIC_MENU_PREFIX追加、step1_pipeline.pyでmenu_prefix自動設定",
   "activeForm": "Implementing menu_prefix auto-set",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }
