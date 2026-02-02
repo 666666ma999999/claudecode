@@ -1,11 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "enabledPlugins": {
-    "example-skills@anthropic-agent-skills": true,
-    "document-skills@anthropic-agent-skills": true,
-    "playwright@claude-plugins-official": true
-  },
-  "alwaysThinkingEnabled": true,
   "permissions": {
     "allow": [
       "Bash",
@@ -69,9 +63,6 @@
       "mcp__codex__codex-reply"
     ],
     "deny": []
-  },
-  "feedbackSurveyState": {
-    "lastShownTime": 1754026768941
   },
   "hooks": {
     "SessionStart": [
@@ -154,5 +145,15 @@
         ]
       }
     ]
+  },
+  "enabledPlugins": {
+    "example-skills@anthropic-agent-skills": true,
+    "document-skills@anthropic-agent-skills": true,
+    "playwright@claude-plugins-official": true,
+    "claude-mem@thedotmack": true
+  },
+  "alwaysThinkingEnabled": true,
+  "feedbackSurveyState": {
+    "lastShownTime": 1754026768941
   }
 }
