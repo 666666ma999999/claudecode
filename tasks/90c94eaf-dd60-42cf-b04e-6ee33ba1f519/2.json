@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "A2: エラーメッセージ具体化 (manuscript_generation.py)",
+  "description": "current_phase変数でフェーズを追跡しcatch-allで使用",
+  "activeForm": "Implementing phase-specific errors",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
