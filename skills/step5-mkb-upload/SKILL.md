@@ -25,8 +25,7 @@ MKBアクセス解析（swan-manage.aws.mkb.local）にCSVをアップロード�
 
 ## 前提条件
 
-1. **VPN接続**が有効であること（必須）
-2. Playwright MCP (`mcp__playwright-mkb__*`) が有効
+1. Playwright MCP (`mcp__playwright-mkb__*`) が有効
 3. アップロード対象のCSVファイルが準備済み
 4. 以下の入力データが必要:
    - `site_id`: サイトID
