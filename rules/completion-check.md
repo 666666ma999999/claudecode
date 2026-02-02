@@ -42,7 +42,7 @@
 2. **即座にサーバー再起動** (`./stop_servers.sh` → `./start_unified_server.sh`)
 3. **ヘルスチェック必須**: `curl -s -o /dev/null -w "%{http_code}" http://localhost:5558/` で `200` を確認
 4. 動作確認・テスト
-5. **スキル化判断**（上記STEP 2を実行）
+5. **スキル化判断**（上記STEP 3を実行）
 6. 完了報告
 
 ## 例外なく実行すること
