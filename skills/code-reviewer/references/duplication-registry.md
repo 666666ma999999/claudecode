@@ -7,10 +7,10 @@ FE/BE間で多重定義されている定数・設定値の一覧。
 
 | 定数名 | 正規定義元 | 値 | 多重定義箇所 | リスク |
 |--------|-----------|-----|------------|--------|
-| DEFAULT_PRICE | backend/routers/config.py:90 | 2000 | auto.html×3, step1_api.py, app-config.json | 価格変更時に不整合 |
-| OPENING_MARKER | backend/routers/config.py:92 | 【冒頭/あいさつ】 | registration.py×4, main.py | マーカー変更時に原稿解析失敗 |
-| CLOSING_MARKER | backend/routers/config.py:93 | 【締め/メッセージ】 | registration.py×4, main.py | マーカー変更時に原稿解析失敗 |
-| OPENING_CLOSING_MID_ID | backend/routers/config.py:87 | 1026 | registration.py×4, browser_automation.py, auto.html×3 | ID変更時にSTEP2-8全体が失敗 |
+| REGISTRATION_CONSTANTS["default_price"] | backend/routers/config.py:90 | 2000 | auto.html×3, step1_api.py, app-config.json | 価格変更時に不整合 |
+| REGISTRATION_CONSTANTS["opening_marker"] | backend/routers/config.py:92 | 【冒頭/あいさつ】 | registration.py×4, main.py | マーカー変更時に原稿解析失敗 |
+| REGISTRATION_CONSTANTS["closing_marker"] | backend/routers/config.py:93 | 【締め/メッセージ】 | registration.py×4, main.py | マーカー変更時に原稿解析失敗 |
+| REGISTRATION_CONSTANTS["opening_closing_mid_id"] | backend/routers/config.py:87 | 1026 | registration.py×4, browser_automation.py, auto.html×3 | ID変更時にSTEP2-8全体が失敗 |
 
 ## 中リスク
 
