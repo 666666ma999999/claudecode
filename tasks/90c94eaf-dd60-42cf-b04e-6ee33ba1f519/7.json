@@ -1,9 +1,0 @@
-{
-  "id": "7",
-  "subject": "B3: レスポンス変換ヘルパー + B4: 上流失敗時スキップ",
-  "description": "_to_dict staticmethod追加、上流失敗時の下流スキップロジック",
-  "activeForm": "Implementing helpers and skip logic",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

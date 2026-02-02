@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "A3: category_codeフォールバック (step1_pipeline.py)",
-  "description": "AI並列生成がcategory_codeを返さなかった場合のフォールバック",
-  "activeForm": "Implementing category_code fallback",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
