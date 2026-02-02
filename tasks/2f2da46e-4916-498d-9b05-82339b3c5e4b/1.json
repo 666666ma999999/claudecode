@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "STEP1: 原稿生成・PPV ID発行",
+  "description": "auto.htmlのAPIを使って原稿生成とPPV ID発行を実行。テストデータを使用。",
+  "activeForm": "STEP1 原稿生成実行中",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

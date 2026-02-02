@@ -1,0 +1,9 @@
+{
+  "id": "8",
+  "subject": "STEP8: 従量自動更新",
+  "description": "izumo-dev CMSで従量コンテンツ自動更新",
+  "activeForm": "STEP8 従量自動更新中",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
