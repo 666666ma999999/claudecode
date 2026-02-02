@@ -62,12 +62,12 @@ URL: https://hayatomo2-dev.ura9.com/manuscript/?p=cms_menu&site_id={site_id}&ppv
 async (page) => {
   await page.evaluate(() => {
     const inputs = document.querySelectorAll('table tr:nth-child(2) td input');
-    inputs[21].value = '1';   // 表示フラグ (disp_flg)
-    inputs[40].value = '2';   // どの画数を使うか (kakusuId)
-    inputs[94].value = '1';   // 蔵干の取得方法 (zoukan)
-    inputs[95].value = '1';   // 日の切り替わり (is24Border)
-    inputs[101].value = '1';  // 看法 (kanpou)
-    inputs[102].value = '1';  // 辞書 (dict)
+    inputs[20].value = '1';   // 表示フラグ (disp_flg)
+    inputs[39].value = '2';   // どの画数を使うか (kakusuId)
+    inputs[93].value = '1';   // 蔵干の取得方法 (zoukan)
+    inputs[94].value = '1';   // 日の切り替わり (is24Border)
+    inputs[100].value = '1';  // 看法 (kanpou)
+    inputs[101].value = '1';  // 辞書 (dict)
   });
 }
 ```
