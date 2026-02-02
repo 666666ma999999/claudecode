@@ -21,7 +21,7 @@ MKBアクセス解析（swan-manage.aws.mkb.local）にCSVをアップロード�
 - **認証情報**: 環境変数 `MKB_USER`, `MKB_PASSWORD`
   - デフォルト値: `MKB_USER=masaaki`, `MKB_PASSWORD=masaaki123`
   - 設定ファイル: `backend/.env`
-- **ネットワーク**: **VPN接続必須**
+- **ネットワーク**: Squidプロキシ経由（VPN不要）
 
 ## 前提条件
 
