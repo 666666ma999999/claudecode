@@ -56,8 +56,8 @@ grep -rn "5000" frontend/ backend/ --include="*.py" --include="*.js" --include="
 price = 2000
 
 # ✅ 定数参照
-from backend.routers.config import DEFAULT_PRICE
-price = DEFAULT_PRICE
+from backend.routers.config import REGISTRATION_CONSTANTS
+price = REGISTRATION_CONSTANTS["default_price"]
 ```
 
 ```javascript
