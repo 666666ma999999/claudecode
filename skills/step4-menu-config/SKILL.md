@@ -315,27 +315,46 @@ inputs.forEach(input => {
 
 ### 確認項目
 
-| 項目 | 成功条件 | 確認方法 |
-|------|----------|----------|
-| 表示フラグ | inputs[20] = 1 | browser_evaluate |
-| 画数設定 | monthlyAffinity: 2 | browser_evaluate |
-| 蔵干取得 | monthlyAffinity: 1 | browser_evaluate |
-| 保存結果 | error でない | コンソールログ確認 |
+| 項目 | input index | 成功条件 | 確認方法 |
+|------|:-----------:|----------|----------|
+| 表示フラグ | 20 | `"1"` | browser_evaluate |
+| 画数設定 | 39 | monthlyAffinity: `"2"` | browser_evaluate |
+| 蔵干取得 | 93 | monthlyAffinity: `"1"` | browser_evaluate |
+| 日切り替わり | 94 | monthlyAffinity: `"1"` | browser_evaluate |
+| 看法 | 100 | monthlyAffinity: `"1"` | browser_evaluate |
+| 辞書 | 101 | monthlyAffinity: `"1"` | browser_evaluate |
+| partner_flg | 21 | `""` or `"0"`（残留クリア済み） | browser_evaluate |
+| searchNumber | 40 | `""`（残留クリア済み） | browser_evaluate |
+| relation | 95 | `""`（残留クリア済み） | browser_evaluate |
+| transitPillar | 102 | `""`（残留クリア済み） | browser_evaluate |
+| 保存結果 | - | error でない | コンソールログ確認 |
+
+**注意**: `browser_automation.py` の保存後検証は上記全項目を全行で自動チェックします。API実行時はログに `保存検証OK` / `保存検証NG` が出力されます。
 
 ### 確認コード例
 
 ```javascript
-// browser_evaluate で確認
-const inputs = document.querySelectorAll('table tr:nth-child(2) td input');
-const checks = {
-  displayFlag: inputs[20]?.value,
-  strokeCount: inputs[39]?.value,
-  zokkan: inputs[93]?.value,
-};
-console.log('STEP 4 確認:', checks);
-if (checks.displayFlag !== '1') {
-  throw new Error('STEP 4 確認失敗: 表示フラグが未設定');
+// browser_evaluate で全行確認
+const inputs = Array.from(document.querySelectorAll('input[type="text"], input:not([type])'));
+const rowSize = 138;
+const totalRows = Math.floor(inputs.length / rowSize);
+const errors = [];
+for (let i = 0; i < totalRows; i++) {
+  const s = i * rowSize;
+  const v = (idx) => inputs[s + idx]?.value;
+  if (v(20) !== '1') errors.push({row:i, f:'disp_flg', v:v(20)});
+  if (v(39) !== '2') errors.push({row:i, f:'kakusuId', v:v(39)});
+  if (v(93) !== '1') errors.push({row:i, f:'zoukan', v:v(93)});
+  if (v(94) !== '1') errors.push({row:i, f:'is24Border', v:v(94)});
+  if (v(100) !== '1') errors.push({row:i, f:'kanpou', v:v(100)});
+  if (v(101) !== '1') errors.push({row:i, f:'dict', v:v(101)});
+  // 残留フィールド
+  if (v(21) && v(21) !== '' && v(21) !== '0') errors.push({row:i, f:'partner_flg', v:v(21)});
+  if (v(40) && v(40) !== '') errors.push({row:i, f:'searchNumber', v:v(40)});
+  if (v(95) && v(95) !== '') errors.push({row:i, f:'relation', v:v(95)});
+  if (v(102) && v(102) !== '') errors.push({row:i, f:'transitPillar', v:v(102)});
 }
+console.log('STEP 4 検証:', {totalRows, errorCount: errors.length, errors});
 ```
 
 ### 失敗時の対処
