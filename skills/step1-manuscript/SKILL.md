@@ -85,9 +85,15 @@ Body: 上記JSONデータ
 
 | エンドポイント | メソッド | 説明 |
 |---------------|---------|------|
+| `/api/step1/execute` | POST | STEP1パイプライン一括実行（`mid_id`パラメータでセッションに保存） |
 | `/api/generate-all` | POST | 全小見出し一括生成 |
 | `/api/generate-sample` | POST | サンプル生成（1件） |
 | `/api/generate-single` | POST | 単一小見出し生成 |
+
+### mid_idのセッション保存
+- `/api/step1/execute` に `mid_id` を渡すと、セッションの各小見出しに `mid_id` が保存される
+- STEP2（オーケストレーター経由）は `record.product.subtitles[].mid_id` から自動取得する
+- 冒頭・締めの `mid_id=1026` はSTEP2登録ロジック側でデフォルト設定済み
 
 ## 入力フォーマット
 
