@@ -193,6 +193,25 @@ console.log('✅ STEP 7 完了確認OK');
 
 ---
 
+## 統一APIエンドポイント
+
+STEP 7はセッション駆動の統一APIでも実行可能:
+
+```
+POST /api/step/7/execute
+{
+  "session_id": "xxx",
+  "overrides": {"menu_id_prefix": "monthlyAffinity001"}
+}
+```
+
+- STEP 6がSUCCESSでないと実行不可
+- menu_id_prefixはセッションから自動導出（menu_idのドット前部分）
+- reflect_complete/reflect_messageをガード用に保存
+- 既存API `/api/izumo/reflect-menu-all` も引き続き利用可能
+
+---
+
 ## 依存関係
 
 **STEP 7 は STEP 6 の完了後に実行すること（並列実行禁止）。**

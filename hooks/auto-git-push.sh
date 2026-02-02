@@ -1,16 +1,23 @@
 #!/bin/bash
 # ~/.claude/ 配下のファイル変更時に自動commit & push
-# PostToolUse (Write|Edit) フックから呼ばれる
+# PostToolUse (Write|Edit|Bash) フックから呼ばれる
 
 INPUT=$(cat)
+TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name // empty' 2>/dev/null)
 FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // .tool_input.path // empty' 2>/dev/null)
 
-# ~/.claude/ 配下のファイルでなければ何もしない
-[[ "$FILE_PATH" != /Users/masaaki/.claude/* ]] && exit 0
+# Write/Edit: ファイルパスで判定
+if [[ "$TOOL_NAME" != "Bash" ]]; then
+  [[ "$FILE_PATH" != /Users/masaaki/.claude/* ]] && exit 0
+fi
 
-# .gitignoreで除外されるファイルは無視
+# Bash: ~/.claude/ に未commitの変更があるか確認
+if [[ "$TOOL_NAME" == "Bash" ]]; then
+  cd ~/.claude || exit 0
+  git diff --quiet && git diff --cached --quiet && [ -z "$(git ls-files --others --exclude-standard)" ] && exit 0
+fi
+
 cd ~/.claude || exit 0
-git check-ignore -q "$FILE_PATH" 2>/dev/null && exit 0
 
 # 変更があればcommit & push（バックグラウンドで実行）
 (

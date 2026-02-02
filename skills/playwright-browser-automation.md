@@ -779,6 +779,7 @@ shutil.rmtree(temp_profile)
 - 既存Chromeと同時使用可能（コピーなので競合しない）
 - 終了時に一時ディレクトリを必ず削除
 - `channel="chrome"` でシステムのChromeバイナリを使用
+- **`launch_persistent_context`使用時、`self.browser`はNone**。別サイト用に新コンテキストが必要な場合は`self._playwright.chromium.launch()`で独立ブラウザを起動すること
 
 ## 接続エラーのパターン判定
 
@@ -1593,4 +1594,30 @@ pkill -9 "Google Chrome"
 # 2. chrome://settings/syncSetup にアクセス
 # 3. 「拡張機能」の同期がONか確認
 # 4. Googleアカウントで再ログインして同期復元
+```
+
+## BaseBrowserAutomation 基底クラス
+
+`browser_automation.py`の3つの自動化クラスは`BaseBrowserAutomation`を継承:
+- `IzumoCMSAutomation` (`_session_prefix="izumo"`)
+- `SalesRegistrationAutomation` (`_session_prefix="sales_reg"`)
+- `IzumoSyncAutomation` (`_session_prefix="izumo_sync"`)
+
+### 基底クラスの共通メソッド
+- `_get_chrome_user_data_dir()`: OS別Chromeプロファイルパス検出
+- `_copy_chrome_profile()`: 一時ディレクトリへのプロファイルコピー
+- `_ensure_session_dir()`: セッション別スクリーンショットディレクトリ作成
+- `take_screenshot(name, full_page, add_timestamp)`: 常時撮影（error/final用）
+- `debug_screenshot(name, full_page, add_timestamp)`: `config.debug_screenshots=True`時のみ撮影（中間状態用）
+- `close()`: ブラウザ・コンテキスト・一時ディレクトリのクリーンアップ
+
+### 新規クラス追加時
+```python
+class NewAutomation(BaseBrowserAutomation):
+    _session_prefix = "new_auto"
+    _log_label = "新規自動化"
+
+    def __init__(self, config=None):
+        super().__init__()
+        self.config = config
 ```

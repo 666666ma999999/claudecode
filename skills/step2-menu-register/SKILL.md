@@ -91,8 +91,8 @@ URL: ?p=save&site_id={site_id}
 
 | 要素 | role/セレクタ | 説明 |
 |------|--------------|------|
-| ユーザーID | `textbox[name="user-id"]` | ユーザーID入力欄 |
-| パスワード | `textbox[name="password"]` | パスワード入力欄 |
+| ユーザーID | `input[name="user"]` | ユーザーID入力欄（CMSフィールド名: user） |
+| パスワード | `input[name="pass"]` | パスワード入力欄（CMSフィールド名: pass） |
 | ログインボタン | `button "Click to Login"` | ログイン実行 |
 
 ### 原稿登録ページ
@@ -121,6 +121,57 @@ URL: ?p=save&site_id={site_id}
 | ログイン失敗 | 認証情報確認を促す |
 | タイムアウト | スクリーンショット取得、リトライ |
 | 要素が見つからない | snapshot再取得、代替セレクタ試行 |
+
+## トラブルシューティング
+
+### 原稿テキスト（30KB超）のtextarea入力
+
+**症状**:
+- 大量の原稿テキストをtextareaに入力しようとするとタイムアウトやエラーが発生
+- browser_typeやbrowser_evaluateでは大量テキスト（30KB以上）を一度に入力できない
+
+**原因**:
+- Playwright MCPのブラウザ操作では、大量テキストの入力が不安定
+- フロントエンドからの操作では時間がかかる
+
+**解決方法**:
+```
+/api/register-manuscript APIを使用する方法が有効
+
+1. バックエンドの /api/register-manuscript エンドポイントを使用
+2. 内部でPlaywrightを直接操作して原稿を登録
+3. 大量テキストも安定して処理可能
+
+例:
+POST /api/register-manuscript
+{
+  "site_id": "482",
+  "ppv_id": "48200038",
+  "menu_id": "monthlyAffinity001.001",
+  "subtitles": [...],
+  "auto_generated": {...}
+}
+```
+
+**代替手段**:
+- browser_run_codeで直接DOM操作
+- クリップボード経由での貼り付け（ただし環境依存）
+- 小見出し単位で分割して登録
+
+### CMS原稿チェッカーで`<br />`タグエラー
+
+**症状**:
+- 原稿チェック画面で「エラーが10個あります。」と表示
+- `<br />`タグがオレンジ色でハイライトされる
+- 「原稿UP」ボタンが表示されず、保存失敗
+
+**原因**:
+- 生成された原稿本文に`<br />`HTMLタグが含まれている
+- CMS原稿チェッカーがHTMLタグをエラーとして検出
+
+**解決済み**:
+- `browser_automation.py`のL833-834で、CMS入力前に`<br />`を改行文字に変換
+- `<br /><br />` → `\n\n`、`<br />` → `\n`
 
 ## 使用例
 
@@ -180,6 +231,88 @@ console.log('✅ STEP 2 完了確認OK');
 | 小見出し数不一致 | 入力漏れ | 詳細画面で追加登録 |
 
 ---
+
+### mid_id selectでCMS内部状態が更新されない
+
+**症状**:
+- sort=1の冒頭は正しいmid_idだが、sort=2以降が前の値やデフォルト値(1)になる
+- DOM上のselectは正しい値だが、POSTデータが異なる
+
+**原因**:
+- CMSはSPAフレームワーク（edit.js）で内部状態をJSオブジェクトで管理
+- Playwrightの`select_option()`はDOMのvalueを変更するが、CMS内部状態は更新しない
+- 保存時にCMSは内部状態からPOSTデータを構築するため、DOM値が無視される
+
+**解決方法**:
+- `page.evaluate()` + `dispatchEvent(new Event('change', { bubbles: true }))` を使用
+- komi selectと同じパターン（`browser_automation.py` L889-922参照）
+
+**解決済み**: 2026-01-31
+
+**重要**: CMS SPAのselect要素は全て`select_option()`ではなく`page.evaluate()`+`dispatchEvent`で操作すること。
+
+---
+
+### CMSチェッカーでkomi_type関連エラー
+
+**症状**:
+- 「特殊小見出し無し」エラー — komi_typeが原稿内容と不一致
+- 「エラーが40個あります」— AI推論のkomi_type（komi_honne1等）が原稿内容と合わない
+
+**原因と対策**:
+- AI推論 (`infer_komi_type_with_gemini()`) が割り当てるkomi_type（komi_honne1, komi_sp, komi_jyuyou1等）が原稿内容のフォーマットと一致しない
+- **暫定対策**: `browser_automation.py` L873-876で全小見出し（冒頭・締め含む）にkomi_normalを強制設定
+- CMSのkomiセレクトはCSS非表示（display:none）のため、JavaScriptのDOM操作で選択する必要がある
+- `select[name="komi"]` のindex=18が `komi_normal : -`
+
+**解決済み**: 2026-01-30（暫定: komi_normal強制）
+
+---
+
+### チェック・原稿UPボタンのクリックタイムアウト
+
+**症状**:
+- 「保存失敗: 原稿UPまたは一時保存ボタンが見つかりませんでした」
+- チェックボタンクリック後の`networkidle`が30秒タイムアウト
+- 原稿UPボタンのPlaywright `click()` がタイムアウト
+
+**原因**:
+- CMS SPAでは`networkidle`状態が安定しない
+- 原稿UPボタンはPlaywrightのvisibility/actionabilityチェックに通らないことがある
+
+**対策** (`browser_automation.py`):
+1. **チェックボタン**: JSクリック + `wait_for_function`で「エラーが」or「原稿UP」テキストの出現を待つ（L987-1014）
+2. **原稿UPボタン**: JSクリック優先（disabled判定付き）、Playwrightは fallback（L1222-1256）
+3. **networkidle**: 15秒タイムアウト + 非致命的（タイムアウトしても続行）（L1262-1264）
+
+**解決済み**: 2026-01-30
+
+---
+
+## 統一APIエンドポイント
+
+STEP 2はセッション駆動の統一APIでも実行可能:
+
+```
+POST /api/step/2/execute
+{
+  "session_id": "xxx",
+  "overrides": {"headless": true, "slow_mo": 0}  // 任意
+}
+
+レスポンス (StepExecuteResponse - camelCase):
+{
+  "success": true,
+  "sessionId": "xxx",
+  "step": 2,
+  "message": "...",
+  "result": {"menuId": "001.045", "ppvId": "48200038", "screenshotPath": "..."}
+}
+```
+
+- STEP 1がSUCCESSでないと実行不可（ガード条件）
+- セッションのmenu_idを自動更新
+- 既存API `/api/register-manuscript` も引き続き利用可能
 
 ## 依存関係
 

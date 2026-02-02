@@ -127,6 +127,12 @@ STEP_DEFINITIONS = {
 | 外部サービスエラー | EXTERNAL_ERROR | 外部API障害 | Yes |
 | リソース不足 | RESOURCE_EXHAUSTED | メモリ/ストレージ不足 | No |
 
+## 実装上の注意: モデル重複禁止
+
+`StepProgress` と `StepStatus` は `backend/utils/models.py` に統一定義済み。
+各routerでは `from utils.models import StepProgress, StepStatus` でインポートすること。
+ローカル再定義は禁止。
+
 ## ベストプラクティス
 
 1. **ステップの粒度**
@@ -525,3 +531,30 @@ session_data = {
     }
 }
 # → 後から「どの段階で減ったか」を特定可能
+
+## セッション復元時の注意点
+
+### グローバル変数復元後はUI更新関数を呼ぶ
+
+セッションからグローバル変数（例: `komiTypeResult`）を復元した場合、変数への代入だけではUIに反映されない。復元直後に対応する表示関数（例: `displayKomiTypes()`）を必ず呼び出すこと。
+
+```javascript
+// BAD: 変数復元のみ → UIに反映されない
+komiTypeResult = { success: true, results: [...] };
+
+// GOOD: 変数復元 + UI更新
+komiTypeResult = { success: true, results: [...] };
+displayKomiTypes(komiTypeResult);
+```
+
+### 派生フィールドはセッションに保存する
+
+`KOMI_GENERATE_MODES[type].name`のようにマスターデータから導出される値は、セッション保存時に一緒に保存しておく。復元時にマスターデータの読み込みタイミングに依存しなくて済む。ただしフォールバックとしてマスターデータ参照も残す。
+
+```javascript
+// 保存時: 導出値も含める
+{ komi_type: 'komi_special', komi_name: '特殊' }
+
+// 復元時: 保存値優先、フォールバックでマスター参照
+komiName: s.komi_name || KOMI_GENERATE_MODES[s.komi_type]?.name || '通常'
+```

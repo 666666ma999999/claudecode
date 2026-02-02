@@ -15,7 +15,7 @@ description: Webサイトから確定申告用データを自動取得するス�
 - 対象サイト名
 - 取得期間（例: 202501-202512）
 - 取得するデータ種類（PDF、CSV、スクリーンショット等）
-- 保存先（デフォルト: デスクトップ）
+- 保存先（デフォルト: プロジェクトディレクトリ配下の`DL/`フォルダ）
 
 ### 2. サイトごとの処理フロー
 
@@ -48,6 +48,12 @@ description: Webサイトから確定申告用データを自動取得するス�
 1. 対象ページでfullPageスクリーンショットを取得
 2. `.playwright-mcp/`に保存後、指定フォルダにコピー
 
+**個別行スクリーンショット**（明細の特定行だけ切り取り）:
+1. 明細一覧ページでsnapshotを取得し、対象行のrefを特定
+2. `browser_take_screenshot`の`ref`パラメータに行のrefを指定して要素単位のスクリーンショットを取得
+3. 命名規則: `{カード名}_{項目名}_{利用年月}_{利用日}.png`（例: `amex_manus_202512_20.png`, `smbc_claude_202601_10.png`）
+4. `.playwright-mcp/`に保存後、指定フォルダにコピー
+
 ## サイト別設定
 
 ### ふるなび
@@ -59,12 +65,44 @@ description: Webサイトから確定申告用データを自動取得するス�
 ### アメリカン・エキスプレス
 - URL: https://www.americanexpress.com/ja-jp/
 - ログインURL: https://www.americanexpress.com/ja-jp/account/login
-- 取得データ: ご利用代金明細書（PDF）
-- 手順: ご利用状況 → ご利用代金明細書（PDF他） → 各月のダウンロードボタン → PDF選択 → ダウンロード
+- ダッシュボード: https://global.americanexpress.com/dashboard
+- 取得データ: ご利用代金明細書（PDF）、個別行スクリーンショット
+- PDF手順: ご利用状況 → ご利用代金明細書（PDF他） → 各月のダウンロードボタン → PDF選択 → ダウンロード
+- 個別行手順: ダッシュボード「ご利用履歴を見る」→ 過去のご利用分から期間選択 → 対象行のrefでスクリーンショット
+- 明細ページURL: `/activity/statement?end=YYYY-MM-DD`（締め日ベース）
+- 過去期間リンク: ナビの「過去のご利用分」ドロップダウンから選択
+- 行のref取得: snapshotが大きい場合、JSON出力をgrepでAI項目名を検索してref特定
+
+### 三井住友カード
+- URL: https://www.smbc-card.com/
+- ログインURL: https://www.smbc-card.com/mem/index.jsp
+- 取得データ: 利用明細スクリーンショット（fullPage）、個別行スクリーンショット
+- 手順: Vpassログイン → ご利用明細 → カード切り替え（comboboxで選択）→ 月選択 → スクリーンショット
+- 複数カード: comboboxで切り替え（例: プラチナプリファード、Amazon旧ゴールド）
+- 個別行手順: 明細テーブル内の対象行のrefで要素スクリーンショット
+
+## 利用店名の表記揺れ（重要）
+
+明細上の店名はサービス名と異なる場合がある。検索時は以下の別名も含めること：
+
+| サービス名 | 明細上の表記例 |
+|-----------|---------------|
+| GOOGLE ONE | ＧＯＯＧＬＥ ＰＬＡＹ ＪＡＰＡＮ、GOOGLE GOOGLE ONE |
+| CLAUDE.AI | CLAUDE.AI SUBSCRIPTION (ANTHROPIC.COM) |
+| ChatGPT | OPENAI *CHATGPT SUBSCR |
+| MeisterTask | MEISTERLABS (VATERSTETTEN ) |
+
+**注意**: 全角・半角の違いにも注意。SMBCは全角カナ表記が多い。
+
+## 保存先ルール
+
+- 保存先はプロジェクトディレクトリ配下に`DL/`フォルダを作成し、そこにまとめる
+- 例: `/Users/masaaki/Desktop/prm/collect_receipt/DL/`
+- デスクトップ直下への保存は避ける
 
 ## 注意事項
 
-- Playwrightのダウンロード先は`.playwright-mcp/`固定。取得後にBashでコピー
+- Playwrightのダウンロード先は`.playwright-mcp/`固定。取得後にBashで`DL/`フォルダにコピー
 - ログインはユーザーに依頼（認証情報は扱わない）
 - ダイアログ表示時は適切なボタンをクリック
 - 大量ダウンロード時は各ファイル間で1-2秒待機

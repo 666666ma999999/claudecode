@@ -171,6 +171,24 @@ console.log('✅ STEP 6 完了確認OK');
 
 ---
 
+## 統一APIエンドポイント
+
+STEP 6はセッション駆動の統一APIでも実行可能:
+
+```
+POST /api/step/6/execute
+{
+  "session_id": "xxx",
+  "overrides": {"headless": false}
+}
+```
+
+- STEP 5がSUCCESSまたはSKIPPEDでないと実行不可
+- sync_complete/sync_messageをガード用に保存
+- 既存API `/api/izumo/sync-production` も引き続き利用可能
+
+---
+
 ## 依存関係
 
 **STEP 6 は STEP 5 の完了後に実行すること。**

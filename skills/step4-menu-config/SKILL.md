@@ -62,12 +62,12 @@ URL: https://hayatomo2-dev.ura9.com/manuscript/?p=cms_menu&site_id={site_id}&ppv
 async (page) => {
   await page.evaluate(() => {
     const inputs = document.querySelectorAll('table tr:nth-child(2) td input');
-    inputs[21].value = '1';   // 表示フラグ
-    inputs[40].value = '2';   // どの画数を使うか
-    inputs[94].value = '1';   // 蔵干の取得方法
-    inputs[95].value = '1';   // 日の切り替わり
-    inputs[101].value = '1';  // 看法
-    inputs[102].value = '1';  // 辞書
+    inputs[21].value = '1';   // 表示フラグ (disp_flg)
+    inputs[40].value = '2';   // どの画数を使うか (kakusuId)
+    inputs[94].value = '1';   // 蔵干の取得方法 (zoukan)
+    inputs[95].value = '1';   // 日の切り替わり (is24Border)
+    inputs[101].value = '1';  // 看法 (kanpou)
+    inputs[102].value = '1';  // 辞書 (dict)
   });
 }
 ```
@@ -77,7 +77,7 @@ async (page) => {
 async (page) => {
   await page.evaluate(() => {
     const inputs = document.querySelectorAll('table tr:nth-child(2) td input');
-    inputs[21].value = '1';   // 表示フラグのみ
+    inputs[21].value = '1';   // 表示フラグ (disp_flg)
   });
 }
 ```
@@ -92,17 +92,16 @@ async (page) => {
 
 ## 主要設定項目
 
-| ヘッダー位置(td) | input index | 設定項目 | 説明 |
-|-----------|----------|----------|------|
-| 21 | 20 | 表示フラグ | 表示/非表示 |
-| 40 | 39 | 画数設定 | どの画数を使うか |
-| 94 | 93 | 蔵干取得方法 | 蔵干の計算方式 |
-| 95 | 94 | 日切り替わり | 日の切り替わり時刻 |
-| 101 | 100 | 看法 | 看法設定 |
-| 102 | 101 | 辞書 | 辞書設定 |
+| td index | input index | 設定項目 | name属性 | 説明 |
+|----------|-------------|----------|----------|------|
+| 21 | 21 | 表示フラグ | disp_flg | 表示/非表示 |
+| 40 | 40 | 画数設定 | kakusuId | どの画数を使うか |
+| 94 | 94 | 蔵干取得方法 | zoukan | 蔵干の計算方式 |
+| 95 | 95 | 日切り替わり | is24Border | 日の切り替わり時刻 |
+| 101 | 101 | 看法 | kanpou | 看法設定 |
+| 102 | 102 | 辞書 | dict | 辞書設定 |
 
-> **注意**: menu_id列は`select`要素のため、text input配列にはカウントされない。
-> input indexはヘッダーのtd位置から-1した値になる。
+> **注意**: td index = input index（一致）。各行のinput数は139個。
 
 ## menu_idプレフィックス別の設定パターン
 
@@ -112,15 +111,15 @@ async (page) => {
 
 表示フラグのみ設定:
 
-| カラム | 項目 | 値 |
+| input index | 項目 | 値 |
 |--------|------|-----|
-| 20 | 表示フラグ | 1 |
+| 21 | 表示フラグ | 1 |
 
 ```javascript
-// fixedCode001 用（input index使用、menu_idがselectのためtd-1）
+// fixedCode001 用
 (() => {
   const inputs = document.querySelectorAll('table tr:nth-child(2) td input');
-  inputs[20].value = '1';  // 表示フラグ (td21)
+  inputs[21].value = '1';  // 表示フラグ (disp_flg)
 })();
 ```
 
@@ -130,23 +129,23 @@ async (page) => {
 
 | input index | 項目 | 値 |
 |--------|------|-----|
-| 20 | 表示フラグ | 1 |
-| 39 | どの画数を使うか | 2 |
-| 93 | 蔵干の取得方法 | 1 |
-| 94 | 日の切り替わり | 1 |
-| 100 | 看法 | 1 |
-| 101 | 辞書 | 1 |
+| 21 | 表示フラグ | 1 |
+| 40 | どの画数を使うか | 2 |
+| 94 | 蔵干の取得方法 | 1 |
+| 95 | 日の切り替わり | 1 |
+| 101 | 看法 | 1 |
+| 102 | 辞書 | 1 |
 
 ```javascript
-// monthlyAffinity001 用（input index使用、menu_idがselectのためtd-1）
+// monthlyAffinity001 用
 (() => {
   const inputs = document.querySelectorAll('table tr:nth-child(2) td input');
-  inputs[20].value = '1';   // 表示フラグ (td21)
-  inputs[39].value = '2';   // どの画数を使うか (td40)
-  inputs[93].value = '1';   // 蔵干の取得方法 (td94)
-  inputs[94].value = '1';   // 日の切り替わり (td95)
-  inputs[100].value = '1';  // 看法 (td101)
-  inputs[101].value = '1';  // 辞書 (td102)
+  inputs[21].value = '1';   // 表示フラグ (disp_flg)
+  inputs[40].value = '2';   // どの画数を使うか (kakusuId)
+  inputs[94].value = '1';   // 蔵干の取得方法 (zoukan)
+  inputs[95].value = '1';   // 日の切り替わり (is24Border)
+  inputs[101].value = '1';  // 看法 (kanpou)
+  inputs[102].value = '1';  // 辞書 (dict)
 })();
 ```
 
@@ -207,6 +206,58 @@ function getSettingPattern(menuId) {
 5. STEP 4 を再実行
 ```
 
+### "保存する" が status:error を返すが値は保存済み
+
+**症状**:
+- 「保存する」ボタンクリック後、`{status: error}` が返る
+- しかしページリロード後にデータが保存されている
+
+**原因**:
+- UPDATE で affected_rows=0 の場合もCMSがerrorを返す仕様
+- データが既に同じ値の場合、UPDATEでも変更なしとみなされる
+
+**解決方法**:
+```
+1. status:error でも即座にエラー扱いしない
+2. ページリロード後に各input値を確認
+3. 値が保持されていれば成功とみなす
+```
+
+### カラムインデックスずれ（2025-01修正済み）
+
+**症状**:
+- 画数・蔵干・日の切り替わりが隣のカラムに入力される
+
+**原因**:
+- コードのコメントに「menu_idはselect要素のためinput配列に含まれず-1オフセット」と記載されていたが、実際にはtd index = input indexで一致していた
+- rowSizeも138ではなく139が正しい
+
+**教訓**:
+- CMSフォーム構造が変更される可能性があるため、カラムインデックスは**実際のCMSページで `document.querySelectorAll('tr')[1].querySelectorAll('input')` を実行して検証**すること
+- 想定やコメントを鵜呑みにしない
+
+### タイトルの半角ダブルクォート問題
+
+**症状**:
+- lecture_name や title に半角`"`が含まれると保存エラー
+- SQL UPDATE文が失敗する
+
+**原因**:
+- CMS内部のSQL文で半角`"`がエスケープされず構文エラーになる
+
+**解決方法**:
+```javascript
+// 保存前にすべてのinputから半角ダブルクォートを除去
+const inputs = document.querySelectorAll('table tr:nth-child(2) td input');
+inputs.forEach(input => {
+  if (input.value) {
+    input.value = input.value.replace(/"/g, '"');  // 半角→全角変換
+    // または
+    input.value = input.value.replace(/"/g, '');   // 除去
+  }
+});
+```
+
 ### 「従量登録」ボタンクリック後に「未登録」と表示される
 
 **症状**:
@@ -215,9 +266,15 @@ function getSettingPattern(menuId) {
 
 **原因**:
 - STEP 3 をスキップした、または失敗している
+- cms_menuの「従量登録」処理がcms_ppvのデータを初期化する仕様
 
 **解決方法**:
 - STEP 3 から再実行する
+
+**自動再保存（2026-01実装済み）**:
+- `browser_automation.py` に自動re-save機能を実装済み
+- 従量登録後にcms_ppvへリダイレクトされた場合、セッションJSONのdistributionデータを使ってPPV情報を自動再入力・保存
+- `session_id`がCMSMenuRegistrationに渡されていれば自動で動作する
 
 ## 使用例
 
@@ -282,6 +339,31 @@ if (checks.displayFlag !== '1') {
 | 表示フラグ=0 | 保存未実行 | 「従量登録」を再クリック |
 
 ---
+
+## 統一APIエンドポイント
+
+STEP 4はセッション駆動の統一APIでも実行可能:
+
+```
+POST /api/step/4/execute
+{
+  "session_id": "xxx",
+  "overrides": {"headless": true, "slow_mo": 0}  // 任意
+}
+
+レスポンス (StepExecuteResponse - camelCase):
+{
+  "success": true,
+  "sessionId": "xxx",
+  "step": 4,
+  "result": {"updatedRows": 3, "verification": {...}}
+}
+```
+
+- STEP 3がSUCCESSでないと実行不可（ガード条件）
+- 失敗時はSTEP 3へのロールバック情報を含む
+- ループ検出（S3→S4→S3）によるPAUSE機能あり
+- 既存API `/api/cms-menu/register` も引き続き利用可能
 
 ## 依存関係
 

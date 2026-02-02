@@ -574,3 +574,40 @@ await page.waitForTimeout(2000 + Math.floor(Math.random() * 1500));
 | 取得件数が少ない | min_favesを下げる（502→100など） |
 | ノイズが多い | min_favesを上げる |
 | 特定期間のみ取得 | since/untilで日付フィルタ追加 |
+
+## LLM分類（Claude API）
+
+### 概要
+
+キーワードベース分類に加え、Claude API（Haiku）を使ったLLM分類機能を実装済み。
+
+### ファイル構成
+
+| ファイル | 役割 |
+|---------|------|
+| `collector/llm_classifier.py` | LLM分類器本体（urllib.requestで依存追加なし） |
+| `data/few_shot_examples.json` | Few-shot例（24件、7カテゴリ+該当なし+複数カテゴリ） |
+| `scripts/classify_tweets.py` | 分類実行スクリプト（キーワード/LLM比較、viewer.html再生成） |
+| `collector/config.py` の `LLM_CONFIG` | モデル名、バッチサイズ等の設定 |
+
+### 実行方法
+
+```bash
+# ANTHROPIC_API_KEY環境変数を設定
+export ANTHROPIC_API_KEY=sk-ant-...
+
+# 最新のツイートJSONを自動検出して分類
+python scripts/classify_tweets.py
+
+# 入力ファイル指定
+python scripts/classify_tweets.py --input output/tweets_YYYYMMDD_HHMMSS.json
+
+# viewer.html再生成をスキップ
+python scripts/classify_tweets.py --no-viewer
+```
+
+### 精度改善
+
+- `data/few_shot_examples.json` に誤分類例を追加してリラン
+- viewer.htmlにカテゴリフィルタタブあり（LLM/キーワード両方の分類バッジ表示）
+- 逆指標アカウント（is_contrarian=true）の強気ツイート → warning_signalsに自動分類

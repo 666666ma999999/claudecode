@@ -350,6 +350,24 @@ console.log('✅ STEP 5 完了確認OK');
 
 ---
 
+## 統一APIエンドポイント
+
+STEP 5はセッション駆動の統一APIでも実行可能:
+
+```
+POST /api/step/5/execute
+{
+  "session_id": "xxx",
+  "overrides": {"headless": false, "slow_mo": 100}
+}
+```
+
+- STEP 4がSUCCESSでないと実行不可
+- セッションのppv_id, menu_idを自動使用
+- 既存API `/api/sales/register` も引き続き利用可能
+
+---
+
 ## 依存関係
 
 **STEP 5 は STEP 4 の完了後に実行すること。**

@@ -202,6 +202,13 @@ function getThemeIdFromCategoryCode(categoryCode) {
 STEP 8 は運用フェーズの機能で、STEP 1-7 とは独立して実行可能。
 新規商品登録フロー完了後に実行することで、即座に公開状態にできる。
 
+### 既登録PPVの扱い
+
+- `ppv_automation_opener_edit.html` のドロップダウンには**未登録PPVのみ**表示される
+- 既に自動更新登録済みのPPVはドロップダウンに存在しない
+- 既登録の場合は `?id={ppv_id}` で編集ページに遷移可能
+- API (`register_ppv_step8`) は既登録を自動検出し、成功として返す
+
 ## 完了確認（必須）
 
 **STEP 8 実行後、以下の確認を必ず行うこと：**
@@ -249,6 +256,24 @@ console.log('✅ STEP 8 完了確認OK');
 | テーマ不一致 | カテゴリマッピングエラー | カテゴリコードを再確認 |
 | 公開日エラー | 日付フォーマット不正 | YYYY-MM-DD形式に修正 |
 | 認証エラー | Basic認証失敗 | 認証情報をURL再構成 |
+
+---
+
+## 統一APIエンドポイント
+
+STEP 8はセッション駆動の統一APIでも実行可能:
+
+```
+POST /api/step/8/execute
+{
+  "session_id": "xxx",
+  "overrides": {"category_code": "02", "publish_date": "2026-02-15"}
+}
+```
+
+- STEP 7がSUCCESSでないと実行不可
+- セッションのppv_id, category_codeを自動使用
+- 既存API `/api/izumo/auto-update` も引き続き利用可能
 
 ---
 
