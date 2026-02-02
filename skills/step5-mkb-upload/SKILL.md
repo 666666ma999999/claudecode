@@ -244,11 +244,11 @@ with open('fixed.csv', 'wb') as f:
 
 **解決策**: `browser_evaluate` でJavaScriptの `form.submit()` を直接呼び出す
 
-### VPN接続エラー
+### プロキシ接続エラー
 
 **症状**: タイムアウトまたは接続エラー
 
-**解決策**: VPN接続を確認し、再接続後にリトライ
+**解決策**: Squidプロキシ設定（.mcp.json）を確認し、リトライ
 
 ### 「0件保存しました」+ Undefined offsetエラー
 
