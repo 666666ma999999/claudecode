@@ -198,6 +198,36 @@ URL: https://{user}:{pass}@izumo-dev.uranai-gogo.com/admin/ppv_automation_opener
 **総合判定**: 全STEP完了 ✅
 ```
 
+## 不具合サマリー出力（テスト完了後）
+
+STEP実行・検証完了後、以下を出力すること:
+
+### データソース
+
+1. APIレスポンスの `issues` フィールド
+2. セッションJSONの `step_transactions[].issues`
+
+### 出力フォーマット
+
+issuesが存在する場合のみ出力:
+
+```markdown
+### 不具合ログ
+
+| 種別 | メッセージ | 重要度 |
+|------|-----------|--------|
+| SANITIZE | 半角ダブルクォートを3件全角に変換 | warn |
+| RESIDUAL_CLEAR | 残留フィールド4件をクリア | info |
+| VERIFY_FAIL | 検証NG: 2件のフィールドエラー | error |
+```
+
+### 確認手順
+
+1. セッションJSONを読み込む: `data/sessions/reg_*.json`
+2. `step_transactions` 配列から対象STEPの `issues` を取得
+3. `test_context` からテスト対象データ（ppv_id, site_id, menu_id）を取得
+4. 上記フォーマットで出力
+
 ## 注意事項
 
 - 各STEPの確認にはPlaywright MCPを使用
