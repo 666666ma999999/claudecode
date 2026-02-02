@@ -30,12 +30,12 @@ grep -rn "5000" frontend/ backend/ --include="*.py" --include="*.js" --include="
 **チェック対象の値一覧:**
 | 値 | 正規定義元 | 意味 |
 |----|-----------|------|
-| 2000 | backend/routers/config.py:90 | DEFAULT_PRICE |
-| 1026 | backend/routers/config.py:87 | OPENING_CLOSING_MID_ID |
-| 【冒頭/あいさつ】 | backend/routers/config.py:92 | OPENING_MARKER |
-| 【締め/メッセージ】 | backend/routers/config.py:93 | CLOSING_MARKER |
-| 1/999 | backend/routers/config.py:88 | SITE_ID_MIN/MAX |
-| 5 (PPV桁数) | backend/routers/config.py:89 | PPV_ID_DIGITS |
+| 2000 | backend/routers/config.py:90 REGISTRATION_CONSTANTS["default_price"] | デフォルト料金 |
+| 1026 | backend/routers/config.py:87 REGISTRATION_CONSTANTS["opening_closing_mid_id"] | 冒頭締めMID ID |
+| 【冒頭/あいさつ】 | backend/routers/config.py:92 REGISTRATION_CONSTANTS["opening_marker"] | 冒頭マーカー |
+| 【締め/メッセージ】 | backend/routers/config.py:93 REGISTRATION_CONSTANTS["closing_marker"] | 締めマーカー |
+| 1/999 | backend/routers/config.py:88 REGISTRATION_CONSTANTS["site_id_range"] | サイトID範囲 |
+| 5 (PPV桁数) | backend/routers/config.py:89 REGISTRATION_CONSTANTS["ppv_id_digits"] | PPV桁数 |
 | 5000 | backend/utils/path_constants.py:256 | MAX_PROMPT_CHARS |
 | 10 (小見出し数) | backend/utils/path_constants.py:260 | DEFAULT_SUBTITLE_COUNT |
 | 180000 | frontend/auto.html | FETCH_TIMEOUT |
