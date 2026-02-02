@@ -16,8 +16,8 @@ FE/BE間で多重定義されている定数・設定値の一覧。
 
 | 定数名 | 正規定義元 | 値 | 多重定義箇所 | リスク |
 |--------|-----------|-----|------------|--------|
-| SITE_ID_MIN/MAX | backend/routers/config.py:88 | 1/999 | auto.html:2884-2886 | バリデーション不整合 |
-| PPV_ID_DIGITS | backend/routers/config.py:89 | 5 | app-config.json:375 | ID生成エラー |
+| REGISTRATION_CONSTANTS["site_id_range"] | backend/routers/config.py:88 | {min:1, max:999} | auto.html:2884-2886 | バリデーション不整合 |
+| REGISTRATION_CONSTANTS["ppv_id_digits"] | backend/routers/config.py:89 | 5 | app-config.json:375 | ID生成エラー |
 | MAX_PROMPT_CHARS | backend/utils/path_constants.py:256 | 5000 | script.js:601, app-config.json:173 | 文字数制限不整合 |
 | DEFAULT_SUBTITLE_COUNT | backend/utils/path_constants.py:260 | 10 | app-config.json:175 | 小見出し数不整合 |
 
