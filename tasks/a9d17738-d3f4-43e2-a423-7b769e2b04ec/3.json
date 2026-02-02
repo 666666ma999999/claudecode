@@ -1,0 +1,9 @@
+{
+  "id": "3",
+  "subject": "STEP 2: メニュー登録（原稿管理CMS）",
+  "description": "Register manuscript in CMS with correct komi types",
+  "activeForm": "STEP 2 実行中",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

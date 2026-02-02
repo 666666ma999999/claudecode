@@ -1,0 +1,9 @@
+{
+  "id": "7",
+  "subject": "STEP 6: 原稿本番アップ",
+  "description": "Sync manuscript to production izumo",
+  "activeForm": "STEP 6 実行中",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

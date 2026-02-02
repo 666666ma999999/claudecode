@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "STEP 4: メニュー設定",
+  "description": "Configure menu settings in cms_menu",
+  "activeForm": "STEP 4 実行中",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

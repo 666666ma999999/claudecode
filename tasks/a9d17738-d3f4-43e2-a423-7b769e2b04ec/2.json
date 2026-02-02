@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "STEP 1: 原稿生成・PPV ID発行",
+  "description": "POST /api/step1/execute with provided input data",
+  "activeForm": "STEP 1 実行中",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
