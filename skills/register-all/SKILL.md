@@ -137,7 +137,7 @@ Response: {
 
 1. ローカルサーバーが起動していること（http://localhost:5558）
 2. Playwright MCP が有効であること（STEP 2-8）
-3. VPN接続が有効であること（STEP 5）
+3. Squidプロキシ経由でMKBにアクセス可能であること（STEP 5）
 4. セッションが作成済みであること（STEP 1 実行前に `POST /api/registration-session/create`）
 
 ## 再開フロー
