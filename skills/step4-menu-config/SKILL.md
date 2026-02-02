@@ -365,6 +365,18 @@ console.log('STEP 4 検証:', {totalRows, errorCount: errors.length, errors});
 | 値がリセット | 保存失敗 | STEP 3 完了確認後に再実行 |
 | 表示フラグ=0 | 保存未実行 | 「従量登録」を再クリック |
 
+### 不具合ログ（issues）
+
+API実行時、レスポンスに `issues` フィールドが含まれる。セッションJSONの `step_transactions[].issues` にも記録される。
+
+| type | severity | 意味 |
+|------|----------|------|
+| RESIDUAL_CLEAR | info | 旧+1オフセットで誤入力された残留フィールドをクリア |
+| SANITIZE | warn | 半角ダブルクォートを全角に変換（CMS SQL防止） |
+| VERIFY_FAIL | error | 保存後検証でフィールド値が期待と不一致 |
+
+`/verify-step 4` 実行時にissuesサマリーが出力される。
+
 ---
 
 ## 統一APIエンドポイント
