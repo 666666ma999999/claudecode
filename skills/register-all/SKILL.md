@@ -176,7 +176,6 @@ Response: {
 | 2 | ELEMENT_NOT_FOUND | 2回 |
 | 3-4 | SAVE_FAILED | 1回 |
 | 5 | UPLOAD_FAILED | 2回 |
-| 5 | VPN_ERROR | 1回 |
 | 6 | SYNC_FAILED | 2回 |
 | 7 | REFLECT_FAILED | 2回 |
 | 8 | UPDATE_FAILED | 2回 |
