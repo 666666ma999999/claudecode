@@ -20,3 +20,12 @@ statsig/
 
 # OS
 .DS_Store
+
+# Claude設定（~/.claude/で一元管理）
+.claude/
+
+# ローカル専用ディレクトリ
+backup_local/
+jupyter_ml/
+whisper2/
+whisper3/
