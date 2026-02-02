@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Implement issues collection in browser_automation.py",
+  "description": "Add issues list collection to fill_numeric_fields() and CMSMenuResult, and propagate through register()",
+  "activeForm": "Implementing issues collection in browser_automation",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
