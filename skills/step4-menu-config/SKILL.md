@@ -223,18 +223,24 @@ function getSettingPattern(menuId) {
 3. 値が保持されていれば成功とみなす
 ```
 
-### カラムインデックスずれ（2025-01修正済み）
+### カラムインデックスずれ（2026-02修正済み）
 
 **症状**:
 - 画数・蔵干・日の切り替わりが隣のカラムに入力される
 
 **原因**:
-- コードのコメントに「menu_idはselect要素のためinput配列に含まれず-1オフセット」と記載されていたが、実際にはtd index = input indexで一致していた
-- rowSizeも138ではなく139が正しい
+- td column 0 (menu_id) には `input[type="text"]` も `input:not([type])` もない（hidden inputか別要素）
+- そのため行あたりのinput数は138（rowSize=139は誤り）
+- 全フィールドのinput indexがtd columnより1つ小さい（input index = td index - 1）
+
+**修正内容**:
+- rowSize: 139 → 138
+- COL_DISPLAY_FLAG: 21 → 20, COL_KAKUSU: 40 → 39, COL_ZOUKAN: 94 → 93
+- COL_DAY_CHANGE: 95 → 94, COL_KANPOU: 101 → 100, COL_JISHO: 102 → 101
 
 **教訓**:
-- CMSフォーム構造が変更される可能性があるため、カラムインデックスは**実際のCMSページで `document.querySelectorAll('tr')[1].querySelectorAll('input')` を実行して検証**すること
-- 想定やコメントを鵜呑みにしない
+- CMSフォーム構造が変更される可能性があるため、カラムインデックスは**実際のCMSページで `document.querySelectorAll('input[type="text"], input:not([type])').length` を実行して検証**すること
+- name属性で確認: `input.name` が期待するフィールド名と一致するか検証する
 
 ### タイトルの半角ダブルクォート問題
 
