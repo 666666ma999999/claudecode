@@ -3,7 +3,7 @@
   "subject": "#3 マーカー文字列定数化",
   "description": "OPENING_MARKER/CLOSING_MARKERをconfig.pyに定義し、registration.py, text_analysis.py, browser_automation.pyの該当箇所を置換",
   "activeForm": "Extracting marker constants",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }

@@ -3,7 +3,7 @@
   "subject": "#5 APIエンドポイント定数化",
   "description": "frontend/config.jsにAPI_ENDPOINTS追加、auto.htmlとscript.jsのURL置換",
   "activeForm": "Extracting API endpoints",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }

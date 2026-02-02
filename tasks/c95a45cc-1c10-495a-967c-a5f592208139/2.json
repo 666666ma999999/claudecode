@@ -3,7 +3,7 @@
   "subject": "#2 is_logic_sheet() 統一",
   "description": "logic_definitions.pyにALL_LOGIC_SHEETS追加、is_main_logic_sheet()新規追加。main.pyとlogic.pyを修正",
   "activeForm": "Unifying is_logic_sheet()",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }
