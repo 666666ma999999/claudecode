@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(env)",
+      "Bash(ls:*)",
+      "Bash(claude config list:*)",
+      "Bash(claude auth:*)",
+      "Bash(claude whoami:*)",
+      "Bash(claude /doctor:*)",
+      "Bash(/usr/local/bin/claude config:*)",
+      "Bash(/opt/homebrew/bin/claude config:*)",
+      "Bash(/Users/masaaki/.local/bin/claude:*)",
+      "Bash(security find-generic-password:*)"
+    ]
+  }
+}

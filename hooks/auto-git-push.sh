@@ -3,8 +3,21 @@
 # PostToolUse (Write|Edit|Bash) フックから呼ばれる
 
 INPUT=$(cat)
-TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name // empty' 2>/dev/null)
-FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // .tool_input.path // empty' 2>/dev/null)
+
+# python3でJSON解析（jq不要）
+eval "$(echo "$INPUT" | python3 -c "
+import sys, json
+try:
+    d = json.load(sys.stdin)
+    tn = d.get('tool_name', '')
+    ti = d.get('tool_input', {})
+    fp = ti.get('file_path', '') or ti.get('path', '')
+    print(f'TOOL_NAME=\"{tn}\"')
+    print(f'FILE_PATH=\"{fp}\"')
+except:
+    print('TOOL_NAME=\"\"')
+    print('FILE_PATH=\"\"')
+" 2>/dev/null)"
 
 # Write/Edit: ファイルパスで判定
 if [[ "$TOOL_NAME" != "Bash" ]]; then
