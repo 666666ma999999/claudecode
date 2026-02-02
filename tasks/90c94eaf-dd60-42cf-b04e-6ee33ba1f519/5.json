@@ -3,7 +3,7 @@
   "subject": "B1: IzumoSessionManager (browser_automation.py)",
   "description": "STEP 6-8で共有するブラウザセッション管理クラスを追加",
   "activeForm": "Implementing IzumoSessionManager",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }

@@ -3,7 +3,7 @@
   "subject": "B2: STEP 1並列化 (step1_pipeline.py)",
   "description": "yudo_txt+yudo_recommendの並列化、特殊小見出し処理の並列化",
   "activeForm": "Implementing parallel execution",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }
