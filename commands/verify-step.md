@@ -73,9 +73,13 @@ URL: ?p=cms_ppv&site_id={site_id}&ppv_id={ppv_id}
 
 | 確認項目 | 方法 | 成功条件 |
 |---------|------|---------|
-| 表示フラグ | ?p=cms_menu画面 | inputs[21] = 1 |
-| 画数設定 | カラム40確認 | monthlyAffinityの場合: 2 |
-| 蔵干設定 | カラム94,95確認 | monthlyAffinityの場合: 1 |
+| 表示フラグ | ?p=cms_menu画面 | inputs[20] = 1（COL_DISPLAY_FLAG） |
+| 画数設定 | カラム39確認 | monthlyAffinityの場合: 2（COL_KAKUSU） |
+| 蔵干設定 | カラム93確認 | monthlyAffinityの場合: 1（COL_ZOUKAN） |
+| 日の切り替わり | カラム94確認 | monthlyAffinityの場合: 1（COL_DAY_CHANGE） |
+| 看法 | カラム100確認 | monthlyAffinityの場合: 1（COL_KANPOU） |
+| 辞書 | カラム101確認 | monthlyAffinityの場合: 1（COL_JISHO） |
+| 残留フィールド | カラム21,40,95,102確認 | 空であること（旧+1オフセット修正） |
 
 ```
 URL: ?p=cms_menu&site_id={site_id}&ppv_id={ppv_id}
