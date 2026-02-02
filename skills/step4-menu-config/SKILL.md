@@ -65,9 +65,9 @@ async (page) => {
     inputs[20].value = '1';   // 表示フラグ (disp_flg)
     inputs[39].value = '2';   // どの画数を使うか (kakusuId)
     inputs[93].value = '1';   // 蔵干の取得方法 (zoukan)
-    inputs[94].value = '1';   // 日の切り替わり (is24Border)
+    inputs[93].value = '1';   // 日の切り替わり (is24Border)
     inputs[100].value = '1';  // 看法 (kanpou)
-    inputs[101].value = '1';  // 辞書 (dict)
+    inputs[100].value = '1';  // 辞書 (dict)
   });
 }
 ```
@@ -77,7 +77,7 @@ async (page) => {
 async (page) => {
   await page.evaluate(() => {
     const inputs = document.querySelectorAll('table tr:nth-child(2) td input');
-    inputs[21].value = '1';   // 表示フラグ (disp_flg)
+    inputs[20].value = '1';   // 表示フラグ (disp_flg)
   });
 }
 ```
@@ -113,13 +113,13 @@ async (page) => {
 
 | input index | 項目 | 値 |
 |--------|------|-----|
-| 21 | 表示フラグ | 1 |
+| 20 | 表示フラグ | 1 |
 
 ```javascript
 // fixedCode001 用
 (() => {
   const inputs = document.querySelectorAll('table tr:nth-child(2) td input');
-  inputs[21].value = '1';  // 表示フラグ (disp_flg)
+  inputs[20].value = '1';  // 表示フラグ (disp_flg)
 })();
 ```
 
@@ -129,23 +129,23 @@ async (page) => {
 
 | input index | 項目 | 値 |
 |--------|------|-----|
-| 21 | 表示フラグ | 1 |
-| 40 | どの画数を使うか | 2 |
+| 20 | 表示フラグ | 1 |
+| 39 | どの画数を使うか | 2 |
 | 94 | 蔵干の取得方法 | 1 |
-| 95 | 日の切り替わり | 1 |
-| 101 | 看法 | 1 |
-| 102 | 辞書 | 1 |
+| 94 | 日の切り替わり | 1 |
+| 100 | 看法 | 1 |
+| 101 | 辞書 | 1 |
 
 ```javascript
 // monthlyAffinity001 用
 (() => {
   const inputs = document.querySelectorAll('table tr:nth-child(2) td input');
-  inputs[21].value = '1';   // 表示フラグ (disp_flg)
-  inputs[40].value = '2';   // どの画数を使うか (kakusuId)
-  inputs[94].value = '1';   // 蔵干の取得方法 (zoukan)
-  inputs[95].value = '1';   // 日の切り替わり (is24Border)
-  inputs[101].value = '1';  // 看法 (kanpou)
-  inputs[102].value = '1';  // 辞書 (dict)
+  inputs[20].value = '1';   // 表示フラグ (disp_flg)
+  inputs[39].value = '2';   // どの画数を使うか (kakusuId)
+  inputs[93].value = '1';   // 蔵干の取得方法 (zoukan)
+  inputs[93].value = '1';   // 日の切り替わり (is24Border)
+  inputs[100].value = '1';  // 看法 (kanpou)
+  inputs[100].value = '1';  // 辞書 (dict)
 })();
 ```
 
@@ -300,8 +300,8 @@ inputs.forEach(input => {
 2. browser_snapshot でテーブル値を取得
 
 3. 以下を確認:
-   - inputs[21] = 1（表示フラグ）
-   - monthlyAffinityの場合: inputs[40] = 2, inputs[94] = 1 等
+   - inputs[20] = 1（表示フラグ）
+   - monthlyAffinityの場合: inputs[39] = 2, inputs[93] = 1 等
    - 保存結果が `{status: error}` でないこと
 ```
 
@@ -309,7 +309,7 @@ inputs.forEach(input => {
 
 | 項目 | 成功条件 | 確認方法 |
 |------|----------|----------|
-| 表示フラグ | inputs[21] = 1 | browser_evaluate |
+| 表示フラグ | inputs[20] = 1 | browser_evaluate |
 | 画数設定 | monthlyAffinity: 2 | browser_evaluate |
 | 蔵干取得 | monthlyAffinity: 1 | browser_evaluate |
 | 保存結果 | error でない | コンソールログ確認 |
@@ -320,9 +320,9 @@ inputs.forEach(input => {
 // browser_evaluate で確認
 const inputs = document.querySelectorAll('table tr:nth-child(2) td input');
 const checks = {
-  displayFlag: inputs[21]?.value,
-  strokeCount: inputs[40]?.value,
-  zokkan: inputs[94]?.value,
+  displayFlag: inputs[20]?.value,
+  strokeCount: inputs[39]?.value,
+  zokkan: inputs[93]?.value,
 };
 console.log('STEP 4 確認:', checks);
 if (checks.displayFlag !== '1') {
