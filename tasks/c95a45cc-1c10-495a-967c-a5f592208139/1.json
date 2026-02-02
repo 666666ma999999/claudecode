@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "#1 get_step_timeout() 削除",
-  "description": "backend/utils/step_definitions.py 259-275行のget_step_timeout()を削除",
-  "activeForm": "Deleting get_step_timeout()",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
