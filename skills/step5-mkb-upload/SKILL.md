@@ -33,13 +33,13 @@ MKBアクセス解析（swan-manage.aws.mkb.local）にCSVをアップロード�
 
 ## 実行フロー
 
-### 1. VPN接続確認
+### 1. ネットワーク接続確認
 
-VPN未接続の場合はタイムアウトになる。まずVPN状態を確認。
+Squidプロキシ経由でアクセスする。Playwright MCPの設定でプロキシが自動適用される。
 
 ```
 1. browser_navigate → http://swan-manage.aws.mkb.local/users/login
-2. タイムアウトした場合 → ユーザーにVPN接続を促す
+2. タイムアウトした場合 → プロキシ設定を確認
 ```
 
 ### 2. MKBログイン
