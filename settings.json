@@ -6,6 +6,20 @@
     "playwright@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
+  "permissions": {
+    "allow": [
+      "Bash",
+      "Write",
+      "Edit",
+      "Read",
+      "Glob",
+      "Grep",
+      "WebFetch",
+      "WebSearch",
+      "NotebookEdit"
+    ],
+    "deny": []
+  },
   "feedbackSurveyState": {
     "lastShownTime": 1754026768941
   },
