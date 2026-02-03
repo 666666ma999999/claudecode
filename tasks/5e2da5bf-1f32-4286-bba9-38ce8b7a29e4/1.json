@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "STEP 7 あいさつ・締め反映バグ修正",
+  "description": "session_menu_id パラメータを追加してプレフィックスに関係なく全メニューを反映できるようにする\n1. ReflectAllMenuRequest に session_menu_id フィールド追加\n2. reflect_all_menus に session_menu_id パラメータ追加\n3. reflect_izumo_all_menus に session_menu_id パラメータ追加\n4. build_reflect_all_request で session_menu_id を渡す\n5. エンドポイントで session_menu_id を伝播",
+  "activeForm": "Implementing STEP 7 opening/closing reflection fix",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
