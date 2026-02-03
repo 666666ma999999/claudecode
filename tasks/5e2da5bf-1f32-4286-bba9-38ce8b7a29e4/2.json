@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "STEP 2 mid_id マッピングバグ修正",
+  "description": "structured_manuscript と product.subtitles の order 番号がずれる問題を修正\n1. opening は常に mid_id=1026 を使用（midid_map を参照しない）\n2. subtitles は opening がある場合 order-1 で midid_map を参照\n3. closing は常に mid_id=1026 を使用（midid_map を参照しない）",
+  "activeForm": "Fixing STEP 2 mid_id mapping bug",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
