@@ -253,6 +253,26 @@ console.log('✅ STEP 2 完了確認OK');
 
 ---
 
+### MID_IDのfallbackロジック（common_mid_id）
+
+**概要**:
+- `registration.py`の`get_mid_id()`関数がMID_ID割り当てを管理
+- `common_mid_id`（フロントエンドの④欄）がfallbackとして使用される
+- 冒頭/締めには`use_fallback=False`で専用デフォルト（1026）が適用される
+
+**MID_ID決定の優先順位**:
+1. `subtitle_midids`で明示指定されたmid_id（order単位）
+2. `common_mid_id`（小見出しのみ、冒頭/締め以外）
+3. パラメータデフォルト値（冒頭/締め: 1026、小見出し: 空文字）
+
+**オーケストレーター経由の場合**:
+- `record.user_input["common_mid_id"]`からfallback値を取得
+- セッション作成時にフロントエンドから保存される
+
+**注意**: 空文字のmid_idはfallbackに委任される（midid_mapに格納しない）
+
+---
+
 ### CMSチェッカーでkomi_type関連エラー
 
 **症状**:
