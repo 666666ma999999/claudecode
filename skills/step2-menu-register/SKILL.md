@@ -199,6 +199,29 @@ POST /api/register-manuscript
 # すべてのパスでlast_error_reasonを設定し、return False
 ```
 
+### komi_yesnoの「特殊小見出しのyes no」エラー
+
+**症状**:
+- komi_yesnoタイプの小見出しでCMSチェッカーエラー
+- 「特殊小見出しのyes no」エラーが表示される
+
+**原因**:
+- STEP 1のY/N再生成で`{"code": "01", "summary": "Y", "body": "本文"}`を保存
+- しかしSTEP 2でCMSに送信時、summaryが除去されて`code\tbody`形式になっていた
+- CMSのkomi_yesnoパターンは`code\tY/N\tbody`の3カラム形式を期待
+
+**解決済み（2026-02-03）**:
+- `registration.py` L371-386で、komi_yesnoの場合は常に3カラム形式で出力
+- summaryが空の場合は警告ログを出力
+
+```python
+# registration.py
+if komi_type == "komi_yesno":
+    body_lines.append(f"{code}\t{summary}\t{body}")  # 3カラム
+else:
+    body_lines.append(f"{code}\t{body}")  # 2カラム
+```
+
 ## 使用例
 
 ```
