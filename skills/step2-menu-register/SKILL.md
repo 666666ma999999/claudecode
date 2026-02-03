@@ -173,6 +173,32 @@ POST /api/register-manuscript
 - `browser_automation.py`のL833-834で、CMS入力前に`<br />`を改行文字に変換
 - `<br /><br />` → `\n\n`、`<br />` → `\n`
 
+### 原稿チェックエラーがあるのに次STEPに進む
+
+**症状**:
+- 原稿UP画面で「特殊小見出しのyes no」等のエラーが表示される
+- エラーがあるのに次のSTEPに進んでしまう
+
+**原因**:
+- 以前はエラー検出がJSクリックパスでのみ実行されていた
+- Playwrightフォールバックパスではエラー検出をスキップしていた
+- 「原稿UPボタン」が存在すると、エラーがあっても続行していた
+
+**解決済み（2026-02-03）**:
+- 全パス（JSクリック/Playwrightフォールバック）でエラー検出を実行
+- エラー検出時は即座に`return False`（一時保存を試みない）
+- `keep_browser_on_error`の処理を全エラー検出箇所で統一
+- `last_error_reason`属性を追加し、正確なエラーメッセージを呼び出し元に伝達
+
+**エラー検出の動作**:
+```python
+# browser_automation.py finalize_registration()
+# 1. JSクリック成功時: L1121-1148でエラー検出
+# 2. Playwrightフォールバック時: L1201-1228でエラー検出
+# 3. 原稿UPボタン未発見時: L1417-1427でエラー検出
+# すべてのパスでlast_error_reasonを設定し、return False
+```
+
 ## 使用例
 
 ```
