@@ -1,0 +1,11 @@
+{
+  "id": "5",
+  "subject": "Phase 3: config.jsにorchestratorStepExecuteエンドポイント追加",
+  "description": "frontend/config.jsにOrchestratorエンドポイントの別名定義を追加（必要な場合）。\n\n確認: stepExecute: (stepNo) => `/api/orchestrator/step/${stepNo}/execute` が既に定義されているか確認",
+  "activeForm": "config.jsエンドポイント定義を確認中",
+  "status": "completed",
+  "blocks": [
+    "6"
+  ],
+  "blockedBy": []
+}

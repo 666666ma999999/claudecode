@@ -1,0 +1,13 @@
+{
+  "id": "3",
+  "subject": "Phase 2: STEP 6 syncIzumoProductionをOrchestrator経由に移行",
+  "description": "syncIzumoProduction()関数をexecuteStepUnified(6)呼び出しに移行する。\n\n変更対象: frontend/auto.html 行 3942-4000\n現在: API_ENDPOINTS.izumoSyncProduction直接呼び出し\n移行後: API_ENDPOINTS.stepExecute(6)経由",
+  "activeForm": "STEP 6をOrchestrator経由に移行中",
+  "status": "completed",
+  "blocks": [
+    "6"
+  ],
+  "blockedBy": [
+    "1"
+  ]
+}

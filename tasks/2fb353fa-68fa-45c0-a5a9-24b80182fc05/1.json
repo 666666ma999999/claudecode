@@ -1,0 +1,13 @@
+{
+  "id": "1",
+  "subject": "Phase 1: executeStepUnifiedとrefreshSession関数を作成",
+  "description": "frontend/auto.htmlに統一実行関数executeStepUnified()とセッションリフレッシュ関数refreshSession()を追加する。\n\n実装内容:\n- executeStepUnified(step, overrides = {}): Orchestrator統一エンドポイント呼び出し\n- refreshSession(): セッション状態の最新化\n- エラーハンドリング\n- 適切な位置への配置",
+  "activeForm": "統一実行関数を作成中",
+  "status": "completed",
+  "blocks": [
+    "2",
+    "3",
+    "4"
+  ],
+  "blockedBy": []
+}
