@@ -244,6 +244,32 @@ function getSettingPattern(menuId) {
 - CMSフォーム構造が変更される可能性があるため、カラムインデックスは**実際のCMSページで `document.querySelectorAll('input[type="text"], input:not([type])').length` を実行して検証**すること
 - name属性で確認: `input.name` が期待するフィールド名と一致するか検証する
 
+### 数値フィールドが入力されない（2026-02修正済み）
+
+**症状**:
+- STEP 4実行後、表示フラグ・画数・蔵干などの数値フィールドが空のまま
+- ログには「X行を更新」と出るがupdatedFields=0
+
+**原因**:
+- 旧実装はCMSの`rowInputs[0].value`（menu_id入力欄）の値でプレフィックスを判定していた
+- しかしCMS上のmenu_id欄には`001.045`のような短縮形しか表示されず、フルプレフィックス（`monthlyAffinity001`等）は含まれない
+- 結果、プレフィックス判定が常にfalseとなり、全行がスキップされていた
+
+**修正内容（v1.36.7）**:
+- セッションから`menu_prefix`をAPI経由で渡す仕組みを追加
+- `CMSMenuRegistrationRequest`に`menu_prefix`フィールドを追加
+- オーケストレーターの`build_cms_menu_request`が`record.ids.menu_prefix`を渡す
+- JavaScript側で`config.menuPrefix`があればそれを使い、全行に同じ設定を適用
+- フォールバック：`menu_prefix`が未指定の場合は従来の入力値検出を使用
+
+**確認方法**:
+```
+ログに以下が出力されることを確認：
+- "数字フィールド入力: menu_prefix=monthlyAffinity001"
+- "数字フィールド入力完了: X行, Y フィールドを更新, プレフィックス=monthlyAffinity001"
+- updatedFieldsが0でないこと
+```
+
 ### タイトルの半角ダブルクォート問題
 
 **症状**:
