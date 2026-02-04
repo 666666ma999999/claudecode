@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "Fix 2: Add mid_id select option load wait + retry logic",
+  "description": "Replace wait_for_selector with wait_for_function to ensure mid_id select options are fully loaded before JS selection. Add retry logic for race condition handling.",
+  "activeForm": "Adding mid_id select retry logic",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
