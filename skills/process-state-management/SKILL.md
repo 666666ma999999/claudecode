@@ -558,3 +558,48 @@ displayKomiTypes(komiTypeResult);
 // 復元時: 保存値優先、フォールバックでマスター参照
 komiName: s.komi_name || KOMI_GENERATE_MODES[s.komi_type]?.name || '通常'
 ```
+
+### Getter/Setter によるセッション即時同期パターン
+
+**問題**: グローバル変数への直接代入では、セッション（`registrationRecord`）との同期が漏れやすい。セッション保存時に初めて同期するため、途中でページリロードすると中間状態が失われる。
+
+**解決策**: getter/setter関数を通じてグローバル変数とregistrationRecordを同時に更新する。
+
+```javascript
+// Setter: グローバル変数 + registrationRecordを同時更新
+function setMyResult(result) {
+    myResult = result;  // グローバル変数更新
+    // registrationRecordにも即時反映
+    if (registrationRecord?.path) {
+        registrationRecord.path.data = result?.field || null;
+    }
+    // nullクリア時はregistrationRecordもクリア
+    if (!result && registrationRecord?.path) {
+        registrationRecord.path.data = null;
+    }
+}
+
+// Getter: registrationRecord優先、グローバル変数にフォールバック
+function getMyResult() {
+    if (registrationRecord?.path?.data) {
+        return { success: true, field: registrationRecord.path.data };
+    }
+    return myResult;
+}
+
+// セッション復元時もsetterを使用
+function restoreFromSession(record) {
+    if (record.path?.data) {
+        setMyResult({ success: true, field: record.path.data });
+        displayMyResult(getMyResult());  // getterで取得→表示
+    }
+}
+```
+
+**setter/getter設計の3つの注意点**:
+
+1. **Getterに`success`フィールドを含める**: display関数が`result.success`をチェックするパターンが多いため、registrationRecordから再構築する際に`success: true`を付与すること。
+2. **Setterでnullクリア時にregistrationRecordもクリア**: `setMyResult(null)`で`registrationRecord.path.data`もnullにしないと、次回getterが古いデータを返してしまう。
+3. **配列型データのclearer**: 配列変数（例: `komiRegeneratedResults`）には`clear*()`関数を用意し、registrationRecordの各エントリのフィールドもクリアする。
+
+詳細な実装パターンは `rohan-ui-patterns` スキル セクション4-B を参照。
