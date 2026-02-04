@@ -255,12 +255,13 @@ function getSettingPattern(menuId) {
 - しかしCMS上のmenu_id欄には`001.045`のような短縮形しか表示されず、フルプレフィックス（`monthlyAffinity001`等）は含まれない
 - 結果、プレフィックス判定が常にfalseとなり、全行がスキップされていた
 
-**修正内容（v1.36.7）**:
-- セッションから`menu_prefix`をAPI経由で渡す仕組みを追加
-- `CMSMenuRegistrationRequest`に`menu_prefix`フィールドを追加
-- オーケストレーターの`build_cms_menu_request`が`record.ids.menu_prefix`を渡す
-- JavaScript側で`config.menuPrefix`があればそれを使い、全行に同じ設定を適用
-- フォールバック：`menu_prefix`が未指定の場合は従来の入力値検出を使用
+**修正内容（v1.42.3）**:
+- menu_idは`<td>`内のテキスト + `<input name="menu_id" type="hidden">`で構成されている
+- `querySelectorAll('input[type="text"]')`ではhidden inputにマッチしないため、別途取得が必要
+- 修正: `document.querySelectorAll('input[name="menu_id"][type="hidden"]')`で全行のmenu_idを取得
+- `menuIdInputs[i].value`（例: "fixedCode001.287"）でプレフィックスを判定
+- 保存後の検証ロジックも同様に修正済み
+- 注意: 旧v1.36.7の`menu_prefix` API経由方式はリファクタリングで消失していた
 
 **確認方法**:
 ```
