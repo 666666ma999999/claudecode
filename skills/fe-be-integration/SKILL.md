@@ -1397,6 +1397,50 @@ async def login(page, cms_type, username, password):
 
 **詳細なPlaywright操作パターンは `playwright-browser-automation` スキルを参照**
 
+## Phase 0 実装済み: BEサービス層（v1.44.0）
+
+### サービス層構成
+```
+backend/services/
+├── __init__.py              # 全サービスのエクスポート
+├── text_transform.py        # remove_html_tags, sanitize_for_cms, format_text_to_html, escape_html
+├── validation.py            # InputValidationError, validate_registration_input
+├── category_infer.py        # CATEGORY_KEYWORDS, infer_category_from_keywords, infer_category_with_gemini, detect_pattern_type, _normalize_to_halfwidth
+├── manuscript_transform.py  # text_analysisファサード + parse_and_format
+└── postprocess.py           # (既存)
+```
+
+### HTMLフィールド追加パターン
+レスポンスモデルに `_html` サフィックス付きフィールドを追加し、エンドポイントで `format_text_to_html()` を適用:
+```python
+class SomeResponse(CamelCaseModel):
+    text: str = ""
+    text_html: str = ""  # → JSON: "textHtml"
+
+# エンドポイント内
+return SomeResponse(text=result, text_html=format_text_to_html(result))
+```
+
+### Gemini DI パターン
+サービス層のGemini関数はグローバル `_model` を参照せず、`model` 引数で受け取る:
+```python
+# services/category_infer.py
+def infer_category_with_gemini(product_name: str, model=None) -> Dict:
+    if model is None:
+        return {"success": False, "message": "Gemini APIが初期化されていません"}
+
+# routers/registration.py (呼び出し側)
+result = infer_category_with_gemini(product_name, model=_model)
+```
+
+### 後方互換性パターン
+browser_automation.pyからの関数移動時、同名で再エクスポート:
+```python
+# utils/browser_automation.py
+from services.text_transform import sanitize_for_cms as _sanitize_for_cms
+sanitize_for_cms = _sanitize_for_cms  # 既存の呼び出し元はそのまま動作
+```
+
 ## 関連スキル
 
 - **coding-standards**: 言語別命名規則、CamelCaseModelの基本説明
