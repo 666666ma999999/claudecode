@@ -30,6 +30,7 @@ description: |
    - `guide`: 商品紹介文
    - `affinity`: 0=1人用, 1=2人用
    - `ppv_icon_id`: カテゴリコード
+3. **配信データ検証（2026-02追加）**: STEP3実行前にセッションの配信データ（guide_text, category_code, yudo_txt, yudo先PPV/メニュー）の完全性を自動検証。不足時はBLOCKINGモーダルが表示され処理が停止される
 
 ## 実行フロー
 
