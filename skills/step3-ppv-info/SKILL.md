@@ -188,6 +188,21 @@ document.querySelector('input[name="yudo_txt"]').value = sanitizeText(yudoText);
 - JS一括入力後、500ms待機してから price_res/au_price/SoftBank_price を "0" で再上書き
 - `browser_automation.py` の `fill_fields()` に実装済み（2026-01）
 
+### 配信データ不足でSTEP3が実行できない（2026-02追加）
+
+**症状**:
+- STEP3実行前にBLOCKINGモーダル「STEP 3: 配信データ不足」が表示される
+- 「閉じる」ボタンのみで続行不可
+
+**原因**:
+- セッションのdistribution情報（guide_text, category_code, yudo_txt, yudo先PPV/メニュー）が不完全
+- STEP1未完了または結果が正しく保存されていない
+
+**解決方法**:
+1. STEP 1を再実行して配信データを生成
+2. 検証API `GET /api/step/3/validate-distribution?session_id=xxx` で不足フィールドを確認
+3. セッション復元後の場合、getter関数（getGuideResult等）がregistrationRecordから正しくデータ取得しているか確認
+
 ### 設定値の外部化（2026-02実装）
 
 **全てのハードコード定数は `data/step_config.json` に外部化済み。**
