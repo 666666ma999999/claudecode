@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "スキルに不変条件（invariants）セクションを追加",
+  "description": "既存スキル（step2-menu-register, step4-menu-config等）に「不変条件（invariants）」セクションを追加して、リファクタリング時に機能が消えることを防止する。ユーザーは「ルール側のみ」を選択。",
+  "activeForm": "不変条件セクションを追加中",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
