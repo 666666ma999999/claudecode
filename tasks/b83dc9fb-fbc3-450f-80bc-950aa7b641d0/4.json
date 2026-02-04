@@ -3,7 +3,7 @@
   "subject": "Add validation endpoint to config.js",
   "description": "Add validateMidIdForStep4 endpoint definition to frontend/config.js API_ENDPOINTS",
   "activeForm": "Adding config endpoint",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }
