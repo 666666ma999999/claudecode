@@ -225,6 +225,32 @@ document.querySelector('input[name="yudo_txt"]').value = sanitizeText(yudoText);
 - `fill_fields()` でバリデーション実装済み（2026-01）
 - 不正値はスキップされ warning ログ出力
 
+### cms_ppv ページが空白（ppv_idで見つからない）
+
+**症状**:
+- `?p=cms_ppv&ppv_id=48200073&save_id=2584` でページが空白
+- CMS フレームワーク（ヘッダ「原稿管理」）は表示されるが、コンテンツが空
+- `navigate_to_ppv_detail` が `return False` → 「従量管理詳細ページへの移動に失敗しました」
+
+**原因**:
+- STEP 2 が複数回失敗→成功した場合、CMS内部でproduct ppv_id（例: 48200073）とsave_id（例: 2584）の紐付けが不整合になる
+- CMSの `?p=cms_ppv` ページが `ppv_id` パラメータで `target_ppv_id` 検索するが、レコードが見つからない
+
+**解決済み（2026-02-04）**:
+- `navigate_to_ppv_detail` にフォールバックURL機能を追加
+- (1) `ppv_id=product_ppv_id` で試行 → 失敗した場合
+- (2) `ppv_id=menu_id(save_id)` で試行 → ページロード後に `history.replaceState` で正しいppv_idにURL書き換え
+- URL書き換えにより、CMS JavaScriptのAJAX POST が正しいppv_idを送信
+
+```python
+# browser_automation.py navigate_to_ppv_detail()
+# フォールバック成功時:
+correct_url = f"{BASE_URL}?p=cms_ppv&site_id={site_id}&ppv_id={ppv_id}&save_id={menu_id}"
+await self.page.evaluate("(url) => window.history.replaceState(null, '', url)", correct_url)
+```
+
+---
+
 ### "保存する" が status:error を返す場合
 
 **症状**:
