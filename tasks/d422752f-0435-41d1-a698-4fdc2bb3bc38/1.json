@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "STEP 5 CSV Download Loading問題修正を実装",
-  "description": "FastAPIイベントループ干渉によるCMS SPA \"Loading..\"スタック問題を修正。_download_csv_sync()メソッド追加 + download_csv()簡素化。変更ファイル: backend/utils/browser_automation.py のみ。",
-  "activeForm": "STEP 5 CSV Download Loading問題を修正中",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}

@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "Codexレビュー指摘修正",
-  "description": "1. finally内のclose()例外ガード 2. self._session_dirのスナップショット化 3. スクリーンショットのtry/except追加",
-  "activeForm": "Codexレビュー指摘を修正中",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
