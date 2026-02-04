@@ -1,0 +1,9 @@
+{
+  "id": "10",
+  "subject": "STEP 1-8 フルテスト実行",
+  "description": "auto.htmlにデータ入力してSTEP 1-8を最初から実行するテスト",
+  "activeForm": "STEP 1-8 テスト実行中",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
