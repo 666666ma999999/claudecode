@@ -316,12 +316,14 @@ function setMyResult(result) {
 3. **配列型のclearer**: `komiRegeneratedResults`のような配列は`clearKomiRegeneratedResults()`でregistrationRecordの各エントリもクリアする
 4. **セッション復元時はsetterを使用**: `restoreFromSession()`内で直接代入せずsetterを経由し、registrationRecordとの一貫性を保つ
 
-**移行チェックリスト**:
-- [ ] 全てのグローバル変数代入箇所をsetterに置換
-- [ ] 全てのグローバル変数読み取り箇所をgetterに置換
-- [ ] `restoreFromSession()`内の代入をsetterに変更
-- [ ] display関数呼び出し時にgetterから取得した値を渡す
-- [ ] nullクリア（`= null`、`= []`）もsetter/clearerを使用
+**移行チェックリスト**（v1.42.4で完了）:
+- [x] 全てのグローバル変数代入箇所をsetterに置換
+- [x] 全てのグローバル変数読み取り箇所をgetterに置換
+- [x] `restoreFromSession()`内の代入をsetterに変更
+- [x] display関数呼び出し時にgetterから取得した値を渡す
+- [x] nullクリア（`= null`、`= []`）もsetter/clearerを使用
+- [x] `saveUIToSession()`にsubtitles構築追加（regenerated_text含む）
+- [x] `restoreUIFromRecord()`にkomiRegeneratedResults復元追加
 
 **よくある漏れ:**
 - 初回処理には追加したがretry関数に追加し忘れる
