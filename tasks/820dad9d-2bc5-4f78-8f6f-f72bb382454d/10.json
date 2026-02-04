@@ -1,9 +1,0 @@
-{
-  "id": "10",
-  "subject": "STEP 3-8: 残りSTEP一括実行",
-  "description": "セッション reg_20260204142858_2a997e7c のSTEP 3-8を順番に実行。STEP 3: PPV情報登録、STEP 4: メニュー設定、STEP 5: 売上集計、STEP 6: 原稿本番UP、STEP 7: 小見出し登録、STEP 8: 従量自動更新",
-  "activeForm": "STEP 3-8を順次実行中",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
