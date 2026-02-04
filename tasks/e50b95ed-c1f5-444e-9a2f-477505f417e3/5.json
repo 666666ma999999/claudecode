@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "動作検証・テスト",
+  "description": "サーバー再起動、ヘルスチェック、STEP 1→8 連続実行テスト、セッション復元テスト",
+  "activeForm": "動作検証中",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "後方互換プロキシ実装",
+  "description": "let宣言変数はObject.definePropertyでプロキシ不可のため、段階的にgetter/setter呼び出しに置換する方式に変更。State Management Layerのコメントに方針を記載済み。",
+  "activeForm": "後方互換プロキシ実装中",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}
