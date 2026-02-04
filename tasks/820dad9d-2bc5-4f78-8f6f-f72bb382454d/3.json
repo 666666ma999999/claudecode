@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "Phase 1: registration.py _safe_nested_get + STEP3ガード修正 (A2+A7)",
-  "description": "registration.py: _safe_nested_getヘルパー追加、STEP3ガードのgetattr→_safe_nested_get置換、.strip()統一",
-  "activeForm": "Implementing A2+A7 guard fix",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

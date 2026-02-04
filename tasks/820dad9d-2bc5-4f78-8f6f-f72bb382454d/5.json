@@ -1,9 +1,0 @@
-{
-  "id": "5",
-  "subject": "Verify all changes and run server",
-  "description": "Verify edits, restart server, healthcheck, import test, Codex review",
-  "activeForm": "Verifying changes",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}

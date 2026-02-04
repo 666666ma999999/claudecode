@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "Phase 1: orchestrator.py Exception全捕捉 (A3)",
-  "description": "orchestrator.py L524-570: except HTTPException の後に except Exception を追加。エラー応答でHTTPExceptionと一般Exceptionを分岐。",
-  "activeForm": "Implementing A3 Exception handling",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

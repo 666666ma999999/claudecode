@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "Phase 1: step1_pipeline.py site_id自動保存+型正規化 (C1+A6)",
-  "description": "step1_pipeline.py: site_idのint()正規化 + update_session_ids(session.record_id, site_id=int(site_id))を追加",
-  "activeForm": "Implementing C1+A6 site_id normalization",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
