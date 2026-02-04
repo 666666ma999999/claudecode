@@ -1,9 +1,0 @@
-{
-  "id": "4",
-  "subject": "Phase 4: サーバー再起動・検証・レビュー",
-  "description": "サーバー再起動、ヘルスチェック、Codexレビュー、バージョン更新",
-  "activeForm": "Testing and reviewing changes",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
