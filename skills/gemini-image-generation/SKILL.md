@@ -104,7 +104,8 @@ contents = [ref_img, "この画像のスタイルで猫を描いて"]
 
 ## image_config の重要ポイント
 
-- `types.ImageConfig` で `aspect_ratio` と `image_size` を同時指定可能
+- `types.ImageConfig` で `aspect_ratio` を指定可能
+- `image_size` は JS SDK では対応済みだが、**Python SDK v1.47.0 では未実装**（将来追加予定）
 - `response_modalities` に `"IMAGE"` を含めないと画像が返らない
 - Geminiは画像のみ返すことはできない。常にテキスト+画像のペアで返る
 
