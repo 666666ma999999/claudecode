@@ -3,7 +3,7 @@
   "subject": "Step 9: Verification and testing",
   "description": "Run import tests, backward compat tests, server restart, health check, API response verification, Codex review",
   "activeForm": "Running verification tests",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }

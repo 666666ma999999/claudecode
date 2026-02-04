@@ -3,7 +3,7 @@
   "subject": "Step 8: Version history and docs update",
   "description": "Update VERSION_HISTORY.md with v1.44.0, update architecture doc",
   "activeForm": "Updating version history and docs",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }
