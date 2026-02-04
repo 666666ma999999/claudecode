@@ -48,7 +48,7 @@ response = client.models.generate_content(
         response_modalities=["TEXT", "IMAGE"],
         image_config=types.ImageConfig(
             aspect_ratio="1:1",
-            image_size="1K",        # "1K", "2K", "4K"
+            # image_size は Python SDK v1.47.0 では未実装（JS SDKのみ対応）
         ),
     ),
 )
