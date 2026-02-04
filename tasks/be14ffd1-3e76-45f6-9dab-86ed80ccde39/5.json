@@ -3,7 +3,7 @@
   "subject": "Stage 5: テスト + スキル作成",
   "description": "pytest テスト4件、gemini-image-generation スキル、image-collection スキル作成",
   "activeForm": "テスト・スキルを作成中",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [
     "6"
   ],
