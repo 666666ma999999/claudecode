@@ -3,7 +3,7 @@
   "subject": "Codexレビュー指摘事項を修正",
   "description": "High: XSSリスク（err.messageのescape）, Medium: パストラバーサル防止、アップロードサイズ制限、生成セッショントランザクション、totalフィルタ対応",
   "activeForm": "Codex指摘事項を修正中",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }

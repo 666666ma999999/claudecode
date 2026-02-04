@@ -3,7 +3,7 @@
   "subject": "Stage 6: 動作検証 + Codexレビュー",
   "description": "サーバー起動確認、画面表示確認、Codexレビュー実施",
   "activeForm": "動作検証・レビュー中",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": [
     "5"
