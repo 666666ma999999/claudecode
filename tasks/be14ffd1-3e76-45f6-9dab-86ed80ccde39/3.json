@@ -3,7 +3,7 @@
   "subject": "Stage 3: API Routers + main.py + スクリプト",
   "description": "6つのRouterモジュール、main.py、start/stop スクリプト作成",
   "activeForm": "APIルーターを構築中",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [
     "4"
   ],
