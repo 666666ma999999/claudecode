@@ -222,6 +222,40 @@ else:
     body_lines.append(f"{code}\t{body}")  # 2カラム
 ```
 
+## 不変条件（Invariants）
+
+**リファクタリング時に絶対に壊してはならない動作仕様。コード変更後は必ず以下を検証すること。**
+
+### I1. mid_id選択はJavaScript evaluate + dispatchEvent
+- `select_option()` はCMS SPA内部状態を更新しないため**使用禁止**
+- `page.evaluate()` + `dispatchEvent(new Event('change', { bubbles: true }))` で選択すること
+- 選択後に100ms待機（SPA microtask完了待ち）
+- 選択後に `select.value` を検証し、不一致時は最大3回リトライ
+- **根拠**: CMS edit.jsがDOM変更をJSオブジェクトに反映するのは`change`イベント経由のみ
+
+### I2. mid_idオプションロード待機
+- `wait_for_selector` ではなく `wait_for_function` でオプションのvalue属性が非空であることを確認
+- SPA AJAX完了前にJS選択すると、デフォルト値（1026=fixedCode001）が適用される
+- **チェック式**: `sel.options[i].value && sel.options[i].value.trim()` でtrue返却まで待機
+
+### I3. komi_type保持
+- `komi_jyuyou1` を含む全komi_typeをそのまま使用（komi_normalへの強制変換禁止）
+- spanタグはL941-942で除去済みのため、CMSチェッカーエラーは発生しない
+- 冒頭・締めのみ `komi_normal` を強制（I4参照）
+
+### I4. 冒頭・締めの特別扱い
+- `is_opening_closing=True` の小見出しは常に `komi_normal` を選択
+- `mid_id=1026`（fixedCode001専用）が割り当てられる
+- 原稿テキストの`<br />`→改行変換、`<span>`タグ除去はL833-834, L941-942で実施
+
+### I5. komi selectのCSS非表示対応
+- CMSのkomi selectは`display:none`のため、Playwrightの通常操作不可
+- JavaScript DOM操作で`selectedIndex`を変更し、`change`イベントを発火
+
+### I6. CMS SPA保存フロー
+- 「保存」→ダイアログ処理→AJAX→`networkidle`待機の順序を維持
+- ダイアログ処理後に`asyncio.sleep(0.5)` + `networkidle`で保存完了を待機
+
 ## 使用例
 
 ```
