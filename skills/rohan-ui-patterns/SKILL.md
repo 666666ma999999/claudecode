@@ -326,6 +326,9 @@ function setMyResult(result) {
 **よくある漏れ:**
 - 初回処理には追加したがretry関数に追加し忘れる
 - 複数の登録経路がある場合に一部のみ対応
+- `DOMContentLoaded`内で`let`再宣言するとスコープ分離で外側のgetter/setterが別変数を操作する
+- `restoreFromSession()`でclearerを呼ぶ前にデータをコピーする（clearerがregistrationRecordもクリアするため、同一参照の場合にソースデータが消失する）
+- `saveUIToSession()`にsubtitles構築ロジックが無い場合、komiRegeneratedResultsのregenerated_textが保存されない
 
 ## 5. 新セクション追加チェックリスト
 
