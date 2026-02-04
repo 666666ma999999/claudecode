@@ -428,3 +428,65 @@ STEP 3: PPV情報登録（?p=cms_ppv）
 - `komi_jyuyou1`のパターンに`<span>`タグが含まれ、チェッカーで40エラーになるが「原稿UP」は可能
 
 **解決済み**: 2026-02-02
+
+---
+
+### サイトメニューナビゲーションでERR_ABORTEDエラー
+
+**症状**:
+- ログイン成功後、サイトメニューページ（`?p=text&f=menu&site_id={site_id}`）への遷移で`ERR_ABORTED`エラー
+- CMSのリダイレクト処理中にPlaywrightが遷移失敗と判定する
+
+**原因**:
+- CMSログイン後のリダイレクトチェーンが完了する前にPlaywrightが`goto()`を実行
+- CMSのSPA遷移で中間的なリダイレクトが発生し、`ERR_ABORTED`になる
+
+**解決済み（2026-02-04）**:
+- サイトメニューナビゲーションに3回リトライを追加（`browser_automation.py` L1560-1570）
+- ログイン後の`wait_for_load_state`を`domcontentloaded` → `networkidle`に変更（セッション確立を待機）
+- リトライ間に2秒の待機を挿入
+
+```python
+# browser_automation.py L1560-1570
+for nav_attempt in range(3):
+    try:
+        await self.page.goto(site_menu_url, wait_until="domcontentloaded", timeout=PAGE_LOAD_TIMEOUT)
+        break
+    except Exception as nav_err:
+        if nav_attempt < 2 and "ERR_ABORTED" in str(nav_err):
+            logger.warning(f"サイトメニューナビゲーションリトライ ({nav_attempt + 1}/3)")
+            await asyncio.sleep(2)
+            continue
+        raise
+```
+
+---
+
+### CMS SPA保存ダイアログの待機タイミング
+
+**症状**:
+- 小見出し保存時にダイアログ処理が完了する前に次の操作が実行される
+- 保存が反映されず、次の小見出し入力が前の値で上書きされる
+
+**原因**:
+- CMS SPAではダイアログ→AJAX保存のフローであり、`domcontentloaded`では保存完了を待機できない
+- `networkidle`はAJAX完了まで待機するため適切
+
+**解決済み（2026-02-04）**:
+- `browser_automation.py` L1037-1041でダイアログ処理後の待機を`asyncio.sleep(0.5)` + `networkidle`に変更
+- `networkidle`タイムアウトは非致命的として処理
+
+---
+
+### 原稿チェッカーの非ブロッキング警告
+
+**症状**:
+- 「特殊小見出しの指定は不要です」が表示されると原稿UPがブロックされる
+- しかしこの警告は非ブロッキングであり、原稿UPは可能
+
+**原因**:
+- エラー検出パターンが「特殊小見出しの指定は不要です」をブロッキングエラーとして扱っていた
+
+**解決済み（2026-02-04）**:
+- `browser_automation.py` L1326-1330で「特殊小見出しの指定は不要です」を非ブロッキング警告として除外
+- 残存エラーがあっても原稿UPボタンが存在する場合はアップロード続行（L1345-1361）
