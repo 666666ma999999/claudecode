@@ -1,0 +1,9 @@
+{
+  "id": "3",
+  "subject": "Phase 3: Frontend auto.html - モーダル・検証・データソース修正",
+  "description": "auto.html にBLOCKINGモーダルHTML、検証関数、STEP3メインパス・retryStep3のデータソース修正",
+  "activeForm": "Implementing frontend validation UI",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

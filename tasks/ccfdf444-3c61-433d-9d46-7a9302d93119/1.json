@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Phase 1: Backend - 検証APIエンドポイント追加 + ガード条件強化",
+  "description": "backend/routers/registration.py に validate-distribution-for-step3 エンドポイント追加、STEP3ガード条件に配信データチェック追加",
+  "activeForm": "Implementing backend validation API",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

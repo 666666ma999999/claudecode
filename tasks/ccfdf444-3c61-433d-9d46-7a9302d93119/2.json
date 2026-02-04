@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "Phase 2: Frontend config.js - 検証APIエンドポイント定義追加",
+  "description": "frontend/config.js に validateDistributionForStep3 エンドポイント定義を追加",
+  "activeForm": "Adding config.js endpoint",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}
