@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "Modify fill_fields to return fields_to_fill alongside filled",
-  "description": "Change fill_fields() return to tuple `(filled, fields_to_fill)` so register() can pass raw values to verify_values()",
-  "activeForm": "Modifying fill_fields return value",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "Add verify_values() method to PPVDetailRegistration",
-  "description": "New method between save() and register() that reloads the page, reads all field values via JS, and compares against expected_fields dict. Returns success/verified_count/total_count/mismatches/errors.",
-  "activeForm": "Implementing verify_values method",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
