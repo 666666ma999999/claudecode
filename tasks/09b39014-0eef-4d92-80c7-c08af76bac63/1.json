@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Phase 1: orchestrator.py 修正 (C1, C2, H5)",
+  "description": "C1-a: logger未定義修正, C1-b: ValueError時セッション状態更新, C1-c: 一過性エラーリトライ, C2: 指数バックオフ, H5: traceback記録",
+  "activeForm": "Modifying orchestrator.py",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

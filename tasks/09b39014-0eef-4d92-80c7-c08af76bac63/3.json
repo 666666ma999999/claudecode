@@ -1,0 +1,9 @@
+{
+  "id": "3",
+  "subject": "Phase 3: browser_automation.py 堅牢化 (C3, H1-H4)",
+  "description": "C3: 例外握り潰しをdebugログ化, H1: goto()にtimeout追加(9箇所), H1-b: networkidle()にtimeout追加(5箇所), H2: CSVダウンロードリトライ, H3: ログイン後sessionスリープ置換, H4: STEP5リトライの指数バックオフ",
+  "activeForm": "Hardening browser_automation.py",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}
