@@ -102,6 +102,20 @@ URL: https://{IZUMO_CHK_USER}:{IZUMO_CHK_PASSWORD}@izumo-chk.uranai-gogo.com/adm
 | 接続エラー | VPN接続確認（必要な場合） |
 | 同期エラー | エラーメッセージ取得、スクリーンショット |
 
+## 不変条件（Invariants）
+
+**リファクタリング時に絶対に壊してはならない動作仕様。**
+
+### I1. Basic認証はURLに埋め込み
+- `https://{user}:{pass}@izumo-dev.uranai-gogo.com/admin/` 形式でアクセス
+- `http_credentials`やヘッダ認証ではなくURL埋め込みを使用
+
+### I2. 差分同期が推奨
+- 全体同期は時間がかかるため、差分同期を優先使用
+
+### I3. STEP 5完了が前提
+- STEP 5がSUCCESSまたはSKIPPEDでないと実行不可
+
 ## 使用例
 
 ```
