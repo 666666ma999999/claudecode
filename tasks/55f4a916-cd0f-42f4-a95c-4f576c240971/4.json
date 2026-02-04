@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Integrate verification into register() method",
+  "description": "Update register() to unpack fill_fields tuple, call verify_values after save, and attach result to PPVDetailResult.verification. Warning only on mismatch, no success flag change.",
+  "activeForm": "Integrating verification into register",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

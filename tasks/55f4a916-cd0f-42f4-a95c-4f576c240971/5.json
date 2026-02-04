@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "Run completion checks (server restart, Codex review, skill check)",
+  "description": "STEP 1: サーバー再起動+ヘルスチェック, STEP 2: Codexレビュー, STEP 3: スキル化判断, STEP 4: 完了報告",
+  "activeForm": "Running completion checks",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

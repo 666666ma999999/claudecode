@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Add verification field to PPVDetailResult dataclass",
+  "description": "Add `verification: Dict[str, Any] = field(default_factory=dict)` to PPVDetailResult at line 3419",
+  "activeForm": "Adding verification field to PPVDetailResult",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}
