@@ -229,6 +229,26 @@ CSVダウンロード処理には自動リトライ機能が実装されてい�
 - **networkidle待機**: タイムアウト10秒（MKBネットワーク向け最適化）
 - **失敗時スクリーンショット**: 各リトライごとにスクリーンショット保存
 
+### 独立イベントループパターン（2026-02-05実装）
+
+CSVダウンロードはFastAPIイベントループとは**独立したイベントループ**で実行される。
+
+**問題**: FastAPIのuvicornイベントループ内でPlaywrightを実行すると、CDP WebSocket通信が干渉し、CMS SPAが"Loading.."で永続スタックする。
+
+**解決策**: `asyncio.to_thread()` + `asyncio.run()` で独立イベントループに隔離。
+
+```python
+# download_csv() → asyncio.to_thread() → _download_csv_sync() → asyncio.run()
+# _download_csv_sync() 内で独自Playwright instanceを生成（headless, no slow_mo, dialog handler only）
+```
+
+**ログ識別**: 独立イベントループ内のログは `[isolated]` プレフィックス付き。
+
+**注意事項**:
+- `_download_csv_sync()` を直接呼び出さない（既にイベントループがある場合RuntimeError）
+- `session_dir` はスナップショットで渡す（スレッド安全性）
+- スクリーンショットはtry/exceptで保護（失敗してもダウンロードを継続）
+
 **セレクタ優先度（誤データ取得防止）**:
 1. ppv_idを含む行のCSVリンク
 2. menu_id（save_id）を含むリンク
