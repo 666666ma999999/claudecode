@@ -323,6 +323,9 @@ POST /api/step/3/execute
 ```
 
 - STEP 2がSUCCESSでないと実行不可（ガード条件）
+- ガード条件にguide_text, category_code, yudo.txt, yudo.ppv01, yudo.menu01の存在チェックを含む
+- 事前検証API: `GET /api/step/3/validate-distribution?session_id=xxx` で配信データの完全性を確認可能
+- フロントエンドはgetter関数（getPersonTypeResult, getGuideResult, getCategoryCodeResult）経由でデータ取得（セッション復元対応）
 - セッションのdistribution情報を自動使用
 - overridesで個別フィールドの上書きが可能
 - 失敗時もfilledFieldsを返却（デバッグ用）
