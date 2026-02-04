@@ -176,6 +176,26 @@ function getThemeIdFromCategoryCode(categoryCode) {
 | 更新対象なし | 正常（更新が不要な状態） |
 | 更新エラー | エラーメッセージ取得、詳細確認 |
 
+## 不変条件（Invariants）
+
+**リファクタリング時に絶対に壊してはならない動作仕様。**
+
+### I1. category_code → theme_idマッピング
+- マッピングテーブル（CATEGORY_TO_THEME）を変更しないこと
+- カテゴリコードは0パディング2桁文字列（"02", "06"等）
+- `01`（無料）はテーマ選択なし
+
+### I2. 既登録PPVの検出
+- ドロップダウンに存在しないPPVは既登録
+- 既登録の場合は成功として返す（エラーにしない）
+
+### I3. 公開日のフォーマット
+- `#sdate`はYYYY-MM-DD形式、`#stime`はHH:MM形式
+- type="date" / type="time"の入力要素
+
+### I4. Basic認証はURLに埋め込み
+- izumo CMSへのアクセスはURL埋め込みBasic認証
+
 ## 使用例
 
 ```
