@@ -1,0 +1,9 @@
+{
+  "id": "6",
+  "subject": "Fix Codex review issues for mid_id validation",
+  "description": "Fix bugs found by Codex: 1) common_mid_id \"None\" string, 2) skip validation when common_mid_id is empty, 3) modal overlay click Promise hang, 4) XSS in innerHTML, 5) normalization mismatch",
+  "activeForm": "Fixing Codex review issues",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
