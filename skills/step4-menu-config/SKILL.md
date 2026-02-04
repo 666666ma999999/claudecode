@@ -405,6 +405,37 @@ API実行時、レスポンスに `issues` フィールドが含まれる。セ�
 
 ---
 
+## mid_id事前検証（v1.39.0追加）
+
+STEP4実行前に、STEP2で登録されたmid_idがユーザー入力のcommon_mid_idと一致するか検証できる。
+
+### 検証API
+
+```
+GET /api/step/4/validate-mid-id?session_id=xxx
+
+レスポンス:
+{
+  "success": true,
+  "valid": true/false,
+  "expectedMidId": "293",
+  "mismatches": [
+    {"order": 2, "title": "甘い記憶が...", "expected": "293", "actual": "1"}
+  ],
+  "message": "OK" or "X件のmid_id不一致を検出"
+}
+```
+
+### 動作仕様
+- `common_mid_id`が未設定（per-subtitleモード）の場合は検証スキップ（`valid: true, skipped: true`）
+- 冒頭・締め（`is_opening_closing=true`または`mid_id=1026`）はスキップ
+- 先頭ゼロを正規化して比較（`"001"` == `"1"`）
+- フロントエンドで不一致時に警告モーダルを表示（キャンセルまたは強制続行可能）
+
+### フロントエンド設定
+- `API_ENDPOINTS.validateMidIdForStep4(sessionId)` で呼び出し
+- `executeRegistration()`内のSTEP4実行前と`retryStep4()`の両方で検証が走る
+
 ## 統一APIエンドポイント
 
 STEP 4はセッション駆動の統一APIでも実行可能:
