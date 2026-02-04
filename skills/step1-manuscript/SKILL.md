@@ -95,6 +95,11 @@ Body: 上記JSONデータ
 - STEP2（オーケストレーター経由）は `record.product.subtitles[].mid_id` から自動取得する
 - 冒頭・締めの `mid_id=1026` はSTEP2登録ロジック側でデフォルト設定済み
 
+### site_idの自動保存（2026-02追加）
+- `site_id` パラメータは自動的に `int()` に正規化される（文字列で渡しても安全）
+- セッションに `site_id` が未設定の場合、STEP1実行時に自動保存される
+- `update_session_ids(record_id, site_id=int(site_id))` で永続化
+
 ## 入力フォーマット
 
 ### 小見出しCSV形式
