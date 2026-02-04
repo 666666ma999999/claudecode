@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Phase 4: フロントエンドデッドコード削除",
+  "description": "script.js と config.js から未使用関数/設定を削除",
+  "activeForm": "Removing frontend dead code",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
