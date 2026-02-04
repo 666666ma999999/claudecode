@@ -1,0 +1,9 @@
+{
+  "id": "3",
+  "subject": "Step 3: Create backend/services/category_infer.py",
+  "description": "Extract CATEGORY_KEYWORDS, infer_category_from_keywords, infer_category_with_gemini, detect_pattern_type, _normalize_to_halfwidth from registration.py",
+  "activeForm": "Creating category_infer.py service",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
