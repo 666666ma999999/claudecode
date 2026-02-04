@@ -332,9 +332,10 @@ console.log('✅ STEP 2 完了確認OK');
 - AI推論 (`infer_komi_type_with_gemini()`) が割り当てるkomi_type（komi_honne1, komi_sp, komi_jyuyou1等）を使用
 - komi_jyuyou1のサマリーは`<span>キーワード</span>`形式で生成されるが、CMSチェッカーがHTMLタグをエラーとして検出
 - **対策**: `browser_automation.py` L941で`<span>`タグを除去（内部テキストは保持）してからCMS入力
+- **v1.42.2**: spanタグ除去済みのため、komi_jyuyou1を含む全komi_typeをそのまま使用（以前はkomi_jyuyou1がkomi_normalに強制変換されていたが修正済み）
 - CMSのkomiセレクトはCSS非表示（display:none）のため、JavaScriptのDOM操作で選択する必要がある
 - `select[name="komi"]` のindex=18が `komi_normal : -`
-- 冒頭・締めは常に`komi_normal`を強制（browser_automation.py L963-965）
+- 冒頭・締めは常に`komi_normal`を強制（browser_automation.py L962-965）
 
 **解決済み**: 2026-02-04（spanタグ除去）
 
