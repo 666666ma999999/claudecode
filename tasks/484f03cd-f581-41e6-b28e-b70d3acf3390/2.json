@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "Phase B: Replace assignments with setter calls",
+  "description": "Replace all direct variable assignments with setter function calls in frontend/auto.html",
+  "activeForm": "Replacing assignments with setters",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

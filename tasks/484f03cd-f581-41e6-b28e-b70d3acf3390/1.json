@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Phase A: Add getter/setter functions",
+  "description": "Add getter/setter functions for komiTypeResult, yudoTxtResult, yudoRecommendResult, komiRegeneratedResults, and parseMenuId helper to frontend/auto.html",
+  "activeForm": "Adding getter/setter functions",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}
