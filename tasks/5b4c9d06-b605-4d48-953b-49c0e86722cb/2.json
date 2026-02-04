@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "Fix 2: Add setPersonTypeResult() function",
-  "description": "setPersonTypeResult() already exists at L1592. No changes needed.",
-  "activeForm": "Adding setPersonTypeResult setter",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

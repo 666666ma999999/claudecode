@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "Fix 3-5: Replace direct assignments/reads with setters/getters",
-  "description": "Replace openingClosingResult and personTypeResult direct assignments with setter calls, and direct reads with getter calls",
-  "activeForm": "Replacing direct variable access with getters/setters",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
