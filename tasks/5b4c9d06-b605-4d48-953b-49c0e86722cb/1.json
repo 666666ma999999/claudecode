@@ -3,7 +3,7 @@
   "subject": "Fix 1: Remove komiRegeneratedResults duplicate declaration",
   "description": "Remove `let komiRegeneratedResults = [];` from DOMContentLoaded scope (L2271) - it shadows the global variable",
   "activeForm": "Removing duplicate declaration",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
