@@ -1,0 +1,9 @@
+{
+  "id": "9",
+  "subject": "STEP 2: メニュー登録（原稿管理CMS）",
+  "description": "セッション reg_20260204142858_2a997e7c のSTEP 2を実行。バックエンドAPI /api/step/2/execute で原稿管理CMSにメニュー登録する。",
+  "activeForm": "STEP 2 メニュー登録を実行中",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

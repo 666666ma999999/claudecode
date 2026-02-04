@@ -3,7 +3,7 @@
   "subject": "STEP 1: 原稿生成・PPV ID発行",
   "description": "セッション作成 → STEP1 APIでの原稿生成・PPV ID発行",
   "activeForm": "Executing STEP 1",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }
