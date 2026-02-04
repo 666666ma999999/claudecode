@@ -15,6 +15,7 @@ client = genai.Client(api_key=API_KEY)
 ```
 
 **パッケージ**: `google-genai`（pip install google-genai）
+**最低バージョン**: `>=1.47.0`（ImageConfig対応）
 **注意**: `google-generativeai` とは異なる新SDK
 
 ## 対応モデル
