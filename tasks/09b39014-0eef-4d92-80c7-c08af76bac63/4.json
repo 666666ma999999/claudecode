@@ -1,9 +1,0 @@
-{
-  "id": "4",
-  "subject": "Phase 4: バージョン更新・検証・レビュー",
-  "description": "VERSION_HISTORY.md更新, サーバー再起動, ヘルスチェック, importテスト, Codexレビュー",
-  "activeForm": "Verifying and reviewing changes",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}

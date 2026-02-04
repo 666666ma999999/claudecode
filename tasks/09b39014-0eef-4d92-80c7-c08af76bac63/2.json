@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "Phase 2: browser_automation.py 高速化 (S1-S6)",
-  "description": "S1: 冗長sleep削除, S2: _try_temporary_save最適化, S3: networkidleにtimeout追加, S4: セル編集sleepをwait_forに置換, S5: 保存前sleep削除, S6: MKBタイムアウト短縮",
-  "activeForm": "Optimizing browser_automation.py speed",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
