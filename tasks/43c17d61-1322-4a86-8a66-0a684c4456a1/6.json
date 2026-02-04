@@ -1,9 +1,0 @@
-{
-  "id": "6",
-  "subject": "Step 6: Edit backend/routers/registration.py",
-  "description": "Update imports, remove inline functions/constants, add html fields to response models, update Gemini call with DI",
-  "activeForm": "Editing registration.py router",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

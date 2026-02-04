@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "Step 2: Create backend/services/validation.py",
-  "description": "Extract InputValidationError and validate_registration_input from browser_automation.py",
-  "activeForm": "Creating validation.py service",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

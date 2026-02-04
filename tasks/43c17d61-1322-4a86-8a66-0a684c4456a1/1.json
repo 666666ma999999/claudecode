@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "Step 1: Create backend/services/text_transform.py",
-  "description": "Extract remove_html_tags, sanitize_for_cms from existing code and create new format_text_to_html, escape_html functions",
-  "activeForm": "Creating text_transform.py service",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
