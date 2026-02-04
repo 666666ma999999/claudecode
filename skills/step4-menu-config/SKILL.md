@@ -311,6 +311,49 @@ inputs.forEach(input => {
 - 従量登録後にcms_ppvへリダイレクトされた場合、セッションJSONのdistributionデータを使ってPPV情報を自動再入力・保存
 - `session_id`がCMSMenuRegistrationに渡されていれば自動で動作する
 
+## 不変条件（Invariants）
+
+**リファクタリング時に絶対に壊してはならない動作仕様。コード変更後は必ず以下を検証すること。**
+
+### I1. menu_id検出はhidden inputから
+- `input[name="menu_id"][type="hidden"]` でmenu_idを取得すること
+- `input[type="text"]` にはmenu_idは含まれない（hidden inputはマッチしない）
+- 旧方式の`menu_prefix` API経由は廃止済み（v1.36.7で消失）
+- **テスト**: `document.querySelectorAll('input[name="menu_id"][type="hidden"]')` が全行分返ること
+
+### I2. rowSize = 138
+- 各行のtext input数は138（td column 0にはtext inputがないため）
+- input index = td column index - 1
+- **絶対に139にしないこと**（過去にこの誤りで全フィールドが1つずれた）
+
+### I3. フィールドインデックス
+- disp_flg: input[20] (td[21])
+- kakusuId: input[39] (td[40])
+- zoukan: input[93] (td[94])
+- is24Border: input[94] (td[95])
+- kanpou: input[100] (td[101])
+- dict: input[101] (td[102])
+- **変更時は必ずCMS実ページで `input.name` を検証すること**
+
+### I4. プレフィックス別設定パターン
+- `fixedCode001`: disp_flg のみ設定（他は触らない）
+- `monthlyAffinity001` / `boinGyoun*`: 全6フィールドを設定
+- 未知のプレフィックス: 触らない（安全側に倒す）
+
+### I5. 残留フィールドクリア
+- 旧+1オフセットで誤入力された可能性のあるフィールドを自動クリア:
+  - partner_flg[21], searchNumber[40], relation[95], transitPillar[102]
+- これらのクリア処理を削除しないこと
+
+### I6. 保存後検証
+- 保存後にページリロード→全行のフィールド値を検証
+- menu_idのhidden inputからプレフィックスを再判定し、期待値と比較
+- 検証NGでもresult.successは変更しない（警告のみ）
+
+### I7. STEP 3依存
+- STEP 3未完了時は`{status: error}`が返る
+- STEP 4単独では保存不可
+
 ## 使用例
 
 ```
