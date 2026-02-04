@@ -326,15 +326,17 @@ console.log('✅ STEP 2 完了確認OK');
 
 **症状**:
 - 「特殊小見出し無し」エラー — komi_typeが原稿内容と不一致
-- 「エラーが40個あります」— AI推論のkomi_type（komi_honne1等）が原稿内容と合わない
+- 「エラーが52個あります」— komi_jyuyou1のサマリーに含まれる`<span>`タグがCMSチェッカーで検出
 
 **原因と対策**:
-- AI推論 (`infer_komi_type_with_gemini()`) が割り当てるkomi_type（komi_honne1, komi_sp, komi_jyuyou1等）が原稿内容のフォーマットと一致しない
-- **暫定対策**: `browser_automation.py` L873-876で全小見出し（冒頭・締め含む）にkomi_normalを強制設定
+- AI推論 (`infer_komi_type_with_gemini()`) が割り当てるkomi_type（komi_honne1, komi_sp, komi_jyuyou1等）を使用
+- komi_jyuyou1のサマリーは`<span>キーワード</span>`形式で生成されるが、CMSチェッカーがHTMLタグをエラーとして検出
+- **対策**: `browser_automation.py` L941で`<span>`タグを除去（内部テキストは保持）してからCMS入力
 - CMSのkomiセレクトはCSS非表示（display:none）のため、JavaScriptのDOM操作で選択する必要がある
 - `select[name="komi"]` のindex=18が `komi_normal : -`
+- 冒頭・締めは常に`komi_normal`を強制（browser_automation.py L963-965）
 
-**解決済み**: 2026-01-30（暫定: komi_normal強制）
+**解決済み**: 2026-02-04（spanタグ除去）
 
 ---
 
