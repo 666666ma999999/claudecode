@@ -3,7 +3,7 @@
   "subject": "Step 5: Update backend/services/__init__.py",
   "description": "Add exports for new service modules",
   "activeForm": "Updating services __init__.py",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }

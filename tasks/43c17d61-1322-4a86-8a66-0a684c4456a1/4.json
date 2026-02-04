@@ -3,7 +3,7 @@
   "subject": "Step 4: Create backend/services/manuscript_transform.py",
   "description": "Create facade that re-exports from utils.text_analysis and adds parse_and_format with HTML support",
   "activeForm": "Creating manuscript_transform.py service",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }
