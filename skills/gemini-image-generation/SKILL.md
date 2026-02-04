@@ -20,10 +20,16 @@ client = genai.Client(api_key=API_KEY)
 ## 対応モデル
 
 ### Nano Banana（テキスト+画像同時生成）
-| モデル | 用途 |
+| モデル | 用途 | 状態 |
+|--------|------|------|
+| `gemini-2.5-flash-image` | 高速・高効率（推奨） | GA |
+| `gemini-3-pro-image-preview` | 高品質・推論重視、Google Search grounding対応 | Preview |
+
+### 非推奨モデル（使わないこと）
+| モデル | 状態 |
 |--------|------|
-| `gemini-2.0-flash-exp` | 安定版、画像生成対応 |
-| `gemini-2.0-flash-preview-image-generation` | プレビュー版 |
+| `gemini-2.0-flash-exp` | 2026/3/31 廃止予定。画像生成が不安定 |
+| `gemini-2.0-flash-preview-image-generation` | 旧プレビュー、2.5に置き換え済み |
 
 ### Imagen（画像専用生成）
 | モデル | 用途 |
@@ -35,10 +41,14 @@ client = genai.Client(api_key=API_KEY)
 ### Nano Banana（推奨）
 ```python
 response = client.models.generate_content(
-    model="gemini-2.0-flash-exp",
+    model="gemini-2.5-flash-image",
     contents=[prompt_text],  # テキスト + 参考画像のリスト
     config=types.GenerateContentConfig(
         response_modalities=["TEXT", "IMAGE"],
+        image_config=types.ImageConfig(
+            aspect_ratio="1:1",
+            image_size="1K",        # "1K", "2K", "4K"
+        ),
     ),
 )
 
@@ -83,9 +93,19 @@ contents = [ref_img, "この画像のスタイルで猫を描いて"]
 - contentsリストにテキストと混在可能
 - 参考画像を先、プロンプトテキストを後に配置するのが効果的
 
-## アスペクト比
+## アスペクト比（全10種）
 
-`1:1`, `9:16`, `16:9`, `3:4`, `4:3`
+`1:1`, `2:3`, `3:2`, `3:4`, `4:3`, `4:5`, `5:4`, `9:16`, `16:9`, `21:9`
+
+## 画像サイズ
+
+`1K`, `2K`, `4K`（大文字K必須。小文字はエラーになる）
+
+## image_config の重要ポイント
+
+- `types.ImageConfig` で `aspect_ratio` と `image_size` を同時指定可能
+- `response_modalities` に `"IMAGE"` を含めないと画像が返らない
+- Geminiは画像のみ返すことはできない。常にテキスト+画像のペアで返る
 
 ## エラーパターン・トラブルシューティング
 
@@ -96,6 +116,7 @@ contents = [ref_img, "この画像のスタイルで猫を描いて"]
 | `RECITATION` | 著作権関連 | 独自表現に変更 |
 | 画像なしレスポンス | モデルがテキストのみ返した | プロンプトに「画像を生成して」を明示 |
 | API quota exceeded | レート制限 | リトライ間隔を設ける |
+| 旧モデルで画像が出ない | gemini-2.0-flash-expは画像生成不安定 | gemini-2.5-flash-image以降を使用 |
 
 ### デバッグ手順
 1. response.candidates を確認
@@ -104,4 +125,5 @@ contents = [ref_img, "この画像のスタイルで猫を描いて"]
 
 ## 知見蓄積エリア
 
-<!-- 新しい発見はここに追記 -->
+- 2026-02-04: gemini-2.0-flash-expでは画像生成が出ないケースあり。gemini-2.5-flash-image以降が必須
+- 2026-02-04: image_configのimage_sizeは大文字K必須（"1K" OK, "1k" NG）
