@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Fix 6: Add komiRegeneratedResults session save/restore",
+  "description": "Add save logic in saveUIToSession() and restore logic in restoreUIFromRecord() for komiRegeneratedResults",
+  "activeForm": "Adding session persistence for komiRegeneratedResults",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
