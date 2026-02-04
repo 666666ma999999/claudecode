@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "Phase 3: バックエンドデッドコード削除",
-  "description": "registration.py と browser_automation.py から未使用import/エンドポイント/関数を削除",
-  "activeForm": "Removing backend dead code",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

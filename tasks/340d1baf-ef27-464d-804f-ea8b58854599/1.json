@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "Phase 1: 孤立ファイル削除",
-  "description": "孤立CSVファイル3個とバックアップJSON 1個を削除",
-  "activeForm": "Deleting orphaned files",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
