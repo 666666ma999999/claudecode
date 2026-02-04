@@ -413,10 +413,10 @@ STEP 3: PPV情報登録（?p=cms_ppv）
 
 **症状**:
 - 各小見出しにAI判定のkomi_type（komi_honne1, komi_jyuyou1等）を設定したい
-- 以前は全てkomi_normalに強制されていた
+- 以前は全てkomi_normalに強制されていた（v1.42.2で修正済み）
 
 **原因と解決**:
-- browser_automation.py の「サマリー形式チェック」がkomi_normalを強制していた → 削除
+- browser_automation.py の`KOMI_TYPES_WITH_SPAN`がkomi_jyuyou1をkomi_normalに強制していた → v1.42.2で削除（spanタグはL941で除去済みのため不要）
 - komi selectのオプションがロードされるまで`wait_for_function`で待機
 - komi-convertチェックボックスをONにしてからchangeイベント発火 → 本文にkomiパターン埋め込み
 - CMS save API (`event.js` L162): `komi: Elements.elm_komi.options[selectedIndex].getAttribute("data-key")` でPOSTされる
