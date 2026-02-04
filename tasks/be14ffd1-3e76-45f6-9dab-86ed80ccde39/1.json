@@ -1,0 +1,11 @@
+{
+  "id": "1",
+  "subject": "Stage 1: プロジェクト基盤ファイル作成",
+  "description": "Git初期化、.gitignore、.env、requirements.txt、config.py、database.py、schemas.py（Rohanからコピー）を作成",
+  "activeForm": "プロジェクト基盤を構築中",
+  "status": "in_progress",
+  "blocks": [
+    "2"
+  ],
+  "blockedBy": []
+}

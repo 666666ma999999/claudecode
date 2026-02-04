@@ -1,0 +1,13 @@
+{
+  "id": "2",
+  "subject": "Stage 2: DB + 画像生成サービス",
+  "description": "SQLite 6テーブル作成、gemini_image.py、imagen.py、image_storage.py サービス実装",
+  "activeForm": "DB・画像生成サービスを構築中",
+  "status": "pending",
+  "blocks": [
+    "3"
+  ],
+  "blockedBy": [
+    "1"
+  ]
+}

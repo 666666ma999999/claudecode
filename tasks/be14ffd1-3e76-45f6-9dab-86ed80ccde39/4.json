@@ -1,0 +1,13 @@
+{
+  "id": "4",
+  "subject": "Stage 4: フロントエンドUI",
+  "description": "index.html、styles.css、app.js、config.js、4つのコンポーネント作成",
+  "activeForm": "フロントエンドUIを構築中",
+  "status": "pending",
+  "blocks": [
+    "5"
+  ],
+  "blockedBy": [
+    "3"
+  ]
+}
