@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "Fix 2: Add setPersonTypeResult() function",
+  "description": "Create setPersonTypeResult() setter following existing patterns like setGuideResult",
+  "activeForm": "Adding setPersonTypeResult setter",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
