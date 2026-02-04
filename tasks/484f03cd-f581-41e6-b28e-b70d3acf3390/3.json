@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "Phase C: Replace reads with getter calls",
-  "description": "Replace all direct variable reads with getter function calls in frontend/auto.html",
-  "activeForm": "Replacing reads with getters",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

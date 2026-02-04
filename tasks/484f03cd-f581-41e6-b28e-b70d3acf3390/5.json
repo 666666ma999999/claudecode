@@ -1,9 +1,0 @@
-{
-  "id": "5",
-  "subject": "Verify: Server restart and health check",
-  "description": "Restart servers, verify health check returns 200, run Codex review",
-  "activeForm": "Verifying server and reviewing code",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}

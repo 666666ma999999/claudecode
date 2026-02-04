@@ -1,9 +1,0 @@
-{
-  "id": "4",
-  "subject": "Phase D: Apply parseMenuId to parseInt locations",
-  "description": "Replace parseInt(menuId) with parseMenuId(menuId) at 4 locations in frontend/auto.html",
-  "activeForm": "Applying parseMenuId replacements",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
