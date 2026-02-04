@@ -127,3 +127,5 @@ contents = [ref_img, "この画像のスタイルで猫を描いて"]
 
 - 2026-02-04: gemini-2.0-flash-expでは画像生成が出ないケースあり。gemini-2.5-flash-image以降が必須
 - 2026-02-04: image_configのimage_sizeは大文字K必須（"1K" OK, "1k" NG）
+- 2026-02-04: APIエンドポイントではaspect_ratio/image_size/modelをサーバーサイドで許可値バリデーションすること。無効値をGemini APIに渡すと500エラーになる
+- 2026-02-04: フロントエンドのフォールバック（API失敗時のハードコードモデルリスト）は最新モデルに合わせること。旧モデルが残ると生成失敗する
