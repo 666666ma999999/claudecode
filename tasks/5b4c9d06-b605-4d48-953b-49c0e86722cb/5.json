@@ -3,7 +3,7 @@
   "subject": "Server restart, verification, and review",
   "description": "Restart servers, health check, verify functions exist in browser, run Codex review",
   "activeForm": "Verifying and reviewing changes",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
