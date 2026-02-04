@@ -1,9 +1,0 @@
-{
-  "id": "4",
-  "subject": "saveUIToSession簡略化",
-  "description": "Phase 5.2C: getter関数使用に変更（既にregistrationRecordに同期済み）",
-  "activeForm": "saveUIToSession簡略化中",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

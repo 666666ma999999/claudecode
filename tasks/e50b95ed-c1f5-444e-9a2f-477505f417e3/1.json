@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "State Management Layer実装",
-  "description": "Phase 5.2A: _stateMetadata、getter/setter関数群を auto.html に実装する",
-  "activeForm": "State Management Layer実装中",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

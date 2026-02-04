@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "restoreUIFromRecord修正",
-  "description": "Phase 5.2C: setter関数呼び出しに変更",
-  "activeForm": "restoreUIFromRecord修正中",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
