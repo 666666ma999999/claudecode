@@ -267,6 +267,62 @@ async function retryRegister() {
 3. **手動編集モード**: 手動入力時も生成結果を使用する場合は対応しているか
 4. **エラー時のフォールバック**: `myGeneratedResult?.success` で安全に参照しているか
 
+### 4-B. Getter/Setter パターン（registrationRecord同期）
+
+**概要**: グローバル変数への直接代入・読み取りをgetter/setter関数に置き換え、`registrationRecord`（セッション状態）と即時同期するパターン。セッション再開時にグローバル変数が消失する問題を根本解決する。
+
+**対象変数（auto.html実装済み）**:
+
+| 変数 | Getter | Setter | データソース |
+|------|--------|--------|-------------|
+| `komiTypeResult` | `getKomiTypeResult()` | `setKomiTypeResult(result)` | `registrationRecord.product.subtitles` |
+| `yudoTxtResult` | `getYudoTxtResult()` | `setYudoTxtResult(result)` | `registrationRecord.distribution.yudo.txt` |
+| `yudoRecommendResult` | `getYudoRecommendResult()` | `setYudoRecommendResult(result)` | `registrationRecord.distribution.yudo.ppv01` etc. |
+| `komiRegeneratedResults` | `getKomiRegeneratedResults()` | `pushKomiRegeneratedResult(entry)` / `clearKomiRegeneratedResults()` | `registrationRecord.product.subtitles[].regenerated_text` |
+| `categoryCodeResult` | `getCategoryCodeResult()` | `setCategoryCodeResult(result)` | `registrationRecord.distribution.category_code` |
+| `guideResult` | `getGuideResult()` | `setGuideResult(result)` | `registrationRecord.distribution.guide_text` |
+| `personTypeResult` | `getPersonTypeResult()` | `setPersonTypeResult(result)` | `registrationRecord.distribution.person_type` |
+
+**Getter実装ルール**:
+```javascript
+// GetterはregistrationRecord優先、グローバル変数にフォールバック
+function getMyResult() {
+    if (registrationRecord?.path?.to?.data) {
+        return { success: true, field: registrationRecord.path.to.data };
+    }
+    return myResult;  // グローバル変数（フォールバック）
+}
+```
+
+**Setter実装ルール**:
+```javascript
+// Setterはグローバル変数 + registrationRecordを同時更新
+function setMyResult(result) {
+    myResult = result;
+    // nullクリア時はregistrationRecordもクリア
+    if (!result && registrationRecord?.path?.to) {
+        registrationRecord.path.to.data = null;
+    }
+    if (registrationRecord?.path && result?.field) {
+        registrationRecord.path.to.data = result.field;
+    }
+}
+```
+
+**重要な注意点**:
+
+1. **Getterに`success`フィールドを含める**: display関数が`result.success`をチェックするため、getterで再構築する際に`success: true`を含めること
+2. **Setterでnullクリア時にregistrationRecordもクリア**: `setMyResult(null)`でregistrationRecordの対応データもクリアしないと、getterが古いデータを返す
+3. **配列型のclearer**: `komiRegeneratedResults`のような配列は`clearKomiRegeneratedResults()`でregistrationRecordの各エントリもクリアする
+4. **セッション復元時はsetterを使用**: `restoreFromSession()`内で直接代入せずsetterを経由し、registrationRecordとの一貫性を保つ
+
+**移行チェックリスト**:
+- [ ] 全てのグローバル変数代入箇所をsetterに置換
+- [ ] 全てのグローバル変数読み取り箇所をgetterに置換
+- [ ] `restoreFromSession()`内の代入をsetterに変更
+- [ ] display関数呼び出し時にgetterから取得した値を渡す
+- [ ] nullクリア（`= null`、`= []`）もsetter/clearerを使用
+
 **よくある漏れ:**
 - 初回処理には追加したがretry関数に追加し忘れる
 - 複数の登録経路がある場合に一部のみ対応
