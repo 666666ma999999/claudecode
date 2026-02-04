@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "Fix 3: Add menu_id consistency check to STEP4 verify_values",
-  "description": "Add warning-level check in verify_values to detect fixedCode001 appearing in non-opening/closing rows. Non-blocking check with logger.warning output.",
-  "activeForm": "Adding menu_id consistency check",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

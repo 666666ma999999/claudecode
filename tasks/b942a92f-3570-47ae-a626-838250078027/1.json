@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "Fix 1: Remove komi_jyuyou1 forced conversion to komi_normal",
-  "description": "Remove KOMI_TYPES_WITH_SPAN set that forces komi_jyuyou1 to komi_normal. The span tags are already removed at L941-942, so this conversion is unnecessary and causes Bug2.",
-  "activeForm": "Removing komi_jyuyou1 forced conversion",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
