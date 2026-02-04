@@ -268,6 +268,33 @@ await self.page.evaluate("(url) => window.history.replaceState(null, '', url)", 
 3. 値が保持されていれば成功とみなす
 ```
 
+## 不変条件（Invariants）
+
+**リファクタリング時に絶対に壊してはならない動作仕様。**
+
+### I1. ppv_idフォールバックURL
+- `navigate_to_ppv_detail`で`ppv_id`パラメータでページが空白の場合、`menu_id(save_id)`でフォールバック
+- フォールバック成功時は`history.replaceState`で正しいppv_idにURL書き換え
+- URL書き換えにより、CMS JavaScriptのAJAX POSTが正しいppv_idを送信
+
+### I2. 配信データ事前検証
+- STEP3実行前にguide_text, category_code, yudo_txt, yudo先PPV/メニューの完全性を検証
+- 不足時はBLOCKINGモーダル表示で処理停止
+
+### I3. price_res/au_price/SoftBank_price リセット
+- price入力後にCMS JSがprice_res等を同じ値に上書きする
+- 500ms待機後に"0"で再上書きすること
+- この待機・再上書きを削除しないこと
+
+### I4. ppv_icon_idバリデーション
+- 有効値: `02, 03, 04, 05, 06, 07, 08, 11, 12, 13, 20`
+- 不正値はスキップ（入力しない）
+
+### I5. 「保存する」vs「メニュー登録」
+- 「保存する」ボタンのみがAJAX POST（mode=save）を実行
+- 「メニュー登録」はcms_menuへのlocation.href遷移（保存ではない）
+- 保存フローで「メニュー登録」をクリックしないこと
+
 ## 使用例
 
 ```

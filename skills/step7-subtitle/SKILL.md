@@ -111,6 +111,25 @@ menu_idのプレフィックスで一致する全てを反映:
 | menu_idが見つからない | menu_id確認、STEP 2-4の完了確認 |
 | 反映エラー | エラーメッセージ取得、スクリーンショット |
 
+## 不変条件（Invariants）
+
+**リファクタリング時に絶対に壊してはならない動作仕様。**
+
+### I1. 冒頭・締めも反映対象
+- 冒頭（挨拶）と締めのmenu_idも反映すること
+- fixedCode001プレフィックスのmenu_idをスキップしないこと
+
+### I2. menu_id_prefixの自動導出
+- セッションのmenu_idからドット前部分を自動抽出
+- 例: `monthlyAffinity001.045` → `monthlyAffinity001`
+
+### I3. Basic認証はURLに埋め込み
+- izumo CMSへのアクセスはURL埋め込みBasic認証
+
+### I4. 全menu_id反映にはfixedCode001も含む
+- 一括反映時、fixedCode001のmenu_idも含めて反映すること
+- 以前fixedCode001がスキップされるバグがあった
+
 ## 使用例
 
 ### 個別反映
