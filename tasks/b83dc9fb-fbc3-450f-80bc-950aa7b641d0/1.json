@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "Explore existing code patterns for STEP4 mid_id validation",
-  "description": "Explore registration.py, auto.html, and config.js to understand existing patterns for API endpoints, session data structure, and modal dialogs",
-  "activeForm": "Exploring existing code patterns",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

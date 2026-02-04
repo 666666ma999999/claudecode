@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "Implement backend mid_id validation API endpoint",
-  "description": "Add GET /api/step/4/validate-mid-id endpoint to registration.py that compares session's common_mid_id with subtitle mid_ids",
-  "activeForm": "Implementing backend validation API",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
