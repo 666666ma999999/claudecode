@@ -151,6 +151,9 @@ order,title,mid_id
 
 - yudo-txt と yudo-recommend は `Promise.allSettled` で並列実行される（2026-02-02改善）
 - PPV ID発行は原稿生成と依存関係がないため、先行発行も可能
+- バッチ処理は `asyncio.gather + Semaphore(2)` で並列実行される（v1.47.0改善）
+  - `PARALLEL_BATCHES=2` はGemini API RPM上限120に対して安全なレート
+  - Semaphoreにより同時実行数を制限し、RPMリミット超過を防止
 
 ## 不変条件（Invariants）
 
