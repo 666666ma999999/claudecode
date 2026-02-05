@@ -194,6 +194,25 @@ Response: {
 3. Squidプロキシ経由でMKBにアクセス可能であること（STEP 5）
 4. セッションが作成済みであること（STEP 1 実行前に `POST /api/registration-session/create`）
 
+## セッション完全性ノート（v1.47.0追加）
+
+### auto.html STEP 1 完了時の自動処理
+
+auto.html経由でSTEP 1を完了した際、以下のAPIが自動発行される：
+
+| 処理 | API | 説明 |
+|------|-----|------|
+| PPV ID発行 | `POST /api/ppv-ids/issue` | PPV IDをセッションに自動保存 |
+| menu_prefix設定 | `GET /api/config/logic` → `menu_prefixes`フィールド | ロジックIDからmenu_prefixを自動取得・設定 |
+
+これにより、以前はauto.html STEP 1完了後に手動でセッションデータを補完する必要があった問題が解消された。
+
+### IzumoSessionManager クリーンアップ範囲
+
+- STEP 6-8のリトライ時のみ `IzumoSessionManager` のクリーンアップ（ブラウザセッション破棄・再作成）が発生する
+- STEP 2-5のリトライ時にはIzumoSessionManagerのクリーンアップは行われない（別のブラウザコンテキストを使用するため）
+- これにより、STEP 2-5の失敗がSTEP 6-8のizumoセッション状態に影響しない
+
 ## 再開フロー
 
 ```
