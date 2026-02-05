@@ -3,7 +3,7 @@
   "subject": "STEP 2: メニュー登録（原稿管理CMS）",
   "description": "Playwright MCPで原稿管理CMSにメニュー登録",
   "activeForm": "STEP 2 メニュー登録中",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
