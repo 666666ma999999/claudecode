@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "隔離ブラウザにCMSログインブロック挿入",
+  "description": "backend/utils/browser_automation.py の _download_csv_sync() 内、L4640（dialog handler）〜 L4642（URL構築）の間にCMSログインブロックを挿入する。login_to_cms() (L4365-4435) と同一のセレクタ・フォールバックチェーンを使用し、self.config.cms_username/cms_password/manuscript_login_url をクロージャ経由で参照。",
+  "activeForm": "CMSログインブロック挿入中",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
