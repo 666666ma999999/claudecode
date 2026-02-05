@@ -2,8 +2,8 @@
   "id": "8",
   "subject": "STEP 3-4: PPV情報登録 + メニュー設定",
   "description": "従量登録・従量管理詳細を実行",
-  "activeForm": "Executing STEP 3-4",
-  "status": "pending",
+  "activeForm": "STEP 3-4 PPV情報・メニュー設定中",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
