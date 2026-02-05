@@ -3,7 +3,7 @@
   "subject": "STEP 2-8 連続実行・完了確認",
   "description": "STEP 2〜8を順次実行し、各STEPの成功を確認する",
   "activeForm": "STEP 2-8 実行中",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": [
     "6"

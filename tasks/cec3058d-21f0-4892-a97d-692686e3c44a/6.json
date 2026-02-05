@@ -3,7 +3,7 @@
   "subject": "STEP 1 実行・完了確認",
   "description": "ワンクリック全自動生成ボタンでSTEP 1を開始し、原稿生成・PPV ID発行を確認する",
   "activeForm": "STEP 1 実行中",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [
     "7"
   ],
