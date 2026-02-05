@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "STEP 5: 売上集計登録（MKB）",
+  "description": "Playwright MCPでMKBにCSVアップロード",
+  "activeForm": "STEP 5 売上集計登録中",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

@@ -1,0 +1,9 @@
+{
+  "id": "8",
+  "subject": "STEP 8: 従量自動更新（izumo更新）",
+  "description": "Playwright MCPでizumo CMSの従量自動更新を実行",
+  "activeForm": "STEP 8 従量自動更新中",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
