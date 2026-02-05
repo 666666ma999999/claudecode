@@ -3,7 +3,7 @@
   "subject": "サーバー再起動・ヘルスチェック",
   "description": "./stop_servers.sh → ./start_unified_server.sh でサーバー再起動し、curl で HTTP 200 を確認する",
   "activeForm": "サーバーを再起動中",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [
     "4"
   ],
