@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "STEP 1-8 全ステップ連続実行テスト",
+  "description": "新規セッションでSTEP 1から8まで連続実行テスト。site_id=482, mid_id=293, price=2000, 冒頭締めON",
+  "activeForm": "STEP 1-8 テスト実行中",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
