@@ -217,9 +217,9 @@ function getThemeIdFromCategoryCode(categoryCode) {
 - 自動更新フラグが有効なコンテンツ
 - 変更が検出されたコンテンツ
 
-### STEP 8 の位置づけ
+### STEP 7 の位置づけ
 
-STEP 8 は運用フェーズの機能で、STEP 1-7 とは独立して実行可能。
+STEP 7 は運用フェーズの機能で、STEP 1-6 とは独立して実行可能。
 新規商品登録フロー完了後に実行することで、即座に公開状態にできる。
 
 ### 既登録PPVの扱い
