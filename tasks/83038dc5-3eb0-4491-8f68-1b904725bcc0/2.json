@@ -1,0 +1,11 @@
+{
+  "id": "2",
+  "subject": "styles.css に評価パネル用CSSを追加",
+  "description": "Step 7: .evaluation-panel, .eval-option, .eval-label, .evaluation-tags, .tag-checkbox, .ai-thumb.evaluated-pass, .ai-thumb.evaluated-fail のスタイル追加",
+  "activeForm": "評価パネルCSSを追加中",
+  "status": "completed",
+  "blocks": [
+    "3"
+  ],
+  "blockedBy": []
+}
