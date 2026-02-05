@@ -542,14 +542,15 @@ for nav_attempt in range(3):
 - `asyncio.sleep(2)` のみで待機しており、AJAX完了を保証できなかった
 - 小見出しフォーム未出現時でも `return True` で成功扱いしていた（バグ）
 
-**解決済み（2026-02-05）**:
+**解決済み（2026-02-05、v1.47.0で安定化強化）**:
 - `browser_automation.py` L807-812で「更新」後に`wait_for_load_state("networkidle", timeout=10000)`を追加
-- 一時保存一覧でのedit link検索に3回リトライ（`MAX_SAVE_LIST_RETRIES=3`）を追加（L826-861）
+- 一時保存一覧でのedit link検索に5回リトライ（`MAX_SAVE_LIST_RETRIES=5`）、指数バックオフ `RETRY_BACKOFF=[3,5,8,10,12]` を適用
 - 小見出しフォーム未出現時は`return False`に変更（L920-922）
 
 ```python
-# browser_automation.py L826-861
-MAX_SAVE_LIST_RETRIES = 3
+# browser_automation.py（v1.47.0）
+MAX_SAVE_LIST_RETRIES = 5
+RETRY_BACKOFF = [3, 5, 8, 10, 12]
 for save_list_attempt in range(MAX_SAVE_LIST_RETRIES):
     await self.page.goto(save_lists_url, wait_until="networkidle", timeout=PAGE_LOAD_TIMEOUT)
     clicked = await self.page.evaluate(...)  # 3つの方法でedit link検索
@@ -557,5 +558,20 @@ for save_list_attempt in range(MAX_SAVE_LIST_RETRIES):
         break  # 見つかった
     elif save_list_attempt < MAX_SAVE_LIST_RETRIES - 1:
         logger.warning(f"一時保存一覧にppv_id={ppv_id}の編集リンク未検出 (...)")
-        await asyncio.sleep(3)
+        await asyncio.sleep(RETRY_BACKOFF[save_list_attempt])
 ```
+
+### headless安定化ノート（v1.47.0追加）
+
+**save_listsナビゲーション**:
+- テーブルDOM出現を `wait_for_selector("table tr, .save-list-item")` で確認してからedit link検索を行う
+- headlessモードではDOM描画完了が`networkidle`より遅延するケースがあるため、明示的なDOM待機が必要
+
+**edit link検出**:
+- `wait_for_selector` で先にedit linkの存在を確認し、見つからない場合のみ `evaluate` によるJavaScript検索にフォールバック
+- headlessではPlaywrightのセレクタベース検出がevaluateよりも安定
+
+**小見出しフォーム検出**:
+- `wait_for_selector` で先にフォーム要素の出現を確認
+- フォールバックとして2秒間隔のポーリング（最大15ラウンド = 30秒）で出現を待機
+- headlessではSPA遷移後のフォーム描画に時間がかかるケースに対応
