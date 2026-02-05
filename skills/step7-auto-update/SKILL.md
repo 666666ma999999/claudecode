@@ -1,14 +1,14 @@
 ---
-name: step8-auto-update
+name: step7-auto-update
 description: |
-  STEP 8: 従量自動更新（izumo-dev CMS）
+  STEP 7: 従量自動更新（izumo-dev CMS）
   izumo CMSで従量コンテンツの自動更新を実行する。
   Playwright MCPを使用してブラウザ操作を自動化。
   ※Basic認証はURLに埋め込んで対応
-  キーワード: STEP8, 従量自動更新, izumo, 自動更新, Basic認証, Playwright MCP
+  キーワード: STEP7, 従量自動更新, izumo, 自動更新, Basic認証, Playwright MCP
 ---
 
-# STEP 8: 従量自動更新（izumo-dev CMS）
+# STEP 7: 従量自動更新（izumo-dev CMS）
 
 ## 概要
 
