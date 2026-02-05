@@ -244,6 +244,13 @@ CSVダウンロードはFastAPIイベントループとは**独立したイベ�
 
 **ログ識別**: 独立イベントループ内のログは `[isolated]` プレフィックス付き。
 
+**CMSログイン（2026-02-05実装）**:
+- 隔離ブラウザはセッションを共有しないため、UP一覧アクセス前にCMSログインが必要
+- `self.config.cms_username/cms_password/manuscript_login_url` をクロージャ経由で参照
+- `login_to_cms()` と同一のセレクタ・フォールバックチェーンを使用
+- ログイン失敗時は警告ログ出力後、UP一覧ナビゲーションを続行（後続エラーで検知）
+- スクリーンショット: `csv_00_login_page_*`, `csv_00_after_login_*`, `csv_00_login_error_*`
+
 **注意事項**:
 - `_download_csv_sync()` を直接呼び出さない（既にイベントループがある場合RuntimeError）
 - `session_dir` はスナップショットで渡す（スレッド安全性）
