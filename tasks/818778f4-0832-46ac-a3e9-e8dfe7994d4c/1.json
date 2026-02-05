@@ -1,0 +1,12 @@
+{
+  "id": "1",
+  "subject": "モジュールレベルのダイアログハンドラ関数を追加",
+  "description": "browser_automation.py の line 38 (logger定義) の後に _auto_accept_dialog() と _auto_accept_dialog_with_log() の2関数を追加",
+  "activeForm": "ダイアログハンドラ関数を追加中",
+  "status": "completed",
+  "blocks": [
+    "2",
+    "4"
+  ],
+  "blockedBy": []
+}

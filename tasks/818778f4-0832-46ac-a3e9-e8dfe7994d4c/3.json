@@ -1,0 +1,11 @@
+{
+  "id": "3",
+  "subject": "3箇所のclose()にpage.close()を追加",
+  "description": "BaseBrowserAutomation.close(), ManuscriptRegistration.close(), CMSMenuRegistration.close() の context.close() 前に page.close() を挿入",
+  "activeForm": "close()にpage.close()を追加中",
+  "status": "pending",
+  "blocks": [
+    "4"
+  ],
+  "blockedBy": []
+}
