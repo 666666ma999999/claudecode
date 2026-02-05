@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "Step 3-6: JS - モチーフ選択 + D&D + 合格ゾーン + 一括保存",
-  "description": "モチーフ選択機能、HTML5 D&D実装、合格ゾーン描画、一括保存・クリア機能",
-  "activeForm": "モチーフ・D&D・合格ゾーン・一括保存実装中",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
