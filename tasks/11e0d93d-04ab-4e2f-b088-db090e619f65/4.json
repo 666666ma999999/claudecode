@@ -1,9 +1,0 @@
-{
-  "id": "4",
-  "subject": "修正4: browser_automation.py - FORM_LOAD_TIMEOUT 短縮",
-  "description": "FORM_LOAD_TIMEOUT を 60000 → 40000 に変更",
-  "activeForm": "Editing browser_automation.py",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

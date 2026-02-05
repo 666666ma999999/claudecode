@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "修正1: registration_session.py - 型検証・サイレント失敗解消・待機時間最適化",
-  "description": "update_session_ids, update_session_product, update_session_distribution に return bool パターン追加。yudo dict→YudoInfo変換。update_step_status にSTEP未検出警告。STEP_WAIT_TIMES最適化。",
-  "activeForm": "Editing registration_session.py",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

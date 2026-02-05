@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "修正3: orchestrator.py - エラー分類 error_type 追加",
-  "description": "execute_step_generic のエラーハンドリングに error_type 分類を追加し、StepExecuteResponse に渡す",
-  "activeForm": "Editing orchestrator.py",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

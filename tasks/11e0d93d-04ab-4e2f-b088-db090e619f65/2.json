@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "修正2: registration.py - StepExecuteResponse に error_type 追加",
-  "description": "StepExecuteResponse に Optional[str] の error_type フィールドを追加",
-  "activeForm": "Editing registration.py",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

@@ -1,0 +1,9 @@
+{
+  "id": "6",
+  "subject": "STEP 1: auto.htmlフォーム入力 + 原稿生成 + PPV ID発行",
+  "description": "auto.htmlにアクセスし、企画情報・ロジック設定・教師データ・サイトID等を入力してSTEP 1を実行",
+  "activeForm": "Executing STEP 1",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
