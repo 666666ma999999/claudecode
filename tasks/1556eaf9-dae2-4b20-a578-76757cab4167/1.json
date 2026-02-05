@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "FE/BE統合: ローカル重複関数の削除",
+  "description": "auto.htmlからLocal関数4つ、sync wrapper 2つを削除し、API関数のフォールバックを除去する。約220行削減。",
+  "activeForm": "Implementing FE/BE deduplication refactor",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
