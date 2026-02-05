@@ -127,6 +127,29 @@ STEP_DEFINITIONS = {
 | 外部サービスエラー | EXTERNAL_ERROR | 外部API障害 | Yes |
 | リソース不足 | RESOURCE_EXHAUSTED | メモリ/ストレージ不足 | No |
 
+## StepExecuteResponse の error_type フィールド (v1.45.0)
+
+`StepExecuteResponse` に `error_type: Optional[str]` フィールドが追加済み。
+エラー発生時に以下の分類でFEに通知される（camelCase: `errorType`）:
+
+| error_type | 発生条件 | 再開可能 |
+|------------|----------|----------|
+| `validation` | ビルダーエラー / HTTP 400,422 | No（入力修正が必要） |
+| `timeout` | asyncio.TimeoutError | Yes |
+| `network` | ConnectionError / OSError | Yes |
+| `auth` | HTTP 401, 403 | Depends |
+| `system` | その他の例外 | Maybe |
+
+## セッション更新関数の戻り値 (v1.45.0)
+
+以下の関数は `bool` を返すように変更済み（以前は `None`）:
+- `update_session_ids()` → `True`/`False`
+- `update_session_product()` → `True`/`False`
+- `update_session_distribution()` → `True`/`False`（yudo dict→YudoInfo自動変換付き）
+- `update_step_status()` → `True`/`False`（STEP未検出時も警告ログ出力）
+
+セッション未検出時はログに警告を出力する（サイレント失敗を解消）。
+
 ## 実装上の注意: モデル重複禁止
 
 `StepProgress` と `StepStatus` は `backend/utils/models.py` に統一定義済み。
