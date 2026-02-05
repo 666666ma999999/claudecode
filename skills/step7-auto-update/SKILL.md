@@ -281,17 +281,17 @@ console.log('✅ STEP 7 完了確認OK');
 
 ## 統一APIエンドポイント
 
-STEP 8はセッション駆動の統一APIでも実行可能:
+STEP 7はセッション駆動の統一APIでも実行可能:
 
 ```
-POST /api/step/8/execute
+POST /api/step/7/execute
 {
   "session_id": "xxx",
   "overrides": {"category_code": "02", "publish_date": "2026-02-15"}
 }
 ```
 
-- STEP 7がSUCCESSでないと実行不可
+- STEP 6がSUCCESSでないと実行不可
 - セッションのppv_id, category_codeを自動使用
 - 既存API `/api/izumo/auto-update` も引き続き利用可能
 
@@ -299,20 +299,24 @@ POST /api/step/8/execute
 
 ## 依存関係
 
-**STEP 8 は STEP 7 の完了後に実行すること（並列実行禁止）。**
+**STEP 7 は STEP 6 の完了後に実行すること（並列実行禁止）。**
+**STEP 7 の完了後に STEP 8 を実行すること（並列実行禁止）。**
 
 ### 実行順序
 ```
-STEP 7: 小見出し登録（izumo反映）
+STEP 6: 原稿本番アップ（izumo同期）
     ↓ （完了確認後）
-STEP 8: 従量自動更新 ← このスキル
+STEP 7: 従量自動更新 ← このスキル
+    ↓ （完了確認後）
+STEP 8: 小見出し登録（izumo反映）
 ```
 
 ### 並列実行禁止の理由
-- STEP 7 と STEP 8 は同じizumo CMSを使用
-- STEP 7 の反映が完了する前に自動更新すると、未反映のデータで更新される
-- STEP 7 の完了（"反映完了"メッセージ）を確認してから STEP 8 を実行すること
+- STEP 6, 7, 8 は同じizumo CMSを使用
+- STEP 6 の同期が完了する前に自動更新すると、古いデータで更新される
+- STEP 7 の更新が完了する前に小見出し登録すると、整合性が取れない可能性がある
+- STEP 7 の完了（"登録しました"メッセージ）を確認してから STEP 8 を実行すること
 
 ### 独立実行時の注意
-STEP 8 を単独で実行する場合（日次バッチ等）は、STEP 7 との依存関係は不要。
+STEP 7 を単独で実行する場合（日次バッチ等）は、STEP 8 との依存関係は不要。
 register-all で連続実行する場合のみ、順次実行が必須。
