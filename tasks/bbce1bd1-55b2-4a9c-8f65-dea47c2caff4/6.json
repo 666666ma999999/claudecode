@@ -1,0 +1,12 @@
+{
+  "id": "6",
+  "subject": "サーバー再起動 + ヘルスチェック + Codexレビュー",
+  "description": "completion-check.md に従い、サーバー再起動→ヘルスチェック(HTTP 200)→Codexレビュー→スキル化判断→バージョン更新",
+  "activeForm": "Running completion checks",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [
+    "5",
+    "4"
+  ]
+}

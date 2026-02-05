@@ -1,0 +1,13 @@
+{
+  "id": "4",
+  "subject": "Phase C: FE - STEP 1 中間 saveUIToSession() 挿入",
+  "description": "auto.html: STEP 1フロー内の3箇所（原稿生成完了後, personType検出後, subtitle構造解析後）に saveUIToSession() を挿入",
+  "activeForm": "Inserting intermediate saves",
+  "status": "completed",
+  "blocks": [
+    "6"
+  ],
+  "blockedBy": [
+    "3"
+  ]
+}

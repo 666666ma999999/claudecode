@@ -1,0 +1,14 @@
+{
+  "id": "5",
+  "subject": "Phase D: FE - Waterfall STEP 3/4 + retry簡素化",
+  "description": "auto.html: Waterfall STEP 3(88行→15行), STEP 4(108行→15行), retryStep3(70行→10行), retryStep4(47行→10行) を executeStepUnified経由に簡素化",
+  "activeForm": "Simplifying waterfall steps",
+  "status": "completed",
+  "blocks": [
+    "6"
+  ],
+  "blockedBy": [
+    "3",
+    "2"
+  ]
+}
