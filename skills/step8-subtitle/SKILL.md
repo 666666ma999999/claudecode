@@ -214,10 +214,10 @@ console.log('✅ STEP 8 完了確認OK');
 
 ## 統一APIエンドポイント
 
-STEP 7はセッション駆動の統一APIでも実行可能:
+STEP 8はセッション駆動の統一APIでも実行可能:
 
 ```
-POST /api/step/7/execute
+POST /api/step/8/execute
 {
   "session_id": "xxx",
   "overrides": {"menu_id_prefix": "monthlyAffinity001"}
@@ -233,20 +233,22 @@ POST /api/step/7/execute
 
 ## 依存関係
 
-**STEP 7 は STEP 6 の完了後に実行すること（並列実行禁止）。**
-**STEP 7 の完了後に STEP 8 を実行すること（並列実行禁止）。**
+**STEP 8 は STEP 6 の完了後に実行すること（並列実行禁止）。**
+**STEP 8 の完了後にセッション完了（COMPLETED）。**
 
 ### 実行順序
 ```
 STEP 6: 原稿本番アップ（izumo同期）
     ↓ （完了確認後）
-STEP 7: 小見出し登録（izumo反映）← このスキル
+STEP 7: 従量自動更新（izumo更新）
     ↓ （完了確認後）
-STEP 8: 従量自動更新
+STEP 8: 小見出し登録（izumo反映）← このスキル
+    ↓ （完了確認後）
+セッション完了（COMPLETED）
 ```
 
 ### 並列実行禁止の理由
 - STEP 6, 7, 8 は全て同じizumo CMSを使用
 - STEP 6 の同期が完了する前に反映すると、古いデータで反映される
-- STEP 7 の反映が完了する前に自動更新すると、未反映のデータで更新される
+- STEP 7 の更新が完了する前に小見出し登録すると、整合性が取れない可能性がある
 - 各STEPの完了を確認してから次STEPを実行すること
