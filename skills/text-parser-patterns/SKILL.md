@@ -191,7 +191,25 @@ for line in lines:
         continue  # 次の行を処理
 ```
 
-### 落とし穴4: 状態管理のリセット忘れ
+### 落とし穴4: `\s*` が改行を含む問題（Python/JS共通）
+```python
+# 悪い例：\s* は改行(\n)を含むため、意図せず次行もマッチする
+re.search(r'【占い商品】\s*([^\n]+)', text)
+# → 【占い商品】\n次の行 にもマッチしてしまう
+
+# 良い例：改行を除く空白のみマッチさせる [^\S\n]*
+re.search(r'【占い商品】[^\S\n]*([^\n]+)', text)  # 同一行のみ
+re.search(r'【占い商品】[^\S\n]*\n([^\n]+)', text)  # 次行のみ
+```
+```javascript
+// JS版：\s は改行を含むので同様の注意が必要
+// 悪い例
+fortuneResult.match(/【占い商品】\s*([^\n]+)/);
+// 良い例：同一行 or 次行
+fortuneResult.match(/【占い商品】[^\S\n]*\n?([^\n]+)/);
+```
+
+### 落とし穴5: 状態管理のリセット忘れ
 ```python
 # 悪い例：前のセクションの状態が残る
 current_section = None
