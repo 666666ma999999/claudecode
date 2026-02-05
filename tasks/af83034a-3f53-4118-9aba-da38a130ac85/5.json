@@ -3,7 +3,7 @@
   "subject": "Codexレビュー実施",
   "description": "completion-check.md STEP 2に従いCodexレビューを実施",
   "activeForm": "Codexレビュー実施中",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }

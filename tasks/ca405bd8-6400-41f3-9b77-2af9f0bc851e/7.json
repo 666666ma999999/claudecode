@@ -1,0 +1,9 @@
+{
+  "id": "7",
+  "subject": "Pinterest個別画像を収集・登録",
+  "description": "Pinterestから「red thread of fate」の個別画像を収集し、makeimg APIに参考画像として登録する",
+  "activeForm": "Pinterest画像収集中",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

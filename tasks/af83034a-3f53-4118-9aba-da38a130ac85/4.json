@@ -3,7 +3,7 @@
   "subject": "サーバー再起動・ヘルスチェック・検証",
   "description": "サーバー再起動、ヘルスチェック(200確認)、サンプル原稿生成の動作確認",
   "activeForm": "サーバー再起動・検証中",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }
