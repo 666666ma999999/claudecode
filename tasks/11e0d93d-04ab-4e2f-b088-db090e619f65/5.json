@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "サーバー再起動・ヘルスチェック・Codexレビュー",
+  "description": "サーバー再起動、HTTP 200確認、Codexレビュー実行",
+  "activeForm": "Restarting server and running checks",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
