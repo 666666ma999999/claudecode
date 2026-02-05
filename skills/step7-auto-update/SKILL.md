@@ -263,9 +263,9 @@ STEP 7 は運用フェーズの機能で、STEP 1-6 とは独立して実行可�
 const hasRegisterComplete = snapshot.includes('登録しました') || snapshot.includes('更新完了');
 const hasPpvId = snapshot.includes('{ppv_id}');
 if (!hasPpvId) {
-  throw new Error('STEP 8 確認失敗: ppv_idが一覧に見つかりません');
+  throw new Error('STEP 7 確認失敗: ppv_idが一覧に見つかりません');
 }
-console.log('✅ STEP 8 完了確認OK');
+console.log('✅ STEP 7 完了確認OK');
 ```
 
 ### 失敗時の対処
