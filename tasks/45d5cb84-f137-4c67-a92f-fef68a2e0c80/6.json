@@ -3,7 +3,7 @@
   "subject": "Codex review and skill check",
   "description": "Run Codex review on changes, fix any issues, check skill update needs",
   "activeForm": "Running Codex review",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }
