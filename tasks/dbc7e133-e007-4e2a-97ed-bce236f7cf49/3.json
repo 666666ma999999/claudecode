@@ -1,0 +1,9 @@
+{
+  "id": "3",
+  "subject": "browser_automation.py - publish_ppv_menu() + reflect_all_menus/reflect_izumo_all_menus ppv_id対応",
+  "description": "IzumoCMSAutomation.publish_ppv_menu()新規追加、reflect_all_menus()とreflect_izumo_all_menus()にppv_idパラメータ追加",
+  "activeForm": "browser_automation.pyを修正中",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

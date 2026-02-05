@@ -254,3 +254,28 @@ STEP 8: 小見出し登録（izumo反映）← このスキル
 - STEP 6 の同期が完了する前に反映すると、古いデータで反映される
 - STEP 7 の更新が完了する前に小見出し登録すると、整合性が取れない可能性がある
 - 各STEPの完了を確認してから次STEPを実行すること
+
+---
+
+## ppv_menu.html 反映（v1.46.5追加）
+
+### 概要
+STEP 8の小見出し反映完了後、`ppv_menu.html`で該当ppv_idの「反映」ボタンを自動押下する。
+
+### 対象URL
+`https://izumo-dev.uranai-gogo.com/admin/ppv_menu.html`（Basic認証はURL埋め込み）
+
+### 処理フロー
+1. ppv_menu.htmlに遷移
+2. 検索ボックスにppv_idを入力してEnter
+3. 該当行の「反映」ボタンをクリック
+4. 確認ダイアログは自動OK（`_auto_accept_dialog`）
+
+### 成功判定
+- ボタンクリック完了 → `ppv_menu_reflected: true`
+- ボタン未発見（既反映） → スキップ（success=true）
+- ppv_id未設定 → スキップ（後方互換）
+
+### 重要: STEP 8全体への影響
+- ppv_menu反映失敗時でもSTEP 8のsuccess自体には影響しない
+- `ppv_menu_reflected`フラグで記録のみ
