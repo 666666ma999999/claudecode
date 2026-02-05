@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "registration.py - ReflectAllMenuRequest にppv_idフィールド追加 + reflect_all_menu_endpoint転送",
-  "description": "ReflectAllMenuRequestにppv_idフィールド追加、reflect_all_menu_endpointでreflect_izumo_all_menusにppv_id転送",
-  "activeForm": "registration.pyを修正中",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

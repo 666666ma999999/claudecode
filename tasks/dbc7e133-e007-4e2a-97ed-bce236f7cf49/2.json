@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "orchestrator.py - build_reflect_all_request ppv_id抽出 + result_mapper_step8更新",
-  "description": "build_reflect_all_requestにppv_id抽出追加、result_mapper_step8にppv_menu_reflected追加",
-  "activeForm": "orchestrator.pyを修正中",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
