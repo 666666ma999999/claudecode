@@ -1,9 +1,0 @@
-{
-  "id": "6",
-  "subject": "Phase 6: スキル定義ディレクトリ移動・更新",
-  "description": "step7-subtitle→step8-subtitle、step8-auto-update→step7-auto-update、各SKILL.md更新、register-all更新",
-  "activeForm": "Implementing Phase 6: skills",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
