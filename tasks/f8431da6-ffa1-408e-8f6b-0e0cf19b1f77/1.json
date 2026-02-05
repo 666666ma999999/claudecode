@@ -3,7 +3,7 @@
   "subject": "Phase 1: orchestrator.py のSTEP 7/8入れ替え",
   "description": "build_reflect_all_request/build_auto_update_requestのdocstring、result_mapper_step7/step8の内容入れ替え、ハンドラー登録のstep番号入れ替え",
   "activeForm": "Implementing Phase 1: orchestrator.py",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }

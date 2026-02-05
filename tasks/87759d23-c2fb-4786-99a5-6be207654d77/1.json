@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Pinterest画像の一枚一枚収集",
+  "description": "Pinterestの「Red thread of fate aesthetic」検索結果から画像を一枚一枚クリックして開き、高解像度画像をダウンロードしてmakeimgの参考画像として登録する。現在9枚の参考画像が登録済み。追加で良質な画像を収集する。",
+  "activeForm": "Pinterest画像を収集中",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
