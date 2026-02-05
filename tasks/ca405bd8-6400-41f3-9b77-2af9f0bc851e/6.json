@@ -1,0 +1,9 @@
+{
+  "id": "6",
+  "subject": "Step 10: サーバー再起動 + 動作確認 + Codexレビュー",
+  "description": "サーバー再起動、ヘルスチェック、ブラウザ動作確認、Codexレビュー",
+  "activeForm": "サーバー再起動・動作確認・レビュー中",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
