@@ -337,6 +337,6 @@ await fetch(`/api/registration-session/${recordId}/step-transaction`, {
 | 5 | response | BE registration.py（register_sales完了後） | mkb_upload |
 | 6 | input | FE auto.html（/api/izumo/sync-production直前） | frontend |
 | 6 | response | BE registration.py（sync_izumo_production完了後） | izumo_sync |
-| 7 | input | FE auto.html（/api/izumo/reflect-menu-all直前） | frontend |
-| 7 | response | BE registration.py（reflect_all完了後） | izumo_reflect |
-| 8 | response | BE registration.py（auto_update完了後） | izumo_auto_update |
+| 7 | response | BE registration.py（auto_update完了後） | izumo_auto_update |
+| 8 | input | FE auto.html（/api/izumo/reflect-menu-all直前） | frontend |
+| 8 | response | BE registration.py（reflect_all完了後） | izumo_reflect |
