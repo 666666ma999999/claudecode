@@ -546,6 +546,15 @@ async def validate_input(request: ValidateRequest):
     )
 ```
 
+#### 実装済み: Pre-STEP Validator パターン (v1.48.0)
+
+StepHandler dataclass に `validator` フィールドを追加し、execute_step_generic 内でbuilder呼び出し前に自動実行。
+- `validate_step3`: distribution の guide_text, category_code, yudo 検証
+- `validate_step4`: menu_id 存在検証
+- FE側: executeStepUnified が `validationErrors` / `validationWarnings` を自動表示
+- バリデーション失敗時は step status を "error" に更新
+- 成功時も warnings がある場合はレスポンスに含めて FE に通知
+
 ### Phase 4: ファイル名生成統合
 **目的**: タイムスタンプやファイル名フォーマットをBE側で一元管理
 
