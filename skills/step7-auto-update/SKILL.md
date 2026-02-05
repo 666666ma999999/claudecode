@@ -31,7 +31,7 @@ https://{IZUMO_USER}:{IZUMO_PASSWORD}@izumo-dev.uranai-gogo.com/admin/
 ## 前提条件
 
 1. Playwright MCP (`mcp__playwright-mkb__*`) が有効
-2. STEP 1-7 が完了していること
+2. STEP 1-6 が完了していること
 3. 認証情報が環境変数に設定済み
 
 ## 実行フロー
