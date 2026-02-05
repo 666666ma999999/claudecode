@@ -3,7 +3,7 @@
   "subject": "Upload Pinterest reference image via API",
   "description": "Upload pinterest-red-thread.png to /api/references with category red-thread and tags pinterest,reference",
   "activeForm": "Uploading Pinterest reference image",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }

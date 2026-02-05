@@ -3,7 +3,7 @@
   "subject": "Server restart and verification",
   "description": "Restart server, health check, verify comparison view loads at #compare",
   "activeForm": "Restarting server and verifying",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
