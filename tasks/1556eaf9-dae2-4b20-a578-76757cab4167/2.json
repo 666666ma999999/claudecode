@@ -3,7 +3,7 @@
   "subject": "STEP 1: 原稿生成・PPV ID発行",
   "description": "auto.htmlに企画情報を入力し、原稿生成→PPV ID発行を実行する",
   "activeForm": "Executing STEP 1 manuscript generation",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [
     "3"
   ],

@@ -3,7 +3,7 @@
   "subject": "STEP 2-8: 外部サイト登録",
   "description": "STEP 2（メニュー登録）からSTEP 8（従量自動更新）まで連続実行",
   "activeForm": "Executing STEP 2-8 registration pipeline",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": [
     "2"
