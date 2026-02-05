@@ -1,0 +1,12 @@
+{
+  "id": "1",
+  "subject": "reflect_all_menus()に最終検証ステップを追加",
+  "description": "browser_automation.py の reflect_all_menus() メソッド (line 2506-2507間) に、whileループ完了後の最終検証ブロックを挿入する。ページをリロードして全反映ボタンが消えたか確認し、残っている場合は reflected→failed に移動する。",
+  "activeForm": "最終検証ステップを追加中",
+  "status": "completed",
+  "blocks": [
+    "2",
+    "3"
+  ],
+  "blockedBy": []
+}

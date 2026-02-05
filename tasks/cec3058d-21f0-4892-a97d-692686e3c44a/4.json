@@ -1,0 +1,11 @@
+{
+  "id": "4",
+  "subject": "Codexレビュー実行",
+  "description": "mcp__codex__codex を使用して変更をレビューし、指摘事項を修正する",
+  "activeForm": "Codexレビュー実行中",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": [
+    "3"
+  ]
+}
