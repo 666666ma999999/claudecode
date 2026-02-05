@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "商品名抽出バグ修正 (v1.46.1)",
+  "description": "_extract_product_name() の正規表現が同一行形式に対応できないバグを修正。registration.py と auto.html の2ファイルを修正後、サーバー再起動・ヘルスチェック・Codexレビューを実施。",
+  "activeForm": "商品名抽出バグを修正中",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
