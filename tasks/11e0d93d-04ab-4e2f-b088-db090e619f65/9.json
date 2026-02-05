@@ -2,8 +2,8 @@
   "id": "9",
   "subject": "STEP 5: 売上集計登録（MKBアクセス解析）",
   "description": "MKBにCSVアップロード",
-  "activeForm": "Executing STEP 5",
-  "status": "pending",
+  "activeForm": "STEP 5 売上集計登録中",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
