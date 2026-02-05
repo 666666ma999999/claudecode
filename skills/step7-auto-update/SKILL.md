@@ -199,7 +199,7 @@ function getThemeIdFromCategoryCode(categoryCode) {
 ## 使用例
 
 ```
-/step8
+/step7
 
 ※引数不要（設定に基づいて自動更新を実行）
 ```
