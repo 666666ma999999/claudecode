@@ -1,0 +1,9 @@
+{
+  "id": "3",
+  "subject": "Add GEMINI_MODEL to docker-compose.yml",
+  "description": "docker-compose.ymlのbackendサービスにGEMINI_MODEL環境変数を追加",
+  "activeForm": "docker-compose.yml を更新中",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}
