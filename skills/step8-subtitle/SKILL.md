@@ -1,14 +1,14 @@
 ---
-name: step7-subtitle
+name: step8-subtitle
 description: |
-  STEP 7: 小見出し登録（izumo-dev CMS）
+  STEP 8: 小見出し登録（izumo-dev CMS）
   izumo CMSで小見出し情報を反映する。
   Playwright MCPを使用してブラウザ操作を自動化。
   ※Basic認証はURLに埋め込んで対応
-  キーワード: STEP7, 小見出し登録, izumo, 反映, Basic認証, Playwright MCP
+  キーワード: STEP8, 小見出し登録, izumo, 反映, Basic認証, Playwright MCP
 ---
 
-# STEP 7: 小見出し登録（izumo-dev CMS）
+# STEP 8: 小見出し登録（izumo-dev CMS）
 
 ## 概要
 
