@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Phase 4: C1 auto.htmlセッション完全化",
+  "description": "LOGIC_MENU_PREFIX API追加、auto.html STEP 1完了時PPV ID・menu_prefix自動設定、komi_type優先ロジック統合",
+  "activeForm": "Phase 4 auto.htmlセッション完全化を実装中",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
