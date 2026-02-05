@@ -3,7 +3,7 @@
   "subject": "Step 1: JS - 旧評価システム削除 + 新状態管理追加",
   "description": "renderEvaluationPanel(), attachEvalSubmitHandler(), submitEvaluation(), EVALUATION_TAGS を削除。DEFAULT_MOTIFS, comparisonState を追加。",
   "activeForm": "旧評価システム削除・新状態管理追加中",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }
