@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Add route and nav links",
+  "description": "Add compare route to app.js handleRoute, nav link in index.html, and script tag for comparison-view.js",
+  "activeForm": "Adding route and nav links",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
