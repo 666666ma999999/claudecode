@@ -527,3 +527,35 @@ for nav_attempt in range(3):
 **解決済み（2026-02-04）**:
 - `browser_automation.py` L1326-1330で「特殊小見出しの指定は不要です」を非ブロッキング警告として除外
 - 残存エラーがあっても原稿UPボタンが存在する場合はアップロード続行（L1345-1361）
+
+---
+
+### PPV更新後に一時保存一覧でedit linkが見つからない
+
+**症状**:
+- PPV情報（ppv_id、タイトル、タイプ）入力後「更新」ボタンクリック
+- 一時保存一覧（save_lists）に遷移するが、ppv_idに対応する編集リンクが見つからない
+- 小見出し入力フォームが表示されず、STEP 2が失敗する
+
+**原因**:
+- 「更新」ボタンクリック後、CMS AJAX保存が完了する前に一時保存一覧ページに遷移していた
+- `asyncio.sleep(2)` のみで待機しており、AJAX完了を保証できなかった
+- 小見出しフォーム未出現時でも `return True` で成功扱いしていた（バグ）
+
+**解決済み（2026-02-05）**:
+- `browser_automation.py` L807-812で「更新」後に`wait_for_load_state("networkidle", timeout=10000)`を追加
+- 一時保存一覧でのedit link検索に3回リトライ（`MAX_SAVE_LIST_RETRIES=3`）を追加（L826-861）
+- 小見出しフォーム未出現時は`return False`に変更（L920-922）
+
+```python
+# browser_automation.py L826-861
+MAX_SAVE_LIST_RETRIES = 3
+for save_list_attempt in range(MAX_SAVE_LIST_RETRIES):
+    await self.page.goto(save_lists_url, wait_until="networkidle", timeout=PAGE_LOAD_TIMEOUT)
+    clicked = await self.page.evaluate(...)  # 3つの方法でedit link検索
+    if clicked and clicked.get('success'):
+        break  # 見つかった
+    elif save_list_attempt < MAX_SAVE_LIST_RETRIES - 1:
+        logger.warning(f"一時保存一覧にppv_id={ppv_id}の編集リンク未検出 (...)")
+        await asyncio.sleep(3)
+```
