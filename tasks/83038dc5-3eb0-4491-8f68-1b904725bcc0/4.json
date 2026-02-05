@@ -1,9 +1,0 @@
-{
-  "id": "4",
-  "subject": "Codexレビュー指摘事項の修正",
-  "description": "1. XSS: inline onclick を addEventListener に変更\n2. 非同期キャッシュロード後のパネル再描画\n3. キャッシュキーの String() 正規化\n4. CSS: selected + evaluated の組み合わせ対応\n5. encodeURIComponent の追加",
-  "activeForm": "Codex指摘事項を修正中",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
