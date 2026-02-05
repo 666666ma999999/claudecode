@@ -197,9 +197,9 @@ STEP 2-4で原稿管理CMSに登録したデータを、izumo CMSの内部デー
 const hasReflectComplete = snapshot.includes('反映完了') || snapshot.includes('件反映');
 const hasMenuId = snapshot.includes('{menu_id}');
 if (!hasReflectComplete || !hasMenuId) {
-  throw new Error('STEP 7 確認失敗: 反映が完了していません');
+  throw new Error('STEP 8 確認失敗: 反映が完了していません');
 }
-console.log('✅ STEP 7 完了確認OK');
+console.log('✅ STEP 8 完了確認OK');
 ```
 
 ### 失敗時の対処
