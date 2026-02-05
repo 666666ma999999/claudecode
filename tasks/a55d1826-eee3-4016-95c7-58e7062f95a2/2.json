@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "STEP 5 CSVダウンロード修正テスト実行",
-  "description": "reg_20260204235454_939e838c セッションでSTEP 5を実行し、CMSログイン修正の動作確認。\n確認ポイント:\n1. csv_00_login_page_* スクリーンショット生成\n2. csv_00_after_login_* スクリーンショット生成\n3. csv_01_up_list_* スクリーンショット生成\n4. CSVダウンロード成功",
-  "activeForm": "STEP 5テスト実行中",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
