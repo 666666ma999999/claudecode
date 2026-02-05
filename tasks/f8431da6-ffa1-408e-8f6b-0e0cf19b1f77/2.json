@@ -3,7 +3,7 @@
   "subject": "Phase 2: registration.py のSTEP 7/8入れ替え",
   "description": "小見出し登録APIと従量自動更新APIのSTEP番号、検証ロジック、ガード条件、ハンドラー登録の入れ替え",
   "activeForm": "Implementing Phase 2: registration.py",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }
