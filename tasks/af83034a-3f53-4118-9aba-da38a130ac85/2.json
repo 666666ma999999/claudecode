@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "Add GEMINI_MODEL to .env.production",
-  "description": ".env.productionにGEMINI_MODEL=gemini-2.5-proを追加",
-  "activeForm": ".env.production を更新中",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

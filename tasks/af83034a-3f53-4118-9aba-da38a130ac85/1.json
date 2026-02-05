@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "Fix main.py:574 品質チェック修正",
-  "description": "main.py:574の品質チェックを修正。`not response.startswith(\"[\")` を `is_error_prefix` チェックに変更し、正常な[タイトルテキスト]形式の出力を通過させる。",
-  "activeForm": "品質チェックを修正中",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
