@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "Phase 1: B1 バッチ並列化",
-  "description": "manuscript_generation.py のバッチ処理を asyncio.gather + セマフォで並列化。PARALLEL_BATCHES=2。",
-  "activeForm": "Phase 1 バッチ並列化を実装中",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

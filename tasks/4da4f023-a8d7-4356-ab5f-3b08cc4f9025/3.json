@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "Phase 3: B2+B3 タイムアウト短縮 + 後処理並列化",
-  "description": "main.py タイムアウト1.56→1.2倍。step1_pipeline.py の_process_special_komis()をasyncio.gatherで並列化。",
-  "activeForm": "Phase 3 タイムアウト・後処理並列化を実装中",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
