@@ -3,7 +3,7 @@
   "subject": "Phase 5: A2+A3 ブラウザリーク修正 + ロールバック",
   "description": "orchestrator.py リトライ間ブラウザクリーンアップ、ステップ失敗時セッションデータロールバック",
   "activeForm": "Phase 5 ブラウザリーク・ロールバック修正を実装中",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }

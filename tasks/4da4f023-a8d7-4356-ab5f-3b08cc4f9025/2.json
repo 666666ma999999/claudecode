@@ -3,7 +3,7 @@
   "subject": "Phase 2: A1 STEP 2 headless安定化",
   "description": "browser_automation.py の6箇所を修正: networkidle例外処理、DOM待機追加、edit link待機、リトライバックオフ、SPA動的待機、フォームポーリング改善",
   "activeForm": "Phase 2 STEP 2安定化を実装中",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }

@@ -3,7 +3,7 @@
   "subject": "VERSION_HISTORY.md + Codexレビュー",
   "description": "VERSION_HISTORY.md v1.47.0エントリ追加、サーバー再起動・ヘルスチェック、Codexレビュー実行",
   "activeForm": "VERSION_HISTORY更新・レビュー実行中",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
