@@ -3,7 +3,7 @@
   "subject": "サーバー再起動・ヘルスチェック・Codexレビュー・VERSION_HISTORY更新",
   "description": "completion-check.md に従い、サーバー再起動→200確認→Codexレビュー→VERSION_HISTORY.md v1.46.3追記",
   "activeForm": "検証・レビュー中",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": [
     "1",
