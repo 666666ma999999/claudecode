@@ -244,23 +244,29 @@ CSVダウンロードはFastAPIイベントループとは**独立したイベ�
 
 **ログ識別**: 独立イベントループ内のログは `[isolated]` プレフィックス付き。
 
-**CMSログイン（2026-02-05実装）**:
+**CMSログイン（2026-02-05実装・検証済み）**:
 - 隔離ブラウザはセッションを共有しないため、UP一覧アクセス前にCMSログインが必要
-- `self.config.cms_username/cms_password/manuscript_login_url` をクロージャ経由で参照
+- 認証情報: `MANUSCRIPT_CMS_USER` / `MANUSCRIPT_CMS_PASSWORD`（STEP 3/4と同一）
 - `login_to_cms()` と同一のセレクタ・フォールバックチェーンを使用
+- SPA処理待ち（sleep 0.5s×2 + 2s）とログイン成功検証（パスワードフィールド消失確認）付き
 - ログイン失敗時は警告ログ出力後、UP一覧ナビゲーションを続行（後続エラーで検知）
 - スクリーンショット: `csv_00_login_page_*`, `csv_00_after_login_*`, `csv_00_login_error_*`
+- **注意**: `MANUSCRIPT_USER`/`MANUSCRIPT_PASS`（旧: n_masaaki）は使用不可。CMS拒否される。
 
 **注意事項**:
 - `_download_csv_sync()` を直接呼び出さない（既にイベントループがある場合RuntimeError）
 - `session_dir` はスナップショットで渡す（スレッド安全性）
 - スクリーンショットはtry/exceptで保護（失敗してもダウンロードを継続）
 
-**セレクタ優先度（誤データ取得防止）**:
-1. ppv_idを含む行のCSVリンク
-2. menu_id（save_id）を含むリンク
-3. XPath検索（ppv_id含む行内）
-※汎用セレクタは誤データ取得リスクがあるため使用禁止
+**CSVセレクタ（2026-02-05修正）**:
+- DOM構造: `<li><a class="csv-download" data-menu_save_id="..." data-site-id="...">CSVダウンロード</a></li>`
+- href属性なし、`<tr>`ではなく`<li>`内
+- 優先度:
+  1. `a.csv-download[data-menu_save_id='{menu_id}']`（最も正確）
+  2. `a.csv-download[data-site-id='{site_id}']`
+  3. `a.csv-download:has-text('CSVダウンロード')`
+  4. `a.csv-download`（汎用フォールバック）
+- **禁止**: `a[href*='csv']`（href無し）、`tr:has(td:text(...))` （構造不一致）
 | public_dateエラー | 当日以降の日付に修正 |
 
 ## 出力
