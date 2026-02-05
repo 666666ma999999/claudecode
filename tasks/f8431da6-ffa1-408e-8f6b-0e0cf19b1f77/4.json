@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Phase 4: browser_automation.py のSTEP番号入れ替え",
+  "description": "reflect_izumo_all_menus()のSTEP 7→8、register_auto_update()のSTEP 8→7",
+  "activeForm": "Implementing Phase 4: browser_automation.py",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
