@@ -59,13 +59,10 @@ for step in range(start_step, 9):
     if result.success:
         CONTINUE  # → 次STEPへ
     else:
-        # 失敗 → リトライ判定
-        guard2 = GET /api/step/{step}/guard?session_id={record_id}
-        if guard2.retryInfo.anyLimitExceeded:
-            NOTIFY f"STEP {step} 失敗・リトライ上限超過"
-            BREAK
-        else:
-            RETRY step  # 同じSTEPを再実行
+        # 失敗 → 即停止・ユーザー報告（自動リトライ禁止）
+        NOTIFY f"STEP {step} 失敗: {result.error}"
+        KEEP_BROWSER  # ブラウザを維持してデバッグ可能に
+        BREAK  # ユーザーの指示を待つ
 ```
 
 ## STEP一覧
