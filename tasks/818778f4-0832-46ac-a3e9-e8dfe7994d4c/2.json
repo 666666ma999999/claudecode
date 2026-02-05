@@ -3,7 +3,7 @@
   "subject": "7箇所のlambda/ensure_futureハンドラを名前付き関数に置換",
   "description": "lines 538, 2188, 2685, 4393, 4676, 5349-5355, 5371-5377 のダイアログハンドラを置換",
   "activeForm": "ハンドラを置換中",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [
     "4"
   ],
