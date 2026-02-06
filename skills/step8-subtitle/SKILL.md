@@ -305,6 +305,14 @@ STEP 8の小見出し反映完了後、`ppv_menu.html`で該当ppv_idの「反�
 
 ---
 
+## 成功判定ルール（v1.49.0以降）
+
+- STEP 8は **成功率95%以上** で `success=true` と判定（部分成功）
+- `reflected_all: true` は `failed_count == 0` の場合のみ
+- ERR_ABORTED起因の少数失敗（例: 6/186件=3%）は許容範囲
+- `partial_success: true` フラグで部分成功を識別可能
+- ページ再読み込みを省略し、DOM更新待機のみで高速化（~70%短縮）
+
 ## トラブルシューティング（v1.48.5追加）
 
 ### fixedCode001（挨拶/締め）が反映されない問題
