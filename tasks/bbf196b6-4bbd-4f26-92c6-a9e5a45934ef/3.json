@@ -3,7 +3,7 @@
   "subject": "Phase 3: AutoCheckResponse拡張 + メタデータ返却 (check.py)",
   "description": "AutoCheckResponseにstepSources, stepDependencyInfoフィールドを追加し、auto_check()でメタデータを返却",
   "activeForm": "AutoCheckResponse拡張中",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }

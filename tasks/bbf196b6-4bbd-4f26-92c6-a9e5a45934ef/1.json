@@ -3,7 +3,7 @@
   "subject": "Phase 1: RegisteredData拡張 + API書き換え (check.py)",
   "description": "RegisteredDataモデルを5→12フィールドに拡張し、/api/check/registered-data/{ppv_id}をfind_session_by_ppv_id()ベースに書き換え",
   "activeForm": "RegisteredData拡張中",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }

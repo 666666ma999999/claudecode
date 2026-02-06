@@ -3,7 +3,7 @@
   "subject": "Apply 6 changes to check_playwright.py",
   "description": "Apply all 6 specified changes to /Users/masaaki/Desktop/prm/rohan/backend/routers/check_playwright.py:\n1. CheckResult dataclass拡張 (step_sources, step_dependency_info)\n2. CHECK_STEP_DEPENDENCIES定数追加\n3. ppv-person-type チェックロジック修正\n4. ppv-icon チェックロジック修正\n5. ppv-guide チェックロジック修正\n6. run_auto_check関数のreturn dictにメタデータ追加",
   "activeForm": "Applying 6 changes to check_playwright.py",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }
