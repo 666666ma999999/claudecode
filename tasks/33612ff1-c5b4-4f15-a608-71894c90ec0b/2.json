@@ -3,7 +3,7 @@
   "subject": "Phase E: 認証セッション対応実装",
   "description": "PlaywrightChecker に auth_state_path サポート追加、check.py に認証管理API追加、check.html に認証状態UI追加 (E-1〜E-4)",
   "activeForm": "Implementing Phase E auth session support",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }

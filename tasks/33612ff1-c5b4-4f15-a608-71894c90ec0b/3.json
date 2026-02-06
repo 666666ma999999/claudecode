@@ -3,7 +3,7 @@
   "subject": "テスト・検証・Codexレビュー",
   "description": "サーバー再起動、ヘルスチェック、自動チェック実行、Codexレビュー",
   "activeForm": "Testing and reviewing changes",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
