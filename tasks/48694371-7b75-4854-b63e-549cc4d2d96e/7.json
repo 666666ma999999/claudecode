@@ -3,7 +3,7 @@
   "subject": "STEP 7: 従量自動更新（izumo-dev CMS）",
   "description": "Playwright MCPでizumo-dev従量自動更新",
   "activeForm": "STEP 7 実行中",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
