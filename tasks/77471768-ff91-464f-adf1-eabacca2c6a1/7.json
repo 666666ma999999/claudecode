@@ -1,9 +1,0 @@
-{
-  "id": "7",
-  "subject": "STEP 7: 従量自動更新",
-  "description": "izumo-dev CMSで従量自動更新。処理時間を計測。",
-  "activeForm": "STEP 7 従量自動更新実行中",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
