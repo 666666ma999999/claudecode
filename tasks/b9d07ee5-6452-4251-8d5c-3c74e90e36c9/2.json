@@ -3,7 +3,7 @@
   "subject": "Phase 2: Detect Router（APIエンドポイント）",
   "description": "rohan/backend/routers/detect.py を新規作成。6つのAPIエンドポイント実装。main.pyにrouter追加",
   "activeForm": "Creating detect.py API router",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [
     "3"
   ],

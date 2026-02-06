@@ -3,7 +3,7 @@
   "subject": "Phase 3: Frontend（detect.html）",
   "description": "rohan/frontend/detect.html を新規作成。3パネルレイアウト（変数レジストリ/STEP I/Oタイムライン/ステートマシン）+ トレーサビリティマトリクス",
   "activeForm": "Implementing detect.html Frontend",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [
     "5"
   ],
