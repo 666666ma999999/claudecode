@@ -175,6 +175,10 @@ order,title,mid_id
 - 原稿生成結果が空の場合、1回自動リトライする
 - `subtitle_count=0`の場合は早期リターン（`errorType: "no_subtitles"`）
 
+### I5. SubtitleInfo型安全性
+- STEP 1はdict ではなくSubtitleInfoオブジェクトでsubtitlesを保存（v1.49.0以降）
+- dictで代用するとSTEP 3等でdot notationアクセス時にAttributeErrorが発生する
+
 ## 使用例
 
 ```
