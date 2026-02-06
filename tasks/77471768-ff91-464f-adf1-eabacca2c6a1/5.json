@@ -3,7 +3,7 @@
   "subject": "STEP 5: 売上集計登録",
   "description": "MKBアクセス解析にCSV登録。処理時間を計測。",
   "activeForm": "STEP 5 売上集計登録実行中",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
