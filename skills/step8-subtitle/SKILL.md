@@ -279,3 +279,31 @@ STEP 8の小見出し反映完了後、`ppv_menu.html`で該当ppv_idの「反�
 ### 重要: STEP 8全体への影響
 - ppv_menu反映失敗時でもSTEP 8のsuccess自体には影響しない
 - `ppv_menu_reflected`フラグで記録のみ
+
+---
+
+## トラブルシューティング（v1.48.5追加）
+
+### fixedCode001（挨拶/締め）が反映されない問題
+
+**症状**: STEP 8実行後、monthlyAffinity001は反映されるが、fixedCode001（挨拶/締め）に反映ボタンが残る
+
+**原因**: 旧ロジックでは`menu_id_prefix`でフィルタしていたため、別プレフィックスが処理対象から漏れていた
+
+**修正（v1.48.5）**:
+1. 検索ロジック変更: `filter=new`で表示される「反映」ボタンがある**全行**を処理対象に
+2. 最終検証強化: 処理済みmenu_idを個別にチェックして反映ボタン消失を確認
+3. reload()後のfilter=new維持: `navigate_to_menu_edit()`で毎回`?filter=new`を適用
+
+### 反映ボタンの検出セレクタ
+
+```python
+# 反映ボタン検出（v1.48.5）
+reflect_button_rows = self.page.locator(
+    "tr:has(button:has-text('反映')), "
+    "tr:has(a:has-text('反映')), "
+    "tr:has(input[value='反映'])"
+)
+```
+
+izumo CMSでは`<input type="button" value="反映">`が使用されているため、3パターンで検出。
