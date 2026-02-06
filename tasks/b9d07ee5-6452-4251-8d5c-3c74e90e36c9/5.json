@@ -3,7 +3,7 @@
   "subject": "Phase 5: 自動更新＆仕上げ",
   "description": "detect.htmlに5秒ポーリング追加、STEP折りたたみ詳細パネル、セッションJSON一括エクスポート機能",
   "activeForm": "Adding Auto-refresh and Polish",
-  "status": "pending",
+  "status": "completed",
   "blocks": [
     "6"
   ],

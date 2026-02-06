@@ -3,7 +3,7 @@
   "subject": "Phase 4: ロギング拡張",
   "description": "step_logging.pyにStepSummaryEntry追加、registration_session.pyに変数スナップショット追加",
   "activeForm": "Extending Logging System",
-  "status": "pending",
+  "status": "completed",
   "blocks": [
     "6"
   ],

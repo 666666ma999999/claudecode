@@ -3,7 +3,7 @@
   "subject": "Codexレビュー＆完了チェック",
   "description": "全Phase完了後にCodexレビュー実行、サーバー再起動・ヘルスチェック、スキル化判断",
   "activeForm": "Running Codex Review",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": [
     "5",
