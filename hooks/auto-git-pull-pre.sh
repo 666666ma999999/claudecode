@@ -19,7 +19,7 @@ except:
 # ~/.claude/ 配下でなければスキップ
 CLAUDE_DIR="$HOME/.claude"
 case "$FILE_PATH" in
-  "$CLAUDE_DIR"/*|"$HOME/.claude/"*) ;;
+  "$CLAUDE_DIR"/*) ;;
   *) echo '{"decision":"approve"}'; exit 0 ;;
 esac
 
@@ -36,7 +36,14 @@ if [[ -f "$TIMESTAMP_FILE" ]]; then
 fi
 
 # mkdirによるアトミックロック（macOS互換、flockの代替）
+# 60秒以上古いロックは孤立とみなして自動削除
 LOCK_DIR="/tmp/.claude-git-pull-lock"
+if [[ -d "$LOCK_DIR" ]]; then
+  LOCK_AGE=$(( $(date +%s) - $(stat -f %m "$LOCK_DIR" 2>/dev/null || echo 0) ))
+  if [[ $LOCK_AGE -gt 60 ]]; then
+    rmdir "$LOCK_DIR" 2>/dev/null || rm -rf "$LOCK_DIR"
+  fi
+fi
 if ! mkdir "$LOCK_DIR" 2>/dev/null; then
   # 既にロック中 → スキップ
   echo '{"decision":"approve"}'
@@ -46,20 +53,21 @@ fi
 trap 'rmdir "$LOCK_DIR" 2>/dev/null' EXIT
 
 # git pull --rebase（3秒タイムアウト、macOS互換）
-(
-  cd "$CLAUDE_DIR" || exit 1
-  # バックグラウンドでgit pull実行
-  git pull --rebase --no-edit &
-  GIT_PID=$!
-  # 3秒タイムアウト
-  (sleep 3 && kill $GIT_PID 2>/dev/null) &
-  TIMER_PID=$!
-  wait $GIT_PID 2>/dev/null
-  kill $TIMER_PID 2>/dev/null
-) &>/dev/null
+# フォアグラウンドで実行し、完了を保証してからスクリプトを抜ける
+cd "$CLAUDE_DIR" || { echo '{"decision":"approve"}'; exit 0; }
+git pull --rebase --no-edit &
+GIT_PID=$!
+(sleep 3 && kill $GIT_PID 2>/dev/null) &
+TIMER_PID=$!
+wait $GIT_PID 2>/dev/null
+GIT_EXIT=$?
+kill $TIMER_PID 2>/dev/null
+wait $TIMER_PID 2>/dev/null
 
-# タイムスタンプ更新
-date +%s > "$TIMESTAMP_FILE"
+# 成功時のみタイムスタンプ更新（失敗時は次回即リトライ可能）
+if [[ $GIT_EXIT -eq 0 ]]; then
+  date +%s > "$TIMESTAMP_FILE"
+fi
 
 # 常にapprove（失敗してもブロックしない）
 echo '{"decision":"approve"}'
