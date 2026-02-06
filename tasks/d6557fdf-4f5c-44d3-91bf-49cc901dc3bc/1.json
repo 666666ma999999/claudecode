@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Fix A: komi-convertチェックボックスをfalseに変更",
+  "description": "browser_automation.py L1241-1257のkomi-convert設定を修正。checked=trueをchecked=falseに変更し、コメントを更新する。",
+  "activeForm": "komi-convertチェックボックスを修正中",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}
