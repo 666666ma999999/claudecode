@@ -3,7 +3,7 @@
   "subject": "FE/BE統合: Phase A-D実装",
   "description": "既存プランに基づくFE/BE統合実装\n- Phase A: BE側validator追加\n- Phase B: executeStepUnifiedバリデーション対応\n- Phase C: STEP 1中間保存\n- Phase D: Waterfall STEP 3/4簡素化\n- 追加: restoreUIFromRecordのmid_id復元修正",
   "activeForm": "FE/BE統合を実装中",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
