@@ -87,6 +87,15 @@
     ],
     "PreToolUse": [
       {
+        "matcher": "Read|Edit|Glob|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/auto-git-pull-pre.sh"
+          }
+        ]
+      },
+      {
         "matcher": "Write|Edit",
         "hooks": [
           {
