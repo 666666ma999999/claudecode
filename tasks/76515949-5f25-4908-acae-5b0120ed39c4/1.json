@@ -3,7 +3,7 @@
   "subject": "Phase 0: スモークテスト（既存システム動作確認）",
   "description": "何も変更せず現状を把握する。サーバーヘルスチェック、登録データAPI確認、Playwright MCPでizumoサイトアクセス、ベースライン記録",
   "activeForm": "Phase 0 スモークテスト実行中",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [
     "2"
   ],
