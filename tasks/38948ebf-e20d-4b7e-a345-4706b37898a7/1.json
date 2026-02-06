@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "Explore codebase and design SM2 incremental implementation plan",
-  "description": "Thoroughly explore the check system codebase (backend, frontend, docs) and design a detailed incremental plan for building State Machine 2 (Production Check Flow, 19 items) starting from login, applying SM1 lessons learned.",
-  "activeForm": "Exploring codebase and designing SM2 implementation plan",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
