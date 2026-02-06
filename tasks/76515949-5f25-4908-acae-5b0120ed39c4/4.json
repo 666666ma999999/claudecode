@@ -3,7 +3,7 @@
   "subject": "Phase 3: 一部無料ページ（#9-#11）",
   "description": "無料鑑定結果ページの検証。クリック遷移が必要。free-subtitle, free-no-manuscript, free-no-error",
   "activeForm": "Phase 3 一部無料ページ検証中",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [
     "5"
   ],
