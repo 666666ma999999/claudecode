@@ -377,10 +377,12 @@ await page.evaluate((ppv_id) => {
 
 **原因**: 旧ロジックでは`menu_id_prefix`でフィルタしていたため、別プレフィックスが処理対象から漏れていた
 
-**修正（v1.48.5）**:
-1. 検索ロジック変更: `filter=new`で表示される「反映」ボタンがある**全行**を処理対象に
-2. 最終検証強化: 処理済みmenu_idを個別にチェックして反映ボタン消失を確認
-3. reload()後のfilter=new維持: `navigate_to_menu_edit()`で毎回`?filter=new`を適用
+**修正（v1.49.1）**:
+1. 検索フィルタリング: `search_menu(session_menu_id)` を**冒頭**で呼び、当該メニューの行のみに絞り込み
+   - 例: `search_menu("2598")` → `monthlyAffinity001.2598.xxx` と `fixedCode001.2598.xxx` の両方がヒット
+   - orphanアイテム（他セッションの残留: 3054, 3053等）はフィルタアウトされる
+2. 最終検証でも同じ `search_menu()` を適用し、orphanアイテムの反映ボタンを誤検出しない
+3. `search_key`（`session_menu_id or menu_id_prefix`）が未指定の場合はエラーで早期リターン
 
 ### 反映ボタンの検出セレクタ
 
