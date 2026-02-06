@@ -177,3 +177,30 @@ rohan登録時のkomi_typeとizumo本番サイトのCSSクラス名には表記�
 | 要素が見つからない | セレクタ確認、ページ構造変更チェック |
 | 信頼度が低い | スクリーンショットで目視確認 |
 | VPNエラー | VPN接続確認後に再実行 |
+| PPVページがトップにリダイレクトされる | 認証が必要。check.htmlの「認証取得」ボタンまたはPlaywright MCPでログインして認証状態を保存する |
+| 認証バッジが「期限切れ」 | 60分以上経過。再度「認証取得」を実行する |
+
+## 認証状態管理
+
+### 認証が必要な理由
+PPVページ（`/open/ppv.do/`）はログイン済みユーザーのみアクセス可能。非認証でアクセスすると`/open/index.html`にリダイレクトされる。
+
+### 認証状態API
+- `GET /api/check/auth-status?site_code=482` - 認証状態確認（available/ageMinutes/stale）
+- `POST /api/check/auth-capture?site_code=482` - 非headlessブラウザでログイン→認証状態保存
+
+### 認証状態ファイル
+- 保存先: `data/auth_states/auth_state_{site_code}.json`
+- 有効期限: 60分（超過で`stale`判定）
+- 自動チェック時: ファイルが存在すれば自動的に使用
+
+### check.html認証バッジ
+- 🔴 未認証（auth-none）: 認証状態ファイルなし
+- 🟢 認証済（auth-ok）: 有効な認証状態あり
+- 🟡 期限切れ（auth-stale）: 60分超過
+
+### 認証取得手順（Playwright MCP）
+1. ログインページにナビゲート: `https://izumo.uranow.jp/open/regist/career_login.html`
+2. 「占いID」でログイン（メールアドレス/パスワード）
+3. ログイン成功後、`page.context().storageState({path: '...'})` で認証状態保存
+4. 保存先: `/data/auth_states/auth_state_482.json`
