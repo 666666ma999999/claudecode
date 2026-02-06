@@ -21,7 +21,7 @@ except:
 
 # Write/Edit: ファイルパスで判定
 if [[ "$TOOL_NAME" != "Bash" ]]; then
-  [[ "$FILE_PATH" != /Users/masaaki/.claude/* ]] && exit 0
+  [[ "$FILE_PATH" != $HOME/.claude/* ]] && exit 0
 fi
 
 # Bash: ~/.claude/ に未commitの変更があるか確認
