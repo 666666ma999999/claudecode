@@ -3,7 +3,7 @@
   "subject": "STEP 5: 売上集計登録（MKBアクセス解析）",
   "description": "Playwright MCPでCSVアップロード",
   "activeForm": "STEP 5 実行中",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
