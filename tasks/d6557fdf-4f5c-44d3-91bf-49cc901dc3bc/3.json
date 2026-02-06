@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "サーバー再起動・ヘルスチェック・Codexレビュー",
-  "description": "サーバー再起動、ヘルスチェック(200確認)、Codexレビュー実行、VERSION_HISTORY.md更新",
-  "activeForm": "サーバー再起動・レビュー実行中",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}

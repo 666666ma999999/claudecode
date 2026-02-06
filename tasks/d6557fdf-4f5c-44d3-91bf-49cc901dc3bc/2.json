@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "Fix B: finalize_registration()に●バリデーション追加",
-  "description": "browser_automation.py L1608付近のupload_found判定ブロックに、サマリー●チェックのバリデーションコードを追加する。",
-  "activeForm": "●バリデーションを追加中",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
