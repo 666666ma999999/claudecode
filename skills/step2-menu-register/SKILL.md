@@ -575,3 +575,36 @@ for save_list_attempt in range(MAX_SAVE_LIST_RETRIES):
 - `wait_for_selector` で先にフォーム要素の出現を確認
 - フォールバックとして2秒間隔のポーリング（最大15ラウンド = 30秒）で出現を待機
 - headlessではSPA遷移後のフォーム描画に時間がかかるケースに対応
+
+---
+
+### komi-convertチェックボックスはOFFのまま維持
+
+**症状**:
+- komi-convertチェックボックスをONにした後、CMSが本文テキストを再パース
+- komi_type（例: `komi_jyuyou1`）の埋め込みパターンを展開する際、summaryフィールドを●（黒丸）に書き換えてしまう
+- 原稿UP後に明細が`code\t●\tbody`形式になり、データ形式が壊れる
+
+**原因**:
+- CMSのkomi-convert処理は、本文に埋め込まれた`code\tsummary\tbody`形式を再解析し、summaryを特定パターン（●など）に置換する
+- バックエンドが既に正しい形式でbodyを生成済みなため、CMSのこの変換処理は不要かつ有害
+
+**解決方法**:
+- **komi-convertチェックボックスはOFFのまま維持する**（`browser_automation.py` L1253-1257）
+- dropdownでのkomi_type選択のみ行う
+- komi typeのselect値自体はDB保存に使われるため、dropdown選択は必ず実行すること
+
+```python
+# browser_automation.py L1253-1257
+# komi-convertチェックボックスをONにしない（OFF維持）
+# ONにするとCMSがbodyを再パースして●に書き換える
+# dropdownでのkomi選択のみで十分（DB保存もされる）
+```
+
+**バリデーション**:
+- `finalize_registration()` に●バリデーション（warning）を追加済み（L1623-1641）
+- 原稿チェッカー画面で●が検出された場合は警告ログを出力し、エラー判定する
+
+**解決済み**: 2026-02-06
+
+---
