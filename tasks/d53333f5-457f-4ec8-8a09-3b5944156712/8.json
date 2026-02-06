@@ -1,9 +1,0 @@
-{
-  "id": "8",
-  "subject": "Codex指摘修正: 最終検証の空mid対応 + skipped reconcile",
-  "description": "High: 空midの処理。Medium: skippedからもremoveする。Low: SubtitleInfo変換失敗時のログ追加。reflected_allをfailed_count>0時にFalseにする。",
-  "activeForm": "Codex指摘を修正中",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

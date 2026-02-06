@@ -1,9 +1,0 @@
-{
-  "id": "4",
-  "subject": "B2: 最終検証バッチ化",
-  "description": "browser_automation.py L2556-2608の最終検証を一括DOM検索に変更",
-  "activeForm": "最終検証バッチ化を実装中",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

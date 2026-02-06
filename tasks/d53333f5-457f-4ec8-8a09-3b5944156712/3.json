@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "B1: STEP 8ページ再読み込み最適化",
-  "description": "browser_automation.py L2531-2549のwhileループ内で、navigate_to_menu_edit()をエラーリカバリ時のみに変更",
-  "activeForm": "ページ再読み込み最適化を実装中",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

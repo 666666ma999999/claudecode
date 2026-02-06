@@ -1,9 +1,0 @@
-{
-  "id": "5",
-  "subject": "A2: STEP 8成功率ベース判定",
-  "description": "browser_automation.py L2610-2616の成功判定を95%閾値ベースに変更",
-  "activeForm": "成功率ベース判定を実装中",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
