@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "A4: update_session_product のSubtitleInfo安全変換",
+  "description": "registration_session.pyのupdate_session_product関数にdict→SubtitleInfo変換を追加",
+  "activeForm": "SubtitleInfo安全変換を追加中",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

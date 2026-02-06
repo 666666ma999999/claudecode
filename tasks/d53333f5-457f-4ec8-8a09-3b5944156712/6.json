@@ -1,0 +1,9 @@
+{
+  "id": "6",
+  "subject": "A3: orchestrator部分成功対応",
+  "description": "orchestrator.py L443-463のresult_mapper_step8で部分成功時のwarningメッセージ設定",
+  "activeForm": "orchestrator部分成功対応を実装中",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

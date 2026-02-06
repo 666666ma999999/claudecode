@@ -1,0 +1,9 @@
+{
+  "id": "7",
+  "subject": "サーバー再起動・ヘルスチェック・Codexレビュー",
+  "description": "全改善実装後にサーバー再起動、ヘルスチェック200確認、Codexレビュー実施",
+  "activeForm": "サーバー再起動・レビュー中",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

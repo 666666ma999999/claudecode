@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "A1: SubtitleInfo型不一致修正（step1_pipeline.py）",
+  "description": "_ensure_imports()にSubtitleInfoのimportを追加し、L428-433のdict構築をSubtitleInfoオブジェクトに変更",
+  "activeForm": "SubtitleInfo型不一致を修正中",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}
