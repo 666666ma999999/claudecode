@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Fix 20MB request size limit by untracking .playwright-mcp/",
+  "description": "1. Add .playwright-mcp/ to .gitignore\n2. Remove .playwright-mcp/ from git index (keep local files)\n3. Commit both changes together",
+  "activeForm": "Fixing 20MB request size limit",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
