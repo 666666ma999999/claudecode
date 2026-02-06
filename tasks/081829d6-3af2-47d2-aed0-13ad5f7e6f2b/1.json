@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "STEP 1: ブラウザUI経由で原稿生成",
+  "description": "Playwright MCPでauto.htmlを開き、フォーム入力→ワンクリック全自動生成→PPV ID/menu_id/session_id取得",
+  "activeForm": "STEP 1 原稿生成中",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

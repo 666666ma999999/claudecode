@@ -1,0 +1,9 @@
+{
+  "id": "3",
+  "subject": "Phase 3: STEP 8 フィルタリング検証",
+  "description": "STEP 8でorphanアイテムが処理されていないこと確認。server.logからsearch_menu()呼び出しログ確認",
+  "activeForm": "STEP 8 検証中",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
