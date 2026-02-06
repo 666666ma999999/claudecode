@@ -1,0 +1,9 @@
+{
+  "id": "8",
+  "subject": "Explore existing backend architecture for detection system design",
+  "description": "Read key backend files: registration_session.py, check.py, check_playwright.py, orchestrator.py, step_logging.py, config.py to understand current patterns, data models, and API conventions.",
+  "activeForm": "Exploring backend architecture",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
