@@ -1,0 +1,9 @@
+{
+  "id": "3",
+  "subject": "Phase C: サーバー再起動・テスト・Codexレビュー",
+  "description": "サーバー再起動→ヘルスチェック→check.htmlで全項目一括チェック→Codexレビュー",
+  "activeForm": "Testing and reviewing changes",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

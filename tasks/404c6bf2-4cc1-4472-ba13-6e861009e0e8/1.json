@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Phase A: 7つの新メソッドをCheckFlowExecutorに追加",
+  "description": "check_person_type, check_price_display, check_subtitles_by_heading, check_free_subtitles, check_paid_subtitles, check_yudo_links, check_new_menu の7メソッドをcheck_error_absenceの後に追加",
+  "activeForm": "Adding 7 new check methods",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
