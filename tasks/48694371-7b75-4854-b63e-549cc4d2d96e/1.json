@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "STEP 1: 原稿生成・PPV ID発行",
-  "description": "POST /api/step1/execute でセッション作成・原稿生成・PPV ID発行を実行",
-  "activeForm": "STEP 1 実行中",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
