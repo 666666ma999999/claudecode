@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "Explore codebase for opening/closing separation implementation plan",
-  "description": "Read all relevant files to understand the current single-checkbox implementation and design a minimal-change plan to separate opening and closing into independent checkboxes.",
-  "activeForm": "Exploring codebase for opening/closing separation",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
