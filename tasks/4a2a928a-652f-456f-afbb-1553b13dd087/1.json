@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "冒頭・締め独立チェックボックス化 - 3ファイル改修",
+  "description": "auto.html（HTML+JS）、step1_api.py、step1_pipeline.pyの3ファイルを改修し、冒頭/締めを個別制御可能にする",
+  "activeForm": "冒頭・締め独立チェックボックスを実装中",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
