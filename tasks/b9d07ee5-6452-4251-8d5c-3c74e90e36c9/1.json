@@ -1,0 +1,11 @@
+{
+  "id": "1",
+  "subject": "Phase 1: Variable Registry Core（バックエンド）",
+  "description": "rohan/backend/utils/variable_registry.py を新規作成。変数定義、extract_variables_from_session、compute_step_io、build_traceability_matrix、TRACEABILITY_MAP、データモデル（CamelCaseModel継承）を実装",
+  "activeForm": "Implementing Variable Registry Core",
+  "status": "in_progress",
+  "blocks": [
+    "2"
+  ],
+  "blockedBy": []
+}

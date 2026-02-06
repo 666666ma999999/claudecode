@@ -1,0 +1,13 @@
+{
+  "id": "3",
+  "subject": "Phase 3: Frontend（detect.html）",
+  "description": "rohan/frontend/detect.html を新規作成。3パネルレイアウト（変数レジストリ/STEP I/Oタイムライン/ステートマシン）+ トレーサビリティマトリクス",
+  "activeForm": "Implementing detect.html Frontend",
+  "status": "pending",
+  "blocks": [
+    "5"
+  ],
+  "blockedBy": [
+    "2"
+  ]
+}
