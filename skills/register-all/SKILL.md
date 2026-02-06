@@ -76,7 +76,7 @@ for step in range(start_step, 9):
 | 5 | 売上集計登録（MKB） | Playwright MCP | `/step5` |
 | 6 | 原稿本番アップ（izumo同期） | Playwright MCP | `/step6` |
 | 7 | 従量自動更新（izumo更新） | Playwright MCP | `/step7` |
-| 8 | 小見出し登録（izumo反映） | Playwright MCP | `/step8` |
+| 8 | 小見出し登録（izumo反映） | Playwright MCP | `/step8` | ⚠️ 150件超で20分超過 |
 
 ## STEP 1 実行前の必須確認（パラメータチェックリスト）
 
