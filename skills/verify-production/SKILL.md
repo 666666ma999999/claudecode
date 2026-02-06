@@ -33,6 +33,13 @@ http://localhost:5558/detect.html?ppv_id={PPV_ID}
 STEP 1-8の変数がどのチェック項目に流れるかを可視化する補完ツール。
 check.htmlが「本番の正しさ」を確認するのに対し、detect.htmlは「変数の流れ」を追跡する。
 
+**機能**:
+- 3パネル表示: 変数レジストリ / STEP I/O タイムライン / ステートマシン(Mermaid)
+- トレーサビリティマトリクス: 19チェック項目の期待値vs実績
+- 5秒自動ポーリング（ACTIVEセッション時ON、COMPLETED時自動停止）
+- STEP詳細パネル展開状態はポーリング中も維持される
+- JSONエクスポート機能
+
 ### Playwright MCP（手動実行時）
 ```
 browser_navigate → browser_snapshot → 内容確認
