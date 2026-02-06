@@ -303,6 +303,62 @@ STEP 8の小見出し反映完了後、`ppv_menu.html`で該当ppv_idの「反�
 - ppv_menu反映失敗時でもSTEP 8のsuccess自体には影響しない
 - `ppv_menu_reflected`フラグで記録のみ
 
+### ppv_menu.html 反映ボタンの実装詳細（v1.46.5）
+
+#### ボタン形式
+```html
+<input type="button" value="反映" onclick="up('ppv_id')">
+```
+
+#### up()関数のロジック
+1. `document.frm.id.value` に対象ppv_idを設定
+2. `window.confirm()` で確認ダイアログ表示
+3. `document.frm.submit()` でフォーム送信
+
+#### 検索ボックスの制限
+- 「メニュー名で検索」ボックスはID検索に対応していない
+- ppv_idでの直接検索不可 → JavaScriptでテーブル走査が必須
+
+#### 実装パターン（Playwright）
+```javascript
+// 1. ページ遷移（Basic認証埋め込み）
+await page.goto("https://{user}:{pass}@izumo-dev.uranai-gogo.com/admin/ppv_menu.html");
+
+// 2. テーブル走査してppv_idの行を特定
+const ppv_id = "48200086";
+const rows = await page.$$("table tbody tr");
+let targetRow = null;
+for (const row of rows) {
+  const idCell = await row.$("td:first-child");  // ID列
+  const text = await idCell.textContent();
+  if (text.trim() === ppv_id) {
+    targetRow = row;
+    break;
+  }
+}
+
+// 3. 対象行の反映ボタンをクリック
+if (targetRow) {
+  const button = await targetRow.$("input[value='反映']");
+  if (button) {
+    // 確認ダイアログは _auto_accept_dialog で自動処理
+    await button.click();
+  }
+}
+
+// または window.up() を直接呼び出し
+await page.evaluate((ppv_id) => {
+  document.frm.id.value = ppv_id;
+  window.up(ppv_id);
+}, ppv_id);
+```
+
+#### 重要な仕様
+- テーブルのID列にはppv_idが格納（小さい番号のmenu_idと混在）
+- 反映ボタンはクリック後も消えない（CMS仕様）
+- 確認ダイアログは `_auto_accept_dialog` で自動処理
+- 大量ppv_id処理時はテーブル走査性能に注意（数秒程度で完了）
+
 ---
 
 ## 成功判定ルール（v1.49.0以降）
