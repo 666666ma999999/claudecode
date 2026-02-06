@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "auto-git-push.sh のパスバグ修正",
-  "description": "24行目の /Users/masaaki/.claude/* を $HOME/.claude/* に修正",
-  "activeForm": "auto-git-push.sh のバグ修正中",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}

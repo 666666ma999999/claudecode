@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "auto-git-pull-pre.sh を新規作成",
-  "description": "PreToolUse用のgit pullフックスクリプトを新規作成する。30秒クールダウン、mkdirロック、macOS互換。",
-  "activeForm": "auto-git-pull-pre.sh を作成中",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}

@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "settings.json に PreToolUse フック追加",
-  "description": "PreToolUse配列の先頭にRead|Edit|Glob|Grepマッチャーでauto-git-pull-pre.shフックを追加",
-  "activeForm": "settings.json を更新中",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
