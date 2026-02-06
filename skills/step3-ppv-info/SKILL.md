@@ -32,6 +32,7 @@ description: |
    - `ppv_icon_id`: カテゴリコード
 3. **配信データ検証（2026-02追加）**: STEP3実行前にセッションの配信データ（guide_text, category_code, yudo_txt, yudo先PPV/メニュー）の完全性を自動検証。不足時はBLOCKINGモーダルが表示され処理が停止される
 4. **ガード検証の実装（2026-02追加）**: `_safe_nested_get(obj, *keys, default=None)` でdict/Pydanticモデル両対応のネスト属性アクセス。`session.distribution`がNoneの場合もクラッシュせずdefault返却
+5. **RegisteredData変換（2026-02追加）**: チェックフローAPI（`/api/check/registered-data/{ppv_id}`）では、`person_affinity`が自動的に`personType`（"一人用"/"二人用"）に変換される。また`ppv_icon_id`は`category_code`と同一値がセットされる
 
 ## 実行フロー
 
