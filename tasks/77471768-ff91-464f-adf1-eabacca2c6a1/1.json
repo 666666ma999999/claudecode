@@ -3,7 +3,7 @@
   "subject": "STEP 1: 原稿生成・PPV ID発行",
   "description": "auto.htmlでフォーム入力→原稿生成→PPV ID発行。処理時間を計測。",
   "activeForm": "STEP 1 原稿生成実行中",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
