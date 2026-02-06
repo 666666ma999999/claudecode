@@ -1,0 +1,13 @@
+{
+  "id": "5",
+  "subject": "Phase 4: 鑑定結果ページ（#12-#16）",
+  "description": "課金後の鑑定結果ページ検証。WebMoney課金フローが必要。paid-price, paid-subtitle, paid-no-manuscript, paid-no-error, paid-yudo",
+  "activeForm": "Phase 4 鑑定結果ページ検証中",
+  "status": "pending",
+  "blocks": [
+    "6"
+  ],
+  "blockedBy": [
+    "4"
+  ]
+}

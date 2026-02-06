@@ -1,0 +1,13 @@
+{
+  "id": "3",
+  "subject": "Phase 2: 従量結果ページ（#3-#8 PPVページ6項目）",
+  "description": "PPVページの6項目を1回のナビゲーションで検証。ppv-access, ppv-person-type, ppv-icon, ppv-price, ppv-guide, ppv-subtitle",
+  "activeForm": "Phase 2 従量結果ページ検証中",
+  "status": "pending",
+  "blocks": [
+    "4"
+  ],
+  "blockedBy": [
+    "2"
+  ]
+}
