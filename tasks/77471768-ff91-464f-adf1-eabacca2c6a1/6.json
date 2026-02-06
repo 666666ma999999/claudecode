@@ -3,7 +3,7 @@
   "subject": "STEP 6: 原稿本番アップ",
   "description": "izumo CMSで原稿同期。処理時間を計測。",
   "activeForm": "STEP 6 原稿本番アップ実行中",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
