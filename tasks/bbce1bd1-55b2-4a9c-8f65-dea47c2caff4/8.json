@@ -1,9 +1,0 @@
-{
-  "id": "8",
-  "subject": "STEP処理高速化: 待機時間削減・タイムアウト最適化",
-  "description": "P0: タイムアウト値最適化、固定待機削減\nP1: リトライバックオフ最適化\n対象: browser_automation.py, orchestrator.py",
-  "activeForm": "STEP処理高速化を実装中",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
