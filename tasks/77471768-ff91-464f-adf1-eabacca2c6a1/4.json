@@ -3,7 +3,7 @@
   "subject": "STEP 4: メニュー設定",
   "description": "従量管理詳細設定。処理時間を計測。",
   "activeForm": "STEP 4 メニュー設定実行中",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
