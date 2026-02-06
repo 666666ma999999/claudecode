@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "Phase 2: チェックロジック修正 (check_playwright.py)",
-  "description": "ppv-guide, ppv-icon, ppv-person-typeの3つのチェックロジックを修正し、CHECK_STEP_DEPENDENCIES定数とCheckResult拡張を追加",
-  "activeForm": "チェックロジック修正中",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

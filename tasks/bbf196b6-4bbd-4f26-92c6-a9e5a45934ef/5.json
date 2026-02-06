@@ -1,9 +1,0 @@
-{
-  "id": "5",
-  "subject": "検証: サーバー再起動 + API動作確認",
-  "description": "サーバー再起動、ヘルスチェック、API動作確認、Codexレビュー",
-  "activeForm": "検証実行中",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
