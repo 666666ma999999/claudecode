@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "Phase D: /open/ パス切替実装",
-  "description": "check_playwright.py の base_url を /open/ パスに切り替えて認証不要アクセスを実現する (D-1〜D-4)",
-  "activeForm": "Implementing Phase D /open/ path switch",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
