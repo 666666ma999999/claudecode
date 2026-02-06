@@ -179,6 +179,11 @@ order,title,mid_id
 - STEP 1はdict ではなくSubtitleInfoオブジェクトでsubtitlesを保存（v1.49.0以降）
 - dictで代用するとSTEP 3等でdot notationアクセス時にAttributeErrorが発生する
 
+### I6. 末尾小見出しのkomi_type制約
+- 末尾（最後）の小見出しは`komi_normal`禁止（締めメッセージとして使われるため）
+- `infer_komi_type_with_gemini()`のreturn前に強制チェック→`komi_jyuyou1`に変更（v1.49.1以降）
+- フォールバック（komi_normal埋め）でも末尾が保護される
+
 ## 使用例
 
 ```
