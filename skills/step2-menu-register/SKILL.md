@@ -260,7 +260,17 @@ else:
 - CMSのkomi selectは`display:none`のため、Playwrightの通常操作不可
 - JavaScript DOM操作で`selectedIndex`を変更し、`change`イベントを発火
 
-### I6. CMS SPA保存フロー
+### I6. 登録順序制約（v1.51.0）
+- 小見出し登録時の操作順序: komi-convert OFF → komi選択 → body入力 → 保存
+- body入力をkomi選択の前に行うと、CMSがbodyを再パースしサマリーを●に破壊する
+- komi-convertチェックボックスは事前OFFとkomi選択ブロック内で二重にOFFにする
+
+### I7. ●検出はブロッキングエラー（v1.51.0）
+- `finalize_registration()`のサマリー●検出は**原稿UPを中止**する
+- 一時保存にフォールバックし、呼び出し元で`mark_error()`処理
+- 警告のみでアップロード続行はしない
+
+### I8. CMS SPA保存フロー
 - 「保存」→ダイアログ処理→AJAX→`networkidle`待機の順序を維持
 - ダイアログ処理後に`asyncio.sleep(0.5)` + `networkidle`で保存完了を待機
 
