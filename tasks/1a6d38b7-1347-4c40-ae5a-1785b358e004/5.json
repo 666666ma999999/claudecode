@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "Fix Codex findings: paid-price URL, extra browser launch, proxy import guard",
+  "description": "1. paid-price dispatch uses ppv_url (confirm) instead of ppv_url_paid. Fix to use ppv_url_paid.\n2. Analytics items waste a normal browser launch before creating proxy one. Move analytics check before the async with block.\n3. Add import guard for PROXY_CONFIG.",
+  "activeForm": "Fixing Codex review findings",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
