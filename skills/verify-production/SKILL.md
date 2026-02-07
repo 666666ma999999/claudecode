@@ -51,7 +51,7 @@ browser_navigate → browser_snapshot → 内容確認
 | # | 項目 | URL | 自動 |
 |---|------|-----|------|
 | 1 | サイトアクセス | https://izumo.uranow.jp/sp/ | ○ |
-| 2 | キャリアログイン | career_login.html | △ |
+| 2 | キャリアログイン | career_login.html | ○（フォーム構造検証） |
 
 ### ■従量結果（6項目）
 | # | 項目 | 確認内容 | 自動 |
