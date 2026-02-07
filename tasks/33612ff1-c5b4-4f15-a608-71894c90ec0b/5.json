@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "ppv-subtitle / free-subtitle の修正",
+  "description": "1. ppv-subtitle dispatch: check_subtitles_by_heading → check_free_subtitles に変更（confirm ページに小見出しがないため）\n2. free-subtitle Step 2: input[type=\"submit\"] セレクタ追加（実際の要素は input type=submit）\n3. サーバー再起動 + テスト\n4. Codex レビュー",
+  "activeForm": "ppv-subtitle / free-subtitle を修正中",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

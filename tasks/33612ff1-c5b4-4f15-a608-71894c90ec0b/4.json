@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "ppv-subtitle / free-subtitle の修正",
+  "description": "ppv-subtitle: confirmページではなく無料結果ページで小見出し確認に変更。free-subtitle: ボタンクリック遷移の改善。",
+  "activeForm": "Fixing ppv-subtitle and free-subtitle checks",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
