@@ -484,6 +484,31 @@ STEP 3: PPV情報登録（?p=cms_ppv）
 
 ---
 
+### ログイン後「ログインしていません」ダイアログが出現
+
+**症状**:
+- ログインボタンクリック後、`wait_for_load_state("networkidle")`が2msで完了
+- セッション未確立のまま後続処理に進む
+- PPV保存時に「ログインしていません」ダイアログが出現
+
+**原因**:
+- `networkidle`はSPA非同期ログイン処理の完了を正確に検知できない
+- ログインフォームのfetch/XHRが完了してもセッションCookie確立前に`networkidle`が満たされる
+
+**解決済み（2026-02-07）**:
+- `asyncio.sleep(2)` でログインリクエスト処理を待機
+- `input[name='pass']` フィールドの消滅を3回リトライで確認
+- フォームが消滅しない場合は明確に`return False`
+
+```python
+# browser_automation.py login()
+# 1. asyncio.sleep(2) でSPA非同期fetch対策
+# 2. input[name='pass'] の消滅を3回確認
+# 3. 消滅しなければ return False
+```
+
+---
+
 ### サイトメニューナビゲーションでERR_ABORTEDエラー
 
 **症状**:
