@@ -312,6 +312,25 @@ auto.html経由でSTEP 1を完了した際、以下のAPIが自動発行され�
 ### STEP 8
 - 「反映完了」メッセージ
 
+## 障害診断クイックリファレンス
+
+### STEP別の第一チェックポイント
+
+| STEP | 失敗時に最初に確認すること |
+|------|--------------------------|
+| 1 | YudoInfoがPydanticオブジェクトか（dictではないか）、`_ensure_imports()`で`self._Xxx`に保存しているか |
+| 2 | site_id URLが正しいか（タイミング問題ではない）、AJAX保存後に`networkidle`で待機しているか |
+| 3 | yudoがPydanticオブジェクトか（dictではないか）、HTTP 500ならサーバー再起動 |
+| 5 | CMS認証情報が全STEPで統一されているか、CSVセレクタがDOM構造と一致しているか |
+| 8 | `search_menu()`で対象メニューに絞り込んでいるか、orphanアイテム（他セッションの残留）が混入していないか |
+
+### ドメイン知識
+
+- 小見出しはCMSで**画像として描画**される（テキストではない）→ `h3 > img` で構造検証
+- SubtitleInfoは必ずPydanticオブジェクト（dictは禁止）
+- Squidプロキシ経由では`extra_http_headers`が消失する → サイトBasic認証はURL埋め込みが正解
+- `filter=new`だけでは他セッションの残留アイテムが含まれる → `search_menu()`で必ず絞り込む
+
 ## データストア
 
 セッションJSON: `data/sessions/{record_id}.json`
