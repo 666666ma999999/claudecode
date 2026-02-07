@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "変更C: STEP 4 komi_type事前検証",
-  "description": "CMSMenuRegistrationRequest, orchestrator, browser_automationにkomi_type検証を追加",
-  "activeForm": "Adding komi_type pre-validation",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

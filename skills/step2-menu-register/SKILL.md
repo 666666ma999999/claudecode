@@ -72,9 +72,15 @@ URL: ?p=save&site_id={site_id}
 1. browser_click (ref: "小見出し追加") → 小見出し追加
 2. browser_type (ref: 小見出しタイトル) → タイトル入力
 3. browser_select_option (ref: mid_id) → mid_id選択
-4. browser_type (ref: 本文) → 原稿本文入力
+4. komi-convert OFF → komi選択 → 原稿本文入力（★この順序が重要）
 5. browser_click (ref: "保存") → 保存
 ```
+
+**★ 登録順序の重要な制約（v1.51.0で修正）**:
+- komi-convertチェックボックスを**先にOFF**にする
+- komi selectを**body入力の前に**設定する
+- bodyを**最後に**入力する
+- この順序を守らないと、CMSがbodyを再パースしサマリーを●（黒丸）に破壊する
 
 ### 5. 原稿アップロード
 
