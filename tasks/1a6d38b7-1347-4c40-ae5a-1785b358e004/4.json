@@ -1,9 +1,0 @@
-{
-  "id": "4",
-  "subject": "Server restart + health check + Codex review",
-  "description": "Restart server, verify health, run Codex review per completion-check.md rules.",
-  "activeForm": "Running verification",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
