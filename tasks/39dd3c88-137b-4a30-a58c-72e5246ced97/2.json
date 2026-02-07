@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "Action 2: rohan/CLAUDE.md にアーキテクチャ＆ドメイン知識追加",
-  "description": "STEP 1-8パイプライン構造、環境情報、デバッグ既知事実、Git既知問題、バグ修正ルールを追加",
-  "activeForm": "rohan/CLAUDE.mdにドメイン知識を追加中",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
