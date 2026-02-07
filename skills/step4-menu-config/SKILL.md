@@ -354,6 +354,13 @@ inputs.forEach(input => {
 - STEP 3未完了時は`{status: error}`が返る
 - STEP 4単独では保存不可
 
+### I8. komi_type事前検証（v1.51.0）
+- STEP 4実行前にSTEP 2で設定されたkomi_typeの整合性を検証
+- `expected_komi_types`パラメータでセッションデータからkomi情報を受け取る
+- `is_opening_closing`の小見出しはスキップ（常にkomi_normal）
+- komi_typeが未設定（空文字）の小見出しがあればエラーで停止
+- フォールバック: パラメータ未受信時はセッションから直接取得を試行
+
 ## 使用例
 
 ```
