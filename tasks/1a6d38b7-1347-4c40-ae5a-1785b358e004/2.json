@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "Implement check_paid_price_page() method (#12 paid-price)",
+  "description": "Add new method to CheckFlowExecutor that verifies paid price page by reusing price display logic and checking for purchase buttons. Update dispatch in execute_check.",
+  "activeForm": "Implementing paid price check",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}
