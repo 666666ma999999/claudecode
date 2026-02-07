@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "変更A: register_subtitle() 登録順序変更",
+  "description": "komi選択→本文入力の順序に変更し、komi-convert事前OFFを追加",
+  "activeForm": "Implementing registration order change",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

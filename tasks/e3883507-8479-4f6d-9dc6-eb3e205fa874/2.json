@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "変更B: ●検出ブロッキングエラー化",
+  "description": "finalize_registration()の●検出を警告→ブロッキングエラーに変更",
+  "activeForm": "Making bullet detection blocking",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

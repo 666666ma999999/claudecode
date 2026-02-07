@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Codexレビュー実行",
+  "description": "全変更完了後にCodexレビューを実行し指摘事項を修正",
+  "activeForm": "Running Codex review",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
