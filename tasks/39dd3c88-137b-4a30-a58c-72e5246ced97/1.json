@@ -3,7 +3,7 @@
   "subject": "Action 1: ~/.claude/CLAUDE.md にタスク規模判定追加",
   "description": "「必ずPlanモード」を「タスク規模に応じた判定」に改修。即答タスク（Yes/No質問、事実確認、1ファイル修正）はPlanモード不要に。",
   "activeForm": "CLAUDE.mdにタスク規模判定を追加中",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }
