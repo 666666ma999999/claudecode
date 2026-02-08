@@ -1,0 +1,11 @@
+{
+  "id": "2",
+  "subject": "STEP 2-8: 順次実行",
+  "description": "STEP 1完了後、STEP 2（メニュー登録）→ STEP 3（PPV情報）→ STEP 4（メニュー設定）→ STEP 5（売上集計）→ STEP 6（izumo同期）→ STEP 7（従量自動更新）→ STEP 8（小見出し登録）を順次実行",
+  "activeForm": "STEP 2-8 順次実行中",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": [
+    "1"
+  ]
+}

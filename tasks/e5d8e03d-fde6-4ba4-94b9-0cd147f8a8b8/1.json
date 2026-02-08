@@ -1,0 +1,11 @@
+{
+  "id": "1",
+  "subject": "STEP 1: セッション作成・原稿生成・PPV ID発行",
+  "description": "新規セッション作成後、STEP 1パイプライン実行（site_id=482, mid_id=293, price=2000, 小見出し10件, 締め生成あり, 教師データ2件）",
+  "activeForm": "STEP 1 原稿生成中",
+  "status": "in_progress",
+  "blocks": [
+    "2"
+  ],
+  "blockedBy": []
+}
