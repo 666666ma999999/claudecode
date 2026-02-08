@@ -1,0 +1,11 @@
+{
+  "id": "1",
+  "subject": "STEP 1: 原稿生成・PPV ID発行",
+  "description": "セッション作成 + STEP 1 原稿生成API呼び出し。入力データ: タイトル、小見出し10件、ロジック通変-10、300-350文字、教師データ2ファイル添付、サイトID 482",
+  "activeForm": "STEP 1 原稿生成中",
+  "status": "in_progress",
+  "blocks": [
+    "2"
+  ],
+  "blockedBy": []
+}
