@@ -1,0 +1,19 @@
+{
+  "name": "parser-fix-team",
+  "description": "Fix manuscript parser to handle individual processing format (【コードXX】)",
+  "createdAt": 1770514891388,
+  "leadAgentId": "team-lead@parser-fix-team",
+  "leadSessionId": "79f21411-6a4d-4eed-b06c-eeb548fbe830",
+  "members": [
+    {
+      "agentId": "team-lead@parser-fix-team",
+      "name": "team-lead",
+      "agentType": "coordinator",
+      "model": "claude-opus-4-6",
+      "joinedAt": 1770514891388,
+      "tmuxPaneId": "",
+      "cwd": "/Users/masaaki/.claude-mem/observer-sessions",
+      "subscriptions": []
+    }
+  ]
+}
