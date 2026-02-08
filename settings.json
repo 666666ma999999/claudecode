@@ -1,5 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
   "permissions": {
     "allow": [
       "Bash",
@@ -161,11 +164,8 @@
     "playwright@claude-plugins-official": true,
     "claude-mem@thedotmack": true
   },
-  "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
-  },
-  "teammateMode": "in-process",
   "alwaysThinkingEnabled": true,
+  "teammateMode": "in-process",
   "feedbackSurveyState": {
     "lastShownTime": 1754026768941
   }
