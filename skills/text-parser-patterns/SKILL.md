@@ -506,6 +506,47 @@ def test_full_manuscript_generation():
 
 ---
 
+## パターン9: 処理モード別のセクション検出スキップ
+
+### 問題
+パーサーが`mode`パラメータを受け取るが、検出ロジックで使用していない。
+バッチ処理では`==コードXX==`マーカーが存在するが、個別処理（フォールバック）ではマーカーが無い。
+結果、`current_code`がNullのまま、後続の`if current_code:`条件で全小見出し検出がスキップされる。
+
+### 実例: Rohan manuscript_parser.py (2026-02-08)
+```
+バッチモード:  "==コード04==\n[小見出し1]..." → current_code="04" → 検出OK
+個別モード:    "はい、承知いたしました。【コード04】..." → current_code=None → 全スキップ
+```
+
+### 解決策: モード別の事前設定 + 検出スキップ
+```python
+skip_code_detection = False
+if mode == "individual" and len(expected_codes) == 1:
+    raw_code = str(expected_codes[0])
+    # サフィックス(N,R等)を分離して数値部分のみゼロ埋め
+    suffix = ""
+    numeric_part = raw_code
+    if raw_code and raw_code[-1].isalpha():
+        suffix = raw_code[-1]
+        numeric_part = raw_code[:-1]
+    current_code = f"{int(numeric_part):02d}{suffix}"
+    skip_code_detection = True
+
+# ループ内
+if not skip_code_detection:
+    detected_code = _detect_code_section(line_stripped)
+else:
+    detected_code = None
+```
+
+### 注意点
+- `zfill(2)`はサフィックス付きコード(`"1N"`)で誤動作する（`"1N"`は既に長さ2なのでパディングされない）
+- サフィックスを分離してから数値部分のみゼロ埋めすること
+- 個別処理でもコード検出を完全に無効化するため、false positiveのリスクを理解しておく
+
+---
+
 ## 実装チェックリスト
 
 - [ ] 区切り文字がコンテンツにも現れる可能性を考慮したか
