@@ -1,0 +1,11 @@
+{
+  "id": "1",
+  "subject": "セッション作成・STEP 1 原稿生成実行",
+  "description": "セッション作成→STEP 1 API呼び出し（原稿生成・PPV ID発行）。generate_opening=false, generate_closing=true, site_id=482, mid_id=293, price=2000",
+  "activeForm": "STEP 1 原稿生成を実行中",
+  "status": "in_progress",
+  "blocks": [
+    "2"
+  ],
+  "blockedBy": []
+}

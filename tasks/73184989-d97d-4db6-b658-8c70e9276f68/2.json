@@ -1,0 +1,11 @@
+{
+  "id": "2",
+  "subject": "STEP 2-8 連続実行",
+  "description": "STEP 2 メニュー登録→STEP 3 PPV情報登録→STEP 4 メニュー設定→STEP 5 売上集計→STEP 6 原稿本番アップ→STEP 7 従量自動更新→STEP 8 小見出し登録",
+  "activeForm": "STEP 2-8 を連続実行中",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": [
+    "1"
+  ]
+}
