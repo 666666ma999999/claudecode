@@ -3,7 +3,7 @@
   "subject": "Codexレビューと修正",
   "description": "Codexでコードレビューを実行し、指摘事項を修正する",
   "activeForm": "Codexレビューを実行中",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
   "blockedBy": [
     "4"
