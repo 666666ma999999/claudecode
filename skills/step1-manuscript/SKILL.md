@@ -136,6 +136,7 @@ order,title,mid_id
 | API エラー | エラーメッセージ確認、入力データ検証 |
 | 生成失敗 | Gemini API設定確認 |
 | 原稿が空で返る | 自動リトライ（1回）が実装済み。それでも空の場合はfortune_resultのフォーマットを確認 |
+| [生成エラー]検出 | 品質ゲートでSTEP 1がerror終了。STEP 1を再実行すること（v1.51.4以降） |
 | subtitle_count=0 | 早期リターンで `errorType: "no_subtitles"` を返す。fortune_resultが番号リスト形式であることを確認 |
 
 ## 小見出し抽出の対応フォーマット
