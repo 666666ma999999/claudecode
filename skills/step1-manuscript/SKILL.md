@@ -180,11 +180,15 @@ order,title,mid_id
 - STEP 1はdict ではなくSubtitleInfoオブジェクトでsubtitlesを保存（v1.49.0以降）
 - dictで代用するとSTEP 3等でdot notationアクセス時にAttributeErrorが発生する
 
-### I6. 原稿品質ゲート（[生成エラー]ブロック）
-- STEP 1完了前に`manuscript_text`内の`[生成エラー]`マーカーをカウント
-- 1件以上検出 → STEP 1を`error`ステータスで終了、STEP 2以降をブロック
+### I6. 原稿品質ゲート（生成エラーブロック）
+- STEP 1完了前に以下をチェック:
+  - `manuscript_text`内の`[生成エラー]`マーカー数
+  - 冒頭文: `generate_opening=True`かつ`opening_text`空かつ`structured["opening"]`未存在
+  - 締め文: `generate_closing=True`かつ`closing_text`空かつ`structured["closing"]`未存在
+  - サマリー: `_process_special_komis()`の戻り値（失敗項目リスト）
+- いずれか1件以上 → STEP 1を`error`ステータスで終了、STEP 2以降をブロック
 - 原稿データはセッションに保存済み（再実行時の参考データとして利用可能）
-- orchestrator.pyの既存の前提STEPガードが`status != "success"`で自動ブロック
+- BE（step1_pipeline.py）/ FE（auto.html）両パスで適用
 
 ### I7. 末尾小見出しのkomi_type制約
 - 末尾（最後）の小見出しは`komi_normal`禁止（締めメッセージとして使われるため）
