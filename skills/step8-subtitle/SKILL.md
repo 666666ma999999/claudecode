@@ -377,12 +377,13 @@ await page.evaluate((ppv_id) => {
 
 **原因**: 旧ロジックでは`menu_id_prefix`でフィルタしていたため、別プレフィックスが処理対象から漏れていた
 
-**修正（v1.49.1）**:
-1. 検索フィルタリング: `search_menu(session_menu_id)` を**冒頭**で呼び、当該メニューの行のみに絞り込み
-   - 例: `search_menu("2598")` → `monthlyAffinity001.2598.xxx` と `fixedCode001.2598.xxx` の両方がヒット
-   - orphanアイテム（他セッションの残留: 3054, 3053等）はフィルタアウトされる
+**修正（v1.52.1）**:
+1. 検索フィルタリング: `search_menu(menu_id_prefix)` を**冒頭**で呼び、当該メニューの行のみに絞り込み
+   - 例: `search_menu("monthlyAffinity001")` → `monthlyAffinity001.261` 等がヒット
+   - **重要**: `session_menu_id`（例: "2605"）はCMS内部IDであり、izumo側のmenu_id（例: "monthlyAffinity001.261"）には**含まれない**ため検索キーに使用不可
+   - orphanアイテム（他セッションの残留: fixedCode001.xxx等）はフィルタアウトされる
 2. 最終検証でも同じ `search_menu()` を適用し、orphanアイテムの反映ボタンを誤検出しない
-3. `search_key`（`session_menu_id or menu_id_prefix`）が未指定の場合はエラーで早期リターン
+3. `search_key`（`menu_id_prefix or session_menu_id`）が未指定の場合はエラーで早期リターン
 
 ### 反映ボタンの検出セレクタ
 
