@@ -1,0 +1,13 @@
+{
+  "id": "4",
+  "subject": "ブラウザでの動作検証",
+  "description": "Playwrightブラウザで以下を検証:\n1. http://localhost:5558/detect.html にアクセス\n2. PPV ID 48200097 を入力して読込\n3. 登録データパネルに変数表示されること\n4. WEB表示チェック結果テーブルに19項目表示されること\n5. ステートマシン図が表示されること\n6. JSONエクスポートが動作すること",
+  "activeForm": "ブラウザで動作検証中",
+  "status": "pending",
+  "blocks": [
+    "5"
+  ],
+  "blockedBy": [
+    "3"
+  ]
+}

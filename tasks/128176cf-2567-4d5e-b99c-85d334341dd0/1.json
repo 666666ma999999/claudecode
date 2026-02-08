@@ -1,0 +1,11 @@
+{
+  "id": "1",
+  "subject": "Phase 1-2: HTML構造変更とCSS変更",
+  "description": "detect.htmlのHTML構造とCSSを全面改修:\n- ヘッダー: タイトルを「WEB表示確認ダッシュボード」に変更\n- 入力欄: サイトコードselect + リリース日input + 認証状態バーを追加\n- 中央パネル（STEP I/O）削除\n- 右パネル: WEB表示チェック結果テーブル（19項目）に変更\n- 下部: ステートマシン図（フル幅）\n- CSS: STEP I/O関連クラス削除、新レイアウトのCSS追加",
+  "activeForm": "HTML/CSS構造を改修中",
+  "status": "completed",
+  "blocks": [
+    "2"
+  ],
+  "blockedBy": []
+}
