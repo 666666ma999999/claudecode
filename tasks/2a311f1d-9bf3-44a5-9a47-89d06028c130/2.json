@@ -3,7 +3,7 @@
   "subject": "STEP 2-8: 順次実行",
   "description": "STEP 1完了後、STEP 2→3→4→5→6→7→8を順次実行。サイトID=482, mid_id=293, 料金=2000, 冒頭OFF/締めON",
   "activeForm": "STEP 2-8 順次実行中",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": [
     "1"
