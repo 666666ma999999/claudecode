@@ -14,6 +14,34 @@
       "tmuxPaneId": "",
       "cwd": "/Users/masaaki/Desktop/prm/rohan",
       "subscriptions": []
+    },
+    {
+      "agentId": "fe-worker@v156-refactor",
+      "name": "fe-worker",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-6",
+      "prompt": "あなたはチーム「v156-refactor」のFEワーカーです。以下の5つのタスクを順番に実装してください。\n\n## 作業手順\n1. TaskListでタスク確認\n2. 未ブロックのタスクをTaskUpdateでin_progressに\n3. 実装\n4. TaskUpdateでcompletedに\n5. 次のタスクへ（ブロック解除されたものも含む）\n\n## 担当タスク（順序）\n\n### ITEM 1 (Task #1): check/detect共通CSS → styles.css抽出\n- check.htmlとdetect.htmlの`<style>`タグから共通CSSルールを特定\n- `frontend/styles.css`の末尾に`/* === Check/Detect共通 === */`セクションとして追加\n- 両HTMLから重複CSSを削除（ページ固有CSSのみ残す）\n- 対象: `.input-panel`, `.input-row`, `.input-group`, `.auth-status-bar`, `.confidence-*`, `.result-*`等\n\n### ITEM 2 (Task #2): サイトコード設定 → config.js集約\n- `frontend/config.js`に`SITE_CODES`配列を追加\n- `frontend/check_common.js`に`renderSiteCodeDropdown(selectId)`ヘルパーを追加\n- check.html/detect.htmlのselect optionsをJS動的生成に変更（ハードコードされたoptionを削除）\n\n### ITEM 5 (Task #5): auto.html デッドゲッター関数削除\n- auto.html内の全function定義をリスト化\n- Grepで各関数の呼び出し箇所を全ファイル検索\n- auto.html内部からも外部からも呼ばれていないゲッター関数を削除\n\n### ITEM 7 (Task #7): script.js 未使用関数削除\n- script.jsの全function定義をリスト化\n- Grepで各関数のHTML/JS内呼び出しを検索（index.html, txt_dl.html, auto.html等）\n- 呼び出し元がゼロの関数を削除\n\n### ITEM 6 (Task #6, blocked by 1,2): check/detect共通フォームJS → check_common.js拡張\n- ※ITEM 1,2完了後に着手\n- check.htmlとdetect.htmlのフォーム値取得ロジック（site_code, ppv_id取得等）を比較\n- 共通部分を`check_common.js`に`getCheckFormValues()`として追加\n- URL構築ロジック（`/api/check/urls`呼び出し）も共通化\n- 両HTMLからインラインの重複JSを削除\n\n## 重要ルール\n- 各ファイルは必ずReadで先に読んでから編集\n- 既存の動作を壊さない（CSSクラス名やJS関数名は変えない）\n- 各ITEM完了後にTaskUpdateでcompletedにする\n- 全タスク完了後、SendMessageでteam-leadに完了報告",
+      "color": "blue",
+      "planModeRequired": false,
+      "joinedAt": 1770632790226,
+      "tmuxPaneId": "in-process",
+      "cwd": "/Users/masaaki/Desktop/prm/rohan",
+      "subscriptions": [],
+      "backendType": "in-process"
+    },
+    {
+      "agentId": "be-worker@v156-refactor",
+      "name": "be-worker",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-6",
+      "prompt": "あなたはチーム「v156-refactor」のBEワーカーです。以下の2つのタスクを順番に実装してください。\n\n## 作業手順\n1. TaskListでタスク確認\n2. 未ブロックのタスクをTaskUpdateでin_progressに\n3. 実装\n4. TaskUpdateでcompletedに\n5. 次のタスクへ\n\n## 担当タスク\n\n### ITEM 3 (Task #3): orchestrator.py _safe_attr モジュールレベル昇格\n- `backend/routers/orchestrator.py`を読む\n- `build_manuscript_request()`内のローカル`get_attr()`関数を見つける（dict/Pydantic両対応ヘルパー）\n- これを`_safe_attr(obj, key, default=None)`としてモジュールレベル（import文の直後、最初の関数定義の前）に移動\n- `build_manuscript_request()`内のget_attr()呼び出し7箇所を`_safe_attr()`に置換\n- `build_ppv_detail_request()`内のyudoアクセスで`isinstance(dist.yudo, dict)`三項演算子を使っている箇所（5行程度）を`_safe_attr()`で簡潔化\n\n### ITEM 4 (Task #4, blocked by 3): orchestrator.py build_*_request共通バリデーション\n- ※ITEM 3完了後に着手\n- `build_manuscript_request()`の冒頭バリデーション（site_id, title, ppv_id必須チェック、L86-91付近）を確認\n- 同様のバリデーションが`build_ppv_detail_request()`や他のbuild_*関数にもあるか確認\n- 共通バリデーションを`_validate_record_basics(record, required_fields: list[str])`として抽出\n  - recordからrequired_fieldsの各フィールドが存在し空でないことを検証\n  - 不足フィールドがある場合はValueErrorをraise\n- 各build_*_request()の冒頭で`_validate_record_basics()`を呼び出すよう置換\n\n## 重要ルール\n- orchestrator.pyは必ずReadで先に読んでから編集\n- 既存の動作を壊さない（関数シグネチャ、戻り値の型は変えない）\n- 各ITEM完了後にTaskUpdateでcompletedにする\n- 全タスク完了後、SendMessageでteam-leadに完了報告",
+      "color": "green",
+      "planModeRequired": false,
+      "joinedAt": 1770632801426,
+      "tmuxPaneId": "in-process",
+      "cwd": "/Users/masaaki/Desktop/prm/rohan",
+      "subscriptions": [],
+      "backendType": "in-process"
     }
   ]
 }

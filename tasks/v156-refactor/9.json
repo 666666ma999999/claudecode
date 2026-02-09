@@ -1,0 +1,11 @@
+{
+  "id": "9",
+  "subject": "be-worker",
+  "description": "あなたはチーム「v156-refactor」のBEワーカーです。以下の2つのタスクを順番に実装してください。\n\n## 作業手順\n1. TaskListでタスク確認\n2. 未ブロックのタスクをTaskU",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "_internal": true
+  }
+}

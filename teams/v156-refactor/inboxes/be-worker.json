@@ -1,0 +1,9 @@
+[
+  {
+    "from": "be-worker",
+    "text": "{\"type\":\"task_assignment\",\"taskId\":\"3\",\"subject\":\"ITEM 3: orchestrator.py _safe_attr モジュールレベル昇格 (~15行削減)\",\"description\":\"build_manuscript_request()内のローカルget_attr()を_safe_attr()としてモジュールレベル(L44付近)に移動。build_manuscript_request()内の7箇所とbuild_ppv_detail_request()のyudoアクセス5行を_safe_attr()呼び出しに置換。\",\"assignedBy\":\"be-worker\",\"timestamp\":\"2026-02-09T10:26:49.863Z\"}",
+    "timestamp": "2026-02-09T10:26:49.863Z",
+    "color": "green",
+    "read": false
+  }
+]

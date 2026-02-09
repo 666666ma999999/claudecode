@@ -5,5 +5,7 @@
   "activeForm": "共通バリデーション抽出中",
   "status": "pending",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [
+    "3"
+  ]
 }

@@ -5,5 +5,8 @@
   "activeForm": "共通フォームJS抽出中",
   "status": "pending",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [
+    "1",
+    "2"
+  ]
 }

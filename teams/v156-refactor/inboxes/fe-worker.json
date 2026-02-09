@@ -1,0 +1,9 @@
+[
+  {
+    "from": "fe-worker",
+    "text": "{\"type\":\"task_assignment\",\"taskId\":\"1\",\"subject\":\"ITEM 1: check/detect共通CSS → styles.css抽出 (~200行削減)\",\"description\":\"check.htmlとdetect.htmlの`<style>`タグから共通CSSルールを特定し、styles.cssの末尾に`/* === Check/Detect共通 === */`セクションとして追加。両HTMLから重複CSSを削除。対象: `.input-panel`, `.input-row`, `.input-group`, `.auth-status-bar`, `.confidence-*`等\",\"assignedBy\":\"fe-worker\",\"timestamp\":\"2026-02-09T10:26:36.901Z\"}",
+    "timestamp": "2026-02-09T10:26:36.901Z",
+    "color": "blue",
+    "read": false
+  }
+]
