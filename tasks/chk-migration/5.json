@@ -3,10 +3,10 @@
   "subject": "Phase 5: フロントエンドコピー＋新規作成 (check.html, detect.html, check_common.js, config.js, utils.js, styles.css)",
   "description": "rohan/frontend/ から chk/frontend/ へFEファイルをコピーし、新規FEファイルを作成。\n\n**コピー (変更なし):**\n1. `frontend/check.html` (1,183行) - そのままコピー\n2. `frontend/detect.html` (1,080行) - そのままコピー\n3. `frontend/check_common.js` (442行) - そのままコピー\n\n**新規作成 (縮小版):**\n4. `frontend/config.js` (~10行) - SITE_CODES + API_TOKEN のみ（rohan config.jsの縮小版）\n5. `frontend/utils.js` (~90行) - detect.html用の4関数: escapeHtml, formatValue, formatValueWithTitle, formatVariableValue（rohan utils.jsから抽出）\n6. `frontend/styles.css` (~180行) - check/detect共通スタイル（rohan styles.cssから抽出）\n\n**注意:**\n- check.html, detect.html内のAPIエンドポイントURLはrohanと同じパス構造（/api/check/*, /api/detect/*）なのでURL変更不要\n- config.jsは元のrohan版が263行だが、chk用はSITE_CODES/API_TOKEN/基本設定のみでよい\n- styles.cssは元が867行だが、check/detect関連のスタイルのみ抽出\n\n**依存:** Phase 1-3と独立して実行可能（FEファイルのコピー自体はBEに依存しない）",
   "activeForm": "Setting up frontend files",
-  "status": "in_progress",
+  "owner": "fe-builder",
+  "status": "completed",
   "blocks": [
     "6"
   ],
-  "blockedBy": [],
-  "owner": "fe-builder"
+  "blockedBy": []
 }
