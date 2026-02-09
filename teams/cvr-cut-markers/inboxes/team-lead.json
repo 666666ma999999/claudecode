@@ -13,5 +13,13 @@
     "timestamp": "2026-02-09T13:28:43.431Z",
     "color": "blue",
     "read": true
+  },
+  {
+    "from": "p2-prompts",
+    "text": "タスク#2完了しました。\n\n作成したファイル:\n1. `/Users/masaaki/Desktop/prm/rohan/backend/prompts/NarrativeRolePrompt.md` (1183 bytes)\n   - テンプレート変数: `{product_name}`, `{subtitles}`\n   - 5つの役割定義 (hook, build, pivot, reveal, climax) と制約条件を含む\n\n2. `/Users/masaaki/Desktop/prm/rohan/backend/prompts/CutPlacementPrompt.md` (1606 bytes)\n   - テンプレート変数: `{subtitle_title}`, `{narrative_role}`, `{role_specific_instruction}`, `{bodies}`\n   - 良い例/悪い例、5つの制約条件、出力形式を含む\n\nプラン外の変更は一切行っていません。",
+    "summary": "Task #2 completed: 2 prompt files created",
+    "timestamp": "2026-02-09T13:29:14.627Z",
+    "color": "green",
+    "read": true
   }
 ]
