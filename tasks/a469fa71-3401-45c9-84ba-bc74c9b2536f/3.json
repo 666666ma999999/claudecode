@@ -4,6 +4,11 @@
   "description": "Phase 3: Add POST /api/check/payment-test, GET /api/check/prepaid-status, POST /api/check/prepaid-update endpoints to check.py. Includes PaymentTestRequest/Response models and safety validation.",
   "activeForm": "Adding payment API endpoints",
   "status": "pending",
-  "blocks": [],
-  "blockedBy": []
+  "blocks": [
+    "5",
+    "6"
+  ],
+  "blockedBy": [
+    "2"
+  ]
 }

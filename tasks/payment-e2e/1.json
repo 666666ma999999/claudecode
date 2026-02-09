@@ -1,0 +1,11 @@
+{
+  "id": "1",
+  "subject": "config-creator",
+  "description": "Create the WebMoney prepaid card configuration file. \n\n1. Create file at `/Users/masaaki/Desktop/prm",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "_internal": true
+  }
+}

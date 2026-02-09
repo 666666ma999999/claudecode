@@ -1,0 +1,33 @@
+{
+  "name": "payment-e2e",
+  "description": "WebMoney E2E payment test automation implementation",
+  "createdAt": 1770606240229,
+  "leadAgentId": "team-lead@payment-e2e",
+  "leadSessionId": "a469fa71-3401-45c9-84ba-bc74c9b2536f",
+  "members": [
+    {
+      "agentId": "team-lead@payment-e2e",
+      "name": "team-lead",
+      "agentType": "team-lead",
+      "model": "claude-opus-4-6",
+      "joinedAt": 1770606240229,
+      "tmuxPaneId": "",
+      "cwd": "/Users/masaaki/Desktop/prm/chk",
+      "subscriptions": []
+    },
+    {
+      "agentId": "config-creator@payment-e2e",
+      "name": "config-creator",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-6",
+      "prompt": "Create the WebMoney prepaid card configuration file. \n\n1. Create file at `/Users/masaaki/Desktop/prm/rohan/data/webmoney_prepaid.json` with this content:\n\n```json\n{\n  \"cards\": [\n    {\n      \"number\": \"taar6jecngxkq438\",\n      \"initial_balance\": 100000,\n      \"remaining_balance\": 97800,\n      \"used_count\": 1,\n      \"last_used_at\": \"2026-02-09T11:30:00\",\n      \"last_used_ppv\": \"48200097\"\n    }\n  ],\n  \"safety\": {\n    \"max_price_yen\": 3000,\n    \"require_confirmation\": true,\n    \"auto_batch_enabled\": false\n  }\n}\n```\n\n2. Check if there is a `.gitignore` file at `/Users/masaaki/Desktop/prm/rohan/` or `/Users/masaaki/Desktop/prm/` and add `data/webmoney_prepaid.json` to it (if gitignore exists). If no gitignore exists, create one at `/Users/masaaki/Desktop/prm/rohan/.gitignore` with the entry.\n\nJust create the files - do not run any servers or tests.\n",
+      "color": "blue",
+      "planModeRequired": false,
+      "joinedAt": 1770606257609,
+      "tmuxPaneId": "in-process",
+      "cwd": "/Users/masaaki/Desktop/prm/chk",
+      "subscriptions": [],
+      "backendType": "in-process"
+    }
+  ]
+}

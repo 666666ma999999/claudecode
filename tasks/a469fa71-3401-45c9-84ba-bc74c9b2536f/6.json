@@ -1,0 +1,13 @@
+{
+  "id": "6",
+  "subject": "Server restart, Codex review, and verification",
+  "description": "Phase 6: Restart server, run Codex review, verify all endpoints work, test UI loads correctly, verify batch check excludes payment test.",
+  "activeForm": "Verifying implementation",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": [
+    "3",
+    "4",
+    "5"
+  ]
+}

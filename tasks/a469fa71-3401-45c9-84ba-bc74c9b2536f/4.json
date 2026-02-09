@@ -1,0 +1,11 @@
+{
+  "id": "4",
+  "subject": "Modify check_playwright.py - Add parameters to 4 check methods",
+  "description": "Phase 4: Add payment_completed param to check_paid_price_page(), external_checker to check_yudo_links() and check_paid_subtitles(), expected_purchase_count to check_analytics().",
+  "activeForm": "Modifying check methods",
+  "status": "pending",
+  "blocks": [
+    "6"
+  ],
+  "blockedBy": []
+}
