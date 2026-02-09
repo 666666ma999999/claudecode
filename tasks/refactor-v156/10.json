@@ -1,9 +1,0 @@
-{
-  "id": "10",
-  "subject": "Split step1_pipeline.py execute() into smaller methods (#1)",
-  "description": "Break down the 200+ line execute() method into private methods for each processing stage. Use self instance variables or explicit params/returns for state passing between stages.",
-  "activeForm": "Splitting step1_pipeline.py execute() into smaller methods",
-  "status": "pending",
-  "blocks": [],
-  "blockedBy": []
-}

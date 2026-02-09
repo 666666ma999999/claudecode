@@ -1,8 +1,0 @@
-[
-  {
-    "from": "team-lead",
-    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1770631727323@be-check-browser\",\"from\":\"team-lead\",\"reason\":\"Work is complete, shutting down the team. Thank you.\",\"timestamp\":\"2026-02-09T10:08:47.323Z\"}",
-    "timestamp": "2026-02-09T10:08:47.323Z",
-    "read": true
-  }
-]

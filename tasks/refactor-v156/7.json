@@ -1,9 +1,0 @@
-{
-  "id": "7",
-  "subject": "Implement regex deduplication (#11) - helpers.py field_patterns → regex_patterns.py",
-  "description": "Remove hardcoded field_patterns from helpers.py extract_prompt_fields() and use PROMPT_FIELD_PATTERNS from regex_patterns.py instead. Handle key name mapping if needed.",
-  "activeForm": "Implementing regex deduplication for prompt field patterns",
-  "status": "pending",
-  "blocks": [],
-  "blockedBy": []
-}

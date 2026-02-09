@@ -1,8 +1,0 @@
-[
-  {
-    "from": "team-lead",
-    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1770631726733@be-pipeline\",\"from\":\"team-lead\",\"reason\":\"Work is complete, shutting down the team. Thank you.\",\"timestamp\":\"2026-02-09T10:08:46.733Z\"}",
-    "timestamp": "2026-02-09T10:08:46.733Z",
-    "read": true
-  }
-]

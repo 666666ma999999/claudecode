@@ -1,9 +1,0 @@
-{
-  "id": "8",
-  "subject": "Unify logic name extraction regex (#12) - main.py + step1_pipeline.py → regex_patterns.py",
-  "description": "Extract logic name extraction regex from main.py and step1_pipeline.py into a shared function in regex_patterns.py.",
-  "activeForm": "Unifying logic name extraction regex",
-  "status": "pending",
-  "blocks": [],
-  "blockedBy": []
-}

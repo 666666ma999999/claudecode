@@ -1,9 +1,0 @@
-{
-  "id": "11",
-  "subject": "Verify all changes compile and report completion",
-  "description": "Run py_compile on all modified files and report results to team lead.",
-  "activeForm": "Verifying compilation of all modified files",
-  "status": "pending",
-  "blocks": [],
-  "blockedBy": []
-}
