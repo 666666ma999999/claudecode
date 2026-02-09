@@ -2,7 +2,7 @@
   "id": "4",
   "subject": "playwright-mods",
   "description": "Modify 4 methods in `/Users/masaaki/Desktop/prm/rohan/backend/routers/check_playwright.py` to add pa",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": [],
   "metadata": {
