@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "Add new IDs to detect.html STEP_SECTIONS",
+  "description": "Step 8: Add free-komi-type and paid-komi-type to STEP_SECTIONS",
+  "activeForm": "Updating detect.html",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

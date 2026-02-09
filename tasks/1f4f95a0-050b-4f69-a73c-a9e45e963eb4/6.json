@@ -1,0 +1,9 @@
+{
+  "id": "6",
+  "subject": "Server restart, API test, and Codex review",
+  "description": "Step verification: restart server, test API, run Codex review",
+  "activeForm": "Verifying implementation",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
