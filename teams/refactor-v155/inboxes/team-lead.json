@@ -48,6 +48,56 @@
     "text": "{\"type\":\"idle_notification\",\"from\":\"be-orch\",\"timestamp\":\"2026-02-09T09:11:43.704Z\",\"idleReason\":\"available\"}",
     "timestamp": "2026-02-09T09:11:43.704Z",
     "color": "yellow",
-    "read": false
+    "read": true
+  },
+  {
+    "from": "be-orch",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"be-orch\",\"timestamp\":\"2026-02-09T09:11:46.858Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T09:11:46.858Z",
+    "color": "yellow",
+    "read": true
+  },
+  {
+    "from": "be-check",
+    "text": "BE check系4タスク全て完了しました。\n\n## 実施内容\n\n### タスク1: #10 - Dead code削除\n- `backend/routers/check.py`: 未使用import `uuid` 削除、未使用定数 `SITE_NAMES` 削除\n- Grepで他ファイルからの参照がないことを確認済み\n\n### タスク2: #11 - site_codeバリデーション一元化\n- `get_check_urls()` 内のインラインsite_code検証を `_validate_site_code()` 呼び出しに統一\n- その後 `SITE_BASE_URLS` のdict存在チェックも維持（パストラバーサル防止 + 未知サイトコード防止の2層）\n\n### タスク3: #8 - URL生成共通化\n- **新規ファイル**: `backend/utils/check_urls.py` 作成\n  - `SITE_BASE_URLS`, `SITE_OPEN_BASE_URLS` 定数\n  - `get_base_url()`, `get_open_base_url()` ヘルパー\n  - `build_check_urls()` 関数（ppv_id, site_code, release_date → URL dict）\n- `check.py`: 旧 `SITE_BASE_URLS` 削除、`build_check_urls()` と `get_base_url()` に置換\n- `check_playwright.py`: `CheckFlowExecutor.__init__()` 内のインラインdict2つを `get_base_url()` / `get_open_base_url()` に置換\n\n### タスク4: #7 - check_playwright.py navigation pattern統合\n- `_check_with_navigation(checker, url, item_id, checker_fn)` テンプレートメソッド追加\n- 以下4関数をリファクタリング（navigate→screenshot→failure共通化、各関数はchecker_fnのみ実装）:\n  - `check_page_load`\n  - `check_text_presence`\n  - `check_text_absence`\n  - `check_subtitles`\n- 既存の呼び出し箇所（`execute_check`内）は変更不要（関数シグネチャ維持）\n\n## 変更ファイル\n- `backend/routers/check.py` (編集)\n- `backend/routers/check_playwright.py` (編集)\n- `backend/utils/check_urls.py` (新規作成)\n\n## 検証\n- 全3ファイルの `py_compile` 構文チェック通過\n- 旧定数・import への参照が残っていないことをGrepで確認",
+    "summary": "BE check 4 tasks completed: dead code, validation, URL extraction, nav pattern",
+    "timestamp": "2026-02-09T09:11:49.296Z",
+    "color": "green",
+    "read": true
+  },
+  {
+    "from": "be-check",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"be-check\",\"timestamp\":\"2026-02-09T09:11:55.181Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T09:11:55.181Z",
+    "color": "green",
+    "read": true
+  },
+  {
+    "from": "be-check",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"be-check\",\"timestamp\":\"2026-02-09T09:12:00.204Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T09:12:00.204Z",
+    "color": "green",
+    "read": true
+  },
+  {
+    "from": "be-check",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"be-check\",\"timestamp\":\"2026-02-09T09:12:03.805Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T09:12:03.805Z",
+    "color": "green",
+    "read": true
+  },
+  {
+    "from": "be-check",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"be-check\",\"timestamp\":\"2026-02-09T09:12:06.982Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T09:12:06.982Z",
+    "color": "green",
+    "read": true
+  },
+  {
+    "from": "be-check",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"be-check\",\"timestamp\":\"2026-02-09T09:12:10.364Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T09:12:10.364Z",
+    "color": "green",
+    "read": true
   }
 ]
