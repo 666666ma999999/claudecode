@@ -1,0 +1,15 @@
+{
+  "id": "4",
+  "subject": "サーバー再起動 + ヘルスチェック",
+  "description": "全ヘルパー抽出後にサーバー再起動(stop_servers.sh→start_unified_server.sh)とヘルスチェック(curl http://localhost:5558/ → 200)を実施",
+  "activeForm": "Restarting server and health check",
+  "status": "pending",
+  "blocks": [
+    "5"
+  ],
+  "blockedBy": [
+    "1",
+    "2",
+    "3"
+  ]
+}

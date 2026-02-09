@@ -1,0 +1,14 @@
+{
+  "id": "2",
+  "subject": "Helper 2: _navigate_or_fail() 抽出",
+  "description": "navigate→失敗→CheckResult返却パターンを18箇所で統一するヘルパーメソッド_navigate_or_fail()を抽出する。高インパクト。",
+  "activeForm": "Extracting _navigate_or_fail helper",
+  "status": "in_progress",
+  "blocks": [
+    "3",
+    "4"
+  ],
+  "blockedBy": [
+    "1"
+  ]
+}
