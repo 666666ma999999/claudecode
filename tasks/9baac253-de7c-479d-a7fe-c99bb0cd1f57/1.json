@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "A1: Semaphoreスコープ最適化",
-  "description": "main.py L2250-2303のSemaphoreスコープをリトライループ外からAPI呼び出しのみに変更",
-  "activeForm": "Semaphoreスコープ最適化中",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}

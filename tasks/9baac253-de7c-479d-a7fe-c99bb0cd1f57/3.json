@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "A4: STEP 8反映ループO(N)最適化",
-  "description": "browser_automation.py L2688-2768のO(N²)ループをJS一括収集+直接ロケートでO(N)化、タイムアウト15s→8s",
-  "activeForm": "反映ループ最適化中",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
