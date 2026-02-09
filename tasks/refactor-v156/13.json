@@ -1,0 +1,11 @@
+{
+  "id": "13",
+  "subject": "fe-all",
+  "description": "あなたは「fe-all」ワーカーです。以下の5つのリファクタリング項目を実装してください。\n\n## 担当ファイル（排他所有権）\n- `frontend/auto.html`\n- `frontend/c",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "_internal": true
+  }
+}

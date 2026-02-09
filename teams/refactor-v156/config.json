@@ -28,6 +28,48 @@
       "cwd": "/Users/masaaki/Desktop/prm/rohan",
       "subscriptions": [],
       "backendType": "in-process"
+    },
+    {
+      "agentId": "be-reg@refactor-v156",
+      "name": "be-reg",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-6",
+      "prompt": "あなたは「be-reg」ワーカーです。以下の3つのリファクタリング項目を実装してください。\n\n## 担当ファイル（排他所有権）\n- `backend/routers/orchestrator.py`\n- `backend/routers/registration.py`\n- `backend/routers/registration_session.py`\n\n## タスク1: #2 - orchestrator.py execute_step_generic()の分割\n\n**問題**: `execute_step_generic()`が260行超の巨大関数で、前提チェック・mutex・リトライ・エラー分類・ロールバック等が1関数に混在。\n\n**作業**:\n1. `execute_step_generic()`を読んで処理の境界を特定\n2. 以下のようなヘルパーメソッドに分割を検討:\n   - 前提STEPチェック部分\n   - Mutex取得・解放部分\n   - リトライ付き実行部分\n   - エラー分類・レスポンス構築部分\n3. `execute_step_generic()`はこれらを呼ぶオーケストレーションに\n4. **重要**: エラー分類の移動で挙動差が出やすいため、安全性を優先。分割が困難なら理由を報告。\n\n## タスク2: #3 - registration.py register_manuscript_endpoint分割\n\n**問題**: `register_manuscript_endpoint`が150行超で、midid_map構築・komi_type解決・offset計算・小見出し構築等が混在。\n\n**作業**:\n1. 関数を読んで分割可能な論理ブロックを特定\n2. `_build_midid_map()`, `_resolve_komi_type_map()`, `_compute_midid_offset()`, `_build_subtitle_contents()`等に分割\n3. 元の関数はこれらを順番に呼ぶシンプルなフローに\n\n## タスク3: #4 - registration.py STEP実行エンドポイントのtry/except/tracker共通化\n\n**問題**: 複数のSTEP実行エンドポイントで同じパターンが繰り返されている:\n```python\nasync with StepExecutionTracker(...):\n    try:\n        result = await some_step_function(...)\n        if result.success:\n            return {\"success\": True, ...}\n        else:\n            return {\"success\": False, ...}\n    except Exception as e:\n        raise HTTPException(status_code=500, detail=str(e))\n```\n\n**作業**:\n1. 該当するエンドポイントを全てGrepで特定（`StepExecutionTracker`で検索）\n2. 共通パターンを`_run_step_endpoint(step, name, request, action_fn)`等に抽出\n3. 各エンドポイントは共通関数を呼ぶだけに\n4. **注意**: 返却JSONの微妙な差異はオプションで吸収\n\n## 完了条件\n- 巨大関数が適切な粒度に分割されている\n- STEP実行パターンが共通化されている\n- 全ファイルが`py_compile`で構文エラーなし\n- 安全に統合できない項目は理由を報告",
+      "color": "green",
+      "planModeRequired": false,
+      "joinedAt": 1770630400180,
+      "tmuxPaneId": "in-process",
+      "cwd": "/Users/masaaki/Desktop/prm/rohan",
+      "subscriptions": [],
+      "backendType": "in-process"
+    },
+    {
+      "agentId": "be-check-browser@refactor-v156",
+      "name": "be-check-browser",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-6",
+      "prompt": "あなたは「be-check-browser」ワーカーです。以下の2つのリファクタリング項目を実装してください。\n\n## 担当ファイル（排他所有権）\n- `backend/routers/check_playwright.py`\n- `backend/utils/browser_automation.py`\n\n## タスク1: #5 - check_playwright.py open_and_guard()追加\n\n**問題**: 複数のチェック関数で「navigate→screenshot→auth redirect判定」のシーケンスが重複している。v1.55.0で`_check_with_navigation()`テンプレートと`_navigate_or_fail()`は追加済みだが、それ以外のチェック関数（有料原稿チェック、komiチェック等）でも同様のパターンが残っている。\n\n**作業**:\n1. check_playwright.pyを読んで、`_navigate_or_fail()`と`_is_auth_redirect()`を使うパターンが繰り返されている箇所を全て特定\n2. さらに共通化できる部分があれば`_open_and_guard(checker, url, item_id, screenshot_path=None)`を作成\n3. 共通化できる繰り返しが少ない場合は、無理に共通化せず報告\n\n## タスク2: #6 - browser_automation.py run_playwright_step()共通化\n\n**問題**: STEP別のPlaywright実行関数（register_ppv_detail, register_cms_menu, register_auto_update等）で以下のパターンが重複:\n```python\ntimeout_ms = get_timeout(N, \"default\")\nasync with StepExecutionTracker(...):\n    try:\n        worker = SomeRegistration(config)\n        await worker.start()\n        result = await worker.some_method(...)\n        ...\n    except Exception as e:\n        ...\n    finally:\n        if worker and not worker._should_keep_browser():\n            await worker.close()\n```\n\n**作業**:\n1. browser_automation.pyを読んで、上記パターンが繰り返されている関数を全て特定\n2. `_run_playwright_step(step_num, step_name, session_id, config, worker_cls, worker_method, **kwargs)`を作成\n3. start/close/mark_error/trackerを共通化\n4. **注意**: STEPごとの戻り値の差が大きい場合は、共通化が逆効果になる可能性がある。その場合は無理にせず報告。\n\n## 完了条件\n- 安全に共通化できるパターンが統合されている\n- 共通化が逆効果の項目は理由を報告\n- 全ファイルが`py_compile`で構文エラーなし",
+      "color": "yellow",
+      "planModeRequired": false,
+      "joinedAt": 1770630413780,
+      "tmuxPaneId": "in-process",
+      "cwd": "/Users/masaaki/Desktop/prm/rohan",
+      "subscriptions": [],
+      "backendType": "in-process"
+    },
+    {
+      "agentId": "fe-all@refactor-v156",
+      "name": "fe-all",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-6",
+      "prompt": "あなたは「fe-all」ワーカーです。以下の5つのリファクタリング項目を実装してください。\n\n## 担当ファイル（排他所有権）\n- `frontend/auto.html`\n- `frontend/check.html`\n- `frontend/detect.html`\n- `frontend/check_common.js`\n- `backend/routers/check.py`（#10のスキーマAPI追加のみ）\n\n## タスク1: #13 - detect.html buildCheckUrls()削除→BE API統一（最優先）\n\n**問題**: detect.htmlに`buildCheckUrls()`がFEで独自実装されているが、check.htmlは既に`/api/check/urls` APIを使用。\n\n**作業**:\n1. detect.htmlの`buildCheckUrls()`関数を読む\n2. check.htmlが`/api/check/urls`をどう呼んでいるか確認\n3. detect.htmlのbuildCheckUrls()を削除し、/api/check/urlsを呼ぶように変更\n4. 呼び出し元も全て更新\n\n## タスク2: #8 - サイトコード選択肢の重複解消\n\n**問題**: check.htmlとdetect.htmlの`<select id=\"siteCode\">`の`<option>`リストが同一。\n\n**作業**:\n1. 両ファイルのsiteCode selectを確認\n2. `check_common.js`に`populateSiteCodeOptions(selectElement)`関数を追加し、選択肢を動的生成\n3. 両HTMLのハードコード`<option>`を削除し、初期化時に呼び出す\n4. デフォルト選択値は保持\n\n## タスク3: #7 - 認証ID重複の軽減\n\n**問題**: 認証ID `r89q7y98rqrq7`がBE(main.py)とFE(auto.html等)に重複。\n\n**作業**:\n1. auto.htmlの`getAuthId()`を確認 - URLパラメータから取得してフォールバックでハードコード\n2. **簡易対応**: フォールバックのハードコードを削除し、URLパラメータがない場合はエラーメッセージを表示するようにする（main.pyは変更不要）\n3. 同様のパターンが他のHTMLファイルにあればそちらも修正\n\n## タスク4: #9 #10 - FE/BEモデル重複の評価と対応\n\n**問題**:\n- #9: registration_session.pyのRegistrationRecordとauto.htmlのgetStepResult()でモデルが重複\n- #10: check.pyのCheckSession/CheckItemとcheck.htmlのcheckDataで重複\n\n**作業**:\n1. 両方のFE/BEコードを読んで重複の程度を評価\n2. **簡易対応として可能なら**: FE側でBEから取得したデータをそのまま使うようにし、FE独自の再定義を最小化\n3. **スキーマAPI（/api/check/schema等）は作成しない** - 過剰な抽象化になるため\n4. 安全に統合できない場合は理由を報告\n\n## 完了条件\n- detect.htmlのbuildCheckUrls()が削除されBE APIに統一\n- サイトコード選択肢がcheck_common.jsで一元管理\n- 認証IDフォールバックが削除\n- FE/BEモデル重複について対応または見送り理由を報告\n- JavaScript構文エラーなし",
+      "color": "purple",
+      "planModeRequired": false,
+      "joinedAt": 1770630432678,
+      "tmuxPaneId": "in-process",
+      "cwd": "/Users/masaaki/Desktop/prm/rohan",
+      "subscriptions": [],
+      "backendType": "in-process"
     }
   ]
 }

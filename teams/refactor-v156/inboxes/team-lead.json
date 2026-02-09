@@ -1,0 +1,30 @@
+[
+  {
+    "from": "be-pipeline",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"be-pipeline\",\"timestamp\":\"2026-02-09T09:46:57.647Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T09:46:57.647Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "be-check-browser",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"be-check-browser\",\"timestamp\":\"2026-02-09T09:46:59.015Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T09:46:59.015Z",
+    "color": "yellow",
+    "read": true
+  },
+  {
+    "from": "be-reg",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"be-reg\",\"timestamp\":\"2026-02-09T09:47:00.255Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T09:47:00.255Z",
+    "color": "green",
+    "read": true
+  },
+  {
+    "from": "fe-all",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"fe-all\",\"timestamp\":\"2026-02-09T09:47:13.230Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T09:47:13.230Z",
+    "color": "purple",
+    "read": true
+  }
+]
