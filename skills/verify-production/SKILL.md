@@ -219,6 +219,11 @@ rohan登録時のkomi_typeとizumo本番サイトのCSSクラス名には表記�
 | komi_normal | komi_normal | tit_komi_normal | 完全一致 |
 | komi_jyuyou1 | komi_juyo | tit_komi_juyo | 末尾`1`削除 + `jyuyou`→`juyo` |
 | komi_ura1 | komi_ura | *(特殊レイアウト)* | 末尾`1`削除 |
+| komi_honne1 | komi_honne | tit_komi_honne | 末尾`1`削除 |
+| komi_yesno | komi_yesno | tit_komi_yesno | 完全一致 |
+
+変換は `_convert_komi_type()` 静的メソッドで実装済み（check_playwright.py）。
+`subtitleDetails` フィールドが registered-data API に追加済み（title + komiType）。
 
 ### komi_ura 特殊レイアウト
 - h3は装飾ヘッダー「出雲の母には隠せない！あの人の裏本音」+画像
