@@ -1,0 +1,15 @@
+[
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"task_assignment\",\"taskId\":\"1\",\"subject\":\"Backend: SSEエンドポイント追加 + Gemini非同期化 (product_development_v2.py)\",\"description\":\"## 変更ファイル: `backend/routers/product_development_v2.py`\\n\\n### A. import追加 + _deps拡張\\n- `from fastapi.responses import StreamingResponse`, `from fastapi import Request`, `import asyncio`, `import json` 追加\\n- `_deps`に`\\\"executor\\\": None`追加\\n\\n### B. Gemini呼び出しを非ブロッキング化 (L442, L544, L596)\\n- `call_gemini_with_fallback()`は同期関数 → `await loop.run_in_executor(_deps[\\\"executor\\\"], lambda: call_gemini_with_fallback(...))`でラップ\\n- 3つの`_generate_step*`関数と`_rewrite_with_teacher`内の呼び出しを全て変換\\n\\n### C. `_sse_event()`ヘルパー関数 (新規)\\n```python\\ndef _sse_event(event_type: str, data: dict) -> str:\\n    return f\\\"event: {event_type}\\\\ndata: {json.dumps(data, ensure_ascii=False)}\\\\n\\\\n\\\"\\n```\\n\\n### D. SSEエンドポイント (新規: `POST /api/product-development-v2/stream`)\\n- `async def event_generator()` で候補ごとにyield\\n- イベント型: `progress`(開始/生成中), `candidate`(完了), `error`(失敗), `complete`(全完了)\\n- `await http_request.is_disconnected()` で候補生成前にクライアント切断チェック\\n- 既存エンドポイントはそのまま残す（後方互換）\\n- SSEイベントフォーマット:\\n```\\nevent: progress\\ndata: {\\\"type\\\":\\\"start\\\",\\\"total\\\":5,\\\"blank_count\\\":2}\\n\\nevent: progress  \\ndata: {\\\"type\\\":\\\"generating\\\",\\\"current\\\":1,\\\"total\\\":5}\\n\\nevent: candidate\\ndata: {\\\"id\\\":1,\\\"title\\\":\\\"...\\\",\\\"subtitles\\\":[...],\\\"emotion_hook\\\":\\\"...\\\",\\\"score\\\":50}\\n\\nevent: complete\\ndata: {\\\"model_used\\\":\\\"gemini-2.5-pro\\\",\\\"using_fallback\\\":false,\\\"blank_count\\\":2}\\n```\\n\\n### E. main.py の1行追加\\n- L3203-3211の`set_dependencies`に`executor=executor`追加\\n- executorはL110で定義済み: `executor = ThreadPoolExecutor(max_workers=4)`\",\"assignedBy\":\"team-lead\",\"timestamp\":\"2026-02-09T10:35:18.492Z\"}",
+    "timestamp": "2026-02-09T10:35:18.492Z",
+    "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "Please start working on Task #1. Read the task details with TaskGet and implement the backend changes. Remember to read files before editing.",
+    "summary": "Start Task #1 backend SSE implementation",
+    "timestamp": "2026-02-09T10:35:21.034Z",
+    "read": false
+  }
+]

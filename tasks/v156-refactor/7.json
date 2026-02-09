@@ -1,10 +1,10 @@
 {
   "id": "7",
   "subject": "ITEM 7: script.js 未使用関数削除 (~30行削減)",
-  "description": "script.jsの全エクスポート関数をリスト化。Grepで各関数のHTML/JS内呼び出しを検索。呼び出し元がゼロの関数を削除。",
+  "description": "Grep検索で全関数の使用状況を確認。script.js内の全関数がindex.htmlまたはscript.js内で参照されており、未使用関数は見つからなかった。削除行数: 0行。",
   "activeForm": "未使用関数削除中",
-  "status": "in_progress",
+  "owner": "fe-worker",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": [],
-  "owner": "fe-worker"
+  "blockedBy": []
 }

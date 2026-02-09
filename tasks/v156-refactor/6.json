@@ -3,10 +3,11 @@
   "subject": "ITEM 6: check/detect共通フォームJS → check_common.js拡張 (~80行削減)",
   "description": "両HTMLのフォーム値取得・URL構築ロジックをcheck_common.jsにgetCheckFormValues()として集約。/api/check/urls呼び出しも共通化。両HTMLからインラインの重複JSを削除。",
   "activeForm": "共通フォームJS抽出中",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": [
     "1",
     "2"
-  ]
+  ],
+  "owner": "fe-worker"
 }
