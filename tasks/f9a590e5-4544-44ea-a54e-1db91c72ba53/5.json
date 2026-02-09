@@ -3,7 +3,7 @@
   "subject": "Restart server, verify, and run Codex review",
   "description": "Final verification: restart server, health check, and run Codex review",
   "activeForm": "Verifying implementation",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }
