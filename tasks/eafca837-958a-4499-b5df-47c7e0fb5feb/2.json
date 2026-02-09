@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "Refactor PPVDetailRegistration to use shared utilities",
+  "description": "Step 2: Refactor PPVDetailRegistration in browser_automation.py. BrowserErrorMixin inheritance, lifecycle delegation. Fix self.playwright → self._playwright bug. -45 lines.",
+  "activeForm": "Refactoring PPVDetailRegistration",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

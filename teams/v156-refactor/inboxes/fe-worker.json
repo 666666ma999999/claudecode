@@ -19,5 +19,12 @@
     "timestamp": "2026-02-09T10:32:55.509Z",
     "color": "blue",
     "read": false
+  },
+  {
+    "from": "fe-worker",
+    "text": "{\"type\":\"task_assignment\",\"taskId\":\"7\",\"subject\":\"ITEM 7: script.js 未使用関数削除 (~30行削減)\",\"description\":\"script.jsの全エクスポート関数をリスト化。Grepで各関数のHTML/JS内呼び出しを検索。呼び出し元がゼロの関数を削除。\",\"assignedBy\":\"fe-worker\",\"timestamp\":\"2026-02-09T10:34:14.125Z\"}",
+    "timestamp": "2026-02-09T10:34:14.125Z",
+    "color": "blue",
+    "read": false
   }
 ]

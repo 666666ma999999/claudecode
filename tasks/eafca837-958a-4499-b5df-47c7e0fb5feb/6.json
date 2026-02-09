@@ -1,0 +1,9 @@
+{
+  "id": "6",
+  "subject": "Refactor PlaywrightChecker to use shared utilities",
+  "description": "Step 6: Refactor PlaywrightChecker in check_playwright.py. BrowserErrorMixin inheritance, launch_browser() delegation, close=stop alias. -20 lines.",
+  "activeForm": "Refactoring PlaywrightChecker",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

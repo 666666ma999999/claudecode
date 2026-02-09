@@ -1,0 +1,11 @@
+{
+  "id": "3",
+  "subject": "be-sse",
+  "description": "You are \"be-sse\" teammate in team \"sse-streaming\". Your task is Task #1: Backend SSE endpoint + Gemi",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "_internal": true
+  }
+}
