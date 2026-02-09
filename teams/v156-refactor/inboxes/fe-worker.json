@@ -12,5 +12,12 @@
     "timestamp": "2026-02-09T10:30:22.709Z",
     "color": "blue",
     "read": false
+  },
+  {
+    "from": "fe-worker",
+    "text": "{\"type\":\"task_assignment\",\"taskId\":\"5\",\"subject\":\"ITEM 5: auto.html デッドゲッター関数削除 (~60行削減)\",\"description\":\"auto.html内のデッドゲッター関数(getPersonTypeResult(), getYudoRecommendResult()等)をGrep検索で使用状況確認し、未使用関数を削除。\",\"assignedBy\":\"fe-worker\",\"timestamp\":\"2026-02-09T10:32:55.509Z\"}",
+    "timestamp": "2026-02-09T10:32:55.509Z",
+    "color": "blue",
+    "read": false
   }
 ]
