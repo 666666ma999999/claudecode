@@ -17,7 +17,7 @@
     "from": "team-lead",
     "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1770643889970@p2-prompts\",\"from\":\"team-lead\",\"reason\":\"全タスク完了しました。シャットダウンしてください。\",\"timestamp\":\"2026-02-09T13:31:29.970Z\"}",
     "timestamp": "2026-02-09T13:31:29.970Z",
-    "read": false
+    "read": true
   },
   {
     "from": "team-lead",
