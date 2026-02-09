@@ -1,7 +1,7 @@
 # verify-production
 
 name: 本番チェックフロー確認
-description: STEP 1-8で登録した情報が本番サイトに正しく反映されているか確認する。Playwright MCPまたはブラウザ自動化で19項目を自動チェック。
+description: STEP 1-8で登録した情報が本番サイトに正しく反映されているか確認する。Playwright MCPまたはブラウザ自動化で23項目を自動チェック。
 
 ## 発動条件
 
