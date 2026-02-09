@@ -27,5 +27,27 @@
     "timestamp": "2026-02-09T09:09:49.075Z",
     "color": "blue",
     "read": true
+  },
+  {
+    "from": "be-orch",
+    "text": "## be-orch 完了報告\n\n### タスク1: #6 - runtime_keep_browser集約 ✅完了\n\n**変更ファイル**: `backend/routers/orchestrator.py`\n\n**実施内容**:\n1. `_get_runtime_keep_browser(record, default=True)` ヘルパー関数をL37-44に追加\n2. 全7箇所の4行パターンを1行の関数呼び出しに置換:\n   - `build_manuscript_request` (STEP2) - L122\n   - `build_ppv_detail_request` (STEP3) - L165\n   - `build_cms_menu_request` (STEP4) - L202\n   - `build_sales_request` (STEP5) - L238\n   - `build_izumo_sync_request` (STEP6) - L256\n   - `build_reflect_all_request` (STEP8) - L291\n   - `build_auto_update_request` (STEP7) - L318\n\n**削減**: 各4行 x 7箇所 = 28行 → 7行（21行削減）\n**構文検証**: `py_compile` OK\n\n---\n\n### タスク2: #5 - STEPガード判定統合 → 統合しない判断\n\n**分析結果**: 2つのガード実装は**異なる目的**を持っており、安全に統合できません。\n\n**orchestrator.py `execute_step_generic`のガード**:\n- 実行時ゲート（STEP実行をブロック）\n- `StepHandler.prerequisite_steps`リスト（動的設定）を使用\n- `StepExecuteResponse`を返す\n- 最小限のチェック（前提STEP + mutex）のみ\n\n**registration.py `check_step_guard`**:\n- フロントエンド向けプリフライトチェックAPI\n- ハードコードされた`guard_conditions`辞書を使用\n- 豊富な情報を返す（wait_seconds, loop検出, retry情報, custom_check）\n- plain dictを返す（UI表示用）\n\n**共通部分**: 前提STEPステータス確認とmutex検出のみですが、以下の理由で統合は非推奨です:\n1. 前提STEP定義の形式が異なる（list vs single int）\n2. ステータス比較の方法が異なる（enum直接比較 vs `.value`文字列比較）\n3. 返却型が完全に異なる（`StepExecuteResponse` vs `dict`）\n4. registration側にはwait_seconds/loop検出/retry情報/custom_checkなどorchestrator側に不要な機能が多数ある\n\n無理に共通関数に抽出すると、かえって両方の可読性が低下し、結合度が上がるため、現状のまま維持が最善です。",
+    "summary": "be-orch完了: #6集約済み、#5は統合非推奨と報告",
+    "timestamp": "2026-02-09T09:11:33.533Z",
+    "color": "yellow",
+    "read": true
+  },
+  {
+    "from": "be-orch",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"be-orch\",\"timestamp\":\"2026-02-09T09:11:39.871Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T09:11:39.871Z",
+    "color": "yellow",
+    "read": true
+  },
+  {
+    "from": "be-orch",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"be-orch\",\"timestamp\":\"2026-02-09T09:11:43.704Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T09:11:43.704Z",
+    "color": "yellow",
+    "read": false
   }
 ]

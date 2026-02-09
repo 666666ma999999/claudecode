@@ -1,9 +1,9 @@
 {
   "id": "2",
   "subject": "#5 #6: orchestrator/registration STEPガード統合 + runtime_config集約",
-  "description": "**#6**: orchestrator.py内の`runtime_keep_browser`取得処理が7回重複。`_get_runtime_keep_browser(record, default=True)`ヘルパーに集約。\n**#5**: registration.pyの`check_step_guard`とorchestrator.pyの前提STEPチェック+mutexが二重実装。`registration_session.py`に`evaluate_step_guard(record, step)`を集約し両ルーターから呼ぶ。",
+  "description": "#6: runtime_keep_browser 7箇所→ヘルパー関数に集約（21行削減）。#5: STEPガード統合は分析の結果、目的・返却型・前提定義形式が異なるため統合非推奨と判断（安全性優先で現状維持）。",
   "activeForm": "STEPガード・runtime_config集約中",
-  "status": "pending",
+  "status": "completed",
   "blocks": [
     "6"
   ],
