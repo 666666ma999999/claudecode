@@ -656,3 +656,79 @@ const normalized = {
 - [ ] APIレスポンスのフィールド参照が `camelCase` になっているか
 - [ ] セッション保存時に `snake_case` ↔ `camelCase` の変換が正しいか
 - [ ] `CamelCaseModel` のネストされたオブジェクト（例: `KomiTypeResultSimple`）も `camelCase` になることに注意
+
+## 7. SSEストリーミング（リアルタイム生成表示）
+
+### 使用場面
+長時間生成（候補生成等）でリアルタイム表示 + キャンセル + 切断検知が必要な場合。
+
+### バックエンド（FastAPI StreamingResponse）
+```python
+from fastapi.responses import StreamingResponse
+from fastapi import Request
+import asyncio, json
+
+def _sse_event(event_type: str, data: dict) -> str:
+    return f"event: {event_type}\ndata: {json.dumps(data, ensure_ascii=False)}\n\n"
+
+@router.post("/api/xxx/stream")
+async def stream_xxx(request: XxxRequest, http_request: Request):
+    async def event_generator():
+        yield _sse_event("progress", {"type": "start", "total": N})
+        for i in range(N):
+            if await http_request.is_disconnected():
+                return
+            yield _sse_event("progress", {"type": "generating", "current": i+1})
+            # 同期Gemini呼び出しはrun_in_executorで非ブロッキング化
+            loop = asyncio.get_event_loop()
+            result, error = await loop.run_in_executor(executor, lambda: call_fn())
+            # ステップ間にも切断チェックを挿入
+            if await http_request.is_disconnected():
+                return
+            yield _sse_event("candidate", result)
+        yield _sse_event("complete", {"model": "..."})
+    return StreamingResponse(event_generator(), media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "Connection": "keep-alive", "X-Accel-Buffering": "no"})
+```
+
+### フロントエンド（fetch + ReadableStream）
+```javascript
+// EventSourceはGET専用のためfetch+readerを使用
+async function streamXxx(url, body, callbacks, signal) {
+    const res = await fetch(url, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body), signal});
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '', currentEvent = null;
+    try {
+        while (true) {
+            const {done, value} = await reader.read();
+            if (done) break;
+            buffer += decoder.decode(value, {stream:true});
+            const lines = buffer.split('\n');
+            buffer = lines.pop();
+            for (const raw of lines) {
+                const line = raw.replace(/\r$/, ''); // CRLF対応
+                if (line.startsWith('event: ')) currentEvent = line.slice(7).trim();
+                else if (line.startsWith('data: ') && currentEvent) {
+                    callbacks[currentEvent]?.(JSON.parse(line.slice(6)));
+                    currentEvent = null;
+                }
+            }
+        }
+    } finally { try{await reader.cancel()}catch(_){} reader.releaseLock(); }
+}
+```
+
+### キャンセル（AbortController）
+```javascript
+const ac = new AbortController();
+btn.onclick = () => ac.abort();
+await streamXxx(url, body, callbacks, ac.signal);
+// AbortError catch → 受信済みデータを保持
+```
+
+### 注意事項
+- `run_in_executor`のlambda: ループ変数キャプチャに注意（スコープ固定ならOK）
+- CRLF: プロキシがCRLF返す可能性→`replace(/\r$/, '')`必須
+- 切断チェック: 各ステップ完了後にも`is_disconnected()`を挿入
+- `reader.cancel()`: キャンセル時に接続をすぐ閉じるため必須
