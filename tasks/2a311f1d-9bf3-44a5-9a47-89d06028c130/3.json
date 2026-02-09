@@ -3,7 +3,7 @@
   "subject": "セッション作成 + STEP 1 原稿生成",
   "description": "セッション作成 → STEP 1 execute (site_id=482, mid_id=293, price=2000, generate_opening=false, generate_closing=true, file_paths×2)",
   "activeForm": "STEP 1 原稿生成実行中",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [
     "4"
   ],
