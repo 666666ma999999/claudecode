@@ -2,7 +2,7 @@
   "id": "2",
   "subject": "cleanup-script-worker",
   "description": "あなたのタスク: プロジェクトルート `/Users/masaaki/Desktop/prm/rohan/` に `cleanup_old_data.sh` シェルスクリプトを作成してください。\n\n*",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": [],
   "metadata": {

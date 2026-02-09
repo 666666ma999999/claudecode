@@ -13,5 +13,20 @@
     "timestamp": "2026-02-09T14:15:55.689Z",
     "color": "blue",
     "read": true
+  },
+  {
+    "from": "cleanup-script-worker",
+    "text": "タスク#2完了。`/Users/masaaki/Desktop/prm/rohan/cleanup_old_data.sh` を作成しました。\n\n- macOS互換（BSD find, stat -f%z）\n- `--dry-run` フラグ対応\n- `ROHAN_DATA_DIR` 環境変数またはスクリプト相対パスで data ディレクトリ決定\n- 9ディレクトリの削除ポリシー実装（3日/7日/30日）\n- 空ディレクトリ自動除去\n- 削除ファイル数・解放容量サマリー表示\n- chmod +x 実行権限付与済み",
+    "summary": "cleanup_old_data.sh created and ready",
+    "timestamp": "2026-02-09T14:16:21.774Z",
+    "color": "green",
+    "read": true
+  },
+  {
+    "from": "cleanup-script-worker",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"cleanup-script-worker\",\"timestamp\":\"2026-02-09T14:16:27.413Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T14:16:27.413Z",
+    "color": "green",
+    "read": true
   }
 ]

@@ -1,0 +1,9 @@
+[
+  {
+    "from": "data-dir-worker",
+    "text": "{\"type\":\"task_assignment\",\"taskId\":\"5\",\"subject\":\"data-dir-worker\",\"description\":\"あなたのタスク: `ROHAN_DATA_DIR` 環境変数によるデータディレクトリのオーバーライドを実装してください。\\n\\n**重要**: プラン外の変更は一切禁止。指定されたファイルの指定箇所のみ変\",\"assignedBy\":\"data-dir-worker\",\"timestamp\":\"2026-02-09T14:16:37.423Z\"}",
+    "timestamp": "2026-02-09T14:16:37.423Z",
+    "color": "orange",
+    "read": false
+  }
+]

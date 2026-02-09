@@ -1,0 +1,13 @@
+{
+  "id": "5",
+  "subject": "data-dir-worker",
+  "description": "あなたのタスク: `ROHAN_DATA_DIR` 環境変数によるデータディレクトリのオーバーライドを実装してください。\n\n**重要**: プラン外の変更は一切禁止。指定されたファイルの指定箇所のみ変",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "_internal": true
+  },
+  "activeForm": "Implementing ROHAN_DATA_DIR environment variable support",
+  "owner": "data-dir-worker"
+}
