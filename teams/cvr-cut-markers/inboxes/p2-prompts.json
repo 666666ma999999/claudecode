@@ -12,5 +12,17 @@
     "timestamp": "2026-02-09T13:29:25.768Z",
     "color": "green",
     "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1770643889970@p2-prompts\",\"from\":\"team-lead\",\"reason\":\"全タスク完了しました。シャットダウンしてください。\",\"timestamp\":\"2026-02-09T13:31:29.970Z\"}",
+    "timestamp": "2026-02-09T13:31:29.970Z",
+    "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1770643915700@p2-prompts\",\"from\":\"team-lead\",\"reason\":\"シャットダウンしてください。\",\"timestamp\":\"2026-02-09T13:31:55.700Z\"}",
+    "timestamp": "2026-02-09T13:31:55.700Z",
+    "read": false
   }
 ]

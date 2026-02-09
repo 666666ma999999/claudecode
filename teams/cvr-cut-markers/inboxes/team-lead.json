@@ -21,5 +21,12 @@
     "timestamp": "2026-02-09T13:29:14.627Z",
     "color": "green",
     "read": true
+  },
+  {
+    "from": "p1-data-config",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770643889227@p1-data-config\",\"from\":\"p1-data-config\",\"timestamp\":\"2026-02-09T13:31:33.191Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-09T13:31:33.191Z",
+    "color": "blue",
+    "read": true
   }
 ]
