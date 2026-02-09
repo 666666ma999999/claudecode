@@ -3,7 +3,7 @@
     "from": "team-lead",
     "text": "{\"type\":\"task_assignment\",\"taskId\":\"2\",\"subject\":\"Frontend: SSEストリーミングクライアント + UI更新 (config.js, script.js)\",\"description\":\"## 変更ファイル\\n\\n### 1. `frontend/config.js` (1行追加)\\n- L62の`productDevelopmentV2`の次に追加:\\n  `productDevelopmentV2Stream: '/api/product-development-v2/stream',`\\n\\n### 2. `frontend/script.js` (メイン変更)\\n\\n#### A. `streamProductV2()`関数 (新規、`generateProductV2`の前あたりに追加)\\n- `fetch()` + `ReadableStream.getReader()` でSSEイベントをパース\\n- EventSourceはGET専用のため使わない（POST bodyが必要）\\n- コールバック: `onStart`, `onProgress`, `onCandidate`, `onError`, `onComplete`\\n- `signal`パラメータでAbortController連携\\n- SSEパース: `event:`と`data:`行を読み取り、イベントを組み立てる\\n\\n#### B. `generateProductV2()`書き換え (L1724-1812)\\n- apiRequest → streamProductV2 に変更\\n- ProgressAnimator廃止 → SSEイベント駆動の実進捗表示\\n- 生成ボタン → 「キャンセル」ボタンに動的切替（AbortControllerでキャンセル）\\n- `onCandidate`で1件ずつ即座にDOM追加（renderSingleCandidateを使用）\\n- ストリーム途中終了時（サーバー断）は受信済み候補を保持\\n\\n#### C. `renderSingleCandidate(container, candidate, index)`関数 (新規)\\n- 既存`renderProductV2Candidates()`のforEachループ内ロジックを1件用に抽出\\n- containerにappendChild（一括置換ではなく追記）\\n- 既存の`renderProductV2Candidates()`は残す（後方互換）\\n\\n### SSEイベント型ハンドリング\\n- `progress` (type=start): blank_count表示、total取得\\n- `progress` (type=generating): 「候補 N/M 生成中...」と表示\\n- `candidate`: renderSingleCandidateで即DOM追加 + window.productV2Candidatesに追加\\n- `error`: 該当候補にエラー表示\\n- `complete`: model_used情報表示、生成ボタンを元に戻す\\n\\n### キャンセル機能\\n- AbortControllerインスタンスを生成ボタンクリック時に作成\\n- 生成中は「キャンセル」ボタンに変更（クリックでabort）\\n- abort後はストリームが終了し、受信済み候補はそのまま保持\",\"assignedBy\":\"team-lead\",\"timestamp\":\"2026-02-09T10:35:19.015Z\"}",
     "timestamp": "2026-02-09T10:35:19.015Z",
-    "read": false
+    "read": true
   },
   {
     "from": "team-lead",
@@ -11,5 +11,11 @@
     "summary": "Start Task #2 frontend SSE implementation",
     "timestamp": "2026-02-09T10:35:21.937Z",
     "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1770633415754@fe-sse\",\"from\":\"team-lead\",\"reason\":\"All tasks complete. Shutting down.\",\"timestamp\":\"2026-02-09T10:36:55.754Z\"}",
+    "timestamp": "2026-02-09T10:36:55.754Z",
+    "read": true
   }
 ]

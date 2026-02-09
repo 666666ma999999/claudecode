@@ -10,6 +10,12 @@
     "text": "Please start working on Task #1. Read the task details with TaskGet and implement the backend changes. Remember to read files before editing.",
     "summary": "Start Task #1 backend SSE implementation",
     "timestamp": "2026-02-09T10:35:21.034Z",
-    "read": false
+    "read": true
+  },
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1770633415133@be-sse\",\"from\":\"team-lead\",\"reason\":\"All tasks complete. Shutting down.\",\"timestamp\":\"2026-02-09T10:36:55.133Z\"}",
+    "timestamp": "2026-02-09T10:36:55.133Z",
+    "read": true
   }
 ]
