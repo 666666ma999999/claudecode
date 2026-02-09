@@ -4,6 +4,8 @@
   "description": "#7: 認証ID重複→main.pyにconfig endpoint作成、FEから参照（簡易実装）。#8: check.html/detect.htmlのサイトコード選択肢重複→check_common.jsに動的生成。#13: detect.htmlのbuildCheckUrls()→/api/check/urlsに統一。#9/#10: FE/BEモデル重複→実装の安全性を評価し、安全なら実装。統合困難なら見送り理由を報告。",
   "activeForm": "FE設定・モデル統合中",
   "status": "pending",
-  "blocks": [],
+  "blocks": [
+    "5"
+  ],
   "blockedBy": []
 }

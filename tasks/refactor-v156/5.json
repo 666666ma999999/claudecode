@@ -1,0 +1,14 @@
+{
+  "id": "5",
+  "subject": "最終検証: Codexレビュー + サーバー再起動 + VERSION_HISTORY更新",
+  "description": "全項目完了後: サーバー再起動+ヘルスチェック200確認、Codexレビュー、VERSION_HISTORY.md更新(v1.56.0)、MEMORY.md更新",
+  "activeForm": "最終検証中",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": [
+    "1",
+    "2",
+    "3",
+    "4"
+  ]
+}
