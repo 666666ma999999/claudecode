@@ -5,5 +5,12 @@
     "timestamp": "2026-02-09T10:26:49.863Z",
     "color": "green",
     "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "Task #3 (ITEM 3: orchestrator.py _safe_attr昇格) が未着手です。TaskUpdateでownerをbe-workerに設定し、in_progressにして作業を開始してください。",
+    "summary": "Task #3着手を催促",
+    "timestamp": "2026-02-09T10:26:54.947Z",
+    "read": false
   }
 ]
