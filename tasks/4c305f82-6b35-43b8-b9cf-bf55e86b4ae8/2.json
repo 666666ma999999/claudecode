@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "Phase 2-3: Extend check_paid_subtitles with komi_type/content/count verification",
-  "description": "Add _convert_komi_type static method. Extend check_paid_subtitles to verify komi_type CSS, manuscript text presence, and corner count. Update confidence calculation and notes format.",
-  "activeForm": "Extending check_paid_subtitles verification",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

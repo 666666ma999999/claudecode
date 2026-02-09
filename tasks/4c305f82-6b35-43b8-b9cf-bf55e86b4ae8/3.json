@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "Phase 4: Add yudo preview text check to check_yudo_links",
-  "description": "Add manuscript preview text existence check to check_yudo_links and append result to notes.",
-  "activeForm": "Adding yudo preview verification",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
