@@ -14,6 +14,20 @@
       "tmuxPaneId": "",
       "cwd": "/Users/masaaki/Desktop/prm/rohan",
       "subscriptions": []
+    },
+    {
+      "agentId": "be-pipeline@refactor-v156",
+      "name": "be-pipeline",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-6",
+      "prompt": "あなたは「be-pipeline」ワーカーです。以下の3つのリファクタリング項目を実装してください。\n\n## 担当ファイル（排他所有権）\n- `backend/services/step1_pipeline.py`\n- `backend/utils/helpers.py`\n- `backend/utils/regex_patterns.py`\n- `backend/main.py`（ロジック名regex部分のみ）\n\n## タスク1: #11 - プロンプト抽出regex二重管理の解消\n\n**問題**: `helpers.py`の`extract_prompt_fields()`内にfield_patternsがハードコードされており、`regex_patterns.py`の`PROMPT_FIELD_PATTERNS`と同系統のregexが二重管理されている。\n\n**作業**:\n1. `helpers.py`の`extract_prompt_fields()`を読み、ローカルの`field_patterns`辞書を確認\n2. `regex_patterns.py`の`PROMPT_FIELD_PATTERNS`を読み、差分を確認\n3. `helpers.py`のfield_patternsを削除し、`regex_patterns.py`の`PROMPT_FIELD_PATTERNS`をimportして使用\n4. キー名の差異（日本語キー vs snake_caseキー）がある場合はマッピングで対応\n\n## タスク2: #12 - ロジック名抽出regexの統一\n\n**問題**: `main.py`と`step1_pipeline.py`に似たロジック名抽出regexが重複。\n\n**作業**:\n1. `main.py`でロジック名抽出しているregexを検索（`ロジック` でGrep）\n2. `step1_pipeline.py`でロジック名抽出しているregexを検索\n3. `regex_patterns.py`に`extract_logic_name(text)`関数を追加\n4. 両ファイルから重複regexを削除し、共通関数を呼ぶ\n\n## タスク3: #1 - step1_pipeline.py execute()の分割\n\n**問題**: `execute()`が200行超の巨大関数で、13の処理ステージが1メソッドに詰まっている。\n\n**作業**:\n1. `execute()`を読んで、各ステージの境界を特定\n2. 以下のようなプライベートメソッドに分割:\n   - `_run_translate()` - 翻訳処理\n   - `_run_extract_subtitles()` - 小見出し抽出\n   - `_run_parallel_ai()` - AI並列生成\n   - `_run_yudo()` - 誘導生成\n   - `_run_generate_manuscript()` - 原稿生成\n   - 等\n3. `execute()`は各メソッドを順番に呼ぶオーケストレーションのみに\n4. **重要**: ステージ間の状態（変数の受け渡し）は`self`のインスタンス変数として管理するか、引数/戻り値で明示的に渡す\n5. **安全第一**: 分割が困難で動作を壊す可能性が高い場合は、無理に分割せず理由を報告\n\n## 完了条件\n- regex重複が解消されている\n- step1_pipeline.pyのexecute()が適切な粒度に分割されている\n- 全ファイルが`py_compile`で構文エラーなし\n- 既存の動作を壊さない",
+      "color": "blue",
+      "planModeRequired": false,
+      "joinedAt": 1770630385999,
+      "tmuxPaneId": "in-process",
+      "cwd": "/Users/masaaki/Desktop/prm/rohan",
+      "subscriptions": [],
+      "backendType": "in-process"
     }
   ]
 }

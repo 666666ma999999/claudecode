@@ -1,0 +1,11 @@
+{
+  "id": "6",
+  "subject": "be-pipeline",
+  "description": "あなたは「be-pipeline」ワーカーです。以下の3つのリファクタリング項目を実装してください。\n\n## 担当ファイル（排他所有権）\n- `backend/services/step1_pipel",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "_internal": true
+  }
+}
