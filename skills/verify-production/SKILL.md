@@ -172,7 +172,7 @@ Step 8: mode=view到達確認
 
 ### 決済後の自動検証
 決済完了後、以下のチェック項目を自動実行しconfidence=5を返却可能：
-- `paid-subtitle`: 購入セッション付きcheckerで小見出し表示確認
+- `paid-subtitle`: 購入セッション付きcheckerで包括検証（タイトル一致 + komi_type CSS検証 + 原稿テキスト存在 + コーナー数検証）
 - `paid-no-error`: 購入セッション付きcheckerでエラー非表示確認
 - `paid-yudo`: 購入セッション付きcheckerで誘導PPV確認
 
