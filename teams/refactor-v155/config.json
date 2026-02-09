@@ -14,6 +14,76 @@
       "tmuxPaneId": "",
       "cwd": "/Users/masaaki/Desktop/prm/rohan",
       "subscriptions": []
+    },
+    {
+      "agentId": "be-cleanup@refactor-v155",
+      "name": "be-cleanup",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-6",
+      "prompt": "あなたは「be-cleanup」ワーカーです。以下の2つのリファクタリング項目を実装してください。\n\n## チーム情報\n- チーム名: refactor-v155\n- 担当ファイル（排他所有権）: `backend/main.py`, `backend/utils/browser_automation.py`\n- 他のファイルは編集しないこと\n\n## タスク #1: #9 - main.py possible_frontend_dirs統合\n\n`backend/main.py`内で`possible_frontend_dirs`のリストが2箇所で重複定義されている:\n- `update_build_timestamp`関数内\n- `setup_static_files`関数内\n\n**作業**: \n1. まず両関数を読んで重複を確認\n2. `_get_frontend_dir_candidates()`ヘルパー関数を定義し、両方から使用\n\n## タスク #2: #12 - browser_automation.py dialog関数統合\n\n`backend/utils/browser_automation.py`の先頭付近(L41-57あたり)に:\n- `_auto_accept_dialog` \n- `_auto_accept_dialog_with_log`\nがほぼ同一の実装で存在している。\n\n**作業**:\n1. 両関数を読んで差分を確認\n2. `_auto_accept_dialog(dialog, log=False)`のように統合\n3. 呼び出し箇所を全てGrepで検索し、統合後の関数に更新\n\n## 完了条件\n- 重複コードが解消されている\n- 全呼び出し箇所が更新されている\n- Pythonの構文エラーがない",
+      "color": "blue",
+      "planModeRequired": false,
+      "joinedAt": 1770628059658,
+      "tmuxPaneId": "in-process",
+      "cwd": "/Users/masaaki/Desktop/prm/rohan",
+      "subscriptions": [],
+      "backendType": "in-process"
+    },
+    {
+      "agentId": "be-check@refactor-v155",
+      "name": "be-check",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-6",
+      "prompt": "あなたは「be-check」ワーカーです。以下の4つのリファクタリング項目を実装してください。\n\n## チーム情報\n- チーム名: refactor-v155\n- 担当ファイル（排他所有権）: `backend/routers/check.py`, `backend/routers/check_playwright.py`, `backend/utils/check_urls.py`（新規作成可）\n- 他のファイルは編集しないこと\n\n## タスク順序（依存関係あり、この順番で実施）\n\n### タスク1: #10 - Dead code削除\n`backend/routers/check.py`から:\n- 未使用import(`uuid`)を削除\n- 未使用定数(`SITE_NAMES`)を削除\n- 削除前にGrepで本当に未使用か確認すること\n\n### タスク2: #11 - site_codeバリデーション一元化\n`backend/routers/check.py`内で:\n- `_validate_site_code()`関数がある\n- `get_check_urls`内で別ロジックのsite_code検証がある\n- `get_check_urls`でも`_validate_site_code()`を使うよう統一\n\n### タスク3: #8 - URL生成共通化\n`check.py`と`check_playwright.py`でURL生成ロジック（base_urls組み立て）が別実装:\n- `check.py:161-179` (get_check_urls内のbase_urls)\n- `check_playwright.py:233-242` (base_urls/open_base_urls)\n\n**作業**:\n1. 両ファイルのURL生成ロジックを読んで差分を確認\n2. 共通ロジックが十分にあれば`backend/utils/check_urls.py`に`build_check_urls()`を作成\n3. 共通部分が少なければ、既存コード内にヘルパー関数として統合\n4. 両ファイルから共通関数を呼ぶように修正\n\n### タスク4: #7 - check_playwright.py navigation pattern統合\n`check_playwright.py`に「navigate→screenshot→判定」パターンが4つの関数で重複:\n- check_page_load\n- check_text_presence\n- check_text_absence\n- check_subtitles\n(L252-433付近)\n\n**作業**:\n1. 4関数を読んで共通部分と差分を確認\n2. 共通部分を`_check_with_navigation(item_id, url, checker_fn)`テンプレートに抽出\n3. 各関数はchecker_fn（判定ロジック）のみ実装\n4. 既存の呼び出し箇所が壊れないことを確認\n\n## 完了条件\n- 全4項目が実装されている\n- 全呼び出し箇所が更新されている\n- Pythonの構文エラーがない",
+      "color": "green",
+      "planModeRequired": false,
+      "joinedAt": 1770628073268,
+      "tmuxPaneId": "in-process",
+      "cwd": "/Users/masaaki/Desktop/prm/rohan",
+      "subscriptions": [],
+      "backendType": "in-process"
+    },
+    {
+      "agentId": "be-orch@refactor-v155",
+      "name": "be-orch",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-6",
+      "prompt": "あなたは「be-orch」ワーカーです。以下の2つのリファクタリング項目を実装してください。\n\n## チーム情報\n- チーム名: refactor-v155\n- 担当ファイル（排他所有権）: `backend/routers/orchestrator.py`, `backend/routers/registration.py`, `backend/routers/registration_session.py`\n- 他のファイルは編集しないこと\n\n## タスク1: #6 - runtime_keep_browser集約\n\n`backend/routers/orchestrator.py`内で`runtime_keep_browser`の取得処理がほぼ同じコードで7回出現している（L105-115, L155-163, L199-205, L241-246, L263-269, L303-309, L336-341付近）。\n\n**作業**:\n1. orchestrator.pyを読んで全出現箇所を特定\n2. `_get_runtime_keep_browser(record, default=True)`ヘルパー関数を定義\n3. 全7箇所を関数呼び出しに置き換え\n\n## タスク2: #5 - STEPガード判定統合\n\n2箇所でSTEPガード判定（前提STEP完了チェック、mutex、待機時間）が二重実装:\n- `backend/routers/registration.py`の`check_step_guard`関数\n- `backend/routers/orchestrator.py`の前提STEPチェック+mutex（L508-533付近）\n\n**作業**:\n1. 両ファイルのSTEPガードロジックを読んで、共通部分と差分を分析\n2. 共通ロジックがあれば`backend/routers/registration_session.py`に`evaluate_step_guard(record, step)`を作成\n3. 両ルーターから共通関数を呼ぶように修正\n4. **重要**: 差分が大きすぎる場合や統合が安全でない場合は、無理に統合せず理由を報告してください\n\n## 完了条件\n- runtime_keep_browserの重複が解消\n- STEPガード判定が可能な範囲で統合（または安全に統合できない理由の報告）\n- Pythonの構文エラーがない\n- 既存の動作を壊さない",
+      "color": "yellow",
+      "planModeRequired": false,
+      "joinedAt": 1770628083055,
+      "tmuxPaneId": "in-process",
+      "cwd": "/Users/masaaki/Desktop/prm/rohan",
+      "subscriptions": [],
+      "backendType": "in-process"
+    },
+    {
+      "agentId": "fe-check@refactor-v155",
+      "name": "fe-check",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-6",
+      "prompt": "あなたは「fe-check」ワーカーです。以下の2つのリファクタリング項目を実装してください。\n\n## チーム情報\n- チーム名: refactor-v155\n- 担当ファイル（排他所有権）: `frontend/check.html`, `frontend/detect.html`, `frontend/check_common.js`（新規作成）\n- 他のファイルは編集しないこと\n\n## タスク1: #1 - 認証状態取得/保存ロジック共通化\n\n`check.html`と`detect.html`に認証状態取得/保存ロジック(checkAuthStatus/captureAuth)がほぼ同一で実装されている。\n\n**作業**:\n1. 両ファイルの該当関数を読んで共通部分を特定\n2. `frontend/check_common.js`に共通関数を抽出\n3. 両HTMLの`<script>`内から該当コードを削除し、`check_common.js`を`<script src=\"check_common.js\">`で読み込み\n4. 共通関数はDOM要素のIDをパラメータとして受け取るようにする（UIの差分を吸収）\n\n## タスク2: #2 - 自動チェック/一括チェック/進捗更新ロジック共通化\n\n`check.html`と`detect.html`の自動チェック/一括チェック/進捗更新ロジックが実質同一:\n- check.html: autoCheck/runBatchCheck/updateProgress\n- detect.html: runAutoCheck/runAllChecks/updateCheckProgress\n\n**作業**:\n1. 両ファイルの該当関数を読んで共通部分を特定\n2. 共通ロジックを`check_common.js`に追加\n3. 差分はコールバック関数やオプションパラメータで吸収\n4. 両HTMLから重複コードを削除\n\n## 重要な注意事項\n- `check_common.js`は`frontend/`ディレクトリに配置（`backend/main.py`の静的ファイル配信で自動的にサーブされる）\n- グローバル変数やDOM IDの差異をパラメータ化すること\n- `apiRequest`関数などの既存ユーティリティは各HTMLに残っている前提（共通JSではそれを呼ぶ）\n- 共通化した結果、呼び出し元で初期化コードが必要な場合はセットアップ関数として提供\n\n## 完了条件\n- 認証ロジックが共通化されている\n- チェック実行ロジックが共通化されている\n- 両HTMLの重複コードが削除されている\n- JavaScriptの構文エラーがない",
+      "color": "purple",
+      "planModeRequired": false,
+      "joinedAt": 1770628095922,
+      "tmuxPaneId": "in-process",
+      "cwd": "/Users/masaaki/Desktop/prm/rohan",
+      "subscriptions": [],
+      "backendType": "in-process"
+    },
+    {
+      "agentId": "fe-auto@refactor-v155",
+      "name": "fe-auto",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-6",
+      "prompt": "あなたは「fe-auto」ワーカーです。以下の2つのリファクタリング項目を実装してください。\n\n## チーム情報\n- チーム名: refactor-v155\n- 担当ファイル（排他所有権）: `frontend/auto.html`\n- 他のファイルは編集しないこと\n\n## 背景\nauto.htmlの`startAutoGeneration`関数(L3010-3499付近)は、STEP 1の全処理フロー（翻訳→小見出し抽出→AI並列生成→誘導生成→原稿生成→人数判定→冒頭/締め→構造化→特殊小見出し処理→セッション保存）をFE側で直接実装している。\n\n一方、BEには:\n- `backend/services/step1_pipeline.py`の`Step1Pipeline.execute()`が同等のパイプラインを実装\n- `/api/step1/execute`エンドポイントが存在\n- STEP 2-8は`executeStepUnified()`から`/api/orchestrator/execute-step`を呼ぶ統一パターンを使用\n\n## タスク1: #3 - Step1フロー統合（最大の変更）\n\n**目的**: auto.htmlのSTEP 1実行を、STEP 2-8と同じ`executeStepUnified`パターンに統合\n\n**作業手順**:\n1. まず`auto.html`を読んで`startAutoGeneration`の全体フローを理解\n2. `executeStepUnified`がSTEP 2-8で何をしているか確認\n3. STEP 1でも`executeStepUnified`を使うように`startAutoGeneration`をリファクタリング\n\n**具体的な変更方針**:\n- `startAutoGeneration`内のAPI呼び出しチェーン（翻訳API→小見出し抽出API→原稿生成API→...）を削除\n- 代わりに`executeStepUnified(1, ...)`を呼ぶ（orchestratorが内部でstep1_pipelineを呼ぶ）\n- 進捗表示はステータスポーリングで対応（他STEPと同じパターン）\n- 結果の表示・保存ロジックは残す（BEから返されたデータを表示）\n\n**重要な注意事項**:\n- `startAutoGeneration`が行っている「ファイル添付」「プロンプト選択」「パラメータ設定」などのUI操作部分は残す\n- 削除するのはAPI呼び出しチェーン部分のみ\n- もしexecuteStepUnifiedがSTEP 1に未対応なら、対応するための最小限の修正も含む\n- **安全策**: 統合が困難で動作を壊す可能性が高い場合は、無理に統合せず理由を報告してください\n\n## タスク2: #4 - FE regexフォールバック削除\n\nauto.html L3119-3126付近にBEの抽出APIのフォールバックとしてローカルregexが残っている。\n\n**作業**: \n1. 該当箇所を特定\n2. BE APIが正常に動作する前提でregexフォールバックを削除\n3. エラーハンドリングは残す（APIエラー時のユーザー通知）\n\n## 完了条件\n- startAutoGenerationの重複API呼び出しチェーンが削減されている\n- executeStepUnifiedパターンとの統合が完了（または安全に統合できない理由の報告）\n- regexフォールバックが削除されている\n- JavaScriptの構文エラーがない",
+      "color": "orange",
+      "planModeRequired": false,
+      "joinedAt": 1770628116130,
+      "tmuxPaneId": "in-process",
+      "cwd": "/Users/masaaki/Desktop/prm/rohan",
+      "subscriptions": [],
+      "backendType": "in-process"
     }
   ]
 }

@@ -1,0 +1,11 @@
+{
+  "id": "7",
+  "subject": "be-cleanup",
+  "description": "あなたは「be-cleanup」ワーカーです。以下の2つのリファクタリング項目を実装してください。\n\n## チーム情報\n- チーム名: refactor-v155\n- 担当ファイル（排他所有権）: `",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "_internal": true
+  }
+}

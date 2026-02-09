@@ -1,0 +1,9 @@
+{
+  "id": "26",
+  "subject": "Implement #4: Remove FE regex fallback",
+  "description": "Remove local regex fallback around L3119-3126 that duplicates BE extraction API functionality.",
+  "activeForm": "Removing FE regex fallback code",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

@@ -1,0 +1,10 @@
+{
+  "id": "14",
+  "subject": "Remove dead code from check.py (uuid, SITE_NAMES)",
+  "description": "Remove unused import `uuid` and unused constant `SITE_NAMES` from check.py after verifying they are truly unused.",
+  "activeForm": "Removing dead code from check.py",
+  "owner": "be-check",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

@@ -1,0 +1,10 @@
+{
+  "id": "17",
+  "subject": "Extract shared URL generation to check_urls.py",
+  "description": "Create backend/utils/check_urls.py with build_check_urls() and refactor both check.py and check_playwright.py to use it.",
+  "activeForm": "Extracting URL generation to shared module",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [],
+  "owner": "be-check"
+}

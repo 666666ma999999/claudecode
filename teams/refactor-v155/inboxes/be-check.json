@@ -1,0 +1,23 @@
+[
+  {
+    "from": "be-check",
+    "text": "{\"type\":\"task_assignment\",\"taskId\":\"14\",\"subject\":\"Remove dead code from check.py (uuid, SITE_NAMES)\",\"description\":\"Remove unused import `uuid` and unused constant `SITE_NAMES` from check.py after verifying they are truly unused.\",\"assignedBy\":\"be-check\",\"timestamp\":\"2026-02-09T09:08:24.728Z\"}",
+    "timestamp": "2026-02-09T09:08:24.728Z",
+    "color": "green",
+    "read": false
+  },
+  {
+    "from": "be-check",
+    "text": "{\"type\":\"task_assignment\",\"taskId\":\"15\",\"subject\":\"Unify site_code validation in check.py\",\"description\":\"Make get_check_urls use _validate_site_code() instead of separate inline validation logic.\",\"assignedBy\":\"be-check\",\"timestamp\":\"2026-02-09T09:08:39.513Z\"}",
+    "timestamp": "2026-02-09T09:08:39.513Z",
+    "color": "green",
+    "read": false
+  },
+  {
+    "from": "be-check",
+    "text": "{\"type\":\"task_assignment\",\"taskId\":\"17\",\"subject\":\"Extract shared URL generation to check_urls.py\",\"description\":\"Create backend/utils/check_urls.py with build_check_urls() and refactor both check.py and check_playwright.py to use it.\",\"assignedBy\":\"be-check\",\"timestamp\":\"2026-02-09T09:08:57.059Z\"}",
+    "timestamp": "2026-02-09T09:08:57.059Z",
+    "color": "green",
+    "read": false
+  }
+]

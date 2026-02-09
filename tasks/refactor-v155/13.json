@@ -1,0 +1,9 @@
+{
+  "id": "13",
+  "subject": "Implement #5 - STEP guard evaluation consolidation",
+  "description": "Analyze step guard logic in registration.py's check_step_guard and orchestrator.py's prerequisite checks. Consolidate shared logic into registration_session.py if safe.",
+  "activeForm": "Consolidating STEP guard evaluation logic",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

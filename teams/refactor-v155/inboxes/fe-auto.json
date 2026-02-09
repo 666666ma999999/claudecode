@@ -1,0 +1,9 @@
+[
+  {
+    "from": "fe-auto",
+    "text": "{\"type\":\"task_assignment\",\"taskId\":\"24\",\"subject\":\"Read and understand auto.html startAutoGeneration flow\",\"description\":\"Read auto.html to understand the startAutoGeneration function, executeStepUnified pattern, and identify the regex fallback code.\",\"assignedBy\":\"fe-auto\",\"timestamp\":\"2026-02-09T09:08:53.156Z\"}",
+    "timestamp": "2026-02-09T09:08:53.156Z",
+    "color": "orange",
+    "read": false
+  }
+]

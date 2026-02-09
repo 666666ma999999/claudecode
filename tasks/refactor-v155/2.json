@@ -4,6 +4,8 @@
   "description": "**#6**: orchestrator.py内の`runtime_keep_browser`取得処理が7回重複。`_get_runtime_keep_browser(record, default=True)`ヘルパーに集約。\n**#5**: registration.pyの`check_step_guard`とorchestrator.pyの前提STEPチェック+mutexが二重実装。`registration_session.py`に`evaluate_step_guard(record, step)`を集約し両ルーターから呼ぶ。",
   "activeForm": "STEPガード・runtime_config集約中",
   "status": "pending",
-  "blocks": [],
+  "blocks": [
+    "6"
+  ],
   "blockedBy": []
 }

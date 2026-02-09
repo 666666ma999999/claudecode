@@ -1,0 +1,10 @@
+{
+  "id": "8",
+  "subject": "Consolidate possible_frontend_dirs in main.py",
+  "description": "Extract duplicated possible_frontend_dirs list into _get_frontend_dir_candidates() helper function",
+  "activeForm": "Consolidating possible_frontend_dirs in main.py",
+  "owner": "be-cleanup",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

@@ -1,0 +1,9 @@
+[
+  {
+    "from": "be-orch",
+    "text": "{\"type\":\"task_assignment\",\"taskId\":\"12\",\"subject\":\"Implement #6 - runtime_keep_browser consolidation in orchestrator.py\",\"description\":\"Find all ~7 occurrences of runtime_keep_browser extraction logic in orchestrator.py and consolidate into a _get_runtime_keep_browser helper function.\",\"assignedBy\":\"be-orch\",\"timestamp\":\"2026-02-09T09:08:57.770Z\"}",
+    "timestamp": "2026-02-09T09:08:57.770Z",
+    "color": "yellow",
+    "read": false
+  }
+]

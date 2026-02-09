@@ -1,0 +1,10 @@
+{
+  "id": "12",
+  "subject": "Implement #6 - runtime_keep_browser consolidation in orchestrator.py",
+  "description": "Find all ~7 occurrences of runtime_keep_browser extraction logic in orchestrator.py and consolidate into a _get_runtime_keep_browser helper function.",
+  "activeForm": "Consolidating runtime_keep_browser in orchestrator.py",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [],
+  "owner": "be-orch"
+}
