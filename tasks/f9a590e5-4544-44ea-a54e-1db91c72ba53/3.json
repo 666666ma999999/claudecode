@@ -1,0 +1,9 @@
+{
+  "id": "3",
+  "subject": "Update detect.html hardcoded 19 to 21",
+  "description": "Step 8: Update all hardcoded \"19\" values in detect.html to \"21\"",
+  "activeForm": "Updating detect.html counts",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

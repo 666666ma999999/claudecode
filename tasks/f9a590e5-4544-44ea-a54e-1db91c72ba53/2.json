@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "Add TRACEABILITY_MAP entries for free-manuscript and paid-manuscript",
+  "description": "Step 7: Add items #20 and #21 to variable_registry.py TRACEABILITY_MAP",
+  "activeForm": "Updating TRACEABILITY_MAP",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}
