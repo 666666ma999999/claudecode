@@ -3,8 +3,8 @@
   "subject": "Create check_common.js with shared auth and check logic",
   "description": "Extract common authentication (checkAuthStatus/captureAuth) and check execution (autoCheck/runBatchCheck/updateProgress) logic into frontend/check_common.js",
   "activeForm": "Creating check_common.js",
-  "status": "in_progress",
+  "owner": "fe-check",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": [],
-  "owner": "fe-check"
+  "blockedBy": []
 }

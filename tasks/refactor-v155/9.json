@@ -3,8 +3,8 @@
   "subject": "Consolidate dialog handler functions in browser_automation.py",
   "description": "Merge _auto_accept_dialog and _auto_accept_dialog_with_log into a single function with log parameter",
   "activeForm": "Consolidating dialog handler functions in browser_automation.py",
-  "status": "in_progress",
+  "owner": "be-cleanup",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": [],
-  "owner": "be-cleanup"
+  "blockedBy": []
 }

@@ -3,7 +3,8 @@
   "subject": "Refactor detect.html to use check_common.js",
   "description": "Remove duplicated auth and check logic from detect.html, import check_common.js, wire up with page-specific parameters",
   "activeForm": "Refactoring detect.html",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "owner": "fe-check"
 }
