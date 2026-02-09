@@ -30,20 +30,6 @@
       "backendType": "in-process"
     },
     {
-      "agentId": "cleanup-script-worker@data-cleanup",
-      "name": "cleanup-script-worker",
-      "agentType": "general-purpose",
-      "model": "haiku",
-      "prompt": "あなたのタスク: プロジェクトルート `/Users/masaaki/Desktop/prm/rohan/` に `cleanup_old_data.sh` シェルスクリプトを作成してください。\n\n**重要**: プラン外の変更は一切禁止。指定されたファイルのみ作成・変更すること。\n\n要件:\n1. macOS互換（BSD find を使用。`-mtime +N` 形式）\n2. dry-run モード: `--dry-run` フラグで削除せずにリストのみ表示\n3. データディレクトリ: スクリプトからの相対パスまたは `ROHAN_DATA_DIR` 環境変数で決定\n4. 削除ポリシー:\n   - `playwright_recordings/`: 3日以上前\n   - `check_screenshots/`: 3日以上前\n   - `screenshots/`: 3日以上前\n   - `manuscript_logs/`: 7日以上前\n   - `sessions/`: 30日以上前\n   - `csv_downloads/`: 7日以上前\n   - `auth_states/`: 7日以上前\n   - `payment_logs/`: 30日以上前\n   - `process_states/`: 7日以上前\n5. 各ディレクトリの削除後、空ディレクトリを除去（`find ... -type d -empty -delete`）\n6. 削除したファイル数と解放容量のサマリーを表示\n7. `chmod +x` で実行権限付与\n\nスクリプトのテンプレート構造:\n```bash\n#!/bin/bash\n# cleanup_old_data.sh - Rohanプロジェクトの古いデータファイルを削除\nset -euo pipefail\n\nDRY_RUN=false\nif [[ \"${1:-}\" == \"--dry-run\" ]]; then\n    DRY_RUN=true\n    echo \"[DRY RUN] 削除は実行されません\"\nfi\n\n# データディレクトリの決定\nSCRIPT_DIR=\"$(cd \"$(dirname \"$0\")\" && pwd)\"\nDATA_DIR=\"${ROHAN_DATA_DIR:-${SCRIPT_DIR}/data}\"\n\nif [[ ! -d \"$DATA_DIR\" ]]; then\n    echo \"エラー: データディレクトリが見つかりません: $DATA_DIR\"\n    exit 1\nfi\n\necho \"データディレクトリ: $DATA_DIR\"\n\nTOTAL_FILES=0\nTOTAL_SIZE=0\n\ncleanup_dir() {\n    local dir=\"$1\"\n    local days=\"$2\"\n    local full_path=\"$DATA_DIR/$dir\"\n    \n    if [[ ! -d \"$full_path\" ]]; then\n        return\n    fi\n    \n    # macOS: stat -f%z でファイルサイズ取得\n    local files\n    files=$(find \"$full_path\" -type f -mtime +\"$days\" 2>/dev/null || true)\n    \n    if [[ -z \"$files\" ]]; then\n        echo \"  $dir: 削除対象なし\"\n        return\n    fi\n    \n    local count=0\n    local size=0\n    while IFS= read -r file; do\n        count=$((count + 1))\n        local fsize\n        fsize=$(stat -f%z \"$file\" 2>/dev/null || echo 0)\n        size=$((size + fsize))\n        if $DRY_RUN; then\n            echo \"  [DRY] $file ($fsize bytes)\"\n        else\n            rm -f \"$file\"\n        fi\n    done <<< \"$files\"\n    \n    TOTAL_FILES=$((TOTAL_FILES + count))\n    TOTAL_SIZE=$((TOTAL_SIZE + size))\n    \n    echo \"  $dir: ${count}ファイル ($(human_size $size))\"\n    \n    # 空ディレクトリ除去\n    if ! $DRY_RUN; then\n        find \"$full_path\" -type d -empty -delete 2>/dev/null || true\n    fi\n}\n\nhuman_size() {\n    local bytes=$1\n    if [[ $bytes -ge 1073741824 ]]; then\n        echo \"$(( bytes / 1073741824 ))GB\"\n    elif [[ $bytes -ge 1048576 ]]; then\n        echo \"$(( bytes / 1048576 ))MB\"\n    elif [[ $bytes -ge 1024 ]]; then\n        echo \"$(( bytes / 1024 ))KB\"\n    else\n        echo \"${bytes}B\"\n    fi\n}\n\necho \"\"\necho \"=== データクリーンアップ開始 ===\"\necho \"\"\n\ncleanup_dir \"playwright_recordings\" 3\ncleanup_dir \"check_screenshots\" 3\ncleanup_dir \"screenshots\" 3\ncleanup_dir \"manuscript_logs\" 7\ncleanup_dir \"sessions\" 30\ncleanup_dir \"csv_downloads\" 7\ncleanup_dir \"auth_states\" 7\ncleanup_dir \"payment_logs\" 30\ncleanup_dir \"process_states\" 7\n\necho \"\"\necho \"=== サマリー ===\"\necho \"削除ファイル数: $TOTAL_FILES\"\necho \"解放容量: $(human_size $TOTAL_SIZE)\"\nif $DRY_RUN; then\n    echo \"[DRY RUN] 実際の削除は行われていません\"\nfi\n```\n\n作成後に `chmod +x cleanup_old_data.sh` を実行してください。\n\n完了したらタスクID #2 を completed にマークしてください。",
-      "color": "green",
-      "planModeRequired": false,
-      "joinedAt": 1770646553600,
-      "tmuxPaneId": "in-process",
-      "cwd": "/Users/masaaki/Desktop/prm/rohan",
-      "subscriptions": [],
-      "backendType": "in-process"
-    },
-    {
       "agentId": "jpeg-browser-worker@data-cleanup",
       "name": "jpeg-browser-worker",
       "agentType": "general-purpose",
@@ -52,20 +38,6 @@
       "color": "yellow",
       "planModeRequired": false,
       "joinedAt": 1770646565206,
-      "tmuxPaneId": "in-process",
-      "cwd": "/Users/masaaki/Desktop/prm/rohan",
-      "subscriptions": [],
-      "backendType": "in-process"
-    },
-    {
-      "agentId": "jpeg-check-worker@data-cleanup",
-      "name": "jpeg-check-worker",
-      "agentType": "general-purpose",
-      "model": "sonnet",
-      "prompt": "あなたのタスク: `/Users/masaaki/Desktop/prm/rohan/backend/check_playwright.py` の全スクリーンショット箇所を PNG → JPEG に変更してください。\n\n**重要**: プラン外の変更は一切禁止。スクリーンショット関連の変更のみ行うこと。他のロジック変更は禁止。\n\n変更ルール:\n1. `.png` → `.jpg` にファイル拡張子を変更\n2. `page.screenshot(...)` の呼び出しに `type='jpeg', quality=60` パラメータを追加\n3. **既存のパラメータ（path=, full_page= など）は一切変更しない**\n\n作業手順:\n1. まず `check_playwright.py` を読み込んで全ての `.screenshot(` と `.png` 箇所を特定\n2. 変更後、全箇所が正しく変更されたか grep で確認\n\n完了したらタスクID #4 を completed にマークしてください。",
-      "color": "purple",
-      "planModeRequired": false,
-      "joinedAt": 1770646570885,
       "tmuxPaneId": "in-process",
       "cwd": "/Users/masaaki/Desktop/prm/rohan",
       "subscriptions": [],

@@ -2,7 +2,7 @@
   "id": "4",
   "subject": "jpeg-check-worker",
   "description": "あなたのタスク: `/Users/masaaki/Desktop/prm/rohan/backend/check_playwright.py` の全スクリーンショット箇所を PNG → JPEG に変",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": [],
   "metadata": {

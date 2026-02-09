@@ -1,0 +1,8 @@
+[
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1770646618401@jpeg-check-worker\",\"from\":\"team-lead\",\"reason\":\"タスク完了、シャットダウンしてください\",\"timestamp\":\"2026-02-09T14:16:58.401Z\"}",
+    "timestamp": "2026-02-09T14:16:58.401Z",
+    "read": true
+  }
+]

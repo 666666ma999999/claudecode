@@ -2,11 +2,11 @@
   "id": "3",
   "subject": "jpeg-browser-worker",
   "description": "あなたのタスク: `/Users/masaaki/Desktop/prm/rohan/backend/browser_automation.py` の全スクリーンショット箇所を PNG → JPEG ",
-  "status": "in_progress",
+  "owner": "claudeignore-worker",
+  "status": "completed",
   "blocks": [],
   "blockedBy": [],
   "metadata": {
     "_internal": true
-  },
-  "owner": "claudeignore-worker"
+  }
 }
