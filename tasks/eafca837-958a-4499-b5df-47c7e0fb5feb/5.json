@@ -3,7 +3,7 @@
   "subject": "Refactor BaseBrowserAutomation to use shared utilities",
   "description": "Step 5: Refactor BaseBrowserAutomation close(). Delegate core 4-step cleanup to cleanup_browser(), keep temp_profile cleanup. BrowserErrorMixin for mark_error/_should_keep_browser. -13 lines.",
   "activeForm": "Refactoring BaseBrowserAutomation",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
