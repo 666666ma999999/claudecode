@@ -3,7 +3,7 @@
   "subject": "Add CHECK_STEP_DEPENDENCIES + new method + dispatcher + komi removal in check_playwright.py",
   "description": "Steps 2-5: Add dependencies, create check_komi_type_css(), add dispatcher branches, remove komi_type from existing subtitle checks",
   "activeForm": "Implementing check_playwright.py changes",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }

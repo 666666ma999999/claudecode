@@ -3,7 +3,7 @@
   "subject": "Add paid-komi-type to post-payment checklist in check.py",
   "description": "Step 6: Add paid-komi-type to the for loop in check.py",
   "activeForm": "Updating check.py",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }
