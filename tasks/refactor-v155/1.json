@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "#9 #12: main.py frontend_dirs統合 + browser_automation.py dialog関数統合",
+  "description": "**#9**: main.py内の`possible_frontend_dirs`が2箇所(update_build_timestamp, setup_static_files)で重複定義。`_get_frontend_dir_candidates()`関数に統合。\n**#12**: browser_automation.py内の`_auto_accept_dialog`と`_auto_accept_dialog_with_log`がほぼ同一。`_auto_accept_dialog(dialog, log=False)`に統合。",
+  "activeForm": "main.py/browser_automation.py簡易リファクタリング中",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

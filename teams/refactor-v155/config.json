@@ -1,0 +1,19 @@
+{
+  "name": "refactor-v155",
+  "description": "v1.55.0 コード削減リファクタリング（12項目、3チーム並列）",
+  "createdAt": 1770628011657,
+  "leadAgentId": "team-lead@refactor-v155",
+  "leadSessionId": "9baac253-de7c-479d-a7fe-c99bb0cd1f57",
+  "members": [
+    {
+      "agentId": "team-lead@refactor-v155",
+      "name": "team-lead",
+      "agentType": "orchestrator",
+      "model": "claude-opus-4-6",
+      "joinedAt": 1770628011657,
+      "tmuxPaneId": "",
+      "cwd": "/Users/masaaki/Desktop/prm/rohan",
+      "subscriptions": []
+    }
+  ]
+}
