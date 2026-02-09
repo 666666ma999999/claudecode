@@ -26,5 +26,26 @@
     "timestamp": "2026-02-09T09:47:13.230Z",
     "color": "purple",
     "read": true
+  },
+  {
+    "from": "be-pipeline",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770631726733@be-pipeline\",\"from\":\"be-pipeline\",\"timestamp\":\"2026-02-09T10:08:50.877Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-09T10:08:50.877Z",
+    "color": "blue",
+    "read": false
+  },
+  {
+    "from": "be-check-browser",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770631727323@be-check-browser\",\"from\":\"be-check-browser\",\"timestamp\":\"2026-02-09T10:08:52.937Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-09T10:08:52.937Z",
+    "color": "yellow",
+    "read": false
+  },
+  {
+    "from": "be-reg",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770631727853@be-reg\",\"from\":\"be-reg\",\"timestamp\":\"2026-02-09T10:08:53.870Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-09T10:08:53.871Z",
+    "color": "green",
+    "read": false
   }
 ]
