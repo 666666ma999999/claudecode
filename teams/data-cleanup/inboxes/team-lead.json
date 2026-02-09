@@ -64,7 +64,7 @@
     "summary": "Task #3 verified - all 12 screenshot calls converted",
     "timestamp": "2026-02-09T14:18:02.300Z",
     "color": "blue",
-    "read": false
+    "read": true
   },
   {
     "from": "jpeg-browser-worker",
@@ -72,6 +72,27 @@
     "summary": "browser_automation.py JPEG変換 12箇所完了",
     "timestamp": "2026-02-09T14:18:05.570Z",
     "color": "yellow",
+    "read": true
+  },
+  {
+    "from": "claudeignore-worker",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"claudeignore-worker\",\"timestamp\":\"2026-02-09T14:18:08.097Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T14:18:08.097Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "jpeg-browser-worker",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"jpeg-browser-worker\",\"timestamp\":\"2026-02-09T14:18:11.552Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T14:18:11.552Z",
+    "color": "yellow",
+    "read": false
+  },
+  {
+    "from": "claudeignore-worker",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770646611879@claudeignore-worker\",\"from\":\"claudeignore-worker\",\"timestamp\":\"2026-02-09T14:18:11.674Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-09T14:18:11.674Z",
+    "color": "blue",
     "read": false
   }
 ]

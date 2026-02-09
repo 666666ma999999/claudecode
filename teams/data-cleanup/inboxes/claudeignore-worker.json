@@ -10,6 +10,6 @@
     "from": "team-lead",
     "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1770646611879@claudeignore-worker\",\"from\":\"team-lead\",\"reason\":\"タスク完了、シャットダウンしてください\",\"timestamp\":\"2026-02-09T14:16:51.879Z\"}",
     "timestamp": "2026-02-09T14:16:51.879Z",
-    "read": false
+    "read": true
   }
 ]
