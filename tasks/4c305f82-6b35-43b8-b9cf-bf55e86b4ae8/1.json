@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Phase 1: Add subtitleDetails to RegisteredData in check.py",
+  "description": "Add SubtitleDetail model and subtitleDetails field to RegisteredData. Modify registered-data endpoint to include komi_type per subtitle.",
+  "activeForm": "Adding subtitleDetails to RegisteredData",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}
