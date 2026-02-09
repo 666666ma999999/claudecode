@@ -10,6 +10,6 @@
     "from": "team-lead",
     "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1770646638346@data-dir-worker\",\"from\":\"team-lead\",\"reason\":\"タスク完了、シャットダウンしてください\",\"timestamp\":\"2026-02-09T14:17:18.346Z\"}",
     "timestamp": "2026-02-09T14:17:18.346Z",
-    "read": false
+    "read": true
   }
 ]

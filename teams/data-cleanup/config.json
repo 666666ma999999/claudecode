@@ -14,20 +14,6 @@
       "tmuxPaneId": "",
       "cwd": "/Users/masaaki/Desktop/prm/rohan",
       "subscriptions": []
-    },
-    {
-      "agentId": "data-dir-worker@data-cleanup",
-      "name": "data-dir-worker",
-      "agentType": "general-purpose",
-      "model": "sonnet",
-      "prompt": "あなたのタスク: `ROHAN_DATA_DIR` 環境変数によるデータディレクトリのオーバーライドを実装してください。\n\n**重要**: プラン外の変更は一切禁止。指定されたファイルの指定箇所のみ変更すること。\n\n## タスク1: path_constants.py の修正\n\nファイル: `/Users/masaaki/Desktop/prm/rohan/backend/path_constants.py`\n\n`get_data_dir` 関数を探して、環境変数 `ROHAN_DATA_DIR` のオーバーライドを追加してください。\n\n修正内容:\n- 関数の冒頭に `os.environ.get(\"ROHAN_DATA_DIR\")` のチェックを追加\n- 環境変数が設定されている場合、そのパスを使用（`mkdir(parents=True, exist_ok=True)` 付き）\n- Docker パスのフォールバックは既存のまま維持\n- `import os` が既にあるか確認し、なければ追加\n\n## タスク2: browser_automation.py の RECORDING_DIR 修正\n\nファイル: `/Users/masaaki/Desktop/prm/rohan/backend/browser_automation.py`\n\n`RECORDING_DIR` がモジュールレベルでハードコードされている場合、遅延初期化に変更してください。\n\n方法:\n1. 現在の `RECORDING_DIR = Path(...)` 定義を探す\n2. 関数 `_get_recording_dir()` を作成して、`ROHAN_DATA_DIR` 環境変数対応 + フォールバックを実装\n3. `RECORDING_DIR` の使用箇所を `_get_recording_dir()` 呼び出しに変更、**または** モジュールレベルの定義を環境変数対応に変更\n\n## タスク3: migrate_data_dir.sh 作成\n\nファイル: `/Users/masaaki/Desktop/prm/rohan/migrate_data_dir.sh`\n\n以下のスクリプトを作成:\n```bash\n#!/bin/bash\n# migrate_data_dir.sh - data/ 内のランタイムファイルを ../rohan-data/ に移動\nset -euo pipefail\n\nSCRIPT_DIR=\"$(cd \"$(dirname \"$0\")\" && pwd)\"\nSRC_DIR=\"$SCRIPT_DIR/data\"\nDEST_DIR=\"${1:-$SCRIPT_DIR/../rohan-data}\"\n\necho \"移動元: $SRC_DIR\"\necho \"移動先: $DEST_DIR\"\n\n# 移動対象ディレクトリ（ランタイムデータのみ）\nRUNTIME_DIRS=(\n    \"playwright_recordings\"\n    \"check_screenshots\"\n    \"screenshots\"\n    \"manuscript_logs\"\n    \"sessions\"\n    \"csv_downloads\"\n    \"auth_states\"\n    \"payment_logs\"\n    \"process_states\"\n    \"check_sessions\"\n    \"manuscript\"\n)\n\n# git-tracked files は data/ に残す\n# data/*.md, data/*.xlsx は移動しない\n\nmkdir -p \"$DEST_DIR\"\n\nfor dir in \"${RUNTIME_DIRS[@]}\"; do\n    if [[ -d \"$SRC_DIR/$dir\" ]]; then\n        echo \"移動中: $dir/\"\n        mkdir -p \"$DEST_DIR/$dir\"\n        if [[ -n \"$(ls -A \"$SRC_DIR/$dir\" 2>/dev/null)\" ]]; then\n            cp -r \"$SRC_DIR/$dir/\"* \"$DEST_DIR/$dir/\" 2>/dev/null || true\n            rm -rf \"$SRC_DIR/$dir\"\n        fi\n        echo \"  完了\"\n    fi\ndone\n\n# prompt_history.json も移動\nif [[ -f \"$SRC_DIR/prompt_history.json\" ]]; then\n    echo \"移動中: prompt_history.json\"\n    mv \"$SRC_DIR/prompt_history.json\" \"$DEST_DIR/\"\nfi\n\necho \"\"\necho \"=== 移動完了 ===\"\necho \"以下を .env に追加してください:\"\necho \"  ROHAN_DATA_DIR=$DEST_DIR\"\necho \"\"\necho \"または環境変数として設定:\"\necho \"  export ROHAN_DATA_DIR=$DEST_DIR\"\n```\n\n`chmod +x` で実行権限を付与してください。\n\n## タスク4: .env ファイルの確認・更新\n\nファイル: `/Users/masaaki/Desktop/prm/rohan/.env`\n\n`.env` ファイルが存在するか確認し、`ROHAN_DATA_DIR` の行がなければ追加:\n```\nROHAN_DATA_DIR=/Users/masaaki/Desktop/prm/rohan-data\n```\n\n既に `.env` ファイルが存在する場合は末尾に追記。存在しない場合は新規作成。\n\n完了したらタスクID #5 を completed にマークしてください。",
-      "color": "orange",
-      "planModeRequired": false,
-      "joinedAt": 1770646592734,
-      "tmuxPaneId": "in-process",
-      "cwd": "/Users/masaaki/Desktop/prm/rohan",
-      "subscriptions": [],
-      "backendType": "in-process"
     }
   ]
 }

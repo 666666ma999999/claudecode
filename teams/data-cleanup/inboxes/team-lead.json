@@ -101,5 +101,27 @@
     "timestamp": "2026-02-09T14:18:14.793Z",
     "color": "yellow",
     "read": true
+  },
+  {
+    "from": "data-dir-worker",
+    "text": "タスク5 (ROHAN_DATA_DIR環境変数サポート) 完了しました。\n\n## 変更内容\n\n### タスク1: path_constants.py (`/Users/masaaki/Desktop/prm/rohan/backend/utils/path_constants.py`)\n- `import os` を追加\n- `get_data_dir()` 関数の冒頭に `os.environ.get(\"ROHAN_DATA_DIR\")` チェックを追加\n- 環境変数設定時は `mkdir(parents=True, exist_ok=True)` 付きでそのパスを使用\n- Docker/デフォルトのフォールバックは既存のまま維持\n\n### タスク2: browser_automation.py (`/Users/masaaki/Desktop/prm/rohan/backend/utils/browser_automation.py`)\n- `_get_recording_dir()` 関数を作成（`ROHAN_DATA_DIR` 環境変数対応 + フォールバック）\n- モジュールレベルの `RECORDING_DIR = _get_recording_dir()` で初期化\n- 既存の `RECORDING_DIR` 使用箇所（6箇所）は変更不要（同じモジュール変数を参照）\n\n### タスク3: migrate_data_dir.sh (`/Users/masaaki/Desktop/prm/rohan/migrate_data_dir.sh`)\n- 指定通りのマイグレーションスクリプトを作成\n- `chmod +x` で実行権限を付与済み\n\n### タスク4: .env (`/Users/masaaki/Desktop/prm/rohan/.env`)\n- `ROHAN_DATA_DIR=/Users/masaaki/Desktop/prm/rohan-data` を末尾に追記",
+    "summary": "Task 5 ROHAN_DATA_DIR implementation complete",
+    "timestamp": "2026-02-09T14:18:52.854Z",
+    "color": "orange",
+    "read": true
+  },
+  {
+    "from": "data-dir-worker",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"data-dir-worker\",\"timestamp\":\"2026-02-09T14:18:59.202Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T14:18:59.202Z",
+    "color": "orange",
+    "read": true
+  },
+  {
+    "from": "data-dir-worker",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770646638346@data-dir-worker\",\"from\":\"data-dir-worker\",\"timestamp\":\"2026-02-09T14:19:03.023Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-09T14:19:03.023Z",
+    "color": "orange",
+    "read": true
   }
 ]
