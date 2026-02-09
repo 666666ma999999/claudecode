@@ -1,0 +1,9 @@
+{
+  "id": "3",
+  "subject": "#5 #6: check_playwright open_and_guard + browser_automation run_playwright_step",
+  "description": "#5: check_playwright.pyのnavigate+screenshot+auth判定をopen_and_guard()に追加統合。#6: browser_automation.pyのSTEP別Playwright実行ラッパーをrun_playwright_step()に共通化。",
+  "activeForm": "Playwright共通パターン統合中",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
