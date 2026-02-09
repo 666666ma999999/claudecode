@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "Implement F1-F4 batch timeout improvements",
-  "description": "F1: Timeout minimum 60→75s in main.py L727\nF2: Parallelize individual fallback in main.py L2246-2294\nF3: Individual retry 1→2 in main.py L2130-2131\nF4: Stagger delay for later batches in manuscript_generation.py L639-656",
-  "activeForm": "Implementing batch timeout improvements",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
