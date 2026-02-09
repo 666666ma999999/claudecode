@@ -1,0 +1,15 @@
+{
+  "id": "6",
+  "subject": "対策5: VERSION_HISTORY.md 更新 + Codexレビュー",
+  "description": "全対策完了後にVERSION_HISTORY.md更新、サーバー再起動、Codexレビュー実施",
+  "activeForm": "Finalizing version and review",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+  ]
+}

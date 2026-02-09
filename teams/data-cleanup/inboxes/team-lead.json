@@ -1,0 +1,17 @@
+[
+  {
+    "from": "claudeignore-worker",
+    "text": "タスク #1 完了。`/Users/masaaki/Desktop/prm/rohan/.claudeignore` を作成しました。14エントリ（data/配下12ディレクトリ/ファイル + .playwright-mcp/ + server.log*）が含まれています。内容を確認済みです。",
+    "summary": ".claudeignore file created successfully",
+    "timestamp": "2026-02-09T14:15:48.108Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "claudeignore-worker",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"claudeignore-worker\",\"timestamp\":\"2026-02-09T14:15:55.689Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T14:15:55.689Z",
+    "color": "blue",
+    "read": true
+  }
+]

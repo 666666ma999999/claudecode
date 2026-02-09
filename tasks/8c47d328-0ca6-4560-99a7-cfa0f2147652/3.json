@@ -1,0 +1,12 @@
+{
+  "id": "3",
+  "subject": "対策3: スクリーンショットJPEG圧縮 (browser_automation.py)",
+  "description": "browser_automation.py の全スクリーンショット箇所を .png→.jpg に変更し、type='jpeg', quality=60 パラメータを追加。約15箇所。",
+  "activeForm": "Converting screenshots to JPEG in browser_automation.py",
+  "owner": "claudeignore-worker",
+  "status": "in_progress",
+  "blocks": [
+    "6"
+  ],
+  "blockedBy": []
+}

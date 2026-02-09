@@ -1,0 +1,11 @@
+{
+  "id": "5",
+  "subject": "対策4: ROHAN_DATA_DIR 環境変数対応 + migrate_data_dir.sh",
+  "description": "path_constants.py の get_data_dir に ROHAN_DATA_DIR 環境変数オーバーライド追加。browser_automation.py の RECORDING_DIR ハードコードを遅延初期化に変更。migrate_data_dir.sh スクリプトと .env ファイル作成。",
+  "activeForm": "Implementing data directory externalization",
+  "status": "pending",
+  "blocks": [
+    "6"
+  ],
+  "blockedBy": []
+}

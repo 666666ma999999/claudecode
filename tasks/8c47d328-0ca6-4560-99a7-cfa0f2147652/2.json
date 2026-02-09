@@ -1,0 +1,12 @@
+{
+  "id": "2",
+  "subject": "対策2: cleanup_old_data.sh 作成",
+  "description": "古いデータを定期削除するシェルスクリプトを作成。playwright_recordings 3日、check_screenshots 3日、manuscript_logs 7日、sessions 30日。dry-runモード対応。",
+  "activeForm": "Creating cleanup script",
+  "owner": "cleanup-script-worker",
+  "status": "in_progress",
+  "blocks": [
+    "6"
+  ],
+  "blockedBy": []
+}
