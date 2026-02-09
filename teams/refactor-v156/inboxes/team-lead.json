@@ -53,6 +53,6 @@
     "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770631728474@fe-all\",\"from\":\"fe-all\",\"timestamp\":\"2026-02-09T10:08:58.128Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
     "timestamp": "2026-02-09T10:08:58.128Z",
     "color": "purple",
-    "read": false
+    "read": true
   }
 ]
