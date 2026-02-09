@@ -3,7 +3,7 @@
   "subject": "A3: スタガー遅延バースト修正",
   "description": "manuscript_generation.py L649-653の一律2s遅延をインクリメンタル遅延に変更",
   "activeForm": "スタガー遅延修正中",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
