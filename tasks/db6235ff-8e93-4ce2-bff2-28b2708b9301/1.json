@@ -3,7 +3,7 @@
   "subject": "P1: FE信頼度再計算の廃止 → BEの`checked`を使用",
   "description": "check.html の2箇所で `confidence >= 4` による一律判定をBEの `result.checked` フラグ使用に変更。\n- L1139-1142: autoCheck() 内\n- L1457-1459: applyPaymentResults() 内\n後方互換: result.checked が未定義の場合は従来のフォールバック維持。",
   "activeForm": "Implementing P1: BE checked flag usage",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [
     "4"
   ],

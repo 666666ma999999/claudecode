@@ -3,7 +3,7 @@
   "subject": "P3: URL構築のBE統一",
   "description": "1. check.py に GET /api/check/urls エンドポイント新設\n2. check.html の updateUrls() をAPI呼び出しに変更\n3. updateUrls()呼び出し元をawait対応",
   "activeForm": "Implementing P3: URL construction unification",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [
     "4"
   ],

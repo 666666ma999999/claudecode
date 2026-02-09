@@ -3,7 +3,7 @@
   "subject": "サーバー再起動・ヘルスチェック・Codexレビュー",
   "description": "全P1-P3完了後に実施:\n1. サーバー再起動\n2. ヘルスチェック (200確認)\n3. Codexレビュー\n4. VERSION_HISTORY.md更新",
   "activeForm": "Running verification and review",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": [
     "1",
