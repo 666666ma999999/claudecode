@@ -3,10 +3,10 @@
   "subject": "ITEM 4: orchestrator.py build_*_request共通バリデーション (~30行削減)",
   "description": "build_manuscript_request()のL86-91のバリデーション(site_id, title, ppv_id必須チェック)を_validate_record_basics(record, required_fields)として抽出。各build_*_request()の冒頭で呼び出し。",
   "activeForm": "共通バリデーション抽出中",
-  "status": "in_progress",
+  "owner": "be-worker",
+  "status": "completed",
   "blocks": [],
   "blockedBy": [
     "3"
-  ],
-  "owner": "be-worker"
+  ]
 }
