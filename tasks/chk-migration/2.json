@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "Phase 2: ユーティリティコピー (check_urls.py, playwright_session.py, variable_registry.py)",
+  "description": "rohan/backend/utils/ から chk/backend/utils/ へユーティリティファイルをコピー＋import修正。\n\n**コピーファイル (変更なし):**\n1. `utils/check_urls.py` (51行) - そのままコピー\n2. `utils/playwright_session.py` (195行) - そのままコピー\n\n**コピー＋修正:**\n3. `utils/variable_registry.py` (576行) - 2箇所import修正:\n   - `from utils.models import CamelCaseModel, StepStatus` → `from models import CamelCaseModel, StepStatus`\n   - TYPE_CHECKING内: `from routers.registration_session import RegistrationRecord` → `from session_reader import RegistrationRecord`\n\n**検証:** `cd /Users/masaaki/Desktop/prm/chk/backend && python -c \"from utils.variable_registry import extract_variables_from_session\"`\n\n**依存:** Phase 1 (models.py, session_reader.py が必要)",
+  "activeForm": "Copying utility files",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
