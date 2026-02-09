@@ -3,8 +3,8 @@
   "subject": "Implement #3: Step1 flow integration with executeStepUnified",
   "description": "Replace startAutoGeneration's API call chain with executeStepUnified(1, ...) pattern, keeping UI operations and result display logic.",
   "activeForm": "Integrating Step1 with executeStepUnified pattern",
-  "status": "in_progress",
+  "owner": "fe-auto",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": [],
-  "owner": "fe-auto"
+  "blockedBy": []
 }

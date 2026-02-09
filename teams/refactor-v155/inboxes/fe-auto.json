@@ -4,7 +4,7 @@
     "text": "{\"type\":\"task_assignment\",\"taskId\":\"24\",\"subject\":\"Read and understand auto.html startAutoGeneration flow\",\"description\":\"Read auto.html to understand the startAutoGeneration function, executeStepUnified pattern, and identify the regex fallback code.\",\"assignedBy\":\"fe-auto\",\"timestamp\":\"2026-02-09T09:08:53.156Z\"}",
     "timestamp": "2026-02-09T09:08:53.156Z",
     "color": "orange",
-    "read": false
+    "read": true
   },
   {
     "from": "fe-auto",
@@ -12,5 +12,11 @@
     "timestamp": "2026-02-09T09:11:56.328Z",
     "color": "orange",
     "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1770628735352@fe-auto\",\"from\":\"team-lead\",\"reason\":\"全タスク完了。シャットダウンしてください。\",\"timestamp\":\"2026-02-09T09:18:55.352Z\"}",
+    "timestamp": "2026-02-09T09:18:55.352Z",
+    "read": true
   }
 ]

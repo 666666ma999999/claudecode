@@ -3,7 +3,7 @@
   "subject": "#3 #4: auto.html Step1フロー統合 + FE regexフォールバック削除",
   "description": "**#3**: auto.htmlのstartAutoGeneration(3010-3499行)がstep1_pipeline.pyと二重実装。FEは既存の`/api/step1/execute`または`/api/orchestrator/execute-step`呼び出しに集約し、進捗UIと結果レンダリングに専念。\n**#4**: BEに抽出APIがあるのにFEにregexフォールバックが残存(auto.html:3119-3126)。削除。\n注意: executeStepUnifiedがSTEP 2-8で既に使われているパターンを参考に、STEP 1も同じフローに統合。",
   "activeForm": "auto.html Step1フロー統合中",
-  "status": "pending",
+  "status": "completed",
   "blocks": [
     "6"
   ],

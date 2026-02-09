@@ -12,5 +12,11 @@
     "timestamp": "2026-02-09T09:10:37.221Z",
     "color": "yellow",
     "read": true
+  },
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1770628733772@be-orch\",\"from\":\"team-lead\",\"reason\":\"全タスク完了。シャットダウンしてください。\",\"timestamp\":\"2026-02-09T09:18:53.772Z\"}",
+    "timestamp": "2026-02-09T09:18:53.772Z",
+    "read": true
   }
 ]

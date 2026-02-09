@@ -26,5 +26,11 @@
     "timestamp": "2026-02-09T09:10:18.900Z",
     "color": "green",
     "read": true
+  },
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1770628733039@be-check\",\"from\":\"team-lead\",\"reason\":\"全タスク完了。シャットダウンしてください。\",\"timestamp\":\"2026-02-09T09:18:53.039Z\"}",
+    "timestamp": "2026-02-09T09:18:53.039Z",
+    "read": true
   }
 ]

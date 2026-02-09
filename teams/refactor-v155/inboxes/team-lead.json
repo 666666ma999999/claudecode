@@ -142,5 +142,62 @@
     "timestamp": "2026-02-09T09:13:39.578Z",
     "color": "purple",
     "read": true
+  },
+  {
+    "from": "fe-auto",
+    "text": "## fe-auto: タスク #3 と #4 完了\n\n### #3: Step1フロー統合 (最大の変更)\n\n`startAutoGeneration`関数のAPI呼び出しチェーン（約540行）を、BEの`/api/step1/execute`への単一呼び出し（約70行）に置換しました。\n\n**削除した処理**（全てBE `step1_pipeline.py` が実行）:\n- `/translate` API呼び出し\n- `/api/fortune/extract-subtitles` + ローカルregexフォールバック\n- `/api/generate-parallel`（カテゴリ+紹介文+komi判定）\n- `/api/generate-yudo-txt` + `/api/yudo-recommend`（並列）\n- `/generate-all-manuscripts`（20分タイムアウト付き）\n- `/api/manuscript/detect-person-type`\n- `/api/generate-opening-closing`\n- 構造化パース + 特殊小見出しサマリー/Y/N生成\n- PPV ID自動発行 + menu_prefix自動設定\n- セッション保存 + 品質ゲート + STEP 1完了マーク\n\n**置換パターン**:\n1. セッション作成（既存のまま）\n2. `/api/step1/execute`に全パラメータを渡す（session_id, input_a, input_b, mode, site_id, file_paths, attached_files, generate_opening/closing, price, mid_id）\n3. 成功後: `refreshSession()` + `restoreUIFromRecord()` でFE状態を復元\n4. 結果表示セクションは残し、セッションデータから表示\n\n**注意点**:\n- `modelUsed`/`usingFallback`はBE APIレスポンスに含まれないため、結果セクションでは「STEP 1 パイプライン完了」と表示\n- `fortune-preview`要素は統合後は空になる（中間表示だったため）\n- エラーハンドリングのFE側`updateStepStatus(1, 'error')`はBEエラー時の安全策として残存\n- `displayCategoryCode`等の中間表示関数は定義のみ残存（他から参照される可能性）\n\n**行数削減**: startAutoGeneration関数が約685行から約200行に削減\n\n### #4: FE regexフォールバック削除\n\n旧L3119-3126の小見出し抽出ローカルregexフォールバックは、#3の統合で自動的に削除されました。\n\n**変更ファイル**: `frontend/auto.html` のみ",
+    "summary": "#3 Step1統合 + #4 regex削除 完了",
+    "timestamp": "2026-02-09T09:18:41.205Z",
+    "color": "orange",
+    "read": true
+  },
+  {
+    "from": "fe-auto",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"fe-auto\",\"timestamp\":\"2026-02-09T09:18:49.090Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T09:18:49.090Z",
+    "color": "orange",
+    "read": true
+  },
+  {
+    "from": "be-cleanup",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770628732381@be-cleanup\",\"from\":\"be-cleanup\",\"timestamp\":\"2026-02-09T09:18:57.223Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-09T09:18:57.223Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "be-check",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770628733039@be-check\",\"from\":\"be-check\",\"timestamp\":\"2026-02-09T09:18:57.977Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-09T09:18:57.977Z",
+    "color": "green",
+    "read": true
+  },
+  {
+    "from": "fe-auto",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"fe-auto\",\"timestamp\":\"2026-02-09T09:18:58.304Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T09:18:58.304Z",
+    "color": "orange",
+    "read": true
+  },
+  {
+    "from": "be-orch",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770628733772@be-orch\",\"from\":\"be-orch\",\"timestamp\":\"2026-02-09T09:18:59.473Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-09T09:18:59.473Z",
+    "color": "yellow",
+    "read": true
+  },
+  {
+    "from": "fe-check",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770628734330@fe-check\",\"from\":\"fe-check\",\"timestamp\":\"2026-02-09T09:19:00.412Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-09T09:19:00.412Z",
+    "color": "purple",
+    "read": true
+  },
+  {
+    "from": "fe-auto",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770628735352@fe-auto\",\"from\":\"fe-auto\",\"timestamp\":\"2026-02-09T09:19:02.038Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-09T09:19:02.038Z",
+    "color": "orange",
+    "read": true
   }
 ]

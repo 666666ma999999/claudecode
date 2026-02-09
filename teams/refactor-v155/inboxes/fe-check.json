@@ -26,5 +26,11 @@
     "timestamp": "2026-02-09T09:10:57.898Z",
     "color": "purple",
     "read": true
+  },
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1770628734330@fe-check\",\"from\":\"team-lead\",\"reason\":\"全タスク完了。シャットダウンしてください。\",\"timestamp\":\"2026-02-09T09:18:54.330Z\"}",
+    "timestamp": "2026-02-09T09:18:54.330Z",
+    "read": true
   }
 ]
