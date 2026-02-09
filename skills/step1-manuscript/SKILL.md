@@ -197,6 +197,16 @@ order,title,mid_id
 - 原稿データはセッションに保存済み（再実行時の参考データとして利用可能）
 - BE（step1_pipeline.py）/ FE（auto.html）両パスで適用
 
+### I8. 物語役割 + --CUT-- マーカー自動挿入（段階9.5）
+- 段階9（parse-manuscript-structured）後、段階10（Special komi postprocess）前に実行
+- `classify_narrative_roles()` → 各小見出しの物語役割（hook/build/pivot/reveal/climax）を分類
+- `apply_cut_markers()` → structured内の各code bodyにAI（Gemini）で`--CUT--`を挿入
+- `SubtitleInfo.narrative_role` にメタデータ保存
+- エラー時: Warning + スキップ（非致命的）→ `--CUT--`なしのまま
+- フォールバック: 数式ベース配置（`base = round(58 - 15 * ln(N)) * role_multiplier`）
+- 実装: `backend/utils/narrative_role.py` + `backend/prompts/NarrativeRolePrompt.md` / `CutPlacementPrompt.md`
+- 安全ガード: 最小10字チラ見せ、40%超え禁止、タグ内部配置禁止、第一段落内制約
+
 ### I7. 末尾小見出しのkomi_type制約
 - 末尾（最後）の小見出しは`komi_normal`禁止（締めメッセージとして使われるため）
 - `infer_komi_type_with_gemini()`のreturn前に強制チェック→`komi_jyuyou1`に変更（v1.49.1以降）
