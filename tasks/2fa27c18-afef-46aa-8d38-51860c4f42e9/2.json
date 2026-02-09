@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "Phase 2: check_playwright.py - 原稿照合ロジック追加",
-  "description": "check_paid_subtitlesメソッドの原稿テキスト存在確認を全文照合に置換",
-  "activeForm": "Implementing manuscript matching logic in check_playwright.py",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

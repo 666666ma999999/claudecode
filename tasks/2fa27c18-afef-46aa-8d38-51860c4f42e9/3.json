@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "サーバー再起動 + ヘルスチェック + Codexレビュー",
-  "description": "completion-check.md STEP 1-2実行",
-  "activeForm": "Running server restart and Codex review",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
