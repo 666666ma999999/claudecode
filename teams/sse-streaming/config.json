@@ -1,0 +1,19 @@
+{
+  "name": "sse-streaming",
+  "description": "SSE化: 商品候補生成のストリーミング対応",
+  "createdAt": 1770633202218,
+  "leadAgentId": "team-lead@sse-streaming",
+  "leadSessionId": "20cdd745-e935-40cb-806d-252e244ec03b",
+  "members": [
+    {
+      "agentId": "team-lead@sse-streaming",
+      "name": "team-lead",
+      "agentType": "team-lead",
+      "model": "claude-opus-4-6",
+      "joinedAt": 1770633202218,
+      "tmuxPaneId": "",
+      "cwd": "/Users/masaaki/Desktop/prm/rohan",
+      "subscriptions": []
+    }
+  ]
+}
