@@ -1,0 +1,11 @@
+{
+  "id": "5",
+  "subject": "STEP 1: セッション作成 + 原稿生成",
+  "description": "セッション作成後、STEP 1 原稿生成を実行。site_id=482, mid_id=293, price=2000, 冒頭OFF, 締めON",
+  "activeForm": "Executing STEP 1 manuscript generation",
+  "status": "in_progress",
+  "blocks": [
+    "6"
+  ],
+  "blockedBy": []
+}

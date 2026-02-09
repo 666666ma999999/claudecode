@@ -1,0 +1,11 @@
+{
+  "id": "6",
+  "subject": "STEP 2-8: 順次実行",
+  "description": "STEP 1完了後、STEP 2→3→4→5→6→7→8を順次実行",
+  "activeForm": "Executing STEPs 2-8 sequentially",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": [
+    "5"
+  ]
+}
