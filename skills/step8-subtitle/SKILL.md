@@ -174,6 +174,20 @@ menu_idのプレフィックスで一致する全てを反映:
 - 内部リトライで自動回復するが、リトライ間にページ再読み込みが入り時間が伸びる
 - 最終検証で反映未完了が検出された場合、failedリストにmenu_idが記録される
 
+## 既知バグと修正履歴
+
+### B1. reflect_all_menus() ボタンセレクタバグ (v1.59.0→v1.59.1)
+- **問題**: Phase 1 JSが`querySelector('button, a, input[type="button"]')`で最初の`<a>`タグ（メニューIDリンク）を取得→テキストが「反映」ではないため全行スキップ→0%成功率
+- **原因**: CMS DOMでは各行に`<a>`タグ（メニューIDリンク、editリンク）が`<input type="button" value="反映">`より前にある
+- **修正**: `input[type="button"][value="反映"]`を優先検索 + onclickからmenu_id抽出
+- **Phase 2修正**: locatorを`onclick*="up('menu_id')"`で直接ロケートに変更（firstTdはCMS内部ID）
+
+### B2. CMS DOM構造の重要事実
+- 反映ボタンは`<input type="button" value="反映" onclick="up('menu_id')">`
+- firstTd（最初のtd）にはCMS内部ID（数字）が入る（menu_idではない）
+- menu_idはonclickの`up('...')`引数から取得すること
+- 検索ボックスは`menu.html?filter=new`ページには存在しない→DOMフィルタリング必須
+
 ## 補足
 
 ### 反映の仕組み
