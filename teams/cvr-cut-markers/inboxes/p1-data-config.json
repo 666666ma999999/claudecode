@@ -1,8 +1,0 @@
-[
-  {
-    "from": "team-lead",
-    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1770643889227@p1-data-config\",\"from\":\"team-lead\",\"reason\":\"全タスク完了しました。シャットダウンしてください。\",\"timestamp\":\"2026-02-09T13:31:29.227Z\"}",
-    "timestamp": "2026-02-09T13:31:29.227Z",
-    "read": true
-  }
-]
