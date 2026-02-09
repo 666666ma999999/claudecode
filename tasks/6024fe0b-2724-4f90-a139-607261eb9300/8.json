@@ -1,0 +1,13 @@
+{
+  "id": "8",
+  "subject": "Phase 4a: サーバー再起動+動作確認",
+  "description": "サーバー再起動、ヘルスチェック、detect.htmlの動作確認",
+  "activeForm": "Restarting server and verifying",
+  "status": "pending",
+  "blocks": [
+    "9"
+  ],
+  "blockedBy": [
+    "7"
+  ]
+}
