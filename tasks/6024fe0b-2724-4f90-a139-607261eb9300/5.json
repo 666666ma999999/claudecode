@@ -3,7 +3,7 @@
   "subject": "Codexレビュー（パラメータチェーン検証）",
   "description": "Codexを使用してリファクタリング結果をレビュー。パラメータチェーン検証を含む。",
   "activeForm": "Running Codex review",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": [
     "4"
