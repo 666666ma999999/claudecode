@@ -1596,6 +1596,54 @@ pkill -9 "Google Chrome"
 # 4. Googleアカウントで再ログインして同期復元
 ```
 
+## 共通ユーティリティ: `playwright_session.py`
+
+ブラウザライフサイクル管理の共通モジュール（`backend/utils/playwright_session.py`）。
+全Playwrightクラスで使用。
+
+### 構成要素
+
+| 要素 | 用途 |
+|------|------|
+| `PlaywrightLaunchOptions` | dataclass: headless, proxy, viewport, auth_state等の起動オプション |
+| `launch_browser(options)` | playwright→browser→context→page を一括作成 |
+| `cleanup_browser(pw, browser, ctx, page)` | 4ステップ安全クリーンアップ（各段階try/except） |
+| `save_trace(context, path)` | トレース保存（失敗時空文字返却） |
+| `get_video_path(page)` | 動画パス取得（失敗時空文字返却） |
+| `BrowserErrorMixin` | `mark_error()`, `_should_keep_browser()`, `__aenter__`/`__aexit__` |
+
+### 使用クラス一覧
+
+| クラス | ファイル | Mixin | launch_browser | cleanup_browser |
+|--------|---------|-------|----------------|-----------------|
+| ManuscriptRegistration | browser_automation.py | Yes | Yes | Yes |
+| CMSMenuRegistration | browser_automation.py | Yes | Yes | Yes |
+| PPVDetailRegistration | browser_automation.py | Yes | Yes | Yes |
+| BaseBrowserAutomation | browser_automation.py | Yes | No（サブクラスが独自start） | Yes |
+| PlaywrightChecker | check_playwright.py | Yes | Yes | Yes |
+
+### 新規Playwrightクラス追加時
+
+```python
+from utils.playwright_session import (
+    PlaywrightLaunchOptions, launch_browser, cleanup_browser, BrowserErrorMixin
+)
+
+class NewChecker(BrowserErrorMixin):
+    async def start(self):
+        options = PlaywrightLaunchOptions(
+            headless=True,
+            viewport_width=1280,
+            viewport_height=800,
+        )
+        self._playwright, self.browser, self.context, self.page = await launch_browser(options)
+
+    async def close(self):
+        await cleanup_browser(self._playwright, self.browser, self.context, self.page)
+
+    # BrowserErrorMixin provides __aenter__, __aexit__, mark_error, _should_keep_browser
+```
+
 ## BaseBrowserAutomation 基底クラス
 
 `browser_automation.py`の3つの自動化クラスは`BaseBrowserAutomation`を継承:
@@ -1609,7 +1657,7 @@ pkill -9 "Google Chrome"
 - `_ensure_session_dir()`: セッション別スクリーンショットディレクトリ作成
 - `take_screenshot(name, full_page, add_timestamp)`: 常時撮影（error/final用）
 - `debug_screenshot(name, full_page, add_timestamp)`: `config.debug_screenshots=True`時のみ撮影（中間状態用）
-- `close()`: ブラウザ・コンテキスト・一時ディレクトリのクリーンアップ
+- `close()`: ブラウザ・コンテキスト・一時ディレクトリのクリーンアップ（`cleanup_browser()`に委譲）
 
 ### 新規クラス追加時
 ```python
