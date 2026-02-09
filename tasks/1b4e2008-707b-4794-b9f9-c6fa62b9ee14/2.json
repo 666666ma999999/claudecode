@@ -3,7 +3,7 @@
   "subject": "Create session and execute STEP 1",
   "description": "Create registration session with test data and execute STEP 1 manuscript generation",
   "activeForm": "Creating session and running STEP 1",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [
     "3"
   ],
