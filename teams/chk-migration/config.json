@@ -1,0 +1,19 @@
+{
+  "name": "chk-migration",
+  "description": "rohanからchkへのチェックフローコード移行。6フェーズ並列実装。",
+  "createdAt": 1770648285933,
+  "leadAgentId": "team-lead@chk-migration",
+  "leadSessionId": "6551c7ad-eed7-4f16-99fd-296ca31866c7",
+  "members": [
+    {
+      "agentId": "team-lead@chk-migration",
+      "name": "team-lead",
+      "agentType": "team-lead",
+      "model": "claude-opus-4-6",
+      "joinedAt": 1770648285933,
+      "tmuxPaneId": "",
+      "cwd": "/Users/masaaki/Desktop/prm/chk",
+      "subscriptions": []
+    }
+  ]
+}
