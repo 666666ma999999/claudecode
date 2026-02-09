@@ -3,10 +3,10 @@
   "subject": "P2: NarrativeRolePrompt.md + CutPlacementPrompt.md 作成",
   "description": "## 変更内容\n\n`backend/prompts/`ディレクトリを作成し、2つのプロンプトファイルを新規作成する。\n\n### 1. backend/prompts/NarrativeRolePrompt.md\n物語役割分類用プロンプト。テンプレート変数: `{product_name}`, `{subtitles}`\n\n```markdown\nあなたは占いコンテンツの構成アナリストです。\n以下の占い商品「{product_name}」の小見出し一覧を分析し、\n各小見出しの物語上の役割を分類してください。\n\n## 役割定義\n- hook: 導入・興味喚起（現状認識、問いかけ、「自分のことだ」と感じさせる）\n- build: 共感・確証構築（具体的な状況描写、相手の行動パターン、「当たってる」感）\n- pivot: 核心への転換（「実は…」「ここからが重要」の展開、未知の領域への転換点）\n- reveal: 解明・具体手順（具体的なアドバイス、時期、行動指針）\n- climax: 結末・未来（最終的な結末、未来像、決定的な答え）\n\n## 制約\n- pivotは必ず1個だけ割り当ててください\n- 物語の流れ: hook→build→pivot→reveal→climax の順序を保ってください\n- 最初の小見出しはhookにしてください\n- 最後の小見出しはclimaxにしてください\n\n## 小見出し一覧\n{subtitles}\n\n## 出力形式（各行: 番号:役割）\n1:hook\n2:build\n...\n\n番号と役割のみを出力してください。説明は不要です。\n```\n\n### 2. backend/prompts/CutPlacementPrompt.md\n--CUT--配置用プロンプト。テンプレート変数: `{subtitle_title}`, `{narrative_role}`, `{role_specific_instruction}`, `{bodies}`\n\n```markdown\nあなたは占いコンテンツのCVR最適化スペシャリストです。\n以下の占い原稿に「--CUT--」マーカーを1つだけ挿入してください。\n\n## ルール: 回答直前CUT\n「--CUT--」は、本文中の**回答・判定・結論を述べるキーワードの直前**に配置します。\n読者が「答えが知りたい！」と最も強く感じるポイントで切ります。\n\n## この小見出しの情報\n- タイトル: {subtitle_title}\n- 物語役割: {narrative_role}\n- {role_specific_instruction}\n\n## 配置の具体例\n- 良い例: \"恋愛スタンスとはだいぶ--CUT--かけ離れてる\" （判定の直前）\n- 良い例: \"チャンスは、--CUT--少なくとも二回はありました\" （回答の直前）\n- 悪い例: \"恋愛スタンスとは--CUT--だいぶかけ離れてる\" （修飾語の途中、不自然）\n- 悪い例: \"恋愛スタンスとはだいぶかけ離れてる。--CUT--でも...\" （回答の後、手遅れ）\n\n## 制約\n- 必ず第一段落内（最初の<br /><br />の前）に配置\n- --nickname1--/--nickname2--タグの内部には配置しない\n- <br />タグの内部には配置しない\n- 最低10文字のチラ見せを確保\n- 本文全体の40%を超える位置には配置しない\n\n## 対象原稿（コード別）\n{bodies}\n\n## 出力形式\n各コードの本文全体を出力してください。--CUT--を1つだけ挿入した状態で。\nコード番号をコロンの後に本文を続けてください。\n\n==コードXX==\n（--CUT--を挿入した本文全体）\n\n各コード間は空行で区切ってください。\n```\n\n**重要**: プラン外の変更は一切禁止。上記2ファイルのみ作成すること。",
   "activeForm": "プロンプトファイルを作成中",
-  "status": "in_progress",
+  "owner": "p2-prompts",
+  "status": "completed",
   "blocks": [
     "3"
   ],
-  "blockedBy": [],
-  "owner": "p2-prompts"
+  "blockedBy": []
 }
