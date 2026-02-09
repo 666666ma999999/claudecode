@@ -3,7 +3,7 @@
   "subject": "Phase 4a: サーバー再起動+動作確認",
   "description": "サーバー再起動、ヘルスチェック、detect.htmlの動作確認",
   "activeForm": "Restarting server and verifying",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [
     "9"
   ],

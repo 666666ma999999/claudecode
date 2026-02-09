@@ -3,7 +3,7 @@
   "subject": "Phase 4a: detect.htmlにutils.js読込追加+重複関数削除",
   "description": "detect.htmlにutils.jsのscriptタグを追加し、escapeHtml+formatValue系4関数の重複定義を削除する",
   "activeForm": "Updating detect.html to use shared utils",
-  "status": "pending",
+  "status": "completed",
   "blocks": [
     "8"
   ],

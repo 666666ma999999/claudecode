@@ -3,7 +3,7 @@
   "subject": "Phase 4a: utils.jsにformatValue系3関数を追加",
   "description": "formatValue, formatValueWithTitle, formatVariableValueの3関数をutils.jsに追加する",
   "activeForm": "Adding formatValue functions to utils.js",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [
     "7"
   ],
