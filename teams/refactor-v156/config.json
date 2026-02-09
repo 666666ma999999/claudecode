@@ -16,48 +16,6 @@
       "subscriptions": []
     },
     {
-      "agentId": "be-pipeline@refactor-v156",
-      "name": "be-pipeline",
-      "agentType": "general-purpose",
-      "model": "claude-opus-4-6",
-      "prompt": "あなたは「be-pipeline」ワーカーです。以下の3つのリファクタリング項目を実装してください。\n\n## 担当ファイル（排他所有権）\n- `backend/services/step1_pipeline.py`\n- `backend/utils/helpers.py`\n- `backend/utils/regex_patterns.py`\n- `backend/main.py`（ロジック名regex部分のみ）\n\n## タスク1: #11 - プロンプト抽出regex二重管理の解消\n\n**問題**: `helpers.py`の`extract_prompt_fields()`内にfield_patternsがハードコードされており、`regex_patterns.py`の`PROMPT_FIELD_PATTERNS`と同系統のregexが二重管理されている。\n\n**作業**:\n1. `helpers.py`の`extract_prompt_fields()`を読み、ローカルの`field_patterns`辞書を確認\n2. `regex_patterns.py`の`PROMPT_FIELD_PATTERNS`を読み、差分を確認\n3. `helpers.py`のfield_patternsを削除し、`regex_patterns.py`の`PROMPT_FIELD_PATTERNS`をimportして使用\n4. キー名の差異（日本語キー vs snake_caseキー）がある場合はマッピングで対応\n\n## タスク2: #12 - ロジック名抽出regexの統一\n\n**問題**: `main.py`と`step1_pipeline.py`に似たロジック名抽出regexが重複。\n\n**作業**:\n1. `main.py`でロジック名抽出しているregexを検索（`ロジック` でGrep）\n2. `step1_pipeline.py`でロジック名抽出しているregexを検索\n3. `regex_patterns.py`に`extract_logic_name(text)`関数を追加\n4. 両ファイルから重複regexを削除し、共通関数を呼ぶ\n\n## タスク3: #1 - step1_pipeline.py execute()の分割\n\n**問題**: `execute()`が200行超の巨大関数で、13の処理ステージが1メソッドに詰まっている。\n\n**作業**:\n1. `execute()`を読んで、各ステージの境界を特定\n2. 以下のようなプライベートメソッドに分割:\n   - `_run_translate()` - 翻訳処理\n   - `_run_extract_subtitles()` - 小見出し抽出\n   - `_run_parallel_ai()` - AI並列生成\n   - `_run_yudo()` - 誘導生成\n   - `_run_generate_manuscript()` - 原稿生成\n   - 等\n3. `execute()`は各メソッドを順番に呼ぶオーケストレーションのみに\n4. **重要**: ステージ間の状態（変数の受け渡し）は`self`のインスタンス変数として管理するか、引数/戻り値で明示的に渡す\n5. **安全第一**: 分割が困難で動作を壊す可能性が高い場合は、無理に分割せず理由を報告\n\n## 完了条件\n- regex重複が解消されている\n- step1_pipeline.pyのexecute()が適切な粒度に分割されている\n- 全ファイルが`py_compile`で構文エラーなし\n- 既存の動作を壊さない",
-      "color": "blue",
-      "planModeRequired": false,
-      "joinedAt": 1770630385999,
-      "tmuxPaneId": "in-process",
-      "cwd": "/Users/masaaki/Desktop/prm/rohan",
-      "subscriptions": [],
-      "backendType": "in-process"
-    },
-    {
-      "agentId": "be-reg@refactor-v156",
-      "name": "be-reg",
-      "agentType": "general-purpose",
-      "model": "claude-opus-4-6",
-      "prompt": "あなたは「be-reg」ワーカーです。以下の3つのリファクタリング項目を実装してください。\n\n## 担当ファイル（排他所有権）\n- `backend/routers/orchestrator.py`\n- `backend/routers/registration.py`\n- `backend/routers/registration_session.py`\n\n## タスク1: #2 - orchestrator.py execute_step_generic()の分割\n\n**問題**: `execute_step_generic()`が260行超の巨大関数で、前提チェック・mutex・リトライ・エラー分類・ロールバック等が1関数に混在。\n\n**作業**:\n1. `execute_step_generic()`を読んで処理の境界を特定\n2. 以下のようなヘルパーメソッドに分割を検討:\n   - 前提STEPチェック部分\n   - Mutex取得・解放部分\n   - リトライ付き実行部分\n   - エラー分類・レスポンス構築部分\n3. `execute_step_generic()`はこれらを呼ぶオーケストレーションに\n4. **重要**: エラー分類の移動で挙動差が出やすいため、安全性を優先。分割が困難なら理由を報告。\n\n## タスク2: #3 - registration.py register_manuscript_endpoint分割\n\n**問題**: `register_manuscript_endpoint`が150行超で、midid_map構築・komi_type解決・offset計算・小見出し構築等が混在。\n\n**作業**:\n1. 関数を読んで分割可能な論理ブロックを特定\n2. `_build_midid_map()`, `_resolve_komi_type_map()`, `_compute_midid_offset()`, `_build_subtitle_contents()`等に分割\n3. 元の関数はこれらを順番に呼ぶシンプルなフローに\n\n## タスク3: #4 - registration.py STEP実行エンドポイントのtry/except/tracker共通化\n\n**問題**: 複数のSTEP実行エンドポイントで同じパターンが繰り返されている:\n```python\nasync with StepExecutionTracker(...):\n    try:\n        result = await some_step_function(...)\n        if result.success:\n            return {\"success\": True, ...}\n        else:\n            return {\"success\": False, ...}\n    except Exception as e:\n        raise HTTPException(status_code=500, detail=str(e))\n```\n\n**作業**:\n1. 該当するエンドポイントを全てGrepで特定（`StepExecutionTracker`で検索）\n2. 共通パターンを`_run_step_endpoint(step, name, request, action_fn)`等に抽出\n3. 各エンドポイントは共通関数を呼ぶだけに\n4. **注意**: 返却JSONの微妙な差異はオプションで吸収\n\n## 完了条件\n- 巨大関数が適切な粒度に分割されている\n- STEP実行パターンが共通化されている\n- 全ファイルが`py_compile`で構文エラーなし\n- 安全に統合できない項目は理由を報告",
-      "color": "green",
-      "planModeRequired": false,
-      "joinedAt": 1770630400180,
-      "tmuxPaneId": "in-process",
-      "cwd": "/Users/masaaki/Desktop/prm/rohan",
-      "subscriptions": [],
-      "backendType": "in-process"
-    },
-    {
-      "agentId": "be-check-browser@refactor-v156",
-      "name": "be-check-browser",
-      "agentType": "general-purpose",
-      "model": "claude-opus-4-6",
-      "prompt": "あなたは「be-check-browser」ワーカーです。以下の2つのリファクタリング項目を実装してください。\n\n## 担当ファイル（排他所有権）\n- `backend/routers/check_playwright.py`\n- `backend/utils/browser_automation.py`\n\n## タスク1: #5 - check_playwright.py open_and_guard()追加\n\n**問題**: 複数のチェック関数で「navigate→screenshot→auth redirect判定」のシーケンスが重複している。v1.55.0で`_check_with_navigation()`テンプレートと`_navigate_or_fail()`は追加済みだが、それ以外のチェック関数（有料原稿チェック、komiチェック等）でも同様のパターンが残っている。\n\n**作業**:\n1. check_playwright.pyを読んで、`_navigate_or_fail()`と`_is_auth_redirect()`を使うパターンが繰り返されている箇所を全て特定\n2. さらに共通化できる部分があれば`_open_and_guard(checker, url, item_id, screenshot_path=None)`を作成\n3. 共通化できる繰り返しが少ない場合は、無理に共通化せず報告\n\n## タスク2: #6 - browser_automation.py run_playwright_step()共通化\n\n**問題**: STEP別のPlaywright実行関数（register_ppv_detail, register_cms_menu, register_auto_update等）で以下のパターンが重複:\n```python\ntimeout_ms = get_timeout(N, \"default\")\nasync with StepExecutionTracker(...):\n    try:\n        worker = SomeRegistration(config)\n        await worker.start()\n        result = await worker.some_method(...)\n        ...\n    except Exception as e:\n        ...\n    finally:\n        if worker and not worker._should_keep_browser():\n            await worker.close()\n```\n\n**作業**:\n1. browser_automation.pyを読んで、上記パターンが繰り返されている関数を全て特定\n2. `_run_playwright_step(step_num, step_name, session_id, config, worker_cls, worker_method, **kwargs)`を作成\n3. start/close/mark_error/trackerを共通化\n4. **注意**: STEPごとの戻り値の差が大きい場合は、共通化が逆効果になる可能性がある。その場合は無理にせず報告。\n\n## 完了条件\n- 安全に共通化できるパターンが統合されている\n- 共通化が逆効果の項目は理由を報告\n- 全ファイルが`py_compile`で構文エラーなし",
-      "color": "yellow",
-      "planModeRequired": false,
-      "joinedAt": 1770630413780,
-      "tmuxPaneId": "in-process",
-      "cwd": "/Users/masaaki/Desktop/prm/rohan",
-      "subscriptions": [],
-      "backendType": "in-process"
-    },
-    {
       "agentId": "fe-all@refactor-v156",
       "name": "fe-all",
       "agentType": "general-purpose",
