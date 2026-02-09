@@ -3,7 +3,7 @@
   "subject": "Phase 6: データ連携 + E2Eテスト + Codexレビュー",
   "description": "data/ symlink作成、.gitignore更新、E2Eテスト、Codexレビュー。\n\n**作業内容:**\n1. `data/sessions/` → `../../rohan/data/sessions/` symlink\n2. `data/auth_states/` → `../../rohan/data/auth_states/` symlink\n3. `.gitignore` 更新（data/, __pycache__, *.pyc, server.log, .env）\n4. E2Eテスト: `curl http://localhost:5560/api/check/registered-data/48200097` でデータ返却確認\n5. ブラウザで http://localhost:5560/check.html 表示確認\n6. Codexレビュー実行\n\n**依存:** Phase 1-5 全完了後",
   "activeForm": "Setting up data links and E2E testing",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": [
     "4",

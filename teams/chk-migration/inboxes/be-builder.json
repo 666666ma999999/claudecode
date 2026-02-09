@@ -26,5 +26,11 @@
     "timestamp": "2026-02-09T14:51:25.249Z",
     "color": "blue",
     "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1770648867161@be-builder\",\"from\":\"team-lead\",\"reason\":\"All phases 1-4 completed successfully. Thank you for the great work. Shutting down.\",\"timestamp\":\"2026-02-09T14:54:27.161Z\"}",
+    "timestamp": "2026-02-09T14:54:27.161Z",
+    "read": false
   }
 ]
