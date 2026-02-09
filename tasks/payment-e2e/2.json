@@ -3,8 +3,8 @@
   "subject": "Create backend/routers/check_payment.py with WebMoney payment executor",
   "description": "Phase 2: Create new file check_payment.py with WebMoneyPaymentExecutor class implementing 8-step payment flow, PrepaidCard/PaymentResult data classes, and prepaid card management functions (load/save/get status/update balance).",
   "activeForm": "Creating WebMoney payment executor module",
-  "status": "in_progress",
+  "owner": "config-creator",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": [],
-  "owner": "config-creator"
+  "blockedBy": []
 }
