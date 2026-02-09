@@ -45,7 +45,7 @@ check.htmlが「本番の正しさ」を確認するのに対し、detect.html�
 browser_navigate → browser_snapshot → 内容確認
 ```
 
-## チェック項目（全19項目）
+## チェック項目（全23項目）
 
 ### ■ログイン（2項目）
 | # | 項目 | URL | 自動 |
