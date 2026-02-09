@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Phase 1: check.py - SubtitleDetail拡張 + 断片抽出",
+  "description": "SubtitleDetailモデルにmanuscriptFragments追加、断片抽出ヘルパー関数追加、registered-dataエンドポイント修正",
+  "activeForm": "Implementing manuscript fragment extraction in check.py",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
