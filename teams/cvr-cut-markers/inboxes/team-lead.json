@@ -1,0 +1,17 @@
+[
+  {
+    "from": "p1-data-config",
+    "text": "タスク#1完了しました。\n\n変更内容:\n1. `backend/routers/registration_session.py:68` - SubtitleInfoに`narrative_role: Optional[str]`フィールド追加\n2. `frontend/data/app-config.json:380-399` - `visibility_rules`セクション追加（fallback_formula, role_multiplier, safety_guards）\n\nJSONバリデーションも通過確認済みです。",
+    "summary": "Task #1 completed: SubtitleInfo + config",
+    "timestamp": "2026-02-09T13:28:36.908Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "p1-data-config",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"p1-data-config\",\"timestamp\":\"2026-02-09T13:28:43.431Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T13:28:43.431Z",
+    "color": "blue",
+    "read": true
+  }
+]
