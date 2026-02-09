@@ -409,3 +409,14 @@ izumo CMSでは`<input type="button" value="反映">`が使用されているた
 - **正規表現**: `/up\s*\(\s*['"]([^'"]*)['"]/` — シングル/ダブルクォート、余分なスペースに対応
 - **フェイルクローズ**: onclick属性が予期しない形式の行も除去される（安全側に倒す）
 - **効果**: orphanアイテム（他セッションの残留: 3054, 3053等）が完全に排除される
+
+### ERR_ABORTED後にorphanアイテムが混入する問題
+
+**症状**: `search_menu()` でDOMフィルタ済みなのに、ERR_ABORTED発生→ページ再読み込み→全行が復活→orphanアイテムも反映されてしまう
+
+**原因**: ERR_ABORTEDハンドラの `navigate_to_menu_edit()` 後に `search_menu()` を再呼び出ししていなかった
+
+**修正（v1.52.2）**:
+1. ERR_ABORTEDハンドラ内で `navigate_to_menu_edit()` の直後に `search_menu(search_key)` を再適用
+2. ボタンクリック前に `onclick` 属性の `search_key` 一致チェックを追加（二重ガード）
+3. `ppv_menu_reflected` がAPIレスポンスに含まれていなかったバグを修正（`registration.py` の return dict に追加）
