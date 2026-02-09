@@ -98,6 +98,13 @@
     "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770633482478@fe-worker\",\"from\":\"fe-worker\",\"timestamp\":\"2026-02-09T10:38:06.998Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
     "timestamp": "2026-02-09T10:38:06.998Z",
     "color": "blue",
-    "read": false
+    "read": true
+  },
+  {
+    "from": "be-worker",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770633483057@be-worker\",\"from\":\"be-worker\",\"timestamp\":\"2026-02-09T10:38:09.127Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-09T10:38:09.127Z",
+    "color": "green",
+    "read": true
   }
 ]
