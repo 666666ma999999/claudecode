@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Create data/webmoney_prepaid.json configuration file",
+  "description": "Phase 1: Create the WebMoney prepaid card configuration file at rohan/data/webmoney_prepaid.json with cards array and safety settings. Add to .gitignore.",
+  "activeForm": "Creating prepaid config file",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
