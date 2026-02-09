@@ -1,0 +1,11 @@
+{
+  "id": "3",
+  "subject": "run_auto_check/CheckFlowExecutorにpayment_completed伝搬",
+  "description": "check_playwright.py: run_auto_checkにpayment_completedパラメータ追加、CheckFlowExecutor.__init__に追加、execute_checkのpaid系dispatchにフラグ伝搬",
+  "activeForm": "Implementing check_playwright.py changes",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [
+    "1"
+  ]
+}

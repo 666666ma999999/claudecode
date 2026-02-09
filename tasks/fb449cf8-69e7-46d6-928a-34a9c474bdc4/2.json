@@ -1,0 +1,11 @@
+{
+  "id": "2",
+  "subject": "check.pyの後続チェックで決済後auth_stateを使用",
+  "description": "check.py: payment_result.post_payment_auth_pathを取得し、後続のrun_auto_checkにpost_auth, payment_completed=Trueを渡す",
+  "activeForm": "Implementing check.py changes",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [
+    "1"
+  ]
+}
