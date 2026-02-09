@@ -3,7 +3,7 @@
   "subject": "Server restart, health check, and Codex review",
   "description": "Step 7: Restart server, verify health check (200), run Codex review on all changes.",
   "activeForm": "Running validation and review",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
