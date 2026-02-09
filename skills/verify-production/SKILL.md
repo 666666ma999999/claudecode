@@ -141,10 +141,71 @@ browser_navigate → browser_snapshot → 内容確認
 | check_playwright.py | rohan/backend/routers/check_playwright.py |
 | ステートマシン図 | chk/check_state_machine_viewer.html |
 
+## WebMoney課金テスト（E2E）
+
+### 概要
+WebMoneyプリペイドカードを使って実際に課金を行い、決済後の結果ページを検証する。
+自動チェック（構造確認のみ）では最大confidence=4だが、課金テスト完了後はconfidence=5が可能。
+
+### 安全機構
+| 機構 | 実装 |
+|------|------|
+| opt-in専用 | `POST /api/check/payment-test`（auto-checkからは呼ばれない） |
+| バッチ除外 | ボタンclass=`payment-test-btn`（`auto-check-btn`ではない） |
+| 二重確認 | JS側 `confirm()` x 2回（金額+最終確認） |
+| 残高事前チェック | `remaining_balance >= price_with_tax` 検証後に実行 |
+| 価格上限 | `safety.max_price_yen` ハードキャップ（デフォルト3000円） |
+| PPV ID検証 | 正規表現 `^\d{5,12}$` で形式検証 |
+| 使用追跡 | 決済後に残高減算・used_count増加・last_used記録 |
+
+### 決済フロー（8ステップ）
+```
+Step 1: confirm画面アクセス (/open/ppv.do/?id=ppv{id}&mode=confirm)
+Step 2: WebMoneyボタン検出・クリック（セレクタ3段階フォールバック）
+Step 3: www.webmoney.ne.jp でプリペイド番号入力
+Step 4: 「お支払いを行う」クリック（※ここから不可逆）
+Step 5: 管理番号・残高確認（テキスト抽出）
+Step 6: 「ご利用サイトに戻る」クリック
+Step 7: 「特別鑑定開始」クリック
+Step 8: mode=view到達確認
+```
+
+### 決済後の自動検証
+決済完了後、以下のチェック項目を自動実行しconfidence=5を返却可能：
+- `paid-subtitle`: 購入セッション付きcheckerで小見出し表示確認
+- `paid-no-error`: 購入セッション付きcheckerでエラー非表示確認
+- `paid-yudo`: 購入セッション付きcheckerで誘導PPV確認
+
+### 関連ファイル
+| ファイル | 内容 |
+|---------|------|
+| check_payment.py | WebMoneyPaymentExecutor（決済自動化コア） |
+| webmoney_prepaid.json | プリペイド番号・残高設定（data/下、gitignore対象） |
+
+### プリペイド管理API
+- `GET /api/check/prepaid-status` — カード一覧と残高（番号はマスク表示）
+- `POST /api/check/prepaid-update` — 残高手動修正
+
+### 実行手順
+1. check.html を開く → PPV ID入力 → 登録データ読込
+2. 「課金テストパネル」でプリペイド番号を入力
+3. 残高確認（自動表示）
+4. 「課金テスト実行」クリック → 二重確認ダイアログ
+5. 8ステップが順次実行（進捗バー表示）
+6. 完了後: paid-subtitle/paid-no-error/paid-yudo が confidence=5 に更新
+7. webmoney_prepaid.json の残高が自動更新される
+
+### エラーハンドリング
+| ステップ | 失敗時 | リカバリ |
+|---------|--------|---------|
+| Step 1-3 | 即エラー返却 | 残高変更なし |
+| Step 4 | 60sタイムアウト | 手動確認促す |
+| Step 5-8 | 部分成功 | 残高は減算済み、スクリーンショットで手動検証 |
+
 ## 注意事項
 
 - **プロキシ自動化**: アクセス解析（#18, #19）はSquidプロキシ経由で自動アクセス（VPN不要）
-- **課金画面**: #12は価格表示+購入ボタンの構造検証を自動化（決済実行はしない、最大conf 4）
+- **課金画面**: #12は構造確認（auto-check、最大conf 4）と課金テスト（E2E、conf 5可）の2モード
 - **キャリアログイン**: #2はフォーム要素+入力欄+キーワード検出で自動検証
 - **二人用**: 相手情報登録済みでないと鑑定不可
 
