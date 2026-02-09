@@ -33,5 +33,11 @@
     "timestamp": "2026-02-09T10:35:19.502Z",
     "color": "blue",
     "read": true
+  },
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1770633482478@fe-worker\",\"from\":\"team-lead\",\"reason\":\"全タスク完了。シャットダウンしてください。\",\"timestamp\":\"2026-02-09T10:38:02.478Z\"}",
+    "timestamp": "2026-02-09T10:38:02.478Z",
+    "read": true
   }
 ]

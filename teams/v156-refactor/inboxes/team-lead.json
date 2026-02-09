@@ -92,5 +92,12 @@
     "timestamp": "2026-02-09T10:37:26.668Z",
     "color": "blue",
     "read": true
+  },
+  {
+    "from": "fe-worker",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770633482478@fe-worker\",\"from\":\"fe-worker\",\"timestamp\":\"2026-02-09T10:38:06.998Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-09T10:38:06.998Z",
+    "color": "blue",
+    "read": false
   }
 ]
