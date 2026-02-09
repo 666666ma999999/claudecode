@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "静的/ランタイムパス分離の実装",
-  "description": "path_constants.py, main.py, registration.py, postprocess.py, postprocess router の5ファイルを変更し、静的ファイルとランタイムデータのパス分離を実装する",
-  "activeForm": "パス分離を実装中",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
