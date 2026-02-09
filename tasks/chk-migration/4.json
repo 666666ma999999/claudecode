@@ -4,6 +4,12 @@
   "description": "chk/backend/main.py でFastAPIサーバーを構築、起動・停止スクリプト作成。\n\n**作成ファイル:**\n\n1. `backend/main.py` (~80行):\n   - FastAPI app (title=\"CHK - Web Check Flow\")\n   - Port 5560\n   - ルーター登録: check, detect (check_paymentはcheck.py内で呼ばれるので直接登録不要かも - 要確認)\n   - 静的ファイル配信: frontend/ ディレクトリ\n   - CORSミドルウェア\n   - data/sessions, data/auth_states パス設定\n   - session_reader.set_sessions_dir() 呼び出し\n\n2. `start_server.sh` (~25行):\n   - cd to script dir\n   - nohup uvicorn でport 5560起動\n   - PIDファイル管理\n\n3. `stop_server.sh` (~10行):\n   - PIDファイルからプロセス停止\n\n**検証:** `./start_server.sh` → `curl http://localhost:5560/` → 200\n\n**依存:** Phase 1-3 全完了後",
   "activeForm": "Building server infrastructure",
   "status": "pending",
-  "blocks": [],
-  "blockedBy": []
+  "blocks": [
+    "6"
+  ],
+  "blockedBy": [
+    "1",
+    "2",
+    "3"
+  ]
 }
