@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "Extract _match_manuscript_fragments helper and add new check methods",
-  "description": "Step 1-6: Modify check_playwright.py - extract helper, refactor check_paid_subtitles, add check_free_manuscript and check_paid_manuscript, update dispatch and dependencies",
-  "activeForm": "Implementing check_playwright.py changes",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
