@@ -16,34 +16,6 @@
       "subscriptions": []
     },
     {
-      "agentId": "claudeignore-worker@data-cleanup",
-      "name": "claudeignore-worker",
-      "agentType": "general-purpose",
-      "model": "haiku",
-      "prompt": "あなたのタスク: プロジェクトルート `/Users/masaaki/Desktop/prm/rohan/` に `.claudeignore` ファイルを作成してください。\n\n**重要**: プラン外の変更は一切禁止。指定されたファイルのみ作成・変更すること。\n\nファイル内容:\n```\ndata/playwright_recordings/\ndata/check_screenshots/\ndata/manuscript_logs/\ndata/sessions/\ndata/prompt_history.json\ndata/csv_downloads/\ndata/auth_states/\ndata/payment_logs/\ndata/process_states/\ndata/check_sessions/\ndata/screenshots/\ndata/manuscript/\n.playwright-mcp/\nserver.log*\n```\n\n作成後、ファイルの内容を確認してください。\n\n完了したらタスクID #1 を completed にマークしてください。",
-      "color": "blue",
-      "planModeRequired": false,
-      "joinedAt": 1770646531289,
-      "tmuxPaneId": "in-process",
-      "cwd": "/Users/masaaki/Desktop/prm/rohan",
-      "subscriptions": [],
-      "backendType": "in-process"
-    },
-    {
-      "agentId": "jpeg-browser-worker@data-cleanup",
-      "name": "jpeg-browser-worker",
-      "agentType": "general-purpose",
-      "model": "sonnet",
-      "prompt": "あなたのタスク: `/Users/masaaki/Desktop/prm/rohan/backend/browser_automation.py` の全スクリーンショット箇所を PNG → JPEG に変更してください。\n\n**重要**: プラン外の変更は一切禁止。スクリーンショット関連の変更のみ行うこと。他のロジック変更は禁止。\n\n変更ルール:\n1. `.png` → `.jpg` にファイル拡張子を変更\n2. `page.screenshot(...)` の呼び出しに `type='jpeg', quality=60` パラメータを追加\n3. **既存のパラメータ（path=, full_page= など）は一切変更しない**\n\n作業手順:\n1. まず `browser_automation.py` を読み込んで全ての `.screenshot(` と `.png` 箇所を特定\n2. 以下のパターンを検索して全箇所を変更:\n   - `page.screenshot(path=...)` → `page.screenshot(path=..., type='jpeg', quality=60)`\n   - ファイル名の `.png` → `.jpg`\n3. 変更後、全箇所が正しく変更されたか grep で確認\n\n注意点:\n- `f\"...{xxx}.png\"` のようなf-string内の `.png` も `.jpg` に変更\n- `screenshot` メソッドの引数で `type=` が既にある箇所は上書き\n- `full_page=True` などの既存引数はそのまま維持\n\n完了したらタスクID #3 を completed にマークしてください。",
-      "color": "yellow",
-      "planModeRequired": false,
-      "joinedAt": 1770646565206,
-      "tmuxPaneId": "in-process",
-      "cwd": "/Users/masaaki/Desktop/prm/rohan",
-      "subscriptions": [],
-      "backendType": "in-process"
-    },
-    {
       "agentId": "data-dir-worker@data-cleanup",
       "name": "data-dir-worker",
       "agentType": "general-purpose",

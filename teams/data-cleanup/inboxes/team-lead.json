@@ -86,13 +86,20 @@
     "text": "{\"type\":\"idle_notification\",\"from\":\"jpeg-browser-worker\",\"timestamp\":\"2026-02-09T14:18:11.552Z\",\"idleReason\":\"available\"}",
     "timestamp": "2026-02-09T14:18:11.552Z",
     "color": "yellow",
-    "read": false
+    "read": true
   },
   {
     "from": "claudeignore-worker",
     "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770646611879@claudeignore-worker\",\"from\":\"claudeignore-worker\",\"timestamp\":\"2026-02-09T14:18:11.674Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
     "timestamp": "2026-02-09T14:18:11.674Z",
     "color": "blue",
-    "read": false
+    "read": true
+  },
+  {
+    "from": "jpeg-browser-worker",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770646631169@jpeg-browser-worker\",\"from\":\"jpeg-browser-worker\",\"timestamp\":\"2026-02-09T14:18:14.793Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-09T14:18:14.793Z",
+    "color": "yellow",
+    "read": true
   }
 ]
