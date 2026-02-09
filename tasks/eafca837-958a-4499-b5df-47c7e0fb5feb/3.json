@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "Refactor CMSMenuRegistration to use shared utilities",
-  "description": "Step 3: Refactor CMSMenuRegistration. BrowserErrorMixin inheritance, lifecycle delegation. -40 lines.",
-  "activeForm": "Refactoring CMSMenuRegistration",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

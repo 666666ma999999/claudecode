@@ -1,9 +1,0 @@
-{
-  "id": "4",
-  "subject": "Refactor ManuscriptRegistration to use shared utilities",
-  "description": "Step 4: Refactor ManuscriptRegistration. BrowserErrorMixin inheritance, lifecycle delegation with trace/video support. -50 lines.",
-  "activeForm": "Refactoring ManuscriptRegistration",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
