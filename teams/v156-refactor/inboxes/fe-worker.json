@@ -5,5 +5,12 @@
     "timestamp": "2026-02-09T10:26:36.901Z",
     "color": "blue",
     "read": false
+  },
+  {
+    "from": "fe-worker",
+    "text": "{\"type\":\"task_assignment\",\"taskId\":\"2\",\"subject\":\"ITEM 2: サイトコード設定 → config.js集約 (~40行削減)\",\"description\":\"config.jsにSITE_CODES配列を追加。check.htmlとdetect.htmlのselect optionsをJS動的生成に変更。check_common.jsにrenderSiteCodeDropdown(selectId)ヘルパーを追加。\",\"assignedBy\":\"fe-worker\",\"timestamp\":\"2026-02-09T10:30:22.709Z\"}",
+    "timestamp": "2026-02-09T10:30:22.709Z",
+    "color": "blue",
+    "read": false
   }
 ]
