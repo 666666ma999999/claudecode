@@ -99,5 +99,48 @@
     "timestamp": "2026-02-09T09:12:10.364Z",
     "color": "green",
     "read": true
+  },
+  {
+    "from": "fe-check",
+    "text": "FEチェックページのリファクタリング(#1, #2)が完了しました。\n\n## 変更サマリー\n\n### 新規作成\n- **`frontend/check_common.js`** - 共通モジュール (IIFE `CheckCommon`)\n\n### 変更ファイル\n- **`frontend/check.html`** - 5関数を削除し、CheckCommon に委譲\n- **`frontend/detect.html`** - 5関数を削除し、CheckCommon に委譲\n\n## 共通化した関数\n\n| 元の関数 (check.html) | 元の関数 (detect.html) | 共通関数 (CheckCommon) |\n|---|---|---|\n| `checkAuthStatus()` | `checkAuthStatus()` | `CheckCommon.checkAuthStatus()` |\n| `captureAuth()` | `captureAuth()` | `CheckCommon.captureAuth()` |\n| `autoCheck(itemId)` | `runAutoCheck(detectItemId)` | `CheckCommon.autoCheck(itemId)` |\n| `runBatchCheck()` | `runAllChecks()` | `CheckCommon.runBatchCheck()` |\n| `updateProgress()` | `updateCheckProgress()` | `CheckCommon.updateProgress()` |\n\n## 差分の吸収方法\n\nパラメータ化で以下の差分を吸収:\n\n1. **DOM属性名の違い**: `rowSelector` (`tr[data-item]` vs `tr[data-check-id]`) と `rowIdAttr` (`item` vs `checkId`)\n2. **ID変換**: `mapItemId` コールバック (detect.htmlの `CHECK_ID_MAP` 変換)\n3. **進捗計算方式**: check.html はチェックボックスDOM計算(デフォルト), detect.html は `_checkResults` オブジェクト計算(`getProgress` コールバック)\n4. **結果保存**: `onCheckResult` コールバック (detect.htmlの `_checkResults` への書き込み)\n5. **認証DOM ID**: 全て同じだが、パラメータ化で疎結合化\n\n## 後方互換性\n\n各HTMLに convenience alias を定義し、既存の `onclick` ハンドラがそのまま動作:\n```js\nfunction autoCheck(itemId) { return CheckCommon.autoCheck(itemId); }\nfunction runBatchCheck() { return CheckCommon.runBatchCheck(); }\n// etc.\n```\n\n削除行数: check.html ~100行、detect.html ~140行\n追加: check_common.js ~220行（重複の一本化）",
+    "summary": "FE check/detect auth+check logic refactoring complete",
+    "timestamp": "2026-02-09T09:13:11.793Z",
+    "color": "purple",
+    "read": true
+  },
+  {
+    "from": "fe-check",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"fe-check\",\"timestamp\":\"2026-02-09T09:13:21.797Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T09:13:21.797Z",
+    "color": "purple",
+    "read": true
+  },
+  {
+    "from": "fe-check",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"fe-check\",\"timestamp\":\"2026-02-09T09:13:27.663Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T09:13:27.663Z",
+    "color": "purple",
+    "read": true
+  },
+  {
+    "from": "fe-check",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"fe-check\",\"timestamp\":\"2026-02-09T09:13:31.419Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T09:13:31.419Z",
+    "color": "purple",
+    "read": true
+  },
+  {
+    "from": "fe-check",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"fe-check\",\"timestamp\":\"2026-02-09T09:13:36.018Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T09:13:36.018Z",
+    "color": "purple",
+    "read": true
+  },
+  {
+    "from": "fe-check",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"fe-check\",\"timestamp\":\"2026-02-09T09:13:39.578Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T09:13:39.578Z",
+    "color": "purple",
+    "read": true
   }
 ]

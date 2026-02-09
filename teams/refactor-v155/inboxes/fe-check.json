@@ -4,27 +4,27 @@
     "text": "{\"type\":\"task_assignment\",\"taskId\":\"19\",\"subject\":\"Read and analyze check.html and detect.html for common patterns\",\"description\":\"Read both files to identify common authentication and check execution logic\",\"assignedBy\":\"fe-check\",\"timestamp\":\"2026-02-09T09:08:34.817Z\"}",
     "timestamp": "2026-02-09T09:08:34.817Z",
     "color": "purple",
-    "read": false
+    "read": true
   },
   {
     "from": "fe-check",
     "text": "{\"type\":\"task_assignment\",\"taskId\":\"20\",\"subject\":\"Create check_common.js with shared auth and check logic\",\"description\":\"Extract common authentication (checkAuthStatus/captureAuth) and check execution (autoCheck/runBatchCheck/updateProgress) logic into frontend/check_common.js\",\"assignedBy\":\"fe-check\",\"timestamp\":\"2026-02-09T09:08:54.358Z\"}",
     "timestamp": "2026-02-09T09:08:54.358Z",
     "color": "purple",
-    "read": false
+    "read": true
   },
   {
     "from": "fe-check",
     "text": "{\"type\":\"task_assignment\",\"taskId\":\"21\",\"subject\":\"Refactor check.html to use check_common.js\",\"description\":\"Remove duplicated auth and check logic from check.html, import check_common.js, wire up with page-specific parameters\",\"assignedBy\":\"fe-check\",\"timestamp\":\"2026-02-09T09:09:57.238Z\"}",
     "timestamp": "2026-02-09T09:09:57.239Z",
     "color": "purple",
-    "read": false
+    "read": true
   },
   {
     "from": "fe-check",
     "text": "{\"type\":\"task_assignment\",\"taskId\":\"22\",\"subject\":\"Refactor detect.html to use check_common.js\",\"description\":\"Remove duplicated auth and check logic from detect.html, import check_common.js, wire up with page-specific parameters\",\"assignedBy\":\"fe-check\",\"timestamp\":\"2026-02-09T09:10:57.898Z\"}",
     "timestamp": "2026-02-09T09:10:57.898Z",
     "color": "purple",
-    "read": false
+    "read": true
   }
 ]

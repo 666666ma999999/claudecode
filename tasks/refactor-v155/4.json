@@ -3,7 +3,7 @@
   "subject": "#1 #2: FE check/detect 認証・チェックロジック共通化",
   "description": "**#1**: check.htmlとdetect.htmlの認証状態取得/保存ロジック(checkAuthStatus/captureAuth)がほぼ同一。共通ユーティリティに抽出。\n**#2**: check.htmlとdetect.htmlの自動チェック/一括チェック/進捗更新ロジックが実質同一。共通関数に抽出。\n新規ファイル `frontend/check_common.js` を作成し、両HTMLから読み込む。",
   "activeForm": "FEチェック画面共通化中",
-  "status": "pending",
+  "status": "completed",
   "blocks": [
     "6"
   ],
