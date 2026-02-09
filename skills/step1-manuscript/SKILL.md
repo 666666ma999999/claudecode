@@ -155,6 +155,13 @@ order,title,mid_id
 - バッチ処理は `asyncio.gather + Semaphore(2)` で並列実行される（v1.47.0改善）
   - `PARALLEL_BATCHES=2` はGemini API RPM上限120に対して安全なレート
   - Semaphoreにより同時実行数を制限し、RPMリミット超過を防止
+- タイムアウト最低値は75秒（v1.53.1改善）
+  - 3コードバッチの計算値が50秒→下限60秒だったが75秒に引き上げ
+- 後半バッチ（index>=2）にスタガー遅延2秒を追加（v1.53.1改善）
+  - セマフォ外で待機しスロット占有を防止
+- 個別フォールバックは`asyncio.gather + Semaphore(3)`で並列実行（v1.53.1改善）
+  - 逐次処理(135秒)→並列(45秒)に短縮
+  - 個別処理のAPIリトライは2回（`max_retries=2`）
 
 ## 不変条件（Invariants）
 
