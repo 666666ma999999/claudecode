@@ -3,7 +3,7 @@
   "subject": "Execute STEPs 2-8 sequentially",
   "description": "After STEP 1 completes, execute STEPs 2 through 8 via orchestrator API",
   "activeForm": "Executing STEPs 2-8",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": [
     "2"
