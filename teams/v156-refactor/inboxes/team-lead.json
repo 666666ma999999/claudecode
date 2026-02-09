@@ -106,5 +106,27 @@
     "timestamp": "2026-02-09T10:38:09.127Z",
     "color": "green",
     "read": true
+  },
+  {
+    "from": "script-audit",
+    "text": "## script.js 未使用関数調査結果\n\n**結論: 完全に未使用の関数は0件です。**\n\n全55個の関数/クラス定義を調査しました。全関数が以下のいずれかから使用されています：\n\n- script.js内部から呼び出し\n- index.html の onclick/onmouseover/onmouseout イベントハンドラ\n- txt_dl.html から呼び出し（renderHeader, apiRequest）\n- DOMContentLoaded / イベントリスナー経由\n\n特記事項：\n- `insertSampleText()` は外部から直接呼ばれないが、3つのラッパー関数（insertSampleTextPrompt/A/B）から内部利用\n- `closeVersionPopupOnClickOutside()` はイベントリスナーとして動的に登録/解除\n- `addAttachedFileToDOM()` 内でonclick文字列として `removeFile()` を参照\n- `renderHeader()` 内でonclick文字列として `showVersionHistory()`, `changeUserName()` を参照\n- `copyHistoryToPromptSafe()` は `loadHistory()` が生成するHTML内のonclickから呼ばれる\n\n削減可能なデッドコードはありませんでした。",
+    "summary": "script.js audit: 0 unused functions found",
+    "timestamp": "2026-02-09T10:44:24.161Z",
+    "color": "yellow",
+    "read": true
+  },
+  {
+    "from": "script-audit",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"script-audit\",\"timestamp\":\"2026-02-09T10:44:36.693Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-09T10:44:36.693Z",
+    "color": "yellow",
+    "read": true
+  },
+  {
+    "from": "script-audit",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770633710113@script-audit\",\"from\":\"script-audit\",\"timestamp\":\"2026-02-09T10:44:42.286Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-09T10:44:42.287Z",
+    "color": "yellow",
+    "read": true
   }
 ]

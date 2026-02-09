@@ -14,20 +14,6 @@
       "tmuxPaneId": "",
       "cwd": "/Users/masaaki/Desktop/prm/rohan",
       "subscriptions": []
-    },
-    {
-      "agentId": "script-audit@v156-refactor",
-      "name": "script-audit",
-      "agentType": "Explore",
-      "model": "sonnet",
-      "prompt": "frontend/script.jsの全function定義を抽出し、各関数がfrontend/内の他ファイル（index.html, txt_dl.html, auto.html, check.html, detect.html, config.js, check_common.js, utils.js）から呼ばれているかGrepで確認してください。\n\n注意:\n- script.js内部から呼ばれている関数はカウントに含む（内部利用）\n- `window.xxx`でグローバル公開されている関数もカウントに含む\n- HTMLのonclick等イベントハンドラから呼ばれている関数もカウントに含む\n- DOMContentLoadedやイベントリスナー内で使われている関数もカウントに含む\n\n最終的に「script.js外部からも内部からも完全に未使用の関数」のリストを返してください。関数名、行番号、行数を含めて。\n\nコードを変更する必要はありません。調査結果のみ返してください。",
-      "color": "yellow",
-      "planModeRequired": false,
-      "joinedAt": 1770633554991,
-      "tmuxPaneId": "in-process",
-      "cwd": "/Users/masaaki/Desktop/prm/rohan",
-      "subscriptions": [],
-      "backendType": "in-process"
     }
   ]
 }

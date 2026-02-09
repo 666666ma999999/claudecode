@@ -2,7 +2,7 @@
   "id": "10",
   "subject": "script-audit",
   "description": "frontend/script.jsの全function定義を抽出し、各関数がfrontend/内の他ファイル（index.html, txt_dl.html, auto.html, check.ht",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": [],
   "metadata": {
