@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "ITEM 2: サイトコード設定 → config.js集約 (~40行削減)",
+  "description": "config.jsにSITE_CODES配列を追加。check.htmlとdetect.htmlのselect optionsをJS動的生成に変更。check_common.jsにrenderSiteCodeDropdown(selectId)ヘルパーを追加。",
+  "activeForm": "サイトコード設定集約中",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

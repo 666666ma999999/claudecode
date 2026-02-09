@@ -1,0 +1,19 @@
+{
+  "name": "v156-refactor",
+  "description": "v1.56.0 コード品質改善リファクタリング - CSS重複排除、設定集約、BE DRY化",
+  "createdAt": 1770632740461,
+  "leadAgentId": "team-lead@v156-refactor",
+  "leadSessionId": "89fa525d-d040-4da1-8f6a-884d306c5fd1",
+  "members": [
+    {
+      "agentId": "team-lead@v156-refactor",
+      "name": "team-lead",
+      "agentType": "team-lead",
+      "model": "claude-opus-4-6",
+      "joinedAt": 1770632740461,
+      "tmuxPaneId": "",
+      "cwd": "/Users/masaaki/Desktop/prm/rohan",
+      "subscriptions": []
+    }
+  ]
+}
