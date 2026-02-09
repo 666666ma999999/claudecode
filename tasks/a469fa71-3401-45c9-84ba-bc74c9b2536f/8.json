@@ -1,0 +1,11 @@
+{
+  "id": "8",
+  "subject": "Server restart + Codex review + skill update",
+  "description": "completion-check.md に従い:\nSTEP 1: サーバー再起動 + ヘルスチェック (200確認)\nSTEP 2: Codex レビュー\nSTEP 3: スキル化判断\nSTEP 4: 完了報告",
+  "activeForm": "Running completion checks",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": [
+    "7"
+  ]
+}
