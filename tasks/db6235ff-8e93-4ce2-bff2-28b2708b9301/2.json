@@ -1,0 +1,11 @@
+{
+  "id": "2",
+  "subject": "P2: parseMenuId デッドコード削除",
+  "description": "auto.html L2705-2729 の parseMenuId 関数を削除。呼び出し箇所0件確認済み。",
+  "activeForm": "Implementing P2: Dead code removal",
+  "status": "in_progress",
+  "blocks": [
+    "4"
+  ],
+  "blockedBy": []
+}
