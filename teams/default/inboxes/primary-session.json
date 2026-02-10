@@ -33,5 +33,12 @@
     "summary": "Context for opening_closing.py fix - two implementation options",
     "timestamp": "2026-02-10T01:33:57.305Z",
     "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "🔍 **browser_automation.py Import Status:**\n\nThe grep shows browser_automation.py currently has **no imports** from `utils.path_constants`.\n\nThis confirms the audit finding - browser_automation.py has two hardcoded paths but isn't currently importing the centralized path functions.\n\n**Required Changes for browser_automation.py:**\n\n1. **Add import at module level:**\n   ```python\n   from utils.path_constants import get_data_dir\n   ```\n\n2. **Fix line 124** in `_get_recording_dir()`:\n   ```python\n   # Before:\n   return Path(__file__).parent.parent.parent / \"data\" / \"playwright_recordings\"\n   \n   # After:\n   return get_data_dir(Path(__file__).parent.parent.parent) / \"playwright_recordings\"\n   ```\n\n3. **Fix line 4012** in `_setup_screenshot_dir()`:\n   ```python\n   # Before:\n   base_dir = Path(__file__).parent.parent.parent / \"data\" / \"playwright_recordings\"\n   \n   # After:\n   base_dir = get_data_dir(Path(__file__).parent.parent.parent) / \"playwright_recordings\"\n   ```\n\n**Note:** Both locations should use `get_data_dir()` (not `get_static_data_dir()`) because recordings and screenshots are runtime data that should respect the ROHAN_DATA_DIR environment variable.",
+    "summary": "browser_automation.py needs get_data_dir import added",
+    "timestamp": "2026-02-10T01:34:08.442Z",
+    "read": false
   }
 ]
