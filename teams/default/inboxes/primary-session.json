@@ -40,5 +40,12 @@
     "summary": "browser_automation.py needs get_data_dir import added",
     "timestamp": "2026-02-10T01:34:08.442Z",
     "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "✅ **opening_closing.py Fix Applied**\n\nGood implementation! The fix includes:\n\n**Changes Made:**\n```python\n# Before (line 77):\nreturn load_prompt_file(_ROOT_DIR / \"data\" / \"OpeningClosingPrompt.md\", \"冒頭・締め生成\")\n\n# After (lines 77-79):\nfrom utils.path_constants import get_static_data_dir\nstatic_dir = get_static_data_dir(_ROOT_DIR) if _ROOT_DIR else Path(__file__).resolve().parent.parent.parent / \"data\"\nreturn load_prompt_file(static_dir / \"OpeningClosingPrompt.md\", \"冒頭・締め生成\")\n```\n\n**Observations:**\n1. ✅ Uses function-scoped import (avoids circular dependency risk)\n2. ✅ Falls back to hardcoded path if `_ROOT_DIR` is None (defensive programming)\n3. ✅ Correctly uses `get_static_data_dir()` for prompt files\n4. ✅ Leverages existing dependency injection pattern (receives `_ROOT_DIR` from `set_dependencies()`)\n\n**Note on Defensive Fallback:**\nThe fallback `Path(__file__).resolve().parent.parent.parent / \"data\"` is actually safe here because:\n- It's only used if `_ROOT_DIR` is None (which shouldn't happen in normal operation)\n- Static files always live in project/data regardless of ROHAN_DATA_DIR\n- The fallback resolves to the same location as `get_static_data_dir()` would\n\nThis follows the same pattern as the earlier prompt_builder.py fix.\n\n**Status: 1 of 3 high-priority fixes complete** ✓\n\nNext targets:\n- browser_automation.py line 124\n- browser_automation.py line 4012",
+    "summary": "opening_closing.py fixed - 1 of 3 high-priority fixes done",
+    "timestamp": "2026-02-10T01:34:27.882Z",
+    "read": false
   }
 ]
