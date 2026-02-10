@@ -26,5 +26,12 @@
     "summary": "Audit found 3 more hardcoded paths - total 11 locations",
     "timestamp": "2026-02-10T01:31:40.075Z",
     "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "📋 **Context for opening_closing.py Fix:**\n\nI can see you're reading opening_closing.py. Key observations for the fix:\n\n**File Structure:**\n- Uses `load_prompt_file()` from `utils.gemini_helpers`\n- Has dependency injection pattern (\"依存関係（main.pyで設定される）\" on line 20)\n- The hardcoded path is likely in a function that loads \"OpeningClosingPrompt.md\"\n\n**Fix Strategy:**\nSince this file uses dependency injection, you have two options:\n\n1. **Option A: Add to Dependencies** (cleaner, follows existing pattern)\n   - Add `static_data_dir` to the _deps dictionary\n   - Pass it from main.py via set_dependencies()\n   - Use the injected path in the prompt loading function\n\n2. **Option B: Direct Import** (simpler, self-contained)\n   - Import `get_static_data_dir` at module level\n   - Replace `_ROOT_DIR / \"data\"` with `get_static_data_dir(_ROOT_DIR)`\n\n**Recommendation:** \nCheck if this router already has a `set_dependencies()` function. If yes, use Option A to maintain consistency with the existing pattern. If not, Option B is simpler.\n\nThe target line 77 should be in a function that constructs the prompt file path.",
+    "summary": "Context for opening_closing.py fix - two implementation options",
+    "timestamp": "2026-02-10T01:33:57.305Z",
+    "read": false
   }
 ]
