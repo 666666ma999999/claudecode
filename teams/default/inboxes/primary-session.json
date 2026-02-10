@@ -124,5 +124,19 @@
     "summary": "narrative_role.py found - has hardcoded path + CUT validation issues",
     "timestamp": "2026-02-10T02:45:33.570Z",
     "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "🎯 **Redirect Handling Code Found**\n\n**Location:** `backend/utils/browser_automation.py` lines 3494-3534\n\n**What's Happening:**\n\nThe code shows the STEP 4 \"従量登録\" (volume registration) button click handling with redirect detection and recovery logic:\n\n**Flow:**\n1. Click \"従量登録\" button (line 3496-3504)\n2. Wait for page load (line 3507)\n3. Check if redirected from cms_menu to cms_ppv (line 3513)\n4. **If redirected** (line 3514): Log warning, then recover by:\n   - Loading session data from registration record (lines 3517-3522)\n   - Creating PPVDetailRegistration instance (lines 3523-3525)\n   - Reusing the current page object (line 3526)\n   - Re-filling fields with distribution data (lines 3528-3534+)\n\n**Key Insight:**\nThis IS the intentional recovery mechanism for the cms_ppv redirect! The code:\n- ✅ Detects the redirect \n- ✅ Automatically switches to PPV detail registration\n- ✅ Re-fills fields from session data\n\n**Why the \"Missing Fields\" Warning:**\nThe 13 missing fields warning occurred because the code tried to fill cms_menu fields first (before detecting redirect), which failed, then triggered this recovery code to fill the correct cms_ppv fields.\n\n**Assessment:**\nThis is not a bug - it's **defensive programming**. The system handles both scenarios:\n- Normal flow: Stay on cms_menu\n- Redirect flow: Recover by filling cms_ppv instead\n\nThe warning is informational, not an error requiring fixes.",
+    "summary": "Redirect handling is intentional recovery mechanism",
+    "timestamp": "2026-02-10T02:45:47.794Z",
+    "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "📖 **narrative_role.py CUT Validation Logic Review**\n\n**Key Function:** `_validate_cut_position(body: str, N: int)` (lines ~180-230)\n\n**Validation Rules:**\n1. ✅ Must have exactly 1 CUT marker\n2. ✅ Minimum 10 chars before CUT (teaser requirement)\n3. ✅ CUT must not exceed 40% of body length\n4. ✅ Must be within first paragraph (before first `<br /><br />`)\n5. ✅ Cannot split nickname tags (`--nickname1--`, `--nickname2--`)\n6. ✅ Cannot be inside HTML tags (`<br />`)\n\n**Why Validation Fails (from line ~137):**\n```python\nif parsed_body and CUT_MARKER in parsed_body and _validate_cut_position(parsed_body, N):\n    validated.append(parsed_body)\nelse:\n    logger.warning(f\"コード{i+1}: AI CUT配置バリデーション失敗、フォールバック使用\")\n    validated.append(_insert_cut_by_formula(original, N, narrative_role))\n```\n\n**Possible Causes:**\n- AI places CUT beyond 40% of body length\n- AI places CUT outside first paragraph\n- AI places CUT too early (< 10 chars)\n- AI splits a nickname tag\n\n**Fallback Formula** (lines ~260+):\n- Uses mathematical formula: `base(N) = round(58 - 15 * ln(N))`\n- Applies role multipliers (hook, pivot, climax, etc.)\n- Finds nearest sentence boundary (。！？) within ±8 chars\n- Guarantees compliance with all validation rules\n\n**Observation:**\nThe validation is **intentionally strict** to ensure quality. The 6 failures (codes 5,7,9,10) aren't bugs but AI outputs not meeting editorial standards. The fallback ensures consistent, safe CUT placement when AI deviates from guidelines.",
+    "summary": "CUT validation has 6 strict rules - AI failures expected",
+    "timestamp": "2026-02-10T02:46:04.440Z",
+    "read": false
   }
 ]
