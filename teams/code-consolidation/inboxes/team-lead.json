@@ -12,13 +12,13 @@
     "text": "{\"type\":\"idle_notification\",\"from\":\"worker-frontend\",\"timestamp\":\"2026-02-10T05:35:51.665Z\",\"idleReason\":\"available\"}",
     "timestamp": "2026-02-10T05:35:51.665Z",
     "color": "yellow",
-    "read": false
+    "read": true
   },
   {
     "from": "worker-frontend",
     "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770701750615@worker-frontend\",\"from\":\"worker-frontend\",\"timestamp\":\"2026-02-10T05:35:54.857Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
     "timestamp": "2026-02-10T05:35:54.857Z",
     "color": "yellow",
-    "read": false
+    "read": true
   }
 ]
