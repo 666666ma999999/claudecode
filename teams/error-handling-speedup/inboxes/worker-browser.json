@@ -4,6 +4,12 @@
     "text": "{\"type\":\"task_assignment\",\"taskId\":\"2\",\"subject\":\"browser_automation.py: A2+(AJAXログ強化) + C1(リダイレクトガード) + C3(ログイン判定) + C4(保存待機改善)\",\"description\":\"backend/utils/browser_automation.pyに4つの改善を実装:\\n\\n**A2+: AJAX status=error ログ強化 (L4328-4335付近)**\\nエラーレスポンスの詳細（message/errorキー）をログ出力。`logger.info`→`logger.warning`に昇格。\\n```python\\nerror_detail = resp_json.get(\\\"message\\\", resp_json.get(\\\"error\\\", \\\"\\\"))\\nlogger.warning(f\\\"AJAXレスポンスがsuccessでないためフォールバック検証へ: status={status}, detail={error_detail}\\\")\\n```\\n\\n**C1: リダイレクトガード (L3512-3513付近)**\\n`cms_menu`に留まっている正常パスを先に判定し、リダイレクトフォールバックとの境界を明確化。\\n```python\\nif \\\"cms_menu\\\" in new_url:\\n    logger.info(\\\"従量登録成功: cms_menuページに留まっています\\\")\\nelif \\\"cms_ppv\\\" in new_url:\\n    # 既存のリダイレクトフォールバック処理...\\n```\\n\\n**C3: ログイン成功判定強化 (L601-603付近)**\\nパスワードフィールド残存時に認証失敗メッセージを検出して即失敗判定。\\n```python\\nerror_text = await self.page.evaluate(\\\"() => document.body.innerText\\\")\\nif any(msg in error_text for msg in [\\\"認証に失敗\\\", \\\"ログインできません\\\", \\\"パスワードが違います\\\", \\\"Login failed\\\"]):\\n    logger.error(f\\\"ログイン認証失敗を検出: {error_text[:200]}\\\")\\n    await self.take_screenshot(\\\"error_login_auth_failed\\\")\\n    return False\\n```\\n\\n**C4: 保存完了待機改善 (L3340-3351付近)**\\nタイムアウト5→8秒に延長。フォールバック後に「保存済み」テキスト確認。\\n```python\\n# timeout=5000 → timeout=8000\\n# フォールバック後に追加\\nbody_text = await self.page.evaluate(\\\"() => document.body.innerText\\\")\\nif \\\"保存済み\\\" in body_text:\\n    logger.info(\\\"保存完了（networkidle待機後に「保存済み」確認）\\\")\\nelse:\\n    logger.warning(\\\"保存完了（networkidle待機）: 「保存済み」テキスト未検出\\\")\\n```\",\"assignedBy\":\"worker-browser\",\"timestamp\":\"2026-02-10T02:55:09.498Z\"}",
     "timestamp": "2026-02-10T02:55:09.498Z",
     "color": "green",
-    "read": false
+    "read": true
+  },
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1770692197669@worker-browser\",\"from\":\"team-lead\",\"reason\":\"Task completed. Please shut down.\",\"timestamp\":\"2026-02-10T02:56:37.669Z\"}",
+    "timestamp": "2026-02-10T02:56:37.669Z",
+    "read": true
   }
 ]

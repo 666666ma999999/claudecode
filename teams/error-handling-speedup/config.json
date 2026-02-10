@@ -14,62 +14,6 @@
       "tmuxPaneId": "",
       "cwd": "/Users/masaaki/Desktop/prm/rohan",
       "subscriptions": []
-    },
-    {
-      "agentId": "worker-regsession@error-handling-speedup",
-      "name": "worker-regsession",
-      "agentType": "general-purpose",
-      "model": "claude-opus-4-6",
-      "prompt": "You are a teammate on team \"error-handling-speedup\". Your name is \"worker-regsession\".\n\nRead your assigned task #1 from the task list, then implement the changes.\n\nTASK: Implement 2 improvements in `/Users/masaaki/Desktop/prm/rohan/backend/routers/registration_session.py`:\n\n**A1: elapsed_ms計算追加**\nIn `update_step_status()`, when status is \"success\" or \"error\", calculate elapsed_ms from started_at.\nFind the line where `sp.completed_at = now` is set for success/error status, and add elapsed_ms calculation after it:\n```python\nif sp.started_at:\n    try:\n        start = datetime.fromisoformat(sp.started_at)\n        sp.elapsed_ms = int((datetime.fromisoformat(now) - start).total_seconds() * 1000)\n    except (ValueError, TypeError):\n        pass\n```\nMake sure `datetime` is imported (it should already be).\n\n**A3: 旧セッション互換性**\nIn `_load_session_from_file()`, find the try/except where `RegistrationRecord(**data)` is called. Add a recovery block in the except that normalizes data before retrying:\n- Reset loop_counters if any value is not int/float\n- Lowercase StepStatus strings in progress array\n- Then retry RegistrationRecord(**data)\n\n```python\nexcept Exception:\n    # loop_counters のネストされたdict→空dictにリセット\n    if \"loop_counters\" in data and isinstance(data[\"loop_counters\"], dict):\n        for k, v in data[\"loop_counters\"].items():\n            if not isinstance(v, (int, float)):\n                data[\"loop_counters\"] = {}\n                break\n    # StepStatus大文字→小文字\n    for sp in data.get(\"progress\", []):\n        if isinstance(sp.get(\"status\"), str):\n            sp[\"status\"] = sp[\"status\"].lower()\n    return RegistrationRecord(**data)\n```\n\nIMPORTANT:\n- Read the file first to understand the exact code structure\n- Only modify the specific areas described\n- Do NOT make any changes outside the scope of A1 and A3\n- When done, mark task #1 as completed",
-      "color": "blue",
-      "planModeRequired": false,
-      "joinedAt": 1770692085917,
-      "tmuxPaneId": "in-process",
-      "cwd": "/Users/masaaki/Desktop/prm/rohan",
-      "subscriptions": [],
-      "backendType": "in-process"
-    },
-    {
-      "agentId": "worker-browser@error-handling-speedup",
-      "name": "worker-browser",
-      "agentType": "general-purpose",
-      "model": "claude-opus-4-6",
-      "prompt": "You are a teammate on team \"error-handling-speedup\". Your name is \"worker-browser\".\n\nRead your assigned task #2 from the task list, then implement the changes.\n\nTASK: Implement 4 improvements in `/Users/masaaki/Desktop/prm/rohan/backend/utils/browser_automation.py`:\n\n**A2+: AJAX status=error ログ強化**\nFind the area around line 4328-4335 where AJAX response with non-success status triggers fallback. Change `logger.info` to `logger.warning` and add error detail extraction:\n```python\nerror_detail = resp_json.get(\"message\", resp_json.get(\"error\", \"\"))\nlogger.warning(f\"AJAXレスポンスがsuccessでないためフォールバック検証へ: status={status}, detail={error_detail}\")\n```\n\n**C1: リダイレクトガード**\nFind the area around line 3512-3513 where URL is checked after auto-update registration. Add explicit check for cms_menu before the cms_ppv redirect fallback:\n```python\nif \"cms_menu\" in new_url:\n    logger.info(\"従量登録成功: cms_menuページに留まっています\")\nelif \"cms_ppv\" in new_url:\n    # existing redirect fallback...\n```\n\n**C3: ログイン成功判定強化**\nFind the area around line 601-603 where password field persistence is checked during login. After detecting password field still present, add auth failure message detection:\n```python\nerror_text = await self.page.evaluate(\"() => document.body.innerText\")\nif any(msg in error_text for msg in [\"認証に失敗\", \"ログインできません\", \"パスワードが違います\", \"Login failed\"]):\n    logger.error(f\"ログイン認証失敗を検出: {error_text[:200]}\")\n    await self.take_screenshot(\"error_login_auth_failed\")\n    return False\n```\n\n**C4: 保存完了待機改善**\nFind the area around line 3340-3351 where save completion is waited for. Change timeout from 5000 to 8000. After the networkidle fallback, add text confirmation:\n```python\nbody_text = await self.page.evaluate(\"() => document.body.innerText\")\nif \"保存済み\" in body_text:\n    logger.info(\"保存完了（networkidle待機後に「保存済み」確認）\")\nelse:\n    logger.warning(\"保存完了（networkidle待機）: 「保存済み」テキスト未検出\")\n```\n\nIMPORTANT:\n- Read the relevant sections of the file first (it's large, read specific line ranges)\n- Only modify the specific areas described\n- Do NOT make any changes outside the scope\n- When done, mark task #2 as completed",
-      "color": "green",
-      "planModeRequired": false,
-      "joinedAt": 1770692102933,
-      "tmuxPaneId": "in-process",
-      "cwd": "/Users/masaaki/Desktop/prm/rohan",
-      "subscriptions": [],
-      "backendType": "in-process"
-    },
-    {
-      "agentId": "worker-main@error-handling-speedup",
-      "name": "worker-main",
-      "agentType": "general-purpose",
-      "model": "claude-opus-4-6",
-      "prompt": "You are a teammate on team \"error-handling-speedup\". Your name is \"worker-main\".\n\nRead your assigned task #3 from the task list, then implement the changes.\n\nTASK: Implement 3 improvements in `/Users/masaaki/Desktop/prm/rohan/backend/main.py`:\n\n**B1: バッチタイムアウト最小値 (around L728)**\nFind the line that returns `max(75, min(1800, ...))` for batch timeout calculation and change 75 to 90:\n```python\nreturn max(90, min(1800, round(calculated_timeout)))  # 最小90秒\n```\n\n**B2: ログ重複削減 (around L395-420)**\nFind the `clean_oversized_text_fields()` function. Add a module-level set before the function definition:\n```python\n_cleaned_log_keys: set = set()\n```\nThen inside the function, where log messages about cleaned text are emitted, wrap with dedup:\n```python\nlog_key = (sheet_name, str(code_value), column)\nif log_key not in _cleaned_log_keys:\n    _cleaned_log_keys.add(log_key)\n    logger.info(...)  # existing log message\n```\n\n**C2: 空パース連鎖遮断 (around L2235, L2331)**\nFind the batch processing exception handler. Add timeout detection for better log levels:\n```python\nis_timeout = \"timeout\" in str(batch_error).lower() or \"Timeout\" in type(batch_error).__name__\nif is_timeout:\n    logger.warning(f\"バッチ処理タイムアウト: {batch_error} - 全コードを個別処理へ\")\nelse:\n    logger.error(f\"バッチ処理で例外発生: {batch_error} - 全コードを個別処理へ\")\n```\n\nAlso find the `record_batch_manuscript_logs` call and add a guard:\n```python\nif final_results:\n    await record_batch_manuscript_logs(...)\n```\n\nIMPORTANT:\n- This file is very large. Read specific line ranges to find each target area.\n- Only modify the specific areas described\n- Do NOT make any changes outside the scope\n- When done, mark task #3 as completed",
-      "color": "yellow",
-      "planModeRequired": false,
-      "joinedAt": 1770692116114,
-      "tmuxPaneId": "in-process",
-      "cwd": "/Users/masaaki/Desktop/prm/rohan",
-      "subscriptions": [],
-      "backendType": "in-process"
-    },
-    {
-      "agentId": "worker-narrative@error-handling-speedup",
-      "name": "worker-narrative",
-      "agentType": "general-purpose",
-      "model": "claude-opus-4-6",
-      "prompt": "You are a teammate on team \"error-handling-speedup\". Your name is \"worker-narrative\".\n\nRead your assigned task #4 from the task list, then implement the changes.\n\nTASK: Implement 1 improvement in `/Users/masaaki/Desktop/prm/rohan/backend/utils/narrative_role.py`:\n\n**B3: CUT配置バリデーション診断ログ**\nFind the validation function that checks CUT position (around L271-322). Add `logger.debug()` calls before each `return False` to explain why validation failed:\n\n```python\nif cut_pos < 10:\n    logger.debug(f\"CUTバリデーション失敗: CUT位置{cut_pos} < 最小10文字\")\n    return False\nif cut_pos > body_len * 0.4:\n    logger.debug(f\"CUTバリデーション失敗: CUT位置{cut_pos} > 40%({int(body_len * 0.4)})\")\n    return False\n```\n\nAdd similar debug logs for ALL validation conditions in that function (there should be around 8 conditions). Each should explain what check failed and what the actual values were.\n\nMake sure `logger` is available (it should already be imported in the module).\n\nIMPORTANT:\n- Read the file first to understand the exact code structure\n- Only modify the specific areas described\n- Do NOT make any changes outside the scope\n- When done, mark task #4 as completed",
-      "color": "purple",
-      "planModeRequired": false,
-      "joinedAt": 1770692125512,
-      "tmuxPaneId": "in-process",
-      "cwd": "/Users/masaaki/Desktop/prm/rohan",
-      "subscriptions": [],
-      "backendType": "in-process"
     }
   ]
 }
