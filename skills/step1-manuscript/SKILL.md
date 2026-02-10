@@ -203,9 +203,11 @@ order,title,mid_id
 - `apply_cut_markers()` → structured内の各code bodyにAI（Gemini）で`--CUT--`を挿入
 - `SubtitleInfo.narrative_role` にメタデータ保存
 - エラー時: Warning + スキップ（非致命的）→ `--CUT--`なしのまま
-- フォールバック: 数式ベース配置（`base = round(58 - 15 * ln(N)) * role_multiplier`）
+- フォールバック: 1.転換ワード検出 → 2.回答キーワード直前 → 3.数式ベース配置（`base = round(58 - 15 * ln(N)) * role_multiplier`）
 - 実装: `backend/utils/narrative_role.py` + `backend/prompts/NarrativeRolePrompt.md` / `CutPlacementPrompt.md`
-- 安全ガード: 最小10字チラ見せ、40%超え禁止、タグ内部配置禁止、第一段落内制約
+- 安全ガード: 最小5字チラ見せ、40%超え禁止、タグ内部配置禁止、第一段落内制約、回答キーワード露出禁止
+- 回答キーワード: `ANSWER_KEYWORDS`（安心/大丈夫/誠実/一途等）がCUT前に出現するとAI配置を拒否→フォールバック
+- 転換ワード: `TRANSITION_WORDS`（でも/ですが/しかし等）の直後にCUT配置（共感→回答の自然な切れ目）
 
 ### I7. 末尾小見出しのkomi_type制約
 - 末尾（最後）の小見出しは`komi_normal`禁止（締めメッセージとして使われるため）
