@@ -138,5 +138,26 @@
     "summary": "CUT validation has 6 strict rules - AI failures expected",
     "timestamp": "2026-02-10T02:46:04.440Z",
     "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "📁 **progress.py Located**\n\n**Found:** `/Users/masaaki/Desktop/prm/rohan/backend/routers/progress.py`\n\n**Context:**\nThis router likely handles progress tracking/reporting for the multi-step pipeline. Given your recent performance analysis focus, you may be investigating:\n\n1. **Progress reporting mechanisms** - How the system tracks and displays STEP execution status\n2. **elapsed_ms issue** - This could be where the elapsed_ms=0 bug (improvement item A1) is located\n3. **Session state updates** - How step completion times are recorded\n\n**Connection to Analysis:**\nFrom your earlier findings, `elapsed_ms` is consistently 0 across all steps despite having `started_at` and `completed_at` timestamps. If progress.py handles step completion updates, it might be missing the calculation:\n\n```python\nelapsed_ms = (completed_at - started_at).total_seconds() * 1000\n```\n\nThis would be the one-line fix you identified as priority #2 in the improvement recommendations.\n\nWould you like me to wait for you to examine the file, or should I provide context about what to look for?",
+    "summary": "progress.py found - likely relates to elapsed_ms fix",
+    "timestamp": "2026-02-10T02:47:37.464Z",
+    "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "👀 **Save Button Flow - browser_automation.py**\n\n**Location:** Lines 3330-3360 in browser_automation.py\n\n**Save Flow:**\n1. Click \"保存する\" (Save) button (line 3337)\n2. **Primary wait:** Check for \"保存済み\" (Saved) status text in page (lines 3341-3345, 5-second timeout)\n3. **Fallback wait:** If timeout, wait for networkidle state instead (lines 3347-3350)\n4. **Verification:** Reload page and verify field values (line 3354+)\n\n**Connection to Log Warnings:**\nThis matches the warnings from your log analysis:\n```\nWARNING - 保存済みステータス待機タイムアウト: Page.wait_for_function: Timeout 5000ms exceeded.\n```\n\n**Observation:**\nThe code has **two-tier fallback**:\n1. First tries to detect \"保存済み\" status text (fast, 5s timeout)\n2. Falls back to networkidle wait (slower, but more reliable)\n3. Then reloads and verifies actual field values\n\n**Assessment:**\nThis is another example of defensive programming. The timeout warning is expected behavior - not all saves trigger visible \"保存済み\" status, so the networkidle fallback ensures completion detection even when the status text doesn't appear.\n\nThe final verification step (line 3354+) is the true confirmation that data was saved correctly, which is why STEP 4 reports success despite the timeout warning.",
+    "summary": "Save flow has 2-tier fallback - timeout warning is normal",
+    "timestamp": "2026-02-10T02:47:58.761Z",
+    "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "📖 **main.py Logic Sheet Processing**\n\n**Location:** Lines 320-335 in main.py\n\n**Function Context:**\nThis appears to be part of logic sheet (Excel) loading and validation:\n1. Validates sheet structure using `validate_logic_sheet_structure()` (line 322)\n2. Logs validation errors or success with row counts (lines 323-326)\n3. **Cleans oversized text fields** (line 329) - likely related to the column truncation logs you saw\n\n**Connection to Earlier Finding:**\nFrom your log analysis, you noted:\n> \"STEP 1 コード10のカラム切り詰めログが27回重複出力\"\n\nThe `clean_oversized_text_fields()` function on line 329 is probably generating those logs. It's called during sheet loading, which happens for each batch during prompt construction - explaining the repetition.\n\n**Relevance:**\nThis is the code path that produces the log noise you identified as improvement item **B2**. The function itself is working correctly (cleaning data), but it logs each truncation operation, creating verbose output when the same data is loaded repeatedly across batches.\n\n**Potential Fix Direction:**\n- Cache the cleaned dataframe to avoid reprocessing\n- Suppress duplicate log messages\n- Log at DEBUG level instead of INFO/WARNING for repeated operations",
+    "summary": "Logic sheet cleaning - source of repeated truncation logs",
+    "timestamp": "2026-02-10T02:48:29.134Z",
+    "read": false
   }
 ]
