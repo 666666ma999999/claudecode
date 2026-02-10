@@ -5,5 +5,12 @@
     "summary": "All 8 hardcoded paths fixed! Ready for data consolidation phase",
     "timestamp": "2026-02-10T01:30:29.244Z",
     "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "⚠️ **Additional Hardcoded Path Found!**\n\nI see you've discovered another hardcoded path that was missed in the original audit:\n\n**backend/utils/browser_automation.py line ~4012:**\n```python\nbase_dir = Path(__file__).parent.parent.parent / \"data\" / \"playwright_recordings\"\n```\n\nThis is in a different location than the one we previously verified as correct (lines 117-126). It appears browser_automation.py has **two different path resolution patterns**:\n\n1. ✅ Lines 117-126: Correctly uses environment-aware pattern (ROHAN_DATA_DIR check)\n2. ❌ Lines ~4010-4019: Hardcoded path in screenshot directory setup\n\n**This should be fixed to:**\n```python\n# スクリーンショット保存ディレクトリを設定\ntimestamp = datetime.now().strftime(\"%Y%m%d_%H%M%S\")\nfrom utils.path_constants import get_data_dir\nbase_dir = get_data_dir(Path(__file__).parent.parent.parent) / \"playwright_recordings\"\nscreenshot_dir = base_dir / f\"ppv_detail_{timestamp}\"\nscreenshot_dir.mkdir(parents=True, exist_ok=True)\nself.screenshot_dir = screenshot_dir\nreturn screenshot_dir\n```\n\nThis is runtime data (screenshots), so it should use `get_data_dir()` to respect the ROHAN_DATA_DIR environment variable.\n\nThe 26 total usages you found confirms we need to verify all instances are correct, not just the first occurrence in each file.",
+    "summary": "Found 9th hardcoded path in browser_automation.py line 4012",
+    "timestamp": "2026-02-10T01:30:41.374Z",
+    "read": false
   }
 ]
