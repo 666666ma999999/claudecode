@@ -65,7 +65,32 @@
       "mcp__codex__codex",
       "mcp__codex__codex-reply"
     ],
-    "deny": []
+    "deny": [
+      "Bash(pip install*)",
+      "Bash(pip3 install*)",
+      "Bash(python -m pip install*)",
+      "Bash(python3 -m pip install*)",
+      "Bash(python -m venv*)",
+      "Bash(python3 -m venv*)",
+      "Bash(virtualenv *)",
+      "Bash(npm install*)",
+      "Bash(npm i *)",
+      "Bash(npx *)",
+      "Bash(yarn *)",
+      "Bash(pnpm *)",
+      "Bash(bun install*)",
+      "Bash(bun add*)",
+      "Bash(uv pip*)",
+      "Bash(uv venv*)",
+      "Bash(poetry install*)",
+      "Bash(poetry add*)",
+      "Bash(conda install*)",
+      "Bash(conda create*)",
+      "Bash(pip *install*)",
+      "Bash(source */activate)",
+      "Bash(source venv/bin/activate*)",
+      "Bash(. venv/bin/activate*)"
+    ]
   },
   "hooks": {
     "SessionStart": [
