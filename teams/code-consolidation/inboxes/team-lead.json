@@ -49,5 +49,34 @@
     "timestamp": "2026-02-10T05:37:18.928Z",
     "color": "blue",
     "read": true
+  },
+  {
+    "from": "worker-keywords",
+    "text": "Task #2 (P1-2) completed: Extracted 7 logic keyword I/O functions from main.py to utils/logic_keywords.py.\n\n**Files changed:**\n- **Created**: `/Users/masaaki/Desktop/prm/rohan/backend/utils/logic_keywords.py` (~200 lines)\n  - 7 functions moved: `normalize_code_column`, `validate_logic_sheet_structure`, `load_logic_keywords`, `get_sheet_names`, `validate_logic_sheet`, `clean_oversized_text_fields`, `load_logic_keywords_async`\n  - Module-level vars moved: `_cleaned_log_keys`, `_CLEANED_LOG_MAX_SIZE`\n  - `init(excel_file_path, executor)` function added for dependency injection (avoids coupling to main.py globals)\n\n- **Modified**: `/Users/masaaki/Desktop/prm/rohan/backend/main.py`\n  - ~190 lines of function definitions removed\n  - Import block added for all 7 functions\n  - `_logic_keywords_mod.init(data_paths.logic_keywords, executor)` call added after data_paths initialization\n  - Unused `LOGIC_CODE_COUNTS` and `is_logic_sheet` imports removed (now only used inside logic_keywords.py)\n\n**Verification:**\n- `python3 -c \"from utils.logic_keywords import ...\"` - all imports OK\n- `py_compile.compile('main.py')` - syntax OK\n- No other files import these functions from main.py (confirmed via grep)\n- All 8 call sites in main.py continue to work via imported names",
+    "summary": "Task #2 done: 7 functions extracted to logic_keywords.py",
+    "timestamp": "2026-02-10T05:37:58.119Z",
+    "color": "green",
+    "read": true
+  },
+  {
+    "from": "worker-keywords",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"worker-keywords\",\"timestamp\":\"2026-02-10T05:38:06.368Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-10T05:38:06.368Z",
+    "color": "green",
+    "read": true
+  },
+  {
+    "from": "worker-keywords",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"worker-keywords\",\"timestamp\":\"2026-02-10T05:38:11.062Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-10T05:38:11.062Z",
+    "color": "green",
+    "read": true
+  },
+  {
+    "from": "worker-keywords",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770701896007@worker-keywords\",\"from\":\"worker-keywords\",\"timestamp\":\"2026-02-10T05:38:20.686Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-10T05:38:20.686Z",
+    "color": "green",
+    "read": true
   }
 ]

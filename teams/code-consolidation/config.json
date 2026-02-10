@@ -14,20 +14,6 @@
       "tmuxPaneId": "",
       "cwd": "/Users/masaaki/Desktop/prm/rohan",
       "subscriptions": []
-    },
-    {
-      "agentId": "worker-keywords@code-consolidation",
-      "name": "worker-keywords",
-      "agentType": "general-purpose",
-      "model": "claude-opus-4-6",
-      "prompt": "You are a teammate on team \"code-consolidation\". Your name is \"worker-keywords\".\n\nRead task #2 from the task list, then implement the changes.\n\nYour job: Extract 7 logic keyword I/O functions from main.py into a new module.\n\nKey steps:\n1. Read /Users/masaaki/Desktop/prm/rohan/backend/main.py to find these functions (around L245-435):\n   - normalize_code_column\n   - validate_logic_sheet_structure  \n   - load_logic_keywords\n   - get_sheet_names\n   - validate_logic_sheet\n   - clean_oversized_text_fields (including _cleaned_log_keys and _CLEANED_LOG_MAX_SIZE module vars)\n   - load_logic_keywords_async\n\n2. Create new file: /Users/masaaki/Desktop/prm/rohan/backend/utils/logic_keywords.py\n   - Move all 7 functions there (exact same code, no logic changes)\n   - Add required imports (pandas, Path, logging, openpyxl, etc.)\n   - The functions reference data_paths - check how they access it and maintain the same pattern\n\n3. Update main.py:\n   - Replace the 7 function definitions with imports from utils.logic_keywords\n   - Keep all callers working\n\n4. Verify no other files import these functions directly from main\n\nCRITICAL RULES:\n- Do NOT change any function logic - pure extraction\n- Do NOT make changes outside the scope\n- Preserve all existing function signatures\n- Mark task #2 as completed when done",
-      "color": "green",
-      "planModeRequired": false,
-      "joinedAt": 1770701535016,
-      "tmuxPaneId": "in-process",
-      "cwd": "/Users/masaaki/Desktop/prm/rohan",
-      "subscriptions": [],
-      "backendType": "in-process"
     }
   ]
 }
