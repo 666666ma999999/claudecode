@@ -103,6 +103,15 @@
         "hooks": [
           {
             "type": "command",
+            "command": "~/.claude/hooks/restrict-cwd-edits.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
             "command": "~/.claude/hooks/file-protection.sh"
           }
         ]
