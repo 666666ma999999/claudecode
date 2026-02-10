@@ -1,0 +1,11 @@
+{
+  "id": "12",
+  "subject": "test-writer",
+  "description": "You need to create a test file for the collection system of the makeimg project at /Users/masaaki_na",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "_internal": true
+  }
+}

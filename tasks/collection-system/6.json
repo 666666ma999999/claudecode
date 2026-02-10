@@ -3,10 +3,10 @@
   "subject": "Phase 4: Frontend - collection-view.js + existing file edits",
   "description": "Create frontend/components/collection-view.js with workflow UI:\n1. Search input + \"Query Expand\" button\n2. Expanded query editor (edit/add/delete LLM-generated queries)\n3. Search results preview: thumbnail grid with checkbox selection\n4. Download progress using ProgressAnimator\n5. Dedup: show duplicate pairs + remove\n6. Completion summary: registered reference images\n\nEdit frontend/index.html:\n- Add nav link for Collection (e.g., <a href=\"#collection\">Collection</a>)\n- Add script tag: <script src=\"components/collection-view.js\"></script>\n\nEdit frontend/config.js:\n- Add collection endpoints to CONFIG.ENDPOINTS\n\nEdit frontend/app.js:\n- Add #collection route handling in handleRoute()\n\nFollow existing patterns:\n- async function renderCollection(container) pattern\n- apiRequest() for API calls\n- ProgressAnimator for progress\n- showMessage() for notifications\n- CSS classes from styles.css (cards, grids, buttons, forms)",
   "activeForm": "Implementing frontend collection UI",
-  "status": "in_progress",
+  "owner": "frontend-dev",
+  "status": "completed",
   "blocks": [],
   "blockedBy": [
     "1"
-  ],
-  "owner": "frontend-dev"
+  ]
 }
