@@ -1,0 +1,19 @@
+{
+  "name": "batch-abort",
+  "description": "Implement batch check abort-on-failure feature across BE and FE",
+  "createdAt": 1770702652460,
+  "leadAgentId": "team-lead@batch-abort",
+  "leadSessionId": "1a93d1d6-6bb4-435a-8e12-aac740fe60a5",
+  "members": [
+    {
+      "agentId": "team-lead@batch-abort",
+      "name": "team-lead",
+      "agentType": "team-lead",
+      "model": "claude-opus-4-6",
+      "joinedAt": 1770702652460,
+      "tmuxPaneId": "",
+      "cwd": "/Users/masaaki/Desktop/prm/chk",
+      "subscriptions": []
+    }
+  ]
+}
