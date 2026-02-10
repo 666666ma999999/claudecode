@@ -3,13 +3,13 @@
   "subject": "Phase 2-C: Create backend/services/collector.py",
   "description": "Create new file backend/services/collector.py with:\n- search_images(queries, search_api, max_results) → Execute image search\n- _search_google_cse(query, max_results) → Google CSE API call (uses GOOGLE_CSE_API_KEY, GOOGLE_CSE_ID from config)\n- _search_gemini_deep(query, max_results) → Gemini Deep Search fallback (grounding with Google Search)\n- download_candidate(source_url, timeout=30) → Download single image\n- download_candidates_batch(candidate_ids, job_id) → Batch download for BackgroundTasks\n\nGoogle CSE: GET https://www.googleapis.com/customsearch/v1?key=...&cx=...&q=...&searchType=image\nGemini Deep Search: Use genai.Client with google_search tool for grounding\nDownload: httpx async client, save to COLLECTION_DIR from config.\nDatabase access: get_connection() try/finally for updating candidate status.",
   "activeForm": "Implementing collector service",
-  "status": "in_progress",
+  "owner": "backend-services",
+  "status": "completed",
   "blocks": [
     "5",
     "7"
   ],
   "blockedBy": [
     "1"
-  ],
-  "owner": "backend-services"
+  ]
 }

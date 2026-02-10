@@ -3,13 +3,13 @@
   "subject": "Phase 2-A: Create backend/services/dedup_service.py",
   "description": "Create new file backend/services/dedup_service.py with:\n- compute_perceptual_hash(image_path) → pHash using imagehash library\n- compute_perceptual_hash_from_bytes(data) → pHash from bytes\n- is_duplicate(phash, threshold=8) → check against DB\n- find_duplicates_in_job(job_id) → find duplicate pairs within a job\n- hamming_distance(hash_a, hash_b) → compute hamming distance\n\nUses imagehash library (phash), PIL/Pillow for image loading.\nDatabase access pattern: get_connection() try/finally close.\nImport from backend.database import get_connection",
   "activeForm": "Implementing dedup service",
-  "status": "in_progress",
+  "owner": "backend-services",
+  "status": "completed",
   "blocks": [
     "5",
     "7"
   ],
   "blockedBy": [
     "1"
-  ],
-  "owner": "backend-services"
+  ]
 }

@@ -3,13 +3,13 @@
   "subject": "Phase 2-B: Create backend/services/llm_service.py",
   "description": "Create new file backend/services/llm_service.py with:\n- generate_search_queries(user_query, num=5) → Use Gemini LLM to expand a user query into multiple search queries\n- generate_refinement_queries(original, feedback) → Generate refined queries based on feedback\n\nUse google.genai Client with GEMINI_API_KEY from backend.config.\nPattern: async functions, return List[str].\nExisting service pattern reference: backend/services/gemini_image.py uses genai.Client(api_key=GEMINI_API_KEY)",
   "activeForm": "Implementing LLM service",
-  "status": "in_progress",
+  "owner": "backend-services",
+  "status": "completed",
   "blocks": [
     "5",
     "7"
   ],
   "blockedBy": [
     "1"
-  ],
-  "owner": "backend-services"
+  ]
 }

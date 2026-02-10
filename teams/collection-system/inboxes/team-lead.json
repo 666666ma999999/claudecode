@@ -42,12 +42,27 @@
     "summary": "All 3 service files created successfully",
     "timestamp": "2026-02-10T03:21:05.275Z",
     "color": "green",
-    "read": false
+    "read": true
   },
   {
     "from": "backend-services",
     "text": "{\"type\":\"idle_notification\",\"from\":\"backend-services\",\"timestamp\":\"2026-02-10T03:21:08.294Z\",\"idleReason\":\"available\"}",
     "timestamp": "2026-02-10T03:21:08.294Z",
+    "color": "green",
+    "read": true
+  },
+  {
+    "from": "backend-services",
+    "text": "Task #2 (dedup_service.py) was already completed in my previous round of work. The file exists at `/Users/masaaki_nagasawa/Desktop/prm/aiimg/backend/services/dedup_service.py` (3,942 bytes) with all required functions:\n- compute_perceptual_hash(image_path)\n- compute_perceptual_hash_from_bytes(data)\n- hamming_distance(hash_a, hash_b)\n- is_duplicate(phash, threshold=8)\n- find_duplicates_in_job(job_id, threshold=8)\n- mark_duplicates(job_id, threshold=8)\n\nMarked task #2 as completed.",
+    "summary": "Task #2 dedup_service.py already done",
+    "timestamp": "2026-02-10T03:21:19.666Z",
+    "color": "green",
+    "read": false
+  },
+  {
+    "from": "backend-services",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"backend-services\",\"timestamp\":\"2026-02-10T03:21:26.108Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-10T03:21:26.108Z",
     "color": "green",
     "read": false
   }
