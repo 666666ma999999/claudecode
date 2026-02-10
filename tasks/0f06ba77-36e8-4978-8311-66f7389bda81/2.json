@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "残存ハードコードパス7件の修正",
+  "description": "MUST FIX 5件 + SHOULD FIX 1件 + process_state.py(使用中)の計7件を修正する",
+  "activeForm": "ハードコードパスを修正中",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
