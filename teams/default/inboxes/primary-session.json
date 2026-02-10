@@ -82,5 +82,12 @@
     "summary": "Codex CLI updated - unrelated to migration work",
     "timestamp": "2026-02-10T01:43:54.902Z",
     "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "📊 **STEP 1 Pipeline Activity Detected**\n\nThe server logs show a recent STEP 1 manuscript generation session that **completed successfully**:\n\n**Session Details:**\n- Session ID: `20260210_110328_4261`\n- Completion Time: 2026-02-10 11:10:19\n- Total Duration: 411.52 seconds (~6.9 minutes)\n- Status: ✅ Success\n\n**Generation Results:**\n- Manuscript length: 34,353 characters\n- Total content count: 100 items\n- Codes processed: 7, 8, 9 (each with 10 subtitles)\n- Participant detection: 2-person format (271 `nickname2` references found)\n- Opening/closing generation: Both completed ✓\n\n**File Outputs (all in rohan-data/):**\n- Full manuscript: `manuscript/全原稿_20260210_111019_unknown.txt` (84,958 bytes)\n- JSON log: `manuscript_logs/2026/02/全原稿_20260210_111019_unknown.log.json`\n- Readable log: `manuscript_logs/2026/02/全原稿_20260210_111019_unknown.readable.txt`\n- Preview saves for large content: 8051 and 8052 manuscripts (truncated to 2048 chars)\n\n**Key Observation:**\nAll file paths correctly use `/Users/masaaki/Desktop/prm/rohan-data/` - this confirms the data directory separation is working properly for manuscript generation. The ROHAN_DATA_DIR configuration is being respected by the pipeline.",
+    "summary": "STEP 1 pipeline completed successfully - rohan-data paths working",
+    "timestamp": "2026-02-10T02:17:30.858Z",
+    "read": false
   }
 ]
