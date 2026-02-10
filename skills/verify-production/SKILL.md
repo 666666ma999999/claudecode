@@ -21,14 +21,20 @@ MB従量登録（STEP 1-8）完了後に、本番サイトで以下を確認：
 
 ## 使用ツール
 
-### Web UI
+### Web UI（CHKスタンドアロン: ポート5561）
+```
+http://localhost:5561/check.html?ppv_id={PPV_ID}
+http://localhost:5561/detect.html?ppv_id={PPV_ID}   ← WEB表示確認ダッシュボード（占いIDログイン対応）
+```
+
+### Web UI（rohan統合: ポート5558）
 ```
 http://localhost:5558/check.html?ppv_id={PPV_ID}
 ```
 
 ### 変数トレーサビリティ（Detection System）
 ```
-http://localhost:5558/detect.html?ppv_id={PPV_ID}
+http://localhost:5561/detect.html?ppv_id={PPV_ID}
 ```
 STEP 1-8の変数がどのチェック項目に流れるかを可視化する補完ツール。
 check.htmlが「本番の正しさ」を確認するのに対し、detect.htmlは「変数の流れ」を追跡する。
