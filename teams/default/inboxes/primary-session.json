@@ -117,5 +117,12 @@
     "summary": "Investigating subtitle entry warning sources in 4 files",
     "timestamp": "2026-02-10T02:45:19.051Z",
     "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "📁 **narrative_role.py Located**\n\nYou've confirmed the existence of `backend/utils/narrative_role.py`.\n\n**Context Reminder:**\nThis file has two areas of interest from our earlier audit:\n\n1. **Hardcoded Path Issue (Line 40):**\n   ```python\n   config_path = Path(__file__).parent.parent.parent / \"frontend\" / \"data\" / \"app-config.json\"\n   ```\n   - This is one of the unfixed hardcoded paths from the Phase 3 audit\n   - Special case: references `frontend/data` instead of backend `data`\n   - Audit marked as \"medium priority\" needing evaluation\n\n2. **CUT Validation Failures (from logs):**\n   - \"コード5: AI CUT配置バリデーション失敗、フォールバック使用\" (3 times)\n   - \"コード7,9,10: AI CUT配置バリデーション失敗、フォールバック使用\" (1 time each)\n   - Causing 6 expensive Gemini API fallback calls during manuscript generation\n\n**Likely Investigation:**\nGiven the performance analysis focus, you're probably looking at:\n- The CUT validation logic that's failing frequently\n- Whether the validation rules are too strict\n- Opportunities to reduce fallback API calls\n\nOr you may be addressing the hardcoded frontend/data path as part of completing the data migration work.",
+    "summary": "narrative_role.py found - has hardcoded path + CUT validation issues",
+    "timestamp": "2026-02-10T02:45:33.570Z",
+    "read": false
   }
 ]
