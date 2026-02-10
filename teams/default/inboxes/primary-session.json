@@ -12,5 +12,19 @@
     "summary": "Found 9th hardcoded path in browser_automation.py line 4012",
     "timestamp": "2026-02-10T01:30:41.374Z",
     "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "## Observation on Current Investigation:\n\n**Documentation Gap:**\nThe grep for *.md files found no documentation about ROHAN_DATA_DIR or the data directory functions. This is a documentation debt - developers working on this codebase would benefit from clear documentation explaining:\n- The purpose of ROHAN_DATA_DIR environment variable\n- When to use `get_data_dir()` vs `get_static_data_dir()`\n- The separation between static files (project/data) and runtime data (rohan-data)\n\n**Static File Verification:**\n✅ `logic_keyword.xlsx` correctly remains in `/Users/masaaki/Desktop/prm/rohan/data/` - this is a static configuration file that should be version-controlled and deployed with the application.\n\n**Recommendation for Documentation:**\nConsider creating a `docs/DATA_DIRECTORY_ARCHITECTURE.md` that explains:\n1. The two-directory model (static vs runtime)\n2. Usage guidelines for path resolution functions\n3. Environment variable configuration\n4. Migration checklist for adding new data files\n\nThis would prevent future developers from introducing hardcoded paths and help maintain the clean separation you've established through this migration work.",
+    "summary": "Documentation gap identified - recommend architecture docs",
+    "timestamp": "2026-02-10T01:30:52.617Z",
+    "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "## 🔍 Audit Results Analysis\n\nThe explore agent has uncovered critical findings that update our understanding:\n\n### **Critical Discovery: 3 MORE Hardcoded Paths Found**\n\nOur original \"8 fixes completed\" status was incomplete. The audit found:\n\n1. **browser_automation.py** has **TWO** hardcoded paths (not one):\n   - Line 124: `_get_recording_dir()` function\n   - Line 4012: `_setup_screenshot_dir()` method\n   - Both hardcode `Path(__file__).parent.parent.parent / \"data\" / \"playwright_recordings\"`\n   - **Impact**: Playwright recordings/screenshots will bypass ROHAN_DATA_DIR\n\n2. **opening_closing.py** Line 77:\n   ```python\n   return load_prompt_file(_ROOT_DIR / \"data\" / \"OpeningClosingPrompt.md\", \"冒頭・締め生成\")\n   ```\n   - Should use `get_static_data_dir()` for prompt files\n\n3. **narrative_role.py** Line 40:\n   ```python\n   config_path = Path(__file__).parent.parent.parent / \"frontend\" / \"data\" / \"app-config.json\"\n   ```\n   - Special case: frontend directory data (may need separate handling)\n\n### **Positive Findings:**\n\n✅ All 26 existing usages of `get_data_dir()` and `get_static_data_dir()` are **correctly chosen**\n✅ Static files (prompts, xlsx) properly remain in project/data\n✅ path_constants.py has good docstrings explaining each function\n\n### **Symlink Status:**\n\n3 symlinks remain in rohan-data:\n- `ppv_ids.json.lock` → rohan/data (lock file)\n- `prompt_history.json.lock` → rohan/data (lock file)  \n- `check_result_48200052.png` → rohan/data (old image)\n\n### **Documentation Gap Confirmed:**\n\nCLAUDE.md lacks implementation guidelines for developers. MEMORY.md mentions the principle but not usage patterns.\n\n### **Updated Priority Actions:**\n\n**High Priority (data integrity risk):**\n1. Fix browser_automation.py line 124 & 4012\n2. Fix opening_closing.py line 77\n\n**Medium Priority:**\n3. Fix narrative_role.py line 40 (or document exception)\n4. Remove 3 symlinks from rohan-data\n\n**Low Priority:**\n5. Add developer guidelines to CLAUDE.md\n\nReady to proceed with the high-priority fixes?",
+    "summary": "Audit found 3 more hardcoded paths - total 11 locations",
+    "timestamp": "2026-02-10T01:31:40.075Z",
+    "read": false
   }
 ]
