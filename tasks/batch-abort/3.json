@@ -1,0 +1,11 @@
+{
+  "id": "3",
+  "subject": "be-dev",
+  "description": "You are a backend developer on team \"batch-abort\". Your task is Task #1.\n\nRead the task details with",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "_internal": true
+  }
+}
