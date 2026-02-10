@@ -20,5 +20,34 @@
     "timestamp": "2026-02-10T05:35:54.857Z",
     "color": "yellow",
     "read": true
+  },
+  {
+    "from": "worker-screenshot",
+    "text": "Task #1 (P1-1: Screenshot consolidation) is complete.\n\n**Changes made to `/Users/masaaki/Desktop/prm/rohan/backend/utils/browser_automation.py`:**\n\n1. **Added `_take_screenshot_impl()` standalone helper function** (L242-271) - Extracts the common screenshot logic: null page check, directory creation, filename with optional timestamp, JPEG screenshot at quality=60, logging.\n\n2. **Consolidated 4 duplicate implementations** to call the shared helper:\n   - **ManuscriptRegistration.take_screenshot** (L578): Was 20 lines with blocking/non-blocking modes. Now 5 lines calling `_take_screenshot_impl()`. The `blocking` parameter is preserved in the signature for API compatibility but was never used by any caller (`blocking=True` never passed). The `config.save_screenshots` guard is preserved.\n   - **BaseBrowserAutomation.take_screenshot** (L2273): Was 8 lines. Now 4 lines delegating to `_take_screenshot_impl()`. Signature unchanged (`name`, `full_page`, `add_timestamp`).\n   - **CMSMenuRegistration.take_screenshot** (L3113): Was 8 lines. Now 4 lines calling `_take_screenshot_impl()`. Behavior preserved (full_page=True, add_timestamp=True).\n   - **PPVDetailRegistration.take_screenshot** (L4030): Was 7 lines. Now 4 lines calling `_take_screenshot_impl()`. Behavior preserved (full_page=False, add_timestamp=True, uses `screenshot_dir`).\n\n3. **IzumoCMSAutomation.take_screenshot** (L2372): No change needed - already delegates to `super().take_screenshot()`.\n\n**Net reduction**: ~28 lines of duplicate screenshot logic consolidated into one 30-line helper.\n\n**Preserved behaviors**:\n- All function signatures unchanged\n- All callers work without modification\n- JPEG format, quality=60, timestamp logic all preserved per class\n- PPVDetailRegistration still uses `screenshot_dir` (not `_session_dir`)\n- ManuscriptRegistration still checks `config.save_screenshots`\n\n**Note**: `schedule_screenshot()` function (L207) is now dead code - no longer called anywhere. Left in place as cleanup is outside this task's scope.\n\nSyntax verified with `python3 -c \"import ast; ast.parse(...)\"` - OK.",
+    "summary": "Task #1 screenshot consolidation complete",
+    "timestamp": "2026-02-10T05:37:03.442Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "worker-screenshot",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"worker-screenshot\",\"timestamp\":\"2026-02-10T05:37:07.356Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-10T05:37:07.356Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "worker-screenshot",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"worker-screenshot\",\"timestamp\":\"2026-02-10T05:37:14.872Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-10T05:37:14.872Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "worker-screenshot",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770701827419@worker-screenshot\",\"from\":\"worker-screenshot\",\"timestamp\":\"2026-02-10T05:37:18.928Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-10T05:37:18.928Z",
+    "color": "blue",
+    "read": true
   }
 ]

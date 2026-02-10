@@ -16,20 +16,6 @@
       "subscriptions": []
     },
     {
-      "agentId": "worker-screenshot@code-consolidation",
-      "name": "worker-screenshot",
-      "agentType": "general-purpose",
-      "model": "claude-opus-4-6",
-      "prompt": "You are a teammate on team \"code-consolidation\". Your name is \"worker-screenshot\".\n\nRead task #1 from the task list, then implement the changes.\n\nYour job: Consolidate duplicate take_screenshot() methods in browser_automation.py.\n\nKey steps:\n1. Read the file and identify ALL take_screenshot implementations and their callers\n2. The BaseBrowserAutomation.take_screenshot() at around L2253 is the most complete - use it as the reference\n3. For classes that inherit BaseBrowserAutomation (IzumoCMSAutomation, IzumoSyncAutomation): they should inherit the base screenshot method, remove overrides if identical\n4. For classes that DON'T inherit BaseBrowserAutomation (ManuscriptRegistration, CMSMenuRegistration, PPVDetailRegistration): extract a shared standalone helper function and have all classes call it\n5. Verify all callers still work (grep for take_screenshot and page.screenshot)\n\nCRITICAL RULES:\n- Do NOT change any behavior - only consolidate duplicate code\n- Do NOT make changes outside the scope of screenshot consolidation\n- Preserve all existing function signatures\n- File: /Users/masaaki/Desktop/prm/rohan/backend/utils/browser_automation.py\n- Mark task #1 as completed when done",
-      "color": "blue",
-      "planModeRequired": false,
-      "joinedAt": 1770701522622,
-      "tmuxPaneId": "in-process",
-      "cwd": "/Users/masaaki/Desktop/prm/rohan",
-      "subscriptions": [],
-      "backendType": "in-process"
-    },
-    {
       "agentId": "worker-keywords@code-consolidation",
       "name": "worker-keywords",
       "agentType": "general-purpose",
