@@ -1,0 +1,24 @@
+[
+  {
+    "from": "worker-frontend",
+    "text": "Task #3 (P1-3: FE URLパラメータパーサー統一 + check/detect共通データ取得統合) completed.\n\n**Changes summary:**\n\n**Part A: URL parameter parser consolidation**\n- `/Users/masaaki/Desktop/prm/rohan/frontend/utils.js`: Added `getQueryParam(key, fallback)` function at the top of the file + added to module exports\n- `/Users/masaaki/Desktop/prm/rohan/frontend/auto.html:2962-2963`: `getAuthId()` now delegates to `getQueryParam('id', 'r89q7y98rqrq7')` instead of inline `new URLSearchParams()`\n- `/Users/masaaki/Desktop/prm/rohan/frontend/check.html:684`: Added `<script src=\"utils.js\"></script>` (was missing - check.html didn't load utils.js before)\n- `/Users/masaaki/Desktop/prm/rohan/frontend/check.html:739-740`: Replaced `new URLSearchParams()` with two `getQueryParam()` calls\n- `/Users/masaaki/Desktop/prm/rohan/frontend/detect.html:609`: Replaced `new URLSearchParams()` with `getQueryParam('ppv_id')`\n\n**Part B: check/detect common registered-data fetch**\n- `/Users/masaaki/Desktop/prm/rohan/frontend/check_common.js:376-386`: Added `fetchRegisteredData(ppvId)` function that fetches from `/api/check/registered-data/{ppvId}` with error handling, returns data or null\n- `/Users/masaaki/Desktop/prm/rohan/frontend/check_common.js:459`: Added to public API\n- `/Users/masaaki/Desktop/prm/rohan/frontend/check.html:787-792`: Replaced 25-line try/catch fetch block with `CheckCommon.fetchRegisteredData(ppvId)` + fallback object\n- `/Users/masaaki/Desktop/prm/rohan/frontend/detect.html:719`: Replaced 6-line try/catch fetch block with `CheckCommon.fetchRegisteredData(ppvId)`\n\nNo behavioral changes. Script loading order verified in all 3 HTML files.",
+    "summary": "Task #3 completed - FE URL parser + data fetch consolidated",
+    "timestamp": "2026-02-10T05:35:43.452Z",
+    "color": "yellow",
+    "read": true
+  },
+  {
+    "from": "worker-frontend",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"worker-frontend\",\"timestamp\":\"2026-02-10T05:35:51.665Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-10T05:35:51.665Z",
+    "color": "yellow",
+    "read": false
+  },
+  {
+    "from": "worker-frontend",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770701750615@worker-frontend\",\"from\":\"worker-frontend\",\"timestamp\":\"2026-02-10T05:35:54.857Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-10T05:35:54.857Z",
+    "color": "yellow",
+    "read": false
+  }
+]
