@@ -1,0 +1,19 @@
+{
+  "name": "collection-system",
+  "description": "Hybrid Image Collection System implementation - DB/Config, Services, Router, Frontend, Tests",
+  "createdAt": 1770693342127,
+  "leadAgentId": "team-lead@collection-system",
+  "leadSessionId": "3f947595-3a1a-4e64-8dbd-61f5a1faa89e",
+  "members": [
+    {
+      "agentId": "team-lead@collection-system",
+      "name": "team-lead",
+      "agentType": "team-lead",
+      "model": "claude-opus-4-6",
+      "joinedAt": 1770693342127,
+      "tmuxPaneId": "",
+      "cwd": "/Users/masaaki_nagasawa/Desktop/prm/aiimg",
+      "subscriptions": []
+    }
+  ]
+}

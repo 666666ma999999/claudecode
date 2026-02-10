@@ -1,0 +1,8 @@
+[
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"task_assignment\",\"taskId\":\"7\",\"subject\":\"Phase 5: Tests - test_collection.py\",\"description\":\"Create tests/test_collection.py with:\\n- DB tests: table creation, FK constraints, migration\\n- Dedup tests: pHash computation, hamming distance, duplicate detection\\n- LLM tests: query expansion (mocked)\\n- Collector tests: download success/failure/timeout (mocked)\\n\\nFollow existing test patterns from tests/test_database.py and tests/test_feedback.py:\\n- pytest fixtures\\n- Temporary DB for isolation\\n- Mock external APIs\",\"assignedBy\":\"team-lead\",\"timestamp\":\"2026-02-10T03:18:39.073Z\"}",
+    "timestamp": "2026-02-10T03:18:39.073Z",
+    "read": false
+  }
+]

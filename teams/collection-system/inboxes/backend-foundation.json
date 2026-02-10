@@ -1,0 +1,14 @@
+[
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"task_assignment\",\"taskId\":\"1\",\"subject\":\"Phase 1: Foundation - DB tables, config, requirements\",\"description\":\"Edit backend/database.py to add collection_jobs and collection_candidates tables with indexes. Add ALTER TABLE for reference_images (collection_job_id, perceptual_hash columns). Edit backend/config.py to add GOOGLE_CSE_API_KEY, GOOGLE_CSE_ID, COLLECTION_DIR. Edit requirements.txt to add imagehash>=4.3.1. Update .env.example if exists.\\n\\nKey patterns from existing code:\\n- Tables use TEXT DEFAULT (datetime('now')) for timestamps\\n- Foreign keys with ON DELETE CASCADE where appropriate\\n- get_connection() returns sqlite3.Connection with row_factory\\n- Config uses os.getenv() and Path objects\\n- DATA_DIR is the base for all paths\",\"assignedBy\":\"team-lead\",\"timestamp\":\"2026-02-10T03:16:50.817Z\"}",
+    "timestamp": "2026-02-10T03:16:50.817Z",
+    "read": true
+  },
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1770693513309@backend-foundation\",\"from\":\"team-lead\",\"reason\":\"Phase 1 is complete. Thank you for your work. Shutting down.\",\"timestamp\":\"2026-02-10T03:18:33.309Z\"}",
+    "timestamp": "2026-02-10T03:18:33.309Z",
+    "read": true
+  }
+]
