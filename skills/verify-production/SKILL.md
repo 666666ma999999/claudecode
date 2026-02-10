@@ -256,7 +256,10 @@ PPVページ（`/open/ppv.do/`）はログイン済みユーザーのみアク�
 
 ### 認証状態API
 - `GET /api/check/auth-status?site_code=482` - 認証状態確認（available/ageMinutes/stale）
-- `POST /api/check/auth-capture?site_code=482` - 非headlessブラウザでログイン→認証状態保存
+- `POST /api/check/auth-capture?site_code=482` - 非headlessブラウザでキャリアログイン→認証状態保存
+- `POST /api/check/auth-capture-id` - **占いIDログイン（推奨）**: headless自動化で認証状態保存
+  - Body: `{ "email": "...", "password": "...", "site_code": "482" }`
+  - 占いIDログインはキャリアログインと異なり完全自動化可能（ユーザー操作不要）
 
 ### 認証状態ファイル
 - 保存先: `data/auth_states/auth_state_{site_code}.json`
