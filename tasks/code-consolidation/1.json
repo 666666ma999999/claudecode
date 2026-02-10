@@ -1,0 +1,10 @@
+{
+  "id": "1",
+  "subject": "P1-1: Screenshot処理をBaseBrowserAutomation.take_screenshotに統一",
+  "description": "browser_automation.pyの5クラスに分散しているスクリーンショット処理を統一する。\n\n**現状**: 以下の各クラスが独自のtake_screenshot()を持っている:\n- ManuscriptRegistration.take_screenshot (L546-565)\n- CMSMenuRegistration.take_screenshot (L3098-3107) \n- PPVDetailRegistration.take_screenshot (L4019-4026)\n- BaseBrowserAutomation.take_screenshot (L2253-2263) ← これが最も完成度が高い\n- SalesRegistrationAutomationのad-hoc page.screenshot呼び出し\n\n**方針**:\n1. BaseBrowserAutomation.take_screenshot()が既に最も完成度が高い実装なので、これを基準とする\n2. ManuscriptRegistration, CMSMenuRegistration, PPVDetailRegistrationの独自take_screenshotを削除し、BaseBrowserAutomation版を使うか、super().take_screenshot()を呼ぶよう変更\n3. ただしManuscriptRegistrationはBaseBrowserAutomationを継承していないので注意が必要\n\n**注意**:\n- ManuscriptRegistration, CMSMenuRegistration, PPVDetailRegistrationはBrowserErrorMixinを継承しており、BaseBrowserAutomationとは別系統\n- BaseBrowserAutomationのtake_screenshotの引数(name, full_page, add_timestamp)を確認し、各クラスの呼び出しパターンに合わせる\n- 既存の呼び出し元(self.take_screenshot(\"xxx\"))の引数がそのまま動くことを確認\n- プラン外の変更は禁止",
+  "activeForm": "Consolidating screenshot methods",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [],
+  "owner": "worker-screenshot"
+}

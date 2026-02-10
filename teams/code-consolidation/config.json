@@ -1,0 +1,61 @@
+{
+  "name": "code-consolidation",
+  "description": "Rohan code consolidation Phase 1: 4 independent refactoring tasks",
+  "createdAt": 1770701461559,
+  "leadAgentId": "team-lead@code-consolidation",
+  "leadSessionId": "b71c8ea0-33df-48b1-851a-dbec0ddb9836",
+  "members": [
+    {
+      "agentId": "team-lead@code-consolidation",
+      "name": "team-lead",
+      "agentType": "team-lead",
+      "model": "claude-opus-4-6",
+      "joinedAt": 1770701461559,
+      "tmuxPaneId": "",
+      "cwd": "/Users/masaaki/Desktop/prm/rohan",
+      "subscriptions": []
+    },
+    {
+      "agentId": "worker-screenshot@code-consolidation",
+      "name": "worker-screenshot",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-6",
+      "prompt": "You are a teammate on team \"code-consolidation\". Your name is \"worker-screenshot\".\n\nRead task #1 from the task list, then implement the changes.\n\nYour job: Consolidate duplicate take_screenshot() methods in browser_automation.py.\n\nKey steps:\n1. Read the file and identify ALL take_screenshot implementations and their callers\n2. The BaseBrowserAutomation.take_screenshot() at around L2253 is the most complete - use it as the reference\n3. For classes that inherit BaseBrowserAutomation (IzumoCMSAutomation, IzumoSyncAutomation): they should inherit the base screenshot method, remove overrides if identical\n4. For classes that DON'T inherit BaseBrowserAutomation (ManuscriptRegistration, CMSMenuRegistration, PPVDetailRegistration): extract a shared standalone helper function and have all classes call it\n5. Verify all callers still work (grep for take_screenshot and page.screenshot)\n\nCRITICAL RULES:\n- Do NOT change any behavior - only consolidate duplicate code\n- Do NOT make changes outside the scope of screenshot consolidation\n- Preserve all existing function signatures\n- File: /Users/masaaki/Desktop/prm/rohan/backend/utils/browser_automation.py\n- Mark task #1 as completed when done",
+      "color": "blue",
+      "planModeRequired": false,
+      "joinedAt": 1770701522622,
+      "tmuxPaneId": "in-process",
+      "cwd": "/Users/masaaki/Desktop/prm/rohan",
+      "subscriptions": [],
+      "backendType": "in-process"
+    },
+    {
+      "agentId": "worker-keywords@code-consolidation",
+      "name": "worker-keywords",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-6",
+      "prompt": "You are a teammate on team \"code-consolidation\". Your name is \"worker-keywords\".\n\nRead task #2 from the task list, then implement the changes.\n\nYour job: Extract 7 logic keyword I/O functions from main.py into a new module.\n\nKey steps:\n1. Read /Users/masaaki/Desktop/prm/rohan/backend/main.py to find these functions (around L245-435):\n   - normalize_code_column\n   - validate_logic_sheet_structure  \n   - load_logic_keywords\n   - get_sheet_names\n   - validate_logic_sheet\n   - clean_oversized_text_fields (including _cleaned_log_keys and _CLEANED_LOG_MAX_SIZE module vars)\n   - load_logic_keywords_async\n\n2. Create new file: /Users/masaaki/Desktop/prm/rohan/backend/utils/logic_keywords.py\n   - Move all 7 functions there (exact same code, no logic changes)\n   - Add required imports (pandas, Path, logging, openpyxl, etc.)\n   - The functions reference data_paths - check how they access it and maintain the same pattern\n\n3. Update main.py:\n   - Replace the 7 function definitions with imports from utils.logic_keywords\n   - Keep all callers working\n\n4. Verify no other files import these functions directly from main\n\nCRITICAL RULES:\n- Do NOT change any function logic - pure extraction\n- Do NOT make changes outside the scope\n- Preserve all existing function signatures\n- Mark task #2 as completed when done",
+      "color": "green",
+      "planModeRequired": false,
+      "joinedAt": 1770701535016,
+      "tmuxPaneId": "in-process",
+      "cwd": "/Users/masaaki/Desktop/prm/rohan",
+      "subscriptions": [],
+      "backendType": "in-process"
+    },
+    {
+      "agentId": "worker-frontend@code-consolidation",
+      "name": "worker-frontend",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-6",
+      "prompt": "You are a teammate on team \"code-consolidation\". Your name is \"worker-frontend\".\n\nRead task #3 from the task list, then implement the changes.\n\nYour job: Consolidate duplicate URL parameter parsing and data fetching across frontend files.\n\nKey steps:\n\n**Part A: URL parameter parser**\n1. Read /Users/masaaki/Desktop/prm/rohan/frontend/utils.js to see existing utilities\n2. Add a `getQueryParam(key, fallback = null)` function to utils.js if it doesn't already exist\n3. Read auto.html, check.html, detect.html to find URL parameter parsing code\n4. Replace inline URLSearchParams usage with getQueryParam() calls where appropriate\n5. If auto.html has a getAuthId() function, update it to use getQueryParam internally\n\n**Part B: check/detect common data fetch**\n1. Read /Users/masaaki/Desktop/prm/rohan/frontend/check_common.js to see existing shared utilities\n2. Read check.html and detect.html to find duplicate registered-data fetch patterns\n3. If there's a common fetch pattern, extract it to check_common.js as `fetchRegisteredData(ppvId)`\n4. Update both check.html and detect.html to use the common function\n\nCRITICAL RULES:\n- Do NOT change any behavior - only consolidate duplicate code\n- Do NOT make changes outside the scope\n- Verify script loading order in HTML files (utils.js, check_common.js must be loaded before usage)\n- Keep existing function signatures working\n- Files are at /Users/masaaki/Desktop/prm/rohan/frontend/\n- Mark task #3 as completed when done",
+      "color": "yellow",
+      "planModeRequired": false,
+      "joinedAt": 1770701547704,
+      "tmuxPaneId": "in-process",
+      "cwd": "/Users/masaaki/Desktop/prm/rohan",
+      "subscriptions": [],
+      "backendType": "in-process"
+    }
+  ]
+}
