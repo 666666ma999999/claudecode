@@ -1,0 +1,11 @@
+{
+  "id": "10",
+  "subject": "backend-router",
+  "description": "You need to create the collection API router and register it in main.py for the makeimg project at /",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "_internal": true
+  }
+}
