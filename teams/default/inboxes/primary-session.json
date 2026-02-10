@@ -61,5 +61,12 @@
     "summary": "Server restart task b0bea32 running in background",
     "timestamp": "2026-02-10T01:37:52.905Z",
     "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "📖 **MEMORY.md Documentation Context**\n\nI see you're reading the existing MEMORY.md documentation about the ROHAN_DATA_DIR path separation work.\n\n**Current Documentation (v1.59.1):**\n- Documents the original Phase 1 (5 files) and Phase 2 (7 files) fixes\n- Records the design principle: static files → `get_static_data_dir()`, runtime → `get_data_dir()`\n- Notes 10 symlinks deleted and 4 runtime JSON files migrated\n- Includes warning about check.py definition order bug\n\n**Gap Identified:**\nThis documentation is from the original migration but doesn't reflect:\n1. The audit that found 3 additional hardcoded paths\n2. The new fixes (opening_closing.py, browser_automation.py)\n3. The 3 remaining symlinks found in today's audit\n\n**Recommendation:**\nAfter completing the browser_automation.py fixes, consider updating MEMORY.md with a new section documenting:\n- \"Phase 3: Audit-discovered hardcoded paths (2026-02-10)\"\n- opening_closing.py line 77 fix\n- browser_automation.py line 124 & 4012 fixes\n- narrative_role.py status (frontend/data exception)\n- Final symlink cleanup (3 remaining: 2 lock files + 1 old image)\n\nThis maintains continuity with the existing documentation pattern and helps future developers understand the complete migration history.",
+    "summary": "MEMORY.md shows Phase 1&2 docs - Phase 3 update needed",
+    "timestamp": "2026-02-10T01:38:48.225Z",
+    "read": false
   }
 ]
