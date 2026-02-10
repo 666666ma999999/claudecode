@@ -98,3 +98,36 @@ docker compose build
 docker compose up -d
 docker compose exec dev bash  # 接続確認
 ```
+
+## 既存プロジェクトのDocker移行（venv → Docker）
+
+### チェックリスト
+- [ ] `docker-compose.yml`: ポートは `127.0.0.1:PORT:PORT` にバインド（dev環境）
+- [ ] `docker-compose.yml`: `env_file: .env` で環境変数を一括注入（個別列挙しない）
+- [ ] `docker-compose.yml`: ソースコードを bind mount（`./backend:/app/backend` 等）
+- [ ] `docker-compose.yml`: `command:` で `--reload` 付き起動（dev用）
+- [ ] `docker-compose.yml`: テストディレクトリも mount（`./tests:/app/tests`）
+- [ ] `Dockerfile`: HEALTHCHECK は compose に任せる（重複回避）
+- [ ] シェルスクリプト: `set -euo pipefail` + 適切な終了コード
+- [ ] `docker compose exec` に `-T` フラグ（CI/非TTY対応）
+- [ ] `.env.example`: 全環境変数を網羅
+- [ ] `venv/` 削除前にローカルサーバー停止を確認
+
+### start/stop スクリプトテンプレート（Docker用）
+```bash
+# start_server.sh
+#!/bin/bash
+set -euo pipefail
+cd "$(dirname "$0")"
+if ! docker compose up -d --build; then exit 1; fi
+# ヘルスチェック待機ループ（最大60秒）
+for i in $(seq 1 30); do
+    if docker compose ps --format json | grep -q '"healthy"'; then
+        echo "Server started successfully"
+        exit 0
+    fi
+    sleep 2
+done
+echo "Error: Health check timeout"
+exit 1
+```
