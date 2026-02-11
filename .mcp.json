@@ -10,7 +10,10 @@
     },
     "firecrawl": {
       "command": "npx",
-      "args": ["-y", "firecrawl-mcp"]
+      "args": ["-y", "firecrawl-mcp"],
+      "env": {
+        "FIRECRAWL_BASE_URL": "http://localhost:3002"
+      }
     }
   }
 }
