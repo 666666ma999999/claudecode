@@ -156,6 +156,25 @@ STEP_DEFINITIONS = {
 各routerでは `from utils.models import StepProgress, StepStatus` でインポートすること。
 ローカル再定義は禁止。
 
+## Sentry状態マッピング（任意）
+
+Sentry MCPが有効な場合、プロセス状態とSentry issue状態を以下で対応付ける：
+
+| ProcessRecord status | Sentry issue status |
+|---------------------|---------------------|
+| `running` | `unresolved` |
+| `error` | `unresolved` |
+| `interrupted` | `unresolved` |
+| `completed` | `resolved` |
+
+| 中断理由コード | Sentry対応 |
+|---------------|-----------|
+| `NETWORK_ERROR` | Sentryで同一エラーの発生頻度を確認 |
+| `AUTH_ERROR` | Sentryで認証関連issueを検索 |
+| `SYSTEM_ERROR` | Sentryのスタックトレースで根因特定 |
+
+Sentry未導入時はこのマッピングを無視し、従来のローカル状態管理のみで動作する。
+
 ## ベストプラクティス
 
 1. **ステップの粒度**
