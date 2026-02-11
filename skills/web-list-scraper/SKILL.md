@@ -156,6 +156,25 @@ records = [r for r in records if r["id"] not in processed_ids]
 
 詳細は [references/config_examples.md](references/config_examples.md) を参照。
 
+## JSレンダリング対応（Firecrawl連携・任意）
+
+Firecrawl MCPが有効な場合、JSレンダリングが必要なページの取得をFirecrawlにフォールバックできる。
+
+### 判定基準
+- 静的HTMLで要素が取得できない場合 → Firecrawlで再取得を試行
+- リスト内に `need_js` フラグがある行 → Firecrawlを優先使用
+
+### 使い方
+```python
+# extractorsで要素が見つからない場合のフォールバック
+# Firecrawl MCPのfirecrawl_scrapeを使用してMarkdownを取得
+# 取得したMarkdownから正規表現等で情報を抽出
+```
+
+### Firecrawl未導入時
+- 従来通り静的HTML取得のみで動作（警告ログを出力）
+- 既存の動作に影響なし
+
 ## エラー対処
 
 | 問題 | 対処 |
