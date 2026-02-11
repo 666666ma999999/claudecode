@@ -21,6 +21,15 @@
       "env": {
         "MEMORY_FILE_PATH": "/Users/masaaki_nagasawa/.claude/memory/memory.jsonl"
       }
+    },
+    "postgresql": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@henkey/postgres-mcp-server",
+        "--connection-string",
+        "postgresql://postgres@localhost:5432/postgres"
+      ]
     }
   }
 }
