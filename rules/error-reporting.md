@@ -4,6 +4,10 @@
 
 エラーが発生した場合、以下の構造で報告すること：
 
+### 0. Sentry Issue URL（任意）
+- Sentryで該当issueがある場合はURLを記載: `https://sentry.io/organizations/.../issues/.../`
+- Sentry未使用の場合はスキップ
+
 ### 1. 症状（何が起きたか）
 - エラーメッセージの正確な引用
 - スクリーンショットがあれば提示
