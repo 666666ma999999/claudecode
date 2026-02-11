@@ -611,3 +611,6 @@ python scripts/classify_tweets.py --no-viewer
 - `data/few_shot_examples.json` に誤分類例を追加してリラン
 - viewer.htmlにカテゴリフィルタタブあり（LLM/キーワード両方の分類バッジ表示）
 - 逆指標アカウント（is_contrarian=true）の強気ツイート → warning_signalsに自動分類
+
+## 関連ガイド
+- ツール選択基準: `~/.claude/rules/web-tool-selector.md` を参照
