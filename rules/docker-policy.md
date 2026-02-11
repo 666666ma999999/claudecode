@@ -14,6 +14,13 @@
 | Node.js | `npm install`, `npm i`, `npx`, `yarn`, `pnpm`, `bun install`, `bun add` |
 | 環境有効化 | `source venv/bin/activate`, `. .venv/bin/activate` |
 
+## 適用除外
+
+以下はこのポリシーの対象外（ホスト上での実行を許可）：
+
+- **`.mcp.json` のMCPサーバー設定**: Claude Codeが内部的に子プロセスとして起動するため、Bashツールのdenyリストとは別経路
+- **Claude Code自体のツール拡張・プラグイン設定**: プロジェクトの依存管理ではなく、開発ツールの設定
+
 ## 正しい実行方法
 
 ```bash
