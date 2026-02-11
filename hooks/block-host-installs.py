@@ -12,7 +12,6 @@ DENY_PATTERNS = [
     r"\bpython3?\s+-m\s+venv\b",
     r"\bvirtualenv\b",
     r"\bnpm\s+(install|i|ci)\b",
-    r"\bnpx\s+",
     r"\byarn\s+(install|add)\b",
     r"\bpnpm\s+(install|add)\b",
     r"\bbun\s+(install|add)\b",
