@@ -42,6 +42,7 @@
 
 ### 2. Explore SubAgentで調査
 - `Task(subagent_type=Explore)`でコードベース・既存実装を調査する
+- **大規模コードベース（>100KB）の構造把握には`repomix pack_codebase`で圧縮概要を先に取得し、詳細はRead/Grepで絞り込む**よう指示すること
 - 影響範囲・依存関係を把握する
 - **業界標準の解決策を`WebSearch`等で調査し、それを参考にアプローチを設計する**（独自実装より標準的手法を優先）
 
