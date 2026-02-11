@@ -30,6 +30,10 @@
         "--connection-string",
         "postgresql://postgres@localhost:5432/postgres"
       ]
+    },
+    "repomix": {
+      "command": "npx",
+      "args": ["-y", "repomix", "--mcp"]
     }
   }
 }
