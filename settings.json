@@ -111,6 +111,15 @@
             "command": "~/.claude/hooks/auto-git-pull.sh"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/firecrawl-start.sh"
+          }
+        ]
       }
     ],
     "PreToolUse": [
