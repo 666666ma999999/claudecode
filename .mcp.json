@@ -5,8 +5,8 @@
       "args": ["-y", "@upstash/context7-mcp@latest"]
     },
     "sentry": {
-      "type": "sse",
-      "url": "https://mcp.sentry.dev/sse"
+      "type": "http",
+      "url": "https://mcp.sentry.dev/mcp"
     },
     "firecrawl": {
       "command": "npx",
