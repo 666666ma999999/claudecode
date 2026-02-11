@@ -577,3 +577,6 @@ console.log('SELECT:', formStructure.selects.map(s => s.name));
 - **エラーハンドリング**: タイムアウト、要素未検出に対応
 - **スクリーンショット**: 重要な操作後は証跡を保存
 - **ファイルパス**: Playwrightの許可ディレクトリ内を使用
+
+## 関連ガイド
+- ツール選択基準: `~/.claude/rules/web-tool-selector.md` を参照
