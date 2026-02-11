@@ -75,7 +75,6 @@
       "Bash(virtualenv *)",
       "Bash(npm install*)",
       "Bash(npm i *)",
-      "Bash(npx *)",
       "Bash(yarn *)",
       "Bash(pnpm *)",
       "Bash(bun install*)",
