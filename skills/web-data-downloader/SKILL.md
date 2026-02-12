@@ -126,5 +126,64 @@ description: Webサイトから確定申告用データを自動取得するス�
 - 保存先パス
 - 取得データのサマリー（例: 寄付合計金額、明細件数）
 
+## Firecrawl優先モード
+
+ログインが不要な公開ページの場合、Playwrightの代わりにFirecrawlを優先使用することで軽量・高速に処理できる。
+
+### 判断基準
+
+| 条件 | 使用ツール |
+|------|-----------|
+| ログイン不要 + 静的HTML | WebFetch |
+| ログイン不要 + JSレンダリング必要 | Firecrawl scrape |
+| ログイン不要 + 構造化データ抽出 | Firecrawl extract |
+| ログイン不要 + スクリーンショット | Firecrawl scrape (formats: ["screenshot"]) |
+| ログイン必要 | Playwright（従来手順） |
+| bot検知 Level 1 | Firecrawl proxy: "stealth" |
+| bot検知 Level 2（Firecrawlで突破不可） | Playwright CDP接続（従来手順） |
+
+### Firecrawlでのスクリーンショット取得
+
+```
+firecrawl_scrape(
+  url="https://example.com/page",
+  formats=["screenshot"]
+)
+# → スクリーンショットがbase64で返却される
+# → デコードしてDL/フォルダに保存
+```
+
+### Firecrawlでの構造化データ抽出
+
+CSSセレクタの特定が困難な場合、LLMベースで直接抽出:
+
+```
+firecrawl_extract(
+  urls=["https://example.com/statement"],
+  prompt="明細の日付、金額、店名を全行抽出してください",
+  schema={
+    "type": "object",
+    "properties": {
+      "transactions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "date": {"type": "string"},
+            "amount": {"type": "number"},
+            "merchant": {"type": "string"}
+          }
+        }
+      }
+    }
+  }
+)
+```
+
+### Firecrawl未導入時
+
+- 従来通りPlaywright MCPのみで動作
+- 全サイト別設定・手順に影響なし
+
 ## 関連ガイド
 - ツール選択基準: `~/.claude/rules/web-tool-selector.md` を参照
