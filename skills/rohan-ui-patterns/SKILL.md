@@ -9,7 +9,6 @@ description: |
   (4) AI生成結果の保持→後続処理での使用
   (5) 新しいセクション・フォームの追加
   キーワード: ドラッグ&ドロップ, 進捗表示, ProgressAnimator, ingestFiles, attachedFiles, セクション追加, 生成結果保持, グローバル変数
-disable-model-invocation: true
 ---
 
 # Rohan UI実装パターン
