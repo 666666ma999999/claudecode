@@ -5,6 +5,7 @@ description: |
   原稿管理CMSでPPV詳細情報（価格、誘導設定等）を登録する。
   Playwright MCPを使用してブラウザ操作を自動化。
   キーワード: STEP3, PPV情報, 従量登録, 価格設定, Playwright MCP
+disable-model-invocation: true
 ---
 
 # STEP 3: PPV情報登録（従量登録）
