@@ -186,4 +186,4 @@ firecrawl_extract(
 - 全サイト別設定・手順に影響なし
 
 ## 関連ガイド
-- ツール選択基準: `~/.claude/rules/web-tool-selector.md` を参照
+- ツール選択基準: `~/.claude/rules/web-scraping.md` を参照
