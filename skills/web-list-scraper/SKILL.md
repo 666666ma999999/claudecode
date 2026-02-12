@@ -156,24 +156,72 @@ records = [r for r in records if r["id"] not in processed_ids]
 
 詳細は [references/config_examples.md](references/config_examples.md) を参照。
 
-## JSレンダリング対応（Firecrawl連携・任意）
+## Firecrawl統合（JSレンダリング・LLM抽出）
 
-Firecrawl MCPが有効な場合、JSレンダリングが必要なページの取得をFirecrawlにフォールバックできる。
+Firecrawl MCPが有効な場合、JSレンダリングやLLMベースの構造化抽出を活用できる。
 
-### 判定基準
-- 静的HTMLで要素が取得できない場合 → Firecrawlで再取得を試行
-- リスト内に `need_js` フラグがある行 → Firecrawlを優先使用
+### 自動フォールバック判定
 
-### 使い方
-```python
-# extractorsで要素が見つからない場合のフォールバック
-# Firecrawl MCPのfirecrawl_scrapeを使用してMarkdownを取得
-# 取得したMarkdownから正規表現等で情報を抽出
+以下の条件でFirecrawlへの自動フォールバックが発生:
+1. 静的HTML取得（requests+BS4）でextractorsの結果が**空またはデフォルト値のみ**
+2. CSVカラムに`need_js`フラグが`true`の行
+3. HTTPステータス403/429で静的取得がブロックされた場合
+
+### Firecrawl scrapeでの取得手順
+
+```
+# Step 1: firecrawl_scrapeでJSレンダリング済みMarkdownを取得
+firecrawl_scrape(
+  url="https://example.com/item/123/",
+  formats=["markdown"],
+  onlyMainContent=true
+)
+
+# Step 2: 取得したMarkdownからextractors相当の情報を抽出
+# - 正規表現でパターンマッチ
+# - Markdown見出し構造から階層的に抽出
 ```
 
-### Firecrawl未導入時
-- 従来通り静的HTML取得のみで動作（警告ログを出力）
-- 既存の動作に影響なし
+### Firecrawl extractによるLLM抽出（セレクタ不要）
+
+CSSセレクタが特定困難な場合、LLMベースの構造化抽出を使用:
+
+```
+# JSON schemaを定義して構造化データを直接取得
+firecrawl_extract(
+  urls=["https://example.com/item/123/"],
+  prompt="商品の名前、価格、説明、在庫状況を抽出してください",
+  schema={
+    "type": "object",
+    "properties": {
+      "name": {"type": "string"},
+      "price": {"type": "number"},
+      "description": {"type": "string"},
+      "in_stock": {"type": "boolean"}
+    }
+  }
+)
+```
+
+### need_jsフラグの使い方
+
+CSVにカラムとして追加し、行単位でFirecrawl使用を制御:
+
+```csv
+id,name,url,need_js
+001,商品A,https://example.com/item/001/,false
+002,商品B,https://spa-site.com/item/002/,true
+```
+
+- `need_js=true`: 最初からFirecrawl scrapeで取得（静的取得をスキップ）
+- `need_js=false`または未指定: 静的取得を試行、失敗時にFirecrawlフォールバック
+
+### Firecrawl未導入時の動作保証
+
+- 従来通り`requests + BeautifulSoup4`で静的HTML取得のみで動作
+- Firecrawl MCP未接続時は警告ログを出力し、静的取得を続行
+- `need_js=true`の行はスキップされず、静的取得を試行（結果が不完全な可能性あり）
+- 既存のスクレイピング動作に一切影響なし
 
 ## エラー対処
 
