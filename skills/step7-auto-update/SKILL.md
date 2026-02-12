@@ -6,7 +6,6 @@ description: |
   Playwright MCPを使用してブラウザ操作を自動化。
   ※Basic認証はURLに埋め込んで対応
   キーワード: STEP7, 従量自動更新, izumo, 自動更新, Basic認証, Playwright MCP
-disable-model-invocation: true
 ---
 
 # STEP 7: 従量自動更新（izumo-dev CMS）
