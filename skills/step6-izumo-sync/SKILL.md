@@ -6,7 +6,6 @@ description: |
   Playwright MCPを使用してブラウザ操作を自動化。
   ※Basic認証はURLに埋め込んで対応
   キーワード: STEP6, 原稿本番アップ, izumo, 同期, Basic認証, Playwright MCP
-disable-model-invocation: true
 ---
 
 # STEP 6: 原稿本番アップ（izumo CMS）
