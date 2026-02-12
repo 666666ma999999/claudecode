@@ -613,4 +613,4 @@ python scripts/classify_tweets.py --no-viewer
 - 逆指標アカウント（is_contrarian=true）の強気ツイート → warning_signalsに自動分類
 
 ## 関連ガイド
-- ツール選択基準: `~/.claude/rules/web-tool-selector.md` を参照
+- ツール選択基準: `~/.claude/rules/web-scraping.md` を参照
