@@ -6,7 +6,6 @@ description: |
   Playwright MCPを使用してブラウザ操作を自動化。
   ※Basic認証はURLに埋め込んで対応
   キーワード: STEP8, 小見出し登録, izumo, 反映, Basic認証, Playwright MCP
-disable-model-invocation: true
 ---
 
 # STEP 8: 小見出し登録（izumo-dev CMS）
