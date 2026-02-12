@@ -6,7 +6,6 @@ description: |
   Playwright MCPを使用してブラウザ操作を自動化。
   ※Squidプロキシ経由でアクセス（VPN不要）
   キーワード: STEP5, MKB, 売上集計, CSVアップロード, Playwright MCP
-disable-model-invocation: true
 ---
 
 # STEP 5: 売上集計登録（MKBアクセス解析）
