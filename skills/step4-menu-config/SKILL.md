@@ -5,6 +5,7 @@ description: |
   原稿管理CMSでメニュー詳細設定（表示フラグ、画数設定等）を登録する。
   Playwright MCPを使用してブラウザ操作を自動化。
   キーワード: STEP4, メニュー設定, 従量管理詳細, 画数設定, Playwright MCP
+disable-model-invocation: true
 ---
 
 # STEP 4: メニュー設定（従量管理詳細）
