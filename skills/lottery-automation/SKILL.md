@@ -8,6 +8,7 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
+disable-model-invocation: true
 ---
 
 # 抽選自動応募スキル
