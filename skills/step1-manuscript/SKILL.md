@@ -5,7 +5,6 @@ description: |
   auto.htmlの機能を使用して原稿を生成し、PPV IDを発行する。
   ブラウザ自動化は不要（API呼び出しのみ）。
   キーワード: STEP1, 原稿生成, PPV ID, 商品登録, API
-disable-model-invocation: true
 ---
 
 # STEP 1: 原稿生成・PPV ID発行
