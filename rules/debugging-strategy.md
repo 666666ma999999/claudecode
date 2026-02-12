@@ -69,7 +69,7 @@
 | 段階 | 使用するルール |
 |------|-------------|
 | 調査プロセス | 本ドキュメント（debugging-strategy.md） |
-| 事実確認 | fact-check.md（ツールで実態確認） |
-| 報告フォーマット | error-reporting.md（4セクション構造） |
+| 事実確認 | quality-ops.md セクション1（ツールで実態確認） |
+| 報告フォーマット | quality-ops.md セクション2（4セクション構造） |
 | Sentry連携 | completion-check.md STEP 2.3 |
 | コードレビュー | completion-check.md STEP 2 |
