@@ -5,7 +5,6 @@ description: |
   原稿管理CMSにログインし、新規原稿を登録する。
   Playwright MCPを使用してブラウザ操作を自動化。
   キーワード: STEP2, メニュー登録, 原稿管理, CMS, Playwright MCP
-disable-model-invocation: true
 ---
 
 # STEP 2: メニュー登録
