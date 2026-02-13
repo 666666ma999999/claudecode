@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Create merkari project directory structure",
+  "description": "Create all directories under /Users/masaaki_nagasawa/Desktop/prm/merkari/:\n- .claude/\n- .claude/workspace/\n- .claude/skills/\n- scripts/\n- data/\n- screenshots/",
+  "activeForm": "Creating merkari project directory structure",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
