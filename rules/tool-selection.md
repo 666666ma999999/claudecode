@@ -61,3 +61,39 @@ Level 2: Playwright（フルブラウザ制御）→ ログイン・セッショ
 - 完了時: 全Teammate完了確認 → 結果統合 → シャットダウン → Codexレビュー
 - レビュー指摘が未解決の状態で次タスクに進行しない
 - 注意: `/resume`でTeammateは復元不可、セッションあたり1チームのみ
+
+## 3. Firecrawl実装パターン
+
+### Actionsパターン（ページ操作）
+
+`firecrawl_scrape`の`actions`パラメータでスクレイピング前にページ操作を実行:
+
+| アクション | 用途 |
+|-----------|------|
+| `click` (selector) | ボタンクリック・タブ切り替え・「もっと見る」展開 |
+| `scroll` (direction, amount) | 無限スクロールページの全件取得 |
+| `write` (text, selector) + `press` (key) | 検索フォーム入力→実行 |
+| `wait` (milliseconds) | 動的コンテンツの読み込み待機 |
+| `executeJavascript` (script) | カスタムDOM操作 |
+
+### LLM Extractパターン（構造化データ抽出）
+
+`firecrawl_extract`でJSON schemaベースの構造化データをLLMで抽出。CSSセレクタ特定が困難な場合に有効:
+
+```
+firecrawl_extract(
+  urls=["https://example.com/page"],
+  prompt="抽出指示",
+  schema={"type": "object", "properties": {...}, "required": [...]}
+)
+```
+
+- 複数URLを`urls`配列に渡して一括抽出可能
+- テーブル・リストは`array`型のschemaで抽出
+
+### バッチ最適化（map -> targeted scrape）
+
+1. `firecrawl_map`でサイト内URL一覧を取得
+2. 対象URLをフィルタリング
+3. `firecrawl_extract`で複数URLを一括抽出（最も効率的）
+4. 逐次`firecrawl_scrape`の場合はURL間に1秒以上の間隔を設ける
