@@ -1889,7 +1889,7 @@ import os
 
 def get_credentials(service_name: str) -> tuple[str, str]:
     """環境変数から認証情報を取得"""
-    prefix = service_name.upper()  # e.g., "MERCARI"
+    prefix = service_name.upper()  # e.g., "SERVICE_NAME"
     email = os.environ.get(f"{prefix}_EMAIL")
     password = os.environ.get(f"{prefix}_PASSWORD")
 
