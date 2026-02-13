@@ -3,7 +3,7 @@
   "subject": "Create project configuration files",
   "description": "Create the following files with specified content:\n- /Users/masaaki_nagasawa/Desktop/prm/merkari/CLAUDE.md\n- /Users/masaaki_nagasawa/Desktop/prm/merkari/.claude/settings.json\n- /Users/masaaki_nagasawa/Desktop/prm/merkari/.claude/settings.local.json\n- /Users/masaaki_nagasawa/Desktop/prm/merkari/.gitignore\n- /Users/masaaki_nagasawa/Desktop/prm/merkari/.claude/workspace/task.md\n- /Users/masaaki_nagasawa/Desktop/prm/merkari/data/.gitkeep\n- /Users/masaaki_nagasawa/Desktop/prm/merkari/screenshots/.gitkeep",
   "activeForm": "Creating project configuration files",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }

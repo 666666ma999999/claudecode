@@ -3,7 +3,7 @@
   "subject": "Copy and update existing mercari scripts",
   "description": "1. Copy mercari_step1.py to scripts/mercari_login.py and update paths\n2. Copy mercari_step2.py to scripts/mercari_2fa.py and update paths\n3. Copy mercari_auth_state.json to data/\n4. Update all paths in scripts to use new project directory",
   "activeForm": "Copying and updating mercari scripts",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
