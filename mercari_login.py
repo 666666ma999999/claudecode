@@ -3,12 +3,13 @@ Mercari Login Script using Playwright (sync API)
 Logs into jp.mercari.com with email/password credentials.
 Takes screenshots at each step for verification.
 
-Login flow (discovered from actual page):
+Login flow (discovered from actual page inspection):
 1. Navigate to top page (jp.mercari.com)
-2. Extract the login link href from header, then navigate to it
+2. Click header <button> with text "ログイン" (not <a>!)
+   -> This triggers JS navigation to login.jp.mercari.com
 3. On login page: enter email in "電話番号（メールアドレスも可）" field
 4. Click "次へ" button
-5. On next screen: enter password
+5. On next screen: enter password (or handle verification code)
 6. Submit login
 """
 
@@ -62,7 +63,7 @@ def main():
         page = context.new_page()
 
         # --------------------------------------------------
-        # STEP 1: Navigate to Mercari top page and find login URL
+        # STEP 1: Navigate to Mercari top page
         # --------------------------------------------------
         print("[STEP 1] Navigating to Mercari top page...")
         page.goto(BASE_URL, wait_until="domcontentloaded", timeout=30000)
@@ -70,84 +71,82 @@ def main():
         screenshot(page, "01_top_page")
         print(f"  URL: {page.url}")
 
-        # Find the login link href
-        print("  Searching for login link href...")
-        login_href = None
+        # --------------------------------------------------
+        # STEP 2: Click header login BUTTON (not link!)
+        # The login element is: <button type="button" class="sc-c2580471-1 bOhKW">ログイン</button>
+        # inside <div class="navButton__1c6d4605">
+        # --------------------------------------------------
+        print("[STEP 2] Clicking login button in header...")
 
-        # Get all links with "ログイン" text
-        login_links = page.locator('a:has-text("ログイン")')
-        count = login_links.count()
-        print(f"  Found {count} links with 'ログイン' text")
-
-        for i in range(count):
-            href = login_links.nth(i).get_attribute("href")
-            text = login_links.nth(i).inner_text().strip()
-            print(f"  Link {i}: text='{text}', href='{href}'")
-            # Pick the one that is exactly "ログイン" (not "ショップ管理画面にログイン" etc.)
-            if text == "ログイン" and href:
-                login_href = href
-                break
-
-        if not login_href:
-            # Also check for data-location or other attributes
+        # Target the specific header button, not footer links
+        login_button = page.locator('header button:has-text("ログイン")').first
+        try:
+            if login_button.is_visible(timeout=5000):
+                print("  Found header login button")
+                login_button.click()
+            else:
+                # Fallback: find button with exact text match
+                print("  Header button not found, trying broader selector...")
+                login_button = page.locator('button.sc-c2580471-1:has-text("ログイン")').first
+                if login_button.is_visible(timeout=3000):
+                    login_button.click()
+                else:
+                    # Final fallback: div.navButton button
+                    page.locator('div.navButton__1c6d4605 button').first.click()
+        except Exception as e:
+            print(f"  Click error: {e}")
+            # Very last resort: evaluate JS to click
             try:
-                header_login = page.locator('header a:has-text("ログイン")').first
-                login_href = header_login.get_attribute("href")
-                print(f"  Header login href: {login_href}")
+                page.evaluate("""() => {
+                    const buttons = document.querySelectorAll('button');
+                    for (const btn of buttons) {
+                        if (btn.textContent.trim() === 'ログイン') {
+                            btn.click();
+                            return true;
+                        }
+                    }
+                    return false;
+                }""")
+                print("  Clicked via JS evaluation")
             except Exception:
-                pass
+                print("  All click methods failed!")
 
-        if not login_href:
-            # Try clicking approach: click with Promise.all pattern
-            print("  Could not find login href. Trying click approach...")
-            try:
-                login_el = page.locator('a:has-text("ログイン")').first
-                login_el.click()
+        # Wait for navigation to login.jp.mercari.com
+        print("  Waiting for login page to load...")
+        try:
+            page.wait_for_url("**/login**", timeout=15000)
+            print(f"  Navigated to: {page.url}")
+        except PlaywrightTimeout:
+            print(f"  URL after wait: {page.url}")
+            # Check if we're still on the same page
+            if "login" not in page.url:
+                print("  Still on top page. The button click may not have triggered navigation.")
+                # Try waiting a bit more
                 page.wait_for_timeout(5000)
-                print(f"  URL after click: {page.url}")
-                if "login" in page.url:
-                    login_href = page.url  # Already navigated
-                    print(f"  Successfully navigated via click")
-            except Exception as e:
-                print(f"  Click approach failed: {e}")
-
-        # --------------------------------------------------
-        # STEP 2: Navigate to login page
-        # --------------------------------------------------
-        print(f"[STEP 2] Navigating to login page...")
-
-        if login_href and "login" not in page.url:
-            # Make absolute URL if needed
-            if login_href.startswith("/"):
-                login_href = "https://jp.mercari.com" + login_href
-            print(f"  Login URL: {login_href}")
-            page.goto(login_href, wait_until="domcontentloaded", timeout=30000)
-        elif "login" in page.url:
-            print(f"  Already on login page: {page.url}")
-        else:
-            print("  No login URL found. Trying known login URLs...")
-            # Try known Mercari login URLs
-            login_urls = [
-                "https://login.jp.mercari.com/",
-                "https://jp.mercari.com/login",
-            ]
-            for url in login_urls:
-                try:
-                    page.goto(url, wait_until="domcontentloaded", timeout=15000)
-                    page.wait_for_timeout(2000)
-                    body = page.inner_text("body")
-                    if "ログイン" in body and "ページが見つかりません" not in body:
-                        print(f"  Found working login URL: {url}")
-                        break
-                except Exception:
-                    continue
+                print(f"  URL after extra wait: {page.url}")
 
         page.wait_for_timeout(3000)
         screenshot(page, "02_login_page")
         print(f"  URL: {page.url}")
 
+        # Verify we're on a login page
+        if "login" not in page.url:
+            print("  ERROR: Not on login page!")
+            print("  Dumping page text:")
+            try:
+                print(page.inner_text("body")[:2000])
+            except Exception:
+                pass
+            print("  Browser left open for 60s.")
+            for _ in range(60):
+                time.sleep(1)
+            browser.close()
+            sys.exit(1)
+
         # --------------------------------------------------
         # STEP 3: Enter email/phone in the input field
+        # Login page label: "電話番号（メールアドレスも可）"
+        # Placeholder: "09000012345"
         # --------------------------------------------------
         print("[STEP 3] Entering email address...")
 
@@ -166,13 +165,11 @@ def main():
             try:
                 el = page.locator(selector).first
                 if el.is_visible(timeout=3000):
-                    # Make sure it's NOT the search bar
                     placeholder = el.get_attribute("placeholder") or ""
                     name_attr = el.get_attribute("name") or ""
                     print(f"  Found input: {selector} (placeholder='{placeholder}', name='{name_attr}')")
-                    # Skip if it looks like a search bar
                     if "お探し" in placeholder or "search" in name_attr.lower():
-                        print(f"  Skipping (looks like search bar)")
+                        print(f"  Skipping (search bar)")
                         continue
                     email_input = el
                     break
@@ -182,9 +179,8 @@ def main():
         if email_input is None:
             screenshot(page, "03_email_not_found")
             print("  ERROR: Could not find email input field.")
-            print("  Page text:")
             try:
-                print(page.inner_text("body")[:3000])
+                print(f"  Page text:\n{page.inner_text('body')[:3000]}")
             except Exception:
                 pass
             print("  Browser left open for 60s.")
@@ -205,10 +201,10 @@ def main():
         # --------------------------------------------------
         print("[STEP 4] Clicking '次へ' (Next) button...")
 
-        next_button = page.locator('button:has-text("次へ")').first
         try:
-            if next_button.is_visible(timeout=3000):
-                next_button.click()
+            next_btn = page.locator('button:has-text("次へ")').first
+            if next_btn.is_visible(timeout=3000):
+                next_btn.click()
                 print("  Clicked '次へ' button")
             else:
                 page.locator('button[type="submit"]').first.click()
@@ -217,6 +213,7 @@ def main():
             print("  Button click failed, pressing Enter...")
             page.keyboard.press("Enter")
 
+        # Wait for next screen
         page.wait_for_timeout(5000)
         screenshot(page, "04_after_next")
         print(f"  URL: {page.url}")
@@ -230,6 +227,8 @@ def main():
             body_text = page.inner_text("body")
         except Exception:
             body_text = ""
+
+        print(f"  Page text preview: {body_text[:500]}")
 
         # Check if this is a verification code screen
         verification_keywords = ["認証コード", "確認コード", "認証番号", "届いた", "送信しました"]
@@ -291,7 +290,7 @@ def main():
         if not password_entered:
             screenshot(page, "05_password_not_found")
             print("  Password field not found.")
-            print(f"  Page text:\n{body_text[:2000]}")
+            print(f"  Full page text:\n{body_text[:3000]}")
             print("  Browser left open for 60s.")
             for _ in range(60):
                 time.sleep(1)
