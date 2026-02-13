@@ -56,6 +56,20 @@
     "text": "{\"type\":\"idle_notification\",\"from\":\"rules-consolidator\",\"timestamp\":\"2026-02-13T08:12:42.697Z\",\"idleReason\":\"available\"}",
     "timestamp": "2026-02-13T08:12:42.697Z",
     "color": "green",
-    "read": false
+    "read": true
+  },
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"task_assignment\",\"taskId\":\"4\",\"subject\":\"Phase 2.5: Delete old rule files (10 files)\",\"description\":\"After Phase 1 and Phase 2 complete, delete the 10 old rule files that have been consolidated: quality-ops.md, completion-check.md, server-restart.md, task-management.md, docker-policy.md, skills.md, plan-execution-guide.md, debugging-strategy.md, refactoring-strategy.md, web-scraping.md, firecrawl-patterns.md, agent-teams.md, deployment.md\",\"assignedBy\":\"team-lead\",\"timestamp\":\"2026-02-13T08:12:53.343Z\"}",
+    "timestamp": "2026-02-13T08:12:53.343Z",
+    "read": true
+  },
+  {
+    "from": "memory-organizer",
+    "text": "Phase 4 complete. MEMORY.md compressed from 261 lines to 82 lines (68% reduction, well under 200 line limit).\n\nCreated 3 topic files with full archived detail:\n- `performance-tuning.md` (55 lines): Semaphore, stagger, O(N^2)→O(N), sleep optimization, batch timeout improvements\n- `step-bugs.md` (117 lines): All STEP 1-8 bug fixes (v1.46-v1.53) + test results summary table\n- `refactoring-log.md` (41 lines): v1.55-59 code reduction, refactoring, 20MB fix\n\nMEMORY.md structure:\n- **Active** (Feb 10+): CUT fix (full detail), ROHAN_DATA_DIR (design principle only), latest test results (3 lines)\n- **Critical Patterns**: Regex, CMS, Performance, Data Types, Browser -- all actionable patterns preserved\n- **Archived Lessons**: STEP, quality check, Agent Teams, AI prompt lessons -- condensed to 1-liners\n- **Topic Files**: Links to detailed archives\n\nAll files at: `/Users/masaaki/.claude/projects/-Users-masaaki-Desktop-prm-rohan/memory/`",
+    "summary": "Phase 4 done: MEMORY.md 261→82 lines, 3 topic files created",
+    "timestamp": "2026-02-13T08:12:54.634Z",
+    "color": "yellow",
+    "read": true
   }
 ]
