@@ -1,3 +1,5 @@
+<!-- このファイルはClaude-Memによる自動生成アクティビティログです。ルール定義ファイルではありません。 -->
+
 <claude-mem-context>
 # Recent Activity
 
