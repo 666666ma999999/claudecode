@@ -50,5 +50,12 @@
     "timestamp": "2026-02-13T08:12:34.708Z",
     "color": "green",
     "read": true
+  },
+  {
+    "from": "rules-consolidator",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"rules-consolidator\",\"timestamp\":\"2026-02-13T08:12:42.697Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-13T08:12:42.697Z",
+    "color": "green",
+    "read": false
   }
 ]
