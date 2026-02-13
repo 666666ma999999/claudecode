@@ -644,4 +644,4 @@ function restoreFromSession(record) {
 2. **Setterでnullクリア時にregistrationRecordもクリア**: `setMyResult(null)`で`registrationRecord.path.data`もnullにしないと、次回getterが古いデータを返してしまう。
 3. **配列型データのclearer**: 配列変数（例: `komiRegeneratedResults`）には`clear*()`関数を用意し、registrationRecordの各エントリのフィールドもクリアする。
 
-詳細な実装パターンは `rohan-ui-patterns` スキル セクション4-B を参照。
+詳細な実装パターンは `rohan-ui-patterns` スキル セクション4-B を参照（rohanプロジェクト限定）。
