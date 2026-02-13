@@ -27,7 +27,7 @@ Level 2: Playwright（フルブラウザ制御）→ ログイン・セッショ
 3. **web-list-scraper** — バッチ処理特化
 4. **Playwright系** — フルブラウザが必要な場合のみ
 
-**Firecrawl実装パターン詳細**: firecrawl-patterns.md参照
+**Firecrawl実装パターン詳細**: 下記セクション3参照（詳細例は `~/.claude/skills/web-scraping-guide/SKILL.md`）
 
 ## 2. SubAgent vs Agent Teams
 
