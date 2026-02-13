@@ -13,5 +13,20 @@
     "timestamp": "2026-02-13T08:11:56.651Z",
     "color": "blue",
     "read": true
+  },
+  {
+    "from": "skill-builder",
+    "text": "Task #1 was already completed in my previous message. All 8 skill files are created and verified. I'm idle and available for new work if needed.",
+    "summary": "Task #1 already completed, idle and available",
+    "timestamp": "2026-02-13T08:12:04.300Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "skill-builder",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"skill-builder\",\"timestamp\":\"2026-02-13T08:12:06.769Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-13T08:12:06.769Z",
+    "color": "blue",
+    "read": false
   }
 ]
