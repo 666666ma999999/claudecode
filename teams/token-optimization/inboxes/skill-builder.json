@@ -5,5 +5,11 @@
     "timestamp": "2026-02-13T08:07:07.538Z",
     "color": "blue",
     "read": true
+  },
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1770970337338@skill-builder\",\"from\":\"team-lead\",\"reason\":\"Your work is complete. Thank you for creating all 8 skills. Shutting down.\",\"timestamp\":\"2026-02-13T08:12:17.338Z\"}",
+    "timestamp": "2026-02-13T08:12:17.338Z",
+    "read": true
   }
 ]

@@ -27,6 +27,6 @@
     "text": "{\"type\":\"idle_notification\",\"from\":\"skill-builder\",\"timestamp\":\"2026-02-13T08:12:06.769Z\",\"idleReason\":\"available\"}",
     "timestamp": "2026-02-13T08:12:06.769Z",
     "color": "blue",
-    "read": false
+    "read": true
   }
 ]
