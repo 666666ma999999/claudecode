@@ -2114,14 +2114,14 @@ def collect_items_with_date_filter(page, item_selector: str, target_days_ago: in
 
 ### 使用例
 
-#### メルカリ: 直近1週間の売却済み商品
+#### ECサイト: 直近1週間の売却済み商品
 
 ```python
-page.goto("https://jp.mercari.com/search?keyword=...&status=sold_out&sort=created_time&order=desc")
+page.goto("https://example.com/search?keyword=...&status=sold&sort=created_time&order=desc")
 time.sleep(3)
 
 scroll_until_date(page, target_days_ago=7)
-urls = collect_items_with_date_filter(page, 'a[href*="/item/m"]', 7)
+urls = collect_items_with_date_filter(page, 'a[href*="/item/"]', 7)
 ```
 
 #### X/Twitter: 直近30日のツイート
