@@ -2,6 +2,14 @@
 Mercari Login Script using Playwright (sync API)
 Logs into jp.mercari.com with email/password credentials.
 Takes screenshots at each step for verification.
+
+Login flow:
+1. Navigate to top page
+2. Click login link -> navigates to login.jp.mercari.com
+3. Enter email in "phone/email" field
+4. Click "next" button
+5. Enter password on next screen
+6. Submit login
 """
 
 import os
@@ -54,129 +62,100 @@ def main():
         page = context.new_page()
 
         # --------------------------------------------------
-        # STEP 1: Navigate to Mercari top page
+        # STEP 1: Navigate directly to login page
         # --------------------------------------------------
-        print("[STEP 1] Navigating to Mercari top page...")
-        page.goto(BASE_URL, wait_until="domcontentloaded", timeout=30000)
-        page.wait_for_timeout(2000)
-        screenshot(page, "01_top_page")
-        print(f"  URL: {page.url}")
-
-        # --------------------------------------------------
-        # STEP 2: Find and click the login button/link
-        # --------------------------------------------------
-        print("[STEP 2] Looking for login button...")
-
-        login_clicked = False
-        # Try various selectors for the login link/button
-        login_selectors = [
-            'a:has-text("ログイン")',
-            'button:has-text("ログイン")',
-            '[data-testid="login-button"]',
-            '[href*="login"]',
-            '[href*="signin"]',
-            'text=ログイン',
-            'a:has-text("マイページ")',
-        ]
-
-        for selector in login_selectors:
-            try:
-                el = page.locator(selector).first
-                if el.is_visible(timeout=2000):
-                    print(f"  Found login element: {selector}")
-                    el.click()
-                    login_clicked = True
-                    break
-            except Exception:
-                continue
-
-        if not login_clicked:
-            # Fallback: navigate directly to login URL
-            print("  Login button not found, trying direct navigation...")
-            page.goto("https://jp.mercari.com/signin", wait_until="domcontentloaded", timeout=30000)
-
+        print("[STEP 1] Navigating directly to Mercari login page...")
+        page.goto("https://jp.mercari.com/signin", wait_until="domcontentloaded", timeout=30000)
         page.wait_for_timeout(3000)
-        screenshot(page, "02_login_page")
+        screenshot(page, "01_login_page")
         print(f"  URL: {page.url}")
 
         # --------------------------------------------------
-        # STEP 3: Select email login option
+        # STEP 2: Enter email/phone in the input field
+        # The login page has a single field: "phone number (email also OK)"
+        # with placeholder "09000012345"
         # --------------------------------------------------
-        print("[STEP 3] Looking for email login option...")
+        print("[STEP 2] Entering email address...")
 
-        email_option_selectors = [
-            'button:has-text("メールアドレスでログイン")',
-            'a:has-text("メールアドレスでログイン")',
-            'button:has-text("メールアドレス")',
-            'a:has-text("メールアドレス")',
-            'text=メールアドレスでログイン',
-            '[data-testid="email-login"]',
-            'button:has-text("メール")',
-        ]
-
-        email_option_clicked = False
-        for selector in email_option_selectors:
-            try:
-                el = page.locator(selector).first
-                if el.is_visible(timeout=2000):
-                    print(f"  Found email option: {selector}")
-                    el.click()
-                    email_option_clicked = True
-                    break
-            except Exception:
-                continue
-
-        if not email_option_clicked:
-            print("  Email login option not found as a separate button.")
-            print("  Checking if email input is already visible...")
-
-        page.wait_for_timeout(2000)
-        screenshot(page, "03_email_option")
-        print(f"  URL: {page.url}")
-
-        # --------------------------------------------------
-        # STEP 4: Enter email address
-        # --------------------------------------------------
-        print("[STEP 4] Entering email address...")
-
-        email_selectors = [
-            'input[type="email"]',
-            'input[name="email"]',
-            'input[placeholder*="メール"]',
-            'input[placeholder*="email"]',
-            'input[autocomplete="email"]',
+        # The login page field label: "電話番号（メールアドレスも可）"
+        # Try multiple selectors for the phone/email input
+        email_input_selectors = [
+            'input[placeholder="09000012345"]',
+            'input[name="phoneOrEmail"]',
             'input[name="loginId"]',
+            'input[name="phone"]',
+            'input[type="tel"]',
+            'input[type="email"]',
             'input[type="text"]',
         ]
 
         email_entered = False
-        for selector in email_selectors:
+        for selector in email_input_selectors:
             try:
                 el = page.locator(selector).first
-                if el.is_visible(timeout=2000):
-                    print(f"  Found email input: {selector}")
+                if el.is_visible(timeout=3000):
+                    print(f"  Found input: {selector}")
                     el.click()
+                    page.wait_for_timeout(500)
                     el.fill(EMAIL)
                     email_entered = True
                     break
-            except Exception:
+            except Exception as e:
+                print(f"  Selector {selector} failed: {e}")
                 continue
 
         if not email_entered:
-            screenshot(page, "04_email_not_found")
+            screenshot(page, "02_email_not_found")
             print("  ERROR: Could not find email input field.")
-            print("  Page content sample:")
-            print(page.content()[:3000])
+            # Dump page structure for debugging
+            print("  Page text:")
+            try:
+                print(page.inner_text("body")[:2000])
+            except Exception:
+                pass
             browser.close()
             sys.exit(1)
 
         page.wait_for_timeout(1000)
-        screenshot(page, "04_email_entered")
+        screenshot(page, "02_email_entered")
 
         # --------------------------------------------------
-        # STEP 5: Enter password
+        # STEP 3: Click "next" button
         # --------------------------------------------------
-        print("[STEP 5] Entering password...")
+        print("[STEP 3] Clicking 'next' button...")
+
+        next_selectors = [
+            'button:has-text("次へ")',
+            'button[type="submit"]',
+            'input[type="submit"]',
+        ]
+
+        next_clicked = False
+        for selector in next_selectors:
+            try:
+                el = page.locator(selector).first
+                if el.is_visible(timeout=3000):
+                    print(f"  Found next button: {selector}")
+                    el.click()
+                    next_clicked = True
+                    break
+            except Exception:
+                continue
+
+        if not next_clicked:
+            print("  Next button not found, pressing Enter...")
+            page.keyboard.press("Enter")
+
+        # Wait for next page to load
+        page.wait_for_timeout(5000)
+        screenshot(page, "03_after_next")
+        print(f"  URL: {page.url}")
+
+        # --------------------------------------------------
+        # STEP 4: Enter password
+        # The next screen should show a password field
+        # --------------------------------------------------
+        print("[STEP 4] Looking for password field...")
 
         password_selectors = [
             'input[type="password"]',
@@ -189,9 +168,10 @@ def main():
         for selector in password_selectors:
             try:
                 el = page.locator(selector).first
-                if el.is_visible(timeout=2000):
+                if el.is_visible(timeout=5000):
                     print(f"  Found password input: {selector}")
                     el.click()
+                    page.wait_for_timeout(500)
                     el.fill(PASSWORD)
                     password_entered = True
                     break
@@ -199,68 +179,50 @@ def main():
                 continue
 
         if not password_entered:
-            # Password field might appear after submitting email
-            print("  Password field not visible yet. Trying to submit email first...")
+            screenshot(page, "04_password_not_found")
+            print("  Password field not found.")
+            print("  Checking page content for clues...")
+            try:
+                body_text = page.inner_text("body")
+                print(f"  Page text (first 2000 chars):\n{body_text[:2000]}")
+            except Exception:
+                pass
 
-            # Look for a "next" or "continue" button
-            next_selectors = [
-                'button:has-text("次へ")',
-                'button:has-text("ログイン")',
-                'button[type="submit"]',
-                'input[type="submit"]',
-                'button:has-text("Continue")',
-                'button:has-text("Next")',
-            ]
-            for selector in next_selectors:
-                try:
-                    el = page.locator(selector).first
-                    if el.is_visible(timeout=2000):
-                        print(f"  Clicking next/submit: {selector}")
-                        el.click()
-                        break
-                except Exception:
-                    continue
+            # Maybe it's a verification code screen or different flow
+            # Check if there's a "verification code" or SMS screen
+            try:
+                body_text = page.inner_text("body")
+                if "認証" in body_text or "コード" in body_text or "SMS" in body_text:
+                    print("\n  ** This appears to be a verification/SMS code screen. **")
+                    print("  Mercari may use passwordless login (SMS/email verification code).")
+                    print("  Browser left open for 60s for manual completion.")
+                    for _ in range(60):
+                        time.sleep(1)
+                    screenshot(page, "04_final_state")
+                    browser.close()
+                    sys.exit(0)
+            except Exception:
+                pass
 
-            page.wait_for_timeout(3000)
-            screenshot(page, "05_after_email_submit")
-
-            # Try password fields again
-            for selector in password_selectors:
-                try:
-                    el = page.locator(selector).first
-                    if el.is_visible(timeout=3000):
-                        print(f"  Found password input (2nd attempt): {selector}")
-                        el.click()
-                        el.fill(PASSWORD)
-                        password_entered = True
-                        break
-                except Exception:
-                    continue
-
-        if not password_entered:
-            screenshot(page, "05_password_not_found")
-            print("  ERROR: Could not find password input field.")
-            print("  Page content sample:")
-            print(page.content()[:3000])
-            # Keep browser open for manual inspection (30s)
-            print("  Browser left open for 30s for inspection.")
-            time.sleep(30)
+            print("  Browser left open for 60s for inspection.")
+            for _ in range(60):
+                time.sleep(1)
             browser.close()
             sys.exit(1)
 
         page.wait_for_timeout(1000)
-        screenshot(page, "05_password_entered")
+        screenshot(page, "04_password_entered")
 
         # --------------------------------------------------
-        # STEP 6: Click the login/submit button
+        # STEP 5: Click login/submit button
         # --------------------------------------------------
-        print("[STEP 6] Clicking login button...")
+        print("[STEP 5] Clicking login button...")
 
         submit_selectors = [
+            'button:has-text("ログインする")',
             'button:has-text("ログイン")',
             'button[type="submit"]',
             'input[type="submit"]',
-            'button:has-text("ログインする")',
             'button:has-text("サインイン")',
         ]
 
@@ -268,7 +230,7 @@ def main():
         for selector in submit_selectors:
             try:
                 el = page.locator(selector).first
-                if el.is_visible(timeout=2000):
+                if el.is_visible(timeout=3000):
                     print(f"  Clicking submit: {selector}")
                     el.click()
                     submit_clicked = True
@@ -277,22 +239,24 @@ def main():
                 continue
 
         if not submit_clicked:
-            # Try pressing Enter as fallback
             print("  Submit button not found, pressing Enter...")
             page.keyboard.press("Enter")
 
         # Wait for navigation / response
         page.wait_for_timeout(5000)
-        screenshot(page, "06_after_login_click")
+        screenshot(page, "05_after_login_click")
         print(f"  URL: {page.url}")
 
         # --------------------------------------------------
-        # STEP 7: Check for 2FA or successful login
+        # STEP 6: Check for 2FA or successful login
         # --------------------------------------------------
-        print("[STEP 7] Checking login result...")
+        print("[STEP 6] Checking login result...")
 
         current_url = page.url
-        page_text = page.inner_text("body")
+        try:
+            page_text = page.inner_text("body")
+        except Exception:
+            page_text = ""
 
         # Check for 2FA / verification
         twofa_keywords = [
@@ -303,8 +267,9 @@ def main():
             "本人確認",
             "verification",
             "verify",
-            "電話番号",
+            "電話番号に届いた",
             "セキュリティコード",
+            "認証番号",
         ]
 
         is_2fa = False
@@ -315,11 +280,11 @@ def main():
                 break
 
         if is_2fa:
-            screenshot(page, "07_2fa_required")
+            screenshot(page, "06_2fa_required")
             print("\n" + "=" * 60)
             print("2-STEP VERIFICATION REQUIRED")
             print("Please complete the verification in the browser window.")
-            print("The script will wait. Press Ctrl+C to exit when done.")
+            print("The script will wait up to 120 seconds.")
             print("=" * 60)
 
             # Wait for user to complete 2FA (up to 120 seconds)
@@ -329,11 +294,11 @@ def main():
                     new_url = page.url
                     if new_url != current_url and "signin" not in new_url and "login" not in new_url:
                         print(f"\n  Login appears successful! URL: {new_url}")
-                        screenshot(page, "08_login_success")
+                        screenshot(page, "07_login_success")
                         break
                 else:
                     print("\n  2FA wait timed out (120s). Taking final screenshot.")
-                    screenshot(page, "08_2fa_timeout")
+                    screenshot(page, "07_2fa_timeout")
             except KeyboardInterrupt:
                 print("\n  User interrupted.")
 
@@ -347,23 +312,22 @@ def main():
                 break
 
         if has_error:
-            screenshot(page, "07_login_error")
+            screenshot(page, "06_login_error")
             print("  Login may have failed. Check the screenshot.")
 
         # Check if we are on the main page (login successful)
         if not is_2fa and not has_error:
             if "signin" not in current_url and "login" not in current_url:
                 print("  Login appears successful!")
-                screenshot(page, "07_login_success")
+                screenshot(page, "06_login_success")
             else:
                 print("  Still on login-related page. May need manual verification.")
-                screenshot(page, "07_still_on_login")
+                screenshot(page, "06_still_on_login")
 
         # --------------------------------------------------
         # Keep browser open for inspection (30 seconds)
         # --------------------------------------------------
         print("\n[DONE] Browser is kept open for 30 seconds for inspection.")
-        print("Press Ctrl+C to close earlier.")
         try:
             for i in range(30):
                 time.sleep(1)
