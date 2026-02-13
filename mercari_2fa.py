@@ -29,7 +29,7 @@ def main():
                 login_btn.first.click()
             else:
                 print("  ログインボタンが見つからないため、直接signinページへ遷移")
-                page.goto("https://jp.mercari.com/signin", wait_until="networkidle")
+                page.goto("https://jp.mercari.com/signin", wait_until="domcontentloaded")
 
             time.sleep(3)
             page.screenshot(path=f"{screenshots_dir}/2fa_01_login_page.png")
