@@ -64,7 +64,7 @@
 - 構造分析担当のTeammateには`repomix pack_codebase`で圧縮概要を渡し、トークン効率を上げること
 → 該当しない場合はstep 4へスキップ
 
-### 4. AskUserQuestionで軌道確認
+### 5. AskUserQuestionで軌道確認
 - 設計内容をユーザーに提示し、方向性を確認する
 - Agent Teams使用時はチーム構成も提示する
 - 承認を得てから次へ進む
