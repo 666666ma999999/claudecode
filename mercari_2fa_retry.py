@@ -25,7 +25,7 @@ def main():
             time.sleep(2)
 
             print("Step 2: メールアドレス入力...")
-            page.wait_for_load_state("networkidle")
+            page.wait_for_load_state("domcontentloaded")
             email_input = page.locator('input').first
             email_input.fill("100ameros@gmail.com")
             time.sleep(0.5)
