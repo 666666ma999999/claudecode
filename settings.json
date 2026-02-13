@@ -120,6 +120,15 @@
             "command": "~/.claude/hooks/firecrawl-start.sh"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/data-retention.sh"
+          }
+        ]
       }
     ],
     "PreToolUse": [
