@@ -2168,6 +2168,54 @@ scroll_until_date(page, target_days_ago=3)
 - **日付がDOM上にない場合**（例: 商品一覧に日付が表示されず、詳細ページにのみある場合）は、各詳細ページにアクセスして日付をチェックする2段階方式が必要。
 - **レート制限**: 大量スクロールはサーバー負荷になるため、`wait_for_timeout`を適切に設定する。
 
+## Playwright MCP ブラウザキャッシュ問題
+
+### 問題
+
+Playwright MCPブラウザは永続キャッシュを保持する。以下の操作ではクリアされない：
+- `location.reload(true)`
+- タブを閉じて再開
+- `page.reload()`
+
+開発中にFE変更を反映させたい場合、ブラウザキャッシュが原因で古いCSS/JSが使われ続ける。
+
+### 解決策1: CDPセッション経由（即時）
+
+```python
+# ブラウザキャッシュをクリア
+client = await page.context.new_cdp_session(page)
+await client.send('Network.clearBrowserCache')
+await page.reload()
+```
+
+### 解決策2: サーバー側NoCacheMiddleware（根本対策）
+
+```python
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request
+from starlette.responses import Response
+
+class NoCacheMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        response = await call_next(request)
+        path = request.url.path
+        content_type = response.headers.get("content-type", "")
+
+        if (path.endswith(('.js', '.css', '.html')) or
+            path == '/' or
+            'text/html' in content_type):
+            response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+            response.headers["Pragma"] = "no-cache"
+            response.headers["Expires"] = "0"
+        return response
+```
+
+### 注意: StaticFiles(html=True)
+
+FastAPIの `StaticFiles(html=True)` はURLパスに `.html` がなくてもHTMLを返すため、ファイル拡張子チェックだけでは不十分。`content-type` ヘッダーも併せてチェックすること。
+
+---
+
 ## Rohan プロキシ認証パターン
 
 Rohanプロジェクト固有のSquidプロキシ経由アクセスパターン。
