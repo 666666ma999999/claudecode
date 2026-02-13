@@ -28,5 +28,12 @@
     "timestamp": "2026-02-13T08:12:06.769Z",
     "color": "blue",
     "read": true
+  },
+  {
+    "from": "skill-builder",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770970337338@skill-builder\",\"from\":\"skill-builder\",\"timestamp\":\"2026-02-13T08:12:22.245Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-13T08:12:22.245Z",
+    "color": "blue",
+    "read": true
   }
 ]
