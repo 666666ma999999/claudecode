@@ -71,5 +71,12 @@
     "timestamp": "2026-02-13T08:12:54.634Z",
     "color": "yellow",
     "read": true
+  },
+  {
+    "from": "memory-organizer",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"memory-organizer\",\"timestamp\":\"2026-02-13T08:13:00.419Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-13T08:13:00.419Z",
+    "color": "yellow",
+    "read": false
   }
 ]
