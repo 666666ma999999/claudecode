@@ -36,11 +36,17 @@
 
 標準タスクの場合、以下の順序で実行すること：
 
-### 1. Planモードで開始
+### 1. 既存スキル検索（Planモード前）
+- **自分のスキル確認**: Explore SubAgentで `~/.claude/skills/` と `.claude/skills/` を調査し、タスクに使える既存スキルがないか確認する
+- **外部スキル検索**: `find-skills`スキルで世の中に公開されているインストール可能なスキルを検索する
+- → 既存スキルで解決できる場合はPlanモード不要。スキルを実行して完了
+- → なければ次のステップへ
+
+### 2. Planモードで開始
 - `EnterPlanMode`でタスクを開始する
 - 直接実装に入らない
 
-### 2. Explore SubAgentで調査
+### 3. Explore SubAgentで調査
 - `Task(subagent_type=Explore)`でコードベース・既存実装を調査する
 - **大規模コードベース（>100KB）の構造把握には`repomix pack_codebase`で圧縮概要を先に取得し、詳細はRead/Grepで絞り込む**よう指示すること
 - 影響範囲・依存関係を把握する
