@@ -1901,15 +1901,15 @@ def get_credentials(service_name: str) -> tuple[str, str]:
     return email, password
 
 # 使用例
-email, password = get_credentials("MERCARI")
+email, password = get_credentials("SERVICE_NAME")
 ```
 
 ### .envファイル（gitignore対象）
 
 ```bash
 # .env
-MERCARI_EMAIL=user@example.com
-MERCARI_PASSWORD=your_password
+SERVICE_NAME_EMAIL=user@example.com
+SERVICE_NAME_PASSWORD=your_password
 ```
 
 ### .envの読み込み（python-dotenvなし）
