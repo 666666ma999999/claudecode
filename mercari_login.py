@@ -10,6 +10,9 @@ import time
 from datetime import datetime
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
 
+# Force unbuffered output
+sys.stdout.reconfigure(line_buffering=True)
+
 # Configuration
 EMAIL = "100ameros@gmail.com"
 PASSWORD = "carrY-0011"
