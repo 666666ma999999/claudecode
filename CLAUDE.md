@@ -69,7 +69,7 @@
 - Agent Teams使用時はチーム構成も提示する
 - 承認を得てから次へ進む
 
-### 5. ClearContextで実装開始
+### 6. ClearContextで実装開始
 - `ExitPlanMode`で実装フェーズへ移行する
 - コンテキストをクリアし、実装に集中する
 
