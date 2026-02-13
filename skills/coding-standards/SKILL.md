@@ -529,3 +529,44 @@ async def register_ppv_detail():
 
 - **fe-be-integration**: FE/BE統合パターン、CamelCaseModelの詳細実装
 - **process-state-management**: セッションデータの構造設計
+
+## 汎用コード品質チェックリスト（Codexレビュー知見）
+
+プロジェクト横断で発生しやすい落とし穴パターン。コードレビュー時に確認すること。
+
+### Disconnected Pipe Pattern（最重要）
+
+Optional引数（`default=None`）を持つ関数チェーンで、A→B→C の中間Bでパラメータが渡されていなくても、デフォルト値で静かに動作してしまう問題。
+
+```python
+# ❌ 危険: BがCにparamを渡し忘れても、Cはdefault=Noneで動く
+def A(): B(param="value")
+def B(param=None): C()          # paramをCに渡し忘れ
+def C(param=None): use(param)   # Noneで動作 → バグが隠れる
+```
+
+**対策**: パラメータを追加・変更した際は、`grep -rn "関数名"` で全呼び出し元を検索し、値が正しく伝搬しているか確認する。
+
+### JavaScript落とし穴
+
+| パターン | 問題 | 対策 |
+|---------|------|------|
+| `if (value)` で数値チェック | `0` が falsy → 見逃す | `value != null` を使う |
+| `escapeHtml(!str)` | `0`, `false` が空文字になる | `=== null \|\| === undefined` で明示チェック |
+| Dict値をそのまま表示 | `[object Object]` になる | `JSON.stringify()` または個別フィールド参照 |
+| ハードコード件数 `totalItems=19` | 項目追加時に不整合 | `document.querySelectorAll('.item').length` で動的取得 |
+
+### セキュリティ（OWASP関連）
+
+| パターン | リスク | 対策 |
+|---------|--------|------|
+| inline onclick + 文字列補間 | XSS | `data-*` 属性 + `addEventListener` |
+| ユーザー入力をファイルパスに使用 | Path Traversal | バリデーション（`..` 排除、ホワイトリスト） |
+| API応答に内部パス含む | 情報漏洩 | `str(e)` を返さず、ログのみに記録 |
+| APIデータ由来のCSS class名 | CSS Injection | ホワイトリスト検証してから適用 |
+
+### Python非同期
+
+| パターン | リスク | 対策 |
+|---------|--------|------|
+| `asyncio.Lock()` をクラス変数に定義 | 複数イベントループで共有 → cross-loop risk | インスタンス変数に定義、または `__init__` 内で初期化 |
