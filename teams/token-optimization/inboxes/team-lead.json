@@ -114,5 +114,19 @@
     "timestamp": "2026-02-13T08:13:20.744Z",
     "color": "yellow",
     "read": true
+  },
+  {
+    "from": "memory-organizer",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"memory-organizer\",\"timestamp\":\"2026-02-13T08:13:27.853Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-13T08:13:27.853Z",
+    "color": "yellow",
+    "read": true
+  },
+  {
+    "from": "memory-organizer",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770970392797@memory-organizer\",\"from\":\"memory-organizer\",\"timestamp\":\"2026-02-13T08:13:31.182Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-13T08:13:31.182Z",
+    "color": "yellow",
+    "read": true
   }
 ]
