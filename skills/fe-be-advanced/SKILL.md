@@ -221,12 +221,12 @@ await registerMenu({ yudo_ppv_id_01: yudo.ppv01, ... });
 
 ## 参照ファイル
 
-- `references/api-patterns.md` - APIエンドポイント設計パターン
-- `references/fallback-patterns.md` - フォールバック実装パターン
-- `references/validation-patterns.md` - バリデーション設計パターン
-- `references/progress-patterns.md` - 進捗追跡パターン
-- `references/cleanup-patterns.md` - 統合後のコードクリーンアップパターン
-- `references/structured-data-patterns.md` - 構造化データ管理パターン（文字列置換からの移行）
+- `../fe-be-integration/references/api-patterns.md` - APIエンドポイント設計パターン
+- `../fe-be-integration/references/fallback-patterns.md` - フォールバック実装パターン
+- `../fe-be-integration/references/validation-patterns.md` - バリデーション設計パターン
+- `../fe-be-integration/references/progress-patterns.md` - 進捗追跡パターン
+- `../fe-be-integration/references/cleanup-patterns.md` - 統合後のコードクリーンアップパターン
+- `../fe-be-integration/references/structured-data-patterns.md` - 構造化データ管理パターン（文字列置換からの移行）
 
 ## デバッグTip: セッションファイルによるデータフロー追跡
 
