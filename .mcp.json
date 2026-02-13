@@ -28,7 +28,7 @@
         "-y",
         "@henkey/postgres-mcp-server",
         "--connection-string",
-        "postgresql://postgres@localhost:5432/postgres"
+        "postgresql://merkari:merkari_pass@localhost:5433/merkari"
       ]
     },
     "repomix": {
