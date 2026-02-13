@@ -1,0 +1,13 @@
+{
+  "id": "1",
+  "subject": "Phase 1: Create 8 new skills from rule files",
+  "description": "Create skill files as safety net before deleting rule files. 8 skills total: debugging-guide, refactoring-guide, agent-teams-ops, web-scraping-guide, memory-system-guide, task-planner merge, deployment project skill, playwright-browser-automation merge.",
+  "activeForm": "Creating skill files from rule content",
+  "status": "in_progress",
+  "blocks": [
+    "4",
+    "5"
+  ],
+  "blockedBy": [],
+  "owner": "skill-builder"
+}
