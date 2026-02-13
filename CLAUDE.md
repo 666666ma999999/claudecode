@@ -52,11 +52,11 @@
 - 影響範囲・依存関係を把握する
 - **業界標準の解決策を`WebSearch`等で調査し、それを参考にアプローチを設計する**（独自実装より標準的手法を優先）
 
-### 3. Plan SubAgentで仕様設計
+### 4. Plan SubAgentで仕様設計
 - `Task(subagent_type=Plan)`で実装計画を策定する
 - ファイル単位・関数単位まで具体化する
 
-### 3.5. Agent Teams判定
+### 4.5. Agent Teams判定
 以下に該当する場合、Agent Teamsの使用を提案する（詳細は`rules/agent-teams.md`参照）：
 - 3つ以上の独立した視点での調査・レビューが必要
 - FE/BE/テストなど異なるレイヤーの同時実装が必要
