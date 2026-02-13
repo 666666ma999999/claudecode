@@ -361,15 +361,15 @@ def main():
                 screenshot(page, "07_still_on_login")
 
         # --------------------------------------------------
-        # Keep browser open for inspection
+        # Keep browser open for inspection (30 seconds)
         # --------------------------------------------------
-        print("\n[DONE] Browser is kept open for inspection.")
-        print("Press Ctrl+C to close the browser and exit.")
+        print("\n[DONE] Browser is kept open for 30 seconds for inspection.")
+        print("Press Ctrl+C to close earlier.")
         try:
-            while True:
+            for i in range(30):
                 time.sleep(1)
         except KeyboardInterrupt:
-            print("\nClosing browser...")
+            print("\nClosing browser early...")
 
         browser.close()
         print("Browser closed. Script finished.")
