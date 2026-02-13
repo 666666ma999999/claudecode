@@ -3,12 +3,13 @@
   "subject": "Phase 5: Verification - coverage check and keyword grep",
   "description": "Verify all content from deleted files exists in new files + skills. Run keyword grep. Check skill discoverability.",
   "activeForm": "Verifying optimization results",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": [
     "1",
     "2",
     "3",
     "4"
-  ]
+  ],
+  "owner": "team-lead"
 }

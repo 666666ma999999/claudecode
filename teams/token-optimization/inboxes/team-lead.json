@@ -77,6 +77,34 @@
     "text": "{\"type\":\"idle_notification\",\"from\":\"memory-organizer\",\"timestamp\":\"2026-02-13T08:13:00.419Z\",\"idleReason\":\"available\"}",
     "timestamp": "2026-02-13T08:13:00.419Z",
     "color": "yellow",
-    "read": false
+    "read": true
+  },
+  {
+    "from": "memory-organizer",
+    "text": "Task #3 is already completed. I finished all the work earlier in this session:\n\n- MEMORY.md: 261 → 82 lines (68% reduction)\n- 3 topic files created: performance-tuning.md (55L), step-bugs.md (117L), refactoring-log.md (41L)\n\nAll actionable knowledge is preserved. No further work needed on this task.",
+    "summary": "Task #3 already completed, no further work needed",
+    "timestamp": "2026-02-13T08:13:06.600Z",
+    "color": "yellow",
+    "read": true
+  },
+  {
+    "from": "memory-organizer",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"memory-organizer\",\"timestamp\":\"2026-02-13T08:13:08.848Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-13T08:13:08.848Z",
+    "color": "yellow",
+    "read": true
+  },
+  {
+    "from": "rules-consolidator",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1770970385354@rules-consolidator\",\"from\":\"rules-consolidator\",\"timestamp\":\"2026-02-13T08:13:09.283Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-13T08:13:09.283Z",
+    "color": "green",
+    "read": true
+  },
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"task_assignment\",\"taskId\":\"5\",\"subject\":\"Phase 5: Verification - coverage check and keyword grep\",\"description\":\"Verify all content from deleted files exists in new files + skills. Run keyword grep. Check skill discoverability.\",\"assignedBy\":\"team-lead\",\"timestamp\":\"2026-02-13T08:13:12.065Z\"}",
+    "timestamp": "2026-02-13T08:13:12.065Z",
+    "read": true
   }
 ]
