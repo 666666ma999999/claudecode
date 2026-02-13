@@ -16,7 +16,7 @@ def main():
 
         try:
             print("Step 1: トップページアクセス...")
-            page.goto("https://jp.mercari.com/", wait_until="networkidle", timeout=30000)
+            page.goto("https://jp.mercari.com/", wait_until="domcontentloaded", timeout=60000)
             time.sleep(1)
 
             login_btn = page.locator('button:has-text("ログイン"), a:has-text("ログイン")')
