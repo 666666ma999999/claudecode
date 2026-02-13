@@ -1,0 +1,19 @@
+{
+  "name": "token-optimization",
+  "description": "Claude Code token optimization - restructure rules, create skills, compress MEMORY.md",
+  "createdAt": 1770969927621,
+  "leadAgentId": "team-lead@token-optimization",
+  "leadSessionId": "81b65a50-42d2-463d-8293-60f8b1be43a4",
+  "members": [
+    {
+      "agentId": "team-lead@token-optimization",
+      "name": "team-lead",
+      "agentType": "team-lead",
+      "model": "claude-opus-4-6",
+      "joinedAt": 1770969927621,
+      "tmuxPaneId": "",
+      "cwd": "/Users/masaaki/Desktop/prm/rohan",
+      "subscriptions": []
+    }
+  ]
+}
