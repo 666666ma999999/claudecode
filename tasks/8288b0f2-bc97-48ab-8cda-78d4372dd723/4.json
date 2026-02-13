@@ -3,7 +3,7 @@
   "subject": "Initialize git repository",
   "description": "Run git init in /Users/masaaki_nagasawa/Desktop/prm/merkari/ and make initial commit",
   "activeForm": "Initializing git repository",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }
