@@ -36,8 +36,8 @@
 backend/main.py・フロントエンド・設定ファイルを編集した場合のみ実行。**確認なしで自動実行**。
 
 ```
-1. ./stop_servers.sh && ./start_unified_server.sh
-2. curl -s -o /dev/null -w "%{http_code}" http://localhost:5558/ で200確認
+1. プロジェクトのサーバー再起動スクリプトを実行
+2. ヘルスチェックエンドポイントで正常応答を確認
 3. 動作確認
 ```
 
