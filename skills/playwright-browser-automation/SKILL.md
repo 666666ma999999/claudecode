@@ -1931,7 +1931,7 @@ def load_env(env_path: str = ".env"):
 
 # スクリプト冒頭で呼び出し
 load_env()
-email, password = get_credentials("MERCARI")
+email, password = get_credentials("SERVICE_NAME")
 ```
 
 ### .gitignoreへの追記（必須）
