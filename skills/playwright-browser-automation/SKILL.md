@@ -2167,3 +2167,84 @@ scroll_until_date(page, target_days_ago=3)
 - **ページネーション型サイト**（スクロールではなく「次へ」ボタン）にはこのパターンは不適合。別途ページネーション対応が必要。
 - **日付がDOM上にない場合**（例: 商品一覧に日付が表示されず、詳細ページにのみある場合）は、各詳細ページにアクセスして日付をチェックする2段階方式が必要。
 - **レート制限**: 大量スクロールはサーバー負荷になるため、`wait_for_timeout`を適切に設定する。
+
+## Rohan プロキシ認証パターン
+
+Rohanプロジェクト固有のSquidプロキシ経由アクセスパターン。
+
+### Python Playwright認証パターン（必須）
+
+プロキシ認証は**ブラウザ起動時**に設定すること（context単位では設定不可）：
+
+```python
+import base64
+from playwright.async_api import async_playwright
+
+async def main():
+    async with async_playwright() as p:
+        # ブラウザレベルでプロキシ認証を設定
+        browser = await p.chromium.launch(
+            proxy={
+                "server": "http://proxy.example.com:3128",
+                "username": "media-masaaki",
+                "password": "wWFBdtwo",
+                "bypass": "localhost,127.0.0.1"
+            }
+        )
+
+        # サイトのBasic認証が必要な場合はURLに埋め込む
+        # ※ extra_http_headersはSquidプロキシ経由で消失するため使用禁止
+        from urllib.parse import quote
+        user = quote("cpadmin", safe="")
+        passwd = quote("arfni9134", safe="")
+        context = await browser.new_context(
+            ignore_https_errors=True
+        )
+
+        page = await context.new_page()
+        await page.goto(f"https://{user}:{passwd}@izumo-dev.uranai-gogo.com/admin/")
+        # ... 処理続行
+```
+
+### `_embed_auth_in_url()` ヘルパー
+
+```python
+# URLに認証情報を埋め込む（_embed_auth_in_url()ヘルパーを使用）
+from urllib.parse import urlsplit, urlunsplit, quote
+
+def _embed_auth_in_url(url: str, username: str, password: str) -> str:
+    parts = urlsplit(url)
+    netloc = f"{quote(username, safe='')}:{quote(password, safe='')}@{parts.hostname}"
+    if parts.port:
+        netloc += f":{parts.port}"
+    return urlunsplit((parts.scheme, netloc, parts.path, parts.query, parts.fragment))
+
+url = _embed_auth_in_url("https://izumo-dev.uranai-gogo.com/admin/", "cpadmin", "arfni9134")
+await page.goto(url)
+```
+
+### 禁止パターン（動作しない）
+
+```python
+# 1. http_credentialsはプロキシ認証に対応しない
+context = await browser.new_context(
+    http_credentials={"username": "...", "password": "..."}  # 動作しない
+)
+
+# 2. extra_http_headersはSquidプロキシ経由で消失する（401エラーの原因）
+context = await browser.new_context(
+    extra_http_headers={"Authorization": "Basic ..."}  # プロキシが消す
+)
+
+# 3. proxy引数なしのブラウザ起動
+browser = await p.chromium.launch()  # プロキシが使われない
+```
+
+### トラブルシューティング
+
+| エラー | 原因 | 対応 |
+|--------|------|------|
+| 407 Proxy Authentication Required | プロキシ認証が設定されていない | ブラウザ起動時に`proxy`引数を設定 |
+| 401 Unauthorized | サイトBasic認証が設定されていない | URLに認証情報を埋め込む |
+| SSL: CERTIFICATE_VERIFY_FAILED | HTTPS証明書検証エラー | コンテキスト作成時に`ignore_https_errors=True`を設定 |
+| ECONNREFUSED | プロキシサーバーに接続できない | プロキシアドレス・ポート番号を確認 |
