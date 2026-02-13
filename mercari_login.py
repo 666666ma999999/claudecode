@@ -242,13 +242,9 @@ def main():
             print("  ERROR: Could not find password input field.")
             print("  Page content sample:")
             print(page.content()[:3000])
-            # Keep browser open for manual inspection
-            print("  Browser left open for inspection. Press Ctrl+C to exit.")
-            try:
-                while True:
-                    time.sleep(1)
-            except KeyboardInterrupt:
-                pass
+            # Keep browser open for manual inspection (30s)
+            print("  Browser left open for 30s for inspection.")
+            time.sleep(30)
             browser.close()
             sys.exit(1)
 
