@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "Add CUT preview feature to auto.html",
-  "description": "Add CUT preview functionality including HTML section, CSS styles, JavaScript functions, display trigger, and config.js endpoint. 6 specific changes across 2 files.",
-  "activeForm": "Adding CUT preview feature to auto.html",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
