@@ -326,15 +326,18 @@ def main():
             print("The script will wait. Press Ctrl+C to exit when done.")
             print("=" * 60)
 
-            # Wait for user to complete 2FA
+            # Wait for user to complete 2FA (up to 120 seconds)
             try:
-                while True:
+                for _ in range(60):
                     time.sleep(2)
                     new_url = page.url
                     if new_url != current_url and "signin" not in new_url and "login" not in new_url:
                         print(f"\n  Login appears successful! URL: {new_url}")
                         screenshot(page, "08_login_success")
                         break
+                else:
+                    print("\n  2FA wait timed out (120s). Taking final screenshot.")
+                    screenshot(page, "08_2fa_timeout")
             except KeyboardInterrupt:
                 print("\n  User interrupted.")
 
