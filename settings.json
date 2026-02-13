@@ -220,5 +220,6 @@
   "teammateMode": "in-process",
   "feedbackSurveyState": {
     "lastShownTime": 1754026768941
-  }
+  },
+  "skipDangerousModePermissionPrompt": true
 }
