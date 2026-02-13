@@ -73,7 +73,7 @@
 - `ExitPlanMode`で実装フェーズへ移行する
 - コンテキストをクリアし、実装に集中する
 
-### 5.5. Worktree作成（任意・推奨）
+### 6.5. Worktree作成（任意・推奨）
 
 実装が既存コードへの影響リスクを伴う場合、git worktreeで隔離されたワークスペースの作成を提案する:
 - `git worktree add .worktrees/<feature-name> -b <branch-name>`
