@@ -1677,3 +1677,267 @@ class NewAutomation(BaseBrowserAutomation):
         super().__init__()
         self.config = config
 ```
+
+## 2FA一時停止→CDP再接続パターン（2段階ログインフロー）
+
+SMS認証など2FAが必須のサイトで、認証コード入力をユーザーに委ねる2段階フロー。
+
+### 問題
+
+2FAが必須のサイトでは、スクリプトを1回で完結できない。再ログインすると新しい認証コードが発行されるため、コード取得後に再実行しても古いコードは無効になる。
+
+### 解決策: ブラウザを開いたまま2段階に分離
+
+**Step 1: ログイン→2FA画面で停止（ブラウザ維持）**
+
+```python
+from playwright.sync_api import sync_playwright
+import time, os
+
+def login_and_wait_for_2fa(email: str, password: str, login_url: str):
+    """ログインし、2FA画面でブラウザを開いたまま停止"""
+    with sync_playwright() as p:
+        browser = p.chromium.launch(
+            headless=False,
+            slow_mo=300,
+            args=["--remote-debugging-port=9333"]  # CDP接続用ポート
+        )
+        context = browser.new_context(
+            viewport={"width": 1280, "height": 800},
+            locale="ja-JP",
+            timezone_id="Asia/Tokyo"
+        )
+        page = context.new_page()
+
+        # ログイン処理（サイト固有）
+        page.goto(login_url, wait_until="domcontentloaded", timeout=60000)
+        # ... メール入力、パスワード入力、送信 ...
+
+        print("2FA画面に到達。認証コードを待機中...")
+        print("Step 2スクリプトで認証コードを入力してください。")
+
+        # ブラウザを開いたまま最大10分待機
+        time.sleep(600)
+
+        context.close()
+        browser.close()
+```
+
+**Step 2: CDP接続→認証コード入力**
+
+```python
+from playwright.sync_api import sync_playwright
+import sys
+
+def enter_2fa_code(code: str, auth_state_path: str = "auth_state.json"):
+    """Step1で開いたブラウザにCDP接続し、認証コードを入力"""
+    with sync_playwright() as p:
+        # Step1のブラウザにCDP経由で接続
+        browser = p.chromium.connect_over_cdp("http://localhost:9333")
+
+        context = browser.contexts[0]  # Step1のコンテキストを再利用
+        page = context.pages[0]        # 2FA画面のページを再利用
+
+        # 認証コード入力（複数セレクタで段階的に試行）
+        code_input = page.locator(
+            'input[placeholder*="認証"], input[name*="code"], '
+            'input[name*="otp"], input[type="tel"], '
+            'input[type="number"], input[inputmode="numeric"]'
+        )
+        if code_input.count() == 0:
+            code_input = page.locator('input[type="text"]')
+
+        code_input.first.fill(code)
+
+        # 認証ボタンクリック
+        verify_btn = page.locator(
+            'button:has-text("認証"), button:has-text("完了"), '
+            'button:has-text("Verify"), button[type="submit"]'
+        )
+        verify_btn.first.click()
+        page.wait_for_load_state("domcontentloaded")
+
+        # 認証状態を保存
+        context.storage_state(path=auth_state_path)
+        print(f"認証成功。状態を {auth_state_path} に保存しました。")
+
+if __name__ == "__main__":
+    enter_2fa_code(sys.argv[1])
+```
+
+### 運用フロー
+
+```
+ターミナル1: python3 login_step1.py
+  → ブラウザ起動 → ログイン → 2FA画面で停止
+  → SMSが届く
+
+ターミナル2: python3 login_step2.py <認証コード>
+  → CDP接続 → コード入力 → 認証完了 → 状態保存
+```
+
+### 重要ポイント
+
+| 項目 | 値 |
+|------|-----|
+| CDPポート | 9333（他と競合しないポートを選択） |
+| 待機時間 | 600秒（10分、SMS到着を余裕を持って待つ） |
+| コンテキスト再利用 | `browser.contexts[0]` でStep1のセッションをそのまま使用 |
+| 再ログイン禁止 | Step2で新たにログインすると新コードが発行され無限ループになる |
+
+### 適用サイト例
+
+この手法が有効なサイト:
+- **メルカリ** - SMS認証必須
+- **銀行・証券サイト** - ワンタイムパスワード
+- **ECサイト** - SMS/メール認証
+
+---
+
+## 複数セレクタ段階的フォールバックパターン
+
+認証フォームやサイトごとに異なる入力フィールドのname/type属性に対応するため、複数セレクタを優先度順に試行する。
+
+### 問題
+
+サイトによって認証コード入力欄のHTML属性が異なる:
+- `input[name="otp"]`
+- `input[type="tel"]`
+- `input[placeholder="6桁の認証番号"]`
+- `input[inputmode="numeric"]`
+
+1つのセレクタでは汎用性がない。
+
+### 解決策: 優先度付きセレクタチェーン
+
+```python
+def find_auth_code_input(page):
+    """認証コード入力欄を段階的に探索"""
+    selectors = [
+        'input[placeholder*="認証"]',      # 日本語サイト
+        'input[placeholder*="verify"]',     # 英語サイト
+        'input[name*="code"]',             # name属性
+        'input[name*="otp"]',              # OTP系
+        'input[type="tel"]',               # 電話番号型
+        'input[type="number"]',            # 数値型
+        'input[inputmode="numeric"]',      # モバイル数値キーボード
+        'input[type="text"]',              # 最終フォールバック
+    ]
+
+    for selector in selectors:
+        locator = page.locator(selector)
+        if locator.count() > 0:
+            return locator.first
+
+    raise Exception("認証コード入力欄が見つかりません")
+```
+
+### 応用: ログインフォームの汎用探索
+
+```python
+def find_login_fields(page):
+    """ログインフォームのフィールドを汎用的に探索"""
+    email_selectors = [
+        'input[type="email"]',
+        'input[name*="email"]',
+        'input[name*="mail"]',
+        'input[placeholder*="メール"]',
+        'input[placeholder*="電話"]',
+        'input[name*="user"]',
+        'input[name*="login"]',
+    ]
+
+    password_selectors = [
+        'input[type="password"]',
+        'input[name*="pass"]',
+    ]
+
+    email_input = None
+    for sel in email_selectors:
+        loc = page.locator(sel)
+        if loc.count() > 0:
+            email_input = loc.first
+            break
+
+    pass_input = None
+    for sel in password_selectors:
+        loc = page.locator(sel)
+        if loc.count() > 0:
+            pass_input = loc.first
+            break
+
+    return email_input, pass_input
+```
+
+---
+
+## 環境変数ベースの認証管理パターン
+
+ログイン自動化スクリプトで認証情報をハードコードしない方法。
+
+### 問題
+
+スクリプトにメールアドレス・パスワードを直接記述すると:
+- git commitで認証情報が漏洩するリスク
+- スクリプト共有時にパスワード流出
+- 複数環境での使い回しが困難
+
+### 解決策: 環境変数 + .envファイル
+
+```python
+import os
+
+def get_credentials(service_name: str) -> tuple[str, str]:
+    """環境変数から認証情報を取得"""
+    prefix = service_name.upper()  # e.g., "MERCARI"
+    email = os.environ.get(f"{prefix}_EMAIL")
+    password = os.environ.get(f"{prefix}_PASSWORD")
+
+    if not email or not password:
+        raise ValueError(
+            f"{prefix}_EMAIL と {prefix}_PASSWORD を環境変数に設定してください。\n"
+            f"例: export {prefix}_EMAIL='user@example.com'"
+        )
+    return email, password
+
+# 使用例
+email, password = get_credentials("MERCARI")
+```
+
+### .envファイル（gitignore対象）
+
+```bash
+# .env
+MERCARI_EMAIL=user@example.com
+MERCARI_PASSWORD=your_password
+```
+
+### .envの読み込み（python-dotenvなし）
+
+```python
+from pathlib import Path
+
+def load_env(env_path: str = ".env"):
+    """簡易.envローダー（外部ライブラリ不要）"""
+    env_file = Path(env_path)
+    if not env_file.exists():
+        return
+    for line in env_file.read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        key, _, value = line.partition("=")
+        os.environ.setdefault(key.strip(), value.strip().strip("'\""))
+
+# スクリプト冒頭で呼び出し
+load_env()
+email, password = get_credentials("MERCARI")
+```
+
+### .gitignoreへの追記（必須）
+
+```
+.env
+*.env
+.env.*
+```
