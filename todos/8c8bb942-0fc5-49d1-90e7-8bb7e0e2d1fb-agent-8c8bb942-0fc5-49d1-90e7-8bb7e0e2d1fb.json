@@ -1,8 +1,0 @@
-[
-  {
-    "content": "Update ANTHROPIC_API_KEY in ~/.zshrc with new value",
-    "status": "pending",
-    "priority": "high",
-    "id": "1"
-  }
-]
