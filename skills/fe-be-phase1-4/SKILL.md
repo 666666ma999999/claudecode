@@ -16,6 +16,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.1.0
+  category: guide-reference
+  tags: [frontend, backend, constants, logic, validation, camelcase]
 ---
 
 ## 統合アプローチ（Phase 1-4 概要）
