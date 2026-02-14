@@ -9,6 +9,7 @@ description: |
   (3) LLMベースの構造化データ抽出を行う
   (4) サイト全体をバッチでクロールする
   キーワード: Firecrawl, スクレイピング, actions, extract, LLM抽出, バッチ, クロール, JSレンダリング
+allowed-tools: "Read Glob Grep WebFetch"
 compatibility: "requires: Firecrawl MCP server"
 metadata:
   author: masaaki-nagasawa
