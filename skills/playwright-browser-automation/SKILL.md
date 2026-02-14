@@ -10,6 +10,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: web-scraping
+  tags: [playwright, browser, cdp, bot-detection]
 ---
 
 # Playwright Browser Automation
