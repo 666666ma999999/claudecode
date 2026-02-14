@@ -1,4 +1,5 @@
 ---
+compatibility: "requires: Playwright, Python 3.x, X(Twitter) cookies"
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
