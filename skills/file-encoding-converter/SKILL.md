@@ -5,6 +5,7 @@ description: |
   Shift_JIS、EUC-JP、ISO-2022-JP、UTF-16など日本語エンコーディングに対応。
   キーワード: エンコーディング, 文字化け, Shift_JIS, UTF-8変換
 allowed-tools: "Bash(python:*) Read Write Edit Glob Grep"
+license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
