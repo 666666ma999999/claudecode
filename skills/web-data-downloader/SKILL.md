@@ -7,6 +7,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: web-scraping
+  tags: [download, automation, playwright]
 ---
 
 # Web Data Downloader
