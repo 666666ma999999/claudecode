@@ -1,0 +1,9 @@
+{
+  "id": "8",
+  "subject": "改善1: category/tags追加 + negative triggers",
+  "description": "全30スキルにmetadata.categoryとmetadata.tagsを追加。7スキルにnegative triggersを追加。",
+  "activeForm": "Adding category/tags and negative triggers",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

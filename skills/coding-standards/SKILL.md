@@ -8,6 +8,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: guide-reference
+  tags: [naming-conventions, python, javascript, api]
 ---
 
 # Coding Standards Skill
