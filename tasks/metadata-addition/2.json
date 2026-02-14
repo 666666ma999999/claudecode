@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "Batch 2: Add metadata to 8 SKILL.md files (with YAML frontmatter)",
-  "description": "Add `metadata` field to the YAML frontmatter of the following 8 SKILL.md files. Each file has existing `---` delimited YAML frontmatter.\n\nFor each file:\n1. Read the file\n2. Check if `metadata` field already exists -- if so, skip\n3. Find the closing `---` of the frontmatter and replace it with:\n```\nmetadata:\n  author: masaaki-nagasawa\n  version: 1.0.0\n---\n```\n4. Do NOT change any other content\n\nSPECIAL: lottery-automation has `allowed-tools` in its frontmatter. Add metadata AFTER allowed-tools but BEFORE the closing `---`.\n\nFiles to process:\n1. /Users/masaaki_nagasawa/.claude/skills/full-ui-test/SKILL.md\n2. /Users/masaaki_nagasawa/.claude/skills/lottery-automation/SKILL.md (has allowed-tools, add metadata after it)\n3. /Users/masaaki_nagasawa/.claude/skills/new-docker-project/SKILL.md\n4. /Users/masaaki_nagasawa/.claude/skills/notification-alert/SKILL.md\n5. /Users/masaaki_nagasawa/.claude/skills/playwright-browser-automation/SKILL.md\n6. /Users/masaaki_nagasawa/.claude/skills/process-state-management/SKILL.md\n7. /Users/masaaki_nagasawa/.claude/skills/refactoring-guide/SKILL.md\n8. /Users/masaaki_nagasawa/.claude/skills/sales-analysis/SKILL.md\n\nReport each file processed with success/skip/error status.",
-  "activeForm": "Adding metadata to batch 2 SKILL.md files",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
