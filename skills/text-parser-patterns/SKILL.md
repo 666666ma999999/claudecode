@@ -5,6 +5,7 @@ description: |
   エッジケース処理、デバッグ手法、よくある落とし穴と解決策を提供。
   キーワード: パーサー, パース, 抽出, 解析, セクション区切り, テキスト処理
 allowed-tools: "Read Glob Grep"
+license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.1.0
