@@ -1,0 +1,12 @@
+{
+  "id": "4",
+  "subject": "P2: Add allowed-tools + metadata to all skills",
+  "description": "Add allowed-tools and metadata (author, version, category, tags) fields to YAML frontmatter of all 28 global skills. Determine appropriate tool restrictions for each skill based on its function.",
+  "activeForm": "Adding metadata to all skills",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": [
+    "1",
+    "2"
+  ]
+}

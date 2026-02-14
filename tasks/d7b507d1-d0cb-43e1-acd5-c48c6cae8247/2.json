@@ -1,0 +1,13 @@
+{
+  "id": "2",
+  "subject": "P1: Split large skills with Progressive Disclosure",
+  "description": "Split oversized SKILL.md files into core instructions + references/. Targets: playwright-browser-automation (2298 lines), process-state-management (647 lines), coding-standards (572 lines). Keep SKILL.md under ~200 lines, move detailed patterns to references/.",
+  "activeForm": "Splitting large skills into references",
+  "status": "pending",
+  "blocks": [
+    "4"
+  ],
+  "blockedBy": [
+    "1"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "1",
+  "subject": "P0: Fix YAML frontmatter for 3 skills",
+  "description": "Fix missing YAML frontmatter delimiters for: process-state-management, coding-standards, notification-alert. Add proper --- delimiters around existing name/description fields.",
+  "activeForm": "Fixing YAML frontmatter",
+  "status": "in_progress",
+  "blocks": [
+    "2",
+    "4"
+  ],
+  "blockedBy": []
+}
