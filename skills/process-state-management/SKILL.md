@@ -6,6 +6,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: guide-reference
+  tags: [state-management, multi-step, error-handling, logging]
 ---
 
 # Process State Management Skill

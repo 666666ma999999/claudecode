@@ -9,6 +9,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: system-utility
+  tags: [skill-creation, workflow-pattern]
 ---
 
 # Skill Creator
