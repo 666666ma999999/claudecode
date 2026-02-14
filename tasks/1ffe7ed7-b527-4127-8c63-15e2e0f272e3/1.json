@@ -3,7 +3,7 @@
   "subject": "GenerationConfigにnarrative_roles/enable_cut_markersフィールド追加 + _build_cut_instruction_section()メソッド追加",
   "description": "backend/utils/prompt_builder.py:\n1. GenerationConfig dataclassに2フィールド追加: narrative_roles: Dict[int, str] = field(default_factory=dict), enable_cut_markers: bool = False\n2. PromptBuilderに_build_cut_instruction_section(self, config)メソッド追加 - CutPlacementPrompt.mdの要約版15行程度\n3. _build_single_code_prompt() L154付近の出力ルールセクション末尾にCUT指示挿入\n4. _build_multi_code_prompt()にも同様に挿入",
   "activeForm": "GenerationConfigとCUT指示セクションを追加中",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }

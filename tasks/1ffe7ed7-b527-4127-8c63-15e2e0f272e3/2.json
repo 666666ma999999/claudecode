@@ -3,7 +3,7 @@
   "subject": "main.py + manuscript_generation.pyにnarrative_rolesパラメータ伝搬追加",
   "description": "main.py:\n1. process_batch_with_fallback_async() (L2002): 引数にnarrative_roles: Dict[int, str] = None追加、内部のprocess_batch_asyncとprocess_individual_code_async呼び出しに伝搬\n2. process_batch_async() (L2179): 同じくnarrative_roles引数追加、GenerationConfig生成時にnarrative_roles=narrative_roles or {}, enable_cut_markers=bool(narrative_roles)\n3. process_individual_code_async() (L1879): narrative_roles引数追加、GenerationConfig生成時に同様\n\nmanuscript_generation.py:\n1. ManuscriptRequest (L79)にnarrative_roles: Optional[Dict[int, str]] = None追加\n2. generate_all_manuscripts内のprocess_batch_with_fallback_async呼び出し箇所にnarrative_roles=manuscript_request.narrative_rolesを渡す",
   "activeForm": "main.py + manuscript_generation.pyにパラメータ伝搬を追加中",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
