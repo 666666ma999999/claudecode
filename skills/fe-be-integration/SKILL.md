@@ -8,6 +8,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: guide-reference
+  tags: [frontend, backend, integration, architecture]
 ---
 
 # FE/BE統合アーキテクチャスキル
