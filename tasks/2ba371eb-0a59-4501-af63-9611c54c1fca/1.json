@@ -3,7 +3,7 @@
   "subject": "Phase 1: 6スキルのfrontmatter修正",
   "description": "6スキル（code-reviewer, codebase-investigation, data-deduplication, file-encoding-converter, text-parser-patterns, x-scraping）のname/descriptionをYAML frontmatter内に移動",
   "activeForm": "Fixing frontmatter for 6 skills",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [
     "2"
   ],
