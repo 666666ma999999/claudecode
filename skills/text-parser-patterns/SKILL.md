@@ -1,3 +1,9 @@
+---
+metadata:
+  author: masaaki-nagasawa
+  version: 1.0.0
+---
+
 # テキストパーサー実装パターン
 
 ## 概要
