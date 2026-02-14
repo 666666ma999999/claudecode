@@ -11,6 +11,7 @@ description: |
   キーワード: Firecrawl, スクレイピング, actions, extract, LLM抽出, バッチ, クロール, JSレンダリング
 allowed-tools: "Read Glob Grep WebFetch"
 compatibility: "requires: Firecrawl MCP server"
+license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
