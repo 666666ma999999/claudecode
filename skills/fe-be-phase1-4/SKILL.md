@@ -1,8 +1,15 @@
 ---
 name: fe-be-phase1-4
 description: |
-  FE/BE統合 Phase 1〜4の詳細実装パターン。
-  定数統合、ロジック統合（CamelCaseModel、同義語統一、Async Wrapper）、バリデーション統合、ファイル名生成統合。
+  FE/BE統合 Phase 1〜4の詳細実装パターン。定数統合、ロジック統合、バリデーション統合、ファイル名生成統合の具体的な実装手順とコード例を提供する。
+  使用タイミング:
+  (1) FE/BE間で重複している定数をBE側に一元化するとき（Phase 1: 定数統合）
+  (2) FE/BEで同じ変換・パース処理を統合するとき（Phase 2: ロジック統合）
+  (3) CamelCaseModelの導入・命名規則不整合の検出・修正をするとき
+  (4) FE→BE間のデータ受け渡し（camelCase/snake_case変換、Order番号ずれ、セッション欠損）を修正するとき
+  (5) 入力バリデーションをBE側に一元化するとき（Phase 3: バリデーション統合）
+  (6) ファイル名・タイムスタンプ生成をBE側に統合するとき（Phase 4: ファイル名生成統合）
+  キーワード: 定数統合, ロジック統合, バリデーション統合, ファイル名生成統合, CamelCaseModel, 同義語統一, Async Wrapper, snake_case変換, Order番号ずれ, Pre-STEP Validator
 disable-model-invocation: true
 ---
 
