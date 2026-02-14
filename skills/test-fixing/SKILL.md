@@ -5,6 +5,7 @@ description: |
   体系的なアプローチでテストを修正する。
   キーワード: テスト修正, テスト失敗, デバッグ, TDD
 allowed-tools: "Bash Read Write Edit Glob Grep"
+license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
