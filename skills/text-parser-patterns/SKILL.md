@@ -9,6 +9,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.1.0
+  category: guide-reference
+  tags: [parser, text-processing, regex, edge-cases]
 ---
 
 # テキストパーサー実装パターン
