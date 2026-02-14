@@ -11,12 +11,6 @@ metadata:
 
 # code-reviewer
 
-## name
-code-reviewer
-
-## description
-FE/BE間の定数・変数・関数の多重管理を自動検知し、新規コード追加時に重複を予防するコードレビュースキル。`/review` コマンド実行時、新規定数・マジックナンバー追加時、FE/BEの設定値変更時に自動発動。
-
 ## 自動発動条件
 
 - `/review` コマンド実行時に追加チェックとして発動
