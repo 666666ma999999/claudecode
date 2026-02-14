@@ -12,9 +12,6 @@ metadata:
 
 # X (Twitter) スクレイピングスキル
 
-name: x-scraping
-description: X(Twitter)からツイートを安全に収集するスキル。bot検知を回避しながらPlaywrightでスクレイピングを実行。Cookieベース認証、人間らしい操作パターン、いいね数フィルタリングに対応。
-
 ## 使用タイミング
 
 以下のリクエストで発動:
