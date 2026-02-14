@@ -1,3 +1,9 @@
+---
+metadata:
+  author: masaaki-nagasawa
+  version: 1.0.0
+---
+
 # code-reviewer
 
 ## name

@@ -3,7 +3,7 @@
   "subject": "Batch 3: Add metadata to 7 SKILL.md files (with YAML frontmatter)",
   "description": "Add `metadata` field to the YAML frontmatter of the following 7 SKILL.md files. Each file has existing `---` delimited YAML frontmatter.\n\nFor each file:\n1. Read the file\n2. Check if `metadata` field already exists -- if so, skip\n3. Find the closing `---` of the frontmatter and replace it with:\n```\nmetadata:\n  author: masaaki-nagasawa\n  version: 1.0.0\n---\n```\n4. Do NOT change any other content\n\nFiles to process:\n1. /Users/masaaki_nagasawa/.claude/skills/skill-creator/SKILL.md\n2. /Users/masaaki_nagasawa/.claude/skills/task-planner/SKILL.md\n3. /Users/masaaki_nagasawa/.claude/skills/test-fixing/SKILL.md\n4. /Users/masaaki_nagasawa/.claude/skills/web-data-downloader/SKILL.md\n5. /Users/masaaki_nagasawa/.claude/skills/web-form-detector/SKILL.md\n6. /Users/masaaki_nagasawa/.claude/skills/web-list-scraper/SKILL.md\n7. /Users/masaaki_nagasawa/.claude/skills/web-scraping-guide/SKILL.md\n\nReport each file processed with success/skip/error status.",
   "activeForm": "Adding metadata to batch 3 SKILL.md files",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }
