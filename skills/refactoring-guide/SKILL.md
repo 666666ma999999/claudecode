@@ -4,6 +4,7 @@ description: |
   リファクタリングの戦略ガイド。参考コード方式、神クラス隔離、コンテキスト分割の手法を提供。
   大規模リファクタリング時に使用。
   キーワード: リファクタリング, 神クラス, コード分割, 参考コード方式, 横展開
+allowed-tools: "Read Glob Grep"
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
