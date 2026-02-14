@@ -10,6 +10,7 @@ description: |
   キーワード: 売上分析、重回帰、特徴量重要度、交絡因子、係数算出
 allowed-tools: "Bash(python:*) Read Write Edit Glob Grep"
 compatibility: "requires: Python 3.x (pandas, scikit-learn)"
+license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
