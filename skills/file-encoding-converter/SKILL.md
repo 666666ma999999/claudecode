@@ -11,9 +11,6 @@ metadata:
 
 # ファイルエンコーディング変換スキル
 
-name: file-encoding-converter
-description: ファイル読み込み時に任意のエンコーディングをUTF-8に自動変換する実装パターン集。Shift_JIS、EUC-JP、ISO-2022-JP、UTF-16など日本語エンコーディングに対応。
-
 ## 使用タイミング
 
 以下の場面で自動発動：
