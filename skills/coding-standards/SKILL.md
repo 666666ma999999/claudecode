@@ -105,6 +105,20 @@ Optional引数チェーンで中間関数がパラメータを渡し忘れても
 
 > 詳細: `references/python-standards.md`
 
+### 類似メソッド群のバリデーション一貫性チェック
+
+類似メソッドのグループ（例: `check_paid_subtitles`, `check_paid_manuscript`, `check_yudo_links`, `check_komi_type_css`）がある場合、全メソッドが同じバリデーション/ガードチェックを実装しているか検証すること。
+
+**実例**: 4メソッドに`mode=confirm`リダイレクト検出があるが1メソッドのみ欠落 → 4/5成功の誤判定。
+
+**検出方法**:
+```bash
+# 類似メソッドとそのガードチェックを列挙
+grep -A 10 "async def check_paid" file.py | grep "mode=confirm\|redirect\|_is_auth"
+```
+
+**予防**: メソッドグループにガード追加時、全類似メソッドを検索して同様の変更を適用。コードレビュー時は類似関数のバリデーション一致を確認。
+
 ### JavaScript落とし穴（要約）
 
 - `if (value)` で `0` を見逃す -> `value != null` を使う
