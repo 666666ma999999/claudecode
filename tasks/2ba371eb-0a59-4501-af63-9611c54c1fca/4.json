@@ -1,0 +1,13 @@
+{
+  "id": "4",
+  "subject": "Phase 4: 全スキルにallowed-tools追加",
+  "description": "lottery-automation以外の28スキル全てにallowed-toolsフィールドを追加。各スキルの用途に応じた適切なツールを設定",
+  "activeForm": "Adding allowed-tools to all skills",
+  "status": "pending",
+  "blocks": [
+    "5"
+  ],
+  "blockedBy": [
+    "3"
+  ]
+}
