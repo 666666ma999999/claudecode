@@ -10,6 +10,7 @@ description: |
   (5) 文字列置換方式からフィールド操作方式へ移行するとき（Phase 9: 構造化データ管理）
   (6) フォールバック廃止（成熟段階）の判断・実装をするとき
   キーワード: ファイル検証統合, 正規表現パース統合, 進捗追跡統合, コードクリーンアップ, 構造化データ管理, ファイルタイプ検出, ダウンロード関数統合, フォールバック廃止, 文字列置換からの移行
+allowed-tools: "Read Glob Grep"
 disable-model-invocation: true
 metadata:
   author: masaaki-nagasawa
