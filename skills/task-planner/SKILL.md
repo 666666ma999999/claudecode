@@ -1,6 +1,8 @@
 ---
 name: task-planner
-description: ざっくりした要望を具体的なファイル単位タスクに分解し、実装計画を策定するスキル
+description: |
+  ざっくりした要望を具体的なファイル単位タスクに分解し、実装計画を策定するスキル。
+  1ファイル修正や単純な質問には使用しない。
 allowed-tools: "Read Glob Grep WebFetch"
 license: proprietary
 metadata:
