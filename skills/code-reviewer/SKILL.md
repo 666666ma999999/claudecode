@@ -5,6 +5,7 @@ description: |
   `/review` コマンド実行時、新規定数・マジックナンバー追加時、FE/BEの設定値変更時に自動発動。
 allowed-tools: "Read Glob Grep"
 compatibility: "requires: Codex MCP server"
+license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
