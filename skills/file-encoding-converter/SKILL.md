@@ -1,3 +1,9 @@
+---
+metadata:
+  author: masaaki-nagasawa
+  version: 1.0.0
+---
+
 # ファイルエンコーディング変換スキル
 
 name: file-encoding-converter
