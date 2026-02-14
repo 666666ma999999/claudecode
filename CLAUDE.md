@@ -32,13 +32,7 @@
 
 ## 標準ワークフロー
 
-詳細: `~/.claude/rules/` の各ファイル参照
-
-1. **既存スキル検索** — `~/.claude/skills/` と `.claude/skills/` を調査
-2. **Planモード開始** — `EnterPlanMode`で開始、直接実装しない
-3. **Explore調査** — SubAgentでコードベース・既存実装を調査
-4. **Plan設計** — SubAgentで実装計画をファイル・関数単位まで策定
-5. **Agent Teams判定** — 3視点以上or並列レイヤー必要時に提案（`tool-selection.md`参照）
-6. **軌道確認** — `AskUserQuestion`で設計をユーザーに提示・承認取得
-7. **実装** — `ExitPlanMode`後、TDDで実装
-8. **Codexレビュー** — `/review`でコード品質チェック、完了チェックは`core-workflow.md`参照
+1. **既存スキル検索** → `~/.claude/skills/` と `project/.claude/skills/` を確認
+2. **Planモード** → `EnterPlanMode`で計画策定
+3. **実装** → `ExitPlanMode`後、SubAgentに委託してTDDで実装
+4. **完了チェック** → `implementation-checklist` スキルで STEP 1-4 実行
