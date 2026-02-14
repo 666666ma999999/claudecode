@@ -4,6 +4,7 @@ description: |
   プログラミング言語・フレームワーク別の命名規則と実装標準。新規コード生成時・既存コードレビュー時に自動適用。
   発動条件: 新規ファイル作成、API設計、コードレビュー、「命名規則」「コーディング規約」言及時
 allowed-tools: "Read Glob Grep"
+license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0

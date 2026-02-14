@@ -3,7 +3,7 @@
   "subject": "Phase 5: 全スキルにlicense追加",
   "description": "全29スキルにlicense: proprietaryフィールドを追加",
   "activeForm": "Adding license field to all skills",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": [
     "4"
