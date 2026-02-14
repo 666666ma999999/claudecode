@@ -1,3 +1,9 @@
+---
+metadata:
+  author: masaaki-nagasawa
+  version: 1.0.0
+---
+
 # コードベース調査最適化スキル
 
 name: "codebase-investigation"
