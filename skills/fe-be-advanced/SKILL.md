@@ -11,6 +11,7 @@ description: |
   キーワード: FE/BE分析, 状態管理パターン, CMS連携, サービス層設計, 重複コード特定, セッションベース, フィールドマッピング, Codex分析, Phase 0
 allowed-tools: "Read Glob Grep"
 disable-model-invocation: true
+license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
