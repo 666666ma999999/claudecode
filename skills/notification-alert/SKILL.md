@@ -3,6 +3,7 @@ name: notification-alert
 description: Claude Codeの入力待ち・許可要求時に通知（音声+ダイアログ+最前面化）を行う設定の管理とテスト。「通知テスト」「通知設定」「アラート確認」などのリクエストで発動。
 allowed-tools: "Bash Read Write Edit Glob Grep"
 compatibility: "requires: macOS (osascript, terminal-notifier)"
+license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
