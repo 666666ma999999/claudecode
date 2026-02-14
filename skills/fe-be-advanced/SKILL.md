@@ -1,7 +1,14 @@
 ---
 name: fe-be-advanced
 description: |
-  FE/BE統合の分析手順、チェックリスト、状態管理パターン、CMS連携、Phase 0実装済みサービス層。
+  FE/BE統合の上級リファレンス。分析手順、チェックリスト、状態管理パターン、CMS連携、Phase 0実装済みサービス層を提供する。
+  使用タイミング:
+  (1) FE/BE間の重複コードを分析・特定するとき
+  (2) 状態管理パターン（グローバル変数→セッションベース）を設計・実装するとき
+  (3) 外部CMS/APIのフィールドマッピングを調査・設計するとき
+  (4) BEサービス層（text_transform, validation, category_infer等）の構成を確認するとき
+  (5) FE/BE統合の前後チェックリストを参照するとき
+  キーワード: FE/BE分析, 状態管理パターン, CMS連携, サービス層設計, 重複コード特定, セッションベース, フィールドマッピング, Codex分析, Phase 0
 disable-model-invocation: true
 ---
 
