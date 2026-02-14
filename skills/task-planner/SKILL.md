@@ -1,6 +1,9 @@
 ---
 name: task-planner
 description: ざっくりした要望を具体的なファイル単位タスクに分解し、実装計画を策定するスキル
+metadata:
+  author: masaaki-nagasawa
+  version: 1.0.0
 ---
 
 # タスク細分化・実装計画策定スキル
