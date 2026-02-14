@@ -4,6 +4,7 @@ description: |
   テスト失敗を効率的に修正するスキル。言語・フレームワークを問わず、
   体系的なアプローチでテストを修正する。
   キーワード: テスト修正, テスト失敗, デバッグ, TDD
+allowed-tools: "Bash Read Write Edit Glob Grep"
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
