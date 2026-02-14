@@ -4,6 +4,7 @@ description: |
   コード修正・機能追加完了後の必須チェックリスト。サーバー再起動、Codexレビュー（2段階）、Sentryチェック、テスト同期確認、スキル化判断、セッション記録、完了報告のSTEP 1-4を順番に実行する。
   実装完了時・コードレビュー時・`/verify-step`コマンド実行時に自動発動。
   キーワード: 実装完了, チェックリスト, Codexレビュー, スキル化判断, STEP完了
+allowed-tools: "Read Glob Grep"
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
