@@ -6,6 +6,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: workflow-automation
+  tags: [planning, task-decomposition, implementation]
 ---
 
 # タスク細分化・実装計画策定スキル
