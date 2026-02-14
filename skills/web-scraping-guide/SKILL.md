@@ -15,6 +15,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: web-scraping
+  tags: [firecrawl, scraping, web-fetch, actions]
 ---
 
 # Web Scraping Guide - Firecrawl実装パターン
