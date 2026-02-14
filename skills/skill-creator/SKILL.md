@@ -5,6 +5,7 @@ description: |
   新規スキルの作成手順とベストプラクティスを提供。
   キーワード: スキル作成, ワークフロー保存, パターン化
 allowed-tools: "Bash Read Write Edit Glob Grep"
+license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
