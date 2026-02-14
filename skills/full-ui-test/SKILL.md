@@ -4,6 +4,7 @@ description: |
   Chrome DevTools MCPを使用してWebページ上の全ボタンをクリックし動作確認を行うスキル。
   全UI要素の網羅的テストを自動化。
   キーワード: UIテスト, 全ボタンクリック, Chrome DevTools, 動作確認
+compatibility: "requires: Chrome DevTools MCP server"
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
