@@ -10,6 +10,7 @@ description: |
   キーワード: スクレイピング、Webスクレイピング、データ抽出、リスト取得、バッチ取得、Excel、CSV
 allowed-tools: "Bash(python:*) Read Write Edit Glob Grep WebFetch"
 compatibility: "requires: Python 3.x, Playwright"
+license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
