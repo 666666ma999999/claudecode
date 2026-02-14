@@ -10,6 +10,9 @@ description: |
   (5) FE/BE統合の前後チェックリストを参照するとき
   キーワード: FE/BE分析, 状態管理パターン, CMS連携, サービス層設計, 重複コード特定, セッションベース, フィールドマッピング, Codex分析, Phase 0
 disable-model-invocation: true
+metadata:
+  author: masaaki-nagasawa
+  version: 1.0.0
 ---
 
 # FE/BE統合アーキテクチャ - 上級リファレンス
