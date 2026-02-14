@@ -9,6 +9,7 @@ description: |
   (4) BEサービス層（text_transform, validation, category_infer等）の構成を確認するとき
   (5) FE/BE統合の前後チェックリストを参照するとき
   キーワード: FE/BE分析, 状態管理パターン, CMS連携, サービス層設計, 重複コード特定, セッションベース, フィールドマッピング, Codex分析, Phase 0
+allowed-tools: "Read Glob Grep"
 disable-model-invocation: true
 metadata:
   author: masaaki-nagasawa
