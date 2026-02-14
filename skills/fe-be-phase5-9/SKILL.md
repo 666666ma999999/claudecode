@@ -11,6 +11,9 @@ description: |
   (6) フォールバック廃止（成熟段階）の判断・実装をするとき
   キーワード: ファイル検証統合, 正規表現パース統合, 進捗追跡統合, コードクリーンアップ, 構造化データ管理, ファイルタイプ検出, ダウンロード関数統合, フォールバック廃止, 文字列置換からの移行
 disable-model-invocation: true
+metadata:
+  author: masaaki-nagasawa
+  version: 1.0.0
 ---
 
 # FE/BE統合 Phase 5〜9
