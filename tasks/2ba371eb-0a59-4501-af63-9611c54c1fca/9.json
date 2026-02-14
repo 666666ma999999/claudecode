@@ -1,9 +1,0 @@
-{
-  "id": "9",
-  "subject": "改善3: skill-lifecycle.mdにメタデータガイドライン追加",
-  "description": "skill-lifecycle.mdにallowed-tools, license, compatibilityの設定基準を追加",
-  "activeForm": "Updating skill-lifecycle.md",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
