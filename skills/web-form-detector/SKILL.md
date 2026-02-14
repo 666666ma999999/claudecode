@@ -1,6 +1,9 @@
 ---
 name: web-form-detector
 description: Webページのフォーム要素を検知し操作するスキル。ファイルアップロード、ボタンクリック、フォーム送信を自動実行。Playwrightを使用。「フォームを検知」「ボタンを探して」「ファイルをアップロード」などのリクエストで使用。
+metadata:
+  author: masaaki-nagasawa
+  version: 1.0.0
 ---
 
 # Web Form Detector
