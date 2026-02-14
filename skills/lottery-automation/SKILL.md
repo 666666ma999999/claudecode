@@ -21,6 +21,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: web-scraping
+  tags: [lottery, automation, playwright, totp]
 ---
 
 # 抽選自動応募スキル
