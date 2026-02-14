@@ -10,6 +10,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.1.0
+  category: web-scraping
+  tags: [twitter, x, scraping, cookie-auth]
 ---
 
 # X (Twitter) スクレイピングスキル
