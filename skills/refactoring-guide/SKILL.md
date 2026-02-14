@@ -10,6 +10,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: workflow-automation
+  tags: [refactoring, code-quality, horizontal-expansion]
 ---
 
 # Refactoring Guide - リファクタリング戦略
