@@ -16,6 +16,30 @@
 | 特定CMS・外部システムの操作手順 | `project/.claude/skills/`（プロジェクト） |
 | 言語・フレームワーク共通のパターン | `~/.claude/skills/`（グローバル） |
 
+## メタデータフィールド基準
+
+スキル作成・更新時、YAML frontmatterに以下のフィールドを設定すること:
+
+| フィールド | 必須 | 説明 | 例 |
+|-----------|------|------|-----|
+| `name` | 必須 | kebab-case、フォルダ名と一致 | `my-skill-name` |
+| `description` | 必須 | WHAT + WHEN + キーワード。1024文字以下。過剰発動防止のnegative triggerも含める | |
+| `allowed-tools` | 推奨 | スキルが使用するツールを制限 | `"Read Glob Grep"` |
+| `license` | 推奨 | ライセンス種別 | `proprietary` |
+| `compatibility` | 該当時 | MCP・外部ツール・OS要件がある場合のみ | `"requires: Playwright"` |
+| `metadata.category` | 推奨 | スキル分類 | `guide-reference`, `web-scraping`, `data-processing`, `workflow-automation`, `testing-qa`, `system-utility` |
+| `metadata.tags` | 推奨 | 検索用タグ配列 | `[python, naming, api]` |
+
+### allowed-tools 設定基準
+
+| スキル用途 | 設定値 |
+|-----------|--------|
+| ガイド・リファレンスのみ | `"Read Glob Grep"` |
+| Web情報取得を含む | `"Read Glob Grep WebFetch"` |
+| コード生成・修正 | `"Bash Read Write Edit Glob Grep"` |
+| Python実行を含む | `"Bash(python:*) Read Write Edit Glob Grep"` |
+| ブラウザ自動化 | `"Bash(python:*) Bash(node:*) Read Write Edit Glob Grep WebFetch"` |
+
 ## スキル化判断フロー（実装完了時に毎回実行）
 
 ```
