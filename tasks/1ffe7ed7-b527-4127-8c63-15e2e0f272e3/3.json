@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "step1_pipeline.pyのPhase 3並列化 + Phase 6 roles伝搬 + Phase 9.5簡素化",
-  "description": "backend/services/step1_pipeline.py:\n1. Phase 3 (L228-259): classify_narrative_rolesをPhase 3に統合して並列実行。asyncio.gatherで_generate_parallel()とclassify_narrative_roles()を同時実行\n2. Phase 6 (L322-346): ManuscriptRequestにnarrative_roles={i+1: r for i, r in enumerate(narrative_roles)}を追加\n3. Phase 9.5 (L414-437): API呼び出しを排除し、CPU処理のみに簡素化。classify_narrative_roles()削除（Phase 3で実行済み）、apply_cut_markers()削除（生成プロンプトで統合済み）。代わりに: roles適用、--CUT--バリデーション+フォールバック",
-  "activeForm": "step1_pipeline.pyのPhase 3/6/9.5を修正中",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
