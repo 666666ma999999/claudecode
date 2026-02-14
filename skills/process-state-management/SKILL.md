@@ -1,6 +1,9 @@
 ---
 name: process-state-management
 description: 複数ステップのプロセスを管理し、ログ記録・中断理由追跡・途中再開を可能にするパターン集。コンテキスト設計原則、エラー収集パターンも含む。新規プロジェクトでマルチステップ処理を実装する際に使用。
+metadata:
+  author: masaaki-nagasawa
+  version: 1.0.0
 ---
 
 # Process State Management Skill
