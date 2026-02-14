@@ -16,6 +16,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: guide-reference
+  tags: [frontend, backend, file-validation, cleanup, structured-data]
 ---
 
 # FE/BE統合 Phase 5〜9
