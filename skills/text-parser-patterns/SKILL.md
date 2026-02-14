@@ -1,4 +1,9 @@
 ---
+name: text-parser-patterns
+description: |
+  構造化テキスト（設定ファイル、マークアップ、ユーザー入力など）をパースする際の実装パターン集。
+  エッジケース処理、デバッグ手法、よくある落とし穴と解決策を提供。
+  キーワード: パーサー, パース, 抽出, 解析, セクション区切り, テキスト処理
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
