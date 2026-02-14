@@ -4,6 +4,7 @@ description: |
   FE/BEのコードベースにおけるデータ二重保持（同じデータが複数箇所に保存され、staleになるバグ）を検出・修正するパターン集。
   リファクタリング、コードレビュー、バグ調査時に使用。
   キーワード: データ二重保持, staleデータ, 古い値, 変数とDOM不一致, enum統一
+allowed-tools: "Read Glob Grep"
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
