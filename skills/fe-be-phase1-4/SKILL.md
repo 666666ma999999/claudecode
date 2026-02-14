@@ -10,6 +10,7 @@ description: |
   (5) 入力バリデーションをBE側に一元化するとき（Phase 3: バリデーション統合）
   (6) ファイル名・タイムスタンプ生成をBE側に統合するとき（Phase 4: ファイル名生成統合）
   キーワード: 定数統合, ロジック統合, バリデーション統合, ファイル名生成統合, CamelCaseModel, 同義語統一, Async Wrapper, snake_case変換, Order番号ずれ, Pre-STEP Validator
+allowed-tools: "Read Glob Grep"
 disable-model-invocation: true
 metadata:
   author: masaaki-nagasawa
