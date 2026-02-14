@@ -6,6 +6,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: data-processing
+  tags: [csv, encoding, format-conversion]
 ---
 
 # CSV Format Converter
