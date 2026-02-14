@@ -4,6 +4,9 @@ description: |
   Playwrightを使用したブラウザ自動化スキル。Webスクレイピング、フォーム自動入力、E2Eテスト、
   CDP接続によるbot検知回避など、あらゆるブラウザ操作を支援。
   キーワード: Playwright, ブラウザ自動化, CDP, スクレイピング, E2Eテスト
+metadata:
+  author: masaaki-nagasawa
+  version: 1.0.0
 ---
 
 # Playwright Browser Automation
