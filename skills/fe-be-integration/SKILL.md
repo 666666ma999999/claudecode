@@ -3,6 +3,9 @@ name: fe-be-integration
 description: |
   FE/BE統合アーキテクチャのコア原則と概要。
   詳細な実装パターンはサブスキル（fe-be-phase1-4, fe-be-phase5-9, fe-be-advanced）を参照。
+metadata:
+  author: masaaki-nagasawa
+  version: 1.0.0
 ---
 
 # FE/BE統合アーキテクチャスキル
