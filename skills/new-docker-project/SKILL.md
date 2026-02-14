@@ -2,6 +2,7 @@
 name: Docker Project Bootstrap
 description: 新規プロジェクト作成時にDockerfile/docker-compose.yml/各種設定を自動生成する。「新しいプロジェクトを作って」「プロジェクトを初期化して」等の指示で自動発動。
 allowed-tools: "Bash Read Write Edit Glob Grep"
+license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0

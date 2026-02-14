@@ -17,6 +17,7 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
+license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
