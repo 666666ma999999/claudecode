@@ -3,7 +3,7 @@
   "subject": "Phase 3: rules/からskills/へワークフロー移行",
   "description": "rules/にあるワークフロー的内容を新スキルに移行: implementation-checklist, skill-lifecycle-manager, subagent-delegation。tool-selection.mdの重複削除",
   "activeForm": "Migrating workflows from rules to skills",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [
     "4"
   ],
