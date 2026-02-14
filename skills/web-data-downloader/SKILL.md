@@ -1,6 +1,7 @@
 ---
 name: web-data-downloader
 description: Webサイトから確定申告用データを自動取得するスキル。ふるさと納税サイト（ふるなび等）の寄付履歴、クレジットカード会社（アメックス等）の利用明細PDF、その他Webサイトからのデータ取得を自動化。Playwrightブラウザ操作でログイン後のページからデータをダウンロード・スクリーンショット保存。「サイトからデータをダウンロード」「明細PDFを取得」「寄付履歴を保存」などのリクエストで使用。
+compatibility: "requires: Playwright browser automation"
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
