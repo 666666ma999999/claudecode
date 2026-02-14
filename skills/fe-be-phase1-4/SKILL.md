@@ -11,6 +11,9 @@ description: |
   (6) ファイル名・タイムスタンプ生成をBE側に統合するとき（Phase 4: ファイル名生成統合）
   キーワード: 定数統合, ロジック統合, バリデーション統合, ファイル名生成統合, CamelCaseModel, 同義語統一, Async Wrapper, snake_case変換, Order番号ずれ, Pre-STEP Validator
 disable-model-invocation: true
+metadata:
+  author: masaaki-nagasawa
+  version: 1.0.0
 ---
 
 ## 統合アプローチ（7フェーズ）
