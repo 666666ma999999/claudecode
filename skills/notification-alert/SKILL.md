@@ -7,6 +7,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: system-utility
+  tags: [notification, alert, sound, dialog]
 ---
 
 # Notification Alert スキル
