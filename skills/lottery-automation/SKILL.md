@@ -9,6 +9,7 @@ description: |
   (4) 「抽選のスケジュールを確認」「自動応募の状態を見せて」などシステム状態を確認するとき
   (5) 「抽選のセットアップ」「lottery環境を構築」など環境構築・初期設定をするとき
   キーワード: 抽選に応募して, 応募履歴を確認, 新しい抽選サイトを追加, ポケモンオンライン抽選, ポケモンセンター, lottery, 自動応募, スケジュール管理, 2FA, TOTP
+compatibility: "requires: Playwright browser automation, TOTP for 2FA"
 allowed-tools:
   - Bash
   - Read
