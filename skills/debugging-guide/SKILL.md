@@ -4,6 +4,9 @@ description: |
   デバッグの体系的アプローチガイド。根本原因分析の4段階手法、3-Fix Limitルール、赤フラグ条件を提供。
   テスト失敗やバグ修正時に使用。
   キーワード: デバッグ, 根本原因分析, バグ修正, 3-Fix Limit, 赤フラグ, トラブルシューティング
+metadata:
+  author: masaaki-nagasawa
+  version: 1.0.0
 ---
 
 # Debugging Guide - デバッグの体系的アプローチ
