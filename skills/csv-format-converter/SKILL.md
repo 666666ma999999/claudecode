@@ -1,6 +1,7 @@
 ---
 name: csv-format-converter
 description: CSVファイルのフォーマット分析・変換スキル。エンコーディング検出、列構造の解析、異なるシステム間でのフォーマット変換を実行。「CSVを変換」「フォーマットを合わせて」「CSV形式を分析」などのリクエストで使用。
+allowed-tools: "Bash(python:*) Read Write Edit Glob Grep"
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
