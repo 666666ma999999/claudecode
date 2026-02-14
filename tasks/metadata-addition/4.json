@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Batch 4: Add metadata frontmatter to 6 SKILL.md files WITHOUT existing YAML frontmatter",
+  "description": "These 6 SKILL.md files do NOT have YAML frontmatter (no `---` delimiters). You need to ADD a YAML frontmatter block at the very beginning of each file.\n\nFor each file:\n1. Read the file\n2. Check if `metadata` field already exists -- if so, skip\n3. Check if the file already has `---` delimited YAML frontmatter\n4. If NO frontmatter exists, add the following at the very top of the file (BEFORE existing content):\n```\n---\nmetadata:\n  author: masaaki-nagasawa\n  version: 1.0.0\n---\n\n```\n(note the blank line after closing ---)\n\n5. The existing content (title, name, description etc.) must remain unchanged\n6. Do NOT add `name` or `description` to the new frontmatter -- only add `metadata`\n\nFiles to process:\n1. /Users/masaaki_nagasawa/.claude/skills/code-reviewer/SKILL.md\n2. /Users/masaaki_nagasawa/.claude/skills/codebase-investigation/SKILL.md\n3. /Users/masaaki_nagasawa/.claude/skills/data-deduplication/SKILL.md\n4. /Users/masaaki_nagasawa/.claude/skills/file-encoding-converter/SKILL.md\n5. /Users/masaaki_nagasawa/.claude/skills/text-parser-patterns/SKILL.md\n6. /Users/masaaki_nagasawa/.claude/skills/x-scraping/SKILL.md\n\nReport each file processed with success/skip/error status.",
+  "activeForm": "Adding metadata frontmatter to batch 4 SKILL.md files",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
