@@ -12,6 +12,7 @@ description: |
   キーワード: 定数統合, ロジック統合, バリデーション統合, ファイル名生成統合, CamelCaseModel, 同義語統一, Async Wrapper, snake_case変換, Order番号ずれ, Pre-STEP Validator
 allowed-tools: "Read Glob Grep"
 disable-model-invocation: true
+license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.1.0
