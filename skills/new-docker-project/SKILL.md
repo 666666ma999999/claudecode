@@ -6,6 +6,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: system-utility
+  tags: [docker, project-setup, initialization]
 ---
 
 # Docker Project Bootstrap
