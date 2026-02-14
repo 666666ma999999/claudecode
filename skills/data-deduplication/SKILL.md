@@ -9,6 +9,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: guide-reference
+  tags: [deduplication, stale-data, code-review]
 ---
 
 # データ二重保持検出・解消スキル
