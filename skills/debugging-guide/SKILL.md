@@ -10,6 +10,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: workflow-automation
+  tags: [debugging, root-cause-analysis, bug-fix]
 ---
 
 # Debugging Guide - デバッグの体系的アプローチ
