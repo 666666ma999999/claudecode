@@ -15,6 +15,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: guide-reference
+  tags: [frontend, backend, advanced-patterns]
 ---
 
 # FE/BE統合アーキテクチャ - 上級リファレンス
