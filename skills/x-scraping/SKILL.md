@@ -6,6 +6,7 @@ description: |
   キーワード: X, Twitter, スクレイピング, ツイート収集, インフルエンサー
 allowed-tools: "Bash(python:*) Read Write Edit Glob Grep WebFetch"
 compatibility: "requires: Playwright, Python 3.x, X(Twitter) cookies"
+license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.1.0
