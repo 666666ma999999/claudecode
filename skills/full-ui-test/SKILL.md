@@ -6,6 +6,7 @@ description: |
   キーワード: UIテスト, 全ボタンクリック, Chrome DevTools, 動作確認
 allowed-tools: "Bash(node:*) Read Glob Grep"
 compatibility: "requires: Chrome DevTools MCP server"
+license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0

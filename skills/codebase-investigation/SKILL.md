@@ -5,6 +5,7 @@ description: |
   キーワード: 構造把握, 全体像, アーキテクチャ, 依存関係, リファクタリング, 大規模調査, コードベース分析
 allowed-tools: "Read Glob Grep"
 compatibility: "requires: repomix MCP server"
+license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
