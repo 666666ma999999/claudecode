@@ -1,4 +1,8 @@
 ---
+name: codebase-investigation
+description: |
+  大規模コードベースの構造把握・リファクタリング初期調査でrepomixを活用し、トークン効率を最大化する。
+  キーワード: 構造把握, 全体像, アーキテクチャ, 依存関係, リファクタリング, 大規模調査, コードベース分析
 compatibility: "requires: repomix MCP server"
 metadata:
   author: masaaki-nagasawa
