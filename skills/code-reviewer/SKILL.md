@@ -9,6 +9,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: testing-qa
+  tags: [code-review, duplication, constants]
 ---
 
 # code-reviewer
