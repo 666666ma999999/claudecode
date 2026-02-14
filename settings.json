@@ -226,9 +226,9 @@
     "claude-mem@thedotmack": true
   },
   "alwaysThinkingEnabled": true,
+  "skipDangerousModePermissionPrompt": true,
   "teammateMode": "in-process",
   "feedbackSurveyState": {
     "lastShownTime": 1754026768941
-  },
-  "skipDangerousModePermissionPrompt": true
+  }
 }
