@@ -8,6 +8,7 @@ description: |
   (3) IDリストとURL規則からWebページをバッチ取得したい
   (4) 大量のWebページから同一フォーマットの情報を収集したい
   キーワード: スクレイピング、Webスクレイピング、データ抽出、リスト取得、バッチ取得、Excel、CSV
+compatibility: "requires: Python 3.x, Playwright"
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
