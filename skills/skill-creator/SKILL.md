@@ -4,6 +4,9 @@ description: |
   会話のパターンやワークフローを再利用可能なスキルとして保存するスキル。
   新規スキルの作成手順とベストプラクティスを提供。
   キーワード: スキル作成, ワークフロー保存, パターン化
+metadata:
+  author: masaaki-nagasawa
+  version: 1.0.0
 ---
 
 # Skill Creator
