@@ -9,6 +9,9 @@ description: |
   (3) LLMベースの構造化データ抽出を行う
   (4) サイト全体をバッチでクロールする
   キーワード: Firecrawl, スクレイピング, actions, extract, LLM抽出, バッチ, クロール, JSレンダリング
+metadata:
+  author: masaaki-nagasawa
+  version: 1.0.0
 ---
 
 # Web Scraping Guide - Firecrawl実装パターン
