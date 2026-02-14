@@ -1,6 +1,9 @@
 ---
 name: csv-format-converter
 description: CSVファイルのフォーマット分析・変換スキル。エンコーディング検出、列構造の解析、異なるシステム間でのフォーマット変換を実行。「CSVを変換」「フォーマットを合わせて」「CSV形式を分析」などのリクエストで使用。
+metadata:
+  author: masaaki-nagasawa
+  version: 1.0.0
 ---
 
 # CSV Format Converter
