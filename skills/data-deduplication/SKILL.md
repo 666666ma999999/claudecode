@@ -1,3 +1,9 @@
+---
+metadata:
+  author: masaaki-nagasawa
+  version: 1.0.0
+---
+
 # データ二重保持検出・解消スキル
 
 name: data-deduplication
