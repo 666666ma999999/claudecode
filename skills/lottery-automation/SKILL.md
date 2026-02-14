@@ -16,6 +16,9 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
+metadata:
+  author: masaaki-nagasawa
+  version: 1.0.0
 ---
 
 # 抽選自動応募スキル
