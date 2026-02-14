@@ -1,4 +1,5 @@
 ---
+compatibility: "requires: repomix MCP server"
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
