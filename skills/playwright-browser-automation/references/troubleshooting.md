@@ -52,6 +52,29 @@ self.context = await self.browser.new_context(
 )
 ```
 
+### 4. DOM要素のインデックスずれ（コンテンツベースマッチング）
+
+**症状:** データが正しく存在するのにALL項目でマッチ失敗（0/N件）
+
+**原因:** `page_elements[i]` と `registered_data[i]` のインデックスが対応しない。ページに余分な構造要素（見出し、ナビゲーション等）が含まれる場合、全てのインデックスがずれる。
+
+**検出:** `len(page_elements) != len(registered_data)` の場合は要注意
+
+**対策:**
+```python
+# BAD: 固定インデックスマッピング（余分な要素でずれる）
+for i, data_item in enumerate(registered_data):
+    page_text = await page_elements[i].inner_text()
+    if matches(data_item, page_text): ...
+
+# GOOD: コンテンツベースマッチング
+used = set()
+for data_item in registered_data:
+    best_match = find_best_matching_element(data_item, page_elements, exclude=used)
+    if best_match:
+        used.add(best_match.index)
+```
+
 ## 接続エラーのパターン判定
 
 ナビゲーション時のエラーを適切にハンドリング：
