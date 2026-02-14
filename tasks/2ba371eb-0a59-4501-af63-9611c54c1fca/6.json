@@ -1,9 +1,0 @@
-{
-  "id": "6",
-  "subject": "Create references/ directory and 5 reference files",
-  "description": "Create /Users/masaaki_nagasawa/.claude/skills/fe-be-phase5-9/references/ directory and write 5 reference files:\n1. phase5-file-validation.md - Phase 5 content (lines 36-173)\n2. phase6-regex-parsing.md - Phase 6 content (lines 188-203)\n3. phase7-progress.md - Phase 7 content (lines 218-250)\n4. phase8-cleanup.md - Phase 8 content (lines 255-349)\n5. phase9-structured-data.md - Phase 9 content (lines 371-514)",
-  "activeForm": "Creating references directory and files",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

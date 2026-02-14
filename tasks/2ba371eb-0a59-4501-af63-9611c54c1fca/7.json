@@ -1,9 +1,0 @@
-{
-  "id": "7",
-  "subject": "Rewrite SKILL.md as concise ~150 line summary with links",
-  "description": "Rewrite /Users/masaaki_nagasawa/.claude/skills/fe-be-phase5-9/SKILL.md to ~150 lines keeping:\n- YAML frontmatter (lines 1-17) as-is\n- Overview section\n- Phase summary table with links to references/\n- For each Phase (5-9): title, 目的, Before/After block, link to reference\n- 関連スキル section (lines 515-522) as-is\n- Reference table",
-  "activeForm": "Rewriting SKILL.md as concise summary",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
