@@ -1,6 +1,7 @@
 ---
 name: task-planner
 description: ざっくりした要望を具体的なファイル単位タスクに分解し、実装計画を策定するスキル
+allowed-tools: "Read Glob Grep WebFetch"
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
