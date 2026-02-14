@@ -14,6 +14,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: data-processing
+  tags: [sales, regression, feature-importance, analytics]
 ---
 
 # 売上データ多変数分析スキル
