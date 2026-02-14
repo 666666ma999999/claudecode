@@ -6,6 +6,7 @@ description: |
   キーワード: Playwright, ブラウザ自動化, CDP, スクレイピング, E2Eテスト
 allowed-tools: "Bash(python:*) Bash(node:*) Read Write Edit Glob Grep WebFetch"
 compatibility: "requires: Playwright (npm package), Chromium browser"
+license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
