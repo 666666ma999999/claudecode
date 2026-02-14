@@ -14,6 +14,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: web-scraping
+  tags: [scraping, batch, list-driven, playwright]
 ---
 
 # Web List Scraper
