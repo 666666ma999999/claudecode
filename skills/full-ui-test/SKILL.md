@@ -10,6 +10,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: testing-qa
+  tags: [ui-test, chrome-devtools, button-click]
 ---
 
 # Full UI Test
