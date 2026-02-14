@@ -8,6 +8,7 @@ description: |
   (3) 交絡因子を除去してフェアな評価をしたい
   (4) 商品力・担当者力・カテゴリ効果を分離したい
   キーワード: 売上分析、重回帰、特徴量重要度、交絡因子、係数算出
+compatibility: "requires: Python 3.x (pandas, scikit-learn)"
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
