@@ -5,6 +5,7 @@ description: |
   テスト失敗やバグ修正時に使用。
   キーワード: デバッグ, 根本原因分析, バグ修正, 3-Fix Limit, 赤フラグ, トラブルシューティング
 allowed-tools: "Read Glob Grep"
+license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
