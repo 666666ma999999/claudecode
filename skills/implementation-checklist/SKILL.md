@@ -9,6 +9,8 @@ license: proprietary
 metadata:
   author: masaaki-nagasawa
   version: 1.0.0
+  category: workflow-automation
+  tags: [checklist, code-review, quality-assurance]
 ---
 
 # 実装完了チェックリスト
