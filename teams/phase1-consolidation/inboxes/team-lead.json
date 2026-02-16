@@ -1,0 +1,17 @@
+[
+  {
+    "from": "backend",
+    "text": "Backend Tasks 1-4 completed successfully.\n\n**Task 1**: Created `/Users/masaaki/Desktop/prm/chk/check_item_registry.py` (SSoT registry)\n- 22 check items in CHECK_ITEMS dict, ordered by section\n- CHECK_SECTIONS_META, PAID_PAGE_ITEMS, CHECK_SECTIONS, CHECK_STEP_DEPENDENCIES, DETECT_TO_API_MAP, API_TO_DETECT_MAP, TRACEABILITY_MAP all auto-derived\n- Verified: sections match original exactly, all 22 items present\n\n**Task 2**: Added `/api/check/meta/items` endpoint to `check.py` (L1018-1032)\n- Returns items array + sections array via local import from check_item_registry\n\n**Task 3**: Replaced constants in `check_playwright.py`\n- Added `from check_item_registry import PAID_PAGE_ITEMS, CHECK_SECTIONS, CHECK_STEP_DEPENDENCIES` at L20\n- Deleted 41-line inline definition block (old L180-220)\n- Syntax verified OK\n\n**Task 4**: Replaced constants in `variable_registry.py`\n- Added `from check_item_registry import TRACEABILITY_MAP` at L15\n- Deleted 24-line inline TRACEABILITY_MAP definition\n- Dict/Any kept in typing imports (still used by other definitions/functions)\n- Syntax verified OK\n\nAll files pass `py_compile`. The derived constants were validated against originals — values match exactly.",
+    "summary": "Backend Tasks 1-4 all completed and verified",
+    "timestamp": "2026-02-16T14:02:38.829Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "backend",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"backend\",\"timestamp\":\"2026-02-16T14:02:44.489Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-16T14:02:44.489Z",
+    "color": "blue",
+    "read": false
+  }
+]
