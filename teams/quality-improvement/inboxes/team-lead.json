@@ -21,5 +21,42 @@
     "timestamp": "2026-02-16T10:44:01.932Z",
     "color": "green",
     "read": true
+  },
+  {
+    "from": "worker-router",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"worker-router\",\"timestamp\":\"2026-02-16T10:44:05.336Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-16T10:44:05.336Z",
+    "color": "green",
+    "read": true
+  },
+  {
+    "from": "worker-gemini",
+    "text": "Task 1 was already completed in my previous turn. I just ran the syntax verification and it passes:\n\n```\npython3 -c \"import ast; ast.parse(open('backend/services/gemini_image.py').read())\"\n# -> Syntax OK\n```\n\nFile: `/Users/masaaki/Desktop/prm/makeimg/backend/services/gemini_image.py` (197 lines)\n\nAll 5 changes are in place:\n1. `_build_contents_with_references()` (L51-89)\n2. `_enhance_prompt()` (L92-99)\n3. `generate_image()` signature with 3 new params (L102-111)\n4. Updated docstring (L115-124)\n5. New content building logic (L131-145)\n\nReady for next task if needed.",
+    "summary": "Task 1 already done, syntax verified OK",
+    "timestamp": "2026-02-16T10:44:08.254Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "worker-gemini",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"worker-gemini\",\"timestamp\":\"2026-02-16T10:44:10.877Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-16T10:44:10.877Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "worker-router",
+    "text": "Task 2 は既に完了済みです。前回のメッセージで報告した通り、以下の全変更が適用済みです:\n\n- L33: `enhance_prompt: bool = False` 追加\n- L50-51: `ref_paths`/`ref_descriptions` 初期化\n- L54-55: SQLクエリに `description, category` 追加\n- L59-66: `ref_descriptions` リスト構築\n- L79-84: `parameters_json` 拡張\n- L107-116: `generate_image()` 呼び出し更新\n\nファイルは既に正しい状態です。次のタスクがあればお知らせください。",
+    "summary": "Task 2 already completed, awaiting next task",
+    "timestamp": "2026-02-16T10:44:15.867Z",
+    "color": "green",
+    "read": true
+  },
+  {
+    "from": "worker-router",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"worker-router\",\"timestamp\":\"2026-02-16T10:44:18.684Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-16T10:44:18.684Z",
+    "color": "green",
+    "read": true
   }
 ]
