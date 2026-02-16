@@ -13,5 +13,13 @@
     "timestamp": "2026-02-16T10:43:50.299Z",
     "color": "blue",
     "read": true
+  },
+  {
+    "from": "worker-router",
+    "text": "Task 2 完了: `/Users/masaaki/Desktop/prm/makeimg/backend/routers/generation.py` を改修しました。\n\n変更内容:\n1. **L33**: `GenerateRequest` に `enhance_prompt: bool = False` フィールド追加\n2. **L50-51**: `ref_paths` と `ref_descriptions` をifブロック前に初期化（スコープ安全化）\n3. **L54-55**: SQLクエリを `description, category` カラム含むよう拡張\n4. **L59-66**: 参照画像の `description` と `category` から `ref_descriptions` リスト構築\n5. **L79-84**: `parameters_json` に `enhance_prompt` と `reference_count` 追加\n6. **L107-116**: `gemini_image.generate_image()` 呼び出しに `reference_descriptions` と `enhance_prompt` パラメータ追加\n\n後方互換性は維持（`enhance_prompt` デフォルト `False`）。既存のバリデーション・セッション管理・画像保存ロジックは未変更。",
+    "summary": "Task 2 generation.py改修完了",
+    "timestamp": "2026-02-16T10:44:01.932Z",
+    "color": "green",
+    "read": true
   }
 ]
