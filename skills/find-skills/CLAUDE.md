@@ -7,5 +7,6 @@
 
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
+| #8404 | 8:58 PM | ✅ | Replaced find-skills Symlink with Direct Directory Copy | ~282 |
 | #7962 | 11:07 AM | 🔵 | find-skills provides workflow for discovering and installing community skills | ~631 |
 </claude-mem-context>
