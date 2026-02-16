@@ -4,6 +4,13 @@
   "description": "Remove WhisperX direct imports, add --backend arg, dynamic backend loading, diarization branch",
   "activeForm": "Refactoring transcribe.py",
   "status": "pending",
-  "blocks": [],
-  "blockedBy": []
+  "blocks": [
+    "6"
+  ],
+  "blockedBy": [
+    "1",
+    "2",
+    "3",
+    "4"
+  ]
 }

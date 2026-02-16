@@ -4,6 +4,8 @@
   "description": "Implement pyannote-based diarization with overlap-based speaker assignment",
   "activeForm": "Creating diarization module",
   "status": "pending",
-  "blocks": [],
+  "blocks": [
+    "5"
+  ],
   "blockedBy": []
 }

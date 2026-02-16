@@ -4,6 +4,8 @@
   "description": "Infrastructure files: venv setup script, dependencies, gitignore for .venv/",
   "activeForm": "Creating infrastructure files",
   "status": "pending",
-  "blocks": [],
+  "blocks": [
+    "5"
+  ],
   "blockedBy": []
 }

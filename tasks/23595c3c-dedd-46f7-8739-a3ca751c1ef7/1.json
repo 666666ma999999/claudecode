@@ -4,6 +4,8 @@
   "description": "Create backends/ directory with __init__.py (empty) and mlx_backend.py (mlx-whisper Metal GPU backend)",
   "activeForm": "Creating MLX backend module",
   "status": "pending",
-  "blocks": [],
+  "blocks": [
+    "5"
+  ],
   "blockedBy": []
 }

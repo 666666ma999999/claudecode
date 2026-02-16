@@ -4,6 +4,8 @@
   "description": "Extract WhisperX logic from transcribe.py into separate backend module with torch monkey-patch",
   "activeForm": "Creating WhisperX backend module",
   "status": "pending",
-  "blocks": [],
+  "blocks": [
+    "5"
+  ],
   "blockedBy": []
 }
