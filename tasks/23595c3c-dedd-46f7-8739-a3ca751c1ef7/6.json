@@ -1,0 +1,9 @@
+{
+  "id": "6",
+  "subject": "Verify full pipeline",
+  "description": "Run setup_env.sh, import checks, --help test, transcription test",
+  "activeForm": "Verifying pipeline",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
