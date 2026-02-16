@@ -1,9 +1,0 @@
-{
-  "id": "4",
-  "subject": "Phase 2-2: Convert check.py registered-data to API-first with fallback",
-  "description": "Change get_registered_data endpoint (line 378-449) to first call RohanClient API, then fallback to file-based. Extract _build_registered_data_from_record()",
-  "activeForm": "Updating check.py API mode",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}
