@@ -3,7 +3,7 @@
   "subject": "Phase 2-3: Add FastAPI lifespan to main.py for RohanClient",
   "description": "Add lifespan context manager for RohanClient init/cleanup in main.py",
   "activeForm": "Adding lifespan to main.py",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }
