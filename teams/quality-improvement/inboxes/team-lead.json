@@ -6,5 +6,12 @@
     "timestamp": "2026-02-16T10:43:47.140Z",
     "color": "blue",
     "read": true
+  },
+  {
+    "from": "worker-gemini",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"worker-gemini\",\"timestamp\":\"2026-02-16T10:43:50.299Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-16T10:43:50.299Z",
+    "color": "blue",
+    "read": true
   }
 ]
