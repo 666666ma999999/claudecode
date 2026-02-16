@@ -3,7 +3,7 @@
   "subject": "Create backends/whisperx_backend.py",
   "description": "Extract WhisperX logic from transcribe.py into separate backend module with torch monkey-patch",
   "activeForm": "Creating WhisperX backend module",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [
     "5"
   ],
