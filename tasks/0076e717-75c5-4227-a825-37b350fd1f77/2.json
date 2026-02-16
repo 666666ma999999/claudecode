@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "Phase 1-2: Create rohan_client.py with HTTP client, cache, circuit breaker",
+  "description": "Create new file rohan_client.py (~150 lines) with: httpx.AsyncClient, CacheEntry (TTL=5min, stale infinite), CircuitBreaker (3 failures, 60s cooldown), RohanClient.get_registered_data(), singleton pattern",
+  "activeForm": "Creating rohan_client.py",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

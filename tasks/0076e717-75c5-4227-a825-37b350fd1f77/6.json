@@ -1,0 +1,9 @@
+{
+  "id": "6",
+  "subject": "Phase 3-4: Remove symlinks and create real directories with data copy",
+  "description": "Shell operations to remove all 6 symlinks and create real directories/files with data copy from rohan-data",
+  "activeForm": "Removing symlinks",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

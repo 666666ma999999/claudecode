@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Phase 1-1: Add rohan API config to config.py",
+  "description": "Add 3 environment variables to config.py: ROHAN_API_BASE_URL, ROHAN_API_TIMEOUT, ROHAN_API_RETRY_COUNT",
+  "activeForm": "Adding rohan API config",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

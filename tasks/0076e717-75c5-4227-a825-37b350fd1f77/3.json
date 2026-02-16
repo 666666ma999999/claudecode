@@ -1,0 +1,9 @@
+{
+  "id": "3",
+  "subject": "Phase 2-1: Extract file search function in session_reader.py",
+  "description": "Move find_session_by_ppv_id() internal logic to _find_session_by_ppv_id_file() as sync fallback function",
+  "activeForm": "Refactoring session_reader.py",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}
