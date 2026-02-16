@@ -32,7 +32,9 @@
 
 ## 標準ワークフロー
 
-1. **既存スキル検索** → `~/.claude/skills/` と `project/.claude/skills/` を確認
+1. **スキル検索**
+   a. ローカル確認 → `~/.claude/skills/` と `project/.claude/skills/` を確認
+   b. 該当なし → `npx skills find "キーワード"` で外部レジストリも検索
 2. **Planモード** → `EnterPlanMode`で計画策定
 3. **実装** → `ExitPlanMode`後、SubAgentに委託してTDDで実装
 4. **完了チェック** → `implementation-checklist` スキルで STEP 1-4 実行
