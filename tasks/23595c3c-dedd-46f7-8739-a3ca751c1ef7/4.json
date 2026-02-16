@@ -3,7 +3,7 @@
   "subject": "Create setup_env.sh, requirements.txt, update .gitignore",
   "description": "Infrastructure files: venv setup script, dependencies, gitignore for .venv/",
   "activeForm": "Creating infrastructure files",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [
     "5"
   ],

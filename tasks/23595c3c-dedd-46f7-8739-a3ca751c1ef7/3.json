@@ -3,7 +3,7 @@
   "subject": "Create diarize.py module",
   "description": "Implement pyannote-based diarization with overlap-based speaker assignment",
   "activeForm": "Creating diarization module",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [
     "5"
   ],
