@@ -1,0 +1,19 @@
+{
+  "name": "prompt-enhance",
+  "description": "Gemini画像生成品質改善: プロンプト自動補強 + 参考画像ガイド",
+  "createdAt": 1771243305939,
+  "leadAgentId": "team-lead@prompt-enhance",
+  "leadSessionId": "984edde0-78fc-40cb-89fa-a930203861ee",
+  "members": [
+    {
+      "agentId": "team-lead@prompt-enhance",
+      "name": "team-lead",
+      "agentType": "team-lead",
+      "model": "claude-opus-4-6",
+      "joinedAt": 1771243305939,
+      "tmuxPaneId": "",
+      "cwd": "/Users/masaaki_nagasawa/Desktop/prm/aiimg",
+      "subscriptions": []
+    }
+  ]
+}

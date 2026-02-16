@@ -1,0 +1,15 @@
+{
+  "id": "6",
+  "subject": "Run tests and verify",
+  "description": "Run the unit tests to verify the implementation:\n```bash\ndocker compose exec makeimg pytest tests/test_prompt_enhancer.py -v\n```\n\nIf tests fail, fix the issues and re-run until all pass.\n\nThen verify the API endpoint with curl:\n```bash\ncurl -s -X POST http://localhost:5560/api/generation/enhance-prompt \\\n  -H \"Content-Type: application/json\" \\\n  -H \"x-api-token: makeimg_dev_token\" \\\n  -d '{\"prompt\": \"a beautiful cat sitting on a windowsill\"}' | python3 -m json.tool\n```\n\n```bash\ncurl -s -X POST http://localhost:5560/api/generation/enhance-prompt \\\n  -H \"Content-Type: application/json\" \\\n  -H \"x-api-token: makeimg_dev_token\" \\\n  -d '{\"prompt\": \"美しい女性のポートレート\"}' | python3 -m json.tool\n```",
+  "activeForm": "Running tests and verification",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+  ]
+}

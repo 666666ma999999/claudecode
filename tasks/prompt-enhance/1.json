@@ -1,0 +1,13 @@
+{
+  "id": "1",
+  "subject": "Create prompt_enhancer.py service",
+  "description": "Create `/Users/masaaki_nagasawa/Desktop/prm/aiimg/backend/services/prompt_enhancer.py` with the following:\n\n## Functions\n\n### `detect_language(text: str) -> str`\n- Returns \"ja\" if text contains Japanese characters (hiragana/katakana/kanji), else \"en\"\n\n### `detect_subject(text: str) -> str`\n- Detects subject category from prompt text\n- 6 categories: \"person\", \"landscape\", \"product\", \"food\", \"architecture\", \"illustration\"\n- Returns \"general\" if no category detected\n- Must handle both Japanese and English keywords\n- Japanese keyword examples: 人物→person, 風景→landscape, 商品→product, 料理/食べ物→food, 建物→architecture, イラスト→illustration\n\n### `_has_quality_signals(text: str) -> bool`\n- Returns True if text already contains quality modifiers (e.g., \"high-quality\", \"detailed\", \"sharp focus\", \"8k\", \"masterpiece\", etc.)\n- Check both EN and JA quality words\n\n### `enhance_prompt(prompt: str) -> Dict`\n- Main function\n- Returns dict: `{\"original\": str, \"enhanced\": str, \"language\": str, \"subject\": str, \"enhancements\": List[str]}`\n- Logic:\n  1. Detect language\n  2. Detect subject category\n  3. If no quality signals → append quality modifiers (EN: \"high-quality, detailed, sharp focus\" / JA: \"高品質, 精密, シャープ\")\n  4. Append category-specific camera terms:\n     - person: \"portrait lighting, shallow depth of field, 85mm lens\" / \"ポートレートライティング, 浅い被写界深度, 85mmレンズ\"\n     - landscape: \"golden hour, wide-angle, dramatic sky\" / \"ゴールデンアワー, 広角, ドラマチックな空\"\n     - product: \"studio lighting, clean background, product photography\" / \"スタジオライティング, クリーンな背景, 商品写真\"\n     - food: \"food photography, appetizing, natural light\" / \"フード写真, 美味しそう, 自然光\"\n     - architecture: \"architectural photography, symmetry, leading lines\" / \"建築写真, シンメトリー, リーディングライン\"\n     - illustration: \"digital art, vibrant colors, trending on artstation\" / \"デジタルアート, 鮮やかな色彩\"\n     - general: just quality modifiers, no category terms\n  5. Track what was added in \"enhancements\" list",
+  "activeForm": "Creating prompt enhancer service",
+  "owner": "backend-dev",
+  "status": "completed",
+  "blocks": [
+    "3",
+    "6"
+  ],
+  "blockedBy": []
+}

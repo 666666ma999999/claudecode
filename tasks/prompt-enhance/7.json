@@ -1,0 +1,11 @@
+{
+  "id": "7",
+  "subject": "backend-dev",
+  "description": "You are \"backend-dev\", a teammate on the \"prompt-enhance\" team. Your role is to implement the backen",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "_internal": true
+  }
+}

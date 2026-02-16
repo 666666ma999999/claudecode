@@ -1,0 +1,12 @@
+{
+  "id": "4",
+  "subject": "Add ENHANCE_PROMPT to frontend config",
+  "description": "Edit `/Users/masaaki_nagasawa/Desktop/prm/aiimg/frontend/config.js`:\n\nAdd after line 14 (after `SESSIONS: '/api/generation/sessions',`):\n```javascript\n        ENHANCE_PROMPT: '/api/generation/enhance-prompt',\n```",
+  "activeForm": "Adding config endpoint",
+  "owner": "frontend-dev",
+  "status": "completed",
+  "blocks": [
+    "6"
+  ],
+  "blockedBy": []
+}
