@@ -26,5 +26,11 @@
     "timestamp": "2026-02-16T14:01:41.540Z",
     "color": "blue",
     "read": true
+  },
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1771250638530@backend\",\"from\":\"team-lead\",\"reason\":\"All backend tasks completed. Shutting down.\",\"timestamp\":\"2026-02-16T14:03:58.530Z\"}",
+    "timestamp": "2026-02-16T14:03:58.530Z",
+    "read": true
   }
 ]

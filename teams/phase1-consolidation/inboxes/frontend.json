@@ -12,5 +12,11 @@
     "summary": "Task 1 complete, start Task 5 now",
     "timestamp": "2026-02-16T14:00:56.412Z",
     "read": false
+  },
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1771250639077@frontend\",\"from\":\"team-lead\",\"reason\":\"All frontend tasks completed. Shutting down.\",\"timestamp\":\"2026-02-16T14:03:59.077Z\"}",
+    "timestamp": "2026-02-16T14:03:59.077Z",
+    "read": false
   }
 ]
