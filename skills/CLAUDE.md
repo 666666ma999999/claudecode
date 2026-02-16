@@ -7,5 +7,6 @@
 
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
+| #7960 | 11:03 AM | 🔴 | find-skills reinstalled and symlink now resolves correctly | ~330 |
 | #7958 | 11:02 AM | 🔴 | Removed broken find-skills symlink | ~235 |
 </claude-mem-context>
