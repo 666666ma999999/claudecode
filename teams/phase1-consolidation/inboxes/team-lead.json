@@ -12,6 +12,34 @@
     "text": "{\"type\":\"idle_notification\",\"from\":\"backend\",\"timestamp\":\"2026-02-16T14:02:44.489Z\",\"idleReason\":\"available\"}",
     "timestamp": "2026-02-16T14:02:44.489Z",
     "color": "blue",
-    "read": false
+    "read": true
+  },
+  {
+    "from": "backend",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"backend\",\"timestamp\":\"2026-02-16T14:02:53.531Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-16T14:02:53.531Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "backend",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"backend\",\"timestamp\":\"2026-02-16T14:03:01.100Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-16T14:03:01.100Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "backend",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"backend\",\"timestamp\":\"2026-02-16T14:03:04.400Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-16T14:03:04.400Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "backend",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"backend\",\"timestamp\":\"2026-02-16T14:03:07.571Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-16T14:03:07.571Z",
+    "color": "blue",
+    "read": true
   }
 ]
