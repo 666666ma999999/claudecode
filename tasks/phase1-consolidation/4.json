@@ -1,0 +1,13 @@
+{
+  "id": "4",
+  "subject": "Task 4: variable_registry.py の定数をimportに置換",
+  "description": "ファイル: `/Users/masaaki/Desktop/prm/chk/variable_registry.py`\n\n1. L124-147の `TRACEABILITY_MAP` 定義を削除（24行）:\n   ```python\n   TRACEABILITY_MAP: Dict[str, Dict[str, Any]] = {\n       \"carrier-login\": {...},\n       ...\n       \"paid-komi-type\": {...},\n   }\n   ```\n\n2. importブロック（ファイル先頭付近）に追加:\n   ```python\n   from check_item_registry import TRACEABILITY_MAP\n   ```\n\n3. 使用箇所の確認:\n   - `build_traceability_matrix()` (L437付近) で `TRACEABILITY_MAP` を参照\n   - 同じ構造（detect IDキー → {\"no\", \"name\", \"vars\", \"steps\"}）なので変更不要",
+  "activeForm": "Replacing variable_registry.py constants with imports",
+  "status": "pending",
+  "blocks": [
+    "6"
+  ],
+  "blockedBy": [
+    "1"
+  ]
+}
