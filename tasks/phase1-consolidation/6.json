@@ -3,7 +3,7 @@
   "subject": "Task 6: サーバー起動＋API応答＋ブラウザ検証",
   "description": "全タスク完了後の検証:\n\n1. `python3 /Users/masaaki/Desktop/prm/chk/main.py` でサーバー起動\n2. `curl localhost:5561/api/check/meta/items | python3 -m json.tool` でAPI応答確認\n   - items: 22件\n   - sections: 6件\n   - 各itemに checkApiId, detectId, no, name, section, urlType, urlLabel, isPaid が含まれること\n3. ブラウザで `http://localhost:5561/detect.html?ppv_id=48200105` を開き:\n   - テーブルが22項目・6セクションで正しく描画されること\n   - コンソールにloadCheckMetaのエラーがないこと\n4. importエラーがないこと（check_playwright.py, variable_registry.py）",
   "activeForm": "Verifying implementation",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": [
     "2",
