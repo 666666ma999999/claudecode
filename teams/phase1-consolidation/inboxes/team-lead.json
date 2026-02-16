@@ -55,6 +55,20 @@
     "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1771250638530@backend\",\"from\":\"backend\",\"timestamp\":\"2026-02-16T14:04:03.060Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
     "timestamp": "2026-02-16T14:04:03.060Z",
     "color": "blue",
-    "read": false
+    "read": true
+  },
+  {
+    "from": "frontend",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"frontend\",\"timestamp\":\"2026-02-16T14:04:07.507Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-16T14:04:07.507Z",
+    "color": "green",
+    "read": true
+  },
+  {
+    "from": "frontend",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1771250639077@frontend\",\"from\":\"frontend\",\"timestamp\":\"2026-02-16T14:04:09.888Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-16T14:04:09.888Z",
+    "color": "green",
+    "read": true
   }
 ]
