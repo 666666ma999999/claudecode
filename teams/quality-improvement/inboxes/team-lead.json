@@ -81,5 +81,33 @@
     "timestamp": "2026-02-16T10:45:34.110Z",
     "color": "yellow",
     "read": true
+  },
+  {
+    "from": "worker-test",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"worker-test\",\"timestamp\":\"2026-02-16T10:45:36.277Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-16T10:45:36.278Z",
+    "color": "yellow",
+    "read": true
+  },
+  {
+    "from": "worker-gemini",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1771238747858@worker-gemini\",\"from\":\"worker-gemini\",\"timestamp\":\"2026-02-16T10:45:51.305Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-16T10:45:51.305Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "worker-router",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1771238748496@worker-router\",\"from\":\"worker-router\",\"timestamp\":\"2026-02-16T10:45:51.871Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-16T10:45:51.871Z",
+    "color": "green",
+    "read": true
+  },
+  {
+    "from": "worker-test",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1771238749060@worker-test\",\"from\":\"worker-test\",\"timestamp\":\"2026-02-16T10:45:52.494Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-16T10:45:52.494Z",
+    "color": "yellow",
+    "read": true
   }
 ]
