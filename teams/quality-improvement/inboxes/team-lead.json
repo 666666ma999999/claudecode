@@ -58,5 +58,28 @@
     "timestamp": "2026-02-16T10:44:18.684Z",
     "color": "green",
     "read": true
+  },
+  {
+    "from": "worker-test",
+    "text": "Task 3 完了: `/Users/masaaki/Desktop/prm/makeimg/tests/test_generation.py` にテストコードを追加しました。\n\n変更内容:\n1. **import文更新** (行1-10): `unittest.mock`, `PIL.Image`, `_build_contents_with_references`, `_enhance_prompt` を追加\n2. **TestBuildContentsWithReferences** (行60-126): 5テストケース追加\n   - `test_no_reference_images` - 空リスト時プロンプトのみ\n   - `test_with_reference_images` - 画像2枚で5要素構造\n   - `test_with_descriptions` - 説明付きラベル\n   - `test_with_custom_instruction` - カスタム指示テンプレート\n   - `test_all_images_fail_to_load` - 全画像失敗時フォールバック\n3. **TestEnhancePrompt** (行129-142): 2テストケース追加\n   - `test_default_prefix` - デフォルトプレフィックス\n   - `test_custom_prefix` - カスタムプレフィックス\n\n既存の `TestGeminiImageService` と `TestImagenService` は変更なし。ファイルは143行になりました。",
+    "summary": "Task 3完了: test_generation.pyにテスト追加",
+    "timestamp": "2026-02-16T10:45:18.185Z",
+    "color": "yellow",
+    "read": true
+  },
+  {
+    "from": "worker-test",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"worker-test\",\"timestamp\":\"2026-02-16T10:45:26.917Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-16T10:45:26.917Z",
+    "color": "yellow",
+    "read": true
+  },
+  {
+    "from": "worker-test",
+    "text": "Task 3 は既に完了済みです。前のターンで以下の変更を実装しました:\n\n- import文更新 (行1-10): `unittest.mock`, `PIL.Image`, `_build_contents_with_references`, `_enhance_prompt` を追加\n- `TestBuildContentsWithReferences` (行60-126): 5テストケース\n- `TestEnhancePrompt` (行129-142): 2テストケース\n\nファイル: `/Users/masaaki/Desktop/prm/makeimg/tests/test_generation.py` (143行)\n\n次のタスクがあればお知らせください。",
+    "summary": "Task 3は既に完了済み、次タスク待ち",
+    "timestamp": "2026-02-16T10:45:34.110Z",
+    "color": "yellow",
+    "read": true
   }
 ]
