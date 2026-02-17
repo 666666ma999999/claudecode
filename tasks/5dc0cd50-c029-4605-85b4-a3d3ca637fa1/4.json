@@ -3,7 +3,7 @@
   "subject": "Verification: server start + Playwright MCP visual check",
   "description": "python3 main.py → 200 OK確認。Playwright MCPでdetect.html表示確認: stat box 5つ、analytics PROXYバッジ、label for動作、テーブル横スクロール。check.htmlの後方互換確認。",
   "activeForm": "Verifying UI changes with browser",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": [
     "3"
