@@ -3,7 +3,7 @@
   "subject": "Task 6: Extract inline styles to CSS classes",
   "description": "detect.html内の10箇所のインラインスタイルをCSSクラスに変換。export-btn-csv, progress-header, progress-text, prepaid-input, prepaid-reference, prepaid-balance-btn, check-ok-badge, hidden class等。JS変更: noPrepaidMsg.style.display→classList操作",
   "activeForm": "Extracting inline styles to CSS classes",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [
     "4"
   ],
