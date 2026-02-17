@@ -1,0 +1,19 @@
+{
+  "name": "fix-fallback-selector",
+  "description": "Codex第2レビュー残課題の最終修正",
+  "createdAt": 1771335905621,
+  "leadAgentId": "team-lead@fix-fallback-selector",
+  "leadSessionId": "c0ff17ef-180d-44e9-a0d6-eb054b7bc26f",
+  "members": [
+    {
+      "agentId": "team-lead@fix-fallback-selector",
+      "name": "team-lead",
+      "agentType": "team-lead",
+      "model": "claude-opus-4-6",
+      "joinedAt": 1771335905621,
+      "tmuxPaneId": "",
+      "cwd": "/Users/masaaki/.claude-mem/observer-sessions",
+      "subscriptions": []
+    }
+  ]
+}
