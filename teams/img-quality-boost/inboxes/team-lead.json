@@ -28,5 +28,12 @@
     "timestamp": "2026-02-18T13:58:50.053Z",
     "color": "blue",
     "read": true
+  },
+  {
+    "from": "prompt-writer",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"prompt-writer\",\"timestamp\":\"2026-02-18T13:58:54.991Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-18T13:58:54.991Z",
+    "color": "blue",
+    "read": true
   }
 ]
