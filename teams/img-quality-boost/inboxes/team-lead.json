@@ -79,6 +79,13 @@
     "summary": "Final reference ID lists ready for all 4 panels",
     "timestamp": "2026-02-18T14:04:08.989Z",
     "color": "green",
-    "read": false
+    "read": true
+  },
+  {
+    "from": "ref-curator",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"ref-curator\",\"timestamp\":\"2026-02-18T14:04:19.747Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-18T14:04:19.747Z",
+    "color": "green",
+    "read": true
   }
 ]
