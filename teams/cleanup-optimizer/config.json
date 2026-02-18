@@ -1,0 +1,19 @@
+{
+  "name": "cleanup-optimizer",
+  "description": "不要コード削除 + style_optimizer実装",
+  "createdAt": 1771426170804,
+  "leadAgentId": "team-lead@cleanup-optimizer",
+  "leadSessionId": "7b2b3dfe-160e-4fdb-ab23-62dca26559ae",
+  "members": [
+    {
+      "agentId": "team-lead@cleanup-optimizer",
+      "name": "team-lead",
+      "agentType": "orchestrator",
+      "model": "claude-opus-4-6",
+      "joinedAt": 1771426170804,
+      "tmuxPaneId": "",
+      "cwd": "/Users/masaaki_nagasawa/Desktop/prm/aiimg",
+      "subscriptions": []
+    }
+  ]
+}
