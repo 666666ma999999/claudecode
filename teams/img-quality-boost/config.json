@@ -1,0 +1,33 @@
+{
+  "name": "img-quality-boost",
+  "description": "4コマ画像生成の精度向上。prompt-writer, ref-curator, generator, evaluatorの4エージェントで3ラウンド反復改善を実行",
+  "createdAt": 1771422808398,
+  "leadAgentId": "team-lead@img-quality-boost",
+  "leadSessionId": "2724416c-0c87-4b04-afd2-98bdbd34325b",
+  "members": [
+    {
+      "agentId": "team-lead@img-quality-boost",
+      "name": "team-lead",
+      "agentType": "orchestrator",
+      "model": "claude-opus-4-6",
+      "joinedAt": 1771422808398,
+      "tmuxPaneId": "",
+      "cwd": "/Users/masaaki_nagasawa/Desktop/prm/aiimg",
+      "subscriptions": []
+    },
+    {
+      "agentId": "prompt-writer@img-quality-boost",
+      "name": "prompt-writer",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-6",
+      "prompt": "あなたは画像生成プロンプトの最適化エキスパートです。Gemini Image Generation用のプロンプトを最適化してください。\n\n## コンテキスト\n\n4コマ漫画形式の画像を生成しています。テーマは「出雲の占い師と赤い糸の運命」。\n現在のプロンプトはキーワード列挙型で、Geminiの能力を十分に活かせていません。\n物語的な記述型に変換し、各コマ3バリエーションの合計12プロンプトを作成してください。\n\n## 4コマの構成\n\n**コマA: 神社・占い師の祈り**\n現在: \"A mystical Japanese fortune teller woman praying at Izumo Grand Shrine (出雲大社). She stands before the massive shimenawa (sacred rope) of the shrine, her eyes closed in deep spiritual concentration. She radiates a warm, divine golden aura...\"\n\n**コマB: 手と赤い糸の分岐**\n現在: \"A close-up of a woman's elegant hand, ring finger extended, from which a single glowing red thread of fate (運命の赤い糸) emerges. The red thread begins to multiply and branch out into dozens of luminous threads...\"\n\n**コマC: 宇宙的な赤い糸の拡散**\n現在: \"An abstract mystical scene of countless glowing red threads of fate spreading across a cosmic void. The threads multiply exponentially, creating an intricate web of destiny that fills the entire frame...\"\n\n**コマD: 縁結びの収束**\n現在: \"A close-up of a person's hand (the destined partner), ring finger extended, as multiple glowing red threads of fate converge and gently wrap around the finger. The threads arrive from multiple directions...\"\n\n## Geminiプロンプト最適化ベストプラクティス\n\n1. **写真用語の活用**: レンズタイプ（35mm, 50mm, 85mm, 135mm）、絞り値（f/1.4, f/2.0, f/4.0）、照明設定（Rembrandt lighting, split lighting, rim lighting, three-point lighting）\n2. **明示的な空間関係**: 前景（foreground）、中景（midground）、背景（background）を明確に配置\n3. **素材・テクスチャの具体的記述**: \"silky\", \"rough-hewn cedar\", \"translucent gossamer\", \"liquid gold\" など\n4. **アクション動詞**: \"radiates\", \"cascades\", \"weaves\", \"converges\" など動的な記述\n5. **色パレット**: 各コマの統一カラースキーム（deep indigo, sacred gold, crimson, purple）\n\n## 各コマの3バリエーション指針\n\n- **V1**: ドラマチック・シネマティック（映画的な構図、強い明暗差）\n- **V2**: 繊細・親密（クローズアップ、柔らかい光、感情的）\n- **V3**: 壮大・神秘的（広角、壮大なスケール、超自然的要素強調）\n\n## 出力指示\n\n12個のプロンプトを作成し、それぞれをAPIに登録してください。\n\n**API情報:**\n- Endpoint: POST http://localhost:5560/api/prompts\n- Header: x-api-token: makeimg_dev_token\n- Content-Type: application/json\n- Body例:\n```json\n{\n  \"name\": \"komaA_v1_dramatic\",\n  \"prompt_text\": \"In the sacred inner sanctum of Izumo Grand Shrine...\",\n  \"category\": \"koma_a\",\n  \"tags\": \"round1,narrative,dramatic,v1\"\n}\n```\n\n**命名規則:**\n- name: `koma{A-D}_v{1-3}_{style}`\n- category: `koma_a`, `koma_b`, `koma_c`, `koma_d`\n- tags: `round1,narrative,{style},v{n}`\n\n各プロンプトは最低150語以上の物語的記述にすること。プランに記載されたコマAの改善例を参考にしてください。\n\n完了後、登録した全プロンプトのIDと名前をリーダーに報告してください。",
+      "color": "blue",
+      "planModeRequired": false,
+      "joinedAt": 1771422902430,
+      "tmuxPaneId": "in-process",
+      "cwd": "/Users/masaaki_nagasawa/Desktop/prm/aiimg",
+      "subscriptions": [],
+      "backendType": "in-process"
+    }
+  ]
+}

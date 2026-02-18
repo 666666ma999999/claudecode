@@ -1,0 +1,13 @@
+{
+  "id": "6",
+  "subject": "Round 2-3: プロンプト改善と再生成（20枚）",
+  "description": "Round 1の評価結果に基づきプロンプトを改善し、再生成を実行する。\n\n**依存:** Task 5（リファレンス登録・分析）の完了後に実行\n\n**改善方針:**\n- 高スコアプロンプトをベースに微調整\n- evaluatorのフィードバックを反映\n- 1変数ずつ変更（照明のみ、構図のみ等）\n- 各コマ5枚 = 20枚\n\n**出力:** 新セッションIDと生成画像IDのリスト",
+  "activeForm": "Refining prompts and generating Round 2 images",
+  "status": "pending",
+  "blocks": [
+    "7"
+  ],
+  "blockedBy": [
+    "5"
+  ]
+}
