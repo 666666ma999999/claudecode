@@ -1,0 +1,13 @@
+{
+  "id": "2",
+  "subject": "Phase 3: スタイル一致度評価 + 参考画像最適選択",
+  "description": "## Goal\n生成画像のスタイル一致度を自動評価し、参考画像を最適選択するサービスを構築する。\n\n## services/style_evaluator.py (新規)\n- `evaluate_style_match(image_path, site_style_key)`: Gemini Visionで生成画像 + スタイルプロファイルを比較\n  - 入力: 生成画像パス、site_style_key\n  - 処理: style_profile取得 → Gemini 2.5-flashに画像+プロファイル送信 → JSON応答をパース\n  - 出力: { overall_score: 0-100, color_match: 0-100, mood_match: 0-100, composition_match: 0-100, improvement_hints: str }\n  - 結果を `style_evaluations` テーブルに保存\n  - score >= 70 のプロンプトフラグメントを `style_patterns` に蓄積（usage_count++, avg_score更新）\n\n## services/reference_selector.py (新規)\n- `select_references_for_style(site_style_key, max_count=5)`: スタイルに紐づく参考画像を自動選択\n  - site_styles.reference_image_ids から取得\n  - style_evaluations の高スコア画像を優先\n  - 14枚上限のうちスタイル参考は最大5枚使用\n\n## routers/style_evaluation.py (新規)\n- POST /api/style-evaluation/evaluate: 単一画像評価\n- POST /api/style-evaluation/batch: バッチ評価\n- GET /api/style-evaluation/report/{site_style_key}: スタイル別レポート（スコア推移・成功パターン・改善提案）\n- GET /api/style-evaluation/patterns/{site_style_key}: 成功パターン取得\n\n## routers/generation.py 追加修正\n- スタイル指定生成完了後、BackgroundTasksで自動評価を実行\n  - `from fastapi import BackgroundTasks` を追加\n  - generate_images関数にbackground_tasksパラメータ追加\n  - 生成成功時に `background_tasks.add_task(evaluate_generated_images, session_id, site_style_key)`\n\n## main.py 追加修正\n- `from backend.routers import style_evaluation` 追加\n- `app.include_router(style_evaluation.router)` 追加\n\n## Constraints\n- database.pyの変更はPhase 1で完了済み（style-backendがブロッカー）\n- Gemini Vision呼び出しは genai.Client + generate_content でTEXT応答のみ（画像生成は不要）\n- style_evaluator.pyはdatabase.pyのget_connection()を使用\n- reference_selector.pyはdatabase.pyのget_connection()を使用\n\n## Verification\n- モジュールがインポートエラーなく読み込めること\n- POST /api/style-evaluation/evaluate が正しいJSON応答を返すこと",
+  "activeForm": "Building style evaluator and reference selector",
+  "status": "pending",
+  "blocks": [
+    "4"
+  ],
+  "blockedBy": [
+    "1"
+  ]
+}
