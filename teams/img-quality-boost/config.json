@@ -28,6 +28,20 @@
       "cwd": "/Users/masaaki_nagasawa/Desktop/prm/aiimg",
       "subscriptions": [],
       "backendType": "in-process"
+    },
+    {
+      "agentId": "ref-curator@img-quality-boost",
+      "name": "ref-curator",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-6",
+      "prompt": "あなたはリファレンス画像キュレーションの専門家です。4コマ漫画の各コマに最適なリファレンス画像セットを選定してください。\n\n## コンテキスト\n\n「出雲の占い師と赤い糸の運命」テーマの4コマ画像を生成しています。\n現在は全コマで同一リファレンスセット（ID: 84,85,131,133,137,138,140,141,143,144）を使用しており、コマごとの最適化ができていません。\n\n## 既存リファレンス画像一覧\n\n**fortune_teller カテゴリ（出雲の母 好晃）:**\n- ID 131: ameba_banner (640x500) - バナー画像\n- ID 132: ameba_portrait (100x100) - 小さいポートレート ※サイズ不足\n- ID 133: ura9_portrait (750x422) - ポートレート\n- ID 134: gal_hero (640x920) - ヒーロー画像\n- ID 135: gal_portrait (640x395) - ポートレート\n- ID 136: harura_hero (640x775) - ヒーロー画像\n- ID 137: izumo_enmusubi (640x1295) - 縁結びテーマ\n- ID 138: izumo_hero (640x960) - 出雲ヒーロー\n- ID 139: izumo_key (640x340) - キービジュアル\n- ID 140: izumo_mystical (640x1420) - 神秘的テーマ\n- ID 141: izumo_portrait (640x540) - ポートレート\n- ID 142: izumo_psychic (636x328) - サイキックテーマ\n- ID 143: izumo_shrine (640x630) - 神社テーマ\n- ID 144: izumo_speaking (640x806) - スピーキング\n\n**collection カテゴリ（Pinterest収集）:**\n- ID 84-130: Pinterest経由で収集した画像群（divine golden light, spiritual ceremony, ethereal glow等のテーマ）\n\n## コマ別リファレンス選定方針\n\n| コマ | テーマ | 推奨する既存ID | 追加収集キーワード |\n|------|--------|---------------|------------------|\n| A | 神社・占い師の祈り | 84,85,138,141,143 | 出雲大社 内部, 巫女 祈り |\n| B | 手・赤い糸の分岐 | 131,137,140 | red thread fate hand, 赤い糸 薬指 |\n| C | 宇宙的拡散 | 140 | cosmic threads abstract, sacred geometry red |\n| D | 縁結び・温光 | 131,137,144 | destiny bond hand glow, 縁結び 光 |\n\n## 作業手順\n\n### Step 1: 既存リファレンスの確認と選定\n\nAPIで全リファレンスの詳細を確認:\n```bash\ncurl -s \"http://localhost:5560/api/references?limit=200\" -H \"x-api-token: makeimg_dev_token\"\n```\n\n各コマに最適な5-8枚を選定。選定基準:\n- テーマとの関連性\n- 画像サイズ（最低300x300以上を推奨、100x100等は除外）\n- カテゴリとタグの一致度\n\n### Step 2: 追加リファレンスが必要なコマの収集\n\n特にコマC（宇宙・拡散）は既存リファレンスが少ない。Collection APIで追加収集:\n\n```bash\n# 1. 収集ジョブ作成\ncurl -s -X POST http://localhost:5560/api/collection/jobs \\\n  -H \"Content-Type: application/json\" \\\n  -H \"x-api-token: makeimg_dev_token\" \\\n  -d '{\"query_text\":\"cosmic red threads abstract sacred geometry fate\"}'\n\n# 2. クエリ展開（LLMで関連キーワード生成）\ncurl -s -X POST http://localhost:5560/api/collection/jobs/{id}/expand \\\n  -H \"x-api-token: makeimg_dev_token\"\n\n# 3. 検索実行\ncurl -s -X POST http://localhost:5560/api/collection/jobs/{id}/search \\\n  -H \"x-api-token: makeimg_dev_token\"\n\n# 4. 候補確認\ncurl -s http://localhost:5560/api/collection/jobs/{id} \\\n  -H \"x-api-token: makeimg_dev_token\"\n\n# 5. 候補を選択\ncurl -s -X PUT http://localhost:5560/api/collection/candidates/{candidate_id}/select \\\n  -H \"x-api-token: makeimg_dev_token\"\n\n# 6. ダウンロード\ncurl -s -X POST http://localhost:5560/api/collection/jobs/{id}/download \\\n  -H \"x-api-token: makeimg_dev_token\"\n\n# 7. 重複除去\ncurl -s -X POST http://localhost:5560/api/collection/jobs/{id}/dedup \\\n  -H \"x-api-token: makeimg_dev_token\"\n```\n\n### Step 3: 最終リファレンスセット確定\n\n各コマの最終リファレンスIDリストを確定。\n\n## 出力形式\n\n以下のJSON形式でリーダーに報告:\n```json\n{\n  \"koma_a\": {\"reference_ids\": [84, 85, 138, 141, 143, ...], \"theme\": \"神社・占い師\", \"notes\": \"...\"},\n  \"koma_b\": {\"reference_ids\": [...], \"theme\": \"手・赤い糸\", \"notes\": \"...\"},\n  \"koma_c\": {\"reference_ids\": [...], \"theme\": \"宇宙・拡散\", \"notes\": \"...\"},\n  \"koma_d\": {\"reference_ids\": [...], \"theme\": \"縁結び・温光\", \"notes\": \"...\"}\n}\n```\n\n**注意:** Gemini APIはリファレンス最大14枚まで対応。各コマ5-8枚が理想。",
+      "color": "green",
+      "planModeRequired": false,
+      "joinedAt": 1771422928098,
+      "tmuxPaneId": "in-process",
+      "cwd": "/Users/masaaki_nagasawa/Desktop/prm/aiimg",
+      "subscriptions": [],
+      "backendType": "in-process"
     }
   ]
 }

@@ -1,0 +1,11 @@
+{
+  "id": "9",
+  "subject": "ref-curator",
+  "description": "あなたはリファレンス画像キュレーションの専門家です。4コマ漫画の各コマに最適なリファレンス画像セットを選定してください。\n\n## コンテキスト\n\n「出雲の占い師と赤い糸の運命」テーマの4コマ画像を生成",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "_internal": true
+  }
+}
