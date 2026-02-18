@@ -4,6 +4,6 @@
     "text": "{\"type\":\"task_assignment\",\"taskId\":\"4\",\"subject\":\"テスト: 不要テスト削除 + style_optimizer テスト + 回帰確認\",\"description\":\"## Goal\\n不要テストを削除し、新規style_optimizerのテストを作成し、全テストパスを確認する。\\n\\n## 削除対象テストファイル\\n- tests/test_prompt_enhancer.py (旧prompt_enhancer用)\\n- tests/test_collection.py (collection用)\\n\\n## 修正対象\\n\\n### tests/test_generation.py\\n- `from backend.services.imagen import ...` を削除\\n- TestImagenServiceクラスを削除\\n- TestGeminiImageServiceのみ残す\\n\\n## 新規テストファイル\\n\\n### tests/test_style_optimizer.py\\n- tmp_db fixture (monkeypatch backend.config.DB_PATH + backend.database.DB_PATH)\\n- seed_default_styles + テスト用評価データ投入\\n- test_analyze_style_weakness: 弱点分析の構造検証\\n- test_analyze_no_evaluations: 評価データなし時\\n- test_generate_improvement_plan: LLMモック → 改善プラン構造\\n- test_generate_plan_fallback: LLM失敗時のフォールバック\\n- test_apply_optimization: 適用後にプロファイルが更新される\\n- test_get_optimization_history: 履歴取得\\n- Gemini API呼び出しは全てモック化\\n\\n## 回帰確認\\n- `docker compose exec makeimg pytest tests/ -v` で全テストパス\\n\\n## Constraints\\n- 全テストファイルは /Users/masaaki_nagasawa/Desktop/prm/aiimg/tests/ 配下\\n- monkeypatchでbackend.database.DB_PATHも必ずパッチ\\n- LLM呼び出しはunittest.mock.patchでモック化\",\"assignedBy\":\"test-cleaner\",\"timestamp\":\"2026-02-18T14:53:45.941Z\"}",
     "timestamp": "2026-02-18T14:53:45.941Z",
     "color": "purple",
-    "read": false
+    "read": true
   }
 ]
