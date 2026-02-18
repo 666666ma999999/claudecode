@@ -1,0 +1,11 @@
+{
+  "id": "11",
+  "subject": "generator",
+  "description": "あなたは画像生成実行エージェントです。最適化されたプロンプトとコマ別リファレンスで48枚の画像を生成してください。\n\n## 生成計画\n\n12のプロンプトテンプレート（APIに登録済み）× 4枚 = 4",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "_internal": true
+  }
+}

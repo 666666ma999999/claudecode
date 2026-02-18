@@ -42,6 +42,20 @@
       "cwd": "/Users/masaaki_nagasawa/Desktop/prm/aiimg",
       "subscriptions": [],
       "backendType": "in-process"
+    },
+    {
+      "agentId": "generator@img-quality-boost",
+      "name": "generator",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-6",
+      "prompt": "あなたは画像生成実行エージェントです。最適化されたプロンプトとコマ別リファレンスで48枚の画像を生成してください。\n\n## 生成計画\n\n12のプロンプトテンプレート（APIに登録済み）× 4枚 = 48枚を生成します。\n\n### プロンプトテンプレートID一覧\n\n| ID | Name | Category |\n|----|------|----------|\n| 1 | komaA_v1_dramatic | koma_a |\n| 2 | komaA_v2_intimate | koma_a |\n| 3 | komaA_v3_epic | koma_a |\n| 4 | komaB_v1_dramatic | koma_b |\n| 5 | komaB_v2_intimate | koma_b |\n| 6 | komaB_v3_epic | koma_b |\n| 7 | komaC_v1_dramatic | koma_c |\n| 8 | komaC_v2_intimate | koma_c |\n| 9 | komaC_v3_epic | koma_c |\n| 10 | komaD_v1_dramatic | koma_d |\n| 11 | komaD_v2_intimate | koma_d |\n| 12 | komaD_v3_epic | koma_d |\n\n### コマ別リファレンスID\n\n```json\n{\n  \"koma_a\": [84, 85, 138, 141, 143, 86, 93, 116],\n  \"koma_b\": [137, 140, 117, 118, 122, 123, 94, 98],\n  \"koma_c\": [145, 147, 148, 149, 150, 151, 153, 154],\n  \"koma_d\": [131, 137, 144, 100, 101, 105, 124, 129]\n}\n```\n\n## 生成手順\n\n### Step 1: 各プロンプトテンプレートの内容を取得\n```bash\ncurl -s \"http://localhost:5560/api/prompts/{id}\" -H \"x-api-token: makeimg_dev_token\"\n```\n\n### Step 2: 画像生成API呼び出し\n\n各テンプレートについて以下のAPIを実行:\n\n```bash\ncurl -s -X POST http://localhost:5560/api/generation \\\n  -H \"Content-Type: application/json\" \\\n  -H \"x-api-token: makeimg_dev_token\" \\\n  -d '{\n    \"prompt_text\": \"...(テンプレートから取得したprompt_text)\",\n    \"model\": \"gemini-3-pro-image-preview\",\n    \"aspect_ratio\": \"9:16\",\n    \"number_of_images\": 4,\n    \"reference_image_ids\": [...(コマ別リファレンスID)],\n    \"image_size\": \"2K\",\n    \"prompt_template_id\": ...(テンプレートID),\n    \"enhance_prompt\": false\n  }'\n```\n\n### 実行順序と待機\n\n**重要:** Gemini APIにはレート制限があるため、各リクエスト間に**10秒の待機**を入れてください。\n\n```\nsleep 10\n```\n\n生成順序:\n1. コマA: テンプレートID 1, 2, 3 → reference_image_ids: [84, 85, 138, 141, 143, 86, 93, 116]\n2. コマB: テンプレートID 4, 5, 6 → reference_image_ids: [137, 140, 117, 118, 122, 123, 94, 98]\n3. コマC: テンプレートID 7, 8, 9 → reference_image_ids: [145, 147, 148, 149, 150, 151, 153, 154]\n4. コマD: テンプレートID 10, 11, 12 → reference_image_ids: [131, 137, 144, 100, 101, 105, 124, 129]\n\n### Step 3: 結果の確認\n\n各セッションのレスポンスからsession_idとimage_idsを記録。生成後に確認:\n```bash\ncurl -s \"http://localhost:5560/api/generation/sessions/{session_id}\" -H \"x-api-token: makeimg_dev_token\"\n```\n\n### エラーハンドリング\n\n- 生成が失敗した場合（status: \"failed\"）、20秒待ってからリトライ\n- 3回連続失敗したら、そのテンプレートをスキップして次に進む\n- APIが429（レート制限）を返した場合、60秒待ってからリトライ\n\n## 出力\n\n完了後、以下の形式でリーダーに報告してください:\n\n```\n生成結果サマリー:\n- コマA: Session IDs [X, Y, Z], 合計N枚生成\n- コマB: Session IDs [X, Y, Z], 合計N枚生成\n- コマC: Session IDs [X, Y, Z], 合計N枚生成\n- コマD: Session IDs [X, Y, Z], 合計N枚生成\n- 総計: M枚生成完了\n- 失敗: K件（理由: ...）\n```",
+      "color": "yellow",
+      "planModeRequired": false,
+      "joinedAt": 1771423723316,
+      "tmuxPaneId": "in-process",
+      "cwd": "/Users/masaaki_nagasawa/Desktop/prm/aiimg",
+      "subscriptions": [],
+      "backendType": "in-process"
     }
   ]
 }
