@@ -72,5 +72,26 @@
     "timestamp": "2026-02-18T14:37:40.786Z",
     "color": "yellow",
     "read": true
+  },
+  {
+    "from": "style-backend",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1771425536317@style-backend\",\"from\":\"style-backend\",\"timestamp\":\"2026-02-18T14:38:59.985Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-18T14:38:59.985Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "style-evaluator",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1771425536882@style-evaluator\",\"from\":\"style-evaluator\",\"timestamp\":\"2026-02-18T14:39:01.490Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-18T14:39:01.490Z",
+    "color": "green",
+    "read": true
+  },
+  {
+    "from": "style-frontend",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1771425537434@style-frontend\",\"from\":\"style-frontend\",\"timestamp\":\"2026-02-18T14:39:01.664Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-18T14:39:01.664Z",
+    "color": "yellow",
+    "read": true
   }
 ]

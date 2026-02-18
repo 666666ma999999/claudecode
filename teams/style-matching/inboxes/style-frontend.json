@@ -5,5 +5,11 @@
     "timestamp": "2026-02-18T14:35:40.961Z",
     "color": "yellow",
     "read": true
+  },
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1771425537434@style-frontend\",\"from\":\"team-lead\",\"reason\":\"All work complete. Shutting down.\",\"timestamp\":\"2026-02-18T14:38:57.434Z\"}",
+    "timestamp": "2026-02-18T14:38:57.434Z",
+    "read": true
   }
 ]
