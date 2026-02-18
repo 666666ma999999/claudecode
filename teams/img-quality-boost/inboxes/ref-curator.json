@@ -18,5 +18,11 @@
     "summary": "Requesting final reference ID sets",
     "timestamp": "2026-02-18T14:03:58.437Z",
     "read": true
+  },
+  {
+    "from": "team-lead",
+    "text": "{\"type\":\"shutdown_request\",\"requestId\":\"shutdown-1771423730144@ref-curator\",\"from\":\"team-lead\",\"reason\":\"タスク完了。リファレンスセットは手動で構成しました。ありがとうございました。\",\"timestamp\":\"2026-02-18T14:08:50.144Z\"}",
+    "timestamp": "2026-02-18T14:08:50.144Z",
+    "read": true
   }
 ]
