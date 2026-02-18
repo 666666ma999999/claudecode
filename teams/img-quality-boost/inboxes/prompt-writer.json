@@ -4,7 +4,7 @@
     "text": "{\"type\":\"task_assignment\",\"taskId\":\"8\",\"subject\":\"prompt-writer\",\"description\":\"あなたは画像生成プロンプトの最適化エキスパートです。Gemini Image Generation用のプロンプトを最適化してください。\\n\\n## コンテキスト\\n\\n4コマ漫画形式の画像を生成しています。テ\",\"assignedBy\":\"prompt-writer\",\"timestamp\":\"2026-02-18T13:55:31.134Z\"}",
     "timestamp": "2026-02-18T13:55:31.134Z",
     "color": "blue",
-    "read": false
+    "read": true
   },
   {
     "from": "team-lead",
