@@ -72,5 +72,13 @@
     "timestamp": "2026-02-18T14:03:37.697Z",
     "color": "green",
     "read": true
+  },
+  {
+    "from": "ref-curator",
+    "text": "完了済みです。最終リファレンスIDリストは以下の通りです:\n\n```json\n{\n  \"koma_a\": [84, 85, 134, 141, 60, 86, 87],\n  \"koma_b\": [78, 62, 65, 58, 120, 118, 123],\n  \"koma_c\": [147, 150, 148, 151, 153, 140, 100],\n  \"koma_d\": [131, 137, 143, 144, 112, 128, 130]\n}\n```\n\n各コマ7枚、合計28枚。Panel C用に新規収集した宇宙・神聖幾何学画像（Job #29、IDs 145-154）から5枚を採用しています。Task #3の画像生成に進めます。",
+    "summary": "Final reference ID lists ready for all 4 panels",
+    "timestamp": "2026-02-18T14:04:08.989Z",
+    "color": "green",
+    "read": false
   }
 ]
