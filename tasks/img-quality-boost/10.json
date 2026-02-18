@@ -3,8 +3,8 @@
   "subject": "Curate per-panel reference images for 4-koma manga",
   "description": "Select optimal reference image sets for each of the 4 panels (A-D) of the \"出雲の占い師と赤い糸の運命\" themed manga. Includes checking existing references, collecting additional ones for panel C, and producing final JSON output.",
   "activeForm": "Curating per-panel reference images",
-  "status": "in_progress",
+  "owner": "ref-curator",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": [],
-  "owner": "ref-curator"
+  "blockedBy": []
 }
