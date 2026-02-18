@@ -35,5 +35,12 @@
     "timestamp": "2026-02-18T14:53:51.917Z",
     "color": "green",
     "read": true
+  },
+  {
+    "from": "optimizer-builder",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"optimizer-builder\",\"timestamp\":\"2026-02-18T14:53:56.815Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-18T14:53:56.815Z",
+    "color": "green",
+    "read": true
   }
 ]
