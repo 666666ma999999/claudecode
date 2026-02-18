@@ -1,0 +1,17 @@
+[
+  {
+    "from": "prompt-writer",
+    "text": "12プロンプトの最適化と登録が完了しました。全て物語的記述型に変換済みです。\n\n## 登録結果一覧\n\n| ID | Name | Category | Words | Style |\n|----|------|----------|-------|-------|\n| 1 | komaA_v1_dramatic | koma_a | 242 | Cinematic (35mm, f/2.0, Rembrandt lighting, low angle) |\n| 2 | komaA_v2_intimate | koma_a | 262 | Portrait (85mm, f/1.4, three-point lighting, shallow DOF) |\n| 3 | komaA_v3_epic | koma_a | 293 | Establishing (24mm, f/4.0, split lighting, twilight) |\n| 4 | komaB_v1_dramatic | koma_b | 266 | Macro (100mm, f/2.8, volumetric lighting) |\n| 5 | komaB_v2_intimate | koma_b | 265 | Emotional (50mm, f/1.8, butterfly lighting) |\n| 6 | komaB_v3_epic | koma_b | 255 | Vertical sweep (24mm, f/2.8, dynamic rim lighting) |\n| 7 | komaC_v1_dramatic | koma_c | 258 | Panoramic (16mm, f/5.6, cross-lighting) |\n| 8 | komaC_v2_intimate | koma_c | 267 | Dreamscape (50mm, f/2.0, diffused internal glow) |\n| 9 | komaC_v3_epic | koma_c | 272 | Cosmic vista (14mm fisheye, f/8.0, self-generated light) |\n| 10 | komaD_v1_dramatic | koma_d | 278 | Convergence (135mm, f/2.0, chiaroscuro) |\n| 11 | komaD_v2_intimate | koma_d | 278 | Macro moment (90mm, f/2.0, thread-emitted warmth) |\n| 12 | komaD_v3_epic | koma_d | 289 | Grand finale (35mm, f/2.8, volumetric god rays) |\n\n## 最適化ポイント\n\n1. **写真用語**: 各プロンプトにレンズ(14mm-135mm)、絞り値(f/1.4-f/8.0)、照明設定(Rembrandt/split/rim/three-point/butterfly/chiaroscuro)を明示\n2. **空間構成**: foreground/midground/backgroundを各プロンプトで明確に配置\n3. **素材テクスチャ**: \"liquid silk\", \"rough-hewn cedar\", \"translucent gossamer\", \"molten ruby glass\" 等の具体的記述\n4. **アクション動詞**: \"radiates\", \"cascades\", \"erupts\", \"converges\", \"spirals\" 等の動的表現\n5. **カラーパレット**: 各プロンプト末尾に統一カラースキームを明記\n6. **V1/V2/V3の差別化**: ドラマチック(強い明暗・シネマティック) / 繊細(浅いDOF・感情的) / 壮大(広角・超自然的スケール)\n\n全プロンプトは150語以上（242-293語）の物語的記述形式です。Round 1-3の画像生成に進む準備が整いました。",
+    "summary": "12 prompts registered (IDs 1-12), all optimized",
+    "timestamp": "2026-02-18T13:58:27.249Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "prompt-writer",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"prompt-writer\",\"timestamp\":\"2026-02-18T13:58:30.055Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-18T13:58:30.056Z",
+    "color": "blue",
+    "read": true
+  }
+]
