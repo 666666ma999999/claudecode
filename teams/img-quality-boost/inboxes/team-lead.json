@@ -87,5 +87,12 @@
     "timestamp": "2026-02-18T14:04:19.747Z",
     "color": "green",
     "read": true
+  },
+  {
+    "from": "prompt-writer",
+    "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1771423729295@prompt-writer\",\"from\":\"prompt-writer\",\"timestamp\":\"2026-02-18T14:08:53.667Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
+    "timestamp": "2026-02-18T14:08:53.667Z",
+    "color": "blue",
+    "read": false
   }
 ]
