@@ -1,0 +1,13 @@
+{
+  "id": "2",
+  "subject": "Backend: style_optimizer.py + ルーター実装",
+  "description": "## Goal\nPDCAの「Act」フェーズを担うstyle_optimizerサービスとAPIを実装する。\n\n## backend/services/style_optimizer.py (新規)\n蓄積された評価データを分析し、スタイルプロファイルとプロンプト戦略を自動改善する。\n\n### 関数\n\n#### analyze_style_weakness(site_style_key) -> Dict\n- style_evaluationsテーブルから直近の評価データを集計\n- color_match, mood_match, composition_match の平均を算出\n- 最も低いスコアの軸を特定し、弱点として報告\n- 返却: { weakest_axis: str, scores: {color: float, mood: float, composition: float}, total_evaluations: int, trend: \"improving\"|\"declining\"|\"stable\" }\n\n#### generate_improvement_plan(site_style_key) -> Dict\n- analyze_style_weaknessの結果を元に、Gemini 2.5-flashで改善プランを生成\n- 入力: 現在のstyle_profile + 弱点分析 + 直近のimprovement_hints + 成功パターン\n- LLMプロンプト: 「以下のスタイルの[弱点軸]を改善するための具体的な提案を3つ生成してください」\n- 返却: { site_style_key, weakness: {axis, score}, suggestions: [{action, detail, expected_impact}], optimized_prefix: str, optimized_suffix: str }\n- フォールバック: LLM失敗時は弱点軸に基づく定型提案を返す\n\n#### apply_optimization(site_style_key, optimization_id) -> Dict\n- 改善プランの提案をstyle_profileに反映\n- prompt_prefix / prompt_suffix を更新\n- style_profile_json内のキーワードを追加/調整\n- 変更履歴をログ記録\n\n#### get_optimization_history(site_style_key) -> List[Dict]\n- 過去の最適化履歴を取得（style_optimizationsテーブル）\n\n### 新テーブル (database.pyに追加)\n```sql\nCREATE TABLE IF NOT EXISTS style_optimizations (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    site_style_id INTEGER NOT NULL,\n    optimization_type TEXT NOT NULL,\n    before_snapshot TEXT DEFAULT '{}',\n    after_snapshot TEXT DEFAULT '{}',\n    suggestions_json TEXT DEFAULT '[]',\n    weakness_analysis_json TEXT DEFAULT '{}',\n    applied INTEGER DEFAULT 0,\n    created_at TEXT DEFAULT (datetime('now')),\n    FOREIGN KEY (site_style_id) REFERENCES site_styles(id)\n);\n```\n\n## backend/routers/style_optimizer.py (新規)\n- GET /api/style-optimizer/analyze/{site_style_key}: 弱点分析\n- POST /api/style-optimizer/plan/{site_style_key}: 改善プラン生成\n- POST /api/style-optimizer/apply/{site_style_key}/{optimization_id}: 改善適用\n- GET /api/style-optimizer/history/{site_style_key}: 最適化履歴\n\n## backend/main.py 修正\n- `from backend.routers import ... style_optimizer` 追加\n- `app.include_router(style_optimizer.router)` 追加\n\n## Constraints\n- Gemini APIは `gemini-2.5-flash` を使用\n- `from google import genai` + `from google.genai import types` パターン\n- LLM失敗時は定型フォールバック必須\n- database.py変更はTask #1と競合するため、Task #1完了後に実行",
+  "activeForm": "Implementing style optimizer",
+  "status": "pending",
+  "blocks": [
+    "4"
+  ],
+  "blockedBy": [
+    "1"
+  ]
+}
