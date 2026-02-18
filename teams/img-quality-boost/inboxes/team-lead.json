@@ -93,13 +93,13 @@
     "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1771423729295@prompt-writer\",\"from\":\"prompt-writer\",\"timestamp\":\"2026-02-18T14:08:53.667Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
     "timestamp": "2026-02-18T14:08:53.667Z",
     "color": "blue",
-    "read": false
+    "read": true
   },
   {
     "from": "ref-curator",
     "text": "{\"type\":\"shutdown_approved\",\"requestId\":\"shutdown-1771423730144@ref-curator\",\"from\":\"ref-curator\",\"timestamp\":\"2026-02-18T14:08:58.605Z\",\"paneId\":\"in-process\",\"backendType\":\"in-process\"}",
     "timestamp": "2026-02-18T14:08:58.605Z",
     "color": "green",
-    "read": false
+    "read": true
   }
 ]
