@@ -3,7 +3,8 @@
   "subject": "T1-T4: Backend - DB, favorites router, images filter, main.py",
   "description": "Phase 1: バックエンド実装\n\n### T1: database.py - is_favoriteカラム追加\n- `generated_images`テーブル定義に`is_favorite INTEGER DEFAULT 0`追加（`image_index`の後）\n- `init_database()`にALTER TABLEマイグレーション追加（既存DB対応、カラム存在チェック付き）\n- `idx_generated_images_favorite`インデックス追加\n\n### T2: routers/favorites.py - 新規作成\n- `POST /api/favorites/{image_id}`: is_favoriteを0↔1トグル、`{id, is_favorite}`返却\n- APIRouterのprefix: `/api/favorites`, tags: `[\"favorites\"]`\n- 画像存在チェック → 404エラー\n- get_connection, dict_from_rowをimport\n\n### T3: routers/images.py - フィルター追加\n- `list_images()`に`favorite_only: Optional[bool] = None`パラメータ追加\n- favorite_only=Trueの場合、`gi.is_favorite = 1`条件をconditions/paramsに追加\n- count_queryにも同条件を追加\n- SELECTに`gi.is_favorite`が含まれるよう確認（`gi.*`で既にカバー）\n\n### T4: main.py - ルーター登録\n- `from backend.routers import ..., favorites` をimport行に追加\n- `app.include_router(favorites.router)` を追加\n\n### ファイルパス（絶対パス）\n- /Users/masaaki_nagasawa/Desktop/prm/aiimg/backend/database.py\n- /Users/masaaki_nagasawa/Desktop/prm/aiimg/backend/routers/favorites.py（新規）\n- /Users/masaaki_nagasawa/Desktop/prm/aiimg/backend/routers/images.py\n- /Users/masaaki_nagasawa/Desktop/prm/aiimg/backend/main.py",
   "activeForm": "Implementing backend favorites API",
-  "status": "pending",
+  "owner": "backend-dev",
+  "status": "completed",
   "blocks": [
     "4"
   ],

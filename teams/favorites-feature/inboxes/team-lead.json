@@ -1,0 +1,25 @@
+[
+  {
+    "from": "backend-dev",
+    "text": "T1-T4 バックエンド実装が完了しました。\n\n### T1: database.py\n- `generated_images`テーブルに`is_favorite INTEGER DEFAULT 0`カラムを追加（スキーマ定義）\n- `init_database()`にALTER TABLEマイグレーション追加（既存DB対応）\n- `idx_generated_images_favorite`インデックスを追加\n\n### T2: favorites.py（新規作成）\n- `/api/favorites/{image_id}` POSTエンドポイント作成\n- お気に入り状態をトグル（0↔1）する機能を実装\n\n### T3: images.py\n- `list_images()`に`favorite_only: Optional[bool] = None`パラメータ追加\n- メインクエリとcountクエリの両方にお気に入りフィルタ条件を追加\n\n### T4: main.py\n- `favorites`モジュールのimportを追加\n- `app.include_router(favorites.router)`を登録\n\n変更ファイル:\n- `/Users/masaaki_nagasawa/Desktop/prm/aiimg/backend/database.py`\n- `/Users/masaaki_nagasawa/Desktop/prm/aiimg/backend/routers/favorites.py`（新規）\n- `/Users/masaaki_nagasawa/Desktop/prm/aiimg/backend/routers/images.py`\n- `/Users/masaaki_nagasawa/Desktop/prm/aiimg/backend/main.py`",
+    "summary": "T1-T4 backend implementation complete",
+    "timestamp": "2026-02-19T02:59:46.566Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "backend-dev",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"backend-dev\",\"timestamp\":\"2026-02-19T02:59:52.345Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-19T02:59:52.345Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "backend-dev",
+    "text": "タスク #1 (T1-T4) は既に前のターンで実装済みです。完了としてマークしました。\n\n実装済みの内容:\n- T1: database.py - is_favoriteカラム、マイグレーション、インデックス追加\n- T2: routers/favorites.py - 新規作成、POST /api/favorites/{image_id} トグルAPI\n- T3: routers/images.py - favorite_only フィルタパラメータ追加（メインクエリ・countクエリ両方）\n- T4: main.py - favorites ルーター import・登録\n\n次のタスクがあれば対応します。",
+    "summary": "Task #1 already completed, marked done",
+    "timestamp": "2026-02-19T03:00:28.376Z",
+    "color": "blue",
+    "read": false
+  }
+]
