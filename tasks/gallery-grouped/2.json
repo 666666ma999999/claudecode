@@ -3,8 +3,8 @@
   "subject": "Frontend: ギャラリーをセッション別グループ表示に変更",
   "description": "ギャラリーの表示をセッション別グループ表示に変更する。\n\n### /Users/masaaki_nagasawa/Desktop/prm/aiimg/frontend/config.js\nENDPOINTSに追加:\n```js\nIMAGES_GROUPED: '/api/images/grouped',\n```\n\n### /Users/masaaki_nagasawa/Desktop/prm/aiimg/frontend/components/image-gallery.js\n大幅変更:\n\n1. フィルターバーに「表示切替」ボタン追加（フラット/グループ）\n2. デフォルトをグループ表示にする\n3. グループ表示時はセッションヘッダー（プロンプト、モデル、日時）+ 画像グリッドを表示\n\n変更ポイント:\n- `let galleryViewMode = 'grouped';` 状態変数追加\n- フィルターバーに表示切替ボタン追加\n- `loadGalleryImages()`を分岐: grouped時は`loadGroupedGallery()`、flat時は既存ロジック\n- `loadGroupedGallery()` 新関数: `/api/images/grouped`を呼び出してセッション別にレンダリング\n\nグループ表示のHTML構造:\n```html\n<div class=\"session-group\">\n    <div class=\"session-header\">\n        <div class=\"session-prompt\">プロンプトテキスト（複数行表示）</div>\n        <div class=\"session-meta\">\n            <span class=\"tag\">モデル名</span>\n            <span class=\"session-date\">2026-02-19 12:00</span>\n            <span class=\"session-count\">4枚</span>\n        </div>\n    </div>\n    <div class=\"image-grid\">\n        <!-- 既存のimage-cardと同じ構造（星ボタン、比較チェックボックス含む） -->\n    </div>\n</div>\n```\n\n### /Users/masaaki_nagasawa/Desktop/prm/aiimg/frontend/styles.css\n`/* Responsive */`の前に追加:\n```css\n/* Session group */\n.session-group {\n    margin-bottom: 32px;\n}\n.session-header {\n    margin-bottom: 12px;\n    padding: 12px 16px;\n    background: var(--surface);\n    border: 1px solid var(--border);\n    border-radius: var(--radius);\n}\n.session-prompt {\n    font-size: 13px;\n    line-height: 1.5;\n    color: var(--text);\n    white-space: pre-wrap;\n    max-height: 60px;\n    overflow: hidden;\n}\n.session-meta {\n    display: flex;\n    gap: 8px;\n    align-items: center;\n    margin-top: 6px;\n    font-size: 12px;\n    color: var(--text-secondary);\n}\n.btn-view-mode.active {\n    background: var(--primary);\n    color: white;\n}\n```\n\n### 重要\n- 既存のフラット表示機能は残す（切替可能に）\n- 星ボタン、比較モード機能はグループ表示でもそのまま動作すること\n- galleryFavOnly, compareMode等の既存状態変数はそのまま使用",
   "activeForm": "Implementing grouped gallery UI",
-  "status": "in_progress",
+  "owner": "frontend-dev",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": [],
-  "owner": "frontend-dev"
+  "blockedBy": []
 }
