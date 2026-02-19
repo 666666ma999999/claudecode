@@ -1,0 +1,33 @@
+{
+  "name": "favorites-feature",
+  "description": "お気に入り機能 & 比較ビュー実装チーム",
+  "createdAt": 1771469864727,
+  "leadAgentId": "team-lead@favorites-feature",
+  "leadSessionId": "be412ef6-8096-40e8-b2d4-9d4d09cbb190",
+  "members": [
+    {
+      "agentId": "team-lead@favorites-feature",
+      "name": "team-lead",
+      "agentType": "orchestrator",
+      "model": "claude-opus-4-6",
+      "joinedAt": 1771469864727,
+      "tmuxPaneId": "",
+      "cwd": "/Users/masaaki_nagasawa/Desktop/prm/aiimg",
+      "subscriptions": []
+    },
+    {
+      "agentId": "backend-dev@favorites-feature",
+      "name": "backend-dev",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-6",
+      "prompt": "あなたは「backend-dev」です。favorites-featureチームのバックエンド担当です。\n\n## タスク: T1-T4 バックエンド お気に入り機能実装\n\n以下の4つの変更を実装してください。\n\n### T1: /Users/masaaki_nagasawa/Desktop/prm/aiimg/backend/database.py\n\n1. `generated_images`テーブル定義で`image_index INTEGER DEFAULT 0,`の次の行に `is_favorite INTEGER DEFAULT 0,` を追加\n2. `init_database()`関数内のconn.commitの前に、ALTER TABLE マイグレーションを追加:\n```python\n# マイグレーション: is_favoriteカラム追加\ntry:\n    conn.execute(\"ALTER TABLE generated_images ADD COLUMN is_favorite INTEGER DEFAULT 0\")\nexcept Exception:\n    pass  # カラム既存\n```\n3. インデックス定義の`idx_generated_images_session`の後に追加:\n```sql\nCREATE INDEX IF NOT EXISTS idx_generated_images_favorite ON generated_images(is_favorite);\n```\n\n### T2: /Users/masaaki_nagasawa/Desktop/prm/aiimg/backend/routers/favorites.py（新規作成）\n\n```python\n\"\"\"お気に入りトグルAPI\"\"\"\nfrom __future__ import annotations\n\nfrom fastapi import APIRouter, HTTPException\n\nfrom backend.database import get_connection\n\nrouter = APIRouter(prefix=\"/api/favorites\", tags=[\"favorites\"])\n\n\n@router.post(\"/{image_id}\")\ndef toggle_favorite(image_id: int):\n    \"\"\"お気に入り状態をトグル（0↔1）\"\"\"\n    conn = get_connection()\n    try:\n        row = conn.execute(\n            \"SELECT id, is_favorite FROM generated_images WHERE id = ?\",\n            (image_id,)\n        ).fetchone()\n        if not row:\n            raise HTTPException(status_code=404, detail=\"画像が見つかりません\")\n\n        new_val = 0 if row[\"is_favorite\"] else 1\n        conn.execute(\n            \"UPDATE generated_images SET is_favorite = ? WHERE id = ?\",\n            (new_val, image_id)\n        )\n        conn.commit()\n        return {\"id\": image_id, \"is_favorite\": new_val}\n    finally:\n        conn.close()\n```\n\n### T3: /Users/masaaki_nagasawa/Desktop/prm/aiimg/backend/routers/images.py\n\n`list_images()`に`favorite_only: Optional[bool] = None`パラメータを追加し、以下の条件分岐を追加:\n\n1. 関数シグネチャに追加: `favorite_only: Optional[bool] = None,`\n2. メインクエリのconditionsに追加（`if model:`ブロックの後）:\n```python\nif favorite_only:\n    conditions.append(\"gi.is_favorite = 1\")\n```\n3. count_queryのcount_conditionsにも同様に追加:\n```python\nif favorite_only:\n    count_conditions.append(\"gi.is_favorite = 1\")\n```\n\n### T4: /Users/masaaki_nagasawa/Desktop/prm/aiimg/backend/main.py\n\n1. importの行を修正:\n変更前: `from backend.routers import images, generation, feedback, prompts, references, styles, style_evaluation, style_optimizer`\n変更後: `from backend.routers import images, generation, feedback, prompts, references, styles, style_evaluation, style_optimizer, favorites`\n\n2. `app.include_router(style_optimizer.router)`の後に追加:\n```python\napp.include_router(favorites.router)\n```\n\n## 重要\n- 必ず上記の絶対パスを使ってファイルを編集してください\n- まずReadツールで各ファイルを読んでから編集してください\n- 新規ファイル（favorites.py）はWriteツールで作成してください",
+      "color": "blue",
+      "planModeRequired": false,
+      "joinedAt": 1771469946832,
+      "tmuxPaneId": "in-process",
+      "cwd": "/Users/masaaki_nagasawa/Desktop/prm/aiimg",
+      "subscriptions": [],
+      "backendType": "in-process"
+    }
+  ]
+}
