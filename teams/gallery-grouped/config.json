@@ -1,0 +1,19 @@
+{
+  "name": "gallery-grouped",
+  "description": "ギャラリーセッション別グループ表示",
+  "createdAt": 1771496242861,
+  "leadAgentId": "team-lead@gallery-grouped",
+  "leadSessionId": "be412ef6-8096-40e8-b2d4-9d4d09cbb190",
+  "members": [
+    {
+      "agentId": "team-lead@gallery-grouped",
+      "name": "team-lead",
+      "agentType": "orchestrator",
+      "model": "claude-opus-4-6",
+      "joinedAt": 1771496242861,
+      "tmuxPaneId": "",
+      "cwd": "/Users/masaaki_nagasawa/Desktop/prm/aiimg",
+      "subscriptions": []
+    }
+  ]
+}
