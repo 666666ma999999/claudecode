@@ -1,0 +1,11 @@
+{
+  "id": "4",
+  "subject": "frontend-dev",
+  "description": "あなたは「frontend-dev」です。gallery-groupedチームのフロントエンド担当です。\n\n## タスク: ギャラリーをセッション別グループ表示に変更\n\n3つのファイルを変更してくださ",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "_internal": true
+  }
+}

@@ -12,6 +12,21 @@
     "text": "{\"type\":\"idle_notification\",\"from\":\"backend-dev\",\"timestamp\":\"2026-02-19T10:18:51.357Z\",\"idleReason\":\"available\"}",
     "timestamp": "2026-02-19T10:18:51.357Z",
     "color": "blue",
-    "read": false
+    "read": true
+  },
+  {
+    "from": "backend-dev",
+    "text": "タスク#1 (Backend: GET /api/images/grouped endpoint) は既に完了済みです。\n\n実装済みの内容:\n- **ファイル**: `/Users/masaaki_nagasawa/Desktop/prm/aiimg/backend/routers/images.py` 行 114-183\n- `/grouped` は `/{image_id}` より前に配置済み\n- `dicts_from_rows` は既にインポート済み（行9）\n- パラメータ: `limit=20`, `offset=0`, `model`, `min_score`, `favorite_only`\n- レスポンス: `{\"sessions\": [...], \"total_sessions\": N}`\n\n次のタスクがあれば割り当ててください。",
+    "summary": "Task #1 already completed, ready for next task",
+    "timestamp": "2026-02-19T10:19:02.565Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "backend-dev",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"backend-dev\",\"timestamp\":\"2026-02-19T10:19:05.374Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-19T10:19:05.374Z",
+    "color": "blue",
+    "read": true
   }
 ]
