@@ -1,0 +1,17 @@
+[
+  {
+    "from": "backend-dev",
+    "text": "GET /api/images/grouped エンドポイントの追加が完了しました。\n\n### 変更内容\n**ファイル**: `/Users/masaaki_nagasawa/Desktop/prm/aiimg/backend/routers/images.py` (行 114-183)\n\n- `list_images_grouped` 関数を `list_images` (行111) の後、`get_image` (行186) の前に配置しました\n- ルーティング順序: `/grouped` が `/{image_id}` より前に定義されているため、パスパラメータとの競合はありません\n- `dicts_from_rows` は既に行9でインポート済みだったため、追加のインポートは不要でした\n\n### エンドポイント仕様\n- **パス**: `GET /api/images/grouped`\n- **クエリパラメータ**: `limit`(20), `offset`(0), `model`, `min_score`, `favorite_only`\n- **レスポンス**: `{\"sessions\": [...], \"total_sessions\": N}` — 各セッションに `images` 配列を含む",
+    "summary": "GET /api/images/grouped endpoint added successfully",
+    "timestamp": "2026-02-19T10:18:47.976Z",
+    "color": "blue",
+    "read": true
+  },
+  {
+    "from": "backend-dev",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"backend-dev\",\"timestamp\":\"2026-02-19T10:18:51.357Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-19T10:18:51.357Z",
+    "color": "blue",
+    "read": false
+  }
+]
