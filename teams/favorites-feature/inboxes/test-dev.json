@@ -3,6 +3,6 @@
     "from": "team-lead",
     "text": "{\"type\":\"task_assignment\",\"taskId\":\"4\",\"subject\":\"T13: tests/test_favorites.py - お気に入りAPIテスト\",\"description\":\"Phase 4: テスト作成\\n\\n### test_favorites.py 新規作成\\nテスト内容:\\n1. トグルON: POSTでis_favorite=1になること\\n2. トグルOFF: 再度POSTでis_favorite=0に戻ること\\n3. 404: 存在しないimage_idで404\\n4. favorite_onlyフィルター: お気に入り画像のみ返ること\\n5. マイグレーション: ALTER TABLEが二重実行でエラーにならないこと\\n\\nテストパターン:\\n- テスト用DBをtmpで作成（init_database()呼び出し）\\n- テスト用データをINSERT\\n- FastAPI TestClientを使用\\n\\n### ファイルパス（絶対パス）\\n- /Users/masaaki_nagasawa/Desktop/prm/aiimg/tests/test_favorites.py（新規）\\n\\n### 参考: 既存テストの書き方\\ntests/test_generation.py参照。直接モジュールをimportしてテスト。\\nただしこのテストはAPI統合テストなので、TestClientを使う方が適切。\\nconftest.pyが無い場合はシンプルなDB直接テストでもOK。\",\"assignedBy\":\"team-lead\",\"timestamp\":\"2026-02-19T03:00:38.750Z\"}",
     "timestamp": "2026-02-19T03:00:38.750Z",
-    "read": false
+    "read": true
   }
 ]

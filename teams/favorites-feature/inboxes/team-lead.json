@@ -28,5 +28,50 @@
     "timestamp": "2026-02-19T03:00:30.714Z",
     "color": "blue",
     "read": true
+  },
+  {
+    "from": "frontend-dev",
+    "text": "T5-T12 全てのフロントエンド実装が完了しました。\n\n実装した変更:\n\n**T5: styles.css** - お気に入りボタン (.fav-btn)、比較モード (.compare-checkbox, .compare-selected)、比較ビュー (.compare-grid, .compare-card) のCSS追加\n\n**T6: config.js** - `FAVORITE_TOGGLE` エンドポイント追加\n\n**T7: image-gallery.js** - 全面書き換え。お気に入りフィルター、比較モード（チェックボックス、最大6枚選択）、toggleFavorite/toggleFavFilter/toggleCompareMode/goCompare関数追加\n\n**T8: image-detail.js** - 詳細画面にお気に入りボタン追加、toggleDetailFavorite関数追加\n\n**T9: prompt-manager.js** - 生成結果カードにお気に入り星ボタン追加\n\n**T11: comparison-view.js** - 新規作成。比較ビューコンポーネント（画像並列表示、詳細リンク）\n\n**T12: app.js** - handleRoute()にcompareケース追加\n**T12: index.html** - comparison-view.jsのscriptタグ追加\n\n全ファイルの変更を検証済みです。",
+    "summary": "T5-T12 frontend favorites and compare view complete",
+    "timestamp": "2026-02-19T03:01:37.053Z",
+    "color": "green",
+    "read": true
+  },
+  {
+    "from": "frontend-dev",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"frontend-dev\",\"timestamp\":\"2026-02-19T03:01:44.040Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-19T03:01:44.040Z",
+    "color": "green",
+    "read": true
+  },
+  {
+    "from": "test-dev",
+    "text": "T13 完了: `/Users/masaaki_nagasawa/Desktop/prm/aiimg/tests/test_favorites.py` を新規作成しました。\n\n実装内容:\n- **TestFavoriteToggle** (3テスト): トグルON/OFF/404\n- **TestFavoriteFilter** (2テスト): favorite_onlyフィルター/空結果\n- **TestMigration** (1テスト): init_database()二重実行の安全性\n\nソースコードを読んで確認した点:\n- `database.py`: `get_connection()` は `backend.config.DB_PATH` をインポートして使用 → `backend.database.DB_PATH` と `backend.config.DB_PATH` の両方をpatchする必要あり\n- `favorites.py`: `toggle_favorite()` は `get_connection()` 経由でDB接続、`is_favorite` を 0↔1 でトグル、存在しない画像は HTTPException(404)\n- `images.py`: `list_images()` の `favorite_only` パラメータは `gi.is_favorite = 1` 条件を追加、countクエリにも同条件が反映済み\n\nテスト実行はDocker経由で: `docker compose exec makeimg pytest tests/test_favorites.py -v`",
+    "summary": "T13 test_favorites.py creation complete",
+    "timestamp": "2026-02-19T03:01:45.037Z",
+    "color": "yellow",
+    "read": true
+  },
+  {
+    "from": "test-dev",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"test-dev\",\"timestamp\":\"2026-02-19T03:01:50.343Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-19T03:01:50.343Z",
+    "color": "yellow",
+    "read": true
+  },
+  {
+    "from": "test-dev",
+    "text": "T13は既に完了済みです。`/Users/masaaki_nagasawa/Desktop/prm/aiimg/tests/test_favorites.py` を作成済みで、以下6テストを含みます:\n\n1. test_toggle_on - トグルONでis_favorite=1\n2. test_toggle_off - 再トグルでis_favorite=0\n3. test_toggle_not_found - 存在しない画像で404\n4. test_favorite_only_filter - favorite_only=Trueでお気に入りのみ返す\n5. test_no_favorites - お気に入りなしでempty\n6. test_double_init - init_database()二重実行の安全性\n\n次のタスクがあれば対応します。",
+    "summary": "T13 already completed, ready for next task",
+    "timestamp": "2026-02-19T03:01:57.193Z",
+    "color": "yellow",
+    "read": true
+  },
+  {
+    "from": "test-dev",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"test-dev\",\"timestamp\":\"2026-02-19T03:01:59.430Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-19T03:01:59.430Z",
+    "color": "yellow",
+    "read": true
   }
 ]
