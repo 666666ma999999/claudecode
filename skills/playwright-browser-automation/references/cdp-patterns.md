@@ -433,3 +433,162 @@ class NoCacheMiddleware(BaseHTTPMiddleware):
 ### 注意: StaticFiles(html=True)
 
 FastAPIの `StaticFiles(html=True)` はURLパスに `.html` がなくてもHTMLを返すため、ファイル拡張子チェックだけでは不十分。`content-type` ヘッダーも併せてチェックすること。
+
+---
+
+## Chrome Cookie直接抽出（CDP不要・macOS専用）
+
+### 背景
+Chrome 145以降、`--remote-debugging-port` 使用時に `--user-data-dir` が必須となり、デフォルトプロファイルのCookieをCDP経由で取得できなくなった。この方法はChromeのSQLiteデータベースから直接Cookieを復号・抽出する。
+
+### 前提条件
+- macOS（Keychain + CommonCrypto使用）
+- Chrome を閉じた状態で実行
+- Keychain アクセス許可ダイアログで「許可」クリックが必要
+
+### 実装パターン
+
+```python
+import sqlite3
+import json
+import subprocess
+import hashlib
+import tempfile
+import shutil
+import ctypes
+import ctypes.util
+from pathlib import Path
+
+def extract_chrome_cookies(domain_filter: list[str], output_path: str = "cookies.json") -> list[dict]:
+    """
+    ChromeのCookieデータベースから指定ドメインのCookieを抽出・復号する。
+
+    Args:
+        domain_filter: 抽出対象ドメインのリスト (例: [".x.com", "x.com", ".twitter.com", "twitter.com"])
+        output_path: Cookie保存先パス
+
+    Returns:
+        Playwright互換Cookie辞書のリスト
+    """
+    # 1. macOS KeychainからChrome暗号化キーを取得
+    result = subprocess.run(
+        ["security", "find-generic-password", "-w", "-s", "Chrome Safe Storage"],
+        capture_output=True, text=True
+    )
+    if result.returncode != 0:
+        raise RuntimeError(f"Keychainからキー取得失敗: {result.stderr}")
+
+    chrome_key = result.stdout.strip()
+    derived_key = hashlib.pbkdf2_hmac('sha1', chrome_key.encode('utf-8'), b'saltysalt', 1003, dklen=16)
+
+    # 2. CommonCrypto (macOS標準) でAES-CBC復号関数
+    libSystem = ctypes.cdll.LoadLibrary(ctypes.util.find_library("System"))
+    kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding = 1, 0, 1
+
+    def aes_cbc_decrypt(key, iv, data):
+        out = ctypes.create_string_buffer(len(data) + 16)
+        out_len = ctypes.c_size_t(0)
+        status = libSystem.CCCrypt(
+            kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding,
+            key, len(key), iv, data, len(data),
+            out, len(out), ctypes.byref(out_len)
+        )
+        return out.raw[:out_len.value] if status == 0 else None
+
+    def decrypt_cookie(encrypted_value, key):
+        if encrypted_value[:3] == b'v10':
+            decrypted = aes_cbc_decrypt(key, b' ' * 16, encrypted_value[3:])
+            if decrypted:
+                return decrypted.decode('utf-8', errors='replace')
+        return ""
+
+    # 3. SQLiteデータベースをコピーして読み取り（ロック回避）
+    cookies_db = Path.home() / "Library/Application Support/Google/Chrome/Default/Cookies"
+    tmp = tempfile.mktemp(suffix=".db")
+    shutil.copy2(cookies_db, tmp)
+
+    # ドメインフィルタのSQL WHERE句を構築
+    domain_set = set(domain_filter)
+    placeholders = ",".join("?" * len(domain_set))
+
+    conn = sqlite3.connect(tmp)
+    cursor = conn.cursor()
+    cursor.execute(f"""
+        SELECT host_key, name, encrypted_value, path, expires_utc, is_secure, is_httponly, samesite
+        FROM cookies WHERE host_key IN ({placeholders})
+    """, list(domain_set))
+    rows = cursor.fetchall()
+    conn.close()
+    Path(tmp).unlink()
+
+    # 4. 復号 + Playwright形式に変換
+    import re
+    cookies = []
+    for host_key, name, encrypted_value, path, expires_utc, is_secure, is_httponly, samesite in rows:
+        value = decrypt_cookie(encrypted_value, derived_key)
+        if not value:
+            continue
+
+        # 復号後のバイナリプレフィックス除去（最長ASCII印字可能文字列を採用）
+        matches = re.findall(r'[\x20-\x7e]{4,}', value)
+        clean_value = max(matches, key=len) if matches else value
+
+        cookie = {
+            "name": name,
+            "value": clean_value,
+            "domain": host_key,
+            "path": path,
+            "secure": bool(is_secure),
+            "httpOnly": bool(is_httponly),
+            "sameSite": ["None", "Lax", "Strict"][samesite] if samesite in (0,1,2) else "None",
+        }
+        if expires_utc > 0:
+            cookie["expires"] = (expires_utc / 1000000) - 11644473600
+        cookies.append(cookie)
+
+    # 5. 保存
+    output = Path(output_path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    with open(output, "w") as f:
+        json.dump(cookies, f, indent=2, ensure_ascii=False)
+
+    auth = any(c["name"] == "auth_token" for c in cookies)
+    print(f"Cookie取得: {len(cookies)}個 (auth_token: {'あり' if auth else 'なし'})")
+    return cookies
+```
+
+### 使用例
+
+```python
+# X/Twitter Cookie抽出
+cookies = extract_chrome_cookies(
+    domain_filter=[".x.com", "x.com", ".twitter.com", "twitter.com"],
+    output_path="x_profile/cookies.json"
+)
+
+# 任意のサイト
+cookies = extract_chrome_cookies(
+    domain_filter=[".example.com", "example.com"],
+    output_path="cookies.json"
+)
+```
+
+### 注意事項
+
+| 項目 | 説明 |
+|------|------|
+| OS制約 | macOS専用（CommonCrypto + Keychain使用） |
+| Chrome状態 | 実行前にChromeを完全に閉じること（DBロック回避） |
+| Keychain | 初回実行時にアクセス許可ダイアログが表示される |
+| 復号形式 | v10 (AES-128-CBC) のみ対応。将来のChrome暗号化方式変更に注意 |
+| バイナリプレフィックス | 復号後にゴミバイトが付く場合があり、ASCII印字可能文字列を抽出して除去 |
+| CDP方式との使い分け | Chrome 145未満 → CDP方式、Chrome 145以降 → 本方式推奨 |
+
+### トラブルシューティング
+
+| 症状 | 原因 | 対処 |
+|------|------|------|
+| `Keychainからキー取得失敗` | Keychain許可拒否 | macOSの「キーチェーンアクセス」で許可 |
+| `Cookie 0個` | ドメインフィルタ不一致 | `LIKE '%domain%'`ではなく完全一致。`.x.com`と`x.com`の両方を指定 |
+| `Invalid cookie fields` | バイナリ値混入 | ASCII印字可能文字列抽出のクリーニング処理を確認 |
+| `database is locked` | Chrome起動中 | Chromeを完全に閉じてから実行 |
