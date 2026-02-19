@@ -36,5 +36,12 @@
     "timestamp": "2026-02-19T10:20:00.659Z",
     "color": "green",
     "read": true
+  },
+  {
+    "from": "frontend-dev",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"frontend-dev\",\"timestamp\":\"2026-02-19T10:20:07.000Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-19T10:20:07.000Z",
+    "color": "green",
+    "read": true
   }
 ]
