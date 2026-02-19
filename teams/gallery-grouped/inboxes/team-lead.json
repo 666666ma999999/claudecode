@@ -50,6 +50,13 @@
     "summary": "Task already completed in previous work",
     "timestamp": "2026-02-19T10:20:13.568Z",
     "color": "green",
-    "read": false
+    "read": true
+  },
+  {
+    "from": "frontend-dev",
+    "text": "{\"type\":\"idle_notification\",\"from\":\"frontend-dev\",\"timestamp\":\"2026-02-19T10:20:16.941Z\",\"idleReason\":\"available\"}",
+    "timestamp": "2026-02-19T10:20:16.941Z",
+    "color": "green",
+    "read": true
   }
 ]
