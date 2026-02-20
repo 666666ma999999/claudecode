@@ -24,4 +24,11 @@
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
 | #9760 | 7:41 PM | 🔵 | Git Security Rules Not Yet Present in ~/.claude/rules/ | ~242 |
+
+### Feb 20, 2026
+
+| ID | Time | T | Title | Read |
+|----|------|---|-------|------|
+| #10617 | 1:15 PM | 🟣 | Created secret management rule documentation for direnv + ${VAR} architecture | ~652 |
+| #10615 | " | ✅ | Added secret-management.md to rules documentation index | ~426 |
 </claude-mem-context>
