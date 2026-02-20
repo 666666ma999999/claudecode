@@ -14,6 +14,7 @@
 ├── core-workflow.md     # コアワークフロー（事実確認、エラー報告、実装完了チェック、タスク管理、Docker方針、メモリシステム）
 ├── execution-guard.md   # 実行ガード（ブロッカー対応、バッチ実行、SubAgent委託、デバッグ、リファクタリング、プラン作成）
 ├── git-safety.md        # Git安全ルール（禁止コマンド、コミット禁止ファイル、事故対応、.vscodeガイドライン）
+├── secret-management.md # シークレット管理（direnv + ${VAR}方式、.envrc運用、新プロジェクト手順）
 ├── skill-lifecycle.md   # スキルライフサイクル（自動認識、配置、スキル化判断、横展開、重複チェック）
 └── tool-selection.md    # ツール選択ガイド（Webスクレイピング、SubAgent vs Agent Teams）
 ```
