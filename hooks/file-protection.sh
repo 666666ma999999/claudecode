@@ -4,8 +4,9 @@
 
 FILE_PATH="$CLAUDE_FILE_PATH"
 
-# 保護対象パターン
+# 保護対象パターン（14カテゴリ・28パターン）
 PROTECTED_PATTERNS=(
+    # --- 既存: 環境変数・鍵 ---
     '\.env$'
     '\.env\.'
     '\.pem$'
@@ -16,6 +17,30 @@ PROTECTED_PATTERNS=(
     'id_ed25519'
     '\.aws/credentials'
     'config/production'
+    # --- 追加: クラウド認証 ---
+    'credentials\.csv$'
+    'google-service-account\.json$'
+    '_access_key'
+    '\.tfvars$'
+    '\.tfstate'
+    # --- 追加: DB ---
+    '\.sqlite3$'
+    '\.sqlite$'
+    'dump\.sql$'
+    '\.dump$'
+    'db\.sql$'
+    # --- 追加: 依存パッケージ ---
+    '/node_modules/'
+    # --- 追加: ログ ---
+    '\.log$'
+    'npm-debug\.log'
+    # --- 追加: コンテナ/K8s認証 ---
+    '\.docker/config\.json'
+    '\.kube/config'
+    'kubeconfig'
+    # --- 追加: パッケージマネージャ認証 ---
+    '\.npmrc$'
+    '\.pypirc$'
 )
 
 # パターンマッチチェック

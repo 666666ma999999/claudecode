@@ -38,3 +38,35 @@
 2. **Planモード** → `EnterPlanMode`で計画策定
 3. **実装** → `ExitPlanMode`後、SubAgentに委託してTDDで実装
 4. **完了チェック** → `implementation-checklist` スキルで STEP 1-4 実行
+
+## データ分析委託パターン（SubAgentコンテキスト保護）
+
+大量データ（SQL/Excel）を扱うSubAgent委託前に、以下のチェックリストを実行すること:
+
+### 委託前チェックリスト
+
+```
+1. データ量見積もり
+   - 行数 = 期間数 × セグメント数 × 指標数
+   - 例: 8ヶ月 × 15セグメント × 20指標 = 2,400行 → Extract-to-File必須
+
+2. 予算判定（execution-guard.md Section 3.1参照）
+   - 100行超 → Extract-to-File方式
+   - 150行超出力 → セクション分割
+   - 10回超クエリ → フェーズ分割
+
+3. 分割判断
+   - Phase 1: データ抽出 → CSV出力（1 SubAgent）
+   - Phase 2: 分析・レポート（テーマ別に1 SubAgentずつ）
+   - Deep Diveは1テーマ1SubAgent
+
+4. 中間ファイル配置
+   - 出力先: project/boradmtg/tmp/
+   - 命名: {テーマ}_{YYYYMMDD}.csv
+```
+
+### 禁止事項
+
+- **100行超のSQLクエリ結果をSubAgentのコンテキストに保持**すること
+- **3フェーズ（抽出→分析→レポート）を1SubAgentに詰め込む**こと
+- **中間ファイルなしで大量データを次フェーズに渡す**こと

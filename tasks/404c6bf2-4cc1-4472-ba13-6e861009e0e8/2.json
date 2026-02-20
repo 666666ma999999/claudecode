@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "Phase B: execute_check() dispatch更新",
-  "description": "7つのelif ブロックを新メソッド呼び出しに置換。#4,#6,#8,#9,#13,#16,#17のdispatchを修正",
-  "activeForm": "Updating execute_check dispatch",
-  "status": "completed",
-  "blocks": [],
-  "blockedBy": []
-}

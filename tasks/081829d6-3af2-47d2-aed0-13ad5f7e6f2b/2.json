@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "STEP 2-8: Orchestrator API経由で順次実行",
-  "description": "STEP 2が2回失敗。save_listsでppv_id=48200088の編集リンク未検出。PPV更新は成功するがsave_lists遷移後にリンクが見つからない。",
-  "activeForm": "STEP 2-8 順次実行中",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}

@@ -89,7 +89,24 @@
       "Bash(pip *install*)",
       "Bash(source */activate)",
       "Bash(source venv/bin/activate*)",
-      "Bash(. venv/bin/activate*)"
+      "Bash(. venv/bin/activate*)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git push *--force*)",
+      "Bash(git push *-f *)",
+      "Bash(git push *+*:*)",
+      "Bash(git reset --hard*)",
+      "Bash(git checkout .)",
+      "Bash(git checkout -- .)",
+      "Bash(git restore .)",
+      "Bash(git restore --staged .)",
+      "Bash(git clean -f*)",
+      "Bash(git clean -df*)",
+      "Bash(git clean -fd*)",
+      "Bash(git branch -D*)",
+      "Bash(git rebase *main*)",
+      "Bash(git rebase *master*)",
+      "Bash(git update-ref*)"
     ]
   },
   "hooks": {
@@ -174,6 +191,15 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/block-host-installs.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/block-dangerous-git.py"
           }
         ]
       }

@@ -32,3 +32,14 @@ backup_local/
 jupyter_ml/
 whisper2/
 whisper3/
+
+# シークレット保護
+.mcp.json
+.envrc
+
+# バックアップファイル
+backups/
+
+# Agent Teams（セッション固有・機密情報含有の可能性）
+teams/
+tasks/

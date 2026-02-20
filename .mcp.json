@@ -28,12 +28,25 @@
         "-y",
         "@henkey/postgres-mcp-server",
         "--connection-string",
-        "postgresql://merkari:merkari_pass@localhost:5433/merkari"
+        "${DB_CONNECTION_STRING}"
       ]
     },
     "repomix": {
       "command": "npx",
       "args": ["-y", "repomix", "--mcp"]
+    },
+    "codex": {
+      "type": "stdio",
+      "command": "/Users/masaaki/.nvm/versions/node/v22.20.0/bin/codex",
+      "args": ["mcp-server"],
+      "env": {
+        "OPENAI_API_KEY": "${OPENAI_API_KEY}"
+      }
+    },
+    "chrome-devtools": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["chrome-devtools-mcp@latest"]
     }
   }
 }

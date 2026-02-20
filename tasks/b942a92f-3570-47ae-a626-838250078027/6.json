@@ -1,9 +1,0 @@
-{
-  "id": "6",
-  "subject": "全STEPの変数を一括管理する（State Management Layer完成）",
-  "description": "auto.htmlの残り変数（komiTypeResult, yudoTxtResult, yudoRecommendResult, komiRegeneratedResults）のgetter/setter追加、parseMenuId()ヘルパー追加で全変数の一括管理を完成させる。メモリ#1410の実装計画に基づく。",
-  "activeForm": "変数一括管理を実装中",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
