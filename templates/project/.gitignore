@@ -1,0 +1,76 @@
+# ============================================================
+# Project .gitignore
+# グローバル除外（~/.gitignore_global）で14カテゴリをカバー済み
+# このファイルにはプロジェクト固有の除外パターンのみ記載
+# ============================================================
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+.ipynb_checkpoints/
+
+# --- Virtual Environment (project-local) ---
+env/
+venv/
+ENV/
+.venv/
+bin/
+include/
+lib/
+lib64/
+share/
+pyvenv.cfg
+pip-log.txt
+pip-delete-this-directory.txt
+
+# --- Distribution / Packaging ---
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+parts/
+sdist/
+var/
+wheels/
+
+# --- Environment Variables ---
+.env
+.env.*
+.env.local
+
+# --- MCP Configuration (contains API keys) ---
+.mcp.json
+
+# --- Docker ---
+docker-compose.override.yml
+
+# --- Temporary Files ---
+*.tmp
+*.temp
+.cache/
+
+# --- Credentials ---
+token.pickle
+*.pickle
+credentials.json
+client_secret.json
+
+# --- Playwright MCP ---
+.playwright-mcp/
+
+# --- Claude Code ---
+.claude/settings.local.json
+.claude/workspace/
+
+# --- Project Specific ---
+# ここにプロジェクト固有のパターンを追加
+# data/raw/
+# logs/
