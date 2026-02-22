@@ -1,0 +1,20 @@
+name: git-automation
+version: "1.0.0"
+description: "Automatic git pull, push, and format hooks"
+author: masaaki
+enabled: true
+hooks:
+  SessionStart:
+    - matcher: ""
+      script: hooks/auto-git-pull.sh
+  PreToolUse:
+    - matcher: "Read|Edit|Glob|Grep"
+      script: hooks/auto-git-pull-pre.sh
+  PostToolUse:
+    - matcher: "Write|Edit|Bash"
+      script: hooks/auto-git-push.sh
+    - matcher: "Write|Edit"
+      script: hooks/auto-format.sh
+tags:
+  - git
+  - automation
