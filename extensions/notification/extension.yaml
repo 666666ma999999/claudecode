@@ -1,0 +1,16 @@
+name: notification
+version: "1.0.0"
+description: "Notification alerts and idle/permission prompts"
+author: masaaki
+enabled: true
+hooks:
+  SessionStart:
+    - matcher: ""
+      script: skills/notification-alert/scripts/check-and-enable.sh
+  Notification:
+    - matcher: "idle_prompt"
+      script: hooks/idle-notify.sh
+    - matcher: "permission_prompt"
+      script: hooks/permission-notify.sh
+tags:
+  - notification
