@@ -1,0 +1,7 @@
+name: testing
+version: "1.0.0"
+description: "Test fixing skills"
+author: masaaki
+enabled: true
+tags:
+  - testing
