@@ -1,0 +1,8 @@
+name: data-analysis
+version: "1.0.0"
+description: "Sales analysis and data skills"
+author: masaaki
+enabled: true
+tags:
+  - data
+  - analysis
