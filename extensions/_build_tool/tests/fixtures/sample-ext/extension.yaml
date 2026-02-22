@@ -1,0 +1,18 @@
+name: sample-ext
+version: "1.0.0"
+description: "A sample extension for testing"
+author: test
+enabled: true
+rule_number_range: [10, 19]
+routing:
+  - triggers: ["test trigger", "sample"]
+    skill: my-skill
+hooks:
+  PreToolUse:
+    - matcher: "Bash"
+      script: hooks/check.sh
+permissions:
+  deny:
+    - "Bash(rm -rf*)"
+tags:
+  - testing
