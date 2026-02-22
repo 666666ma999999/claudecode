@@ -1,0 +1,37 @@
+name: docker-safety
+version: "1.0.0"
+description: "Block host package manager installs"
+author: masaaki
+enabled: true
+hooks:
+  PreToolUse:
+    - matcher: "Bash"
+      script: hooks/block-host-installs.py
+permissions:
+  deny:
+    - "Bash(pip install*)"
+    - "Bash(pip3 install*)"
+    - "Bash(python -m pip install*)"
+    - "Bash(python3 -m pip install*)"
+    - "Bash(python -m venv*)"
+    - "Bash(python3 -m venv*)"
+    - "Bash(virtualenv *)"
+    - "Bash(npm install*)"
+    - "Bash(npm i *)"
+    - "Bash(yarn *)"
+    - "Bash(pnpm *)"
+    - "Bash(bun install*)"
+    - "Bash(bun add*)"
+    - "Bash(uv pip*)"
+    - "Bash(uv venv*)"
+    - "Bash(poetry install*)"
+    - "Bash(poetry add*)"
+    - "Bash(conda install*)"
+    - "Bash(conda create*)"
+    - "Bash(pip *install*)"
+    - "Bash(source */activate)"
+    - "Bash(source venv/bin/activate*)"
+    - "Bash(. venv/bin/activate*)"
+tags:
+  - docker
+  - safety
