@@ -1,0 +1,12 @@
+name: data-retention
+version: "1.0.0"
+description: "Data retention session hook"
+author: masaaki
+enabled: true
+hooks:
+  SessionStart:
+    - matcher: ""
+      script: hooks/data-retention.sh
+tags:
+  - data
+  - retention
