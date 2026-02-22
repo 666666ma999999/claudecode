@@ -1,0 +1,11 @@
+name: firecrawl-setup
+version: "1.0.0"
+description: "Firecrawl startup hook"
+author: masaaki
+enabled: true
+hooks:
+  SessionStart:
+    - matcher: ""
+      script: hooks/firecrawl-start.sh
+tags:
+  - firecrawl
