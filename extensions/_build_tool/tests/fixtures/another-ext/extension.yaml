@@ -1,0 +1,14 @@
+name: another-ext
+version: "2.0.0"
+description: "Another extension for conflict testing"
+enabled: true
+rule_number_range: [20, 29]
+routing:
+  - triggers: ["other trigger"]
+    skill: other-skill
+hooks:
+  PreToolUse:
+    - matcher: "Write"
+      script: hooks/protect.sh
+tags:
+  - testing
