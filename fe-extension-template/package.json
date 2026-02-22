@@ -1,0 +1,6 @@
+{
+  "name": "fe-extension-template",
+  "version": "0.1.0",
+  "private": true,
+  "description": "React/Next.js Extension Architecture Reference Template"
+}
