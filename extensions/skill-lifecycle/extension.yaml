@@ -1,0 +1,23 @@
+name: skill-lifecycle
+version: "1.0.0"
+description: "Skill creation, update, and lifecycle management"
+author: masaaki
+enabled: true
+rule_number_range: [50, 59]
+routing:
+  - triggers: ["スキル作成", "スキル更新", "スキル判断", "横展開チェック"]
+    skill: skill-lifecycle-reference
+claude_md_section: |
+  ## スキル化判断（要約）
+
+  実装完了時に以下を確認:
+
+  1. **Q1**: 新機能/新パターン/再発バグ/スキル情報の誤り → NO → 終了
+  2. **Q2**: 今後も繰り返し使う知見か → NO → 終了
+  3. **Q3**: 既存スキルに追加可能か → YES → 追記（確認不要） / NO → ユーザー確認後に新規作成
+
+  コード修正がスキル記載内容に影響する場合、スキルも同時更新すること。
+  詳細フロー: `skill-lifecycle` スキル参照。
+tags:
+  - skills
+  - lifecycle
