@@ -1,0 +1,39 @@
+name: git-safety
+version: "1.0.0"
+description: "Git safety rules, hooks, and reference skill"
+author: masaaki
+enabled: true
+rule_number_range: [10, 19]
+routing:
+  - triggers: ["git commit", "git push", "git add", "コミット禁止ファイル詳細", "事故対応"]
+    skill: git-safety-reference
+hooks:
+  PreToolUse:
+    - matcher: "Bash"
+      script: hooks/block-dangerous-git.py
+    - matcher: "Write|Edit"
+      script: hooks/file-protection.sh
+    - matcher: "Write|Edit"
+      script: hooks/security-scan.sh
+permissions:
+  deny:
+    - "Bash(git push --force*)"
+    - "Bash(git push -f*)"
+    - "Bash(git push *--force*)"
+    - "Bash(git push *-f *)"
+    - "Bash(git push *+*:*)"
+    - "Bash(git reset --hard*)"
+    - "Bash(git checkout .)"
+    - "Bash(git checkout -- .)"
+    - "Bash(git restore .)"
+    - "Bash(git restore --staged .)"
+    - "Bash(git clean -f*)"
+    - "Bash(git clean -df*)"
+    - "Bash(git clean -fd*)"
+    - "Bash(git branch -D*)"
+    - "Bash(git rebase *main*)"
+    - "Bash(git rebase *master*)"
+    - "Bash(git update-ref*)"
+tags:
+  - git
+  - safety
