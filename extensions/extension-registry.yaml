@@ -1,0 +1,14 @@
+extensions:
+  core-workflow: true
+  git-safety: true
+  execution-guard: true
+  secret-management: true
+  skill-lifecycle: true
+  tool-selection: true
+  notification: true
+  git-automation: true
+  docker-safety: true
+  data-analysis: true
+  testing: true
+  firecrawl-setup: true
+  data-retention: true
