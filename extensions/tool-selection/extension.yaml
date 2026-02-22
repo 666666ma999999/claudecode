@@ -1,0 +1,10 @@
+name: tool-selection
+version: "1.0.0"
+description: "Tool selection reference and codebase investigation"
+author: masaaki
+enabled: true
+routing:
+  - triggers: ["Webスクレイピング", "Agent Teams構成"]
+    skill: tool-selection-reference
+tags:
+  - tools
