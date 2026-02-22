@@ -1,0 +1,12 @@
+name: core-workflow
+version: "1.0.0"
+description: "Core workflow rules, task management, and implementation checklist"
+author: masaaki
+enabled: true
+rule_number_range: [0, 9]
+routing:
+  - triggers: ["実装完了", "チェックリスト"]
+    skill: implementation-checklist
+tags:
+  - core
+  - workflow
