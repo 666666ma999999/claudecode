@@ -155,10 +155,14 @@ def main():
 
         if strict_mode:
             # Strict mode: DENY the operation
-            deny(f"{warning_message}\n\nファイル: {rel_path}\nプロジェクト: {project_type}\n\nStrict mode is enabled (CLAUDE_EXT_STRICT=1). This operation is blocked.")
+            deny(f"""{warning_message}
+
+プロジェクト: {project_type}
+
+Strict mode is enabled (CLAUDE_EXT_STRICT=1). This operation is blocked.""")
         else:
             # Default mode: WARN only
-            warn(f"\n{warning_message}\nファイル: {rel_path}\nプロジェクト: {project_type}\n")
+            warn(f"\n{warning_message}\n\nプロジェクト: {project_type}\n")
             sys.exit(0)
 
     except Exception as e:
