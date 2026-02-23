@@ -59,7 +59,7 @@ def check_imports(file_path: str, ext_name: str) -> List[str]:
     return violations
 
 
-def check_reverse_imports(file_path: str, cwd: str) -> list[str]:
+def check_reverse_imports(file_path: str, cwd: str) -> List[str]:
     """Check if shared/ or core/ files import from extensions/."""
     violations = []
     rel = os.path.relpath(file_path, cwd)
