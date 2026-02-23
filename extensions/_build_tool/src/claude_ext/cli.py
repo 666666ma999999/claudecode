@@ -338,6 +338,16 @@ def init_project_cmd(ctx: click.Context, project_dir: Path, force: bool) -> None
     init_project(project_dir, force=force)
 
 
+@cli.command(name="init-be-project")
+@click.argument("project_dir", type=click.Path(path_type=Path))
+@click.option("--force", is_flag=True, help="Overwrite existing files.")
+@click.option("--stack", type=click.Choice(["python", "node"]), default="python", help="Technology stack (default: python).")
+@click.pass_context
+def init_be_project_cmd(ctx: click.Context, project_dir: Path, force: bool, stack: str) -> None:
+    """Initialize a project with BE Extension Architecture."""
+    init_be_project(project_dir, force=force, stack=stack)
+
+
 def _set_extension_enabled(base_dir: Path, name: str, enabled: bool) -> None:
     """Update the registry to enable/disable an extension."""
     registry_path = base_dir / "extensions" / "extension-registry.yaml"
