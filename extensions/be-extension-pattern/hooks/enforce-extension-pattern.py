@@ -31,7 +31,7 @@ def warn(message: str):
     print(message, file=sys.stderr)
 
 
-def is_extension_project(cwd: str) -> tuple[bool, str]:
+def is_extension_project(cwd: str) -> Tuple[bool, str]:
     """
     Check if the current working directory is an extension project.
 
