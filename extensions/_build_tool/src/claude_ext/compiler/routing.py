@@ -34,7 +34,7 @@ class RoutingCompiler:
 
         for _ext_dir, manifest in extensions:
             for entry in manifest.routing:
-                triggers_text = ", ".join(entry.triggers)
+                triggers_text = "、".join(entry.triggers)
                 rows.append((triggers_text, f"`{entry.skill}`"))
 
             if manifest.claude_md_section:
