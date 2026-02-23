@@ -5,7 +5,7 @@ author: masaaki
 enabled: true
 rule_number_range: [40, 49]
 routing:
-  - triggers: [".envrc", ".mcp.json操作", "APIキー設定", "新プロジェクト環境"]
+  - triggers: [".envrc/.mcp.json操作", "APIキー設定", "新プロジェクト環境"]
     skill: secret-management
   - triggers: ["新プロジェクト初期化"]
     skill: project-bootstrap
