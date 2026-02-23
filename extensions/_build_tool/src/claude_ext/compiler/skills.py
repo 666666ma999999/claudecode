@@ -16,6 +16,7 @@ class SkillsCompiler:
         extensions: list[tuple[Path, ExtensionManifest]],
         output_dir: Path,
         dry_run: bool = False,
+        content_map: dict[str, str] | None = None,
     ) -> dict[str, str]:
         """Copy all skill directories.
 
@@ -46,5 +47,12 @@ class SkillsCompiler:
                         rel = file_path.relative_to(skill_dir)
                         rel_dest = str(Path("skills") / skill_dir.name / rel)
                         file_map[rel_dest] = manifest.name
+
+                        if content_map is not None:
+                            try:
+                                content_map[rel_dest] = file_path.read_text(encoding="utf-8")
+                            except UnicodeDecodeError:
+                                # Binary file: use repr of bytes for comparison
+                                content_map[rel_dest] = repr(file_path.read_bytes())
 
         return file_map
