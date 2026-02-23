@@ -10,8 +10,8 @@
 | git commit/push/add、コミット禁止ファイル詳細、事故対応 | `git-safety-reference` |
 | .envrc/.mcp.json操作、APIキー設定、新プロジェクト環境 | `secret-management` |
 | 新プロジェクト初期化 | `project-bootstrap` |
-| スキル作成・更新・判断、横展開チェック | `skill-lifecycle` |
-| Webスクレイピング、Agent Teams構成 | `tool-selection` |
+| スキル作成・更新・判断、横展開チェック | `skill-lifecycle-reference` |
+| Webスクレイピング、Agent Teams構成 | `tool-selection-reference` |
 
 ## シークレット管理（基本方針）
 

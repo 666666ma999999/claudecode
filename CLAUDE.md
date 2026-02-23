@@ -39,3 +39,4 @@
 3. **実装** → `ExitPlanMode`後、SubAgentに委託してTDDで実装
 4. **完了チェック** → `implementation-checklist` スキルで STEP 1-4 実行
 
+
