@@ -254,7 +254,7 @@ class ExtensionBuilder:
         commands_dir = self.base_dir / "commands"
         if commands_dir.is_dir():
             for f in sorted(commands_dir.iterdir()):
-                if f.is_file():
+                if f.is_file() and f.name not in self._SCAN_EXCLUDE_NAMES:
                     rel = str(f.relative_to(self.base_dir))
                     try:
                         current[rel] = f.read_text(encoding="utf-8")
@@ -265,7 +265,7 @@ class ExtensionBuilder:
         hooks_dir = self.base_dir / "hooks"
         if hooks_dir.is_dir():
             for f in sorted(hooks_dir.rglob("*")):
-                if f.is_file():
+                if f.is_file() and f.name not in self._SCAN_EXCLUDE_NAMES:
                     rel = str(f.relative_to(self.base_dir))
                     try:
                         current[rel] = f.read_text(encoding="utf-8")
