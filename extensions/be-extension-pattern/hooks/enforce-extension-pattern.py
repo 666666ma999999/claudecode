@@ -86,7 +86,10 @@ def check_violation(rel_path: str) -> tuple[bool, str]:
 
     # Rule a: Warning for core/ modifications
     if rel_path.startswith("src/core/"):
-        return (True, "⚠ core/ への変更は慎重に。本当に必要ですか？")
+        return (True, f"""⚠ core/ への変更を検出: {rel_path}
+  → core/ の変更は慎重に。本当にcoreの変更が必要ですか？
+  → 新機能の場合: src/extensions/<name>/ にエクステンションとして作成してください
+  → 参照: be-extension-pattern スキル""")
 
     # Rule b: Files in src/ should be in extensions/, core/, shared/, or be app.py/main.py
     if rel_path.startswith("src/"):
@@ -100,7 +103,10 @@ def check_violation(rel_path: str) -> tuple[bool, str]:
         ]
 
         if not any(rel_path.startswith(pattern) for pattern in allowed_patterns):
-            return (True, "⚠ extensions/ 配下に配置してください")
+            return (True, f"""⚠ extensions/ 外への配置を検出: {rel_path}
+  → src/extensions/<name>/ 配下に配置してください
+  → エクステンション構造: __init__.py (manifest), router.py, service.py, tests/
+  → 参照: be-extension-pattern スキル""")
 
     # No violation
     return (False, "")
