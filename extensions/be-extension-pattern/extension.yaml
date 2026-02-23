@@ -1,0 +1,11 @@
+name: be-extension-pattern
+version: "1.0.0"
+description: "BEプロジェクトでエクステンションパターンに従った実装を指導するスキル"
+author: masaaki
+enabled: true
+routing:
+  - triggers: ["BE新機能追加", "APIエンドポイント追加", "BEエクステンション作成", "バックエンド設計", "HookPoint実装"]
+    skill: be-extension-pattern
+tags:
+  - backend
+  - architecture
