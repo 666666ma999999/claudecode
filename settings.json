@@ -15,6 +15,16 @@
       "WebFetch",
       "WebSearch",
       "NotebookEdit",
+      "Bash(env)",
+      "Bash(ls:*)",
+      "Bash(claude config list:*)",
+      "Bash(claude auth:*)",
+      "Bash(claude whoami:*)",
+      "Bash(claude /doctor:*)",
+      "Bash(/usr/local/bin/claude config:*)",
+      "Bash(/opt/homebrew/bin/claude config:*)",
+      "Bash(/Users/masaaki/.local/bin/claude:*)",
+      "Bash(security find-generic-password:*)",
       "mcp__playwright-mkb__browser_click",
       "mcp__playwright-mkb__browser_snapshot",
       "mcp__playwright-mkb__browser_navigate",
@@ -109,6 +119,18 @@
       "Bash(git update-ref*)"
     ]
   },
+  "enabledPlugins": {
+    "example-skills@anthropic-agent-skills": true,
+    "document-skills@anthropic-agent-skills": true,
+    "playwright@claude-plugins-official": true,
+    "claude-mem@thedotmack": true
+  },
+  "alwaysThinkingEnabled": true,
+  "skipDangerousModePermissionPrompt": true,
+  "teammateMode": "in-process",
+  "feedbackSurveyState": {
+    "lastShownTime": 1754026768941
+  },
   "hooks": {
     "SessionStart": [
       {
@@ -116,16 +138,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/skills/notification-alert/scripts/check-and-enable.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/auto-git-pull.sh"
+            "command": "~/.claude/hooks/data-retention.sh"
           }
         ]
       },
@@ -143,12 +156,30 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/data-retention.sh"
+            "command": "~/.claude/hooks/auto-git-pull.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/skills/notification-alert/scripts/check-and-enable.sh"
           }
         ]
       }
     ],
     "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/block-host-installs.py"
+          }
+        ]
+      },
       {
         "matcher": "Read|Edit|Glob|Grep",
         "hooks": [
@@ -159,11 +190,11 @@
         ]
       },
       {
-        "matcher": "Write|Edit",
+        "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/restrict-cwd-edits.sh"
+            "command": "~/.claude/hooks/block-dangerous-git.py"
           }
         ]
       },
@@ -186,40 +217,31 @@
         ]
       },
       {
-        "matcher": "Bash",
+        "matcher": "Write|Edit",
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/block-host-installs.py"
-          }
-        ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/block-dangerous-git.py"
+            "command": "~/.claude/hooks/restrict-cwd-edits.sh"
           }
         ]
       }
     ],
     "PostToolUse": [
       {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/auto-format.sh"
-          }
-        ]
-      },
-      {
         "matcher": "Write|Edit|Bash",
         "hooks": [
           {
             "type": "command",
             "command": "~/.claude/hooks/auto-git-push.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/auto-format.sh"
           }
         ]
       }
@@ -230,7 +252,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "osascript -e 'tell application \"Terminal\" to activate' & say '入力待ちです' & osascript -e 'display dialog \"入力待ちです\" with title \"Claude Code\" buttons {\"OK\"} default button \"OK\"'"
+            "command": "~/.claude/hooks/idle-notify.sh"
           }
         ]
       },
@@ -239,22 +261,10 @@
         "hooks": [
           {
             "type": "command",
-            "command": "osascript -e 'tell application \"Terminal\" to activate' & say '許可が必要です' & osascript -e 'display dialog \"許可が必要です\" with title \"Claude Code\" buttons {\"OK\"} default button \"OK\"'"
+            "command": "~/.claude/hooks/permission-notify.sh"
           }
         ]
       }
     ]
-  },
-  "enabledPlugins": {
-    "example-skills@anthropic-agent-skills": true,
-    "document-skills@anthropic-agent-skills": true,
-    "playwright@claude-plugins-official": true,
-    "claude-mem@thedotmack": true
-  },
-  "alwaysThinkingEnabled": true,
-  "skipDangerousModePermissionPrompt": true,
-  "teammateMode": "in-process",
-  "feedbackSurveyState": {
-    "lastShownTime": 1754026768941
   }
 }
