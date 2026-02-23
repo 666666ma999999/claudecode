@@ -13,3 +13,5 @@ extensions:
   firecrawl-setup: true
   data-retention: true
   fe-extension-pattern: true
+  be-extension-pattern: true
+  fe-be-extension-coordination: true
