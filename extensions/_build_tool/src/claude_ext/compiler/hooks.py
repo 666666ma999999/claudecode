@@ -16,6 +16,7 @@ class HooksCompiler:
         extensions: list[tuple[Path, ExtensionManifest]],
         output_dir: Path,
         dry_run: bool = False,
+        content_map: dict[str, str] | None = None,
     ) -> dict[str, str]:
         """Copy all hook scripts, preserving original filenames.
 
@@ -43,6 +44,12 @@ class HooksCompiler:
                     # Preserve execute permission
                     if hook_file.stat().st_mode & 0o111:
                         dest.chmod(dest.stat().st_mode | 0o111)
+
+                if content_map is not None:
+                    try:
+                        content_map[rel_dest] = hook_file.read_text(encoding="utf-8")
+                    except UnicodeDecodeError:
+                        content_map[rel_dest] = repr(hook_file.read_bytes())
 
                 file_map[rel_dest] = manifest.name
 
