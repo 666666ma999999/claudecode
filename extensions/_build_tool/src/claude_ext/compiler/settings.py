@@ -71,14 +71,9 @@ class SettingsCompiler:
                 hooks.setdefault(event_key, [])
 
                 for hook_def in hook_defs:
-                    # Resolve script path relative to base_dir
-                    script_path = ext_dir / hook_def.script
-                    # Convert to ~/.claude/ relative path for settings.json
-                    try:
-                        rel_path = script_path.relative_to(base_dir)
-                        command = f"~/.claude/{rel_path}"
-                    except ValueError:
-                        command = str(script_path)
+                    # Use deployed path: hook_def.script (e.g. "hooks/foo.sh")
+                    # is deployed to ~/.claude/hooks/foo.sh by the hooks/skills compiler.
+                    command = f"~/.claude/{hook_def.script}"
 
                     hook_entry = {
                         "matcher": hook_def.matcher,
