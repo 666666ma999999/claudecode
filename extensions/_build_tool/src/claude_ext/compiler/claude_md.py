@@ -24,6 +24,7 @@ class ClaudeMdCompiler:
         output_file: Path,
         template_path: Path | None = None,
         dry_run: bool = False,
+        content_map: dict[str, str] | None = None,
     ) -> dict[str, str]:
         """Generate CLAUDE.md.
 
@@ -57,6 +58,9 @@ class ClaudeMdCompiler:
         if not dry_run:
             output_file.parent.mkdir(parents=True, exist_ok=True)
             output_file.write_text(content, encoding="utf-8")
+
+        if content_map is not None:
+            content_map[rel_dest] = content
 
         file_map[rel_dest] = "claude-md-compiler"
         return file_map
