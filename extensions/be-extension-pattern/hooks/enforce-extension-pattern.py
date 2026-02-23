@@ -11,6 +11,7 @@ Environment variables:
 import json
 import sys
 import os
+from typing import Tuple
 
 
 def deny(reason: str):
