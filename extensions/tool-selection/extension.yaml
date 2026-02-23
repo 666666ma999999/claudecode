@@ -5,6 +5,6 @@ author: masaaki
 enabled: true
 routing:
   - triggers: ["Webスクレイピング", "Agent Teams構成"]
-    skill: tool-selection
+    skill: tool-selection-reference
 tags:
   - tools
