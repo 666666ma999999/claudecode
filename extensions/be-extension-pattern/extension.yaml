@@ -6,6 +6,10 @@ enabled: true
 routing:
   - triggers: ["BE新機能追加", "APIエンドポイント追加", "BEエクステンション作成", "バックエンド設計", "HookPoint実装"]
     skill: be-extension-pattern
+hooks:
+  PreToolUse:
+    - matcher: "Write|Edit"
+      script: "hooks/enforce-extension-pattern.py"
 tags:
   - backend
   - architecture
