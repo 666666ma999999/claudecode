@@ -12,6 +12,7 @@ from rich.table import Table
 from .builder import ExtensionBuilder
 from .manifest import discover_extensions, load_registry, parse_manifest
 from .models import ExtensionRegistry
+from .project_init import init_project
 from .validator import ExtensionValidator
 
 console = Console()
