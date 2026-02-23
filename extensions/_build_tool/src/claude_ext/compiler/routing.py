@@ -15,6 +15,7 @@ class RoutingCompiler:
         extensions: list[tuple[Path, ExtensionManifest]],
         output_dir: Path,
         dry_run: bool = False,
+        content_map: dict[str, str] | None = None,
     ) -> dict[str, str]:
         """Generate 30-routing.md from all extensions' routing entries.
 
@@ -71,6 +72,9 @@ class RoutingCompiler:
         if not dry_run:
             output_dir.mkdir(parents=True, exist_ok=True)
             dest.write_text(content, encoding="utf-8")
+
+        if content_map is not None:
+            content_map[rel_dest] = content
 
         file_map[rel_dest] = "routing-compiler"
         return file_map
