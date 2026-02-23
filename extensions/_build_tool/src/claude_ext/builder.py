@@ -31,6 +31,13 @@ class BuildResult:
     errors: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
     file_map: dict[str, str] = field(default_factory=dict)
+    content_map: dict[str, str] = field(default_factory=dict)
+
+
+def _normalize(text: str) -> str:
+    """Normalize text for comparison (strip trailing whitespace per line, ensure single trailing newline)."""
+    lines = text.rstrip().splitlines()
+    return "\n".join(line.rstrip() for line in lines) + "\n"
 
 
 class ExtensionBuilder:
@@ -66,12 +73,15 @@ class ExtensionBuilder:
 
         Args:
             force: Skip validation errors and build anyway.
-            dry_run: Do not write any files.
+            dry_run: Do not write any files. When True, content_map is populated.
 
         Returns:
-            BuildResult with success status, errors, and file map.
+            BuildResult with success status, errors, file map, and content map.
         """
         result = BuildResult(success=True)
+
+        # content_map collects {rel_path: file_content} during dry_run
+        content_map: dict[str, str] = {} if dry_run else {}
 
         # 1. Discover
         registry = load_registry(self.registry_path)
@@ -106,31 +116,46 @@ class ExtensionBuilder:
         # Rules (without routing — routing is compiled separately)
         rules_compiler = RulesCompiler()
         all_file_map.update(
-            rules_compiler.compile(extensions, self.output_dirs["rules"], dry_run)
+            rules_compiler.compile(
+                extensions, self.output_dirs["rules"], dry_run,
+                content_map=content_map,
+            )
         )
 
         # Routing (generates 30-routing.md)
         routing_compiler = RoutingCompiler()
         all_file_map.update(
-            routing_compiler.compile(extensions, self.output_dirs["rules"], dry_run)
+            routing_compiler.compile(
+                extensions, self.output_dirs["rules"], dry_run,
+                content_map=content_map,
+            )
         )
 
         # Skills
         skills_compiler = SkillsCompiler()
         all_file_map.update(
-            skills_compiler.compile(extensions, self.output_dirs["skills"], dry_run)
+            skills_compiler.compile(
+                extensions, self.output_dirs["skills"], dry_run,
+                content_map=content_map,
+            )
         )
 
         # Commands
         commands_compiler = CommandsCompiler()
         all_file_map.update(
-            commands_compiler.compile(extensions, self.output_dirs["commands"], dry_run)
+            commands_compiler.compile(
+                extensions, self.output_dirs["commands"], dry_run,
+                content_map=content_map,
+            )
         )
 
         # Hooks
         hooks_compiler = HooksCompiler()
         all_file_map.update(
-            hooks_compiler.compile(extensions, self.output_dirs["hooks"], dry_run)
+            hooks_compiler.compile(
+                extensions, self.output_dirs["hooks"], dry_run,
+                content_map=content_map,
+            )
         )
 
         # CLAUDE.md
@@ -142,6 +167,7 @@ class ExtensionBuilder:
                 self.claude_md_output_path,
                 template_path if template_path.exists() else None,
                 dry_run,
+                content_map=content_map,
             )
         )
 
@@ -154,6 +180,7 @@ class ExtensionBuilder:
                 self.local_settings_path,
                 self.base_dir,
                 dry_run,
+                content_map=content_map,
             )
         )
 
@@ -164,6 +191,7 @@ class ExtensionBuilder:
         )
 
         result.file_map = all_file_map
+        result.content_map = content_map
         return result
 
     def clean(self) -> list[str]:
@@ -179,43 +207,131 @@ class ExtensionBuilder:
             removed.append(str(self.build_manifest_path.relative_to(self.base_dir)))
         return removed
 
+    def _scan_current_files(self) -> dict[str, str]:
+        """Scan actual files in ~/.claude/ that are build output targets.
+
+        Scans:
+        - rules/*.md
+        - skills/**/*
+        - commands/*.md (and other command files)
+        - hooks/* (scripts)
+        - settings.json
+        - CLAUDE.md
+
+        Returns:
+            Mapping of rel_path -> file content.
+        """
+        current: dict[str, str] = {}
+
+        # Rules
+        rules_dir = self.base_dir / "rules"
+        if rules_dir.is_dir():
+            for f in sorted(rules_dir.glob("*.md")):
+                rel = str(f.relative_to(self.base_dir))
+                try:
+                    current[rel] = f.read_text(encoding="utf-8")
+                except UnicodeDecodeError:
+                    current[rel] = repr(f.read_bytes())
+
+        # Skills
+        skills_dir = self.base_dir / "skills"
+        if skills_dir.is_dir():
+            for skill in sorted(skills_dir.iterdir()):
+                if not skill.is_dir():
+                    continue
+                for f in skill.rglob("*"):
+                    if f.is_file():
+                        rel = str(f.relative_to(self.base_dir))
+                        try:
+                            current[rel] = f.read_text(encoding="utf-8")
+                        except UnicodeDecodeError:
+                            current[rel] = repr(f.read_bytes())
+
+        # Commands
+        commands_dir = self.base_dir / "commands"
+        if commands_dir.is_dir():
+            for f in sorted(commands_dir.iterdir()):
+                if f.is_file():
+                    rel = str(f.relative_to(self.base_dir))
+                    try:
+                        current[rel] = f.read_text(encoding="utf-8")
+                    except UnicodeDecodeError:
+                        current[rel] = repr(f.read_bytes())
+
+        # Hooks
+        hooks_dir = self.base_dir / "hooks"
+        if hooks_dir.is_dir():
+            for f in sorted(hooks_dir.rglob("*")):
+                if f.is_file():
+                    rel = str(f.relative_to(self.base_dir))
+                    try:
+                        current[rel] = f.read_text(encoding="utf-8")
+                    except UnicodeDecodeError:
+                        current[rel] = repr(f.read_bytes())
+
+        # settings.json
+        settings_file = self.base_dir / "settings.json"
+        if settings_file.exists():
+            current["settings.json"] = settings_file.read_text(encoding="utf-8")
+
+        # CLAUDE.md
+        claude_md_file = self.base_dir / "CLAUDE.md"
+        if claude_md_file.exists():
+            current["CLAUDE.md"] = claude_md_file.read_text(encoding="utf-8")
+
+        return current
+
     def diff(self) -> str:
-        """Show differences between current state and what a build would produce.
+        """Show differences between current filesystem state and what a build would produce.
+
+        Compares actual file contents (not just file lists) to detect modifications.
 
         Returns:
             Human-readable diff summary.
         """
-        # Do a dry-run build
+        # Do a dry-run build to get expected content
         dry_result = self.build(dry_run=True, force=True)
 
-        # Load current build manifest
-        current_files: set[str] = set()
-        if self.build_manifest_path.exists():
-            with open(self.build_manifest_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-            current_manifest = BuildManifest(**data)
-            current_files = set(current_manifest.files.keys())
+        # Scan current filesystem
+        current_files = self._scan_current_files()
 
-        new_files = set(dry_result.file_map.keys())
+        build_paths = set(dry_result.content_map.keys())
+        current_paths = set(current_files.keys())
 
-        added = sorted(new_files - current_files)
-        removed = sorted(current_files - new_files)
-        common = sorted(new_files & current_files)
+        identical: list[str] = []
+        modified: list[str] = []
+        added = sorted(build_paths - current_paths)       # build-only
+        missing = sorted(current_paths - build_paths)      # current-only
 
-        lines: list[str] = []
+        for rel_path in sorted(build_paths & current_paths):
+            build_content = _normalize(dry_result.content_map[rel_path])
+            current_content = _normalize(current_files[rel_path])
+            if build_content == current_content:
+                identical.append(rel_path)
+            else:
+                modified.append(rel_path)
+
+        lines: list[str] = ["=== Build Diff ==="]
+
+        lines.append(f"Identical: {len(identical)} files")
+
         if added:
-            lines.append("Files to add:")
+            lines.append(f"Added (build only): {len(added)} files")
             for f in added:
-                lines.append(f"  + {f}")
-        if removed:
-            lines.append("Files to remove:")
-            for f in removed:
                 lines.append(f"  - {f}")
-        if common:
-            lines.append(f"Files to update: {len(common)}")
 
-        if not lines:
-            lines.append("No changes detected.")
+        if missing:
+            lines.append(f"Missing (current only): {len(missing)} files")
+            for f in missing:
+                lines.append(f"  - {f}")
+
+        if modified:
+            lines.append(f"Modified: {len(modified)} files")
+            for f in modified:
+                lines.append(f"  - {f}")
+
+        if not added and not missing and not modified:
+            lines.append("No differences. Build output matches current state.")
 
         if dry_result.errors:
             lines.append("")
