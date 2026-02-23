@@ -16,6 +16,7 @@ class CommandsCompiler:
         extensions: list[tuple[Path, ExtensionManifest]],
         output_dir: Path,
         dry_run: bool = False,
+        content_map: dict[str, str] | None = None,
     ) -> dict[str, str]:
         """Copy all command files.
 
@@ -39,6 +40,9 @@ class CommandsCompiler:
                 if not dry_run:
                     output_dir.mkdir(parents=True, exist_ok=True)
                     shutil.copy2(cmd_file, dest)
+
+                if content_map is not None:
+                    content_map[rel_dest] = cmd_file.read_text(encoding="utf-8")
 
                 file_map[rel_dest] = manifest.name
 
