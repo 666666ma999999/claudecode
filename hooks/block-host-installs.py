@@ -31,6 +31,13 @@ DOCKER_PREFIXES = (
     "docker run",
 )
 
+# Patterns that are explicitly allowed even if they match DENY_PATTERNS.
+# Claude Code tool extensions (e.g. _build_tool) need host pip install -e.
+ALLOW_PATTERNS = [
+    r"\bpip3?\s+install\s+-e\s+.*[~/]\.claude/extensions/_build_tool\b",
+    r"\bpython3?\s+-m\s+pip\s+install\s+-e\s+.*[~/]\.claude/extensions/_build_tool\b",
+]
+
 
 def deny(reason: str):
     print(json.dumps({
