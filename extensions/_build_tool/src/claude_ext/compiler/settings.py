@@ -18,6 +18,7 @@ class SettingsCompiler:
         local_settings_path: Path,
         base_dir: Path,
         dry_run: bool = False,
+        content_map: dict[str, str] | None = None,
     ) -> dict[str, str]:
         """Generate settings.json.
 
@@ -32,6 +33,7 @@ class SettingsCompiler:
             local_settings_path: Path to settings.local.json (base).
             base_dir: The ~/.claude directory (for resolving hook paths).
             dry_run: If True, do not write files.
+            content_map: If provided, populated with rel_path -> content.
 
         Returns:
             Mapping of output_path (relative) -> "settings-compiler".
@@ -100,11 +102,15 @@ class SettingsCompiler:
 
         rel_dest = "settings.json"
 
+        content = json.dumps(settings, indent=2, ensure_ascii=False) + "\n"
+
         if not dry_run:
             output_file.parent.mkdir(parents=True, exist_ok=True)
             with open(output_file, "w", encoding="utf-8") as f:
-                json.dump(settings, f, indent=2, ensure_ascii=False)
-                f.write("\n")
+                f.write(content)
+
+        if content_map is not None:
+            content_map[rel_dest] = content
 
         file_map[rel_dest] = "settings-compiler"
         return file_map
