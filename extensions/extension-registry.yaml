@@ -12,3 +12,4 @@ extensions:
   testing: true
   firecrawl-setup: true
   data-retention: true
+  fe-extension-pattern: true
