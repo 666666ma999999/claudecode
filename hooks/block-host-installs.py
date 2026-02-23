@@ -88,6 +88,15 @@ def main():
             candidates.add(part.strip())
 
     for candidate in candidates:
+        # Check allow-list first: if ANY candidate matches an allow pattern, skip deny
+        allowed = False
+        for allow_pat in ALLOW_PATTERNS:
+            if re.search(allow_pat, candidate):
+                allowed = True
+                break
+        if allowed:
+            continue
+
         for pattern in DENY_PATTERNS:
             if re.search(pattern, candidate):
                 deny(
