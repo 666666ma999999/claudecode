@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-02-23T10:26:30.298771+00:00",
+  "built_at": "2026-02-23T13:15:12.879016+00:00",
   "extensions": [
     "be-extension-pattern",
     "core-workflow",
@@ -31,6 +31,7 @@
     "hooks/block-dangerous-git.py": "git-safety",
     "hooks/block-host-installs.py": "docker-safety",
     "hooks/data-retention.sh": "data-retention",
+    "hooks/enforce-extension-pattern.py": "be-extension-pattern",
     "hooks/file-protection.sh": "git-safety",
     "hooks/firecrawl-start.sh": "firecrawl-setup",
     "hooks/git-pre-commit-template.sh": "git-safety",
