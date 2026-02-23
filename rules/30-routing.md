@@ -6,12 +6,12 @@
 
 | トリガー | 参照スキル |
 |---------|-----------|
+| SubAgent委託、デバッグ、リファクタリング、大量データ分析 | `execution-patterns` |
 | git commit/push/add、コミット禁止ファイル詳細、事故対応 | `git-safety-reference` |
 | .envrc/.mcp.json操作、APIキー設定、新プロジェクト環境 | `secret-management` |
-| SubAgent委託、デバッグ、リファクタリング、大量データ分析 | `execution-patterns` |
+| 新プロジェクト初期化 | `project-bootstrap` |
 | スキル作成・更新・判断、横展開チェック | `skill-lifecycle` |
 | Webスクレイピング、Agent Teams構成 | `tool-selection` |
-| 新プロジェクト初期化 | `project-bootstrap` |
 
 ## シークレット管理（基本方針）
 
