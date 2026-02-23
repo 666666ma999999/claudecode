@@ -5,7 +5,7 @@ author: masaaki
 enabled: true
 rule_number_range: [20, 29]
 routing:
-  - triggers: ["SubAgent", "委託", "デバッグ", "リファクタリング", "大量データ分析"]
+  - triggers: ["SubAgent委託", "デバッグ", "リファクタリング", "大量データ分析"]
     skill: execution-patterns
 tags:
   - execution
