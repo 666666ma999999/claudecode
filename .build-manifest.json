@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-02-23T13:15:12.879016+00:00",
+  "built_at": "2026-02-23T13:49:40.740633+00:00",
   "extensions": [
     "be-extension-pattern",
     "core-workflow",
@@ -30,7 +30,9 @@
     "hooks/auto-git-push.sh": "git-automation",
     "hooks/block-dangerous-git.py": "git-safety",
     "hooks/block-host-installs.py": "docker-safety",
+    "hooks/check-extension-imports.py": "be-extension-pattern",
     "hooks/data-retention.sh": "data-retention",
+    "hooks/detect-extension-project.sh": "be-extension-pattern",
     "hooks/enforce-extension-pattern.py": "be-extension-pattern",
     "hooks/file-protection.sh": "git-safety",
     "hooks/firecrawl-start.sh": "firecrawl-setup",
@@ -43,6 +45,7 @@
     "rules/10-safety.md": "git-safety",
     "rules/20-execution.md": "execution-guard",
     "rules/30-routing.md": "routing-compiler",
+    "rules/40-extension-enforcement.md": "be-extension-pattern",
     "settings.json": "settings-compiler",
     "skills/be-extension-pattern/CLAUDE.md": "be-extension-pattern",
     "skills/be-extension-pattern/SKILL.md": "be-extension-pattern",
