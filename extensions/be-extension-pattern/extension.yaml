@@ -3,7 +3,7 @@ version: "1.1.0"
 description: "BEプロジェクトでエクステンションパターンに従った実装を指導・強制するスキル"
 author: masaaki
 enabled: true
-rule_number_range: [50, 59]
+rule_number_range: [60, 69]
 routing:
   - triggers:
       - "BE新機能追加"
