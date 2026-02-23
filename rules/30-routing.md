@@ -6,7 +6,9 @@
 
 | トリガー | 参照スキル |
 |---------|-----------|
+| BE新機能追加、APIエンドポイント追加、BEエクステンション作成、バックエンド設計、HookPoint実装 | `be-extension-pattern` |
 | SubAgent委託、デバッグ、リファクタリング、大量データ分析 | `execution-patterns` |
+| FE+BE連携、APIコントラクト、エクステンション共有設定、クロスリポ連携、デプロイ協調 | `fe-be-extension-coordination` |
 | 新機能追加、ページ追加、ウィジェット追加、エクステンション作成、FEアーキテクチャ、フロントエンド設計 | `fe-extension-pattern` |
 | git commit/push/add、コミット禁止ファイル詳細、事故対応 | `git-safety-reference` |
 | .envrc/.mcp.json操作、APIキー設定、新プロジェクト環境 | `secret-management` |
