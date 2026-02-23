@@ -43,15 +43,10 @@ class ClaudeMdCompiler:
         else:
             template = _DEFAULT_TEMPLATE
 
-        # Collect extension sections from CLAUDE.md-contributing extensions
-        sections: list[str] = []
-        for _ext_dir, manifest in extensions:
-            if manifest.claude_md_section:
-                sections.append(manifest.claude_md_section.rstrip())
-
-        section_text = "\n\n".join(sections)
-
-        content = template.replace("{extension_sections}", section_text)
+        # Note: claude_md_section content from extensions is handled by
+        # the RoutingCompiler (placed in 30-routing.md), not here.
+        # The {extension_sections} placeholder is replaced with empty string.
+        content = template.replace("{extension_sections}", "")
 
         rel_dest = "CLAUDE.md"
 
