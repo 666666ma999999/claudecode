@@ -37,7 +37,7 @@
     },
     "codex": {
       "type": "stdio",
-      "command": "/Users/masaaki/.nvm/versions/node/v22.20.0/bin/codex",
+      "command": "/Users/masaaki_nagasawa/.nvm/versions/node/v22.18.0/bin/codex",
       "args": ["mcp-server"],
       "env": {
         "OPENAI_API_KEY": "${OPENAI_API_KEY}"
