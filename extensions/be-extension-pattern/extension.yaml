@@ -1,15 +1,37 @@
 name: be-extension-pattern
-version: "1.0.0"
-description: "BEプロジェクトでエクステンションパターンに従った実装を指導するスキル"
+version: "1.1.0"
+description: "BEプロジェクトでエクステンションパターンに従った実装を指導・強制するスキル"
 author: masaaki
 enabled: true
+rule_number_range: [40, 49]
 routing:
-  - triggers: ["BE新機能追加", "APIエンドポイント追加", "BEエクステンション作成", "バックエンド設計", "HookPoint実装"]
+  - triggers:
+      - "BE新機能追加"
+      - "APIエンドポイント追加"
+      - "BEエクステンション作成"
+      - "バックエンド設計"
+      - "HookPoint実装"
+      - "新機能追加"
+      - "エクステンション作成"
+      - "プラグインアーキテクチャ"
+      - "backend feature"
+      - "new API endpoint"
+      - "extension pattern"
+      - "plugin architecture"
+      - "add backend"
+      - "create extension"
     skill: be-extension-pattern
 hooks:
   PreToolUse:
     - matcher: "Write|Edit"
       script: "hooks/enforce-extension-pattern.py"
+  PostToolUse:
+    - matcher: "Write|Edit"
+      script: "hooks/check-extension-imports.py"
+  SessionStart:
+    - matcher: ""
+      script: "hooks/detect-extension-project.sh"
 tags:
   - backend
   - architecture
+  - enforcement
