@@ -4,6 +4,7 @@ import ast
 import json
 import os
 import sys
+from typing import List, Optional
 
 
 def warn(message: str):
@@ -11,7 +12,7 @@ def warn(message: str):
     print(message, file=sys.stderr)
 
 
-def get_extension_name(file_path: str, cwd: str) -> str | None:
+def get_extension_name(file_path: str, cwd: str) -> Optional[str]:
     """Extract extension name from file path.
 
     e.g., /project/src/extensions/billing/service.py -> "billing"
