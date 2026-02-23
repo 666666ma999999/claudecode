@@ -1,11 +1,12 @@
 {
-  "built_at": "2026-02-23T09:11:23.625995+00:00",
+  "built_at": "2026-02-23T10:02:53.492716+00:00",
   "extensions": [
     "core-workflow",
     "data-analysis",
     "data-retention",
     "docker-safety",
     "execution-guard",
+    "fe-extension-pattern",
     "firecrawl-setup",
     "git-automation",
     "git-safety",
@@ -44,6 +45,8 @@
     "skills/debugging-guide/SKILL.md": "execution-guard",
     "skills/execution-patterns/CLAUDE.md": "execution-guard",
     "skills/execution-patterns/SKILL.md": "execution-guard",
+    "skills/fe-extension-pattern/CLAUDE.md": "fe-extension-pattern",
+    "skills/fe-extension-pattern/SKILL.md": "fe-extension-pattern",
     "skills/find-skills/CLAUDE.md": "skill-lifecycle",
     "skills/find-skills/SKILL.md": "skill-lifecycle",
     "skills/git-safety-reference/CLAUDE.md": "git-safety",

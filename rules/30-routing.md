@@ -7,6 +7,7 @@
 | トリガー | 参照スキル |
 |---------|-----------|
 | SubAgent委託、デバッグ、リファクタリング、大量データ分析 | `execution-patterns` |
+| 新機能追加、ページ追加、ウィジェット追加、エクステンション作成、FEアーキテクチャ、フロントエンド設計 | `fe-extension-pattern` |
 | git commit/push/add、コミット禁止ファイル詳細、事故対応 | `git-safety-reference` |
 | .envrc/.mcp.json操作、APIキー設定、新プロジェクト環境 | `secret-management` |
 | 新プロジェクト初期化 | `project-bootstrap` |
