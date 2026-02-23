@@ -16,6 +16,7 @@ class RulesCompiler:
         extensions: list[tuple[Path, ExtensionManifest]],
         output_dir: Path,
         dry_run: bool = False,
+        content_map: dict[str, str] | None = None,
     ) -> dict[str, str]:
         """Collect rule files, preserving numbered filenames.
 
@@ -36,6 +37,9 @@ class RulesCompiler:
                 if not dry_run:
                     output_dir.mkdir(parents=True, exist_ok=True)
                     shutil.copy2(rule_file, dest)
+
+                if content_map is not None:
+                    content_map[rel_dest] = rule_file.read_text(encoding="utf-8")
 
                 file_map[rel_dest] = manifest.name
 
