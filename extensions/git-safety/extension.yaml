@@ -5,7 +5,7 @@ author: masaaki
 enabled: true
 rule_number_range: [10, 19]
 routing:
-  - triggers: ["git commit", "git push", "git add", "コミット禁止ファイル詳細", "事故対応"]
+  - triggers: ["git commit/push/add", "コミット禁止ファイル詳細", "事故対応"]
     skill: git-safety-reference
 hooks:
   PreToolUse:
