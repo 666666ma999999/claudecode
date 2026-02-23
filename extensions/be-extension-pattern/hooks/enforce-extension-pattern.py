@@ -75,7 +75,7 @@ def get_relative_path(file_path: str, cwd: str) -> str:
         return file_path
 
 
-def check_violation(rel_path: str) -> tuple[bool, str]:
+def check_violation(rel_path: str) -> Tuple[bool, str]:
     """
     Check if the file path violates extension pattern conventions.
 
