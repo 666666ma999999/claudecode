@@ -1,0 +1,12 @@
+name: fe-be-extension-coordination
+version: "1.0.0"
+description: "FE+BE分離型プロジェクトでエクステンション間の調整を指導するスキル"
+author: masaaki
+enabled: true
+routing:
+  - triggers: ["FE+BE連携", "APIコントラクト", "エクステンション共有設定", "クロスリポ連携", "デプロイ協調"]
+    skill: fe-be-extension-coordination
+tags:
+  - fullstack
+  - architecture
+  - coordination
