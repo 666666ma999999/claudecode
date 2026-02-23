@@ -328,6 +328,15 @@ def doctor(ctx: click.Context) -> None:
         console.print("[bold green]All checks passed.[/bold green]")
 
 
+@cli.command(name="init-project")
+@click.argument("project_dir", type=click.Path(path_type=Path))
+@click.option("--force", is_flag=True, help="Overwrite existing files.")
+@click.pass_context
+def init_project_cmd(ctx: click.Context, project_dir: Path, force: bool) -> None:
+    """Initialize a project with FE Extension Architecture."""
+    init_project(project_dir, force=force)
+
+
 def _set_extension_enabled(base_dir: Path, name: str, enabled: bool) -> None:
     """Update the registry to enable/disable an extension."""
     registry_path = base_dir / "extensions" / "extension-registry.yaml"
