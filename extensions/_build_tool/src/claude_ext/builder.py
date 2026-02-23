@@ -207,16 +207,19 @@ class ExtensionBuilder:
             removed.append(str(self.build_manifest_path.relative_to(self.base_dir)))
         return removed
 
+    # Files in subdirectories that are NOT build outputs (e.g. claude-mem context).
+    _SCAN_EXCLUDE_NAMES = {"CLAUDE.md"}
+
     def _scan_current_files(self) -> dict[str, str]:
         """Scan actual files in ~/.claude/ that are build output targets.
 
         Scans:
         - rules/*.md
         - skills/**/*
-        - commands/*.md (and other command files)
-        - hooks/* (scripts)
+        - commands/* (excluding CLAUDE.md context files)
+        - hooks/* (excluding CLAUDE.md context files)
         - settings.json
-        - CLAUDE.md
+        - CLAUDE.md (top-level only)
 
         Returns:
             Mapping of rel_path -> file content.
