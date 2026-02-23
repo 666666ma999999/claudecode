@@ -1,0 +1,11 @@
+name: fe-extension-pattern
+version: "1.0.0"
+description: "FEプロジェクトでエクステンションパターンに従った実装を指導するスキル"
+author: masaaki
+enabled: true
+routing:
+  - triggers: ["新機能追加", "ページ追加", "ウィジェット追加", "エクステンション作成", "FEアーキテクチャ", "フロントエンド設計"]
+    skill: fe-extension-pattern
+tags:
+  - frontend
+  - architecture
