@@ -1,0 +1,28 @@
+name: Extension Isolation Lint
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  isolation-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install import-linter
+
+      - name: Run import-linter
+        run: lint-imports
+
+      - name: Run validate_isolation.py
+        run: python validate_isolation.py --src-dir src
