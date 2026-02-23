@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-02-23T13:49:40.740633+00:00",
+  "built_at": "2026-02-23T13:50:00.986284+00:00",
   "extensions": [
     "be-extension-pattern",
     "core-workflow",
@@ -45,7 +45,7 @@
     "rules/10-safety.md": "git-safety",
     "rules/20-execution.md": "execution-guard",
     "rules/30-routing.md": "routing-compiler",
-    "rules/40-extension-enforcement.md": "be-extension-pattern",
+    "rules/50-extension-enforcement.md": "be-extension-pattern",
     "settings.json": "settings-compiler",
     "skills/be-extension-pattern/CLAUDE.md": "be-extension-pattern",
     "skills/be-extension-pattern/SKILL.md": "be-extension-pattern",
