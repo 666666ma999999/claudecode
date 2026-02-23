@@ -29,7 +29,7 @@ def get_extension_name(file_path: str, cwd: str) -> Optional[str]:
     return None
 
 
-def check_imports(file_path: str, ext_name: str) -> list[str]:
+def check_imports(file_path: str, ext_name: str) -> List[str]:
     """Check a Python file for cross-extension imports."""
     violations = []
     try:
