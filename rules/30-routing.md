@@ -15,6 +15,8 @@
 | 新プロジェクト初期化 | `project-bootstrap` |
 | スキル作成・更新・判断、横展開チェック | `skill-lifecycle-reference` |
 | Webスクレイピング、Agent Teams構成 | `tool-selection-reference` |
+| セキュリティ監査, 脆弱性診断, Red Team, Blue Team, security audit, 攻撃分析, 防御設計 | `security-twin-audit` |
+| /review-security, PR セキュリティレビュー, 差分セキュリティ監査 | `/review-security` コマンド |
 
 ## シークレット管理（基本方針）
 
