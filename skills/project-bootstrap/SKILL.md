@@ -40,6 +40,12 @@ allowed-tools: "Bash Read Write Edit Glob Grep"
 ### 5. タスク管理
 - [ ] `.claude/workspace/` ディレクトリ作成（必要時）
 
+### 6. Security Twin 初回監査（該当時）
+- [ ] `~/.claude/agents/` に `black-hacker.md`, `white-hacker.md` が存在確認
+- [ ] `security-twin-audit` スキルを実行してセキュリティ監査
+- [ ] 監査レポートを `.claude/workspace/security-audit-{date}.md` に保存
+- [ ] CRITICAL/HIGH の脆弱性があれば対策を実施してからリリース
+
 ## テンプレート適用コマンド例
 
 ```bash
