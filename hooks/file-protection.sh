@@ -1,8 +1,25 @@
 #!/bin/bash
 # PreToolUse: ファイル保護フック
 # 危険なファイルへの書き込みをブロック
+# 入力: stdin から JSON（Claude Code hooks 仕様）
 
-FILE_PATH="$CLAUDE_FILE_PATH"
+INPUT=$(cat)
+
+FILE_PATH="$(echo "$INPUT" | python3 -c "
+import sys, json, os
+try:
+    d = json.load(sys.stdin)
+    fp = d.get('tool_input', {}).get('file_path', '')
+    print(os.path.realpath(fp) if fp else '')
+except:
+    print('')
+" 2>/dev/null)"
+
+# FILE_PATHが空の場合は対象外なので許可
+if [[ -z "$FILE_PATH" ]]; then
+    echo '{"decision":"approve"}'
+    exit 0
+fi
 
 # 保護対象パターン（14カテゴリ・28パターン）
 PROTECTED_PATTERNS=(
