@@ -271,6 +271,15 @@
             "command": "~/.claude/skills/notification-alert/scripts/check-and-enable.sh"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/config-diagnostic.sh"
+          }
+        ]
       }
     ],
     "Notification": [
