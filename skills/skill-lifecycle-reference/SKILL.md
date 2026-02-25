@@ -52,37 +52,67 @@ allowed-tools: "Read Glob Grep"
 | Python実行を含む | `"Bash(python:*) Read Write Edit Glob Grep"` |
 | ブラウザ自動化 | `"Bash(python:*) Bash(node:*) Read Write Edit Glob Grep WebFetch"` |
 
-## 配置先判断（rules / skills / memory）
+## 配置先判断（8目的地フロー）
 
-知見・規約を保存する前に、まず配置先を判断する:
+知見・規約・自動化を保存する前に、以下の3ステップで配置先を判断する:
+
+### STEP 1: 知見の分類
 
 ```
-Q-1. この知見はどの種類か？
+この知見はどの種類か？
 
-[A] 命名規約・禁止事項・常時適用ポリシー
-    → ~/.claude/rules/ （毎会話自動ロード）
-    例: CMS命名規約, git安全ルール, エクステンション強制
-
-[B] ワークフロー・手順・判断ガイド（必要時のみ参照）
-    → ~/.claude/skills/ （キーワードトリガーで発動）
-    例: デバッグガイド, リファクタリング手順, スキル作成ガイド
-
-[C] プロジェクト固有の事実・設定値・アーキテクチャ記録
-    → MEMORY.md または CLAUDE.md
-    例: ポート番号, ファイル構造, API仕様, 過去の決定事項
-
-判断基準:
-| 基準 | rules | skills | memory |
-|------|-------|--------|--------|
-| 適用タイミング | 常時 | 必要時 | 参照時 |
-| 違反時の影響 | 高（命名不整合等） | 低（手順省略） | なし |
-| コンテキストコスト | 毎会話消費 | オンデマンド | 毎会話消費 |
-| 内容の性質 | MUST/MUST NOT | HOW TO | WHAT IS |
+[A] RULE — 命名規約・禁止事項・常時適用ポリシー（MUST/MUST NOT）
+[B] PROCEDURE — ワークフロー・手順・判断ガイド（HOW TO）
+[C] AUTOMATION — イベント駆動の自動実行アクション（ON EVENT → DO）
+[D] FACT — 事実・設定値・アーキテクチャ記録（WHAT IS）
 ```
 
-→ [A]の場合は rules に配置して終了
-→ [B]の場合は以下の「スキル化判断フロー」Q0へ
-→ [C]の場合は MEMORY.md に記録して終了
+### STEP 2A: RULE の配置先
+
+| 条件 | 配置先 | 例 |
+|------|--------|-----|
+| 全プロジェクト共通の規約 | `~/.claude/rules/` | git安全ルール、CMS命名規約 |
+| プロジェクト固有の規約 | `project/.claude/rules/` or `CLAUDE.md` | Playwright待機規約 |
+
+### STEP 2B: PROCEDURE の配置先
+
+| 条件 | 配置先 | 例 |
+|------|--------|-----|
+| 汎用ワークフロー（キーワード発動） | `~/.claude/skills/` | デバッグガイド、スキル作成ガイド |
+| プロジェクト固有手順 | `project/.claude/skills/` | CMS操作手順 |
+| ユーザー明示起動コマンド | `~/.claude/commands/` | /review, /launch-task |
+
+### STEP 2C: AUTOMATION の配置先
+
+| 条件 | 配置先 | 例 |
+|------|--------|-----|
+| ツール実行前後の自動処理 | `~/.claude/hooks/` (event matcher) | コミット前lint、SessionStart |
+| MCPサーバー接続設定 | `.mcp.json` | Playwright MCP, Memory MCP |
+| ツール権限・モデル設定 | `settings.json` | allowedTools, model |
+
+### STEP 2D: FACT の配置先
+
+| 条件 | 配置先 | 例 |
+|------|--------|-----|
+| プロジェクト固有の事実・設定値 | `MEMORY.md` | ポート番号、API仕様 |
+| チーム共有のプロジェクト指示 | `CLAUDE.md`（git管理） | アーキテクチャ方針 |
+
+### コンテキストコスト比較
+
+| 配置先 | ロードタイミング | コンテキストコスト |
+|--------|----------------|-------------------|
+| rules/ | 毎会話自動 | 毎回消費 |
+| CLAUDE.md / MEMORY.md | 毎会話自動 | 毎回消費 |
+| skills/ | キーワードマッチ時 | オンデマンド |
+| commands/ | ユーザー明示起動時 | オンデマンド |
+| hooks/ | イベント発火時 | ゼロ（シェル実行） |
+| settings.json | 起動時 | ゼロ（設定値） |
+| .mcp.json | 起動時 | ゼロ（接続設定） |
+
+→ [A] RULE の場合は STEP 2A で配置して終了
+→ [B] PROCEDURE の場合は STEP 2B で配置先を判断。skills/ の場合は以下の「スキル化判断フロー」Q0へ
+→ [C] AUTOMATION の場合は STEP 2C で配置して終了
+→ [D] FACT の場合は STEP 2D で配置して終了
 
 ## スキル化判断フロー（実装完了時に毎回実行）
 
