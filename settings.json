@@ -23,7 +23,6 @@
       "Bash(claude /doctor:*)",
       "Bash(/usr/local/bin/claude config:*)",
       "Bash(/opt/homebrew/bin/claude config:*)",
-      "Bash(/Users/masaaki/.local/bin/claude:*)",
       "Bash(security find-generic-password:*)",
       "mcp__playwright-mkb__browser_click",
       "mcp__playwright-mkb__browser_snapshot",
