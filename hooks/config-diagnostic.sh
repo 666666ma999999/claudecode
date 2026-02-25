@@ -22,7 +22,7 @@ HOME_CLAUDE="$HOME/.claude"
 # --- 1. CWD info ---
 GIT_REMOTE=""
 if [[ -d "$CWD/.git" ]] || git -C "$CWD" rev-parse --git-dir >/dev/null 2>&1; then
-  GIT_REMOTE="$(git -C "$CWD" remote get-url origin 2>/dev/null | sed -E 's|^(https?://[^/]+/|git@[^:]+:)||; s|\.git$||')"
+  GIT_REMOTE="$(git -C "$CWD" remote get-url origin 2>/dev/null | sed -E 's|^https?://[^/]+/||; s|^git@[^:]+:||; s|\.git$||')"
 fi
 
 if [[ -n "$GIT_REMOTE" ]]; then
