@@ -1,0 +1,12 @@
+# ~/.claude/.envrc
+# direnv configuration for Claude Code
+# Copy to ~/.claude/.envrc and run `direnv allow`
+
+source_env_if_exists ~/.envrc.shared
+
+# MCP server paths (adjust for your system)
+# export CODEX_PATH="$HOME/.nvm/versions/node/v22.18.0/bin/codex"
+
+# API Keys (set in ~/.envrc.shared or here)
+# export OPENAI_API_KEY="..."
+# export DB_CONNECTION_STRING="..."
