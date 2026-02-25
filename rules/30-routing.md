@@ -17,6 +17,7 @@
 | Webスクレイピング、Agent Teams構成 | `tool-selection-reference` |
 | セキュリティ監査, 脆弱性診断, Red Team, Blue Team, security audit, 攻撃分析, 防御設計 | `security-twin-audit` |
 | /review-security, PR セキュリティレビュー, 差分セキュリティ監査 | `/review-security` コマンド |
+| 設定配置, グローバル vs プロジェクト, config placement, 設定優先順位, settings scope | `config-placement-guide` |
 
 ## シークレット管理（基本方針）
 
