@@ -75,7 +75,7 @@
       "mcp__chrome-devtools__performance_analyze_insight",
       "mcp__codex__codex",
       "mcp__codex__codex-reply"
-    ],
+    ]
   },
   "enabledPlugins": {
     "example-skills@anthropic-agent-skills": true,
