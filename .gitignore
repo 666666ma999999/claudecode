@@ -40,6 +40,25 @@ whisper3/
 # バックアップファイル
 backups/
 
+# ローカル設定（PC固有）
+settings.local.json
+mcp-needs-auth-cache.json
+
+# ビルド成果物・キャッシュ
+__pycache__/
+*.pyc
+*.pyo
+
+# テレメトリ・使用データ
+telemetry/
+usage-data/
+
+# アーカイブ
+*.tar.gz
+
+# メモリ（セッション固有）
+memory/
+
 # Agent Teams（セッション固有・機密情報含有の可能性）
 teams/
 tasks/
