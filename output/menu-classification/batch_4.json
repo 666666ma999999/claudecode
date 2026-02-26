@@ -1,0 +1,354 @@
+[
+  {
+    "id": 133,
+    "title": "＼連絡クルクル！一粒万倍日／あの人なりの考えがあるのよ。【___nickname1___さんに今、一番伝えたい想い】連絡が減った本当の理由",
+    "primary": "anxiety_relief",
+    "sub": ["empathy"],
+    "confidence": 0.85,
+    "reason": "連絡が減った理由を明らかにして不安を解消する構成で、モヤモヤを晴らす心理効果が主"
+  },
+  {
+    "id": 134,
+    "title": "ココロもカラダも一つ残らず、あなたで満たしたい【あの人のHな本心モリモリ！】抱きたい異性/独占欲",
+    "primary": "sensual_excitement",
+    "sub": ["curiosity_reveal"],
+    "confidence": 0.95,
+    "reason": "「Hな本心」「抱きたい」「カラダ」など直接的な性的描写が主効果"
+  },
+  {
+    "id": 135,
+    "title": "リアルな気持ち、み～つけた！ 二人のご縁ガチ盛り上がり。【あなたにだけは気づいてほしい】8つの本音",
+    "primary": "empathy",
+    "sub": ["encouragement"],
+    "confidence": 0.80,
+    "reason": "「気づいてほしい」という寄り添い・理解を求める構成で共感が主効果"
+  },
+  {
+    "id": 136,
+    "title": "ムクムクっ……あの人の想いが最大パワーに膨れ上がってます◎あなたのことが好きすぎて【大事にしたいor勇気がない】",
+    "primary": "excitement",
+    "sub": ["anxiety_relief"],
+    "confidence": 0.80,
+    "reason": "あの人の好意の膨張を描きドキドキ感を与える構成で恋愛的高揚感が主"
+  },
+  {
+    "id": 137,
+    "title": "スッゴイ★ゴールデン鑑定⇒大傑作目白押しSP＼GWは強制縁結びにうってつけ／全15項【秘密の気持ち/抱きしめたくなる瞬間/恋決意】",
+    "primary": "curiosity_reveal",
+    "sub": ["excitement"],
+    "confidence": 0.80,
+    "reason": "「秘密の気持ち」全15項を大公開する構成で覗き見欲求への訴求が主"
+  },
+  {
+    "id": 138,
+    "title": "【本日限定】魅惑の心を狙いうち⇒えちえち鑑定 あの人の___nickname1___さんへのヤバい想い◆世界で1人のあなたという存在",
+    "primary": "sensual_excitement",
+    "sub": ["encouragement"],
+    "confidence": 0.90,
+    "reason": "「えちえち鑑定」というキーワードが直接的で官能的刺激が主効果"
+  },
+  {
+    "id": 139,
+    "title": "＼もっと近づいて！一粒万倍日／あなたの笑顔がクリティカルヒット◆あの人の心をウルオス【気持ち/想像する未来/願い】",
+    "primary": "excitement",
+    "sub": ["encouragement"],
+    "confidence": 0.85,
+    "reason": "「もっと近づいて」「クリティカルヒット」など恋愛的高揚感が主効果"
+  },
+  {
+    "id": 140,
+    "title": "＼つながりたい！一粒万倍日／今日も逢いたい！ あの人の気持ち∞ムゲンダイに膨らんでます【ドキドキする？きゅんきゅんする？】",
+    "primary": "excitement",
+    "sub": ["empathy"],
+    "confidence": 0.90,
+    "reason": "「ドキドキ」「きゅんきゅん」がキーワードで恋愛的高揚感が主効果"
+  },
+  {
+    "id": 141,
+    "title": "＼シークレット！一粒万倍日／あの人の秘密のオンパレード★【求めること/隠す本音/恋の決断】本音暴露占《7つのquestion》",
+    "primary": "curiosity_reveal",
+    "sub": ["tough_love"],
+    "confidence": 0.90,
+    "reason": "「シークレット」「秘密のオンパレード」「暴露」で覗き見欲求が主効果"
+  },
+  {
+    "id": 142,
+    "title": "＼2025年恋始めSP／あの人、___nickname1___さんに夢中すぎ!?【恋のエッセンス9箇条】秘めた本音/恋が動くキッカケ",
+    "primary": "excitement",
+    "sub": ["curiosity_reveal"],
+    "confidence": 0.85,
+    "reason": "「夢中すぎ」という恋愛的高揚感を煽る構成が主効果"
+  },
+  {
+    "id": 143,
+    "title": "神様集合★超豪華ゴールデンウィーク！あの人を想うとキュン死する？ 好き？ 叫びたいほど好き？",
+    "primary": "excitement",
+    "sub": ["empathy"],
+    "confidence": 0.90,
+    "reason": "「キュン死」「好き？叫びたいほど好き？」で恋愛的高揚感が主効果"
+  },
+  {
+    "id": 144,
+    "title": "神様集合★超豪華ゴールデンウィーク！あの人は___nickname1___さんに【マジ惚れしてる⇔気になる存在】あなたへの答えと二人の未来",
+    "primary": "anxiety_relief",
+    "sub": ["excitement"],
+    "confidence": 0.80,
+    "reason": "「マジ惚れor気になる存在」で関係の明確化を提示し不安解消が主効果"
+  },
+  {
+    "id": 145,
+    "title": "神様集合★超豪華ゴールデンウィーク！あの人が優しいのは【あなたが好きorバリバリの下心】二人は恋人になれる？",
+    "primary": "tough_love",
+    "sub": ["anxiety_relief"],
+    "confidence": 0.80,
+    "reason": "「好きor下心」とYES/NO的にハッキリ判定する構成で現実直視が主効果"
+  },
+  {
+    "id": 146,
+    "title": "神様集合★超豪華ゴールデンウィーク！あの人のあなたへの気持ちQ＆A◆二人は最終的に結ばれる？ 半年後、1年後、3年後の未来まで",
+    "primary": "tough_love",
+    "sub": ["anxiety_relief"],
+    "confidence": 0.85,
+    "reason": "「Q&A」形式で明確に答えを出す構成、「結ばれる？」のハッキリ感が主効果"
+  },
+  {
+    "id": 147,
+    "title": "《恋の特別取調室》あの人の本音を徹底自白！【ガチ惚れor憧れ】？⇒ALL一問一答でお伝えします",
+    "primary": "tough_love",
+    "sub": ["curiosity_reveal"],
+    "confidence": 0.90,
+    "reason": "「取調室」「徹底自白」「一問一答」でハッキリ答える辛口スタイルが主効果"
+  },
+  {
+    "id": 148,
+    "title": "＼恋の極秘プラン判明！／あの人の制御不能の想い(抱きたい）（付き合いたい）……刺激強めの"ナマの声"鑑定",
+    "primary": "sensual_excitement",
+    "sub": ["curiosity_reveal"],
+    "confidence": 0.85,
+    "reason": "「抱きたい」「刺激強め」「ナマの声」で官能的刺激が主効果"
+  },
+  {
+    "id": 149,
+    "title": "強制縁結びでLOVE運爆アゲ↑【二人の宿縁】あの人の想い/転機/結末◆両想い決定版",
+    "primary": "encouragement",
+    "sub": ["excitement"],
+    "confidence": 0.85,
+    "reason": "「両想い決定版」「LOVE運爆アゲ」で願望成就の力強さ・ポジティブ感が主効果"
+  },
+  {
+    "id": 150,
+    "title": "もっと、奥深くまで……【あの人の欲望SP】（かわいい表情見せて）（かわいい声を聞かせて）ちょっとHな縁結び鑑定",
+    "primary": "sensual_excitement",
+    "sub": ["curiosity_reveal"],
+    "confidence": 0.90,
+    "reason": "「欲望SP」「Hな縁結び」で官能的刺激が主効果"
+  },
+  {
+    "id": 151,
+    "title": "【悪縁を切り、良縁を結ぶ！】出雲の母でなきゃ見逃しちゃいますね。言葉にしない《あの人の気持ち》神当て鑑定×9つのリアル",
+    "primary": "encouragement",
+    "sub": ["anxiety_relief"],
+    "confidence": 0.80,
+    "reason": "「悪縁を切り良縁を結ぶ」という前向きな成就力が主効果"
+  },
+  {
+    "id": 152,
+    "title": "＼想い重なる！一粒万倍日／あの人はあなたと【付き合いたいor現状維持？】甘くトロける本音/ベストな関係",
+    "primary": "anxiety_relief",
+    "sub": ["excitement"],
+    "confidence": 0.80,
+    "reason": "「付き合いたいor現状維持？」で関係の方向性を明確化し不安解消が主効果"
+  },
+  {
+    "id": 153,
+    "title": "＼6月限定メニュー／あの人が本気でオトしたい異性は___nickname1___さん！？【ポツポツ滴るズブ濡れ本音】",
+    "primary": "excitement",
+    "sub": ["curiosity_reveal"],
+    "confidence": 0.80,
+    "reason": "「本気でオトしたい」「ズブ濡れ本音」で恋愛的高揚感が主効果"
+  },
+  {
+    "id": 154,
+    "title": "あの人の建て前、完全排除！《嫉妬心/秘密/あなたに向ける欲望》ピリッとスパイス効いた本音を大・放・出SP",
+    "primary": "curiosity_reveal",
+    "sub": ["sensual_excitement"],
+    "confidence": 0.85,
+    "reason": "「建前完全排除」「秘密」「大放出」で覗き見欲求が主効果、欲望で官能サブ"
+  },
+  {
+    "id": 155,
+    "title": "たっぷり、ギュウギュウ欲望尽くし！ あの人の狙いは【ガチ交際or身体】キャパオーバーしそうな想い/恋心/秘密",
+    "primary": "sensual_excitement",
+    "sub": ["tough_love"],
+    "confidence": 0.85,
+    "reason": "「欲望尽くし」「ガチ交際or身体」で身体的恋愛意識が主効果"
+  },
+  {
+    "id": 156,
+    "title": "来年の誕生日、あなたの隣にいるのは【あの人？ 他のヒト？】この関係をクルリと変えるキッカケ《片想い強制終了占》",
+    "primary": "anxiety_relief",
+    "sub": ["tough_love"],
+    "confidence": 0.85,
+    "reason": "「片想い強制終了」で曖昧な関係の決着を促し不安解消が主効果"
+  },
+  {
+    "id": 157,
+    "title": "あの人の心の◎ド真ん中◎突き刺さってるのは【ピュアな気持ち】実はあなたを○○で、この先××するつもり",
+    "primary": "excitement",
+    "sub": ["curiosity_reveal"],
+    "confidence": 0.80,
+    "reason": "「ド真ん中に突き刺さっている」というピュアな恋心で恋愛的高揚感が主効果"
+  },
+  {
+    "id": 158,
+    "title": "眠れない夜……門外不出のあの人の【セキララ本音！】二人の結びつき∞たぐり寄せたい距離感◆feat.八百万の神",
+    "primary": "curiosity_reveal",
+    "sub": ["empathy"],
+    "confidence": 0.85,
+    "reason": "「門外不出」「セキララ本音」で秘密暴露・覗き見欲求が主効果"
+  },
+  {
+    "id": 159,
+    "title": "最強占い師＝ガチ的中【上半期◆最終決戦】プレミアム強制縁結び鑑定！【全本音】固める決意×恋未来＝史上最高の幸せ",
+    "primary": "encouragement",
+    "sub": ["excitement"],
+    "confidence": 0.85,
+    "reason": "「最強」「史上最高の幸せ」で成功・ポジティブ感が主効果"
+  },
+  {
+    "id": 160,
+    "title": "♂二人のアッチの事情♀（こっそりめちゃ当て）心もカラダも結ばれたいのね【溢れる情欲】淫らな本音/誘惑サイン",
+    "primary": "sensual_excitement",
+    "sub": ["curiosity_reveal"],
+    "confidence": 0.95,
+    "reason": "「情欲」「淫らな本音」「カラダも結ばれたい」で官能的刺激が明確に主効果"
+  },
+  {
+    "id": 161,
+    "title": "＼2日間連続！一粒万倍日／※超ストレート暴露します※【あの人の11本心】抱きしめたい瞬間、誰も知らないヒ・ミ・ツ",
+    "primary": "curiosity_reveal",
+    "sub": ["excitement"],
+    "confidence": 0.90,
+    "reason": "「超ストレート暴露」「秘密」で覗き見欲求が主効果"
+  },
+  {
+    "id": 162,
+    "title": "＼LOVE変化！一粒万倍日／メタモルフォーゼ【あの人の気持ち】妄想日記◆あの人の秘密/結婚願望",
+    "primary": "curiosity_reveal",
+    "sub": ["excitement"],
+    "confidence": 0.85,
+    "reason": "「妄想日記」「秘密」を覗く構成で覗き見欲求が主効果"
+  },
+  {
+    "id": 163,
+    "title": "＼7月限定メニュー／MUSUBI～結～【二人が織りなす夏恋物語】恋人になりたい⇔このままでいたい？",
+    "primary": "excitement",
+    "sub": ["anxiety_relief"],
+    "confidence": 0.80,
+    "reason": "「夏恋物語」「恋人になりたい」で恋愛ロマンチックな高揚感が主効果"
+  },
+  {
+    "id": 164,
+    "title": "あの人の感情効果音詰め合わせ★【想い】恋チャンスを逃さないための選択を！1:待つ 2:仕掛ける 3:キョリをおく",
+    "primary": "tough_love",
+    "sub": ["anxiety_relief"],
+    "confidence": 0.80,
+    "reason": "3択の明確な選択を迫る構成で現実直視・ハッキリ感が主効果"
+  },
+  {
+    "id": 165,
+    "title": "★七夕限定メニュー★今すぐ触れたいのに！【逢えないあの人が悩んでます】◆二人は結ばれるorずっとこのまま？",
+    "primary": "empathy",
+    "sub": ["anxiety_relief"],
+    "confidence": 0.80,
+    "reason": "「逢えない」「悩んでます」で切なさへの寄り添い・共感が主効果"
+  },
+  {
+    "id": 166,
+    "title": "___nickname1___さんの愛がまだ足らない！ あの人の中にある「LOVE本音」◆両想いになれる可能性/最高な恋転機",
+    "primary": "encouragement",
+    "sub": ["excitement"],
+    "confidence": 0.80,
+    "reason": "「両想いになれる可能性」「最高な恋転機」でポジティブな成就感が主効果"
+  },
+  {
+    "id": 167,
+    "title": "＼トリプル最強開運日メニュー／注）欲望アラート発生中！【ヨコシマな衝動・告げたい言葉・特別な想い】怒涛の3連発",
+    "primary": "curiosity_reveal",
+    "sub": ["sensual_excitement"],
+    "confidence": 0.80,
+    "reason": "「欲望アラート」「ヨコシマな衝動」で秘密暴露の覗き見欲求が主効果"
+  },
+  {
+    "id": 168,
+    "title": "＼激アツ8月限定メニュー／あの人の気持ちが渋滞しすぎ！【してもらいたいコト、聞いてほしい悩み、言いたい本音】⇒恋は叶う？叶わない？",
+    "primary": "anxiety_relief",
+    "sub": ["tough_love"],
+    "confidence": 0.80,
+    "reason": "「叶う？叶わない？」で状況を明確化し不安解消を狙う構成が主効果"
+  },
+  {
+    "id": 169,
+    "title": "THEベストアンサー：あの人が望む関係は【友人or恋人or結婚相手？】今こそ知るべき、あの人のピュア本心",
+    "primary": "tough_love",
+    "sub": ["anxiety_relief"],
+    "confidence": 0.90,
+    "reason": "「友人or恋人or結婚相手」と明確な選択肢を提示するハッキリ系が主効果"
+  },
+  {
+    "id": 170,
+    "title": "ずっと考えてたし、ずっとあなたを気にしてた。あの人が死ぬ気で悩んだのは【やっぱり好きだから？】衝撃展開スペシャル！",
+    "primary": "empathy",
+    "sub": ["excitement"],
+    "confidence": 0.80,
+    "reason": "「ずっと気にしてた」「死ぬ気で悩んだ」で相手の葛藤への共感が主効果"
+  },
+  {
+    "id": 171,
+    "title": "＼ハートの日！1週間限定／あの人、ハートを撃ち抜かれてますよ。恋相手は【あなたor別の異性】◆≪揺れ動いて、ときめいて≫",
+    "primary": "excitement",
+    "sub": ["anxiety_relief"],
+    "confidence": 0.85,
+    "reason": "「ハートを撃ち抜かれ」「ときめいて」で恋愛的高揚感が主効果"
+  },
+  {
+    "id": 172,
+    "title": "あの人の演技にダマされないで【あなたを落とす"恋計画"発動中！】ワザと取る態度/裏本音～固める決心は愛の告白？",
+    "primary": "curiosity_reveal",
+    "sub": ["excitement"],
+    "confidence": 0.85,
+    "reason": "「演技」「恋計画発動中」「裏本音」で秘密暴露・覗き見欲求が主効果"
+  },
+  {
+    "id": 173,
+    "title": "決意させたのは___nickname1___さんですよ！ 真剣だからこそ悩んでる【あの人の想い/今の関係性/秘める恋心】⇒最終的に二人は結ばれる？",
+    "primary": "empathy",
+    "sub": ["anxiety_relief"],
+    "confidence": 0.80,
+    "reason": "「真剣だからこそ悩んでる」で相手の葛藤に寄り添う共感が主効果"
+  },
+  {
+    "id": 174,
+    "title": "あの人の恋本音∞最新ver.にアプデ必須！ 日々更新される【強いキモチ/抱く印象/望む関係】◆二人は恋人に≪なれる⇔なれない≫",
+    "primary": "anxiety_relief",
+    "sub": ["excitement"],
+    "confidence": 0.80,
+    "reason": "「恋人になれる⇔なれない」で関係の行方を明確化し不安解消が主効果"
+  },
+  {
+    "id": 175,
+    "title": "この恋は制御不能！？ あの人は【ココロorカラダ】を狙ってる◆吹き出す《アツい気持ち/衝動/欲求》丸ハダカSP",
+    "primary": "sensual_excitement",
+    "sub": ["curiosity_reveal"],
+    "confidence": 0.85,
+    "reason": "「カラダを狙ってる」「丸ハダカSP」「欲求」で官能的刺激が主効果"
+  },
+  {
+    "id": 176,
+    "title": "も～～放っとけないんです！ あの人が___nickname1___さんに【言えないホンネ/惹かれるところ/恋衝動】◆エンディングまで大暴露",
+    "primary": "curiosity_reveal",
+    "sub": ["excitement"],
+    "confidence": 0.85,
+    "reason": "「言えないホンネ」「大暴露」で秘密暴露・覗き見欲求が主効果"
+  }
+]
