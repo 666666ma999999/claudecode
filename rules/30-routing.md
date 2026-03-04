@@ -6,7 +6,7 @@
 
 | トリガー | 参照スキル |
 |---------|-----------|
-| BE新機能追加、APIエンドポイント追加、BEエクステンション作成、バックエンド設計、HookPoint実装、新機能追加、エクステンション作成、プラグインアーキテクチャ、backend feature、new API endpoint、extension pattern、plugin architecture、add backend、create extension | `be-extension-pattern` |
+| BE新機能追加、APIエンドポイント追加、BEエクステンション作成、バックエンド設計、HookPoint実装、プラグインアーキテクチャ、backend feature、new API endpoint、extension pattern、plugin architecture、add backend、create extension | `be-extension-pattern` |
 | タスク細分化、実装計画策定、計画作成 | `task-planner` |
 | 売上分析、多変数分析、重回帰分析、データ分析 | `sales-analysis` |
 | SubAgent委託、デバッグ、リファクタリング、大量データ分析 | `execution-patterns` |
