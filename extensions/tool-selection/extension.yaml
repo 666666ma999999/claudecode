@@ -6,5 +6,7 @@ enabled: true
 routing:
   - triggers: ["Webスクレイピング", "Agent Teams構成"]
     skill: tool-selection-reference
+  - triggers: ["コードベース調査", "codebase investigation", "大規模コード分析"]
+    skill: codebase-investigation
 tags:
   - tools
