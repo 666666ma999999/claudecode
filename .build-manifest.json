@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-02-23T13:54:07.169359+00:00",
+  "built_at": "2026-03-04T14:18:02.358241+00:00",
   "extensions": [
     "be-extension-pattern",
     "core-workflow",
@@ -41,11 +41,9 @@
     "hooks/permission-notify.sh": "notification",
     "hooks/restrict-cwd-edits.sh": "secret-management",
     "hooks/security-scan.sh": "git-safety",
-    "rules/00-core.md": "core-workflow",
-    "rules/10-safety.md": "git-safety",
-    "rules/20-execution.md": "execution-guard",
+    "rules/10-operations.md": "git-safety",
     "rules/30-routing.md": "routing-compiler",
-    "rules/60-extension-enforcement.md": "be-extension-pattern",
+    "rules/60-domain.md": "be-extension-pattern",
     "settings.json": "settings-compiler",
     "skills/be-extension-pattern/CLAUDE.md": "be-extension-pattern",
     "skills/be-extension-pattern/SKILL.md": "be-extension-pattern",

@@ -1,27 +1,8 @@
 #!/bin/bash
 # PreToolUse: セキュリティスキャンフック
 # 機密情報の書き込みを検出・警告
-# 入力: stdin から JSON（Claude Code hooks 仕様）
 
-INPUT=$(cat)
-
-CONTENT="$(echo "$INPUT" | python3 -c "
-import sys, json
-try:
-    d = json.load(sys.stdin)
-    ti = d.get('tool_input', {})
-    # Write: content or new_string, Edit: new_string
-    content = ti.get('content', '') or ti.get('new_string', '')
-    print(content)
-except:
-    print('')
-" 2>/dev/null)"
-
-# CONTENTが空の場合は対象外なので許可
-if [[ -z "$CONTENT" ]]; then
-    echo '{"decision":"approve"}'
-    exit 0
-fi
+CONTENT="$CLAUDE_TOOL_INPUT"
 
 # 機密情報パターン
 SECRET_PATTERNS=(
