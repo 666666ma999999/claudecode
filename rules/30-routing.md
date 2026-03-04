@@ -20,6 +20,7 @@
 | 設定配置, グローバル vs プロジェクト, config placement, 設定優先順位, settings scope | `config-placement-guide` |
 | URL一覧, スクレイピング先, チェック先, ナビゲーション先, アクセス先URL | プロジェクトスキル `show-scraping-urls` |
 | backend/変更後, Docker再ビルド, デプロイ判定, コンテナ反映, 実装完了報告 | プロジェクトスキル `deployment` |
+| 標準タスク開始, Plan mode前, ローカルスキルにマッチなし | `find-skills`（外部レジストリ検索） |
 
 ## シークレット管理（基本方針）
 
