@@ -7,6 +7,8 @@ rule_number_range: [50, 59]
 routing:
   - triggers: ["スキル作成・更新・判断", "横展開チェック"]
     skill: skill-lifecycle-reference
+  - triggers: ["スキル作成", "スキル新規作成", "ワークフロー保存"]
+    skill: skill-creator
 claude_md_section: |
   ## スキル化判断（要約）
 
