@@ -6,6 +6,12 @@ enabled: true
 routing:
   - triggers: ["SubAgent委託", "デバッグ", "リファクタリング", "大量データ分析"]
     skill: execution-patterns
+  - triggers: ["デバッグガイド", "根本原因分析", "バグ調査手順"]
+    skill: debugging-guide
+  - triggers: ["リファクタリング戦略", "コード改善", "リファクタリングガイド"]
+    skill: refactoring-guide
+  - triggers: ["リファクタリング安全性", "削除安全性", "影響範囲確認"]
+    skill: refactoring-safety
 tags:
   - execution
   - debugging
