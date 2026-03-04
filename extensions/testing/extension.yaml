@@ -3,5 +3,8 @@ version: "1.0.0"
 description: "Test fixing skills"
 author: masaaki
 enabled: true
+routing:
+  - triggers: ["テスト修正", "テスト失敗", "テストデバッグ", "TDD"]
+    skill: test-fixing
 tags:
   - testing
