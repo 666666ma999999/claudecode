@@ -3,6 +3,9 @@ version: "1.0.0"
 description: "Notification alerts and idle/permission prompts"
 author: masaaki
 enabled: true
+routing:
+  - triggers: ["通知設定", "アラート設定", "通知確認"]
+    skill: notification-alert
 hooks:
   SessionStart:
     - matcher: ""
