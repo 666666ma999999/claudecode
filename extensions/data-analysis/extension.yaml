@@ -3,6 +3,9 @@ version: "1.0.0"
 description: "Sales analysis and data skills"
 author: masaaki
 enabled: true
+routing:
+  - triggers: ["売上分析", "多変数分析", "重回帰分析", "データ分析"]
+    skill: sales-analysis
 tags:
   - data
   - analysis
