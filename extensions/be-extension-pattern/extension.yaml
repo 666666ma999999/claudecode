@@ -11,6 +11,8 @@ routing:
       - "BEエクステンション作成"
       - "バックエンド設計"
       - "HookPoint実装"
+      - "新機能追加"
+      - "エクステンション作成"
       - "プラグインアーキテクチャ"
       - "backend feature"
       - "new API endpoint"
@@ -19,6 +21,14 @@ routing:
       - "add backend"
       - "create extension"
     skill: be-extension-pattern
+claude_md_section: |
+  ## エクステンション設計の分岐
+
+  「新機能追加」「エクステンション作成」等の汎用リクエスト時、CWDのマーカーファイルで判定:
+  - `config/extensions.yaml` あり → `be-extension-pattern` スキル参照
+  - `config/extensions.json` あり → `fe-extension-pattern` スキル参照
+  - 両方あり → `fe-be-extension-coordination` スキル参照
+  - どちらもなし → ユーザーにBE/FEを確認
 hooks:
   PreToolUse:
     - matcher: "Write|Edit"
