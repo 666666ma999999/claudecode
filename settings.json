@@ -122,7 +122,7 @@
   "enabledPlugins": {
     "example-skills@anthropic-agent-skills": true,
     "document-skills@anthropic-agent-skills": true,
-    "playwright@claude-plugins-official": true,
+    "playwright@claude-plugins-official": false,
     "claude-mem@thedotmack": true
   },
   "alwaysThinkingEnabled": true,
