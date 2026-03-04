@@ -11,8 +11,6 @@ routing:
       - "BEエクステンション作成"
       - "バックエンド設計"
       - "HookPoint実装"
-      - "新機能追加"
-      - "エクステンション作成"
       - "プラグインアーキテクチャ"
       - "backend feature"
       - "new API endpoint"
