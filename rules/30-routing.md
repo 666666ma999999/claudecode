@@ -16,6 +16,7 @@
 | FE+BE連携、APIコントラクト、エクステンション共有設定、クロスリポ連携、デプロイ協調 | `fe-be-extension-coordination` |
 | 新機能追加、ページ追加、ウィジェット追加、エクステンション作成、FEアーキテクチャ、フロントエンド設計 | `fe-extension-pattern` |
 | git commit/push/add、コミット禁止ファイル詳細、事故対応 | `git-safety-reference` |
+| 通知設定、アラート設定、通知確認 | `notification-alert` |
 | .envrc/.mcp.json操作、APIキー設定、新プロジェクト環境 | `secret-management` |
 | 新プロジェクト初期化 | `project-bootstrap` |
 | スキル作成・更新・判断、横展開チェック | `skill-lifecycle-reference` |
