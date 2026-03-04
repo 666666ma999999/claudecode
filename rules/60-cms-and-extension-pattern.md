@@ -26,7 +26,7 @@
 
 1. サブドメインから識別子導出 → 上記テーブルに追加
 2. config.pyに `{ID}_CMS_*` 定数追加
-3. MEMORY.mdに記載
+3. auto memory (`~/.claude/projects/*/memory/MEMORY.md`) に記載
 
 ### 禁止
 

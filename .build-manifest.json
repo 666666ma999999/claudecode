@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-03-04T14:36:29.337432+00:00",
+  "built_at": "2026-03-04T14:51:19.290973+00:00",
   "extensions": [
     "be-extension-pattern",
     "core-workflow",
@@ -30,6 +30,7 @@
     "hooks/auto-git-push.sh": "git-automation",
     "hooks/block-dangerous-git.py": "git-safety",
     "hooks/block-host-installs.py": "docker-safety",
+    "hooks/check-and-enable.sh": "notification",
     "hooks/check-extension-imports.py": "be-extension-pattern",
     "hooks/data-retention.sh": "data-retention",
     "hooks/detect-extension-project.sh": "be-extension-pattern",

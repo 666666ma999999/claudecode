@@ -7,14 +7,22 @@
 | トリガー | 参照スキル |
 |---------|-----------|
 | BE新機能追加、APIエンドポイント追加、BEエクステンション作成、バックエンド設計、HookPoint実装、新機能追加、エクステンション作成、プラグインアーキテクチャ、backend feature、new API endpoint、extension pattern、plugin architecture、add backend、create extension | `be-extension-pattern` |
+| タスク細分化、実装計画策定、計画作成 | `task-planner` |
+| 売上分析、多変数分析、重回帰分析、データ分析 | `sales-analysis` |
 | SubAgent委託、デバッグ、リファクタリング、大量データ分析 | `execution-patterns` |
+| デバッグガイド、根本原因分析、バグ調査手順 | `debugging-guide` |
+| リファクタリング戦略、コード改善、リファクタリングガイド | `refactoring-guide` |
+| リファクタリング安全性、削除安全性、影響範囲確認 | `refactoring-safety` |
 | FE+BE連携、APIコントラクト、エクステンション共有設定、クロスリポ連携、デプロイ協調 | `fe-be-extension-coordination` |
 | 新機能追加、ページ追加、ウィジェット追加、エクステンション作成、FEアーキテクチャ、フロントエンド設計 | `fe-extension-pattern` |
 | git commit/push/add、コミット禁止ファイル詳細、事故対応 | `git-safety-reference` |
 | .envrc/.mcp.json操作、APIキー設定、新プロジェクト環境 | `secret-management` |
 | 新プロジェクト初期化 | `project-bootstrap` |
 | スキル作成・更新・判断、横展開チェック | `skill-lifecycle-reference` |
+| スキル作成、スキル新規作成、ワークフロー保存 | `skill-creator` |
+| テスト修正、テスト失敗、テストデバッグ、TDD | `test-fixing` |
 | Webスクレイピング、Agent Teams構成 | `tool-selection-reference` |
+| コードベース調査、codebase investigation、大規模コード分析 | `codebase-investigation` |
 
 ## シークレット管理（基本方針）
 
