@@ -6,7 +6,7 @@
 
 | トリガー | 参照スキル |
 |---------|-----------|
-| BE新機能追加、APIエンドポイント追加、BEエクステンション作成、バックエンド設計、HookPoint実装、プラグインアーキテクチャ、backend feature、new API endpoint、extension pattern、plugin architecture、add backend、create extension | `be-extension-pattern` |
+| BE新機能追加、APIエンドポイント追加、BEエクステンション作成、バックエンド設計、HookPoint実装、新機能追加、エクステンション作成、プラグインアーキテクチャ、backend feature、new API endpoint、extension pattern、plugin architecture、add backend、create extension | `be-extension-pattern` |
 | タスク細分化、実装計画策定、計画作成 | `task-planner` |
 | 売上分析、多変数分析、重回帰分析、データ分析 | `sales-analysis` |
 | SubAgent委託、デバッグ、リファクタリング、大量データ分析 | `execution-patterns` |
@@ -24,6 +24,14 @@
 | テスト修正、テスト失敗、テストデバッグ、TDD | `test-fixing` |
 | Webスクレイピング、Agent Teams構成 | `tool-selection-reference` |
 | コードベース調査、codebase investigation、大規模コード分析 | `codebase-investigation` |
+
+## エクステンション設計の分岐
+
+「新機能追加」「エクステンション作成」等の汎用リクエスト時、CWDのマーカーファイルで判定:
+- `config/extensions.yaml` あり → `be-extension-pattern` スキル参照
+- `config/extensions.json` あり → `fe-extension-pattern` スキル参照
+- 両方あり → `fe-be-extension-coordination` スキル参照
+- どちらもなし → ユーザーにBE/FEを確認
 
 ## シークレット管理（基本方針）
 
