@@ -45,7 +45,6 @@ if [[ -d "$LOCK_DIR" ]]; then
 fi
 if ! mkdir "$LOCK_DIR" 2>/dev/null; then
   # 既にロック中 → スキップ
-  echo '{"decision":"approve"}'
   exit 0
 fi
 # ロック解放用トラップ
