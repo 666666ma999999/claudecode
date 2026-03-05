@@ -34,6 +34,10 @@ permissions:
     - "Bash(git rebase *main*)"
     - "Bash(git rebase *master*)"
     - "Bash(git update-ref*)"
+    - "Bash(git add -A*)"
+    - "Bash(git add --all*)"
+    - "Bash(git add .)"
+    - "Bash(git add . *)"
 tags:
   - git
   - safety
