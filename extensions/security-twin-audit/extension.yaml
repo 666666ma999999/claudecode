@@ -1,0 +1,11 @@
+name: security-twin-audit
+version: "1.0.0"
+description: "Security Twin Agents (Red Team + Blue Team) audit orchestration"
+author: masaaki
+enabled: true
+routing:
+  - triggers: ["セキュリティ監査", "脆弱性診断", "Red Team", "Blue Team", "security audit", "攻撃分析", "防御設計"]
+    skill: security-twin-audit
+tags:
+  - security
+  - audit
