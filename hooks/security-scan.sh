@@ -2,7 +2,20 @@
 # PreToolUse: セキュリティスキャンフック
 # 機密情報の書き込みを検出・警告
 
-CONTENT="$CLAUDE_TOOL_INPUT"
+# Read hook input from stdin (Claude Code hook protocol)
+INPUT=$(cat)
+
+# Extract content from JSON input
+# For Write tool: content field; For Edit tool: new_string field
+CONTENT=$(echo "$INPUT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('tool_input',{}).get('content',''))" 2>/dev/null)
+if [ -z "$CONTENT" ]; then
+    CONTENT=$(echo "$INPUT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('tool_input',{}).get('new_string',''))" 2>/dev/null)
+fi
+
+# If no content found, allow
+if [ -z "$CONTENT" ]; then
+    exit 0
+fi
 
 # 機密情報パターン
 SECRET_PATTERNS=(
@@ -21,10 +34,10 @@ SECRET_PATTERNS=(
 # パターンマッチチェック
 for pattern in "${SECRET_PATTERNS[@]}"; do
     if echo "$CONTENT" | grep -qiE "$pattern"; then
-        echo "{\"decision\":\"block\",\"reason\":\"Potential secret detected: pattern '$pattern'\"}"
-        exit 0
+        echo "BLOCKED: Potential secret detected matching pattern '$pattern'" >&2
+        exit 2
     fi
 done
 
 # 許可
-echo '{"decision":"approve"}'
+exit 0
