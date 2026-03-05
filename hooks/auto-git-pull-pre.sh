@@ -68,5 +68,4 @@ if [[ $GIT_EXIT -eq 0 ]]; then
 fi
 
 # 常にapprove（失敗してもブロックしない）
-echo '{"decision":"approve"}'
 exit 0
