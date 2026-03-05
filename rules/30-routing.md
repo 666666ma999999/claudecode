@@ -20,6 +20,7 @@
 | 通知設定、アラート設定、通知確認 | `notification-alert` |
 | .envrc/.mcp.json操作、APIキー設定、新プロジェクト環境 | `secret-management` |
 | 新プロジェクト初期化 | `project-bootstrap` |
+| セキュリティ監査、脆弱性診断、Red Team、Blue Team、security audit、攻撃分析、防御設計 | `security-twin-audit` |
 | スキル作成・更新・判断、横展開チェック | `skill-lifecycle-reference` |
 | スキル作成、スキル新規作成、ワークフロー保存 | `skill-creator` |
 | テスト修正、テスト失敗、テストデバッグ、TDD | `test-fixing` |

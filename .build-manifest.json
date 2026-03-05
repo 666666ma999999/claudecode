@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-03-05T00:44:31.740910+00:00",
+  "built_at": "2026-03-05T00:45:00.775095+00:00",
   "extensions": [
     "be-extension-pattern",
     "core-workflow",
@@ -14,6 +14,7 @@
     "git-safety",
     "notification",
     "secret-management",
+    "security-twin-audit",
     "skill-lifecycle",
     "testing",
     "tool-selection"
