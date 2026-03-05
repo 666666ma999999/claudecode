@@ -11,10 +11,10 @@ hooks:
     - matcher: "Read|Edit|Glob|Grep"
       script: hooks/auto-git-pull-pre.sh
   PostToolUse:
-    - matcher: "Write|Edit|Bash"
-      script: hooks/auto-git-push.sh
     - matcher: "Write|Edit"
       script: hooks/auto-format.sh
+    - matcher: "Write|Edit|Bash"
+      script: hooks/auto-git-push.sh
 tags:
   - git
   - automation
