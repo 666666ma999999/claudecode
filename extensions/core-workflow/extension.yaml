@@ -6,6 +6,8 @@ enabled: true
 routing:
   - triggers: ["タスク細分化", "実装計画策定", "計画作成"]
     skill: task-planner
+  - triggers: ["設定配置", "グローバル vs プロジェクト", "config placement", "設定優先順位", "settings scope"]
+    skill: config-placement-guide
 tags:
   - core
   - workflow
