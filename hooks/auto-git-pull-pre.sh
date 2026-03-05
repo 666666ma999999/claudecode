@@ -52,7 +52,7 @@ trap 'rmdir "$LOCK_DIR" 2>/dev/null' EXIT
 
 # git pull --rebase（3秒タイムアウト、macOS互換）
 # フォアグラウンドで実行し、完了を保証してからスクリプトを抜ける
-cd "$CLAUDE_DIR" || { echo '{"decision":"approve"}'; exit 0; }
+cd "$CLAUDE_DIR" || exit 0
 git pull --rebase --no-edit &>/dev/null &
 GIT_PID=$!
 (sleep 3 && kill $GIT_PID 2>/dev/null) &>/dev/null &
