@@ -51,7 +51,10 @@
    - 途中でうまくいかなくなったら、無理に進めず再計画する
    - 検証ステップにもPlanモードを使う
 3. **実装** → `ExitPlanMode`後、SubAgentに委託してTDDで実装
-4. **完了チェック** → `implementation-checklist` スキルで STEP 1-4 実行
+4. **セキュリティ監査**（新機能追加・API追加・認証変更時のみ）
+   → `security-twin-audit` スキルで Black/White Twin Agent 監査を実行
+   - バグ修正・リファクタリング・ドキュメント変更時はスキップ
+5. **完了チェック** → `implementation-checklist` スキルで STEP 1-4 実行
    - 動作を証明できるまでタスクを完了とマークしない
    - テスト実行・ログ確認・差分チェックで正しく動作することを示す
 
