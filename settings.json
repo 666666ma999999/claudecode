@@ -1,6 +1,25 @@
 {
   "permissions": {
-    "allow": [],
+    "allow": [
+      "Bash(ls *)", "Bash(cat *)", "Bash(head *)", "Bash(tail *)", "Bash(wc *)", "Bash(echo *)", "Bash(printf *)",
+      "Bash(find *)", "Bash(grep *)", "Bash(sort *)", "Bash(uniq *)", "Bash(cut *)", "Bash(tr *)",
+      "Bash(test *)", "Bash(mkdir *)", "Bash(touch *)", "Bash(cp *)", "Bash(mv *)", "Bash(chmod *)",
+      "Bash(diff *)", "Bash(basename *)", "Bash(dirname *)", "Bash(realpath *)",
+      "Bash(stat *)", "Bash(file *)", "Bash(xargs *)", "Bash(sed *)", "Bash(awk *)", "Bash(jq *)",
+      "Bash(tee *)", "Bash(which *)", "Bash(whoami)", "Bash(pwd)", "Bash(env *)", "Bash(date *)",
+      "Bash(python3 *)", "Bash(python *)", "Bash(node *)", "Bash(bash *)", "Bash(sh *)", "Bash(make *)", "Bash(gh *)",
+      "Bash(git status*)", "Bash(git log*)", "Bash(git diff*)", "Bash(git branch*)", "Bash(git show*)",
+      "Bash(git rev-parse*)", "Bash(git remote*)", "Bash(git tag*)", "Bash(git fetch*)",
+      "Bash(git stash*)", "Bash(git merge*)", "Bash(git commit*)", "Bash(git checkout*)",
+      "Bash(git switch*)", "Bash(git add *)",
+      "Bash(docker *)", "Bash(docker compose *)",
+      "mcp__context7__*", "mcp__memory__*", "mcp__repomix__*",
+      "mcp__codex__*", "mcp__firecrawl__*", "mcp__sentry__*",
+      "mcp__postgresql__pg_execute_query", "mcp__postgresql__pg_manage_schema",
+      "mcp__postgresql__pg_analyze_database", "mcp__postgresql__pg_monitor_database",
+      "WebSearch", "WebFetch",
+      "Write", "Edit", "Read", "Glob", "Grep"
+    ],
     "deny": [
       "Bash(pip install*)",
       "Bash(pip3 install*)",
@@ -60,29 +79,11 @@
         ]
       },
       {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/block-host-installs.py"
-          }
-        ]
-      },
-      {
-        "matcher": "Read|Edit|Glob|Grep",
+        "matcher": "Edit",
         "hooks": [
           {
             "type": "command",
             "command": "~/.claude/hooks/auto-git-pull-pre.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/block-dangerous-git.py"
           }
         ]
       },
