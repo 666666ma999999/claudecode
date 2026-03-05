@@ -19,7 +19,7 @@ claude_md_section: |
   3. **Q3**: 既存スキルに追加可能か → YES → 追記（確認不要） / NO → ユーザー確認後に新規作成
 
   コード修正がスキル記載内容に影響する場合、スキルも同時更新すること。
-  詳細フロー: `skill-lifecycle` スキル参照。
+  詳細フロー: `skill-lifecycle-reference` スキル参照。
 tags:
   - skills
   - lifecycle
