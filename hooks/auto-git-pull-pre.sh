@@ -30,7 +30,6 @@ if [[ -f "$TIMESTAMP_FILE" ]]; then
   NOW=$(date +%s)
   ELAPSED=$(( NOW - ${LAST_PULL:-0} ))
   if [[ $ELAPSED -lt 30 ]]; then
-    echo '{"decision":"approve"}'
     exit 0
   fi
 fi
