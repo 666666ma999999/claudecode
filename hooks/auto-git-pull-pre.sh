@@ -20,7 +20,7 @@ except:
 CLAUDE_DIR="$HOME/.claude"
 case "$FILE_PATH" in
   "$CLAUDE_DIR"/*) ;;
-  *) echo '{"decision":"approve"}'; exit 0 ;;
+  *) exit 0 ;;
 esac
 
 # クールダウン: 30秒以内に前回pullしていればスキップ
