@@ -8,6 +8,7 @@
 |---------|-----------|
 | BE新機能追加、APIエンドポイント追加、BEエクステンション作成、バックエンド設計、HookPoint実装、新機能追加、エクステンション作成、プラグインアーキテクチャ、backend feature、new API endpoint、extension pattern、plugin architecture、add backend、create extension | `be-extension-pattern` |
 | タスク細分化、実装計画策定、計画作成 | `task-planner` |
+| 設定配置、グローバル vs プロジェクト、config placement、設定優先順位、settings scope | `config-placement-guide` |
 | 売上分析、多変数分析、重回帰分析、データ分析 | `sales-analysis` |
 | SubAgent委託、デバッグ、リファクタリング、大量データ分析 | `execution-patterns` |
 | デバッグガイド、根本原因分析、バグ調査手順 | `debugging-guide` |

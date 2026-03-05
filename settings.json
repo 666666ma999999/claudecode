@@ -41,7 +41,11 @@
       "Bash(git branch -D*)",
       "Bash(git rebase *main*)",
       "Bash(git rebase *master*)",
-      "Bash(git update-ref*)"
+      "Bash(git update-ref*)",
+      "Bash(git add -A*)",
+      "Bash(git add --all*)",
+      "Bash(git add .)",
+      "Bash(git add . *)"
     ]
   },
   "hooks": {
@@ -121,20 +125,20 @@
         ]
       },
       {
-        "matcher": "Write|Edit|Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/auto-git-push.sh"
-          }
-        ]
-      },
-      {
         "matcher": "Write|Edit",
         "hooks": [
           {
             "type": "command",
             "command": "~/.claude/hooks/auto-format.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/auto-git-push.sh"
           }
         ]
       }
