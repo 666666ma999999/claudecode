@@ -102,4 +102,20 @@ Edit/Writeでコード変更後、ユーザーへの完了報告前に `implemen
 依存管理・ビルド・実行はDocker経由。ホスト上 `pip install`, `npm install`, `npx` 等は禁止。
 適用除外: MCP設定、Claude Codeツール拡張。
 
+## Memory Update Protocol
+
+MEMORY.mdを更新する際は以下を必ず遵守すること:
+
+1. **読んでから書く**: 更新前に必ず`Read`で現在の内容を確認。既存情報の上書き・重複を防ぐ
+2. **インデックス原則**: MEMORY.mdには要約+リンクのみ。3行超の詳細は `memory/topics/<topic>.md` に分離
+3. **重複チェック**: 同じ情報が既にあれば追記しない。既存エントリを更新する
+4. **行数制限**: 150行目標、200行上限（hookで自動ブロック）
+5. **ディレクトリ構造**:
+   ```
+   memory/
+     MEMORY.md          # インデックス専用（150行目標）
+     topics/            # トピック別詳細ファイル
+     archive/           # 古い情報の退避先
+   ```
+6. **アーカイブ**: 3ヶ月未参照の情報は `memory/archive/YYYY-MM.md` に移動
 
