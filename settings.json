@@ -8,6 +8,7 @@
       "mcp__codex__*",
       "mcp__firecrawl__*",
       "mcp__sentry__*",
+      "mcp__playwright-mkb__*",
       "mcp__postgresql__pg_execute_query",
       "mcp__postgresql__pg_manage_schema",
       "mcp__postgresql__pg_analyze_database",
