@@ -151,6 +151,15 @@
             "command": "~/.claude/hooks/auto-git-push.sh"
           }
         ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/memory-warn.sh"
+          }
+        ]
       }
     ],
     "SessionStart": [
