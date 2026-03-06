@@ -113,6 +113,15 @@
             "command": "~/.claude/hooks/restrict-cwd-edits.sh"
           }
         ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/memory-guard.sh"
+          }
+        ]
       }
     ],
     "PostToolUse": [
