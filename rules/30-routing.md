@@ -26,6 +26,7 @@
 | テスト修正、テスト失敗、テストデバッグ、TDD | `test-fixing` |
 | Webスクレイピング、Agent Teams構成 | `tool-selection-reference` |
 | コードベース調査、codebase investigation、大規模コード分析 | `codebase-investigation` |
+| デスクトップ整理、ファイル整理、cleanup、organize desktop、デスクトップ片付け | `organize-desktop` |
 
 ## エクステンション設計の分岐
 
