@@ -62,7 +62,7 @@
 #### 2. エクステンション間の直接依存禁止
 
 - **禁止**: `from extensions.other_ext import ...` （他extの直接import）
-- **必須**: ext間通信は EventBus (`event_bus.emit()` / `.on()`) のみ
+- **必須**: ext間通信は EventBus (`event_bus.emit()` / `.on()`) またはプロジェクト固有の連携方式（API呼び出し等）のみ
 - **禁止**: shared/ や core/ から extensions/ への import
 
 #### 3. core/ 変更の制限
