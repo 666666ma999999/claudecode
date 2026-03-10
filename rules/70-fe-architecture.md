@@ -4,13 +4,15 @@ FEプロジェクト共通の設計原則。フレームワーク非依存（van
 
 ## 適用条件
 
-- `config/extensions.json` なし **かつ** `frontend/*.html` + JS あり → 本ルール全体を適用
+- `config/extensions.json` なし **かつ** 以下のいずれかに該当 → 本ルール全体を適用:
+  - `frontend/*.html` + JS あり（vanilla JS）
+  - `src/` 配下に `.tsx`/`.jsx`/`.vue` あり（React/Vue/TypeScript — extensions.json未導入のFEプロジェクト）
 - `config/extensions.json` あり → `fe-extension-pattern` スキルを優先。本ルールからは以下のみ補助適用:
   - Command/Query 分離（ext内のコード設計指針として）
   - Mediator原則（ext内のUI→API呼び出し設計として）
   - Single Pipeline（ext内で実行パスを増殖させない原則として）
   - ※ ext構造・テスト隔離・マニフェスト等はスキル側のルールが優先
-- FE判定は BEの `config/extensions.yaml` 有無とは独立（判定フロー詳細は `30-routing.md` 参照）
+- 判定の独立性・判定フロー詳細は `30-routing.md` 参照
 
 ## Command/Query 分離
 
