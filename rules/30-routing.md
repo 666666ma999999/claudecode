@@ -33,18 +33,27 @@
 
 ## エクステンション設計の分岐
 
-「新機能追加」「エクステンション作成」等の汎用リクエスト時、CWDのマーカーファイルで判定:
-- `config/extensions.yaml` あり → `be-extension-pattern` スキル参照
-- `config/extensions.json` あり → `fe-extension-pattern` スキル参照
-- 両方あり → `fe-be-extension-coordination` スキル参照
-- どちらもなし → ユーザーにBE/FEを確認
+「新機能追加」「エクステンション作成」等の汎用リクエスト時、以下のフローで判定する。
+BE/FEは独立に判定し、それぞれのルールを並行適用する。
 
-## FE/BE ルール適用の独立判定
+### Step 1: マーカーファイル検出
 
-FEルール判定はBEの `config/extensions.yaml` 有無とは独立して行う:
-- `config/extensions.json` あり → `fe-extension-pattern` スキル適用
-- `config/extensions.json` なし **かつ** `frontend/*.html` + JS あり → `70-fe-architecture.md` 適用
-- React/TypeScript不使用なら `fe-extension-pattern` スキルは適用しない
+| extensions.yaml | extensions.json | 適用ルール |
+|:-:|:-:|---|
+| あり | あり | 同一リポ → `60-cms-and-extension-pattern.md` のハイブリッドルール + 各スキル併用。分離リポ → `fe-be-extension-coordination` スキル参照 |
+| あり | なし | BE: `be-extension-pattern` スキル。FE: Step 2 へ |
+| なし | あり | FE: `fe-extension-pattern` スキル。BE: Step 2 へ |
+| なし | なし | Step 2 へ |
+
+### Step 2: マーカーなし時の判定
+
+- `backend/` or `src/` にPythonサービスコードあり → `75-be-architecture.md` 適用
+- `frontend/*.html` + JS あり（React/TypeScript不使用）→ `70-fe-architecture.md` 適用
+- 上記いずれにも該当しない → ユーザーにBE/FEを確認
+
+### 適用優先順
+
+- マーカーありのスキルルール > マーカーなしのアーキテクチャルール
 - 競合時は「より限定的なルール」を優先
 
 ## シークレット管理（基本方針）
