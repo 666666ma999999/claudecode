@@ -37,6 +37,14 @@
 - 両方あり → `fe-be-extension-coordination` スキル参照
 - どちらもなし → ユーザーにBE/FEを確認
 
+## FE/BE ルール適用の独立判定
+
+FEルール判定はBEの `config/extensions.yaml` 有無とは独立して行う:
+- `config/extensions.json` あり → `fe-extension-pattern` スキル適用
+- `config/extensions.json` なし **かつ** `frontend/*.html` + JS あり → `70-fe-architecture.md` 適用
+- React/TypeScript不使用なら `fe-extension-pattern` スキルは適用しない
+- 競合時は「より限定的なルール」を優先
+
 ## シークレット管理（基本方針）
 
 - `.mcp.json` へのシークレット直書き**禁止**。`${VAR}` プレースホルダー必須
