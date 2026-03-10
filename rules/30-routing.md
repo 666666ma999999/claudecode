@@ -27,6 +27,7 @@
 | Webスクレイピング、Agent Teams構成 | `tool-selection-reference` |
 | コードベース調査、codebase investigation、大規模コード分析 | `codebase-investigation` |
 | デスクトップ整理、ファイル整理、cleanup、organize desktop、デスクトップ片付け | `organize-desktop` |
+| vanilla JS FE設計、IIFE、コールバック連鎖、オーケストレータ、直接fetch禁止、Command/Query分離、FEパイプライン | `70-fe-architecture.md` 参照 |
 
 ## エクステンション設計の分岐
 
