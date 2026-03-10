@@ -36,7 +36,7 @@ DB更新・外部API呼び出し・ファイル書き込み・セッション更
 - **禁止**: owner以外で同等ロジックを再定義
 - プロジェクトごとに `development.md` 等でCanonical Module Tableを定義すること
 
-## 実装前ゲート
+## 実装前ゲート（`20-code-quality.md` 変更時ゲートに加えて以下を確認）
 
 1. 対象ユースケースの既存 route/service を `rg` で探索したか
 2. 既存pipeline拡張で対応可能か検討したか
