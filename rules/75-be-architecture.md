@@ -4,9 +4,9 @@ BEプロジェクト共通の設計原則。Python / Node.js / Go 全対象。
 
 ## 適用条件
 
-- `backend/` または `src/` 配下にPythonサービスコードがある → 本ルール適用
+- `backend/` または `src/` 配下、またはプロジェクトルート直下にサービスコード（Python/Node.js/Go）がある → 本ルール適用
 - `config/extensions.yaml` あり → `be-extension-pattern` スキルと併用
-- BE判定は FEの `config/extensions.json` 有無とは独立
+- 判定の独立性・判定フロー詳細は `30-routing.md` 参照
 
 ## Single Mutation Pipeline（副作用経路一本化 — `20-code-quality.md` Dual-Path禁止のBE具体化）
 
