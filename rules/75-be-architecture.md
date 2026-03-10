@@ -8,7 +8,7 @@ BEプロジェクト共通の設計原則。Python / Node.js / Go 全対象。
 - `config/extensions.yaml` あり → `be-extension-pattern` スキルと併用
 - BE判定は FEの `config/extensions.json` 有無とは独立
 
-## Single Mutation Pipeline（副作用経路一本化）
+## Single Mutation Pipeline（副作用経路一本化 — `20-code-quality.md` Dual-Path禁止のBE具体化）
 
 - 同一ユースケースの状態変更は1つのservice/pipelineに集約する
 - **禁止**: 既存pipelineと同目的の別route/service経路を追加すること
