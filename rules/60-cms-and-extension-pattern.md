@@ -96,6 +96,4 @@
 
 ### スキル参照
 
-- BE プロジェクト: `be-extension-pattern` スキル
-- FE プロジェクト: `fe-extension-pattern` スキル
-- FE+BE 連携: `fe-be-extension-coordination` スキル
+スキル選択フローは `30-routing.md` の「エクステンション設計の分岐」に従う。
