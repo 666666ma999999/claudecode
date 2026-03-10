@@ -67,8 +67,10 @@
 #### 2. エクステンション間の直接依存禁止
 
 - **禁止**: `from extensions.other_ext import ...` （他extの直接import）
-- **必須**: ext間通信は EventBus (`event_bus.emit()` / `.on()`) またはプロジェクト固有の連携方式（API呼び出し等）のみ
+- **同一プロセス内**（BE同士 or FE同士）: ext間通信は EventBus (`event_bus.emit()` / `.on()`) のみ
+- **FE-BE間**: APIコントラクト（REST/GraphQL）経由。直接importは物理的に不可能なため対象外
 - **禁止**: shared/ や core/ から extensions/ への import
+- **例外**: 共有定数・型定義・インターフェースは `shared/` or `core/` に配置してよい。extensions/ からこれらを import するのは許可（依存方向: ext → shared/core のみ）
 
 #### 3. core/ 変更の制限
 
