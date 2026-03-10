@@ -26,6 +26,8 @@
 | テスト修正、テスト失敗、テストデバッグ、TDD | `test-fixing` |
 | Webスクレイピング、Agent Teams構成 | `tool-selection-reference` |
 | コードベース調査、codebase investigation、大規模コード分析 | `codebase-investigation` |
+| コード重複、二重実装、dual-path、DRY違反、canonical module、同じ処理が複数、重複ロジック | `20-code-quality.md` + `75-be-architecture.md` 参照（プロジェクトに `code-reviewer` スキルがあれば併用） |
+| BEパイプライン重複、service二重化、副作用経路の一本化、BE設計 | `75-be-architecture.md` 参照 |
 | デスクトップ整理、ファイル整理、cleanup、organize desktop、デスクトップ片付け | `organize-desktop` |
 | vanilla JS FE設計、IIFE、コールバック連鎖、オーケストレータ、直接fetch禁止、Command/Query分離、FEパイプライン | `70-fe-architecture.md` 参照 |
 
