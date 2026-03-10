@@ -53,6 +53,7 @@
 
 - **同一リポ**（FE/BEが同じリポジトリ内）: 本ファイルのハイブリッドルールを適用。`fe-be-extension-coordination` スキルは参照しない（分離リポ前提のため）。BE/FEそれぞれのスキル（`be-extension-pattern`, `fe-extension-pattern`）を個別適用する
 - **分離リポ**（FE/BEが別リポジトリ）: `fe-be-extension-coordination` スキルを適用。APIコントラクト・デプロイ協調ルールに従う
+- **判定不能**: 同一リポか分離リポか判断できない場合は、ユーザーに確認する
 
 ### 必須ルール
 
