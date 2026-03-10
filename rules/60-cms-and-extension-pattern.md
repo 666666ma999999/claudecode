@@ -49,6 +49,13 @@
 以下のプロジェクトはエクステンションアーキテクチャへ段階的に移行中。`backend/core/`にインフラを配置し、既存ルーターを順次extension化する:
 - `~/Desktop/prm/rohan` — STEP 1-8パイプライン型ワークフロー。`backend/config/extensions.yaml`マーカーあり。`registration/`がextension化済み。他ルーターは従来方式維持
 
+### 同一リポ vs 分離リポの判定
+
+両マーカー（`extensions.yaml` + `extensions.json`）が検出された場合:
+
+- **同一リポ**（FE/BEが同じリポジトリ内）: 本ファイルのハイブリッドルールを適用。`fe-be-extension-coordination` スキルは参照しない（分離リポ前提のため）。BE/FEそれぞれのスキル（`be-extension-pattern`, `fe-extension-pattern`）を個別適用する
+- **分離リポ**（FE/BEが別リポジトリ）: `fe-be-extension-coordination` スキルを適用。APIコントラクト・デプロイ協調ルールに従う
+
 ### 必須ルール
 
 #### 1. 新機能は必ずエクステンションとして作成
