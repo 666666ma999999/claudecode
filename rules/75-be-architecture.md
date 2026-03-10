@@ -32,7 +32,7 @@ DB更新・外部API呼び出し・ファイル書き込み・セッション更
 
 > **注**: BEの判定基準（外部サービス書き込み・セッション/DB/ファイル更新）はサーバー固有の概念であり、FEの判定基準（`70-fe-architecture.md`）とは意図的に異なる。
 
-## Canonical Owner
+## Canonical Owner（`20-code-quality.md` Canonical Module原則のBE具体化）
 
 - 定数・業務判定・バリデーション・タイムアウト計算はownerモジュールを1つに固定
 - **禁止**: owner以外で同等ロジックを再定義
