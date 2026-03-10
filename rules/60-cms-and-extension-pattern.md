@@ -45,7 +45,7 @@
 ### ハイブリッドプロジェクト（段階的移行中）
 
 以下のプロジェクトはエクステンションアーキテクチャへ段階的に移行中。`backend/core/`にインフラを配置し、既存ルーターを順次extension化する:
-- `~/Desktop/prm/rohan` — STEP 1-8パイプライン型ワークフロー。`backend/config/extensions.yaml`マーカーあり。`registration/`がextension化済み。他ルーターは従来方式維持
+- `~/Desktop/prm/rohan` — STEP 1-8パイプライン型ワークフロー。`backend/config/extensions.yaml`マーカーあり。`registration/`がextension化済み。既存ルーターは従来方式のまま維持するが、**新規追加はextension化必須**
 
 ### 同一リポ vs 分離リポの判定
 
