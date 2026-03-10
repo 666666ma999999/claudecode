@@ -29,6 +29,7 @@
 | コード重複、二重実装、dual-path、DRY違反、canonical module、同じ処理が複数、重複ロジック | `20-code-quality.md` + `75-be-architecture.md` 参照（プロジェクトに `code-reviewer` スキルがあれば併用） |
 | BEパイプライン重複、service二重化、副作用経路の一本化、BE設計 | `75-be-architecture.md` 参照 |
 | デスクトップ整理、ファイル整理、cleanup、organize desktop、デスクトップ片付け | `organize-desktop` |
+| FE新機能追加（extensions.jsonなし + HTML/JS）、vanilla FEページ追加 | `70-fe-architecture.md` 参照（エクステンション分岐 Step 2 経由） |
 | vanilla JS FE設計、IIFE、コールバック連鎖、オーケストレータ、直接fetch禁止、Command/Query分離、FEパイプライン | `70-fe-architecture.md` 参照 |
 
 ## エクステンション設計の分岐
