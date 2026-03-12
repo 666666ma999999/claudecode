@@ -1,13 +1,11 @@
 #!/bin/bash
-# PreToolUse hook: Block Write to MEMORY.md if content exceeds 200 lines
+# PreToolUse hook: Block Write/Edit to MEMORY.md if content exceeds 200 lines
 
 INPUT=$(cat)
 
-# Extract file_path
-FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // .tool_input.filePath // empty' 2>/dev/null)
-if [ -z "$FILE_PATH" ]; then
-    FILE_PATH=$(echo "$INPUT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('tool_input',{}).get('file_path',''))" 2>/dev/null)
-fi
+# Extract tool_name and file_path
+TOOL_NAME=$(echo "$INPUT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('tool_name',''))" 2>/dev/null)
+FILE_PATH=$(echo "$INPUT" | python3 -c "import sys,json; d=json.load(sys.stdin); ti=d.get('tool_input',{}); print(ti.get('file_path','') or ti.get('filePath',''))" 2>/dev/null)
 
 # Only check MEMORY.md files
 case "$FILE_PATH" in
@@ -15,10 +13,35 @@ case "$FILE_PATH" in
     *) exit 0 ;;
 esac
 
-# Count lines in content
-LINE_COUNT=$(echo "$INPUT" | jq -r '.tool_input.content // empty' 2>/dev/null | wc -l | tr -d ' ')
-if [ -z "$LINE_COUNT" ] || [ "$LINE_COUNT" = "0" ]; then
-    LINE_COUNT=$(echo "$INPUT" | python3 -c "import sys,json; d=json.load(sys.stdin); c=d.get('tool_input',{}).get('content',''); print(len(c.splitlines()))" 2>/dev/null)
+if [ "$TOOL_NAME" = "Write" ]; then
+    # Write: count lines in content directly
+    LINE_COUNT=$(echo "$INPUT" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+c = d.get('tool_input', {}).get('content', '')
+print(len(c.splitlines()))
+" 2>/dev/null)
+elif [ "$TOOL_NAME" = "Edit" ]; then
+    # Edit: simulate old_string→new_string replacement on current file
+    LINE_COUNT=$(echo "$INPUT" | python3 -c "
+import sys, json, os
+d = json.load(sys.stdin)
+ti = d.get('tool_input', {})
+fp = ti.get('file_path', '') or ti.get('filePath', '')
+old = ti.get('old_string', '')
+new = ti.get('new_string', '')
+if not os.path.isfile(fp):
+    print(0)
+    sys.exit(0)
+with open(fp) as f:
+    content = f.read()
+# Simulate replacement
+if old in content:
+    content = content.replace(old, new, 1)
+print(len(content.splitlines()))
+" 2>/dev/null)
+else
+    exit 0
 fi
 
 # Validate LINE_COUNT is a number
