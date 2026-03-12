@@ -233,7 +233,7 @@
   "effortLevel": "high",
   "statusLine": {
     "type": "command",
-    "command": "npx -y ccstatusline@latest",
+    "command": "cat | bash ~/.claude/statusline.sh",
     "padding": 0
   }
 }
