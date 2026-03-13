@@ -204,12 +204,10 @@ if [ $((RANDOM % 50)) -eq 0 ]; then
 fi
 
 # Output (1 line): model | context | 5h | 7d | git branch
-printf "🤖 %s │ 📊 %s/%s %s %d%% │ ⏱5h %s %d%%(%s) 📅7d %s %d%%(%s) │ 🔀 %s" \
+printf "🤖 %s │ 📊 %s/%s │ ⏱5h %s %d%%(%s) 📅7d %s %d%%(%s) │ 🔀 %s" \
   "$model" \
   "$(fmt $current_used)" \
   "$(fmt $context_size)" \
-  "$ctx_bar" \
-  "$ctx_pct_int" \
   "$five_h_bar" \
   "$five_h_int" \
   "$five_h_reset" \
