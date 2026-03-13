@@ -12,6 +12,9 @@ mkdir -p "$LIVE_DIR" "$CACHE_DIR"
 
 input=$(cat)
 
+# Debug: save last received stdin for troubleshooting
+echo "$input" > "$CACHE_DIR/last_stdin.json" 2>/dev/null
+
 # 各種情報を取得
 model=$(echo "$input" | jq -r '.model.display_name // "unknown"')
 input_tokens=$(echo "$input" | jq -r '.context_window.total_input_tokens // 0')
