@@ -45,6 +45,7 @@ cd ~/.claude || exit 0
     rules/ \
     skills/ \
     memory/ \
+    statusline.sh \
     .claude/settings.local.json \
     2>/dev/null
   # 新規の未追跡ファイルも安全に追加（.envrc等の除外は.gitignoreに依存）
