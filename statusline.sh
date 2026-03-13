@@ -21,7 +21,8 @@ input_tokens=$(echo "$input" | jq -r '.context_window.total_input_tokens // 0')
 output_tokens=$(echo "$input" | jq -r '.context_window.total_output_tokens // 0')
 context_size=$(echo "$input" | jq -r '.context_window.context_window_size // 200000')
 used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
-session_id=$(echo "$input" | jq -r '.session_id // "unknown"')
+session_id=$(echo "$input" | jq -r '.session_id // empty' 2>/dev/null)
+[ -z "$session_id" ] && session_id="unknown"
 
 # 各種計算
 # current_usage.input_tokens を優先 (現在のコンテキストの実際のトークン数)
