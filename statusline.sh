@@ -224,7 +224,7 @@ if [ $((RANDOM % 50)) -eq 0 ]; then
 fi
 
 # Output (1 line): model | context | 5h | 7d | git branch
-printf "🤖 %s │ 📊 %s/%s │ ⏱5h %s %d%%(%s) 📅7d %s %d%%(%s) │ 🔀 %s" \
+printf "🤖 %s │ 📊 %s/%s │ ⏱5h %s %d%%(%s) 📅7d %s %d%%(%s) │ 🔀 %s │ 📁 %s" \
   "$model" \
   "$(fmt $current_used)" \
   "$(fmt $context_size)" \
@@ -234,4 +234,5 @@ printf "🤖 %s │ 📊 %s/%s │ ⏱5h %s %d%%(%s) 📅7d %s %d%%(%s) │ 🔀
   "$seven_d_bar" \
   "$seven_d_int" \
   "$seven_d_reset" \
-  "$git_branch"
+  "$git_branch" \
+  "$project_name"
