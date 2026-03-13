@@ -62,3 +62,8 @@ memory/
 # Agent Teams（セッション固有・機密情報含有の可能性）
 teams/
 tasks/
+
+# ステータスライン一時データ
+.sl_live/
+.sl_usage_log.csv
+.sl_quota_start
