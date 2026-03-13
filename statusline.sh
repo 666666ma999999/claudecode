@@ -199,7 +199,7 @@ if [ $((RANDOM % 50)) -eq 0 ]; then
   fi
 
   stale_cutoff=$((current_time - 172800))
-  for lf in "$LIVE_DIR"/*.json; do
+  for lf in "$LIVE_DIR"/*.json "$LIVE_DIR"/.*.json; do
     [ -f "$lf" ] || continue
     [ "$lf" = "$LIVE_FILE" ] && continue
     live_ts=$(jq -r '.ts // 0' "$lf" 2>/dev/null)
@@ -210,6 +210,11 @@ if [ $((RANDOM % 50)) -eq 0 ]; then
       rm -f "$lf"
     fi
   done
+
+  # Clean up dotfile .json (caused by empty session_id bug)
+  if [ -f "$LIVE_DIR/.json" ] && [ "$LIVE_DIR/.json" != "$LIVE_FILE" ]; then
+    rm -f "$LIVE_DIR/.json"
+  fi
 
   rm -f "$CLAUDE_DIR/.sl_session.json" "$CLAUDE_DIR/.sl_last_state.json" "$CLAUDE_DIR/.sl_compress.json" 2>/dev/null
 fi
