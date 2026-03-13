@@ -21,14 +21,7 @@ routing:
       - "add backend"
       - "create extension"
     skill: be-extension-pattern
-claude_md_section: |
-  ## エクステンション設計の分岐
-
-  「新機能追加」「エクステンション作成」等の汎用リクエスト時、CWDのマーカーファイルで判定:
-  - `config/extensions.yaml` あり → `be-extension-pattern` スキル参照
-  - `config/extensions.json` あり → `fe-extension-pattern` スキル参照
-  - 両方あり → `fe-be-extension-coordination` スキル参照
-  - どちらもなし → ユーザーにBE/FEを確認
+routing_note: "「新機能追加」「エクステンション作成」が複数行にマッチする場合は、エクステンション分岐フロー（`60-cms-and-extension-pattern.md`）で解決する。「デバッグ」は `debugging-guide` を優先し、委託判断には `execution-patterns` を参照。"
 hooks:
   PreToolUse:
     - matcher: "Write|Edit"

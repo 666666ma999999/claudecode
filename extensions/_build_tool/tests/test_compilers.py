@@ -116,6 +116,47 @@ class TestRoutingCompiler:
         file_map = compiler.compile(exts, output)
         assert file_map == {}
 
+    def test_reference_entry(self, tmp_path: Path):
+        from claude_ext.models import ExtensionManifest, RoutingEntry
+
+        exts = [(
+            tmp_path,
+            ExtensionManifest(
+                name="ref-ext",
+                routing=[RoutingEntry(triggers=["code review"], reference="`20-code-quality.md` 参照")],
+            ),
+        )]
+        compiler = RoutingCompiler()
+        output = tmp_path / "rules"
+        file_map = compiler.compile(exts, output)
+
+        content = (output / "30-routing.md").read_text()
+        assert "`20-code-quality.md` 参照" in content
+        # reference should not be wrapped in extra backticks
+        assert "``20-code-quality.md``" not in content
+
+    def test_routing_note(self, tmp_path: Path):
+        from claude_ext.models import ExtensionManifest, RoutingEntry
+
+        exts = [(
+            tmp_path,
+            ExtensionManifest(
+                name="noted-ext",
+                routing=[RoutingEntry(triggers=["test"], skill="test-skill")],
+                routing_note="This is a routing note.",
+            ),
+        )]
+        compiler = RoutingCompiler()
+        output = tmp_path / "rules"
+        file_map = compiler.compile(exts, output)
+
+        content = (output / "30-routing.md").read_text()
+        assert "> This is a routing note." in content
+        # Note should appear before the table
+        note_pos = content.index("> This is a routing note.")
+        table_pos = content.index("| トリガー |")
+        assert note_pos < table_pos
+
 
 class TestClaudeMdCompiler:
     def test_generates_with_template(self, extensions, tmp_path: Path):

@@ -56,15 +56,16 @@ class SchemaValidator:
                     f"[{ext_name}] rule_number_range start ({rng[0]}) > end ({rng[1]})"
                 )
 
-        # 4. Routing skill references must exist
+        # 4. Routing skill references must exist (skip reference-only entries)
         skills_dir = ext_dir / "skills"
         for entry in manifest.routing:
-            skill_dir = skills_dir / entry.skill
-            if not skill_dir.exists():
-                errors.append(
-                    f"[{ext_name}] Routing references skill '{entry.skill}' "
-                    f"but directory not found: {skill_dir}"
-                )
+            if entry.skill:
+                skill_dir = skills_dir / entry.skill
+                if not skill_dir.exists():
+                    errors.append(
+                        f"[{ext_name}] Routing references skill '{entry.skill}' "
+                        f"but directory not found: {skill_dir}"
+                    )
 
         # 5. Rules directory files should match rule_number_range prefix
         rules_dir = ext_dir / "rules"

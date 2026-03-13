@@ -1,0 +1,2 @@
+[console_scripts]
+claude-ext = claude_ext.cli:cli

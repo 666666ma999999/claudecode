@@ -33,26 +33,12 @@ fi
 cd ~/.claude || exit 0
 
 # 変更があればcommit & push（バックグラウンドで実行）
-# --no-verify: このフック自身による再帰呼び出しを防止するため必須
 (
   cd ~/.claude
-  # git add -A は禁止（10-git-and-execution-guard.md）。管理対象を明示指定
-  git add \
-    settings.json \
-    .mcp.json \
-    CLAUDE.md \
-    hooks/ \
-    rules/ \
-    skills/ \
-    memory/ \
-    statusline.sh \
-    .claude/settings.local.json \
-    2>/dev/null
-  # 新規の未追跡ファイルも安全に追加（.envrc等の除外は.gitignoreに依存）
-  git add -u 2>/dev/null
+  git add -A
   git diff --cached --quiet && exit 0
   git commit -m "auto: update $(date '+%Y-%m-%d %H:%M')" --no-verify
-  git pull --ff-only 2>/dev/null || true
+  git pull --rebase --no-edit 2>/dev/null
   git push 2>/dev/null
 ) &>/dev/null &
 

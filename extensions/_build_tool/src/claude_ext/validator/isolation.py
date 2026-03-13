@@ -39,9 +39,10 @@ class IsolationValidator:
             if name == ext_name:
                 continue
             other_ext_names.add(name)
-            # Collect skill directory names from routing entries
+            # Collect skill directory names from routing entries (skip reference-only)
             for route in manifest.routing:
-                other_skill_names.add(route.skill)
+                if route.skill:
+                    other_skill_names.add(route.skill)
 
         # Also scan other ext dirs for actual skill directory names
         ext_parent = ext_dir.parent

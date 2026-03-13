@@ -6,6 +6,8 @@ rule_number_range: [20, 29]
 routing:
   - triggers: ["other trigger"]
     skill: other-skill
+  - triggers: ["ref trigger"]
+    reference: "`some-rule.md` 参照"
 hooks:
   PreToolUse:
     - matcher: "Write"

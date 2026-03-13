@@ -34,10 +34,8 @@ SECRET_PATTERNS=(
 # パターンマッチチェック
 for pattern in "${SECRET_PATTERNS[@]}"; do
     if echo "$CONTENT" | grep -qiE "$pattern"; then
-        cat <<HOOKEOF
-{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"Potential secret detected matching pattern '$pattern'"}}
-HOOKEOF
-        exit 0
+        echo "BLOCKED: Potential secret detected matching pattern '$pattern'" >&2
+        exit 2
     fi
 done
 

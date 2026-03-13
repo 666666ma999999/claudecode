@@ -1,0 +1,234 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "mcp__context7__*",
+      "mcp__memory__*",
+      "mcp__repomix__*",
+      "mcp__codex__*",
+      "mcp__firecrawl__*",
+      "mcp__sentry__*",
+      "mcp__postgresql__pg_execute_query",
+      "mcp__postgresql__pg_manage_schema",
+      "mcp__postgresql__pg_analyze_database",
+      "mcp__postgresql__pg_monitor_database",
+      "WebSearch",
+      "WebFetch",
+      "Write",
+      "Edit",
+      "Read",
+      "Glob",
+      "Grep"
+    ],
+    "deny": [
+      "Bash(pip install*)",
+      "Bash(pip3 install*)",
+      "Bash(python -m pip install*)",
+      "Bash(python3 -m pip install*)",
+      "Bash(python -m venv*)",
+      "Bash(python3 -m venv*)",
+      "Bash(virtualenv *)",
+      "Bash(npm install*)",
+      "Bash(npm i *)",
+      "Bash(yarn *)",
+      "Bash(pnpm *)",
+      "Bash(bun install*)",
+      "Bash(bun add*)",
+      "Bash(uv pip*)",
+      "Bash(uv venv*)",
+      "Bash(poetry install*)",
+      "Bash(poetry add*)",
+      "Bash(conda install*)",
+      "Bash(conda create*)",
+      "Bash(pip *install*)",
+      "Bash(source */activate)",
+      "Bash(source venv/bin/activate*)",
+      "Bash(. venv/bin/activate*)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git push *--force*)",
+      "Bash(git push *-f *)",
+      "Bash(git push *+*:*)",
+      "Bash(git reset --hard*)",
+      "Bash(git checkout .)",
+      "Bash(git checkout -- .)",
+      "Bash(git restore .)",
+      "Bash(git restore --staged .)",
+      "Bash(git clean -f*)",
+      "Bash(git clean -df*)",
+      "Bash(git clean -fd*)",
+      "Bash(git branch -D*)",
+      "Bash(git rebase *main*)",
+      "Bash(git rebase *master*)",
+      "Bash(git update-ref*)",
+      "Bash(git add -A*)",
+      "Bash(git add --all*)",
+      "Bash(git add .)",
+      "Bash(git add . *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/enforce-extension-pattern.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/auto-git-pull-pre.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/file-protection.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/security-scan.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/restrict-cwd-edits.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/memory-guard.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/check-extension-imports.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/auto-format.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/auto-git-push.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/memory-warn.sh"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/detect-extension-project.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/data-retention.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/firecrawl-start.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/auto-git-pull.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/check-and-enable.sh"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "idle_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/idle-notify.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "permission_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/permission-notify.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "effortLevel": "high"
+}

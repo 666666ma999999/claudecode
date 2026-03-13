@@ -6,6 +6,10 @@ enabled: true
 routing:
   - triggers: ["新機能追加", "ページ追加", "ウィジェット追加", "エクステンション作成", "FEアーキテクチャ", "フロントエンド設計"]
     skill: fe-extension-pattern
+  - triggers: ["FE新機能追加（extensions.jsonなし + HTML/JS）", "vanilla FEページ追加"]
+    reference: "`70-fe-architecture.md` 参照（エクステンション分岐 Step 2 経由）"
+  - triggers: ["vanilla JS FE設計", "IIFE", "コールバック連鎖", "オーケストレータ", "直接fetch禁止", "Command/Query分離", "FEパイプライン"]
+    reference: "`70-fe-architecture.md` 参照"
 tags:
   - frontend
   - architecture

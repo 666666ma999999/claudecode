@@ -3,6 +3,7 @@ version: "1.0.0"
 description: "Block host package manager installs"
 author: masaaki
 enabled: true
+rule_number_range: [90, 99]
 hooks:
   PreToolUse:
     - matcher: "Bash"
