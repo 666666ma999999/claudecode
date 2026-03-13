@@ -17,12 +17,32 @@ model=$(echo "$input" | jq -r '.model.display_name // "unknown"')
 input_tokens=$(echo "$input" | jq -r '.context_window.total_input_tokens // 0')
 output_tokens=$(echo "$input" | jq -r '.context_window.total_output_tokens // 0')
 context_size=$(echo "$input" | jq -r '.context_window.context_window_size // 200000')
-used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // "0"')
+used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
 session_id=$(echo "$input" | jq -r '.session_id // "unknown"')
 
 # 各種計算
+# current_usage.input_tokens を優先 (現在のコンテキストの実際のトークン数)
+# なければ used_percentage から逆算、それもなければ total の合算をフォールバック
+cur_input=$(echo "$input" | jq -r '.context_window.current_usage.input_tokens // empty')
+cur_output=$(echo "$input" | jq -r '.context_window.current_usage.output_tokens // empty')
 used_tokens=$((input_tokens + output_tokens))
-current_used=$(awk "BEGIN {printf \"%.0f\", ($used_pct * $context_size) / 100}")
+
+if [ -n "$cur_input" ] && [ -n "$cur_output" ]; then
+  current_used=$((cur_input + cur_output))
+elif [ -n "$used_pct" ] && [ "$used_pct" != "null" ]; then
+  current_used=$(awk "BEGIN {printf \"%.0f\", ($used_pct * $context_size) / 100}")
+else
+  current_used=$((input_tokens + output_tokens))
+  [ "$current_used" -gt "$context_size" ] && current_used=$context_size
+fi
+
+# used_pct を整数として再計算 (バー描画用)
+if [ "$context_size" -gt 0 ]; then
+  used_pct=$(awk "BEGIN {printf \"%.1f\", ($current_used / $context_size) * 100}")
+else
+  used_pct=0
+fi
+
 remaining_tokens=$((context_size - current_used))
 [ "$remaining_tokens" -lt 0 ] && remaining_tokens=0
 current_time=$(date +%s)
