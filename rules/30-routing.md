@@ -10,8 +10,8 @@
 |---------|-----------|
 | BE新機能追加、APIエンドポイント追加、BEエクステンション作成、バックエンド設計、HookPoint実装、新機能追加、エクステンション作成、プラグインアーキテクチャ、backend feature、new API endpoint、extension pattern、plugin architecture、add backend、create extension | `be-extension-pattern` |
 | タスク細分化、実装計画策定、計画作成 | `task-planner` |
-| 設定配置、グローバル vs プロジェクト、config placement、設定優先順位、settings scope | `config-placement-guide` |
 | task進捗、stuck記録、セッション引き継ぎ、progress tracking、session handoff | `task-progress` |
+| 設定配置、グローバル vs プロジェクト、config placement、設定優先順位、settings scope | `config-placement-guide` |
 | デスクトップ整理、ファイル整理、cleanup、organize desktop、デスクトップ片付け | `organize-desktop` |
 | コード重複、二重実装、dual-path、DRY違反、canonical module、同じ処理が複数、重複ロジック | `20-code-quality.md` + `75-be-architecture.md` 参照 |
 | BEパイプライン重複、service二重化、副作用経路の一本化、BE設計 | `75-be-architecture.md` 参照 |
