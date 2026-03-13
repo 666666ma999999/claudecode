@@ -54,6 +54,10 @@ current_time=$(date +%s)
 # Git branch
 git_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "-")
 
+# Project name (from workspace.project_dir)
+project_dir=$(echo "$input" | jq -r '.workspace.project_dir // empty')
+project_name=$(basename "${project_dir:-$(pwd)}")
+
 # Format number with k/M suffix
 fmt() {
   local n=$1
