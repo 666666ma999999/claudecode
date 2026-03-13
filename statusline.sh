@@ -115,10 +115,17 @@ _fetch_usage() {
     mv "$USAGE_CACHE.tmp" "$USAGE_CACHE"
 }
 
+CACHE_MAX_AGE=600  # 10 minutes - invalidate cache if fetch keeps failing
+
 # Refresh cache if stale
 if [ -f "$USAGE_CACHE" ]; then
   cache_age=$((current_time - $(stat -f %m "$USAGE_CACHE" 2>/dev/null || echo 0)))
-  [ "$cache_age" -ge "$CACHE_TTL" ] && _fetch_usage
+  if [ "$cache_age" -ge "$CACHE_TTL" ]; then
+    _fetch_usage || {
+      # If fetch fails and cache is too old, invalidate it
+      [ "$cache_age" -ge "$CACHE_MAX_AGE" ] && rm -f "$USAGE_CACHE"
+    }
+  fi
 else
   _fetch_usage
 fi
