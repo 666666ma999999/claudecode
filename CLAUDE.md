@@ -50,23 +50,23 @@
 0. **task.md確認**（セッション開始時）
    - 既存の `tasks/*.md` または `task.md` があれば読み込み、Session Handoffを確認
    - なければスキップ（新規タスクでは実装開始後に作成）
-2. **スキル確認**（Plan mode 前に必ず実行）
+1. **スキル確認**（Plan mode 前に必ず実行）
    a. ローカル確認 → `30-routing.md` のルーティングテーブルでマッチするスキルを参照
    b. ローカルにマッチなし → `find-skills` スキルで外部レジストリ検索（`npx skills find "キーワード"`）
    c. 外部にも該当なし → そのまま Plan mode へ進む
-3. **Planモード** → `EnterPlanMode`で計画策定
+2. **Planモード** → `EnterPlanMode`で計画策定
    - 3ステップ以上 or アーキテクチャに関わるタスクは必ずPlanモードで開始
    - 途中でうまくいかなくなったら、無理に進めず再計画する
    - 検証ステップにもPlanモードを使う
-4. **実装** → `ExitPlanMode`後、SubAgentに委託してTDDで実装
-5. **セキュリティ監査**（以下のリスク条件に該当する場合のみ）
+3. **実装** → `ExitPlanMode`後、SubAgentに委託してTDDで実装
+4. **セキュリティ監査**（以下のリスク条件に該当する場合のみ）
    → `security-twin-audit` スキルで Black/White Twin Agent 監査を実行
    - 対象: 認証/認可変更、外部入力の新規受付、秘密情報の取り扱い変更、新規外部API連携
    - スキップ: 内部ロジックのみの新機能、既存APIのパラメータ追加、バグ修正、リファクタリング、ドキュメント変更
-6. **完了チェック** → `implementation-checklist` スキルで STEP 1-4 実行
+5. **完了チェック** → `implementation-checklist` スキルで STEP 1-4 実行
    - 動作を証明できるまでタスクを完了とマークしない
    - テスト実行・ログ確認・差分チェックで正しく動作することを示す
-7. **Session Handoff更新**（セッション終了前 — 必須）
+6. **Session Handoff更新**（セッション終了前 — 必須）
    - task.mdが存在する場合、Session Handoffセクションを最新化
    - `task-progress` スキルのWrite Protocol参照
 
