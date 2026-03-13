@@ -5,7 +5,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import Optional
 
-from pydantic import BaseModel, Field, field_validator, model_validator
+from pydantic import BaseModel, Field, field_validator
 
 
 class HookEvent(str, Enum):
@@ -25,17 +25,10 @@ class HookDef(BaseModel):
 
 
 class RoutingEntry(BaseModel):
-    """Maps trigger keywords to a skill name or rule reference."""
+    """Maps trigger keywords to a skill name."""
 
     triggers: list[str]
-    skill: str = ""
-    reference: str = ""  # Non-skill reference (rule files, etc.)
-
-    @model_validator(mode="after")
-    def at_least_one_target(self) -> "RoutingEntry":
-        if not self.skill and not self.reference:
-            raise ValueError("skill or reference must be set")
-        return self
+    skill: str
 
 
 class ExtensionManifest(BaseModel):
@@ -52,7 +45,6 @@ class ExtensionManifest(BaseModel):
     permissions: Optional[dict[str, list[str]]] = None
     tags: list[str] = []
     claude_md_section: Optional[str] = None
-    routing_note: Optional[str] = None
 
     @field_validator("rule_number_range")
     @classmethod

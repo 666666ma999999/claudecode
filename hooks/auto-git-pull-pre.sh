@@ -20,7 +20,7 @@ except:
 CLAUDE_DIR="$HOME/.claude"
 case "$FILE_PATH" in
   "$CLAUDE_DIR"/*) ;;
-  *) echo '{"decision":"approve"}'; exit 0 ;;
+  *) exit 0 ;;
 esac
 
 # クールダウン: 30秒以内に前回pullしていればスキップ
@@ -30,7 +30,6 @@ if [[ -f "$TIMESTAMP_FILE" ]]; then
   NOW=$(date +%s)
   ELAPSED=$(( NOW - ${LAST_PULL:-0} ))
   if [[ $ELAPSED -lt 30 ]]; then
-    echo '{"decision":"approve"}'
     exit 0
   fi
 fi
@@ -46,7 +45,6 @@ if [[ -d "$LOCK_DIR" ]]; then
 fi
 if ! mkdir "$LOCK_DIR" 2>/dev/null; then
   # 既にロック中 → スキップ
-  echo '{"decision":"approve"}'
   exit 0
 fi
 # ロック解放用トラップ
@@ -54,7 +52,7 @@ trap 'rmdir "$LOCK_DIR" 2>/dev/null' EXIT
 
 # git pull --rebase（3秒タイムアウト、macOS互換）
 # フォアグラウンドで実行し、完了を保証してからスクリプトを抜ける
-cd "$CLAUDE_DIR" || { echo '{"decision":"approve"}'; exit 0; }
+cd "$CLAUDE_DIR" || exit 0
 git pull --rebase --no-edit &>/dev/null &
 GIT_PID=$!
 (sleep 3 && kill $GIT_PID 2>/dev/null) &>/dev/null &
@@ -70,5 +68,4 @@ if [[ $GIT_EXIT -eq 0 ]]; then
 fi
 
 # 常にapprove（失敗してもブロックしない）
-echo '{"decision":"approve"}'
 exit 0

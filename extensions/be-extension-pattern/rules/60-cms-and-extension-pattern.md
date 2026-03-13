@@ -33,32 +33,6 @@
 - 汎用名 `CMS_*`（識別子プレフィックス必須）
 - 識別子なしの `[CMS]` ログタグ（`[CMS:{id}]` を使う）
 
-## エクステンション設計の分岐
-
-「新機能追加」「エクステンション作成」等の汎用リクエスト時、以下のフローで判定する。
-BE/FEは独立に判定し、それぞれのルールを並行適用する。
-
-### Step 1: マーカーファイル検出
-
-| extensions.yaml | extensions.json | 適用ルール |
-|:-:|:-:|---|
-| あり | あり | 同一リポ → 本ファイルのハイブリッドルール + 各スキル併用。分離リポ → `fe-be-extension-coordination` スキル参照 |
-| あり | なし | BE: `be-extension-pattern` スキル。FE: Step 2 へ |
-| なし | あり | FE: `fe-extension-pattern` スキル。BE: Step 2 へ |
-| なし | なし | Step 2 へ |
-
-### Step 2: マーカーなし時の判定
-
-- `backend/` or `src/` にPythonサービスコードあり → `75-be-architecture.md` 適用
-- `frontend/*.html` + JS あり（React/TypeScript不使用）→ `70-fe-architecture.md` 適用
-- 上記いずれにも該当しない → ユーザーにBE/FEを確認
-
-### 適用優先順
-
-- `CLAUDE.md`（全体方針）> `rules/`（領域別ルール）> スキル（実装手順）
-- マーカーありのスキルルール > マーカーなしのアーキテクチャルール
-- 競合時は「より限定的なルール」を優先
-
 ## エクステンションパターン強制ルール
 
 ### 自動検出
@@ -73,33 +47,23 @@ BE/FEは独立に判定し、それぞれのルールを並行適用する。
 ### ハイブリッドプロジェクト（段階的移行中）
 
 以下のプロジェクトはエクステンションアーキテクチャへ段階的に移行中。`backend/core/`にインフラを配置し、既存ルーターを順次extension化する:
-- `~/Desktop/prm/rohan` — STEP 1-8パイプライン型ワークフロー。`backend/config/extensions.yaml`マーカーあり。`registration/`がextension化済み。既存ルーターは従来方式のまま維持するが、**新規追加はextension化必須**
-
-### 同一リポ vs 分離リポの判定
-
-両マーカー（`extensions.yaml` + `extensions.json`）が検出された場合:
-
-- **同一リポ**（FE/BEが同じリポジトリ内）: 本ファイルのハイブリッドルールを適用。`fe-be-extension-coordination` スキルは参照しない（分離リポ前提のため）。BE/FEそれぞれのスキル（`be-extension-pattern`, `fe-extension-pattern`）を個別適用する
-- **分離リポ**（FE/BEが別リポジトリ）: `fe-be-extension-coordination` スキルを適用。APIコントラクト・デプロイ協調ルールに従う
-- **判定不能**: 同一リポか分離リポか判断できない場合は、ユーザーに確認する
+- `~/Desktop/prm/rohan` — STEP 1-8パイプライン型ワークフロー。`backend/config/extensions.yaml`マーカーあり。`registration/`がextension化済み。他ルーターは従来方式維持
 
 ### 必須ルール
 
 #### 1. 新機能は必ずエクステンションとして作成
 
 新機能・新エンドポイント・新ページの追加時:
-- **必須**: エクステンションディレクトリにエクステンションとして作成（パスはプロジェクト構造に依存: `src/extensions/` or `backend/routers/`）
-- **禁止**: core/ディレクトリへの機能追加
-- **禁止**: プロジェクトルート直下へのファイル配置（app.py, main.py を除く）
+- **必須**: `src/extensions/<feature-name>/` にエクステンションとして作成
+- **禁止**: `src/core/` への機能追加
+- **禁止**: `src/` 直下へのファイル配置（app.py, main.py を除く）
 - 実装前に `be-extension-pattern` または `fe-extension-pattern` スキルを参照すること
 
 #### 2. エクステンション間の直接依存禁止
 
 - **禁止**: `from extensions.other_ext import ...` （他extの直接import）
-- **同一プロセス内**（BE同士 or FE同士）: ext間通信は EventBus (`event_bus.emit()` / `.on()`) のみ
-- **FE-BE間**: APIコントラクト（REST/GraphQL）経由。直接importは物理的に不可能なため対象外
+- **必須**: ext間通信は EventBus (`event_bus.emit()` / `.on()`) のみ
 - **禁止**: shared/ や core/ から extensions/ への import
-- **例外**: 共有定数・型定義・インターフェースは `shared/` or `core/` に配置してよい。extensions/ からこれらを import するのは許可（依存方向: ext → shared/core のみ）
 
 #### 3. core/ 変更の制限
 
@@ -125,4 +89,6 @@ BE/FEは独立に判定し、それぞれのルールを並行適用する。
 
 ### スキル参照
 
-スキル選択フローは本ファイルの「エクステンション設計の分岐」に従う。
+- BE プロジェクト: `be-extension-pattern` スキル
+- FE プロジェクト: `fe-extension-pattern` スキル
+- FE+BE 連携: `fe-be-extension-coordination` スキル

@@ -41,10 +41,7 @@ if [[ "$FILE_PATH" == "$CWD_PREFIX"* ]] || [[ "$FILE_PATH" == "$CWD" ]]; then
 fi
 
 # Block: file is outside project directory
-cat >&2 <<EOF
-Edit blocked: File is outside current working directory
-  Attempted: $FILE_PATH
-  Project:   $CWD
-Only files within the project directory can be edited.
-EOF
-exit 2
+cat <<HOOKEOF
+{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"Edit blocked: File outside CWD. Attempted: $FILE_PATH, Project: $CWD"}}
+HOOKEOF
+exit 0

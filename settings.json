@@ -44,11 +44,9 @@
       "Bash(source */activate)",
       "Bash(source venv/bin/activate*)",
       "Bash(. venv/bin/activate*)",
-      "Bash(git push --force)",
-      "Bash(git push --force *)",
+      "Bash(git push --force*)",
       "Bash(git push -f*)",
-      "Bash(git push *--force)",
-      "Bash(git push *--force *)",
+      "Bash(git push *--force*)",
       "Bash(git push *-f *)",
       "Bash(git push *+*:*)",
       "Bash(git reset --hard*)",
@@ -76,43 +74,16 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/memory-guard.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
             "command": "~/.claude/hooks/enforce-extension-pattern.py"
           }
         ]
       },
       {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/block-host-installs.py"
-          }
-        ]
-      },
-      {
-        "matcher": "Read|Edit|Glob|Grep",
+        "matcher": "Edit",
         "hooks": [
           {
             "type": "command",
             "command": "~/.claude/hooks/auto-git-pull-pre.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/block-dangerous-git.py"
           }
         ]
       },
@@ -142,18 +113,18 @@
             "command": "~/.claude/hooks/restrict-cwd-edits.sh"
           }
         ]
-      }
-    ],
-    "PostToolUse": [
+      },
       {
         "matcher": "Write|Edit",
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/memory-warn.sh"
+            "command": "~/.claude/hooks/memory-guard.sh"
           }
         ]
-      },
+      }
+    ],
+    "PostToolUse": [
       {
         "matcher": "Write|Edit",
         "hooks": [
@@ -178,6 +149,15 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/auto-git-push.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/memory-warn.sh"
           }
         ]
       }
@@ -253,7 +233,7 @@
   "effortLevel": "high",
   "statusLine": {
     "type": "command",
-    "command": "npx -y ccstatusline@latest",
+    "command": "cat | bash ~/.claude/statusline.sh",
     "padding": 0
   }
 }

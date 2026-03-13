@@ -67,10 +67,9 @@ class ConflictValidator:
         skill_owners: dict[str, list[str]] = {}
 
         for ext_name, manifest in extensions:
-            # Collect skill names from routing entries (skip reference-only entries)
+            # Collect skill names from routing entries
             for entry in manifest.routing:
-                if entry.skill:
-                    skill_owners.setdefault(entry.skill, []).append(ext_name)
+                skill_owners.setdefault(entry.skill, []).append(ext_name)
 
         for skill_name, owners in skill_owners.items():
             if len(owners) > 1:

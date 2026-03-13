@@ -54,27 +54,6 @@ class TestExtensionManifest:
             ExtensionManifest(name="bad", rule_number_range=[1, 2, 3])
 
 
-class TestRoutingEntry:
-    def test_skill_only(self):
-        entry = RoutingEntry(triggers=["a"], skill="my-skill")
-        assert entry.skill == "my-skill"
-        assert entry.reference == ""
-
-    def test_reference_only(self):
-        entry = RoutingEntry(triggers=["a"], reference="`some-rule.md` 参照")
-        assert entry.reference == "`some-rule.md` 参照"
-        assert entry.skill == ""
-
-    def test_both_skill_and_reference(self):
-        entry = RoutingEntry(triggers=["a"], skill="my-skill", reference="ref")
-        assert entry.skill == "my-skill"
-        assert entry.reference == "ref"
-
-    def test_neither_skill_nor_reference_raises(self):
-        with pytest.raises(ValidationError, match="skill or reference"):
-            RoutingEntry(triggers=["a"])
-
-
 class TestHookEvent:
     def test_values(self):
         assert HookEvent.SESSION_START.value == "SessionStart"

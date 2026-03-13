@@ -3,20 +3,11 @@ version: "1.0.0"
 description: "Core workflow rules, task management, and implementation checklist"
 author: masaaki
 enabled: true
-rule_number_range: [80, 89]
 routing:
   - triggers: ["タスク細分化", "実装計画策定", "計画作成"]
     skill: task-planner
   - triggers: ["設定配置", "グローバル vs プロジェクト", "config placement", "設定優先順位", "settings scope"]
     skill: config-placement-guide
-  - triggers: ["task進捗", "stuck記録", "セッション引き継ぎ", "progress tracking", "session handoff"]
-    skill: task-progress
-  - triggers: ["デスクトップ整理", "ファイル整理", "cleanup", "organize desktop", "デスクトップ片付け"]
-    skill: organize-desktop
-  - triggers: ["コード重複", "二重実装", "dual-path", "DRY違反", "canonical module", "同じ処理が複数", "重複ロジック"]
-    reference: "`20-code-quality.md` + `75-be-architecture.md` 参照"
-  - triggers: ["BEパイプライン重複", "service二重化", "副作用経路の一本化", "BE設計"]
-    reference: "`75-be-architecture.md` 参照"
 tags:
   - core
   - workflow

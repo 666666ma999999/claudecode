@@ -58,8 +58,10 @@ PROTECTED_PATTERNS=(
 # パターンマッチチェック
 for pattern in "${PROTECTED_PATTERNS[@]}"; do
     if echo "$FILE_PATH" | grep -qE "$pattern"; then
-        echo "BLOCKED: Protected file matches pattern '$pattern': $FILE_PATH" >&2
-        exit 2
+        cat <<HOOKEOF
+{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"Protected file matches pattern '$pattern': $FILE_PATH"}}
+HOOKEOF
+        exit 0
     fi
 done
 
