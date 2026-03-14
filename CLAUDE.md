@@ -69,6 +69,7 @@
    - テスト実行・ログ確認・差分チェックで正しく動作することを示す
 6. **Session Handoff更新**（セッション終了前 — 必須）
    - task.mdが存在する場合、Session Handoffセクションを最新化
+   - 未完了タスクがある場合、Failures/Stuck Context記録は必須。空のまま終了禁止
    - `task-progress` スキルのWrite Protocol参照
 
 ## 事実確認ルール（最優先）
