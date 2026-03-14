@@ -12,6 +12,7 @@
 | タスク細分化、実装計画策定、計画作成 | `task-planner` |
 | task進捗, stuck記録, セッション引き継ぎ, 要件変更追跡, progress tracking, session handoff | `task-progress` |
 | 設定配置、グローバル vs プロジェクト、config placement、設定優先順位、settings scope | `config-placement-guide` |
+| グラフ作成、データ可視化、チャート生成、ヒートマップ、棒グラフ、折れ線グラフ、X投稿画像、imp最大化、visualization、chart | `data-visualization` |
 | 売上分析、多変数分析、重回帰分析、データ分析 | `sales-analysis` |
 | SubAgent委託、デバッグ、リファクタリング、大量データ分析 | `execution-patterns` |
 | デバッグガイド、根本原因分析、バグ調査手順 | `debugging-guide` |
