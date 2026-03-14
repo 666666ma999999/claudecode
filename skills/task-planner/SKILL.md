@@ -27,7 +27,10 @@ metadata:
 
 ## 出力
 
-- `.claude/workspace/task.md` にマークダウン形式の実装計画を書き出す
+- `tasks/<task-name>.md` にマークダウン形式の実装計画を書き出す
+- テンプレート選択基準:
+  - **軽量版** (`~/.claude/templates/task-light.md`): 単発タスク、1セッションで完了見込み、PM管理不要
+  - **フル版** (`~/.claude/templates/task.md`): 複数セッション、要件変更追跡、PM視点管理が必要
 
 ## ワークフロー
 
