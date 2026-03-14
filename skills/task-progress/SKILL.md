@@ -97,6 +97,10 @@ ls .claude/workspace/task.md 2>/dev/null
 3. **Progress Snapshot** を最新化
 4. **Status** を適切に設定（active/paused/stuck）
 
+### 終了ガード（必須）
+- Status が done 以外で Failures/Stuck Context が空の場合、stuck理由の記録を強制する
+- 「なぜ完了できなかったか」を必ず記録してからセッション終了すること
+
 ## Stuck Reason 分類ガイド
 
 ### 技術系（12カテゴリ）
