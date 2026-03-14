@@ -207,6 +207,15 @@
             "command": "~/.claude/hooks/check-and-enable.sh"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/task-progress-check.sh"
+          }
+        ]
       }
     ],
     "Notification": [
