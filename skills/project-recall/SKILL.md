@@ -131,13 +131,9 @@ Scenario A/B/C で共通利用する Codex MCP ベースの分析ロール。
 
 ## Scenario E: クイック状態確認
 
-**トリガー**: 「今どうなってる」「状態確認」
+**トリガー**: 「今どうなってる」「状態確認」。**エージェント不使用。**
 
-**エージェント不使用。** 以下を直接実行:
-1. MEMORY.md を Read
-2. git status + git log --oneline -5
-3. docker ps（Docker プロジェクトの場合）
-4. task.md があれば Read
+直接実行: MEMORY.md Read → git status + git log --oneline -5 → docker ps（Docker時） → task.md Read
 
 **出力:** 5行以内のステータスサマリー
 
@@ -145,7 +141,7 @@ Scenario A/B/C で共通利用する Codex MCP ベースの分析ロール。
 
 ## Deep Dive Protocol (A+)
 
-**トリガー**: Scenario A 完了後、特定テーマで更に深掘りが必要な場合、または Cross-Validation で矛盾が検出された場合。
+**トリガー**: Scenario A完了後の深掘り、またはCross-Validationでの矛盾検出時。
 
 **手順:**
 1. Scenario A の P3 統合レポートから深掘りテーマを特定
