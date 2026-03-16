@@ -82,9 +82,7 @@ Scenario A/B/C で共通利用する Codex MCP ベースの分析ロール。
 
 プロンプトテンプレート: `references/prompt-templates.md` の Explorer / Historian / CodeAnalyst(A) を使用。
 
-**出力（P3）:**
-1. ユーザーへ: 統合サマリーレポート（構造 + 履歴 + 設計分析、confidence付き）
-2. Memory保存: `project-overview.md` + `{project}-codex-analysis.md`
+**出力（P3）:** 統合サマリーレポート（構造+履歴+設計分析、confidence付き）。Memory: `project-overview.md` + `{project}-codex-analysis.md`
 
 ---
 
