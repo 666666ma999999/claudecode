@@ -11,6 +11,7 @@
 | BE新機能追加、APIエンドポイント追加、BEエクステンション作成、バックエンド設計、HookPoint実装、新機能追加、エクステンション作成、プラグインアーキテクチャ、backend feature、new API endpoint、extension pattern、plugin architecture、add backend、create extension | `be-extension-pattern` |
 | タスク細分化、実装計画策定、計画作成 | `task-planner` |
 | task進捗, stuck記録, セッション引き継ぎ, 要件変更追跡, progress tracking, session handoff | `task-progress` |
+| プロジェクト思い出す、久しぶり、何だったっけ、コンテキスト復元、前回何してた、忘れた、project recall、what was this、remind me、catch up | `project-recall` |
 | 設定配置、グローバル vs プロジェクト、config placement、設定優先順位、settings scope | `config-placement-guide` |
 | グラフ作成、データ可視化、チャート生成、ヒートマップ、棒グラフ、折れ線グラフ、X投稿画像、imp最大化、visualization、chart | `data-visualization` |
 | 売上分析、多変数分析、重回帰分析、データ分析 | `sales-analysis` |
