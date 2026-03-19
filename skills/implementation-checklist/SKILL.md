@@ -18,6 +18,11 @@ metadata:
 
 コード修正・機能追加が完了したら、完了報告の前に以下を全て実行する。
 
+**重要: 「ブラウザで確認してください」等のユーザー丸投げは禁止。** AI側で実行可能な検証を先に全て済ませること。
+- BE: `curl` でAPIエンドポイント疎通 + `tail server.log` でエラー確認
+- FE: Playwright MCPで `browser_navigate` → `browser_console_messages` → `browser_snapshot`
+- 検証ツールが利用不可の場合: どのSTEPが何の不足で実行不能かを列挙し、ユーザーに報告（完了扱いにしない）
+
 ## STEP 1: サーバー再起動（該当する場合）
 
 backend/main.py・フロントエンド・設定ファイルを編集した場合のみ実行。**確認なしで自動実行**。
