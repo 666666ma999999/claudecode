@@ -36,6 +36,7 @@
 | デスクトップ整理、ファイル整理、cleanup、organize desktop、デスクトップ片付け | `organize-desktop` |
 | FE新機能追加（extensions.jsonなし + HTML/JS）、vanilla FEページ追加 | `70-fe-architecture.md` 参照（エクステンション分岐 Step 2 経由） |
 | vanilla JS FE設計、IIFE、コールバック連鎖、オーケストレータ、直接fetch禁止、Command/Query分離、FEパイプライン | `70-fe-architecture.md` 参照 |
+| 実装完了、修正完了、完了報告前、確認依頼前、ブラウザで確認してください、動作確認してください、検証完了 | `implementation-checklist` |
 
 ## エクステンション設計の分岐
 
