@@ -160,6 +160,15 @@
             "command": "~/.claude/hooks/memory-warn.sh"
           }
         ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/implementation-checklist-pending.sh"
+          }
+        ]
       }
     ],
     "SessionStart": [
