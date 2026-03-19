@@ -5,7 +5,7 @@ description: |
   実装完了時・コードレビュー時・`/verify-step`コマンド実行時に自動発動。
   キーワード: 実装完了, チェックリスト, Codexレビュー, スキル化判断, STEP完了
   計画段階や実装開始前には使用しない。
-allowed-tools: "Read Glob Grep"
+allowed-tools: "Read Glob Grep Bash Agent"
 license: proprietary
 metadata:
   author: masaaki-nagasawa
