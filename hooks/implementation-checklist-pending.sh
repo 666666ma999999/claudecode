@@ -2,8 +2,10 @@
 # PostToolUse hook: Write/Edit でコードファイルを変更したらpending状態を作成
 # implementation-checklist スキル実行前にユーザーへ報告することを防止する警告を出す
 
-TOOL_NAME="${CLAUDE_TOOL_NAME:-}"
-FILE_PATH="${CLAUDE_FILE_PATH:-}"
+# stdin JSON から tool_name と file_path を取得（Claude Code公式仕様）
+INPUT=$(cat)
+TOOL_NAME=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_name',''))" 2>/dev/null)
+FILE_PATH=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_input',{}).get('file_path',''))" 2>/dev/null)
 
 # Write/Edit以外は無視
 case "$TOOL_NAME" in
@@ -24,14 +26,6 @@ case "$FILE_PATH" in
     *.py|*.js|*.ts|*.tsx|*.jsx|*.html|*.css|*.json|*.yaml|*.yml|*.toml|*.cfg|*.ini)
         ;;
     *)
-        # コードファイル以外（.md等）は除外
-        exit 0
-        ;;
-esac
-
-# ドキュメントファイルは除外
-case "$FILE_PATH" in
-    *.md|*.rst|*.txt)
         exit 0
         ;;
 esac
