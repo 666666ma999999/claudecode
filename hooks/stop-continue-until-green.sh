@@ -1,0 +1,58 @@
+#!/bin/bash
+# Stop hook: implementation-checklist未完了 or テスト未検証なら停止をブロック
+# stdout出力あり → Claudeは作業を継続
+# stdout出力なし → Claudeは通常停止
+
+STATE_DIR="$HOME/.claude/state"
+PENDING_FILE="$STATE_DIR/implementation-checklist.pending"
+TESTS_PASSED="$STATE_DIR/tests-passed"
+
+# stdin JSON を読み取り
+INPUT=$(cat)
+
+# stop_hook_active チェック（無限ループ防止）
+STOP_HOOK_ACTIVE=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('stop_hook_active', False))" 2>/dev/null)
+if [ "$STOP_HOOK_ACTIVE" = "True" ] || [ "$STOP_HOOK_ACTIVE" = "true" ]; then
+  echo "stop_hook_active=true, skipping" >&2
+  exit 0
+fi
+
+# transcript_path を取得（デバッグ用）
+TRANSCRIPT_PATH=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('transcript_path', ''))" 2>/dev/null)
+echo "transcript_path=$TRANSCRIPT_PATH" >&2
+
+BLOCKERS=""
+
+# チェック1: implementation-checklist.pending が存在し中身があるか
+if [ -f "$PENDING_FILE" ] && [ -s "$PENDING_FILE" ]; then
+  BLOCKERS="${BLOCKERS}⚠️ implementation-checklist が未完了です。完了してから停止してください。\n"
+  echo "blocker: implementation-checklist pending" >&2
+fi
+
+# チェック2: docker-compose があればテスト検証状態を確認
+COMPOSE_FILE=""
+if [ -f "docker-compose.yml" ]; then
+  COMPOSE_FILE="docker-compose.yml"
+elif [ -f "docker-compose.yaml" ]; then
+  COMPOSE_FILE="docker-compose.yaml"
+fi
+
+if [ -n "$COMPOSE_FILE" ] && [ -f "$PENDING_FILE" ] && [ -s "$PENDING_FILE" ]; then
+  if [ ! -f "$TESTS_PASSED" ]; then
+    BLOCKERS="${BLOCKERS}⚠️ テストが未検証です。テストを実行してください。\n"
+    echo "blocker: tests not verified (no tests-passed file)" >&2
+  else
+    # tests-passed が pending より古ければ未検証扱い
+    if [ "$PENDING_FILE" -nt "$TESTS_PASSED" ]; then
+      BLOCKERS="${BLOCKERS}⚠️ テストが未検証です。テストを実行してください。\n"
+      echo "blocker: tests-passed older than pending" >&2
+    fi
+  fi
+fi
+
+# ブロッカーがあれば出力（Claudeが作業を継続する）
+if [ -n "$BLOCKERS" ]; then
+  echo -e "$BLOCKERS"
+fi
+
+exit 0
