@@ -178,15 +178,6 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/detect-extension-project.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
             "command": "~/.claude/hooks/data-retention.sh"
           }
         ]
@@ -196,25 +187,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/firecrawl-start.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
             "command": "~/.claude/hooks/auto-git-pull.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/check-and-enable.sh"
           }
         ]
       },
