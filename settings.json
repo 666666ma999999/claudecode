@@ -140,15 +140,6 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/auto-format.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit|Bash",
-        "hooks": [
-          {
-            "type": "command",
             "command": "~/.claude/hooks/auto-git-push.sh"
           }
         ]
