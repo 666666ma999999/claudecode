@@ -179,6 +179,15 @@
             "command": "~/.claude/hooks/implementation-checklist-pending.sh"
           }
         ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/verify-step-pending.sh"
+          }
+        ]
       }
     ],
     "SessionStart": [
