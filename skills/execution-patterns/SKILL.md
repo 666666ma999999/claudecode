@@ -12,7 +12,47 @@ allowed-tools: "Read Glob Grep"
 
 # 実行パターン詳細ガイド
 
-## 1. SubAgent委託テンプレート
+## 1. SubAgent委託の必須条件と並列構成
+
+### 委託必須条件（CLAUDE.md「SubAgent強制ルール」の実行詳細）
+
+即答タスク以外で以下に該当する場合、メインAgent単独実装を禁止する:
+
+| タスク規模 | 最低構成 | 起動タイミング |
+|-----------|---------|---------------|
+| **標準**（2ファイル以上 or 調査+実装+検証の2種以上） | Explore + Verify | Plan確定直後、実装開始前 |
+| **大規模**（アーキ変更、Tasks 3件以上） | Explore + Implement + Verify | Plan確定直後、実装開始前 |
+
+### 役割定義
+
+| 役割 | 責務 | subagent_type | 起動条件 |
+|------|------|--------------|----------|
+| **Explore** | 既存コード調査、影響範囲分析、パターン検索 | `Explore` | 常に最初に起動 |
+| **Implement** | コード実装（1 Agent = 1ファイル or 1論理変更） | `general-purpose` | 大規模タスク時 |
+| **Verify** | テスト実行、動作確認、リグレッション検知 | `general-purpose` | 各バッチ終了時 |
+
+### 標準パターン（2-Agent並列）
+
+```
+1. Explore SubAgent → 既存コード調査（並列起動）
+2. Main Agent → Explore結果を統合し、実装方針決定
+3. Main Agent → 実装（1バッチ = 最大3タスク）
+4. Verify SubAgent → バッチ検証（テスト実行・動作確認）
+5. Main Agent → Verify結果確認 → 次バッチ or 完了
+```
+
+### 大規模パターン（3-Agent並列）
+
+```
+1. Explore SubAgent → 既存コード調査
+2. Main Agent → Explore結果を統合し、タスク分配
+3. Implement SubAgent A → ファイル群Aの実装（並列起動）
+4. Implement SubAgent B → ファイル群Bの実装（並列起動）
+5. Verify SubAgent → 各バッチ終了後に検証
+6. Main Agent → 統合・接着・最終確認
+```
+
+### 委託テンプレート（5項目必須）
 
 SubAgentにタスク委託時、以下を全て提供すること:
 
@@ -21,10 +61,22 @@ SubAgentにタスク委託時、以下を全て提供すること:
 2. Context: 関連ファイルパス・関数名・データフロー
 3. Spec: 入出力の仕様（型・値の範囲・エッジケース）
 4. Constraints: 既存コードとの整合性要件
-5. Verification: テストコマンドと期待結果
+5. Verification: テストコマンドと期待結果（fast_verify + final_verify）
 ```
 
 **必要な情報が全て委託内容に含まれている**状態が理想。
+
+### Verify SubAgentの委託テンプレート
+
+```
+1. Goal: バッチN（T1-T3）の変更が正しく動作することを検証
+2. Context: 変更ファイル一覧、変更内容の概要
+3. Spec:
+   - fast_verify: [最短の実行可能な検証コマンド]
+   - regression_check: [既存機能の破壊がないか確認するコマンド]
+4. Constraints: テスト環境の前提条件（Docker, DB状態等）
+5. Verification: 全テストPASSED + コンソールエラーゼロ
+```
 
 ## 2. コンテキスト予算チェック（データ分析SubAgent向け）
 
