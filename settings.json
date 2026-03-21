@@ -75,6 +75,15 @@
         "hooks": [
           {
             "type": "command",
+            "command": "~/.claude/hooks/verify-step-guard.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
             "command": "~/.claude/hooks/enforce-extension-pattern.py"
           }
         ]
