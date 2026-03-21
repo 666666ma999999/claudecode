@@ -23,6 +23,16 @@ echo "transcript_path=$TRANSCRIPT_PATH" >&2
 
 BLOCKERS=""
 
+# チェック0: verify-step.pending（中間バッチ検証）が残っているか
+VERIFY_PENDING="$STATE_DIR/verify-step.pending"
+if [ -f "$VERIFY_PENDING" ]; then
+  EDIT_COUNT=$(python3 -c "import json; print(json.load(open('$VERIFY_PENDING')).get('edit_count',0))" 2>/dev/null)
+  if [ "$EDIT_COUNT" -gt 0 ] 2>/dev/null; then
+    BLOCKERS="${BLOCKERS}⚠️ 中間バッチ検証が未完了です（${EDIT_COUNT}回の編集が未検証）。検証を実行してください。\n"
+    echo "blocker: verify-step pending (${EDIT_COUNT} edits)" >&2
+  fi
+fi
+
 # チェック1: implementation-checklist.pending が存在し中身があるか
 if [ -f "$PENDING_FILE" ] && [ -s "$PENDING_FILE" ]; then
   BLOCKERS="${BLOCKERS}⚠️ implementation-checklist が未完了です。完了してから停止してください。\n"
