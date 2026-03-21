@@ -131,6 +131,15 @@
         "hooks": [
           {
             "type": "command",
+            "command": "~/.claude/hooks/auto-format.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
             "command": "~/.claude/hooks/check-extension-imports.py"
           }
         ]
