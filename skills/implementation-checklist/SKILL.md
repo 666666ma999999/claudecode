@@ -23,6 +23,17 @@ metadata:
 - FE: Playwright MCPで `browser_navigate` → `browser_console_messages` → `browser_snapshot`
 - 検証ツールが利用不可の場合: どのSTEPが何の不足で実行不能かを列挙し、ユーザーに報告（完了扱いにしない）
 
+## 中間バッチ検証（実装中）vs 最終チェックリスト（実装完了後）
+
+| | 中間バッチ検証 | 本チェックリスト |
+|--|---------------|-----------------|
+| **タイミング** | 各Batch終了後（3編集ごと） | 全実装完了後 |
+| **発動** | verify-step-guard.sh が自動ブロック | implementation-checklist-pending.sh が警告 |
+| **範囲** | fast_verify（最短検証のみ） | Final Verify（全体検証 + Codexレビュー + スキル化判断） |
+| **解除** | `rm ~/.claude/state/verify-step.pending` | `rm ~/.claude/state/implementation-checklist.pending` |
+
+中間バッチ検証をパスしていても、本チェックリストは省略不可。
+
 ## STEP 1: サーバー再起動（該当する場合）
 
 backend/main.py・フロントエンド・設定ファイルを編集した場合のみ実行。**確認なしで自動実行**。
