@@ -26,6 +26,8 @@
 | .envrc/.mcp.json操作・APIキー設定 | `secret-management` |
 | 新プロジェクト初期化 | `project-bootstrap` |
 | セキュリティ監査・脆弱性診断 | `security-twin-audit` |
+| 設計判断・トレードオフ・反証・妥当性検証・対立検証 | `opponent-review` |
+| 叩き台・探索・試作・UI案・API挙動確認・要件曖昧 | `/prototype` コマンド |
 | スキル作成・更新・判断 | `skill-lifecycle-reference` |
 | スキル新規作成・ワークフロー保存 | `skill-creator` |
 | テスト修正・テスト失敗・TDD | `test-fixing` |
