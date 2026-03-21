@@ -223,6 +223,10 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/precompact-build-restore-note.sh"
+          },
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/promote-lessons.sh"
           }
         ]
       }
