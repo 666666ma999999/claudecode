@@ -295,7 +295,7 @@ SubAgent Aの結果に関わらず、以下を必ず質問する:
 ### STEP 7: JSONL追記 + 次アクション提案
 
 1. Material Bank に追記:
-   - パス: `~/Desktop/prm/make_article/training_data/materials/{x_category}_materials.jsonl`
+   - パスは `categories.yaml` の `material_bank` フィールドを参照（ID採番ルール参照）
    - 1行1JSONオブジェクト形式
    - ファイルが存在しない場合は新規作成
 
