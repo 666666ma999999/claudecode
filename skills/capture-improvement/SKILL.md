@@ -246,8 +246,11 @@ SubAgent Aの結果に関わらず、以下を必ず質問する:
 
 #### ID採番ルール
 
-- Material Bank パス: `~/Desktop/prm/make_article/training_data/materials/{x_category}_materials.jsonl`
-  - x_category = STEP 1で判定したX投稿カテゴリ（tech_tips / investment / ceo_perspective）
+- Material Bank パスは `~/Desktop/prm/make_article/config/categories.yaml` の `material_bank` フィールドを参照する:
+  - `tech_tips` → `training_data/materials/tech_materials.jsonl`
+  - `investment` → `training_data/materials/investment_materials.jsonl`
+  - `ceo_perspective` → `training_data/materials/ceo_materials.jsonl`
+- 絶対パス: `~/Desktop/prm/make_article/{material_bank}`
 - 既存JSONLから最大IDを確認し、`mat_XXX` の連番で採番
 - ファイルが空の場合は `mat_001` から開始
 
