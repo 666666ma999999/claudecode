@@ -38,6 +38,7 @@
 | デスクトップ整理・ファイル整理 | `organize-desktop` |
 | vanilla FE設計・Command/Query分離・FEパイプライン | `70-fe-architecture.md` 参照 |
 | 実装完了・完了報告前・検証完了 | `implementation-checklist` |
+| プロジェクト改善記録・改善メモ・X記事ネタ・定量改善 | `capture-improvement` |
 
 ## エクステンション設計の分岐
 
