@@ -43,6 +43,7 @@
 | salesmtg ダッシュボード表示・セグメント統一・N/A表示・QA | `salesmtg-dashboard-qa` |
 | 月次P&L分析・変動要因分解・セグメント分析 | `monthly-pl-analysis` |
 | 設定診断・health check・設定不整合・hook監査 | `health` |
+| UIデザイン品質・カラーパレット・タイポグラフィ・コンポーネント設計 | `frontend-design` |
 
 ## エクステンション設計の分岐
 
