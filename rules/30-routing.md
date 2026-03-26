@@ -39,6 +39,9 @@
 | vanilla FE設計・Command/Query分離・FEパイプライン | `70-fe-architecture.md` 参照 |
 | 実装完了・完了報告前・検証完了 | `implementation-checklist` |
 | プロジェクト改善記録・改善メモ・X記事ネタ・定量改善 | `capture-improvement` |
+| salesmtg CSV整合性・粗利構成不整合・スクレイピング後検証 | `salesmtg-data-audit` |
+| salesmtg ダッシュボード表示・セグメント統一・N/A表示・QA | `salesmtg-dashboard-qa` |
+| 月次P&L分析・変動要因分解・セグメント分析 | `monthly-pl-analysis` |
 
 ## エクステンション設計の分岐
 
