@@ -131,6 +131,24 @@
             "command": "~/.claude/hooks/memory-guard.sh"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/block-dangerous-git.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/block-host-installs.py"
+          }
+        ]
       }
     ],
     "PostToolUse": [
