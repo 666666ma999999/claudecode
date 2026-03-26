@@ -66,14 +66,19 @@ if [ "$EDIT_COUNT" -ge "$THRESHOLD" ] 2>/dev/null; then
     esac
     [ -z "$VERIFY_HINT" ] && VERIFY_HINT="変更に応じた最短検証を実行"
 
-    # ブロックメッセージ（stdoutに出すとClaudeが中断する）
-    echo "🛑 VERIFY-STEP REQUIRED: ${EDIT_COUNT}回のコード編集（${FILE_COUNT}ファイル）が未検証です。"
-    echo "次の編集に進む前に中間検証を実行してください:"
-    echo "  ${VERIFY_HINT}"
-    echo "検証完了後: rm ~/.claude/state/verify-step.pending"
-    echo ""
-    echo "※ バッチ検証を完了するには、テスト/curl/ブラウザ確認を実行し、"
-    echo "  成功したら 'rm ~/.claude/state/verify-step.pending' を実行してください。"
+    # deny応答を返してWrite/Editをブロック
+    REASON="🛑 VERIFY-STEP REQUIRED: ${EDIT_COUNT}回のコード編集（${FILE_COUNT}ファイル）が未検証です。次の編集に進む前に中間検証を実行してください。${VERIFY_HINT} 検証完了後: rm ~/.claude/state/verify-step.pending"
+    python3 -c "
+import json
+print(json.dumps({
+    'hookSpecificOutput': {
+        'hookEventName': 'PreToolUse',
+        'permissionDecision': 'deny',
+        'permissionDecisionReason': '''$REASON'''
+    }
+}))
+"
+    exit 0
 fi
 
 exit 0
