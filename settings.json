@@ -241,6 +241,24 @@
             "command": "~/.claude/hooks/task-progress-check.sh"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/detect-extension-project.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/firecrawl-start.sh"
+          }
+        ]
       }
     ],
     "Stop": [
