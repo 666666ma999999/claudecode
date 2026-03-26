@@ -44,6 +44,7 @@
 | 月次P&L分析・変動要因分解・セグメント分析 | `monthly-pl-analysis` |
 | 設定診断・health check・設定不整合・hook監査 | `health` |
 | UIデザイン品質・カラーパレット・タイポグラフィ・コンポーネント設計 | `frontend-design` |
+| Gmail・カレンダー・Drive・Google Workspace操作 | `gog-cli` |
 
 ## エクステンション設計の分岐
 
