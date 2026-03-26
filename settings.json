@@ -64,7 +64,14 @@
       "Bash(git add -A*)",
       "Bash(git add --all*)",
       "Bash(git add .)",
-      "Bash(git add . *)"
+      "Bash(git add . *)",
+      "Bash(rm -rf /*)",
+      "Bash(rm -rf ~*)",
+      "Bash(sudo *)",
+      "Bash(curl*|*bash*)",
+      "Bash(wget*|*bash*)",
+      "Bash(curl*|*sh*)",
+      "Bash(wget*|*sh*)"
     ]
   },
   "hooks": {
