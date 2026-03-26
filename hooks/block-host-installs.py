@@ -78,6 +78,11 @@ def main():
         if normalized.startswith(prefix):
             return
 
+    # python -c "..." 内のコードはシェルコマンドではないためスキップ
+    # （文字列リテラル内の "pip install" 等を誤検知しないため）
+    if re.match(r"^\s*python3?\s+-c\b", cmd.strip()):
+        return
+
     # 内部コマンドも検査（bash -c "pip install ..." 対策）
     inner = extract_inner_command(cmd)
     candidates = {cmd.strip(), inner.strip()}
