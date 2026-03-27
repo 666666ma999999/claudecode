@@ -46,6 +46,16 @@
 | 設定診断・health check・設定不整合・hook監査 | `health` |
 | UIデザイン品質・カラーパレット・タイポグラフィ・コンポーネント設計 | `frontend-design` |
 | Gmail・カレンダー・Drive・Google Workspace操作 | `gog-cli` |
+| PR差分セキュリティレビュー・blast radius分析 | `differential-review` |
+| Semgrep静的解析・ルール作成 | `semgrep` + `semgrep-rule-creator` |
+| サプライチェーンリスク・依存関係監査 | `supply-chain-risk-auditor` |
+| 脆弱性パターン横展開・variant analysis | `variant-analysis` |
+| GitHub Actions AIエージェントセキュリティ | `agentic-actions-auditor` |
+| コードベース可視化・知識グラフ・構造理解 | `understand` |
+| コードベース質問・対話的探索 | `understand-chat` |
+| 差分影響分析・変更インパクト可視化 | `understand-diff` |
+| オンボーディングガイド生成 | `understand-onboard` |
+| 日本語AI臭さ除去・文章ヒューマナイズ | `humanizer-ja` |
 
 ## Web リサーチツール選択
 
