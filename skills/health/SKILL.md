@@ -146,7 +146,7 @@ fi
 
 echo "=== MCP ACCESS DENIALS ==="
 ls -t "$CONVO_DIR"/*.jsonl 2>/dev/null | head -5 | while IFS= read -r F; do
-  head -c 1M "$F" | grep -Em 2 'Access denied - path outside allowed directories|tool-results/.+ not in ' 2>/dev/null
+  head -c 1000000 "$F" | grep -Em 2 'Access denied - path outside allowed directories|tool-results/.+ not in ' 2>/dev/null
 done | head -20
 
 # --- Skill scan ---
