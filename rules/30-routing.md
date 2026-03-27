@@ -31,6 +31,7 @@
 | スキル作成・更新・判断 | `skill-lifecycle-reference` |
 | スキル新規作成・ワークフロー保存 | `skill-creator` |
 | テスト修正・テスト失敗・TDD | `test-fixing` |
+| Web リサーチ・情報検索・調査 | 下記「Web リサーチツール選択」参照 |
 | Webスクレイピング・Agent Teams構成 | `tool-selection-reference` |
 | コードベース調査・大規模コード分析 | `codebase-investigation` |
 | コード重複・dual-path・DRY違反 | `20-code-quality.md` + `75-be-architecture.md` 参照 |
