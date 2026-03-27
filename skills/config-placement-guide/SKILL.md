@@ -1,4 +1,5 @@
 ---
+name: config-placement-guide
 description: グローバル/プロジェクト設定の配置判断と検証ガイド
 triggers:
   - 設定配置
