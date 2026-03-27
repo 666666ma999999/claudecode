@@ -132,7 +132,7 @@ if [ -n "$_PREV_FILES" ]; then
   echo "$_PREV_FILES" | while IFS= read -r F; do
     [ -f "$F" ] || continue
     echo "--- file: $F ---"
-    head -c 2M "$F" | jq -r '
+    head -c 2000000 "$F" | jq -r '
       if .type == "user" then "USER: " + ((.message.content // "") | if type == "array" then map(select(.type == "text") | .text) | join(" ") else . end)
       elif .type == "assistant" then
         "ASSISTANT: " + ((.message.content // []) | map(select(.type == "text") | .text) | join("\n"))
