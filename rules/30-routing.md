@@ -55,6 +55,8 @@
 | コードベース質問・対話的探索 | `understand-chat` |
 | 差分影響分析・変更インパクト可視化 | `understand-diff` |
 | オンボーディングガイド生成 | `understand-onboard` |
+| インタラクティブ知識グラフダッシュボード | `understand-dashboard` |
+| コード深掘り・関数/モジュール詳細解説 | `understand-explain` |
 | 日本語AI臭さ除去・文章ヒューマナイズ | `humanizer-ja` |
 
 ## Web リサーチツール選択
