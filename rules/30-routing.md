@@ -6,58 +6,95 @@
 
 > **注**: 「新機能追加」「エクステンション作成」が複数行にマッチする場合は、エクステンション分岐フロー（後述）で解決する。「デバッグ」は `debugging-guide` を優先し、委託判断には `execution-patterns` を参照。
 
+### ワークフロー・計画
+
 | トリガー | 参照スキル |
 |---------|-----------|
-| BE新機能・APIエンドポイント・エクステンション・HookPoint | `be-extension-pattern` |
 | タスク細分化・実装計画策定 | `task-planner` |
 | task進捗・stuck記録・セッション引き継ぎ | `task-progress` |
 | プロジェクト復帰・コンテキスト復元 | `project-recall` |
-| 設定配置・グローバル vs プロジェクト | `config-placement-guide` |
-| データ可視化・チャート生成 | `data-visualization` |
-| 売上分析・多変数分析 | `sales-analysis` |
 | SubAgent委託・デバッグ・リファクタリング | `execution-patterns` |
+| 叩き台・探索・試作・UI案・API挙動確認・要件曖昧 | `/prototype` コマンド |
+| 実装完了・完了報告前・検証完了 | `implementation-checklist` |
+| 新プロジェクト初期化 | `project-bootstrap` |
+
+### アーキテクチャ・設計
+
+| トリガー | 参照スキル |
+|---------|-----------|
+| BE新機能・APIエンドポイント・エクステンション・HookPoint | `be-extension-pattern` |
+| FE新機能・ページ追加・ウィジェット追加・FEアーキテクチャ | `fe-extension-pattern` |
+| FE+BE連携・APIコントラクト・デプロイ協調 | `fe-be-extension-coordination` |
+| コード重複・dual-path・DRY違反 | `20-code-quality.md` + `75-be-architecture.md` 参照 |
+| BEパイプライン重複・BE設計 | `75-be-architecture.md` 参照 |
+| vanilla FE設計・Command/Query分離・FEパイプライン | `70-fe-architecture.md` 参照 |
+| 設計判断・トレードオフ・反証・妥当性検証・対立検証 | `opponent-review` |
+
+### コード品質・リファクタリング
+
+| トリガー | 参照スキル |
+|---------|-----------|
 | デバッグガイド・根本原因分析 | `debugging-guide` |
 | リファクタリング戦略・コード改善 | `refactoring-guide` |
 | リファクタリング安全性・削除安全性 | `refactoring-safety` |
-| FE+BE連携・APIコントラクト・デプロイ協調 | `fe-be-extension-coordination` |
-| FE新機能・ページ追加・ウィジェット追加・FEアーキテクチャ | `fe-extension-pattern` |
-| git commit/push/add・コミット禁止・事故対応 | `git-safety-reference` |
-| 通知設定・アラート設定 | `notification-alert` |
-| .envrc/.mcp.json操作・APIキー設定 | `secret-management` |
-| 新プロジェクト初期化 | `project-bootstrap` |
-| セキュリティ監査・脆弱性診断 | `security-twin-audit` |
-| 設計判断・トレードオフ・反証・妥当性検証・対立検証 | `opponent-review` |
-| 叩き台・探索・試作・UI案・API挙動確認・要件曖昧 | `/prototype` コマンド |
-| スキル作成・更新・判断 | `skill-lifecycle-reference` |
-| スキル新規作成・ワークフロー保存 | `skill-creator` |
 | テスト修正・テスト失敗・TDD | `test-fixing` |
-| Web リサーチ・情報検索・調査 | 下記「Web リサーチツール選択」参照 |
-| Webスクレイピング・Agent Teams構成 | `tool-selection-reference` |
-| コードベース調査・大規模コード分析 | `codebase-investigation` |
-| コード重複・dual-path・DRY違反 | `20-code-quality.md` + `75-be-architecture.md` 参照 |
-| BEパイプライン重複・BE設計 | `75-be-architecture.md` 参照 |
-| デスクトップ整理・ファイル整理 | `organize-desktop` |
-| vanilla FE設計・Command/Query分離・FEパイプライン | `70-fe-architecture.md` 参照 |
-| 実装完了・完了報告前・検証完了 | `implementation-checklist` |
-| プロジェクト改善記録・改善メモ・X記事ネタ・定量改善 | `capture-improvement` |
-| salesmtg CSV整合性・粗利構成不整合・スクレイピング後検証 | `salesmtg-data-audit` |
-| salesmtg ダッシュボード表示・セグメント統一・N/A表示・QA | `salesmtg-dashboard-qa` |
-| 月次P&L分析・変動要因分解・セグメント分析 | `monthly-pl-analysis` |
-| 設定診断・health check・設定不整合・hook監査 | `health` |
-| UIデザイン品質・カラーパレット・タイポグラフィ・コンポーネント設計 | `frontend-design` |
-| Gmail・カレンダー・Drive・Google Workspace操作 | `gog-cli` |
+
+### セキュリティ
+
+| トリガー | 参照スキル |
+|---------|-----------|
+| セキュリティ監査・脆弱性診断 | `security-twin-audit` |
 | PR差分セキュリティレビュー・blast radius分析 | `differential-review` |
 | Semgrep静的解析・ルール作成 | `semgrep` + `semgrep-rule-creator` |
 | サプライチェーンリスク・依存関係監査 | `supply-chain-risk-auditor` |
 | 脆弱性パターン横展開・variant analysis | `variant-analysis` |
 | GitHub Actions AIエージェントセキュリティ | `agentic-actions-auditor` |
+| git commit/push/add・コミット禁止・事故対応 | `git-safety-reference` |
+| .envrc/.mcp.json操作・APIキー設定 | `secret-management` |
+
+### コードベース理解・可視化
+
+| トリガー | 参照スキル |
+|---------|-----------|
 | コードベース可視化・知識グラフ・構造理解 | `understand` |
 | コードベース質問・対話的探索 | `understand-chat` |
 | 差分影響分析・変更インパクト可視化 | `understand-diff` |
+| コード深掘り・関数/モジュール詳細解説 | `understand-explain` |
 | オンボーディングガイド生成 | `understand-onboard` |
 | インタラクティブ知識グラフダッシュボード | `understand-dashboard` |
-| コード深掘り・関数/モジュール詳細解説 | `understand-explain` |
+| コードベース調査・大規模コード分析 | `codebase-investigation` |
+
+### データ・ビジネス
+
+| トリガー | 参照スキル |
+|---------|-----------|
+| データ可視化・チャート生成 | `data-visualization` |
+| 売上分析・多変数分析 | `sales-analysis` |
+| salesmtg CSV整合性・粗利構成不整合・スクレイピング後検証 | `salesmtg-data-audit` |
+| salesmtg ダッシュボード表示・セグメント統一・N/A表示・QA | `salesmtg-dashboard-qa` |
+| 月次P&L分析・変動要因分解・セグメント分析 | `monthly-pl-analysis` |
+| プロジェクト改善記録・改善メモ・X記事ネタ・定量改善 | `capture-improvement` |
+
+### ツール・ユーティリティ
+
+| トリガー | 参照スキル |
+|---------|-----------|
+| Web リサーチ・情報検索・調査 | 下記「Web リサーチツール選択」参照 |
+| Webスクレイピング・Agent Teams構成 | `tool-selection-reference` |
+| UIデザイン品質・カラーパレット・タイポグラフィ・コンポーネント設計 | `frontend-design` |
+| Gmail・カレンダー・Drive・Google Workspace操作 | `gog-cli` |
 | 日本語AI臭さ除去・文章ヒューマナイズ | `humanizer-ja` |
+| 通知設定・アラート設定 | `notification-alert` |
+| デスクトップ整理・ファイル整理 | `organize-desktop` |
+| 設定配置・グローバル vs プロジェクト | `config-placement-guide` |
+| 設定診断・health check・設定不整合・hook監査 | `health` |
+
+### スキル管理
+
+| トリガー | 参照スキル |
+|---------|-----------|
+| スキル作成・更新・判断 | `skill-lifecycle-reference` |
+| スキル新規作成・ワークフロー保存 | `skill-creator` |
 
 ## Web リサーチツール選択
 
