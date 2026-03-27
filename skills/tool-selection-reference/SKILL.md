@@ -40,7 +40,27 @@ Level 2: Playwright（フルブラウザ制御）→ ログイン・セッショ
 
 **Firecrawl実装パターン詳細**: `~/.claude/skills/web-scraping-guide/SKILL.md` を参照
 
-## 2. SubAgent vs Agent Teams
+## 2. Web リサーチツール選択（調査・検索）
+
+スクレイピング（データ収集）とは別に、調査・検索の用途でのツール選択:
+
+```
+1. 単純な事実確認・1〜2ページ参照？ → WebSearch + WebFetch
+2. 複数ソース横断・比較分析・深掘り調査？ → Codex
+3. 特定サイトの全ページクロール・構造化データ抽出？ → Firecrawl
+4. X(Twitter)データ？ → Grok Search、代替: Codex（Yahoo!リアルタイム経由）
+```
+
+### 判定根拠（2026-03-27 検証済み）
+
+| ツール | 情報源の質 | 即座に使える度 | コスト |
+|--------|-----------|---------------|--------|
+| WebSearch + WebFetch | 検索結果次第 | ページ単位で手動読み込み | 無料 |
+| Codex | 一次情報源に自律到達 | 要約済みで即使える | OpenAI API |
+| Firecrawl | 全文取得（大量） | 後処理が必要 | セルフホスト無料 |
+| Grok Search | X公式データ | 即使える | xAI API |
+
+## 3. SubAgent vs Agent Teams
 
 | 条件 | SubAgent | Agent Teams |
 |------|----------|-------------|
