@@ -8,7 +8,6 @@
       "mcp__codex__codex",
       "mcp__codex__codex-reply",
       "mcp__firecrawl",
-      "mcp__sentry",
       "mcp__chrome-devtools",
       "mcp__postgresql",
       "mcp__grok-search",
