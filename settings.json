@@ -70,7 +70,23 @@
       "Bash(curl*|*bash*)",
       "Bash(wget*|*bash*)",
       "Bash(curl*|*sh*)",
-      "Bash(wget*|*sh*)"
+      "Bash(wget*|*sh*)",
+      "Bash(cat .env*)",
+      "Bash(cat */.env*)",
+      "Bash(less .env*)",
+      "Bash(less */.env*)",
+      "Bash(head .env*)",
+      "Bash(head */.env*)",
+      "Bash(tail .env*)",
+      "Bash(tail */.env*)",
+      "Bash(more .env*)",
+      "Bash(more */.env*)",
+      "Bash(grep * .env*)",
+      "Bash(grep * */.env*)",
+      "Bash(sed * .env*)",
+      "Bash(awk * .env*)",
+      "Read(.env*)",
+      "Read(*/.env*)"
     ]
   },
   "hooks": {
