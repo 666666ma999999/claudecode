@@ -341,6 +341,11 @@
     }
   },
   "effortLevel": "high",
+  "env": {
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "75",
+    "ENABLE_TOOL_SEARCH": "auto:5",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
   "enabledPlugins": {
     "feature-dev@claude-code-plugins": true
   }
