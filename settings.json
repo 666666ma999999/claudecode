@@ -311,10 +311,21 @@
       }
     ]
   },
-  "effortLevel": "high",
   "statusLine": {
     "type": "command",
     "command": "cat | bash ~/.claude/statusline.sh",
     "padding": 0
+  },
+  "extraKnownMarketplaces": {
+    "claude-code-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-code"
+      }
+    }
+  },
+  "effortLevel": "high",
+  "enabledPlugins": {
+    "feature-dev@claude-code-plugins": true
   }
 }
