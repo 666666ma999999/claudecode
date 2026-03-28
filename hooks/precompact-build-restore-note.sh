@@ -39,18 +39,43 @@ ${HANDOFF}"
 done
 [ -z "$TASK_CONTENT" ] && TASK_CONTENT="No active task"
 
+# --- Verify Step State ---
+VERIFY_FILE="$STATE_DIR/verify-step.pending"
+if [ -f "$VERIFY_FILE" ]; then
+  VERIFY_COUNT=$(python3 -c "import json; print(json.load(open('$VERIFY_FILE')).get('edit_count',0))" 2>/dev/null || echo "?")
+  VERIFY_STATUS="edit_count=$VERIFY_COUNT"
+else
+  VERIFY_STATUS="clear"
+fi
+
+# --- Changed Files (git diff) ---
+if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  CHANGED_FILES=$(git diff --name-only 2>/dev/null | head -30)
+  STAGED_FILES=$(git diff --cached --name-only 2>/dev/null | head -30)
+else
+  CHANGED_FILES=""
+  STAGED_FILES=""
+fi
+
 # --- Write restore file ---
 cat > "$RESTORE_FILE" << EOF
 # Session Restore Note (auto-generated at ${TIMESTAMP})
 
 ## Pending State
 - implementation-checklist: ${PENDING_STATUS}
+- verify-step: ${VERIFY_STATUS}
 ${PENDING_FILES}
 
 ## Git Status
 \`\`\`
 ${GIT_STATUS}
 \`\`\`
+
+## Changed Files (unstaged)
+${CHANGED_FILES:-"(none)"}
+
+## Staged Files
+${STAGED_FILES:-"(none)"}
 
 ## Current Task
 ${TASK_CONTENT}
