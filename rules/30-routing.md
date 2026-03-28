@@ -16,6 +16,7 @@
 | SubAgent委託・デバッグ・リファクタリング | `execution-patterns` |
 | 叩き台・探索・試作・UI案・API挙動確認・要件曖昧 | `/prototype` コマンド |
 | 実装完了・完了報告前・検証完了 | `implementation-checklist` |
+| 新機能開発・設計比較・アーキテクチャ設計 | `feature-dev-hybrid` |
 | 新プロジェクト初期化 | `project-bootstrap` |
 
 ### アーキテクチャ・設計
