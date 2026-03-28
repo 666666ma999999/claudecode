@@ -25,11 +25,14 @@ allowed-tools: "Read Glob Grep"
 
 ### 役割定義
 
-| 役割 | 責務 | subagent_type | 起動条件 |
-|------|------|--------------|----------|
-| **Explore** | 既存コード調査、影響範囲分析、パターン検索 | `Explore` | 常に最初に起動 |
-| **Implement** | コード実装（1 Agent = 1ファイル or 1論理変更） | `general-purpose` | 大規模タスク時 |
-| **Verify** | テスト実行、動作確認、リグレッション検知 | `general-purpose` | 各バッチ終了時 |
+| 役割 | 責務 | subagent_type | model | 起動条件 |
+|------|------|--------------|-------|----------|
+| **Explore** | 既存コード調査、影響範囲分析、パターン検索 | `Explore` | `haiku` | 常に最初に起動 |
+| **Implement** | コード実装（1 Agent = 1ファイル or 1論理変更） | `general-purpose` | `sonnet` | 大規模タスク時 |
+| **Verify** | テスト実行、動作確認、リグレッション検知 | `general-purpose` | `haiku` | 各バッチ終了時 |
+| **Architecture** | 設計案比較、トレードオフ分析 | `Plan` | `opus` | feature-dev-hybrid Phase 4 |
+
+> **コスト最適化**: Explore/Verify は haiku で十分（read-only操作中心）。Implement は sonnet。Architecture のみ opus。この構成で全 sonnet 比約60%コスト削減。Agent起動時に `model: "haiku"` 等を指定すること。
 
 ### 標準パターン（2-Agent並列）
 
