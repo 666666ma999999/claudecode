@@ -59,6 +59,7 @@
 | opponent-review | レビュー |
 | organize-desktop | ユーティリティ |
 | project-bootstrap | プロジェクト管理 |
+| feature-dev-hybrid | ワークフロー |
 | project-recall | プロジェクト管理 |
 | refactoring-guide | コード品質 |
 | refactoring-safety | コード品質 |
