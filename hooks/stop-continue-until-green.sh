@@ -60,6 +60,16 @@ if [ -n "$COMPOSE_FILE" ] && [ -f "$PENDING_FILE" ] && [ -s "$PENDING_FILE" ]; t
   fi
 fi
 
+# チェック3: 3-Fix Limit（同一ファイルへの連続修正回数）
+FIX_COUNT_FILE="$STATE_DIR/fix-retry-count"
+if [ -f "$FIX_COUNT_FILE" ]; then
+  FIX_COUNT=$(cat "$FIX_COUNT_FILE" 2>/dev/null | tr -d '[:space:]')
+  if [ "$FIX_COUNT" -ge 3 ] 2>/dev/null; then
+    BLOCKERS="${BLOCKERS}🛑 3-Fix Limit到達（${FIX_COUNT}回連続修正）。ブロッカープロトコルに従い、ユーザーに確認してください。\n"
+    echo "blocker: 3-fix-limit reached ($FIX_COUNT)" >&2
+  fi
+fi
+
 # ブロッカーがあれば出力（Claudeが作業を継続する）
 if [ -n "$BLOCKERS" ]; then
   echo -e "$BLOCKERS"
