@@ -18,6 +18,7 @@
 | 実装完了・完了報告前・検証完了 | `implementation-checklist` |
 | 新機能開発・設計比較・アーキテクチャ設計 | `feature-dev-hybrid` |
 | 新プロジェクト初期化 | `project-bootstrap` |
+| ベスプラ検索・Claude Code運用改善・最新Tips | `search-best-practice` |
 
 ### アーキテクチャ・設計
 
