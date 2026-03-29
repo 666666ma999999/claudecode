@@ -167,7 +167,7 @@ Grok Searchが利用可能な場合のみ、メインAgentが `mcp__grok-search_
 
 | 状況 | 対応 |
 |------|------|
-| Codex MCP利用不可 | WebSearch + WebFetchで直列実行（SubAgent 1本に委託） |
+| Codex MCP利用不可 | WebSearch + WebFetchで直列実行（SubAgent 1本に委託）。品質・網羅性は低下する可能性あり |
 | Grok Search利用不可 | スキップ（Codexの検索にX投稿が含まれれば十分） |
 | WebSearch利用不可 | WebFetchで既知URL（docs.anthropic.com等）を直接取得 |
 | 全検索ツール利用不可 | エラー報告して終了 |
