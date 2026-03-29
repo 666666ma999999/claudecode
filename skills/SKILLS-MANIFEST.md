@@ -30,6 +30,7 @@
 |--------|--------|---------|--------|
 | humanizer-ja | gonta223/humanizer-ja | `a1e3436` | 2026-03-27 |
 | find-skills | vercel-labs/skills | `c2f3117` | 2026-02-12 |
+| smux | ShawnPana/smux | — | 2026-03-29 |
 
 ### npx skills 経由だが local コピー済み
 | スキル | ソース | ハッシュ | 導入日 |
