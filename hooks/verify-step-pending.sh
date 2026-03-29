@@ -95,4 +95,22 @@ if [ "$EDIT_COUNT" -ge 3 ] 2>/dev/null; then
     echo "⚡ VERIFY-STEP REMINDER: ${EDIT_COUNT}回のコード編集が未検証です。次の編集前に検証を実行してください（BE: curl/テスト、FE: ブラウザ確認）。"
 fi
 
+# 3-Fix Limit: 同一ファイルへの連続修正回数を追跡
+FIX_COUNT_FILE="$STATE_DIR/fix-retry-count"
+FIX_LAST_FILE="$STATE_DIR/fix-last-file"
+if [ -f "$FIX_LAST_FILE" ]; then
+    LAST_FILE=$(cat "$FIX_LAST_FILE" 2>/dev/null)
+    if [ "$LAST_FILE" = "$FILE_PATH" ]; then
+        # 同一ファイルへの連続修正 → カウント増加
+        CURRENT_COUNT=$(cat "$FIX_COUNT_FILE" 2>/dev/null || echo 0)
+        echo $((CURRENT_COUNT + 1)) > "$FIX_COUNT_FILE"
+    else
+        # 別ファイルに移った → リセット
+        echo 1 > "$FIX_COUNT_FILE"
+    fi
+else
+    echo 1 > "$FIX_COUNT_FILE"
+fi
+echo "$FILE_PATH" > "$FIX_LAST_FILE"
+
 exit 0
