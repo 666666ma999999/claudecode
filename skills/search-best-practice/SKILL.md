@@ -27,7 +27,8 @@ Web上のClaude Code運用ベストプラクティスを検索し、自分の環
 - `grep "^##" ~/.claude/CLAUDE.md` — セクション構造
 - `~/.claude/rules/*.md` のファイル名一覧
 - `~/.claude/skills/` 配下のSKILL.md一覧
-- `.claude/settings.local.json` の hooks キー一覧
+- `~/.claude/settings.json` の hooks キー一覧、permissions.deny一覧、statusLine有無
+- `.claude/settings.local.json`（存在する場合）の追加設定
 - `.mcp.json` の mcpServers キー一覧
 
 ## Phase 2: Web検索
