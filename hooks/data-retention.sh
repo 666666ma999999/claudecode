@@ -73,3 +73,54 @@ cleanup_files "${CLAUDE_DIR}/file-history" 60 "file-history"
 
 # 6. shell-snapshots/ - Delete files older than 30 days
 cleanup_files "${CLAUDE_DIR}/shell-snapshots" 30 "shell-snapshots"
+
+# 7. projects/ - Delete session data (*.jsonl and UUID dirs) older than 14 days
+#    Preserves: memory/, CLAUDE.md, settings.json, sessions-index.json
+cleanup_project_sessions() {
+    local projects_dir="${CLAUDE_DIR}/projects"
+
+    if [[ ! -d "${projects_dir}" ]]; then
+        return
+    fi
+
+    local count=0
+    local uuid_regex='^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+
+    # Delete old .jsonl session files (UUID-named only)
+    while IFS= read -r -d '' file; do
+        local basename
+        basename=$(basename "${file}" .jsonl)
+        if [[ "${basename}" =~ ${uuid_regex} ]]; then
+            rm -f "${file}" 2>/dev/null
+            ((count++)) || true
+        fi
+    done < <(find "${projects_dir}" -maxdepth 2 -name "*.jsonl" -type f -mtime +14 -print0 2>/dev/null)
+
+    # Delete old UUID session directories (contain subagents/, tool-results/, etc.)
+    while IFS= read -r -d '' dir; do
+        local dirname
+        dirname=$(basename "${dir}")
+        if [[ "${dirname}" =~ ${uuid_regex} ]]; then
+            rm -rf "${dir}" 2>/dev/null
+            ((count++)) || true
+        fi
+    done < <(find "${projects_dir}" -mindepth 2 -maxdepth 2 -type d -mtime +14 -print0 2>/dev/null)
+
+    if [[ "${count}" -gt 0 ]]; then
+        log "projects/sessions: deleted ${count} session files/dirs older than 14 days"
+    fi
+}
+
+cleanup_project_sessions
+
+# 8. telemetry/ - Delete files older than 14 days
+cleanup_files "${CLAUDE_DIR}/telemetry" 14 "telemetry"
+
+# 9. backups/ - Delete files older than 7 days
+cleanup_files "${CLAUDE_DIR}/backups" 7 "backups"
+
+# 10. plans/ - Delete plan files older than 14 days
+cleanup_files "${CLAUDE_DIR}/plans" 14 "plans"
+
+# 11. cache/ - Delete cache files older than 7 days
+cleanup_files "${CLAUDE_DIR}/cache" 7 "cache"
