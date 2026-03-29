@@ -48,12 +48,22 @@ cd ~/.claude || exit 0
     statusline.sh \
     .claude/settings.local.json \
     2>/dev/null
-  # 新規の未追跡ファイルも安全に追加（.envrc等の除外は.gitignoreに依存）
-  git add -u 2>/dev/null
+  # git add -u は使わない（意図しないファイルのステージング防止）
+  git add \
+    agents/ \
+    commands/ \
+    scripts/ \
+    data/ \
+    templates/ \
+    sessions/ \
+    state/ \
+    2>/dev/null
   git diff --cached --quiet && exit 0
   git commit -m "auto: update $(date '+%Y-%m-%d %H:%M')" --no-verify
   git pull --ff-only 2>/dev/null || true
-  git push 2>/dev/null
+  if ! git push 2>/dev/null; then
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] push failed" >> ~/.claude/state/auto-push-errors.log
+  fi
 ) &>/dev/null &
 
 exit 0
