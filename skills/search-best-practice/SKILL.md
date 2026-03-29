@@ -153,7 +153,7 @@ Grok Searchが利用可能な場合のみ、メインAgentが `mcp__grok-search_
 - hookの変更はsettings.local.jsonのバックアップを取ってから実施
 - 適用はCLAUDE.mdのバッチ検証ルールに従い、**最大3変更ごとに検証ポイントを設ける**
 - 新skillのインストールは `npx skills add` 経由（Docker-Only適用除外: Claude Codeツール拡張に該当）
-- 設定変更を含む適用完了後は `implementation-checklist` スキルのSTEP 1-4を実行
+- 実行コード（hooks, .mcp.json等）の変更を含む場合は `implementation-checklist` STEP 1-4を実行（CLAUDE.md/rulesのみの変更は免除）
 - 変更後に `/health` で設定整合性をチェックすること
 
 **適用結果のMemory保存（必須）:**
