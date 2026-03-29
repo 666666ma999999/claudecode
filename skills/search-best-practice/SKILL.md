@@ -50,6 +50,8 @@ Web上のClaude Code運用ベストプラクティスを検索し、自分の環
 
 `30-routing.md` の判定: 「複数ソース横断・比較分析・深掘り調査」→ **Codex** が正規選択。
 
+**実行方法:** `Agent`ツールでSubAgentを起動し、SubAgent内でCodex MCPまたはWebSearch+WebFetchを使用して調査を実行する。
+
 **SubAgent委託テンプレート（execution-patterns準拠）:**
 
 | 項目 | 内容 |
