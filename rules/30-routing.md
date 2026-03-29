@@ -86,6 +86,7 @@
 | Gmail・カレンダー・Drive・Google Workspace操作 | `gog-cli` |
 | 日本語AI臭さ除去・文章ヒューマナイズ | `humanizer-ja` |
 | 通知設定・アラート設定 | `notification-alert` |
+| tmux pane操作・エージェント間通信・smux | `smux` |
 | デスクトップ整理・ファイル整理 | `organize-desktop` |
 | 設定配置・グローバル vs プロジェクト | `config-placement-guide` |
 | 設定診断・health check・設定不整合・hook監査 | `health` |
