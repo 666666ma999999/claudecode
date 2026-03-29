@@ -6,7 +6,7 @@ allowed-tools: "Read Glob Grep Agent WebSearch WebFetch mcp__grok-search__web_se
 metadata:
   category: productivity
   tags: [web-search, best-practice, claude-code, self-improvement]
-  version: 2.0.0
+  version: 2.1.0
 ---
 
 # Search Best Practice
