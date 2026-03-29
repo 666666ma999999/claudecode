@@ -158,8 +158,8 @@ Grok Searchが利用可能な場合のみ、メインAgentが `mcp__grok-search_
 
 **適用結果のMemory保存（必須）:**
 
-適用完了後、以下をMemoryに保存する:
-- ファイル名: `search-best-practice-history.md`
+適用完了後、ファイルベースで履歴を保存する:
+- 保存先: `~/.claude/data/search-best-practice-history.md`
 - 内容: 調査日、適用した施策リスト、見送った施策と理由
 - 目的: 次回実行時のPhase 1で読み込み、重複提案を防止
 
