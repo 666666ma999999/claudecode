@@ -80,16 +80,7 @@ Web上のClaude Code運用ベストプラクティスを検索し、自分の環
 
 #### 補助: Grok Search によるX検索（オプション）
 
-Grok Searchが利用可能な場合のみ、メインAgentが直接実行する（SubAgent不要）。
-
-```
-検索クエリ例:
-- "Claude Code ベストプラクティス"
-- "Claude Code CLAUDE.md tips"
-- "Claude Code hooks 設定"
-```
-
-**フォールバック:** `mcp__grok-search__web_search` が利用不可（XAI_API_KEY未設定等）の場合はスキップ。Codexの検索結果にX投稿が含まれていれば十分。
+Grok Searchが利用可能な場合のみ、メインAgentが `mcp__grok-search__web_search` で追加検索。利用不可（XAI_API_KEY未設定等）の場合はスキップ。
 
 #### 全検索結果の品質基準
 
