@@ -372,6 +372,17 @@
     }
   },
   "effortLevel": "high",
+  "spinnerTipsOverride": {
+    "tips": [
+      "ルーティングテーブル(30-routing.md)確認した？",
+      "SubAgent強制ルール: 2ファイル以上→SubAgent必須",
+      "バッチ検証: 3編集ごとに検証ポイント",
+      "成功基準を先に定義してからPlan Mode",
+      "コード検査のみでの完了判断は禁止",
+      "事実確認は必ずツールで実態を確認してから"
+    ],
+    "excludeDefault": false
+  },
   "env": {
     "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "75",
     "ENABLE_TOOL_SEARCH": "auto:5",
