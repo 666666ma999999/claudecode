@@ -38,7 +38,7 @@ Web上のClaude Code運用ベストプラクティスを検索し、自分の環
    - 各rulesファイルのファイル名とセクション見出し
 
 3. **前回実行結果の読み込み**（存在する場合）
-   - Memoryから `search-best-practice-history` を検索
+   - ファイル `~/.claude/data/search-best-practice-history.md` を読み込む
    - 前回のQuick Wins適用済みリスト、見送り理由を確認
    - 前回と同一の施策は再提案しない
 
