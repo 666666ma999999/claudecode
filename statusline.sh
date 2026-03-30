@@ -226,16 +226,22 @@ if [ $((RANDOM % 50)) -eq 0 ]; then
   rm -f "$CLAUDE_DIR/.sl_session.json" "$CLAUDE_DIR/.sl_last_state.json" "$CLAUDE_DIR/.sl_compress.json" 2>/dev/null
 fi
 
-# Output (1 line): model | context | 5h | 7d | git branch
-printf "🤖 %s │ 📊 %s/%s │ ⏱5h %s %d%%(%s) 📅7d %s %d%%(%s) │ 🔀 %s │ 📁 %s" \
+# Context remaining
+remaining_pct=$(echo "$input" | jq -r '.context_window.remaining_percentage // empty')
+[ -z "$remaining_pct" ] && remaining_pct=$(awk "BEGIN {printf \\"%.0f\\", 100 - ${used_pct:-0}}")
+
+# Output (3 lines)
+printf "🤖 %s │ 📊 %s%% used / %s%% remaining\n" \
   "$model" \
-  "$(fmt $current_used)" \
-  "$(fmt $context_size)" \
+  "$used_pct" \
+  "$remaining_pct"
+printf "⏱ 5h %s %d%% (%s) │ 📅 7d %s %d%% (%s)\n" \
   "$five_h_bar" \
   "$five_h_int" \
   "$five_h_reset" \
   "$seven_d_bar" \
   "$seven_d_int" \
-  "$seven_d_reset" \
+  "$seven_d_reset"
+printf "🔀 %s │ 📁 %s" \
   "$git_branch" \
   "$project_name"
