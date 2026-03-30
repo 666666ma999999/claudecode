@@ -36,6 +36,7 @@ DOCKER_PREFIXES = (
 ALLOW_PATTERNS = [
     r"\bpip3?\s+install\s+-e\s+.*[~/]\.claude/extensions/_build_tool\b",
     r"\bpython3?\s+-m\s+pip\s+install\s+-e\s+.*[~/]\.claude/extensions/_build_tool\b",
+    r"\bnpm\s+(install|i)\s+(-g\s+)?@openai/codex\b",
 ]
 
 
