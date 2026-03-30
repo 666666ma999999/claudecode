@@ -32,6 +32,12 @@ fi
 
 cd ~/.claude || exit 0
 
+# verify-step未完了時はpushをスキップ（commitのみ実行）
+SKIP_PUSH=false
+if [ -f ~/.claude/state/verify-step.pending ]; then
+  SKIP_PUSH=true
+fi
+
 # 変更があればcommit & push（バックグラウンドで実行）
 # --no-verify: このフック自身による再帰呼び出しを防止するため必須
 (
