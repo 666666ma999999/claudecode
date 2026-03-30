@@ -32,23 +32,21 @@ PENDING_FILE="$STATE_DIR/verify-step.pending"
 # pending がなければ通過
 [ ! -f "$PENDING_FILE" ] && exit 0
 
-# edit_count と file情報を読み取り
+# edit_count と file_types を読み取り
 RESULT=$(python3 -c "
 import json, sys
 try:
     with open('$PENDING_FILE') as f:
         data = json.load(f)
     edit_count = data.get('edit_count', 0)
-    files = data.get('files', [])
     file_types = data.get('file_types', [])
-    print(f'{edit_count}|{len(files)}|{\",\".join(file_types)}')
+    print(f'{edit_count}|{\",\".join(file_types)}')
 except:
-    print('0|0|')
+    print('0|')
 " 2>/dev/null)
 
 EDIT_COUNT=$(echo "$RESULT" | cut -d'|' -f1)
-FILE_COUNT=$(echo "$RESULT" | cut -d'|' -f2)
-FILE_TYPES=$(echo "$RESULT" | cut -d'|' -f3)
+FILE_TYPES=$(echo "$RESULT" | cut -d'|' -f2)
 
 # ブロック閾値: 4回以上の編集（3タスクバッチ相当）
 THRESHOLD=4
@@ -67,7 +65,7 @@ if [ "$EDIT_COUNT" -ge "$THRESHOLD" ] 2>/dev/null; then
     [ -z "$VERIFY_HINT" ] && VERIFY_HINT="変更に応じた最短検証を実行"
 
     # deny応答を返してWrite/Editをブロック
-    REASON="🛑 VERIFY-STEP REQUIRED: ${EDIT_COUNT}回のコード編集（${FILE_COUNT}ファイル）が未検証です。次の編集に進む前に中間検証を実行してください。${VERIFY_HINT} 検証完了後: rm ~/.claude/state/verify-step.pending"
+    REASON="🛑 VERIFY-STEP REQUIRED: ${EDIT_COUNT}回のコード編集が未検証です。次の編集に進む前に中間検証を実行してください。${VERIFY_HINT} 検証コマンド（curl, pytest, npm test等）を実行すると自動リセットされます。"
     python3 -c "
 import json
 print(json.dumps({
