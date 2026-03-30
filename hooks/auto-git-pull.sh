@@ -8,11 +8,11 @@ if [ -d ".git" ]; then
     elif ! git diff --quiet 2>/dev/null || ! git diff --cached --quiet 2>/dev/null; then
         echo "info: skipping pull (unstaged/staged changes present)"
     else
-        git pull --rebase --no-edit 2>&1 | head -5
+        git pull --ff-only 2>&1 | head -5
     fi
 fi
 
 # 2. ~/.claude/ を pull（バックグラウンド）
-(cd ~/.claude 2>/dev/null && git pull --rebase --no-edit &>/dev/null) &
+(cd ~/.claude 2>/dev/null && git pull --ff-only &>/dev/null) &
 
 exit 0

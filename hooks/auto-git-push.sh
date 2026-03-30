@@ -1,6 +1,6 @@
 #!/bin/bash
 # ~/.claude/ 配下のファイル変更時に自動commit & push
-# PostToolUse (Write|Edit|Bash) フックから呼ばれる
+# PostToolUse (Write|Edit) フックから呼ばれる
 
 INPUT=$(cat)
 

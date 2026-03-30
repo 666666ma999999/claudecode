@@ -47,12 +47,7 @@ else
   used_pct=0
 fi
 
-remaining_tokens=$((context_size - current_used))
-[ "$remaining_tokens" -lt 0 ] && remaining_tokens=0
 current_time=$(date +%s)
-
-# Session name (task/plan title)
-session_name=$(echo "$input" | jq -r '.session_name // empty')
 
 # Git branch
 git_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "-")
@@ -191,9 +186,6 @@ seven_d_int=$(awk "BEGIN {printf \"%.0f\", ${seven_d_pct:-0}}")
 five_h_bar=$(_mini_bar "$five_h_int")
 seven_d_bar=$(_mini_bar "$seven_d_int")
 
-# Context window bar
-ctx_pct_int=$(awk "BEGIN {printf \"%.0f\", ${used_pct:-0}}")
-ctx_bar=$(_mini_bar "$ctx_pct_int")
 
 # Periodic cleanup
 if [ $((RANDOM % 50)) -eq 0 ]; then
@@ -226,9 +218,8 @@ if [ $((RANDOM % 50)) -eq 0 ]; then
   rm -f "$CLAUDE_DIR/.sl_session.json" "$CLAUDE_DIR/.sl_last_state.json" "$CLAUDE_DIR/.sl_compress.json" 2>/dev/null
 fi
 
-# Context remaining
-remaining_pct=$(echo "$input" | jq -r '.context_window.remaining_percentage // empty')
-[ -z "$remaining_pct" ] && remaining_pct=$(awk "BEGIN {printf \\"%.0f\\", 100 - ${used_pct:-0}}")
+# Context remaining (derived from used_pct so they always sum to 100%)
+remaining_pct=$(awk "BEGIN {printf \"%.1f\", 100 - ${used_pct:-0}}")
 
 # Output (3 lines)
 printf "🤖 %s │ 📊 %s%% used / %s%% remaining\n" \
