@@ -216,7 +216,7 @@ Before interpreting Step 1 output, check these known failure modes.
 - `settings.local.json` absent: hooks, MCP, and allowedTools all show `(unavailable)`. Normal for projects using global settings only -- not a misconfiguration.
 
 **MEMORY.md path construction**
-- Path built with `sed 's|[/_]|-|g'` on `pwd`. Unusual characters produce the wrong project key. If MEMORY.md shows `(none)` but the user mentions prior sessions, verify the path manually before flagging as [!].
+- Path built with `sed 's|[/._]|-|g'` on `pwd`. Claude Code converts `/`, `.`, and `_` to `-`. If MEMORY.md shows `(none)` but the user mentions prior sessions, verify the path manually before flagging as [!].
 
 **Conversation extract scope**
 - Only the 3 most recent `.jsonl` files are sampled, skipping the active session. Findings from fewer than 3 files carry low signal -- always tag [LOW CONFIDENCE].
