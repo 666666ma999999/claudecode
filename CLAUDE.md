@@ -80,7 +80,7 @@ Main Agentは統合・意思決定のみ。例外: 1ファイル数行の修正 
 | FE変更 | ページリロード → コンソールエラーゼロ → 変更した操作を1回実行 |
 | テストあり | テスト実行 → PASSED確認 |
 
-検証完了したら `rm ~/.claude/state/verify-step.pending` で次バッチへ進む。
+検証コマンド（curl, pytest, npm test等）の実行で自動リセットされる。手動リセット: `rm ~/.claude/state/verify-step.pending`
 implementation-checklist は**最終完了ゲート**であり、中間バッチ検証の代替ではない。
 
 ## ルール適用の優先順位
