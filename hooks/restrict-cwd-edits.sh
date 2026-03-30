@@ -36,8 +36,10 @@ fi
 
 # Allow symlinked skills: if realpath resolves to ~/.agents/skills/ but
 # the original path (pre-symlink) is within ~/.claude/skills/, permit edit
-if [[ "$FILE_PATH" == "$HOME/.agents/skills/"* ]]; then
-  SKILL_NAME="$(basename "$(dirname "$FILE_PATH")")"
+AGENTS_PREFIX="$HOME/.agents/skills/"
+if [[ "$FILE_PATH" == "$AGENTS_PREFIX"* ]]; then
+  RELATIVE="${FILE_PATH#$AGENTS_PREFIX}"
+  SKILL_NAME="${RELATIVE%%/*}"
   SYMLINK_DIR="$HOME/.claude/skills/$SKILL_NAME"
   if [[ -L "$SYMLINK_DIR" ]]; then
     exit 0
