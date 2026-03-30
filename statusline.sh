@@ -47,8 +47,6 @@ else
   used_pct=0
 fi
 
-remaining_tokens=$((context_size - current_used))
-[ "$remaining_tokens" -lt 0 ] && remaining_tokens=0
 current_time=$(date +%s)
 
 # Git branch
@@ -188,9 +186,6 @@ seven_d_int=$(awk "BEGIN {printf \"%.0f\", ${seven_d_pct:-0}}")
 five_h_bar=$(_mini_bar "$five_h_int")
 seven_d_bar=$(_mini_bar "$seven_d_int")
 
-# Context window bar
-ctx_pct_int=$(awk "BEGIN {printf \"%.0f\", ${used_pct:-0}}")
-ctx_bar=$(_mini_bar "$ctx_pct_int")
 
 # Periodic cleanup
 if [ $((RANDOM % 50)) -eq 0 ]; then
@@ -223,16 +218,21 @@ if [ $((RANDOM % 50)) -eq 0 ]; then
   rm -f "$CLAUDE_DIR/.sl_session.json" "$CLAUDE_DIR/.sl_last_state.json" "$CLAUDE_DIR/.sl_compress.json" 2>/dev/null
 fi
 
-# Output (1 line): model | context | 5h | 7d | git branch
-printf "🤖 %s │ 📊 %s/%s │ ⏱5h %s %d%%(%s) 📅7d %s %d%%(%s) │ 🔀 %s │ 📁 %s" \
+# Context remaining (derived from used_pct so they always sum to 100%)
+remaining_pct=$(awk "BEGIN {printf \"%.1f\", 100 - ${used_pct:-0}}")
+
+# Output (3 lines)
+printf "🤖 %s │ 📊 %s%% used / %s%% remaining\n" \
   "$model" \
-  "$(fmt $current_used)" \
-  "$(fmt $context_size)" \
+  "$used_pct" \
+  "$remaining_pct"
+printf "⏱ 5h %s %d%% (%s) │ 📅 7d %s %d%% (%s)\n" \
   "$five_h_bar" \
   "$five_h_int" \
   "$five_h_reset" \
   "$seven_d_bar" \
   "$seven_d_int" \
-  "$seven_d_reset" \
+  "$seven_d_reset"
+printf "🔀 %s │ 📁 %s" \
   "$git_branch" \
   "$project_name"
