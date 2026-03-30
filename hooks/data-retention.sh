@@ -124,3 +124,14 @@ cleanup_files "${CLAUDE_DIR}/plans" 14 "plans"
 
 # 11. cache/ - Delete cache files older than 7 days
 cleanup_files "${CLAUDE_DIR}/cache" 7 "cache"
+
+# 12. Ephemeral mid-session state (should not persist across sessions)
+for ephemeral_file in \
+    "${CLAUDE_DIR}/state/verify-step.pending" \
+    "${CLAUDE_DIR}/state/fix-retry-count" \
+    "${CLAUDE_DIR}/state/fix-last-file"; do
+    if [[ -f "${ephemeral_file}" ]]; then
+        rm -f "${ephemeral_file}"
+        log "ephemeral-state: removed $(basename "${ephemeral_file}")"
+    fi
+done
