@@ -2,6 +2,7 @@
 # PostToolUse hook: Write/Edit でコードファイルを変更したら verify-step pending を積む
 # implementation-checklist.pending（最終ゲート）とは別の中間検証用state
 # edit_count が閾値を超えたら次の Write/Edit をブロックするための情報を蓄積
+# ファイルパス追跡は implementation-checklist.pending に一本化済み
 
 INPUT=$(cat)
 TOOL_NAME=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_name',''))" 2>/dev/null)
@@ -52,17 +53,13 @@ case "$FILE_PATH" in
 esac
 
 if [ -f "$PENDING_FILE" ]; then
-    # 既存のpendingに追記
+    # 既存のpendingを更新（edit_count + file_types のみ）
     EDIT_COUNT=$(python3 -c "
 import json, sys
 try:
     with open('$PENDING_FILE') as f:
         data = json.load(f)
-    # ファイル追加
-    if '$FILE_PATH' not in data.get('files', []):
-        data['files'].append('$FILE_PATH')
     data['edit_count'] = data.get('edit_count', 0) + 1
-    # FE/BE種別を蓄積
     types = set(data.get('file_types', []))
     types.add('$FILE_TYPE')
     data['file_types'] = list(types)
@@ -74,13 +71,12 @@ except Exception as e:
     print(0)
 " 2>/dev/null)
 else
-    # 新規pending作成
+    # 新規pending作成（files[] なし）
     python3 -c "
 import json
 from datetime import datetime
 data = {
     'created_at': datetime.now().isoformat(),
-    'files': ['$FILE_PATH'],
     'file_types': ['$FILE_TYPE'],
     'edit_count': 1
 }
