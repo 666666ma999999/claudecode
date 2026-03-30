@@ -30,7 +30,7 @@ metadata:
 | **タイミング** | 各Batch終了後（3編集ごと） | 全実装完了後 |
 | **発動** | verify-step-guard.sh が自動ブロック | implementation-checklist-pending.sh が警告 |
 | **範囲** | fast_verify（最短検証のみ） | Final Verify（全体検証 + Codexレビュー + スキル化判断） |
-| **解除** | `rm ~/.claude/state/verify-step.pending` | `rm ~/.claude/state/implementation-checklist.pending` |
+| **解除** | 検証コマンド実行で自動リセット | `rm ~/.claude/state/implementation-checklist.pending` |
 
 中間バッチ検証をパスしていても、本チェックリストは省略不可。
 
