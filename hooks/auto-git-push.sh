@@ -33,8 +33,9 @@ fi
 cd ~/.claude || exit 0
 
 # verify-step未完了時はpushをスキップ（commitのみ実行）
+# ただし ~/.claude/ 自体の設定変更は常にpush（プロジェクトの検証状態とは無関係）
 SKIP_PUSH=false
-if [ -f ~/.claude/state/verify-step.pending ]; then
+if [ -f ~/.claude/state/verify-step.pending ] && [[ "$FILE_PATH" != "$HOME/.claude/"* ]]; then
   SKIP_PUSH=true
 fi
 
