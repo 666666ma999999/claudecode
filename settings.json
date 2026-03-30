@@ -279,6 +279,15 @@
             "command": "~/.claude/hooks/verify-step-pending.sh"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/verify-step-auto-reset.sh"
+          }
+        ]
       }
     ],
     "SessionStart": [
