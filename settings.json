@@ -337,6 +337,17 @@
         ]
       }
     ],
+    "PermissionRequest": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/auto-approve-settings.sh"
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "matcher": "",
