@@ -34,6 +34,16 @@ if [[ "$FILE_PATH" == "$HOME/.claude/"* ]]; then
   exit 0
 fi
 
+# Allow symlinked skills: if realpath resolves to ~/.agents/skills/ but
+# the original path (pre-symlink) is within ~/.claude/skills/, permit edit
+if [[ "$FILE_PATH" == "$HOME/.agents/skills/"* ]]; then
+  SKILL_NAME="$(basename "$(dirname "$FILE_PATH")")"
+  SYMLINK_DIR="$HOME/.claude/skills/$SKILL_NAME"
+  if [[ -L "$SYMLINK_DIR" ]]; then
+    exit 0
+  fi
+fi
+
 # Check if FILE_PATH is within CWD
 CWD_PREFIX="${CWD}/"
 if [[ "$FILE_PATH" == "$CWD_PREFIX"* ]] || [[ "$FILE_PATH" == "$CWD" ]]; then
