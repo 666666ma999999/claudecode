@@ -66,6 +66,9 @@ fi
     2>/dev/null
   git diff --cached --quiet && exit 0
   git commit -m "auto: update $(date '+%Y-%m-%d %H:%M')" --no-verify
+  if [ "$SKIP_PUSH" = "true" ]; then
+    exit 0
+  fi
   git pull --ff-only 2>/dev/null || true
   if ! git push 2>/dev/null; then
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] push failed" >> ~/.claude/state/auto-push-errors.log
