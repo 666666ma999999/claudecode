@@ -51,6 +51,9 @@ remaining_tokens=$((context_size - current_used))
 [ "$remaining_tokens" -lt 0 ] && remaining_tokens=0
 current_time=$(date +%s)
 
+# Session name (task/plan title)
+session_name=$(echo "$input" | jq -r '.session_name // empty')
+
 # Git branch
 git_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "-")
 
