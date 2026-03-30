@@ -121,7 +121,7 @@ echo "=== HANDOFF.md ===" ; cat "$P/HANDOFF.md" 2>/dev/null || echo "(none)"
 echo "=== MEMORY.md ===" ; cat "$HOME/.claude/projects/-$(pwd | sed 's|[/._]|-|g; s|^-||')/memory/MEMORY.md" 2>/dev/null | head -50 || echo "(none)"
 
 echo "=== CONVERSATION FILES ==="
-PROJECT_PATH=$(pwd | sed 's|[/_]|-|g; s|^-||')
+PROJECT_PATH=$(pwd | sed 's|[/._]|-|g; s|^-||')
 CONVO_DIR=~/.claude/projects/-${PROJECT_PATH}
 ls -lhS "$CONVO_DIR"/*.jsonl 2>/dev/null | head -10
 
