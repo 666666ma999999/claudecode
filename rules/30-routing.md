@@ -83,6 +83,8 @@
 |---------|-----------|
 | Web リサーチ・情報検索・調査 | 下記「Web リサーチツール選択」参照 |
 | Webスクレイピング・Agent Teams構成 | `tool-selection-reference` |
+| 無限スクロール・大量データスクレイピング・Playwright逐次保存 | `max-scroll-scrape` |
+| X(Twitter)ブックマーク取得・Cookie再取得・教師データ変換 | `fetch-bookmarks` |
 | UIデザイン品質・カラーパレット・タイポグラフィ・コンポーネント設計 | `frontend-design` |
 | Gmail・カレンダー・Drive・Google Workspace操作 | `gog-cli` |
 | 日本語AI臭さ除去・文章ヒューマナイズ | `humanizer-ja` |
