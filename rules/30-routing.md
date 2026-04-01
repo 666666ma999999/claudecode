@@ -74,8 +74,8 @@
 | 売上分析・多変数分析 | `sales-analysis` |
 | salesmtg CSV整合性・粗利構成不整合・スクレイピング後検証 | `salesmtg-data-audit` |
 | salesmtg ダッシュボード表示・セグメント統一・N/A表示・QA | `salesmtg-dashboard-qa` |
-| 月次P&L分析・変動要因分解・セグメント分析 | `monthly-pl-analysis` |
 | プロジェクト改善記録・改善メモ・X記事ネタ・定量改善 | `capture-improvement` |
+| 占い商品改題・11体Agent Pipeline | `retitle-product` |
 
 ### ツール・ユーティリティ
 
