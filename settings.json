@@ -297,6 +297,15 @@
             "command": "~/.claude/hooks/verify-step-auto-reset.sh"
           }
         ]
+      },
+      {
+        "matcher": "mcp__codex__codex",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/codex-review-tracker.sh"
+          }
+        ]
       }
     ],
     "SessionStart": [
