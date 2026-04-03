@@ -46,11 +46,6 @@
 | トリガー | 参照スキル |
 |---------|-----------|
 | セキュリティ監査・脆弱性診断 | `security-twin-audit` |
-| PR差分セキュリティレビュー・blast radius分析 | `differential-review` |
-| Semgrep静的解析・ルール作成 | `semgrep` + `semgrep-rule-creator` |
-| サプライチェーンリスク・依存関係監査 | `supply-chain-risk-auditor` |
-| 脆弱性パターン横展開・variant analysis | `variant-analysis` |
-| GitHub Actions AIエージェントセキュリティ | `agentic-actions-auditor` |
 | git commit/push/add・コミット禁止・事故対応 | `git-safety-reference` |
 | .envrc/.mcp.json操作・APIキー設定 | `secret-management` |
 
