@@ -37,6 +37,8 @@
 | トリガー | 参照スキル |
 |---------|-----------|
 | デバッグガイド・根本原因分析 | `debugging-guide` |
+| 敵対的レビュー・前提疑問・ロジック検証 | `/adversarial-review` コマンド |
+| 行き詰まり・Codex完遂力が必要・stuck時引き渡し | `/rescue` コマンド |
 | リファクタリング戦略・コード改善 | `refactoring-guide` |
 | リファクタリング安全性・削除安全性 | `refactoring-safety` |
 | テスト修正・テスト失敗・TDD | `test-fixing` |
