@@ -82,6 +82,7 @@
 | デスクトップ整理・ファイル整理 | `organize-desktop` |
 | 設定配置・グローバル vs プロジェクト | `config-placement-guide` |
 | 設定診断・health check・設定不整合・hook監査 | `health` |
+| Codex汎用委譲・非エンジニアタスク・資料レビュー | `codex-delegate` |
 
 ### スキル管理
 
