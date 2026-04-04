@@ -1,6 +1,7 @@
 # /review - Codexコードレビューコマンド
 
 変更内容をCodexでレビューし、品質フィードバックを取得する。
+**2段階レビュー対応**: Stage 1（仕様準拠）→ Stage 2（コード品質）を順次実行。
 
 ## 引数
 
@@ -10,10 +11,14 @@
 
 | オプション | 説明 |
 |-----------|------|
-| (なし) | git diff でステージング済み + 未ステージの変更をレビュー |
+| (なし) | Stage 1 + Stage 2 を順次実行（implementation-checklist STEP 2 相当） |
+| --spec | Stage 1（仕様準拠レビュー）のみ実行 |
+| --quality | Stage 2（コード品質レビュー）のみ実行 |
 | --staged | ステージング済みの変更のみレビュー |
 | --file PATH | 特定ファイルのみレビュー |
 | --last-commit | 直前のコミットをレビュー |
+
+`--spec`/`--quality` は `--staged`/`--file`/`--last-commit` と組み合わせ可能。
 
 ## 実行手順
 
