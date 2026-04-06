@@ -232,6 +232,16 @@
             "command": "~/.claude/hooks/filter-test-output.sh"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/html-preview-guard.sh",
+            "timeout": 30
+          }
+        ]
       }
     ],
     "PostToolUse": [
