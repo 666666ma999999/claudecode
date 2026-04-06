@@ -203,65 +203,23 @@ allowed-tools: "Bash(python:*) Read Write Edit Glob Grep"
 
 ## カラーパレット
 
-デジタル庁公開カラーコードを、matplotlibで使いやすい形に整理して使う。
-通常はテーマを1つ選び、補助色は同一テーマ内で完結させる。
+デジタル庁公式カラーコード（7テーマ全色）は `references/color-palettes.md` に収録。
+Python辞書・matplotlib用スニペットもそちらに記載。
 
-```python
-DIGITAL_AGENCY = {
-    "common": {
-        "text_black": "#000000",
-        "text_white": "#FFFFFF",
-        "label": "#626264",
-        "bg_standard": "#F8F8FB",
-        "bg_control": "#F1F1F4",
-        "success": "#197A4B",
-        "error": "#CE0000",
-    },
-    "solid_gray": {
-        "primary": "#1A1A1A",
-        "secondary": "#4D4D4D",
-        "tertiary": "#767676",
-        "light": "#CCCCCC",
-        "lightest": "#F2F2F2",
-    },
-    "blue": {
-        "primary": "#0017C1",
-        "secondary": "#3460FB",
-        "tertiary": "#7096F8",
-        "light": "#C5D7FB",
-        "lightest": "#D9E6FF",
-    },
-    "orange": {
-        "primary": "#AC3E00",
-        "secondary": "#FB5B01",
-        "tertiary": "#FF8D44",
-        "light": "#FFC199",
-        "lightest": "#FFEEE2",
-    },
-    "red": {
-        "primary": "#CE0000",
-        "secondary": "#FE3939",
-        "tertiary": "#FF7171",
-        "light": "#FFBBBB",
-        "lightest": "#FDEEEE",
-    },
-    "green": {
-        "primary": "#115A36",
-        "secondary": "#259D63",
-        "tertiary": "#51B883",
-        "light": "#9BD4B5",
-        "lightest": "#E6F5EC",
-    },
-}
-```
+通常はテーマを1つ選び、補助色は同一テーマ内で完結させる。複数テーマ混在は避ける。
+
+出典:
+- https://www.digital.go.jp/resources/dashboard-guidebook/color-palette/color-code
+- https://github.com/digital-go-jp/policy-dashboard-assets
 
 ### 色の使い方
 
 - 基本は `1テーマ + グレー`
-- 最重要系列だけ強色、その他は薄色かグレー
-- 警告は `red`、良好は `green`
-- コントラスト比は最低 `3:1` を確保
+- 最重要系列だけ強色（900）、その他は薄色（200/50）かグレー
+- 警告は `red`（Error: #CE0000 or #850000）、良好は `green`（Success: #197A4B）
+- コントラスト比は背景に対して最低 `3:1` を確保
 - 色覚多様性を考え、線種、マーカー、ラベルでも区別する
+- テキストは `#000000`（黒）、ラベルは `#626264`、背景は `#F8F8FB`
 
 ## レイアウトテンプレート
 
