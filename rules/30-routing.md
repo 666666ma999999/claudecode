@@ -61,6 +61,7 @@
 
 | トリガー | 参照スキル |
 |---------|-----------|
+| KPI分解・構成要素・ドリルダウン・因果分析・計算式定義 | `kpi-tree-first` |
 | データ可視化・チャート生成 | `data-visualization` |
 | 売上分析・多変数分析 | `sales-analysis` |
 | salesmtg CSV整合性・粗利構成不整合・スクレイピング後検証 | `salesmtg-data-audit` |
