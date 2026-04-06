@@ -11,6 +11,8 @@
       "mcp__chrome-devtools",
       "mcp__postgresql",
       "mcp__grok-search",
+      "mcp__playwright",
+      "mcp__google-search-console",
       "WebSearch",
       "WebFetch",
       "Write",
