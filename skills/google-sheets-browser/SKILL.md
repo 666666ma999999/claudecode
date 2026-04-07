@@ -22,9 +22,17 @@ allowed-tools:
 ## ツール選択ガイド
 
 ```
-gogcli 認証済み？ → YES → gog sheets read/write を使う（gog-cli スキル参照）
-                  → NO  → 本スキルを使う
+gogcli 認証済み？
+  → YES → 対象シートに gogcli でアクセスできる？
+            → YES → gog sheets read/write を使う（gog-cli スキル参照）
+            → NO (403) → Workspace外部共有禁止の可能性 → 本スキルを使う
+  → NO  → 本スキルを使う
 ```
+
+### 本スキルが必要な典型ケース
+- Workspace（組織）アカウントが所有するシートに個人Gmailではアクセスできない
+- Workspace管理者がサードパーティOAuthアプリをブロックしている
+- gogcli 未設定
 
 ## 前提条件
 
