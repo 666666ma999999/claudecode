@@ -4,18 +4,26 @@ set -euo pipefail
 # ============================================================
 # gogcli セットアップスクリプト
 #
+# Usage:
+#   setup-gogcli                           # iCloud Drive から自動検出
+#   setup-gogcli ~/Downloads/client_secret_*.json   # パス指定
+#   setup-gogcli <credentials-path> <email>         # パス+メール指定
+#
 # 新PCで ~/.claude を git pull した後に実行する。
-# credentials.json の取得 → 配置 → gog auth credentials 登録 → 認証案内
 # ============================================================
 
-GOGCLI_CONFIG_DIR="$HOME/.config/gogcli"
-CREDENTIALS_FILE="$GOGCLI_CONFIG_DIR/credentials.json"
+ICLOUD_CREDENTIALS="$HOME/Library/Mobile Documents/com~apple~CloudDocs/secure/gogcli/credentials.json"
+LOCAL_CREDENTIALS="$HOME/.config/gogcli/credentials.json"
 
 # --- 色付き出力 ---
 info()  { printf '\033[0;36m[INFO]\033[0m  %s\n' "$*"; }
 warn()  { printf '\033[0;33m[WARN]\033[0m  %s\n' "$*"; }
 error() { printf '\033[0;31m[ERROR]\033[0m %s\n' "$*"; exit 1; }
 ok()    { printf '\033[0;32m[OK]\033[0m    %s\n' "$*"; }
+
+# --- 引数パース ---
+CRED_ARG="${1:-}"
+EMAIL_ARG="${2:-${GOGCLI_ACCOUNT_EMAIL:-}}"
 
 # --- Step 0: gog コマンド確認 ---
 info "Checking gogcli installation..."
@@ -29,62 +37,68 @@ if ! command -v gog &>/dev/null; then
 fi
 ok "gogcli found: $(which gog)"
 
-# --- Step 1: credentials.json の取得 ---
-info "Checking credentials.json..."
-mkdir -p "$GOGCLI_CONFIG_DIR"
+# --- Step 1: credentials.json の検出 ---
+info "Locating credentials.json..."
 
-if [ -f "$CREDENTIALS_FILE" ]; then
-    ok "credentials.json already exists at $CREDENTIALS_FILE"
-else
-    # 方式1: 1Password CLI (op) が使える場合
-    if command -v op &>/dev/null; then
-        OP_URI="${GOGCLI_CREDENTIALS_OP_URI:-}"
-        if [ -n "$OP_URI" ]; then
-            info "Fetching credentials.json from 1Password..."
-            op read "$OP_URI" > "$CREDENTIALS_FILE"
-            chmod 600 "$CREDENTIALS_FILE"
-            ok "credentials.json fetched from 1Password"
-        else
-            warn "GOGCLI_CREDENTIALS_OP_URI not set. Skipping 1Password fetch."
-        fi
-    fi
+FOUND_CRED=""
 
-    # 方式2: 手動配置
-    if [ ! -f "$CREDENTIALS_FILE" ]; then
-        echo ""
-        warn "credentials.json not found at $CREDENTIALS_FILE"
-        echo ""
-        echo "  To get credentials.json:"
-        echo "  1. Go to https://console.cloud.google.com/apis/credentials"
-        echo "  2. Create OAuth 2.0 Client ID (Desktop App)"
-        echo "  3. Download the JSON file"
-        echo "  4. Place it at: $CREDENTIALS_FILE"
-        echo ""
-        echo "  Or copy from another PC:"
-        echo "    scp other-mac:~/.config/gogcli/credentials.json $CREDENTIALS_FILE"
-        echo ""
-        echo "  Or from 1Password (install op CLI first):"
-        echo "    brew install 1password-cli"
-        echo ""
-        read -p "  Press Enter after placing credentials.json, or Ctrl+C to abort: "
+# 優先順位: 引数 > ローカル > iCloud Drive > 環境変数
+if [ -n "$CRED_ARG" ] && [ -f "$CRED_ARG" ]; then
+    FOUND_CRED="$CRED_ARG"
+    info "Using argument: $FOUND_CRED"
+elif [ -f "$LOCAL_CREDENTIALS" ]; then
+    FOUND_CRED="$LOCAL_CREDENTIALS"
+    info "Found local: $FOUND_CRED"
+elif [ -f "$ICLOUD_CREDENTIALS" ]; then
+    FOUND_CRED="$ICLOUD_CREDENTIALS"
+    info "Found in iCloud Drive: $FOUND_CRED"
+elif [ -n "${GOGCLI_CREDENTIALS_PATH:-}" ] && [ -f "$GOGCLI_CREDENTIALS_PATH" ]; then
+    FOUND_CRED="$GOGCLI_CREDENTIALS_PATH"
+    info "Found via env: $FOUND_CRED"
+fi
 
-        if [ ! -f "$CREDENTIALS_FILE" ]; then
-            error "credentials.json still not found. Aborting."
-        fi
+if [ -z "$FOUND_CRED" ]; then
+    echo ""
+    warn "credentials.json not found."
+    echo ""
+    echo "  検出パス (優先順):"
+    echo "    1. 引数:       setup-gogcli <path>"
+    echo "    2. ローカル:   $LOCAL_CREDENTIALS"
+    echo "    3. iCloud:     $ICLOUD_CREDENTIALS"
+    echo ""
+    echo "  初回セットアップ:"
+    echo "    1. https://console.cloud.google.com/apis/credentials を開く"
+    echo "    2. OAuth クライアントID → デスクトップアプリ → JSON DL"
+    echo "    3. iCloud Drive に配置:"
+    echo "       mkdir -p ~/Library/Mobile\\ Documents/com~apple~CloudDocs/secure/gogcli"
+    echo "       mv ~/Downloads/client_secret_*.json '$ICLOUD_CREDENTIALS'"
+    echo "    4. 再実行: setup-gogcli"
+    echo ""
+    error "Aborting."
+fi
+
+# --- Step 2: iCloud Driveにない場合はコピー提案 ---
+if [ "$FOUND_CRED" != "$ICLOUD_CREDENTIALS" ] && [ ! -f "$ICLOUD_CREDENTIALS" ]; then
+    echo ""
+    info "iCloud Drive にコピーすると他PCでも自動同期されます:"
+    echo "  mkdir -p \"$(dirname "$ICLOUD_CREDENTIALS")\""
+    echo "  cp \"$FOUND_CRED\" \"$ICLOUD_CREDENTIALS\""
+    echo ""
+    read -p "  iCloud Drive にコピーしますか? [y/N]: " yn
+    if [[ "$yn" =~ ^[Yy] ]]; then
+        mkdir -p "$(dirname "$ICLOUD_CREDENTIALS")"
+        cp "$FOUND_CRED" "$ICLOUD_CREDENTIALS"
+        chmod 600 "$ICLOUD_CREDENTIALS"
+        ok "Copied to iCloud Drive"
     fi
 fi
 
-chmod 600 "$CREDENTIALS_FILE"
-
-# --- Step 2: gog auth credentials 登録 ---
+# --- Step 3: gog auth credentials 登録 ---
 info "Registering credentials with gogcli..."
-gog auth credentials "$CREDENTIALS_FILE"
+gog auth credentials "$FOUND_CRED"
 ok "Credentials registered"
 
-# --- Step 3: アカウント認証 ---
-ACCOUNT_EMAIL="${GOGCLI_ACCOUNT_EMAIL:-}"
-
-# 既存token確認
+# --- Step 4: アカウント認証 ---
 if gog auth list 2>&1 | grep -q "@"; then
     ok "Account already authenticated"
     gog auth list
@@ -92,21 +106,20 @@ else
     echo ""
     info "No accounts authenticated yet."
 
-    if [ -n "$ACCOUNT_EMAIL" ]; then
-        echo "  Running: gog auth add $ACCOUNT_EMAIL --services all"
-        echo "  A browser window will open for Google login."
+    if [ -z "$EMAIL_ARG" ]; then
+        read -p "  Google account email: " EMAIL_ARG
+    fi
+
+    if [ -n "$EMAIL_ARG" ]; then
+        echo "  Running: gog auth add $EMAIL_ARG --services all"
+        echo "  ブラウザが開きます。Googleアカウントでログインしてください。"
         echo ""
         read -p "  Press Enter to continue: "
-        gog auth add "$ACCOUNT_EMAIL" --services all
-    else
-        echo "  Run manually:"
-        echo "    gog auth add your@gmail.com --services all"
-        echo ""
-        echo "  Tip: Set GOGCLI_ACCOUNT_EMAIL in ~/.envrc.shared to automate this."
+        gog auth add "$EMAIL_ARG" --services all
     fi
 fi
 
-# --- Step 4: 動作確認 ---
+# --- Step 5: 動作確認 ---
 echo ""
 info "Verifying setup..."
 if gog auth list --check 2>&1 | grep -q "valid\|@"; then
