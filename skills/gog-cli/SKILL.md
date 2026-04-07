@@ -246,6 +246,7 @@ gog auth status
 
 ## Reference Files
 
+- `references/setup-guide.md` - **Setup: OAuth credentials, multi-PC sharing, troubleshooting**
 - `references/command-reference.md` - Complete command specification
 - `references/authentication.md` - Auth, credentials, multi-account
 - `references/configuration.md` - Config and environment variables
