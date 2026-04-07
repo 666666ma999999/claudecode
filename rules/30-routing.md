@@ -79,6 +79,7 @@
 | X(Twitter)ブックマーク取得・Cookie再取得・教師データ変換 | `fetch-bookmarks` |
 | UIデザイン品質・カラーパレット・タイポグラフィ・コンポーネント設計 | `frontend-design` |
 | Gmail・カレンダー・Drive・Google Workspace操作 | `gog-cli` |
+| Google Sheets ブラウザ読み書き（gogcli未設定時のフォールバック） | `google-sheets-browser` |
 | 通知設定・アラート設定 | `notification-alert` |
 | デスクトップ整理・ファイル整理 | `organize-desktop` |
 | 設定配置・グローバル vs プロジェクト | `config-placement-guide` |
