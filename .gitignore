@@ -20,6 +20,9 @@ todos/
 
 # ランタイム
 statsig/
+state/
+sessions/
+playwright-profile/
 
 # OS
 .DS_Store
