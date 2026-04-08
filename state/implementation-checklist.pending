@@ -111,3 +111,4 @@
 /Users/masaaki/Desktop/prm/rohan/backend/utils/response_processor.py
 /Users/masaaki/Desktop/prm/chk/scripts/batch_register_from_sheet.py
 /Users/masaaki/Desktop/prm/chk/.mcp.json
+/Users/masaaki/Desktop/prm/rohan/backend/tests/unit/test_gender_neutralize.py
