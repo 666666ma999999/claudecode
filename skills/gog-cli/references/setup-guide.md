@@ -135,17 +135,7 @@ gog sheets read --account workspace-user@company.com "SPREADSHEET_ID" "Sheet1!A1
 
 **注意**: Workspace 管理者がサードパーティ OAuth アプリをブロックしている場合は失敗する。
 
-#### 2. Chrome DevTools MCP版（google-sheets-browser スキル）でフォールバック
-
-Workspace の OAuth 制限を回避できる。ブラウザの認証済みセッションをそのまま使用。
-
-```
-gogcli で 403 → google-sheets-browser スキルに切り替え
-```
-
-詳細: `~/.claude/skills/google-sheets-browser/SKILL.md` 参照
-
-#### 3. 個人 Gmail にシートをコピー（最終手段）
+#### 2. 個人 Gmail にシートをコピー（最終手段）
 
 - 外部共有禁止の組織ではコピー操作自体がブロックされる可能性あり
 - 元データとの同期が途切れるため、静的スナップショットで十分な場合のみ
