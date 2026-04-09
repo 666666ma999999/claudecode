@@ -125,3 +125,5 @@
 /Users/masaaki/Desktop/prm/rohan/backend/routers/registration_session.py
 /Users/masaaki/Desktop/prm/rohan/data/site_character_settings.json
 /Users/masaaki/Desktop/prm/rohan/frontend/auto.html
+/Users/masaaki/Desktop/prm/rohan/backend/services/manuscript_formatter.py
+/Users/masaaki/Desktop/prm/rohan/backend/routers/manuscript_generation.py
