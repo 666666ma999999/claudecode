@@ -163,6 +163,16 @@ implementation-checklist は**最終完了ゲート**であり、中間バッチ
 依存管理・ビルド・実行はDocker経由。ホスト上 `pip install`, `npm install`, `npx` 等は禁止。
 適用除外: MCP設定、Claude Codeツール拡張、スキル検索（`npx skills find`）。
 
+## Obsidian連携
+
+プロジェクトのCLAUDE.mdに Obsidian MD のパスが記載されている場合、以下に従うこと:
+
+- 作業開始時: 記載されたMDファイルのNOWセクションを確認する
+- NOW完了時:
+  - 完了タスクをNOW→DONEに移動。DONEはカテゴリ別に振り分け（機能追加/バグ修正/UI/リファクタリング/調査 等、内容から判定）、末尾に完了日を付ける（例: `- タスク名 (2026-04-09)`）
+  - 確定した仕様は同ファイルのSPECセクションに追記する
+- MDファイルの場所: `~/Documents/Obsidian Vault/` 配下
+
 ## Memory Update Protocol
 
 MEMORY.md更新時: 読んでから書く / インデックス+リンクのみ（3行超はtopics/に分離）/ 重複禁止 / 150行目標・200行上限（hookで強制）/ 3ヶ月未参照はarchive/に移動。
