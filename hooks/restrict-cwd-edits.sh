@@ -34,6 +34,12 @@ if [[ "$FILE_PATH" == "$HOME/.claude/"* ]]; then
   exit 0
 fi
 
+# Always allow: Obsidian Vault (project spec MDs managed via Obsidian)
+OBSIDIAN_VAULT="$HOME/Documents/Obsidian Vault/"
+if [[ "$FILE_PATH" == "$OBSIDIAN_VAULT"* ]]; then
+  exit 0
+fi
+
 # Allow symlinked skills: if realpath resolves to ~/.agents/skills/ but
 # the original path (pre-symlink) is within ~/.claude/skills/, permit edit
 AGENTS_PREFIX="$HOME/.agents/skills/"

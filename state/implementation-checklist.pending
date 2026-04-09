@@ -112,3 +112,13 @@
 /Users/masaaki/Desktop/prm/chk/scripts/batch_register_from_sheet.py
 /Users/masaaki/Desktop/prm/chk/.mcp.json
 /Users/masaaki/Desktop/prm/rohan/backend/tests/unit/test_gender_neutralize.py
+/Users/masaaki/Desktop/prm/rohan/backend/utils/manuscript_consistency.py
+/Users/masaaki/Desktop/prm/rohan/backend/tests/unit/test_manuscript_consistency_janome.py
+/Users/masaaki/Desktop/prm/rohan/backend/services/postprocess.py
+/Users/masaaki/Desktop/prm/rohan/backend/routers/opening_closing.py
+/Users/masaaki/Desktop/prm/rohan/backend/utils/gemini_helpers.py
+/Users/masaaki/Desktop/prm/report/salesmtg/tests/test_numeric_consistency.py
+/Users/masaaki/Desktop/prm/report/salesmtg/tests/test_kpi_tree_consistency.py
+/Users/masaaki/Desktop/prm/rohan/backend/routers/registration/models_step.py
+/Users/masaaki/Desktop/prm/rohan/backend/routers/orchestrator.py
+/Users/masaaki/Desktop/prm/rohan/backend/routers/registration/steps_cms.py
