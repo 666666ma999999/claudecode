@@ -122,3 +122,5 @@
 /Users/masaaki/Desktop/prm/rohan/backend/routers/registration/models_step.py
 /Users/masaaki/Desktop/prm/rohan/backend/routers/orchestrator.py
 /Users/masaaki/Desktop/prm/rohan/backend/routers/registration/steps_cms.py
+/Users/masaaki/Desktop/prm/rohan/backend/routers/registration_session.py
+/Users/masaaki/Desktop/prm/rohan/data/site_character_settings.json
