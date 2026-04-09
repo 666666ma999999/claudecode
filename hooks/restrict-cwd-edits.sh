@@ -40,6 +40,12 @@ if [[ "$FILE_PATH" == "$OBSIDIAN_VAULT"* ]]; then
   exit 0
 fi
 
+# Always allow: prm projects (cross-project edits from Obsidian workspace)
+PRM_DIR="$HOME/Desktop/prm/"
+if [[ "$FILE_PATH" == "$PRM_DIR"* ]]; then
+  exit 0
+fi
+
 # Allow symlinked skills: if realpath resolves to ~/.agents/skills/ but
 # the original path (pre-symlink) is within ~/.claude/skills/, permit edit
 AGENTS_PREFIX="$HOME/.agents/skills/"
