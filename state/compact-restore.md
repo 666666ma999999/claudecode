@@ -1,4 +1,4 @@
-# Session Restore Note (auto-generated at 2026-04-10 17:05:53)
+# Session Restore Note (auto-generated at 2026-04-10 18:16:26)
 
 ## Pending State
 - implementation-checklist: pending
@@ -133,57 +133,22 @@
   - /Users/masaaki/Desktop/prm/rohan/backend/routers/manuscript_generation.py
   - /Users/masaaki/Desktop/prm/rohan/backend/utils/manuscript_parser.py
   - /Users/masaaki/Desktop/prm/rohan/backend/services/batch_processing.py
+  - /Users/masaaki/Desktop/prm/rohan/backend/utils/prompt_builder.py
 
 ## Git Status
 ```
- M backend/main.py
- M backend/requirements.txt
- M backend/routers/config.py
  M backend/routers/manuscript_generation.py
- M backend/routers/manuscripts.py
- M backend/routers/opening_closing.py
- M backend/routers/orchestrator.py
- M backend/routers/registration/ai.py
- M backend/routers/registration/models_ai.py
- M backend/routers/registration/models_step.py
- M backend/routers/registration/steps_cms.py
- M backend/routers/registration_session.py
  M backend/services/batch_processing.py
- M backend/services/manuscript_formatter.py
- M backend/services/postprocess.py
- M backend/services/step1_pipeline.py
- M backend/utils/browser_automation.py
- M backend/utils/gemini_helpers.py
- M backend/utils/manuscript_consistency.py
- M backend/utils/manuscript_parser.py
+ M backend/services/csv_batch_runner.py
+ M backend/utils/response_processor.py
+?? .claude/hooks/block-dangerous-commands.sh
 ```
 
 ## Changed Files (unstaged)
-backend/main.py
-backend/requirements.txt
-backend/routers/config.py
 backend/routers/manuscript_generation.py
-backend/routers/manuscripts.py
-backend/routers/opening_closing.py
-backend/routers/orchestrator.py
-backend/routers/registration/ai.py
-backend/routers/registration/models_ai.py
-backend/routers/registration/models_step.py
-backend/routers/registration/steps_cms.py
-backend/routers/registration_session.py
 backend/services/batch_processing.py
-backend/services/manuscript_formatter.py
-backend/services/postprocess.py
-backend/services/step1_pipeline.py
-backend/utils/browser_automation.py
-backend/utils/gemini_helpers.py
-backend/utils/manuscript_consistency.py
-backend/utils/manuscript_parser.py
+backend/services/csv_batch_runner.py
 backend/utils/response_processor.py
-data/GuideGenerationPrompt.md
-data/SummaryGenerationPrompt.md
-data/YudoTxtPrompt.md
-docker-compose.yml
 
 ## Staged Files
 (none)
