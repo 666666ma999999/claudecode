@@ -342,6 +342,6 @@ dest 既存テンプレ流儀の例:
 
 ## 関連スキル
 
-- `obsidian-now-done` — NOW→DONE移動（別フロー、本スキルとは独立）
+- `obsidian-now-done` — NOW→DONE移動。DONE蓄積後、本スキル（パターン4）でVault内の適切なMDへ知見を分散配置する
 - `codex-delegate` — 汎用Codex委譲
 - `opponent-review` — 対立検証（候補が拮抗して判断が難しい時に併用可）
