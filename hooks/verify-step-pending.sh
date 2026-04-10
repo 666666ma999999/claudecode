@@ -63,6 +63,8 @@ try:
     types = set(data.get('file_types', []))
     types.add('$FILE_TYPE')
     data['file_types'] = list(types)
+    if '$FILE_TYPE' == 'FE':
+        data['fe_verify_required'] = True
     with open('$PENDING_FILE', 'w') as f:
         json.dump(data, f, indent=2)
     print(data['edit_count'])
