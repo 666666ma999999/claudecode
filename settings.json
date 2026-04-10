@@ -405,11 +405,21 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/precompact-backup-session.sh"
-          },
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
           {
             "type": "command",
             "command": "~/.claude/hooks/precompact-build-restore-note.sh"
-          },
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
           {
             "type": "command",
             "command": "~/.claude/hooks/promote-lessons.sh"
