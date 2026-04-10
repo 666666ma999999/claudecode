@@ -1,0 +1,34 @@
+ M backend/main.py
+ M backend/requirements.txt
+ M backend/routers/config.py
+ M backend/routers/manuscript_generation.py
+ M backend/routers/manuscripts.py
+ M backend/routers/opening_closing.py
+ M backend/routers/orchestrator.py
+ M backend/routers/registration/ai.py
+ M backend/routers/registration/models_ai.py
+ M backend/routers/registration/models_step.py
+ M backend/routers/registration/steps_cms.py
+ M backend/routers/registration_session.py
+ M backend/services/batch_processing.py
+ M backend/services/manuscript_formatter.py
+ M backend/services/postprocess.py
+ M backend/services/step1_pipeline.py
+ M backend/utils/browser_automation.py
+ M backend/utils/gemini_helpers.py
+ M backend/utils/manuscript_consistency.py
+ M backend/utils/manuscript_parser.py
+ M backend/utils/response_processor.py
+ M data/GuideGenerationPrompt.md
+ M data/SummaryGenerationPrompt.md
+ M data/YudoTxtPrompt.md
+ M docker-compose.yml
+?? .claude/hooks/block-dangerous-commands.sh
+?? backend/routers/site_expansion.py
+?? backend/tests/unit/test_gender_neutralize.py
+?? backend/tests/unit/test_manuscript_consistency_janome.py
+?? docs/architecture-consolidation-proposal-2026-03-13.md
+?? docs/architecture-consolidation-proposal-2026-03-19.md
+?? docs/architecture-redesign-proposal.md
+?? frontend/site_expansion.css
+?? frontend/site_expansion.html

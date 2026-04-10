@@ -51,10 +51,11 @@ if [ -z "$done_section" ]; then
   exit 0
 fi
 
-# 各 `### ` エントリに `**結果:**` があるかチェック
+# 各 `##### ` エントリに `**結果:**` があるかチェック
+# （他MDに貼り付け時の衝突を避けるため見出しレベルはh5を正規とする）
 violations=$(echo "$done_section" | awk '
   BEGIN { current=""; has_result=0; body_lines=0 }
-  /^### / {
+  /^##### / {
     if (current != "") {
       # 前エントリの判定
       if (!has_result || body_lines < 2) {
@@ -67,7 +68,7 @@ violations=$(echo "$done_section" | awk '
     next
   }
   /\*\*結果:\*\*/ { has_result=1 }
-  /^./ && !/^### / { body_lines++ }
+  /^./ && !/^##### / { body_lines++ }
   END {
     if (current != "") {
       if (!has_result || body_lines < 2) {
