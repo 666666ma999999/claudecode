@@ -80,7 +80,8 @@ from datetime import datetime
 data = {
     'created_at': datetime.now().isoformat(),
     'file_types': ['$FILE_TYPE'],
-    'edit_count': 1
+    'edit_count': 1,
+    'fe_verify_required': '$FILE_TYPE' == 'FE'
 }
 with open('$PENDING_FILE', 'w') as f:
     json.dump(data, f, indent=2)
