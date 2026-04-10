@@ -10,7 +10,7 @@ allowed-tools: "Read Glob Grep Bash Agent mcp__codex__codex mcp__codex__codex-re
 license: proprietary
 metadata:
   author: masaaki-nagasawa
-  version: 2.0.0
+  version: 2.1.0
   category: workflow-automation
   tags: [obsidian, md-merge, destination-selection, writing-design]
 ---
