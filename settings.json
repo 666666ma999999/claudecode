@@ -446,6 +446,17 @@
           }
         ]
       }
+    ],
+    "TaskCompleted": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/auto-skill-review.sh"
+          }
+        ]
+      }
     ]
   },
   "statusLine": {
