@@ -175,3 +175,4 @@ DONEエントリに**再利用可能な確定知見**（設定値・制約・教
 - `~/.claude/hooks/obsidian-now-done-guard.sh` — PostToolUse検証hook
 - `~/.claude/hooks/obsidian-session-reminder.sh` — SessionStart警告hook
 - `~/.claude/projects/-Users-masaaki-Documents/memory/feedback_obsidian_now_done.md` — feedback memory
+- `obsidian-short-note-merge` スキル パターン4 — DONEエントリから知見抽出 → Vault内別MDへの再配置（Step 6で呼び出し）
