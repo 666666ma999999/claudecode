@@ -1,80 +1,181 @@
 ---
 name: obsidian-short-note-merge
 description: |
-  Obsidian Vault内の短文MDファイル（断片）を既存ノートへ安全に統合するスキル。
-  Codex + Explore Agentの並列分析で挿入先セクション・見出しレベル・書式整形を設計し、
-  ユーザー承認後にidempotencyマーカー付きで追記、元ファイルは削除またはstub化する。
-  キーワード: 短文統合, 断片整理, Obsidian, Vault整理, MDマージ, short note merge, fragment consolidation
-  NOT for: 新規ノート作成（→ Edit直接）、NOW→DONE移動（→ obsidian-now-done）、task.md更新（→ task-progress）、非Obsidian環境のMD編集
-allowed-tools: "Read Edit Glob Grep Bash Agent mcp__codex__codex mcp__codex__codex-reply"
+  Obsidian Vault内の短文MDを「どの既存ファイルへ統合するか」と「どう書いて追記するか」を
+  Codex + Explore Agentの並列分析で設計するスキル。移動先候補の提案と、最終Markdownブロックの
+  整形に特化。検出・編集・削除は行わない（ユーザーが実施）。
+  キーワード: 移動先選定, 統合先提案, 書き方設計, MDマージ, Obsidian, 断片整理, destination selection
+  NOT for: 短文ファイル検出（ユーザー実施）、Edit/削除の実行（ユーザー実施）、NOW→DONE移動（→ obsidian-now-done）
+allowed-tools: "Read Glob Grep Bash Agent mcp__codex__codex mcp__codex__codex-reply"
 license: proprietary
 metadata:
   author: masaaki-nagasawa
-  version: 1.0.0
+  version: 2.0.0
   category: workflow-automation
-  tags: [obsidian, md-merge, fragment-consolidation, vault-organization]
+  tags: [obsidian, md-merge, destination-selection, writing-design]
 ---
 
-# Obsidian 短文ノート統合スキル
+# Obsidian 短文ノート統合設計スキル
 
-Obsidian Vault内の短いMarkdownノート（断片）を既存の大きなノートへ安全に統合する。**propose-first, edit-on-approval** が原則。
+Obsidian Vault内の短文MDを既存ノートへ統合する際、**移動先ファイル選定**と**最終Markdownブロックの書き方**を並列エージェントで設計する。**提案のみ行い、ファイルの編集・削除は行わない**。
+
+## スコープ
+
+| 範囲 | 担当 |
+|---|---|
+| 短文MD検出（文字数カウント等） | **ユーザー** |
+| **移動先候補の選定** | **本スキル** |
+| **最終Markdownブロックの設計** | **本スキル** |
+| Edit実行・元ファイル削除 | **ユーザー** |
 
 ## 発動条件
 
 以下のいずれかに該当:
-- 「Vault内の短いノートを整理したい」「断片MDを統合したい」
-- 「この`<source>.md`を`<dest>.md`に移して」
-- 「N文字以下のMDを検出して1件ずつ統合提案して」
-- 00_Inbox/配下の断片を適切なトピックフォルダへ移動したい
+- 「この`<source>.md`の移動先を考えて」
+- 「`<source>.md`を統合したい、適切な既存ファイルを探して」
+- 「`<source>.md`を`<dest>.md`に移す時の書き方を考えて」
+- 移動先が未定 or 書式整形の方針が欲しい場合
 
-## 絶対ルール
+## 入力パターン
 
-1. **propose-first**: 実際の編集前に必ず最終Markdownブロックをユーザーに提示し承認を得る
-2. **idempotencyマーカー必須**: 追記ブロックに `<!-- merged-from: <source_path> -->` を埋込
-3. **被リンク保護**: `[[source_basename]]` が他ファイルにあれば削除せず **stub化**
-4. **templates/除外**: `templates/` 配下は統合対象にも削除対象にもしない
-5. **日次/月次ノート除外**: `Daily/` `Monthly/` 等のログノートは明示指示がない限り対象外
-6. **git状態確認**: 大量の未コミット変更があれば警告
-7. **移動先ファイルが存在しないなら停止**: 新規作成は本スキルの範囲外
-
-## Phase フロー
-
-### Phase A: Detect（検出）
-
-ユーザーが文字数閾値を指定した場合:
-
-```bash
-cd ~/Documents/"Obsidian Vault" && find . -name "*.md" -type f \
-  -not -path "./.git/*" -not -path "./.obsidian/*" \
-  -not -path "./templates/*" -print0 2>/dev/null | \
-while IFS= read -r -d '' f; do
-  chars=$(wc -m < "$f" 2>/dev/null | tr -d ' ')
-  if [ -n "$chars" ] && [ "$chars" -le <THRESHOLD> ]; then
-    printf "%4d %s\n" "$chars" "$f"
-  fi
-done | sort -n
+### パターン1: sourceのみ指定（移動先未定）
+```
+入力: source_path = "00_Inbox/memo_plan.md"
+出力: 移動先候補トップ3 + 各候補への挿入イメージ
 ```
 
-結果を表示してユーザーに1件選ばせる。
+### パターン2: source + dest 指定
+```
+入力: source_path = "00_Inbox/クレーム.md", dest_path = "02_ai/AIshift.md"
+出力: 挿入先セクション + 最終Markdownブロック全文
+```
 
-### Phase B: Select（選択）
+## 実行フロー（2段構え）
 
-ユーザーに確認:
-- **source**: 移動元ファイルパス
-- **dest**: 移動先ファイルパス（既存必須）
-- **mode**: `dry-run`（提案のみ）/ `apply`（承認後に実行）
+### Step 1: source 内容の把握
 
-移動先が存在しなければ停止して再指定を求める。
-既に `<!-- merged-from: <source> -->` が移動先にあれば **idempotent no-op** として停止。
+`Read` で source を読み、以下を抽出:
+- 主題の1行要約
+- 主要キーワード（3-5個）
+- コンテンツ種別（プロンプト雛形 / メモ / アイデア / 仕様 / todo 等）
+- 既存のwikilink/タグ
 
-### Phase C: Design（並列設計）
+### Step 2: 分岐
 
-Codex と Explore Agent を **並列** 起動する。
+#### パターン1の場合: 移動先選定フェーズへ
+#### パターン2の場合: 書き方設計フェーズへ直行
+
+---
+
+## A. 移動先選定フェーズ（dest未指定時）
+
+### A-1: 候補絞り込み（ユーザーと対話）
+
+まず探索範囲をユーザーに確認:
+
+```
+AskUserQuestion:
+Q: 移動先候補を探す範囲は?
+- 同一ディレクトリ内（最小）
+- 親ディレクトリ配下（中）
+- トピック領域全体（広域、例: 01_Biz/ 全体）
+- Vault全体（最大、遅い）
+```
+
+### A-2: 候補ファイル収集
+
+指定範囲内の `.md` ファイルのうち、以下を除外した上で**サイズ>1KB**の既存ノートを候補化:
+- `templates/`, `.git/`, `.obsidian/`
+- Daily/Monthly ログ系
+- source 自身
+
+```bash
+find <scope> -name "*.md" -size +1k -type f \
+  -not -path "*/templates/*" -not -path "*/Daily/*"
+```
+
+### A-3: 並列分析（Codex + Explore Agent）
 
 #### Codex呼び出しテンプレ
 
 ```
-あなたは短文Obsidianノートを既存ノートに統合する役割です。
+あなたはObsidian Vault整理担当です。以下の短文ノートの「統合先」を提案してください。
+
+source path: {source_path}
+source 要約: {source_summary}
+source キーワード: {source_keywords}
+source 内容:
+```md
+{source_content}
+```
+
+候補ファイル一覧（パス + サイズ + 1行要約）:
+{candidate_list}
+
+以下を返してください:
+1. 統合先トップ3（優先順位付き、理由付き）
+2. 各候補について「挿入先セクション」と「見出しレベル」の初期案
+3. 単独ノートとして残すべきか統合すべきかの判断（confidence 0-1）
+
+300語以内。
+```
+
+#### Explore Agent呼び出しテンプレ
+
+```
+以下のsourceノートについて、Obsidian Vault内の最適な統合先を調査してください。
+
+source: {source_path}
+内容: {source_content}
+キーワード: {source_keywords}
+
+調査項目:
+1. 指定スコープ {scope} 配下の既存MD（>1KB）を列挙
+2. source のキーワードが出現する既存ファイルを grep で特定
+3. 同一ディレクトリ → 親ディレクトリ → トピック領域の順に親和性を評価
+4. 候補トップ3を提示（パス、理由、挿入先見出し案）
+5. 推奨1件を根拠付きで提示
+
+500語以内。
+```
+
+### A-4: 結果統合
+
+両エージェントの結果を統合し、**候補トップ3** をユーザーに提示:
+
+```
+候補1: <path> （推奨度: 高）
+  理由: ...
+  挿入先見出し案: ## xxx > ### yyy
+
+候補2: <path> （推奨度: 中）
+  ...
+
+候補3: <path> （推奨度: 低）
+  ...
+
+→ どの候補で進めますか? 選択後、書き方設計フェーズに進みます。
+```
+
+ユーザーが1つ選択したら → **書き方設計フェーズ** へ。
+
+---
+
+## B. 書き方設計フェーズ（dest確定後）
+
+### B-1: dest構造の解析
+
+`Read` で dest 全文を読む。以下を把握:
+- 見出し階層（## と ### のみでOK）
+- 既存のプロンプトテンプレ流儀（`{変数}` 型か素のままか、コードフェンスの使い方）
+- コメントマーカーの慣例
+
+### B-2: 並列設計（Codex + Explore Agent）
+
+#### Codex呼び出しテンプレ
+
+```
+source を dest に統合します。最終Markdownブロックを設計してください。
 
 source path: {source_path}
 source content:
@@ -82,89 +183,102 @@ source content:
 {source_content}
 ```
 
-destination path: {dest_path}
-destination outline(主要見出し):
+dest path: {dest_path}
+dest 見出し階層:
 ```text
 {dest_outline}
 ```
 
-以下を返してください:
-1. 最適な挿入セクション（既存のどの見出しの下か）
-2. 見出しレベル（##/###/####。既存の最深レベルに合わせる）
-3. 書式整形方針（既存スタイルに合わせるか素のままか）
-4. 最終Markdownブロック全文（コードフェンスで囲む）
-5. ブロック冒頭に `<!-- merged-from: {source_path} -->` を埋込
+dest 既存テンプレ流儀の例:
+```md
+{dest_style_sample}
+```
 
-既存のwikilink/タグ規約を尊重。300語以内。
+以下を返してください:
+1. 挿入先セクション（既存のどの見出しの下か）
+2. 見出しレベル（既存最深に合わせる）
+3. 書式方針（既存スタイルに合わせる / 素のまま / 部分整形）
+4. 最終Markdownブロック全文（コードフェンスで囲む）
+5. ブロック冒頭に `<!-- merged-from: {source_path} -->` を含める
+6. 既存の wikilink/タグ規約を尊重
+7. 見出し文言の選定理由（英語 vs 日本語、既存命名との整合性）
+
+300語以内。
 ```
 
 #### Explore Agent呼び出しテンプレ
 
 ```
-{dest_path} を読んで以下を調査:
+{dest_path} を読んで、以下を調査してください。
 
-1. ## と ### の見出し階層マップ（行番号付き）
-2. source関連キーワード {keywords} の既存出現箇所
+目的: source「{source_summary}」を dest に追記する最適な挿入位置を特定したい。
+
+調査項目:
+1. dest の ## と ### 見出し階層マップ（行番号付き）
+2. source キーワード {source_keywords} の既存出現箇所（grep）
 3. 最も親和性の高い挿入候補トップ3（優先順位付き）
-4. 推奨案1つ（セクションパス・挿入方式・理由）
+4. 推奨挿入ポイント1つ（セクションパス + 行番号 + 理由）
+5. 既存のプロンプトテンプレ流儀（あれば例を引用）
 
-source要約: {source_summary}
-300語以内。
+500語以内。
 ```
 
-両結果を統合して一つの推奨案にまとめる。
+### B-3: 結果統合とユーザー提示
 
-### Phase D: Approve（承認）
+両結果を統合し、以下のフォーマットで提示:
 
-必ず以下を提示:
-- 挿入先セクション名と行番号
-- 見出しレベル
-- **最終Markdownブロック全文**（実際に挿入される内容）
-- 元ファイルの扱い（delete / stub）
-
-`dry-run` モードならここで停止。
-
-被リンク検出:
-```bash
-grep -rn "\[\[$(basename {source_path} .md)\]\]" --include="*.md" <vault_root>
 ```
-1件でもヒットしたら **デフォルトで stub化** を提案。
+## 提案
 
-### Phase E: Apply（実行）
+**挿入先**: <dest_path> の L<行番号> 付近
+**セクション**: ## xxx > ### yyy の直前/直後
+**見出し名**: ### <新見出し>
+**見出しレベル**: ###（理由: 既存最深が ### のため）
+**書式方針**: <既存スタイル準拠 or 素のまま>
 
-ユーザー承認後:
+## 最終Markdownブロック
 
-1. **Edit** で移動先の確定位置に追記ブロックを挿入
-   - `old_string`: 挿入位置直後の既存見出し（例: `### holiday`）
-   - `new_string`: 新ブロック + 既存見出し
-2. **元ファイル処理**:
-   - 被リンクなし → `rm {source_path}`
-   - 被リンクあり → 中身を `→ [[{dest_basename}]]` のstubに置き換え
-3. **git status** で差分確認
-4. コミットはユーザー明示指示があるまで保留
+​```md
+### <見出し>
+
+<整形済み本文>
+
+<!-- merged-from: <source_path> -->
+​```
+
+---
+
+この内容で Edit してよいか確認してください。編集とsource削除はユーザー側で実施をお願いします（本スキルは提案のみ）。
+```
+
+## 出力ルール
+
+1. **提案のみ**: Editツール・rm・git操作は**一切呼ばない**
+2. **idempotencyマーカー必須**: 最終ブロックには必ず `<!-- merged-from: <source_path> -->` を含める
+3. **書式は2択提示可**: 整形/素のまま判断が拮抗する場合、両案を並べてユーザーに選ばせる
+4. **複数候補拮抗**: トップ候補が僅差の場合、1つに絞らずトップ3提示
+5. **非確定情報はconfidence明示**: 「低確信度」「要確認」を付記
 
 ## エッジケース
 
 | 状況 | 対応 |
 |---|---|
-| 移動先ファイル不在 | 停止。ユーザーに再指定を求める |
-| 既存マーカー検出 | idempotent no-op、スキップ |
-| `templates/`配下 | 除外（対象外） |
-| Daily/Monthly ログ | デフォルト除外。`--include-logs` 明示指示で解除 |
-| 被wikilinkあり | stub化をデフォルト提案 |
-| 複数候補セクションが拮抗 | 自動決定せずユーザーに3候補提示 |
-| 未コミット変更多数 | 警告表示後にユーザー確認 |
-| source が空ファイル or 見出しのみ | 削除のみ実行（統合不要） |
+| 移動先未定 & 候補が見つからない | 「適切な統合先が見つかりません。単独ノート維持を推奨」と返す |
+| 候補が完全拮抗（僅差3件以上） | 自動絞り込みせずトップ3全部提示、ユーザーに委ねる |
+| dest に既存の merged-from マーカーあり | 「既に統合済みの可能性あり」と警告 |
+| source が空 or 見出しのみ | 「統合価値なし、削除を推奨」と返す（削除は実行しない） |
+| source が `templates/` 配下 | 「雛形なので統合対象外」と返す |
+| dest が日次/月次ノート | 「ログノートへの統合は非推奨」と警告、代替候補を提示 |
 
 ## 典型的な呼び出しフレーズ
 
-- 「Obsidian Vaultの200字以下MDを検出して1件ずつ統合提案して」
-- 「`00_Inbox/クレーム.md` を `02_ai/AIshift.md` に移して。書き方はCodexとagent teamで考えて」
-- 「この短文ノートを既存のどこに入れるか考えて、dry-runで見せて」
-- 「Inboxの断片を適切なトピックフォルダのMDへ統合整理して」
+- 「`00_Inbox/memo_plan.md` の移動先を考えて、codex と agent team で」
+- 「`<source>.md` を `<dest>.md` に移す時の書き方を設計して」
+- 「このInboxノート、どの既存ファイルに入れるのが最適か提案して」
+- 「書き方を codex と agent team で考えて」
 
 ## 関連スキル
 
-- `obsidian-now-done` — NOW→DONE移動（本スキルとは別フロー）
-- `task-progress` — task.md管理
-- `organize-desktop` — デスクトップファイル整理（類似の分類ワークフロー）
+- `obsidian-now-done` — NOW→DONE移動（別フロー、本スキルとは独立）
+- `codex-delegate` — 汎用Codex委譲
+- `opponent-review` — 対立検証（候補が拮抗して判断が難しい時に併用可）
