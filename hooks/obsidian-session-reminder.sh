@@ -34,10 +34,10 @@ while IFS= read -r file; do
 
   [ -z "$done_section" ] && continue
 
-  # 各 `### ` エントリが `**結果:**` を持つかチェック
+  # 各 `##### ` エントリが `**結果:**` を持つかチェック
   file_violations=$(echo "$done_section" | awk '
     BEGIN { current=""; has_result=0 }
-    /^### / {
+    /^##### / {
       if (current != "" && !has_result) {
         print current
       }
