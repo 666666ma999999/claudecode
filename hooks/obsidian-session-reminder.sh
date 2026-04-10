@@ -64,13 +64,15 @@ done <<< "$md_files"
 echo ""
 echo "=== 📜 Obsidian NOW→DONE ルール再確認 ==="
 cat <<'EOF'
-Obsidian MDのNOW→DONE移動時は必ず以下の形式:
-  ### タスク名 (完了日)
+Obsidian MDのNOW→DONE移動時は必ず以下の形式（見出しは h5 = ##### 固定）:
+  ##### タスク名 (完了日)
   （NOWの元プロンプト全文を一字一句そのまま維持）
 
   **結果:** （実行結果のサマリー）
 
-元プロンプトを省略・要約してはならない（~/.claude/CLAUDE.md「Obsidian連携」参照）。
+- 見出しは他MDへの貼り付け時の衝突回避のため必ず h5（#####）を使う
+- 元プロンプトを省略・要約してはならない
+（~/.claude/CLAUDE.md「Obsidian連携」参照）
 EOF
 
 if [ "$violations_found" = "1" ]; then
