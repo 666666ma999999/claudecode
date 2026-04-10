@@ -32,7 +32,7 @@ Obsidian VaultのMDファイルでNOWセクションのタスクをDONEに移す
 ### ❌ 禁止（違反）
 
 ```markdown
-### test3: hayatomo 職場不倫 (2026-04-10)
+##### test3: hayatomo 職場不倫 (2026-04-10)
 - ppv_id=42300064, STEP 1-8 全成功
 - W不倫商品はGemini PROHIBITED_CONTENTでブロック
 ```
@@ -42,7 +42,7 @@ Obsidian VaultのMDファイルでNOWセクションのタスクをDONEに移す
 ### ✅ 正しい形式
 
 ```markdown
-### test3: hayatomo 職場不倫 (2026-04-10)
+##### test3: hayatomo 職場不倫 (2026-04-10)
 hayatomoでsite_id=423, ppv_id=42300064のW不倫商品を自動登録して。
 STEP1-8全部走らせて、教師データは「はやとも不倫」を使う。
 Sheetsにも書き戻すこと。
