@@ -6,6 +6,10 @@
 # Tier 1 (FULL): 3+ code files / canonical module / extensions layer → Q0-Q3
 # Tier 2 (SKIP): config only / test only / style only / no code → silent
 # Tier 3 (QUICK): 1-2 feature files / ambiguous → Q1 only
+#
+# NOTE: File extension sets here must stay in sync with:
+#   - verify-step-pending.sh (FE/BE classification)
+#   - implementation-checklist-pending.sh (tracked file filter)
 
 set -euo pipefail
 
@@ -41,7 +45,7 @@ if [ -z "$FILE_LIST" ]; then
     exit 0
 fi
 
-# --- Classify files and determine tier ---
+# --- Classify files, determine tier, and detect scope (single python3 process) ---
 RESULT=$(echo "$FILE_LIST" | python3 -c "
 import sys, os
 
@@ -50,6 +54,7 @@ if not files:
     print('TIER=2')
     print('CODE_COUNT=0')
     print('REASON=no_files')
+    print('SCOPE=ask')
     sys.exit(0)
 
 code_exts = {'.py', '.js', '.ts', '.tsx', '.jsx', '.go', '.rs', '.rb', '.java'}
@@ -96,23 +101,18 @@ for f in files:
 code_count = len(code_files)
 canonical_count = len(canonical_files)
 extension_count = len(extension_files)
-test_only = len(test_files) > 0 and code_count == 0
-config_only = code_count == 0 and len(test_files) == 0 and len(config_files) > 0
-style_html_only = (code_count == 0 and len(test_files) == 0
-                   and (len(style_files) + len(html_files)) > 0
-                   and len(config_files) == 0)
 feature_only = (code_count > 0 and code_count <= 2
                 and all(f in feature_files for f in code_files))
 
-# Tier determination
-if code_count == 0:
-    tier, reason = 2, 'no_code_files'
-elif test_only:
+# Tier determination (order matters: specific before general)
+if len(test_files) > 0 and code_count == 0:
     tier, reason = 2, 'test_only'
-elif style_html_only:
-    tier, reason = 2, 'style_html_only'
-elif config_only:
+elif code_count == 0 and len(config_files) > 0 and len(style_files) == 0 and len(html_files) == 0:
     tier, reason = 2, 'config_only'
+elif code_count == 0 and (len(style_files) + len(html_files)) > 0 and len(config_files) == 0:
+    tier, reason = 2, 'style_html_only'
+elif code_count == 0:
+    tier, reason = 2, 'non_code_files_only'
 elif code_count >= 3 or canonical_count > 0 or extension_count > 0:
     tier, reason = 1, 'multi_code_or_canonical_or_extension'
 elif feature_only:
@@ -120,39 +120,9 @@ elif feature_only:
 else:
     tier, reason = 3, 'ambiguous'
 
-print(f'TIER={tier}')
-print(f'CODE_COUNT={code_count}')
-print(f'CANONICAL_COUNT={canonical_count}')
-print(f'EXTENSION_COUNT={extension_count}')
-print(f'REASON={reason}')
-" 2>/dev/null)
-
-# --- Parse results ---
-TIER=$(echo "$RESULT" | grep '^TIER=' | cut -d= -f2)
-CODE_COUNT=$(echo "$RESULT" | grep '^CODE_COUNT=' | cut -d= -f2)
-REASON=$(echo "$RESULT" | grep '^REASON=' | cut -d= -f2)
-
-# Default to tier 2 (skip) on parse failure
-[ -z "$TIER" ] && TIER=2
-
-# --- Tier 2: Silent skip ---
-if [ "$TIER" -eq 2 ] 2>/dev/null; then
-    mkdir -p "$STATE_DIR"
-    echo "skip:${REASON}" > "$DONE_FILE"
-    exit 0
-fi
-
-# --- Q0: Scope detection (Global vs Project) ---
-CWD="${PWD}"
-CLAUDE_DIR="$HOME/.claude"
-
-SCOPE=$(echo "$FILE_LIST" | python3 -c "
-import sys, os
-
+# Q0: Scope detection (Global vs Project)
 cwd = os.environ.get('PWD', os.getcwd())
 claude_dir = os.path.expanduser('~/.claude')
-files = [line.strip() for line in sys.stdin if line.strip()]
-
 under_cwd = 0
 under_claude = 0
 other = 0
@@ -168,18 +138,42 @@ for f in files:
 
 total = len(files)
 if total == 0:
-    print('ask')
+    scope = 'ask'
 elif under_claude > 0 and under_cwd == 0 and other == 0:
-    print('global')
+    scope = 'global'
 elif under_cwd == total:
-    print('project')
+    scope = 'project'
 elif other > 0 or (under_cwd > 0 and under_claude > 0):
-    print('global')
+    scope = 'global'
 else:
-    print('ask')
+    scope = 'ask'
+
+print(f'TIER={tier}')
+print(f'CODE_COUNT={code_count}')
+print(f'REASON={reason}')
+print(f'SCOPE={scope}')
 " 2>/dev/null)
 
+# --- Parse results (zero subprocesses) ---
+TIER="" CODE_COUNT="" REASON="" SCOPE=""
+while IFS='=' read -r key val; do
+    case "$key" in
+        TIER)       TIER="$val" ;;
+        CODE_COUNT) CODE_COUNT="$val" ;;
+        REASON)     REASON="$val" ;;
+        SCOPE)      SCOPE="$val" ;;
+    esac
+done <<< "$RESULT"
+
+# Default on parse failure
+[ -z "$TIER" ] && TIER=2
 [ -z "$SCOPE" ] && SCOPE="ask"
+
+# --- Tier 2: Silent skip ---
+if [ "$TIER" -eq 2 ] 2>/dev/null; then
+    echo "skip:${REASON}" > "$DONE_FILE"
+    exit 0
+fi
 
 # --- Build scope message ---
 case "$SCOPE" in
@@ -189,8 +183,6 @@ case "$SCOPE" in
 esac
 
 # --- Emit prompt based on tier ---
-mkdir -p "$STATE_DIR"
-
 if [ "$TIER" -eq 1 ]; then
     cat <<PROMPT
 AUTO-SKILL-REVIEW (TaskCompleted): ${CODE_COUNT}個のコードファイルが変更されました。
