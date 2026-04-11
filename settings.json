@@ -288,6 +288,15 @@
         "hooks": [
           {
             "type": "command",
+            "command": "~/.claude/hooks/simplify-pending.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
             "command": "~/.claude/hooks/implementation-checklist-pending.sh"
           }
         ]
