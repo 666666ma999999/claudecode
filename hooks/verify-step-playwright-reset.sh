@@ -21,6 +21,8 @@ except:
 
 if [ "$HAS_FE" = "yes" ]; then
     rm -f "$PENDING_FILE"
+    # FEブラウザ検証完了スタンプ（Stop hook チェック0.75 で参照）
+    date '+%Y-%m-%d %H:%M:%S' > "$STATE_DIR/fe-browser-verified.done"
     echo "✅ verify-step: Playwright MCP検証検出。FEブラウザ検証完了、バッチカウンターをリセットしました。"
 fi
 
