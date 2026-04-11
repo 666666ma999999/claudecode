@@ -199,3 +199,5 @@
 /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/articles/page.tsx
 /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/articles/[slug]/page.tsx
 /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/articles/utils/slugify.ts
+/Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/cards/data/accessors.ts
+/Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/cards/components/PriceChart.tsx
