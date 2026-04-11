@@ -66,6 +66,36 @@ if [ -f "$SIMPLIFY_PENDING" ]; then
   fi
 fi
 
+# チェック0.75: FEブラウザ検証（simplify収束後、Codex前）
+# implementation-checklist.pending にFEファイルが含まれ、かつ Playwright 検証が未完了ならブロック
+FE_VERIFIED="$STATE_DIR/fe-browser-verified.done"
+if [ -f "$PENDING_FILE" ] && [ -s "$PENDING_FILE" ] && [ ! -f "$SIMPLIFY_PENDING" ]; then
+  # simplify 解決済みの場合のみチェック（simplify中はスキップ）
+  HAS_FE=$(tail -n +2 "$PENDING_FILE" 2>/dev/null | python3 -c "
+import sys
+fe_exts = {'.html', '.css', '.scss', '.less', '.tsx', '.jsx'}
+fe_dirs = ['frontend/', 'static/', 'public/', 'components/', 'pages/']
+import os
+for line in sys.stdin:
+    f = line.strip()
+    if not f: continue
+    ext = os.path.splitext(f)[1].lower()
+    if ext in fe_exts or any(d in f for d in fe_dirs):
+        print('yes')
+        sys.exit(0)
+    # .js/.ts in frontend dirs
+    if ext in {'.js', '.ts'} and any(d in f for d in fe_dirs):
+        print('yes')
+        sys.exit(0)
+print('no')
+" 2>/dev/null)
+
+  if [ "$HAS_FE" = "yes" ] && [ ! -f "$FE_VERIFIED" ]; then
+    BLOCKERS="${BLOCKERS}⚠️ FE変更が検出されましたが、ブラウザ検証が未実行です。Playwright MCPで確認してください: (1) browser_navigate (2) console_messages でエラーゼロ確認 (3) 変更した操作を1回実行。\n"
+    echo "blocker: FE browser verification pending" >&2
+  fi
+fi
+
 # チェック1: implementation-checklist.pending が存在し中身があるか
 if [ -f "$PENDING_FILE" ] && [ -s "$PENDING_FILE" ]; then
   BLOCKERS="${BLOCKERS}⚠️ implementation-checklist が未完了です。完了してから停止してください。\n"

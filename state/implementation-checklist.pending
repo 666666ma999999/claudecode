@@ -188,3 +188,14 @@
 /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/shared/watchlist/WatchlistPageClient.tsx
 /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/shared/watchlist/WatchlistPage.tsx
 /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/watchlist/page.tsx
+/Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/data/articles.json
+/Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/articles/data/types.ts
+/Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/articles/data/accessors.ts
+/Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/articles/components/ArticleCard.tsx
+/Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/articles/components/TableOfContents.tsx
+/Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/articles/pages/ArticleListPage.tsx
+/Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/articles/pages/ArticleDetailPage.tsx
+/Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/articles/index.ts
+/Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/articles/page.tsx
+/Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/articles/[slug]/page.tsx
+/Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/articles/utils/slugify.ts
