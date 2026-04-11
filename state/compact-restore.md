@@ -1,20 +1,154 @@
-# Session Restore Note (auto-generated at 2026-03-20 12:11:09)
+# Session Restore Note (auto-generated at 2026-04-11 11:38:54)
 
 ## Pending State
 - implementation-checklist: pending
-  - /Users/masaaki_nagasawa/Desktop/biz/make_article/config/categories.yaml
-  - /Users/masaaki_nagasawa/Desktop/biz/make_article/config/scoring_criteria.yaml
-  - /Users/masaaki_nagasawa/Desktop/prm/influx/extensions/tier3_posting/x_poster/poster.py
-  - /Users/masaaki_nagasawa/Desktop/biz/make_article/output/training_data_viewer.html
+- verify-step: clear
+  - /Users/masaaki_nagasawa/Desktop/prm/influx/extensions/tier3_posting/cli/compose.py
+  - /Users/masaaki_nagasawa/Desktop/prm/aiimg/backend/services/veo_video.py
+  - /Users/masaaki_nagasawa/Desktop/prm/aiimg/backend/config.py
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/data/pokemon_names.json
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/_domain/pokeca/query-builder.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/_domain/pokeca/index.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/scripts/build-psa-lookup.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/psa-lookup/adapter/psa-lookup-adapter.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/ebay-scraper/scraper.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/ebay-scraper/types.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/scripts/ebay-compare-queries.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/scripts/test-query-comparison.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/_domain/pokeca/tier-config.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/_domain/pokeca/tier-classifier.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/sitemap.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/layout.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/privacy/page.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/disclaimer/page.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/contact/page.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/scripts/build-tier-targets.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/scripts/scrape-by-tier.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/about/page.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/docker-compose.yml
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/ebay-scraper/listing-classifier.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/scripts/test-noise-filter.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/tools/pages/CalculatorPage.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/rankings/pages/DeclineRankingsPage.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/cards/pages/CardDetailPage.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/analysis/pages/AnalysisPage.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/scripts/build-data.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/tcgdex/types.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/tcgdex/manifest.json
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/tcgdex/client.ts
+  - /Users/masaaki_nagasawa/Desktop/prm/influx/scripts/fetch_bookmarks.py
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/scripts/discover-cards.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/scripts/test-english-search.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/scripts/merge-discovery.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/shared/ui/Sidebar.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/rankings/page.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/arbitrage/page.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/oripa/page.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/scripts/generate-og-image.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/magi-scraper/scraper.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/magi-scraper/index.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/altema-scraper/types.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/altema-scraper/manifest.json
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/yuyu-scraper/types.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/yuyu-scraper/manifest.json
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/altema-scraper/scraper.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/pokemon-official/manifest.json
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/pokemon-official/scraper.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/yuyu-scraper/scraper.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/x-monitor/types.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/youtube-monitor/types.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/scripts/discover-all.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/data/anniversary.json
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/anniversary/data/types.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/anniversary/data/accessors.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/anniversary/index.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/anniversary/pages/AnniversaryPage.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/anniversary/page.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/shared/ui/Header.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/scripts/test-phase4.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/arbitrage-calc/types.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/arbitrage-calc/calculator.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/ebay-scraper/index.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/make_article/output/drafts/art_005_preview.html
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/scripts/test-raw-arbitrage.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/make_article/config/article_scoring_criteria.yaml
+  - /Users/masaaki/Desktop/prm/rohan/backend/config.py
+  - /Users/masaaki/Desktop/prm/rohan/backend/utils/yudo_predictor.py
+  - /Users/masaaki/Desktop/prm/rohan/frontend/script.js
+  - /Users/masaaki/Desktop/prm/rohan/backend/utils/path_constants.py
+  - /Users/masaaki/Desktop/prm/rohan/frontend/utils.js
+  - /Users/masaaki/Desktop/prm/rohan/backend/routers/retitle/pipeline.py
+  - /Users/masaaki/Desktop/prm/rohan/backend/utils/browser_automation.py
+  - /Users/masaaki/Desktop/prm/rohan/backend/utils/regex_patterns.py
+  - /Users/masaaki/Desktop/prm/rohan/backend/routers/registration/ai.py
+  - /Users/masaaki/Desktop/prm/rohan/backend/routers/config.py
+  - /Users/masaaki/Desktop/prm/rohan/backend/services/validation.py
+  - /Users/masaaki/Desktop/prm/rohan/backend/services/subtitle_extractor.py
+  - /Users/masaaki/Desktop/prm/rohan/backend/services/step1_pipeline.py
+  - /Users/masaaki/Desktop/prm/report/salesmtg/scripts/generate_unified_dashboard.py
+  - /Users/masaaki/Desktop/prm/rohan/backend/routers/registration/step2.py
+  - /Users/masaaki_nagasawa/Desktop/prm/aiimg/frontend/components/video-player.js
+  - /Users/masaaki_nagasawa/Desktop/prm/influx/extensions/tier3_posting/cli/build_style_dataset.py
+  - /Users/masaaki/Desktop/prm/rohan/frontend/site_expansion.html
+  - /Users/masaaki/Desktop/prm/rohan/backend/routers/site_expansion.py
+  - /Users/masaaki/Desktop/prm/rohan/backend/main.py
+  - /Users/masaaki/Desktop/prm/report/salesmtg/docs/kpi_tree.yaml
+  - /Users/masaaki/Desktop/prm/rohan/backend/routers/registration/models_ai.py
+  - /Users/masaaki/Desktop/prm/rohan/backend/routers/csv_batch.py
+  - /Users/masaaki/Desktop/prm/rohan/backend/services/csv_batch_runner.py
+  - /Users/masaaki/Documents/Obsidian Vault/projects/media_strategy_202604/charts/gen_cpa_chart.py
+  - /Users/masaaki/Documents/Obsidian Vault/projects/media_strategy_202604/charts/gen_category_chart.py
+  - /Users/masaaki/Documents/Obsidian Vault/projects/media_strategy_202604/charts/gen_heatmap.py
+  - /Users/masaaki/Documents/Obsidian Vault/projects/media_strategy_202604/charts/gen_heatmap_v2.py
+  - /Users/masaaki/Documents/Obsidian Vault/projects/media_strategy_202604/charts/gen_dashboard.py
+  - /Users/masaaki/Documents/Obsidian Vault/projects/media_strategy_202604/charts/gen_heatmap_combined.py
+  - /Users/masaaki/Documents/Obsidian Vault/projects/media_strategy_202604/charts/gen_heatmap_v3.py
+  - /Users/masaaki/Documents/Obsidian Vault/projects/media_strategy_202604/charts/gen_page1_sales.py
+  - /Users/masaaki/Documents/Obsidian Vault/projects/media_strategy_202604/charts/gen_page2_investment.py
+  - /Users/masaaki/Documents/Obsidian Vault/projects/media_strategy_202604/charts/dashboard.html
+  - /Users/masaaki/Documents/Obsidian Vault/projects/media_strategy_202604/charts/gen_cpa_revenue_v2.py
+  - /Users/masaaki/Documents/Obsidian Vault/projects/media_strategy_202604/charts/gen_cpa_revenue_v3.py
+  - /Users/masaaki/Documents/Obsidian Vault/projects/media_strategy_202604/charts/gen_cpa_revenue_v4.py
+  - /Users/masaaki/Documents/Obsidian Vault/projects/media_strategy_202604/charts/gen_cpa_revenue_v5.py
+  - /Users/masaaki/Desktop/prm/rohan/frontend/prompt_history.html
+  - /Users/masaaki/Desktop/prm/rohan/frontend/txt_dl.html
+  - /Users/masaaki/Desktop/prm/rohan/backend/utils/response_processor.py
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/page.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/shared/ui/Footer.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/cards/components/CardGrid.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/cards/components/CardListItem.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/cards/data/types.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/arbitrage/components/ArbitrageTable.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/cards/components/OripaCard.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/cards/pages/CardsPageClient.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/shared/ads/AdBanner.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/shared/ads/AdInArticle.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/shared/ads/AdBottom.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/make_article/scripts/post_to_x.py
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/cards/[id]/page.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/make_article/output/drafts/art_006_preview.html
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/arbitrage/pages/ArbitragePageClient.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/cards/components/RankingTable.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/rankings/pages/RankingsPageClient.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/data/boxes.json
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/rankings/pages/RankingsPage.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/cardshop-scraper/cardrush-bulk.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/price-aggregator/aggregation.ts
+  - /Users/masaaki_nagasawa/Desktop/prm/influx/extensions/tier3_posting/ui/review.html
+  - /Users/masaaki_nagasawa/Desktop/prm/influx/extensions/tier3_posting/services/style_prompt_builder.py
+  - /Users/masaaki_nagasawa/Desktop/prm/influx/extensions/tier3_posting/cli/server.py
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/cards/components/CardFilter.tsx
 
 ## Git Status
 ```
- M hooks/precompact-backup-session.sh
- M hooks/precompact-build-restore-note.sh
-?? commands/commit-push-pr.md
-?? sessions/
-?? state/
+
 ```
+
+## Changed Files (unstaged)
+(none)
+
+## Staged Files
+(none)
 
 ## Current Task
 No active task

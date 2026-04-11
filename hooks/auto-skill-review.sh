@@ -27,6 +27,14 @@ if [ ! -f "$PENDING_FILE" ] || [ ! -s "$PENDING_FILE" ]; then
     exit 0
 fi
 
+# --- Guard: Codex review not yet completed ---
+# スキルレビューはCodexレビュー（STEP 2）完了後に実行すべき
+CODEX_DONE="$STATE_DIR/codex-review.done"
+if [ ! -f "$CODEX_DONE" ]; then
+    # Codex未完了 → スキルレビューを保留（次回TaskCompletedで再評価）
+    exit 0
+fi
+
 # --- Parse file list (Line 1 = timestamp, Lines 2+ = file paths) ---
 FILE_LIST=$(tail -n +2 "$PENDING_FILE" 2>/dev/null || true)
 if [ -z "$FILE_LIST" ]; then
