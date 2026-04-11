@@ -33,6 +33,39 @@ if [ -f "$VERIFY_PENDING" ]; then
   fi
 fi
 
+# チェック0.5: /simplify 未実行（コード品質レビュー）
+SIMPLIFY_PENDING="$STATE_DIR/needs-simplify.pending"
+SIMPLIFY_SNAPSHOT="$STATE_DIR/simplify-snapshot"
+SIMPLIFY_ITERATION="$STATE_DIR/simplify-iteration"
+
+if [ -f "$SIMPLIFY_PENDING" ]; then
+  CURRENT_COUNT=$(cat "$SIMPLIFY_PENDING" 2>/dev/null | tr -d '[:space:]')
+  SAVED_COUNT=$(cat "$SIMPLIFY_SNAPSHOT" 2>/dev/null | tr -d '[:space:]')
+  ITER=$(cat "$SIMPLIFY_ITERATION" 2>/dev/null | tr -d '[:space:]')
+  [ -z "$CURRENT_COUNT" ] && CURRENT_COUNT=0
+  [ -z "$SAVED_COUNT" ] && SAVED_COUNT=-1
+  [ -z "$ITER" ] && ITER=0
+
+  if [ "$CURRENT_COUNT" -ne "$SAVED_COUNT" ] 2>/dev/null; then
+    # 新しい編集あり → /simplify 必要
+    ITER=$((ITER + 1))
+    if [ "$ITER" -le 3 ]; then
+      echo "$CURRENT_COUNT" > "$SIMPLIFY_SNAPSHOT"
+      echo "$ITER" > "$SIMPLIFY_ITERATION"
+      BLOCKERS="${BLOCKERS}/simplify を実行してコード品質を確認してください（${ITER}/3回目）。\n"
+      echo "blocker: simplify pending (count=$CURRENT_COUNT, iter=$ITER)" >&2
+    else
+      # 安全弁: 3回超 → 強制解除
+      rm -f "$SIMPLIFY_PENDING" "$SIMPLIFY_SNAPSHOT" "$SIMPLIFY_ITERATION"
+      echo "simplify: forced clear after 3 iterations" >&2
+    fi
+  else
+    # カウンタ一致 → 収束（/simplify で変更なし）→ フラグ解除
+    rm -f "$SIMPLIFY_PENDING" "$SIMPLIFY_SNAPSHOT" "$SIMPLIFY_ITERATION"
+    echo "simplify: converged (no new edits)" >&2
+  fi
+fi
+
 # チェック1: implementation-checklist.pending が存在し中身があるか
 if [ -f "$PENDING_FILE" ] && [ -s "$PENDING_FILE" ]; then
   BLOCKERS="${BLOCKERS}⚠️ implementation-checklist が未完了です。完了してから停止してください。\n"
