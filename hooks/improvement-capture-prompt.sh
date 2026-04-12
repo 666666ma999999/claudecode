@@ -31,7 +31,7 @@ FILE_LIST=$(tail -n +2 "$PENDING_FILE" 2>/dev/null || true)
 [ -z "$FILE_LIST" ] && exit 0
 
 # Detect improvement signals (single python3 process)
-RESULT=$(echo "$FILE_LIST" | python3 -c "
+RESULT=$(python3 -c "
 import sys, subprocess, os
 
 files = [l.strip() for l in sys.stdin if l.strip()]
