@@ -321,10 +321,16 @@ cwd: {現在のプロジェクトディレクトリ}
 
 ### STEP 7: JSONL追記 + 次アクション提案
 
-1. Material Bank に追記:
+1. **Staging Queue に追記**（CWD制限時のフォールバック、常に書き込み可能）:
+   - パス: `~/.claude/state/improvement-queue.jsonl`
+   - 1行1JSONオブジェクト形式。Material Bank エントリに加え `source_project`, `captured_at`, `status: "pending_ingest"` を付与
+   - make_article セッションで `/ingest-improvements` 実行時に Material Bank に取り込まれる
+
+2. Material Bank に追記（CWDが make_article の場合のみ直接書き込み）:
    - パスは `categories.yaml` の `material_bank` フィールドを参照（ID採番ルール参照）
    - 1行1JSONオブジェクト形式
    - ファイルが存在しない場合は新規作成
+   - CWD制限で書き込めない場合はスキップ（Staging Queue があるため問題なし）
 
 2. 追記後の状態を表示:
    ```
