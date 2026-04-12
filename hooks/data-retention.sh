@@ -136,7 +136,8 @@ for ephemeral_file in \
     "${CLAUDE_DIR}/state/simplify-iteration" \
     "${CLAUDE_DIR}/state/fe-browser-verified.done" \
     "${CLAUDE_DIR}/state/plan-readiness.done" \
-    "${CLAUDE_DIR}/state/plan-files-snapshot.txt"; do
+    "${CLAUDE_DIR}/state/plan-files-snapshot.txt" \
+    "${CLAUDE_DIR}/state/improvement-capture.done"; do
     if [[ -f "${ephemeral_file}" ]]; then
         rm -f "${ephemeral_file}"
         log "ephemeral-state: removed $(basename "${ephemeral_file}")"
