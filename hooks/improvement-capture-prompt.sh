@@ -31,13 +31,14 @@ FILE_LIST=$(tail -n +2 "$PENDING_FILE" 2>/dev/null || true)
 [ -z "$FILE_LIST" ] && exit 0
 
 # Detect improvement signals (single python3 process)
-RESULT=$(python3 -c "
-import sys, subprocess, os
+RESULT=$(FILELIST="$FILE_LIST" python3 -c "
+import os, subprocess
 
-files = [l.strip() for l in sys.stdin if l.strip()]
+raw = os.environ.get('FILELIST', '')
+files = [l.strip() for l in raw.split('\n') if l.strip()]
 if not files:
     print('SKIP')
-    sys.exit(0)
+    raise SystemExit(0)
 
 signals = []
 
