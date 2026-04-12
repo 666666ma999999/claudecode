@@ -326,6 +326,68 @@ cwd: {現在のプロジェクトディレクトリ}
    - 1行1JSONオブジェクト形式。Material Bank エントリに加え `source_project`, `captured_at`, `status: "pending_ingest"` を付与
    - make_article セッションで `/ingest-improvements` 実行時に Material Bank に取り込まれる
 
+1-B. **SQLite dual-write**（JSONL書き込み成功後のみ実行。失敗はサイレントでOK。JSONLがprimary）:
+   ```bash
+   # ~/.claude/state/improvement.db が存在するときだけ実行
+   # Bash ヒアドキュメントではなくPython parameterized query でSQLインジェクション対策
+   python3 - << 'PYEOF' 2>/dev/null || true
+   import sqlite3, json, hashlib, os
+   from pathlib import Path
+
+   DB = Path.home() / ".claude" / "state" / "improvement.db"
+   if not DB.exists():
+       raise SystemExit(0)  # DBがなければ何もしない（JSONL優先）
+
+   # 直前に追記したJSONLの最終行を読む（STEP 7-1で書いた内容）
+   QUEUE = Path.home() / ".claude" / "state" / "improvement-queue.jsonl"
+   last = QUEUE.read_text(encoding="utf-8").splitlines()[-1]
+   ENTRY = json.loads(last)
+
+   try:
+       fp_src = (ENTRY.get("source_project","") +
+                 ENTRY.get("captured_at","") +
+                 ENTRY.get("title",""))
+       fingerprint = hashlib.sha256(fp_src.encode()).hexdigest()[:16]
+
+       metrics = ENTRY.get("metrics", {}).get("items", [])
+       first = metrics[0] if metrics else {}
+       bm = json.dumps({"name": first.get("name",""),
+                        "value": first.get("before","")}, ensure_ascii=False) if first else None
+       am = json.dumps({"name": first.get("name",""),
+                        "value": first.get("after","")}, ensure_ascii=False) if first else None
+       try:
+           delta = float(str(first.get("delta","0%")).lstrip("-").replace("%",""))
+       except (ValueError, AttributeError):
+           delta = None
+       composite = ENTRY.get("quality_score", {}).get("composite", None)
+
+       con = sqlite3.connect(str(DB))
+       con.execute("""
+           INSERT OR IGNORE INTO improvements
+           (fingerprint, captured_at, source_project, category, x_category,
+            status, title, content, before_metric, after_metric,
+            delta_pct, composite_score, raw_json)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+       """, (
+           fingerprint,
+           ENTRY.get("captured_at",""),
+           ENTRY.get("source_project",""),
+           ENTRY.get("improvement_category", ENTRY.get("category","")),
+           ENTRY.get("x_category","tech_tips"),
+           "pending_ingest",
+           ENTRY.get("title",""),
+           ENTRY.get("content",""),
+           bm, am, delta, composite,
+           json.dumps(ENTRY, ensure_ascii=False)
+       ))
+       con.commit()
+       con.close()
+   except Exception:
+       pass  # サイレント失敗 — JSONLがprimary
+   PYEOF
+   ```
+   SQLite dual-writeは将来のクエリ性能のためだが、JSONLが主データ。DB破損時はJSONLから `python3 scripts/migrate_jsonl_to_sqlite.py` で再構築可能。
+
 2. Material Bank に追記（CWDが make_article の場合のみ直接書き込み）:
    - パスは `categories.yaml` の `material_bank` フィールドを参照（ID採番ルール参照）
    - 1行1JSONオブジェクト形式
