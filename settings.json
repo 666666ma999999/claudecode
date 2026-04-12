@@ -492,6 +492,15 @@
             "command": "~/.claude/hooks/auto-skill-review.sh"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/improvement-capture-prompt.sh"
+          }
+        ]
       }
     ]
   },
