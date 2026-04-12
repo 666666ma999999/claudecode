@@ -79,7 +79,8 @@ try:
                 'token', 'cost', 'refactor', 'simplify', 'hook', 'pipeline']
     hits = [k for k in keywords if k in log]
     if len(hits) >= 2:
-        signals.append(f'keyword:{','.join(hits)}')
+        joined = ','.join(hits)
+        signals.append('keyword:' + joined)
 except Exception:
     pass
 
