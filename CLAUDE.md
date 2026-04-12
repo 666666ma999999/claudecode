@@ -61,6 +61,12 @@ Plan Mode前に以下3つから1つを選ぶ。選択結果をユーザーに提
 - 成功基準は task.md の `## 成功基準` に必ず記載する
 - **Deliveryモードでは `opusplan` を推奨**（Plan時Opus→実装時Sonnet自動切替でコスト最適化）
 
+**EnterPlanMode 前の必須条件**:
+- Execution Strategy（Delivery/Prototype/Clarify）を選択済み
+- Deliveryモード: 成功基準を定義済み（task.md の `## 成功基準` に記載）
+- スキル確認（ステップ1）を完了済み
+- 上記未完了で EnterPlanMode を呼んではならない（フックで警告）
+
 ## SubAgent強制ルール
 
 即答タスク以外で、**変更2ファイル以上 / 調査+実装+検証のうち2種以上 / FE+BE両方** のいずれかに該当したらSubAgent必須（最低2: Explore + Verify）。アーキテクチャ変更は3（+Implement）。
