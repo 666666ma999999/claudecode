@@ -103,10 +103,17 @@ implementation-checklist は**最終完了ゲート**であり、中間バッチ
    a. ローカル確認 → `30-routing.md` のルーティングテーブルでマッチするスキルを参照
    b. ローカルにマッチなし → `find-skills` スキルで外部レジストリ検索（`npx skills find "キーワード"`）
    c. 外部にも該当なし → そのまま Plan mode へ進む
+1.5. **曖昧点の洗い出し**（3ファイル以上の変更が予想される場合）
+   - feature-dev Phase 3 パターン: エッジケース、エラーハンドリング、統合ポイントを明示的に列挙
+   - 不明点があれば `AskUserQuestion` で確認（Plan Mode に入る前に解消）
 2. **Planモード** → `EnterPlanMode`で計画策定
    - 3ステップ以上 or アーキテクチャに関わるタスクは必ずPlanモードで開始
+   - **プラン必須セクション**: Goal / Architecture / Tasks / Verification / 成功基準
+   - 各タスクに必須: ファイルパス、検証コマンド
+   - 各タスクに推奨: 関数名、コード例
+   - バッチ境界（Batch 1: T1-T3 / Batch 2: T4-T6）を明示
    - 途中でうまくいかなくなったら、無理に進めず再計画する
-   - 検証ステップにもPlanモードを使う
+   - アーキテクチャ判断がある場合: `plan-adversarial-review` で敵対的レビューを検討
 3. **実装** → `ExitPlanMode`後、規模に応じてSubAgent活用（即答タスクは直接実装可）
 4. **セキュリティ監査**（以下のリスク条件に該当する場合のみ）
    → `security-twin-audit` スキルで Black/White Twin Agent 監査を実行
