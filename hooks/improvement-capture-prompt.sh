@@ -7,7 +7,7 @@
 #   - LOC削除 > 100行（削除 > 挿入）→ 保守堅牢性
 #   - コミットメッセージに speed/optimize/reduce 等 → 各カテゴリ
 
-set -euo pipefail
+set -uo pipefail
 
 STATE_DIR="$HOME/.claude/state"
 PENDING_FILE="$STATE_DIR/implementation-checklist.pending"
