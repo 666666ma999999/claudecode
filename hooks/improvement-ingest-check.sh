@@ -10,7 +10,7 @@ PENDING=$(sqlite3 "$DB" "SELECT COUNT(*) FROM improvements WHERE status='pending
 if ! [[ "$PENDING" =~ ^[0-9]+$ ]]; then
     # JSONL fallback
     if [ -f "$QUEUE" ] && [ -s "$QUEUE" ]; then
-        PENDING=$(grep -cF '"status": "pending_ingest"' "$QUEUE" 2>/dev/null || echo 0)
+        PENDING=$(grep -c 'pending_ingest' "$QUEUE" 2>/dev/null || echo 0)
     else
         PENDING=0
     fi
