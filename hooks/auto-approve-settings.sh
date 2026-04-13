@@ -7,6 +7,9 @@
 
 INPUT=$(cat)
 
+# --- Safe defaults (fail-closed if jq parse fails) ---
+TOOL_NAME="" FILE_PATH="" BASH_CMD="" CWD="" HAS_ADD_DIRS="0" HAS_ADD_RULES="0"
+
 # --- Single jq call to extract all fields at once ---
 eval "$(echo "$INPUT" | jq -r '
   "TOOL_NAME=" + ((.tool_name // .toolName // "") | @sh) + " " +
@@ -15,7 +18,7 @@ eval "$(echo "$INPUT" | jq -r '
   "CWD=" + ((.cwd // "") | gsub("/$"; "") | @sh) + " " +
   "HAS_ADD_DIRS=" + (((.permission_suggestions // []) | map(select(.type == "addDirectories")) | length) | tostring | @sh) + " " +
   "HAS_ADD_RULES=" + (((.permission_suggestions // []) | map(select(.type == "addRules")) | length) | tostring | @sh)
-' 2>/dev/null)"
+' 2>/dev/null)" || true
 
 # --- CWD predicate (single definition, avoids 4x copy-paste) ---
 is_claude_cwd() {
