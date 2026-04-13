@@ -52,7 +52,7 @@
 |---------|-----------|
 | セキュリティ監査・脆弱性診断 | `security-twin-audit` |
 | git commit/push/add・コミット禁止・事故対応 | `git-safety-reference` |
-| .envrc/.mcp.json操作・APIキー設定 | `secret-management` |
+| .mcp.json操作・APIキー設定・シークレット管理 | `secret-management` |
 
 ### コードベース理解・可視化
 
