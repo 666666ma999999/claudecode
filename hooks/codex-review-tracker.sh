@@ -54,7 +54,13 @@ if not is_error:
     elif isinstance(resp, str):
         text = resp
 
-    patterns = [r"quota exceeded", r"rate limit", r"authentication"]
+    patterns = [
+        r"quota exceeded",
+        r"rate limit",
+        r"authentication (error|failed|required)",
+        r"\bunauthorized\b",
+        r"\b401\b",
+    ]
     if any(re.search(p, text.lower()) for p in patterns):
         is_error = True
 
