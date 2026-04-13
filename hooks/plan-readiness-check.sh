@@ -1,4 +1,5 @@
 #!/bin/bash
+set -uo pipefail
 # PreToolUse hook: EnterPlanMode 前の準備状態チェック
 # Execution Strategy 未選択 or 成功基準未定義なら警告（ブロックはしない）。
 # 旧実装はセッション中1回のみ表示だったが、2個目タスク以降で効かない問題を解消:
