@@ -140,10 +140,10 @@ BE/FEは独立に判定し、それぞれのルールを並行適用する。
 ## シークレット管理（基本方針）
 
 - `.mcp.json` へのシークレット直書き**禁止**。`${VAR}` プレースホルダー必須
-- アーキテクチャ: direnv (.envrc) → シェル環境変数 → .mcp.json の `${VAR}` 展開
-- 共通キー: `~/.envrc.shared` に集約、各 `.envrc` から `source_env_if_exists ~/.envrc.shared`
-- 新プロジェクト: `.envrc` 作成 → `source_env_if_exists` 記載 → 固有変数追記 → `direnv allow`
-- `.envrc`, `.envrc.shared`, `.mcp.json` は git管理対象外
+- アーキテクチャ: `~/.zshrc` で `export VAR=...` → シェル環境変数 → Claude Code 起動時に継承 → `.mcp.json` の `${VAR}` 展開
+- シークレット値は `~/.zshrc` に直接 export（git管理外のホームディレクトリファイル）
+- `.mcp.json` は git管理対象外
+- Claude Code は**ターミナルから起動**すること（Launchpad/Dockから起動すると `~/.zshrc` が読まれず環境変数が空になる）
 - 詳細手順: `secret-management` スキル参照
 
 ## スキル化判断（要約）
