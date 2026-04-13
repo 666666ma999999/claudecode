@@ -29,6 +29,11 @@ try:
 except json.JSONDecodeError:
     sys.exit(0)
 
+# Codex ツール以外は追跡不要（防御的ガード）
+tool_name = data.get("tool_name", "")
+if not tool_name.startswith("mcp__codex__"):
+    sys.exit(0)
+
 # tool_response を厳密に検査（誤検知を減らす）
 resp = data.get("tool_response", {})
 is_error = False
