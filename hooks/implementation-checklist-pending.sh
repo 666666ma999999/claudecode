@@ -1,19 +1,25 @@
 #!/bin/bash
 # PostToolUse hook: Write/Edit でコードファイルを変更したら pending 状態を作成し JSON additionalContext を返す
 
+# hot path 高速化: bash で早期フィルタ（tool_name != Write/Edit なら python3 起動を回避）
+INPUT=$(cat)
+case "$INPUT" in
+    *'"tool_name":"Write"'*|*'"tool_name":"Edit"'*|*'"tool_name": "Write"'*|*'"tool_name": "Edit"'*) ;;
+    *) exit 0 ;;
+esac
+
 STATE_DIR="$HOME/.claude/state"
 PENDING_FILE="$STATE_DIR/implementation-checklist.pending"
 FE_VERIFIED="$STATE_DIR/fe-browser-verified.done"
 
 mkdir -p "$STATE_DIR"
 
-# 単一 python3 起動で stdin パース → 分類判定 → pending 更新 → JSON出力 まで処理
+# 単一 python3 起動で分類判定 → pending 更新 → JSON出力 まで処理
 # shell変数と Python ソースの混在を排除（JSON injection 対策）
 export PENDING_FILE FE_VERIFIED
-python3 <<'PYEOF'
+echo "$INPUT" | python3 <<'PYEOF'
 import json
 import os
-import re
 import sys
 from datetime import datetime
 from pathlib import Path
