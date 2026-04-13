@@ -1,8 +1,9 @@
 ---
 name: project-bootstrap
 description: |
-  新プロジェクト初期化チェックリスト。direnv .envrc作成、.gitignore整備、Docker設定確認、
+  新プロジェクト初期化チェックリスト。.gitignore整備、Docker設定確認、
   CLAUDE.md作成、テスト・lint定義、task.mdテンプレート配置を統合実行する。
+  シークレットは ~/.zshrc 直接 export 方式を採用（`secret-management` スキル参照）。
   /init-project コマンド実行時、新しいプロジェクトディレクトリのセットアップ時に使用。
   キーワード: プロジェクト初期化, セットアップ, init, 新規プロジェクト, 環境構築
   NOT for: 既存プロジェクトの通常作業、コード修正、デバッグ
@@ -19,14 +20,13 @@ allowed-tools: "Bash Read Write Edit Glob Grep"
 ### 1. 基本ファイル作成
 - [ ] `.gitignore` — `~/.claude/templates/project/.gitignore` をコピーしてプロジェクト固有パターンを追加
 - [ ] `CLAUDE.md` — `~/.claude/templates/project/CLAUDE.md` をコピーしてプレースホルダーを置換
-- [ ] `.mcp.json` — 必要に応じて `~/.claude/templates/project/.mcp.json.example` を参考に作成
+- [ ] `.mcp.json` — 必要に応じて `~/.claude/templates/project/.mcp.json.example` を参考に作成（`${VAR}` プレースホルダーで参照）
 
-### 2. シークレット管理（direnv）
-- [ ] `.envrc` 作成 — `~/.claude/templates/project/.envrc` をコピー
-- [ ] `source_env_if_exists ~/.envrc.shared` が含まれていることを確認
-- [ ] プロジェクト固有の環境変数を追記
-- [ ] `chmod 600 .envrc`
-- [ ] `direnv allow` 実行
+### 2. シークレット管理
+- [ ] プロジェクト固有の環境変数が必要な場合、`~/.zshrc` に `export NEW_KEY="..."` を追記
+- [ ] `source ~/.zshrc` で現シェルに反映、またはターミナル再起動
+- [ ] `.mcp.json` 内では `${NEW_KEY}` 構文で参照
+- [ ] 詳細: `secret-management` スキル参照
 
 ### 3. Docker環境（該当時）
 - [ ] `docker-compose.yml` が存在するか確認
@@ -46,12 +46,14 @@ allowed-tools: "Bash Read Write Edit Glob Grep"
 # テンプレートコピー
 cp ~/.claude/templates/project/.gitignore ./
 cp ~/.claude/templates/project/CLAUDE.md ./
-cp ~/.claude/templates/project/.envrc ./
 
-# direnv設定
-chmod 600 .envrc
-direnv allow
+# シークレット確認（必要なキーが ~/.zshrc に存在するか）
+grep -E "OPENAI_API_KEY|XAI_API_KEY|DB_CONNECTION_STRING" ~/.zshrc
 
-# 確認
-direnv status
+# 不足があれば ~/.zshrc に追記して source
+echo 'export NEW_KEY="..."' >> ~/.zshrc
+source ~/.zshrc
+
+# Claude Code を起動（必ずターミナルから）
+claude mcp list
 ```
