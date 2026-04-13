@@ -51,11 +51,15 @@ if [[ "$HAS_ADD_DIRS" -gt 0 ]]; then
      | select(test("/\\.claude/|/\\.claude$") | not)] | length
   ' 2>/dev/null)
 
-  if [[ "$ALL_OUTSIDE" == "0" ]]; then
+  # Guard: skip if jq extraction failed
+  if [[ -z "$ADD_DIRS" ]] || [[ "$ADD_DIRS" == "[]" ]]; then
+    : # fall through to other checks
+  elif [[ "$ALL_OUTSIDE" == "0" ]]; then
     allow_with_directories "$ADD_DIRS"
-  fi
-  if is_claude_cwd; then
-    allow_with_directories "$ADD_DIRS"
+  elif is_claude_cwd; then
+    # CWD is .claude/ but dirs include non-.claude paths — allow only
+    # without persisting (let user decide on persistence for external dirs)
+    allow
   fi
 fi
 
