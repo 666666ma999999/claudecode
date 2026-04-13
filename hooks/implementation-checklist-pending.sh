@@ -36,6 +36,13 @@ mkdir -p "$STATE_DIR"
 
 PENDING_FILE="$STATE_DIR/implementation-checklist.pending"
 
+# FEファイル編集時はブラウザ検証スタンプをクリア（再検証を強制）
+case "$FILE_PATH" in
+    *.html|*.css|*.scss|*.less|*.tsx|*.jsx|*/frontend/*|*/static/*|*/public/*)
+        rm -f "$STATE_DIR/fe-browser-verified.done"
+        ;;
+esac
+
 # pending ファイルに変更ファイルを追記（重複排除）
 if [ -f "$PENDING_FILE" ]; then
     if ! grep -qF "$FILE_PATH" "$PENDING_FILE" 2>/dev/null; then

@@ -33,6 +33,69 @@ if [ -f "$VERIFY_PENDING" ]; then
   fi
 fi
 
+# チェック0.5: /simplify 未実行（コード品質レビュー）
+SIMPLIFY_PENDING="$STATE_DIR/needs-simplify.pending"
+SIMPLIFY_SNAPSHOT="$STATE_DIR/simplify-snapshot"
+SIMPLIFY_ITERATION="$STATE_DIR/simplify-iteration"
+
+if [ -f "$SIMPLIFY_PENDING" ]; then
+  CURRENT_COUNT=$(cat "$SIMPLIFY_PENDING" 2>/dev/null | tr -d '[:space:]')
+  SAVED_COUNT=$(cat "$SIMPLIFY_SNAPSHOT" 2>/dev/null | tr -d '[:space:]')
+  ITER=$(cat "$SIMPLIFY_ITERATION" 2>/dev/null | tr -d '[:space:]')
+  [ -z "$CURRENT_COUNT" ] && CURRENT_COUNT=0
+  [ -z "$SAVED_COUNT" ] && SAVED_COUNT=-1
+  [ -z "$ITER" ] && ITER=0
+
+  if [ "$CURRENT_COUNT" -ne "$SAVED_COUNT" ] 2>/dev/null; then
+    # 新しい編集あり → /simplify 必要
+    ITER=$((ITER + 1))
+    if [ "$ITER" -le 3 ]; then
+      echo "$CURRENT_COUNT" > "$SIMPLIFY_SNAPSHOT"
+      echo "$ITER" > "$SIMPLIFY_ITERATION"
+      BLOCKERS="${BLOCKERS}/simplify を実行してコード品質を確認してください（${ITER}/3回目）。\n"
+      echo "blocker: simplify pending (count=$CURRENT_COUNT, iter=$ITER)" >&2
+    else
+      # 安全弁: 3回超 → 強制解除
+      rm -f "$SIMPLIFY_PENDING" "$SIMPLIFY_SNAPSHOT" "$SIMPLIFY_ITERATION"
+      echo "simplify: forced clear after 3 iterations" >&2
+    fi
+  else
+    # カウンタ一致 → 収束（/simplify で変更なし）→ フラグ解除
+    rm -f "$SIMPLIFY_PENDING" "$SIMPLIFY_SNAPSHOT" "$SIMPLIFY_ITERATION"
+    echo "simplify: converged (no new edits)" >&2
+  fi
+fi
+
+# チェック0.75: FEブラウザ検証（simplify収束後、Codex前）
+# implementation-checklist.pending にFEファイルが含まれ、かつ Playwright 検証が未完了ならブロック
+FE_VERIFIED="$STATE_DIR/fe-browser-verified.done"
+if [ -f "$PENDING_FILE" ] && [ -s "$PENDING_FILE" ] && [ ! -f "$SIMPLIFY_PENDING" ]; then
+  # simplify 解決済みの場合のみチェック（simplify中はスキップ）
+  HAS_FE=$(tail -n +2 "$PENDING_FILE" 2>/dev/null | python3 -c "
+import sys
+fe_exts = {'.html', '.css', '.scss', '.less', '.tsx', '.jsx'}
+fe_dirs = ['frontend/', 'static/', 'public/', 'components/', 'pages/']
+import os
+for line in sys.stdin:
+    f = line.strip()
+    if not f: continue
+    ext = os.path.splitext(f)[1].lower()
+    if ext in fe_exts or any(d in f for d in fe_dirs):
+        print('yes')
+        sys.exit(0)
+    # .js/.ts in frontend dirs
+    if ext in {'.js', '.ts'} and any(d in f for d in fe_dirs):
+        print('yes')
+        sys.exit(0)
+print('no')
+" 2>/dev/null)
+
+  if [ "$HAS_FE" = "yes" ] && [ ! -f "$FE_VERIFIED" ]; then
+    BLOCKERS="${BLOCKERS}⚠️ FE変更が検出されましたが、ブラウザ検証が未実行です。Playwright MCPで確認してください: (1) browser_navigate (2) console_messages でエラーゼロ確認 (3) 変更した操作を1回実行。\n"
+    echo "blocker: FE browser verification pending" >&2
+  fi
+fi
+
 # チェック1: implementation-checklist.pending が存在し中身があるか
 if [ -f "$PENDING_FILE" ] && [ -s "$PENDING_FILE" ]; then
   BLOCKERS="${BLOCKERS}⚠️ implementation-checklist が未完了です。完了してから停止してください。\n"

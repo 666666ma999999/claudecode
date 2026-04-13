@@ -48,15 +48,20 @@ except:
 EDIT_COUNT=$(echo "$RESULT" | cut -d'|' -f1)
 FILE_TYPES=$(echo "$RESULT" | cut -d'|' -f2)
 
-# ブロック閾値: 4回以上の編集（3タスクバッチ相当）
+# ブロック閾値: FE=2回、BE=4回（FEはブラウザ検証必須のため厳しく）
 THRESHOLD=4
+case "$FILE_TYPES" in
+    *FE*)
+        THRESHOLD=2
+        ;;
+esac
 
 if [ "$EDIT_COUNT" -ge "$THRESHOLD" ] 2>/dev/null; then
     # 検証方法を種別に応じて提案
     VERIFY_HINT=""
     case "$FILE_TYPES" in
         *FE*)
-            VERIFY_HINT="FE: ブラウザでページリロード → コンソールエラーゼロ確認 → 変更操作を1回実行"
+            VERIFY_HINT="FE: Playwright MCPで検証必須 → (1) browser_navigate でページを開く (2) browser_console_messages でエラーゼロ確認 (3) browser_snapshot or browser_click で変更操作を1回実行。※ Playwright実行で自動リセットされます。curl/pytest ではFE検証としてリセットされません。"
             ;;
         *BE*)
             VERIFY_HINT="BE: サーバー再起動 → ヘルスチェック → 変更影響APIを1本以上実行"
@@ -65,7 +70,7 @@ if [ "$EDIT_COUNT" -ge "$THRESHOLD" ] 2>/dev/null; then
     [ -z "$VERIFY_HINT" ] && VERIFY_HINT="変更に応じた最短検証を実行"
 
     # deny応答を返してWrite/Editをブロック
-    REASON="🛑 VERIFY-STEP REQUIRED: ${EDIT_COUNT}回のコード編集が未検証です。次の編集に進む前に中間検証を実行してください。${VERIFY_HINT} 検証コマンド（curl, pytest, npm test等）を実行すると自動リセットされます。"
+    REASON="🛑 VERIFY-STEP REQUIRED: ${EDIT_COUNT}回のコード編集が未検証です。次の編集に進む前に中間検証を実行してください。${VERIFY_HINT} BE検証コマンド（curl, pytest, npm test等）はBash実行で自動リセットされます。"
     python3 -c "
 import json
 print(json.dumps({

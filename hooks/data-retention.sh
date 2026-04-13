@@ -129,7 +129,12 @@ cleanup_files "${CLAUDE_DIR}/cache" 7 "cache"
 for ephemeral_file in \
     "${CLAUDE_DIR}/state/verify-step.pending" \
     "${CLAUDE_DIR}/state/fix-retry-count" \
-    "${CLAUDE_DIR}/state/fix-last-file"; do
+    "${CLAUDE_DIR}/state/fix-last-file" \
+    "${CLAUDE_DIR}/state/skill-review.done" \
+    "${CLAUDE_DIR}/state/needs-simplify.pending" \
+    "${CLAUDE_DIR}/state/simplify-snapshot" \
+    "${CLAUDE_DIR}/state/simplify-iteration" \
+    "${CLAUDE_DIR}/state/fe-browser-verified.done"; do
     if [[ -f "${ephemeral_file}" ]]; then
         rm -f "${ephemeral_file}"
         log "ephemeral-state: removed $(basename "${ephemeral_file}")"

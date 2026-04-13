@@ -63,6 +63,8 @@ try:
     types = set(data.get('file_types', []))
     types.add('$FILE_TYPE')
     data['file_types'] = list(types)
+    if '$FILE_TYPE' == 'FE':
+        data['fe_verify_required'] = True
     with open('$PENDING_FILE', 'w') as f:
         json.dump(data, f, indent=2)
     print(data['edit_count'])
@@ -78,7 +80,8 @@ from datetime import datetime
 data = {
     'created_at': datetime.now().isoformat(),
     'file_types': ['$FILE_TYPE'],
-    'edit_count': 1
+    'edit_count': 1,
+    'fe_verify_required': '$FILE_TYPE' == 'FE'
 }
 with open('$PENDING_FILE', 'w') as f:
     json.dump(data, f, indent=2)
@@ -87,7 +90,12 @@ with open('$PENDING_FILE', 'w') as f:
 fi
 
 # 編集回数が閾値に達したら警告（ブロックはguard側で行う）
-if [ "$EDIT_COUNT" -ge 3 ] 2>/dev/null; then
+# FE: ブロック閾値2のため、1回目で警告（次でブロック予告）
+# BE: ブロック閾値4のため、3回目で警告（従来通り）
+WARN_THRESHOLD=3
+if [ "$FILE_TYPE" = "FE" ] && [ "$EDIT_COUNT" -ge 1 ] 2>/dev/null; then
+    echo "⚡ FE VERIFY WARNING: FE変更${EDIT_COUNT}回目。次の編集でブロックされます。Playwright MCPでブラウザ検証を実行してください（browser_navigate → console_messages → snapshot/click）。"
+elif [ "$EDIT_COUNT" -ge "$WARN_THRESHOLD" ] 2>/dev/null; then
     echo "⚡ VERIFY-STEP REMINDER: ${EDIT_COUNT}回のコード編集が未検証です。次の編集前に検証を実行してください（BE: curl/テスト、FE: ブラウザ確認）。"
 fi
 

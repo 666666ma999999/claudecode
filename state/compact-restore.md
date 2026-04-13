@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Session Restore Note (auto-generated at 2026-04-10 18:16:26)
+=======
+# Session Restore Note (auto-generated at 2026-04-11 11:38:54)
+>>>>>>> 6c258419faddc6aaffea19f23fe1df3d7e961d6e
 
 ## Pending State
 - implementation-checklist: pending
@@ -113,6 +117,7 @@
   - /Users/masaaki/Desktop/prm/rohan/frontend/prompt_history.html
   - /Users/masaaki/Desktop/prm/rohan/frontend/txt_dl.html
   - /Users/masaaki/Desktop/prm/rohan/backend/utils/response_processor.py
+<<<<<<< HEAD
   - /Users/masaaki/Desktop/prm/chk/scripts/batch_register_from_sheet.py
   - /Users/masaaki/Desktop/prm/chk/.mcp.json
   - /Users/masaaki/Desktop/prm/rohan/backend/tests/unit/test_gender_neutralize.py
@@ -149,6 +154,41 @@ backend/routers/manuscript_generation.py
 backend/services/batch_processing.py
 backend/services/csv_batch_runner.py
 backend/utils/response_processor.py
+=======
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/page.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/shared/ui/Footer.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/cards/components/CardGrid.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/cards/components/CardListItem.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/cards/data/types.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/arbitrage/components/ArbitrageTable.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/cards/components/OripaCard.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/cards/pages/CardsPageClient.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/shared/ads/AdBanner.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/shared/ads/AdInArticle.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/shared/ads/AdBottom.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/make_article/scripts/post_to_x.py
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/cards/[id]/page.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/make_article/output/drafts/art_006_preview.html
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/arbitrage/pages/ArbitragePageClient.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/cards/components/RankingTable.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/rankings/pages/RankingsPageClient.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/data/boxes.json
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/rankings/pages/RankingsPage.tsx
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/cardshop-scraper/cardrush-bulk.ts
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/price-aggregator/aggregation.ts
+  - /Users/masaaki_nagasawa/Desktop/prm/influx/extensions/tier3_posting/ui/review.html
+  - /Users/masaaki_nagasawa/Desktop/prm/influx/extensions/tier3_posting/services/style_prompt_builder.py
+  - /Users/masaaki_nagasawa/Desktop/prm/influx/extensions/tier3_posting/cli/server.py
+  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/cards/components/CardFilter.tsx
+
+## Git Status
+```
+
+```
+
+## Changed Files (unstaged)
+(none)
+>>>>>>> 6c258419faddc6aaffea19f23fe1df3d7e961d6e
 
 ## Staged Files
 (none)
