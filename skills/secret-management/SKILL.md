@@ -1,11 +1,10 @@
 ---
 name: secret-management
 description: |
-  シークレット管理の詳細ルール。direnv + ${VAR}プレースホルダー方式によるAPIキー管理。
-  .mcp.jsonの書き方（正例/禁止例）、.envrcの階層構造、新プロジェクト追加手順、
-  運用ルール（direnv allow、起動ディレクトリ注意、パーミッション）、.env共存ガイド。
-  .envrc/.mcp.json操作時、APIキー設定時、新プロジェクトセットアップ時に使用。
-  キーワード: シークレット, API鍵, direnv, envrc, mcp.json, 環境変数, ${VAR}
+  シークレット管理の詳細ルール。~/.zshrc 直接 export + ${VAR}プレースホルダー方式によるAPIキー管理。
+  .mcp.jsonの書き方（正例/禁止例）、新プロジェクト追加手順、起動時の注意点、パーミッション。
+  .mcp.json操作時、APIキー設定時、新プロジェクトセットアップ時に使用。
+  キーワード: シークレット, API鍵, zshrc, mcp.json, 環境変数, ${VAR}
   NOT for: 通常の開発作業、git操作
 allowed-tools: "Read Glob Grep"
 ---
@@ -14,7 +13,7 @@ allowed-tools: "Read Glob Grep"
 
 ## 1. 基本方針
 
-APIキー・DB認証情報等のシークレットは **direnv + `${VAR}` プレースホルダー方式** で管理する。
+APIキー・DB認証情報等のシークレットは **`~/.zshrc` で直接 export + `.mcp.json` の `${VAR}` プレースホルダー方式** で管理する。
 
 **禁止**: `.mcp.json` や設定ファイルへのシークレット直書き
 **必須**: 環境変数経由での参照（`${VAR}` 構文）
@@ -22,25 +21,24 @@ APIキー・DB認証情報等のシークレットは **direnv + `${VAR}` プレ
 ## 2. アーキテクチャ
 
 ```
-direnv (.envrc) → シェル環境変数 → .mcp.json の ${VAR} 展開 → MCPサーバー
+~/.zshrc (export) → ターミナルのシェル環境変数 → Claude Code 起動時に継承 → .mcp.json の ${VAR} 展開 → MCPサーバー
 ```
 
-### ファイル階層
+### ファイル一覧
 
 | ファイル | 役割 | git管理 |
 |---------|------|---------|
-| `~/.envrc.shared` | 全プロジェクト共通キー（OPENAI_API_KEY等） | 対象外（chmod 600） |
-| `~/.claude/.envrc` | `source_env_if_exists ~/.envrc.shared` | 対象外 |
-| `project/.envrc` | `source_env_if_exists ~/.envrc.shared` + プロジェクト固有キー | 対象外 |
+| `~/.zshrc` | 全シークレットを `export` で定義 | 対象外（ホーム直下） |
 | `~/.claude/.mcp.json` | `${VAR}` プレースホルダーで参照 | 対象外 |
 
 ### データフロー
 
-1. `cd project/` → direnvが `project/.envrc` を自動実行
-2. `.envrc` 内で `source_env_if_exists ~/.envrc.shared` → 共通キーをロード
-3. プロジェクト固有キーを export（上書き可能）
-4. Claude Code起動 → `.mcp.json` の `${VAR}` がシェル環境変数から展開
-5. MCPサーバーが正しいキーで起動
+1. ターミナル（iTerm / Terminal.app）起動時に `~/.zshrc` が読まれシェル環境変数が設定される
+2. そのターミナルから `claude` を起動 → Claude Code がシェル環境変数を継承
+3. `.mcp.json` の `${VAR}` がシェル環境変数から展開される
+4. MCPサーバーが正しいキーで起動
+
+**重要**: Claude Code を Launchpad/Dock から GUI 起動すると `~/.zshrc` が読まれず、環境変数が空のまま MCP が起動して認証失敗する。**必ずターミナルから起動すること**。
 
 ## 3. .mcp.json の書き方
 
@@ -82,85 +80,72 @@ direnv (.envrc) → シェル環境変数 → .mcp.json の ${VAR} 展開 → MC
 
 **適用箇所**: `command`, `args`, `env`, `url`, `headers`
 
-## 4. .envrc の書き方
-
-### 共通キーファイル（`~/.envrc.shared`）
+## 4. ~/.zshrc の書き方
 
 ```bash
-# 共通APIキー — 全プロジェクトで共有
+# OpenAI API Key
 export OPENAI_API_KEY="sk-proj-..."
-export ANTHROPIC_API_KEY=""
+
+# xAI (Grok) API
+export XAI_API_KEY="xai-..."
+
+# DB
 export DB_CONNECTION_STRING="postgresql://user:pass@localhost:5433/dbname"
 ```
 
-### プロジェクト固有（`project/.envrc`）
-
-```bash
-# 共通キーをロード
-source_env_if_exists ~/.envrc.shared
-
-# プロジェクト固有キー（上書き可能）
-export OPENAI_API_KEY="sk-proj-別のキー"
-export PROJECT_SECRET="..."
-```
-
-### ~/.claude/.envrc
-
-```bash
-source_env_if_exists ~/.envrc.shared
-```
+プロジェクト固有キーが必要な場合も同様に `~/.zshrc` に追記する。ディレクトリスコープでの切り替えは不可（全シェルで同じ値）。
 
 ## 5. 新プロジェクト追加手順
 
-1. プロジェクトディレクトリに `.envrc` を作成
-2. `source_env_if_exists ~/.envrc.shared` を記載
-3. プロジェクト固有の変数を追記
-4. `direnv allow` を実行
+1. プロジェクトの `.mcp.json` に `${VAR}` 参照でエントリを追加
+2. 新しいキーが必要なら `~/.zshrc` に `export NEW_KEY="..."` を追加
+3. ターミナルを再起動（または `source ~/.zshrc`）
+4. そのターミナルから `claude` を起動
+5. `claude mcp list` で `✓ Connected` 確認
 
 ## 6. 運用ルール
 
-### direnv allow の再実行
+### シークレットの更新手順
 
-`.envrc` の内容を変更した場合、`direnv allow` の再実行が必要（セキュリティ機能）。
+1. `~/.zshrc` の該当 export 行を新しい値に書き換える
+2. `source ~/.zshrc` で現シェルに反映
+3. Claude Code を再起動（シェル環境変数を再継承するため）
+4. `claude mcp list` で動作確認
 
 ### Claude Code 起動時の注意
 
-| 起動ディレクトリ | 読み込まれる .envrc | 結果 |
-|-----------------|-------------------|------|
-| `~/.claude/` | `~/.claude/.envrc` | 共通キーのみ |
-| `project/` | `project/.envrc` | 共通キー + プロジェクト固有キー |
-| direnvなしのディレクトリ | なし | 環境変数未設定 → MCPサーバー起動失敗の可能性 |
+| 起動方法 | `~/.zshrc` 読み込み | MCP 動作 |
+|---------|-------------------|---------|
+| ターミナルから `claude` | される | ✓ 正常 |
+| Launchpad / Dock | **されない** | ✗ MCP 認証失敗 |
+| VSCode 拡張 | 統合ターミナル設定による | 要検証 |
 
 ### パーミッション
 
 | ファイル | パーミッション |
 |---------|--------------|
-| `~/.envrc.shared` | `chmod 600`（必須） |
-| `project/.envrc` | `chmod 600`（推奨） |
+| `~/.zshrc` | `chmod 644`（デフォルトで十分。ホーム直下でユーザー権限） |
 
 ### gitignore
 
 以下はgit管理対象外にすること:
 
-- `.envrc` — direnv設定ファイル
-- `.envrc.shared` — 共通キーファイル
+- `~/.zshrc` はそもそも git 管理されるべきではない（dotfiles リポに含める場合はシークレットを別出しする設計が必要）
 - `.mcp.json` — MCP設定（${VAR}参照でもローカル固有設定を含むため）
 
 ### プロジェクト別 .mcp.json の制約
 
-同名MCPサーバーをプロジェクト `.mcp.json` で再定義した場合、**envだけの上書きは不可**。サーバー定義全体が置き換わる。direnvで変数値を切り替える方式を推奨。
+同名MCPサーバーをプロジェクト `.mcp.json` で再定義した場合、**envだけの上書きは不可**。サーバー定義全体が置き換わる。
 
 ## 7. 既存の .env ファイルとの共存
 
-- `.envrc`（direnv）: シェル環境変数 → Claude Code / MCPサーバーが参照
+- `~/.zshrc`: シェル環境変数 → Claude Code / MCPサーバーが参照
 - `.env`（dotenv）: アプリケーション（Docker, Node.js等）が直接読み込み
 
-両方の併用は可能。ただし同一変数名で値が異なる場合は混乱の原因になるため、段階的に `.envrc` に統一を推奨。
+両方の併用は可能。同一変数名で値が異なる場合は混乱の原因になるため、MCP 用は `~/.zshrc`、アプリ用は `.env` と役割を明確に分けること。
 
-## 8. セットアップ要件
+## 8. マルチPC運用時の注意
 
-| 要件 | コマンド |
-|------|---------|
-| direnv | `brew install direnv` |
-| shell hook | `~/.zshrc` に `eval "$(direnv hook zsh)"` |
-| ヘルパー関数 | `~/.config/direnv/direnvrc` に `source_env_if_exists` 定義 |
+- `~/.zshrc` のシークレット行は git 管理外のファイルに書くこと（dotfiles リポに含めない）
+- 別PCへのキー受け渡しは手動（AirDrop, 1Password 等）
+- マルチPC間でのキー同期は手動。ローテート時は全PC更新が必要
