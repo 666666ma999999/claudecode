@@ -262,3 +262,8 @@
 /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/oripa/[id]/reviews/page.tsx
 /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/tag-search/data/types.ts
 /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/tag-search/data/accessors.ts
+/Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/tag-search/pages/TagHubPage.tsx
+/Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/tag-search/pages/TagDetailPage.tsx
+/Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/tag-search/index.ts
+/Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/cards/by-tag/page.tsx
+/Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/app/cards/by-tag/[kind]/[slug]/page.tsx
