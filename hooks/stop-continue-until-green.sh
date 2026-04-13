@@ -133,9 +133,30 @@ if [ -f "$FIX_COUNT_FILE" ]; then
   fi
 fi
 
-# ブロッカーがあれば出力（Claudeが作業を継続する）
+# ブロッカーがあれば JSON decision: block で Claude を停止させず作業継続させる
+# Stop hook の plain stdout は debug log のみで Claude に届かない
 if [ -n "$BLOCKERS" ]; then
-  echo -e "$BLOCKERS"
+  BLOCKERS_TEXT=$(echo -e "$BLOCKERS")
+  python3 <<PYEOF
+import json
+reason = """<system-reminder severity="blocking" action-required="resolve-before-stop">
+STOP BLOCKED: 報告前の必須チェックが未完了です。
+
+$BLOCKERS_TEXT
+
+実行順:
+  [1] 中間バッチ検証（verify-step.pending 残存時）
+  [2] /simplify でコード品質レビュー（needs-simplify.pending 残存時）
+  [3] FEブラウザ検証（該当時 / Playwright MCP）
+  [4] Codex仕様準拠+品質レビュー（mcp__codex__codex 2回）or feature-dev:code-reviewer agent
+  [5] Codex完了後 touch ~/.claude/state/codex-review.done
+  [6] rm ~/.claude/state/implementation-checklist.pending
+
+全完了まで作業を続けてください。
+</system-reminder>"""
+print(json.dumps({"decision": "block", "reason": reason}))
+PYEOF
+  exit 0
 fi
 
 exit 0
