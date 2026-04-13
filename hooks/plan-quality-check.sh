@@ -28,7 +28,7 @@ PLAN_FILE=""
 TMP_PLAN=""
 
 if [ -n "$PLAN_TEXT" ]; then
-    TMP_PLAN=$(mktemp)
+    TMP_PLAN=$(mktemp) || { echo "PLAN QUALITY: 一時ファイル作成失敗。検査をスキップします。"; exit 0; }
     printf '%s' "$PLAN_TEXT" > "$TMP_PLAN"
     PLAN_FILE="$TMP_PLAN"
 elif [ -n "${CLAUDE_PLAN_FILE:-}" ] && [ -f "$CLAUDE_PLAN_FILE" ]; then
