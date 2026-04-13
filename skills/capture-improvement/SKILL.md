@@ -340,8 +340,10 @@ cwd: {現在のプロジェクトディレクトリ}
 
    # 直前に追記したJSONLの最終行を読む（STEP 7-1で書いた内容）
    QUEUE = Path.home() / ".claude" / "state" / "improvement-queue.jsonl"
-   last = QUEUE.read_text(encoding="utf-8").splitlines()[-1]
-   ENTRY = json.loads(last)
+   lines = QUEUE.read_text(encoding="utf-8").splitlines() if QUEUE.exists() else []
+   if not lines:
+       raise SystemExit(0)  # 空ファイル → dual-writeスキップ（JSONL primary が未書き込みなので当然）
+   ENTRY = json.loads(lines[-1])
 
    try:
        fp_src = (ENTRY.get("source_project","") +
