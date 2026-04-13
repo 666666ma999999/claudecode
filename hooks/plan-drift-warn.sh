@@ -1,4 +1,5 @@
 #!/bin/bash
+set -uo pipefail
 # PostToolUse hook: プラン外ファイルへの Write/Edit を警告
 # plan-files-snapshot.txt（ExitPlanMode時に作成）に含まれないファイルへの書き込みを検知。
 # 判定はパス末尾2セグメント（dir/file.ext）の一致で行う。basenameのみの部分一致は
