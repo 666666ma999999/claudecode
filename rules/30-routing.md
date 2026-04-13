@@ -20,6 +20,8 @@
 | 新機能開発・設計比較・アーキテクチャ設計 | `feature-dev-hybrid` |
 | 新プロジェクト初期化 | `project-bootstrap` |
 | ベスプラ検索・Claude Code運用改善・最新Tips | `search-best-practice` |
+| Plan mode前スキル検索・外部レジストリ検索 | `find-skills` |
+| Plan中のアーキテクチャ判断・設計リスク分析 | `plan-adversarial-review` |
 
 ### アーキテクチャ・設計
 

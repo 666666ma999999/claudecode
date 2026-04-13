@@ -1,57 +1,94 @@
 #!/bin/bash
-# PostToolUse hook: Write/Edit でコードファイルを変更したらpending状態を作成
-# implementation-checklist スキル実行前にユーザーへ報告することを防止する警告を出す
+# PostToolUse hook: Write/Edit でコードファイルを変更したら pending 状態を作成し JSON additionalContext を返す
 
-# stdin JSON から tool_name と file_path を取得（Claude Code公式仕様）
+# hot path 高速化: bash で早期フィルタ（tool_name != Write/Edit なら python3 起動を回避）
 INPUT=$(cat)
-TOOL_NAME=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_name',''))" 2>/dev/null)
-FILE_PATH=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_input',{}).get('file_path',''))" 2>/dev/null)
-
-# Write/Edit以外は無視
-case "$TOOL_NAME" in
-    Write|Edit) ;;
+case "$INPUT" in
+    *'"tool_name":"Write"'*|*'"tool_name":"Edit"'*|*'"tool_name": "Write"'*|*'"tool_name": "Edit"'*) ;;
     *) exit 0 ;;
 esac
 
-# ファイルパスがない場合は無視
-[ -z "$FILE_PATH" ] && exit 0
-
-# ~/.claude/ 配下（memory, settings, skills, hooks, rules）は除外
-case "$FILE_PATH" in
-    */.claude/*) exit 0 ;;
-esac
-
-# コードファイルかどうか判定（実行コードのみ対象）
-case "$FILE_PATH" in
-    *.py|*.js|*.ts|*.tsx|*.jsx|*.html|*.css|*.json|*.yaml|*.yml|*.toml|*.cfg|*.ini)
-        ;;
-    *)
-        exit 0
-        ;;
-esac
-
-# state ディレクトリ確保
 STATE_DIR="$HOME/.claude/state"
+PENDING_FILE="$STATE_DIR/implementation-checklist.pending"
+FE_VERIFIED="$STATE_DIR/fe-browser-verified.done"
+
 mkdir -p "$STATE_DIR"
 
-PENDING_FILE="$STATE_DIR/implementation-checklist.pending"
+# 単一 python3 起動で分類判定 → pending 更新 → JSON出力 まで処理
+# stdin は heredoc に占有されるため、INPUT を環境変数経由で Python に渡す（JSON injection 対策）
+export PENDING_FILE FE_VERIFIED HOOK_INPUT="$INPUT"
+python3 <<'PYEOF'
+import json
+import os
+import sys
+from datetime import datetime
+from pathlib import Path
 
-# FEファイル編集時はブラウザ検証スタンプをクリア（再検証を強制）
-case "$FILE_PATH" in
-    *.html|*.css|*.scss|*.less|*.tsx|*.jsx|*/frontend/*|*/static/*|*/public/*)
-        rm -f "$STATE_DIR/fe-browser-verified.done"
-        ;;
-esac
+try:
+    data = json.loads(os.environ["HOOK_INPUT"])
+except (json.JSONDecodeError, KeyError):
+    sys.exit(0)
 
-# pending ファイルに変更ファイルを追記（重複排除）
-if [ -f "$PENDING_FILE" ]; then
-    if ! grep -qF "$FILE_PATH" "$PENDING_FILE" 2>/dev/null; then
-        echo "$FILE_PATH" >> "$PENDING_FILE"
-    fi
-else
-    echo "$(date '+%Y-%m-%d %H:%M:%S')" > "$PENDING_FILE"
-    echo "$FILE_PATH" >> "$PENDING_FILE"
-fi
+tool_name = data.get("tool_name", "")
+if tool_name not in ("Write", "Edit"):
+    sys.exit(0)
 
-# 警告を出力（Claude の会話コンテキストに入る）
-echo "⚠️ IMPLEMENTATION CHECKLIST PENDING: コード変更検出 ($FILE_PATH)。ユーザーへの報告前に implementation-checklist スキルを実行すること。"
+file_path = data.get("tool_input", {}).get("file_path", "")
+if not file_path:
+    sys.exit(0)
+
+# ~/.claude/ 配下は除外
+if "/.claude/" in file_path:
+    sys.exit(0)
+
+# コードファイルのみ対象
+code_exts = {".py", ".js", ".ts", ".tsx", ".jsx", ".html", ".css",
+             ".json", ".yaml", ".yml", ".toml", ".cfg", ".ini"}
+if Path(file_path).suffix.lower() not in code_exts:
+    sys.exit(0)
+
+# FEファイル編集時はブラウザ検証スタンプをクリア
+fe_exts = {".html", ".css", ".scss", ".less", ".tsx", ".jsx"}
+fe_dirs = ("/frontend/", "/static/", "/public/")
+is_fe = Path(file_path).suffix.lower() in fe_exts or any(d in file_path for d in fe_dirs)
+if is_fe:
+    fe_verified = Path(os.environ["FE_VERIFIED"])
+    fe_verified.unlink(missing_ok=True)
+
+# pending 追記（重複排除）
+pending = Path(os.environ["PENDING_FILE"])
+if pending.exists():
+    lines = pending.read_text(encoding="utf-8").splitlines()
+    if file_path not in lines:
+        with pending.open("a", encoding="utf-8") as f:
+            f.write(file_path + "\n")
+else:
+    pending.write_text(
+        f"{datetime.now():%Y-%m-%d %H:%M:%S}\n{file_path}\n",
+        encoding="utf-8",
+    )
+
+# 件数カウント（先頭のタイムスタンプ行を除外）
+all_lines = pending.read_text(encoding="utf-8").splitlines()
+count = sum(1 for line in all_lines[1:] if line.strip())
+
+# json.dumps で自動エスケープ（ファイルパスに " や \ が含まれても安全）
+msg = (
+    '<system-reminder severity="high" action-required="implementation-checklist">\n'
+    f"IMPLEMENTATION CHECKLIST PENDING ({count}件蓄積)\n\n"
+    f"最新変更: {file_path}\n\n"
+    "ユーザーへの完了報告の前に implementation-checklist スキルを実行してください。\n"
+    "- STEP 1: サーバー再起動/ヘルスチェック\n"
+    "- STEP 2: Codexレビュー（2段階: 仕様準拠 → 品質）\n"
+    "- STEP 3: スキル化判断\n"
+    "- STEP 4: セッション記録\n\n"
+    "詳細: ~/.claude/state/implementation-checklist.pending\n"
+    "</system-reminder>"
+)
+print(json.dumps({
+    "hookSpecificOutput": {
+        "hookEventName": "PostToolUse",
+        "additionalContext": msg,
+    }
+}))
+PYEOF

@@ -41,9 +41,14 @@
 
 ### プラン作成基準
 
-含める要素: Goal, Architecture, Tech Stack, Tasks, Verification。
+含める要素: Goal, Architecture, Tasks, Verification, 成功基準（5必須セクション）。
 タスク粒度: 2-5分、原則1ファイル、1論理変更。
-各タスクに推奨: ファイルパス, 関数名, コード, 検証コマンド。
+各タスクに必須: ファイルパス, 検証コマンド。
+各タスクに推奨: 関数名, コード, 期待結果。
+バッチ境界: 3タスクごとにバッチを区切り、各バッチに fast_verify を記載。
+バッチ定義例:
+  Batch 1 [T1-T3]: BE API追加 → fast_verify: `curl localhost:8000/api/new-endpoint`
+  Batch 2 [T4-T5]: FE連携 → fast_verify: `Playwright: browser_navigate → console_messages`
 
 ### 参照
 
