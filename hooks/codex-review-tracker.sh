@@ -14,8 +14,9 @@ FALLBACK_FLAG="$STATE_DIR/codex-fallback-needed"
 
 mkdir -p "$STATE_DIR"
 
-# 単一 python3 起動で stdin パース → 失敗判定 → count 更新 → JSON 出力
-export PENDING COUNT_FILE DONE FALLBACK_FLAG
+# stdin は heredoc に占有されるため、INPUT を環境変数経由で Python に渡す
+INPUT=$(cat)
+export PENDING COUNT_FILE DONE FALLBACK_FLAG HOOK_INPUT="$INPUT"
 python3 <<'PYEOF'
 import json
 import os
@@ -25,8 +26,8 @@ from datetime import datetime
 from pathlib import Path
 
 try:
-    data = json.load(sys.stdin)
-except json.JSONDecodeError:
+    data = json.loads(os.environ["HOOK_INPUT"])
+except (json.JSONDecodeError, KeyError):
     sys.exit(0)
 
 # Codex ツール以外は追跡不要（防御的ガード）
