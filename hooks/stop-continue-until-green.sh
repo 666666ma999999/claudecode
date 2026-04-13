@@ -61,26 +61,18 @@ if verify_pending.exists():
         log(f"blocker: verify-step pending ({edit_count} edits)")
 
 # チェック0.5: /simplify 未実行
+# 判定: simplify-done.timestamp が needs-simplify.pending より新しければOK
+# iteration上限なし（実際に/simplifyを実行しない限りブロックし続ける）
+simplify_done = state_dir / "simplify-done.timestamp"
 if simplify_pending.exists():
-    current = read_int(simplify_pending, 0)
-    saved = read_int(simplify_snapshot, -1)
-    itr = read_int(simplify_iteration, 0)
-
-    if current != saved:
-        itr += 1
-        if itr <= 3:
-            simplify_snapshot.write_text(f"{current}\n", encoding="utf-8")
-            simplify_iteration.write_text(f"{itr}\n", encoding="utf-8")
-            blockers.append(f"/simplify を実行してコード品質を確認してください（{itr}/3回目）。")
-            log(f"blocker: simplify pending (count={current}, iter={itr})")
-        else:
-            for f in (simplify_pending, simplify_snapshot, simplify_iteration):
-                f.unlink(missing_ok=True)
-            log("simplify: forced clear after 3 iterations")
-    else:
-        for f in (simplify_pending, simplify_snapshot, simplify_iteration):
+    if simplify_done.exists() and simplify_done.stat().st_mtime > simplify_pending.stat().st_mtime:
+        # /simplify実行済み → pending解除
+        for f in (simplify_pending, simplify_snapshot, simplify_iteration, simplify_done):
             f.unlink(missing_ok=True)
-        log("simplify: converged (no new edits)")
+        log("simplify: done (marker newer than pending)")
+    else:
+        blockers.append("/simplify を実行してコード品質を確認してください。実行するまでブロックされます。")
+        log(f"blocker: simplify pending, done_marker={'exists' if simplify_done.exists() else 'missing'}")
 
 # チェック0.75: FEブラウザ検証
 if (
