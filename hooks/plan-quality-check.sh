@@ -1,4 +1,5 @@
 #!/bin/bash
+set -uo pipefail
 # PreToolUse hook: ExitPlanMode 前のプラン品質チェック
 # 必須セクション（Goal/Architecture/Tasks/Verification、Delivery時は成功基準）を検査。
 # プラン内のファイルパスを plan-files-snapshot.txt にスナップショット保存（drift検知用）。
