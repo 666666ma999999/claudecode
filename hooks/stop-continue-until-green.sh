@@ -4,7 +4,9 @@
 
 STATE_DIR="$HOME/.claude/state"
 
-export STATE_DIR
+# stdin は heredoc に占有されるため、INPUT を環境変数経由で Python に渡す
+INPUT=$(cat)
+export STATE_DIR HOOK_INPUT="$INPUT"
 # 単一 python3 起動で全チェックを処理（hot path 短縮 + JSON injection 防止）
 python3 <<'PYEOF'
 import json
@@ -13,7 +15,7 @@ import sys
 from pathlib import Path
 
 try:
-    data = json.load(sys.stdin)
+    data = json.loads(os.environ.get("HOOK_INPUT", "{}"))
 except json.JSONDecodeError:
     data = {}
 
