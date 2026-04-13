@@ -52,29 +52,18 @@ if [ -z "$done_section" ]; then
   exit 0
 fi
 
-# 許容リストを読み込み（同ディレクトリの .obsidian-done-legacy）
+# 許容リストを読み込み（同ディレクトリの .obsidian-done-legacy-<basename>）
 dir_path=$(dirname "$file_path")
 base_name=$(basename "$file_path" .md)
 legacy_file="${dir_path}/.obsidian-done-legacy-${base_name}"
 
-legacy_entries=""
-if [ -f "$legacy_file" ]; then
-  legacy_entries=$(cat "$legacy_file")
-fi
-
-# 各 ##### エントリを検証（許容リストに含まれるものはスキップ）
-violations=$(echo "$done_section" | awk -v legacy="$legacy_entries" '
-  BEGIN {
-    split(legacy, arr, "\n")
-    for (i in arr) known[arr[i]] = 1
-    current=""; has_result=0; body_lines=0
-  }
+# 全違反エントリを検出
+all_violations=$(echo "$done_section" | awk '
+  BEGIN { current=""; has_result=0; body_lines=0 }
   /^##### / {
     if (current != "") {
       if (!has_result || body_lines < 2) {
-        if (!(current in known)) {
-          print current
-        }
+        print current
       }
     }
     current=$0
@@ -87,13 +76,18 @@ violations=$(echo "$done_section" | awk -v legacy="$legacy_entries" '
   END {
     if (current != "") {
       if (!has_result || body_lines < 2) {
-        if (!(current in known)) {
-          print current
-        }
+        print current
       }
     }
   }
 ')
+
+# 許容リストで既知エントリを除外
+if [ -n "$all_violations" ] && [ -f "$legacy_file" ]; then
+  violations=$(echo "$all_violations" | grep -Fxvf "$legacy_file" || true)
+else
+  violations="$all_violations"
+fi
 
 if [ -n "$violations" ]; then
   cat >&2 <<EOF
