@@ -53,5 +53,28 @@ else
     echo "$FILE_PATH" >> "$PENDING_FILE"
 fi
 
-# 警告を出力（Claude の会話コンテキストに入る）
-echo "⚠️ IMPLEMENTATION CHECKLIST PENDING: コード変更検出 ($FILE_PATH)。ユーザーへの報告前に implementation-checklist スキルを実行すること。"
+# 警告を JSON additionalContext 形式で出力（Claude の会話コンテキストに注入）
+# PostToolUse の plain stdout は Claude に届かないため、hookSpecificOutput.additionalContext 必須
+COUNT=$(tail -n +2 "$PENDING_FILE" 2>/dev/null | grep -cv '^[[:space:]]*$' || echo 0)
+python3 <<PYEOF
+import json
+msg = """<system-reminder severity="high" action-required="implementation-checklist">
+IMPLEMENTATION CHECKLIST PENDING (${COUNT}件蓄積)
+
+最新変更: $FILE_PATH
+
+ユーザーへの完了報告の前に implementation-checklist スキルを実行してください。
+- STEP 1: サーバー再起動/ヘルスチェック
+- STEP 2: Codexレビュー（2段階: 仕様準拠 → 品質）
+- STEP 3: スキル化判断
+- STEP 4: セッション記録
+
+詳細: ~/.claude/state/implementation-checklist.pending
+</system-reminder>"""
+print(json.dumps({
+    "hookSpecificOutput": {
+        "hookEventName": "PostToolUse",
+        "additionalContext": msg
+    }
+}))
+PYEOF
