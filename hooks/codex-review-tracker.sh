@@ -34,21 +34,34 @@ except Exception:
     print('ok')
 " 2>/dev/null)
 
+# JSON additionalContext ヘルパー（PostToolUse stdout は Claude に届かないため）
+emit_context() {
+    python3 -c "
+import json, sys
+print(json.dumps({
+    'hookSpecificOutput': {
+        'hookEventName': 'PostToolUse',
+        'additionalContext': sys.stdin.read()
+    }
+}))
+" <<< "$1"
+}
+
 if [ "$IS_ERROR" = "error" ]; then
     # Codex失敗 → count増やさず、フォールバックを要請
     touch "$FALLBACK_FLAG"
-    FILES=$(tail -n +2 "$PENDING" 2>/dev/null | head -5)
-    cat <<EOF
-⚠️ Codex呼び出しが失敗しました（quota/rate limit/auth等）。Codexレビューはスキップされます。
+    FILES=$(tail -n +2 "$PENDING" 2>/dev/null | head -5 | sed 's/^/   - /')
+    emit_context "<system-reminder severity=\"high\" action-required=\"codex-fallback-review\">
+Codex呼び出しが失敗しました（quota/rate limit/auth等）。Codexレビューはスキップされます。
 
 フォールバック手順（次のターンで自動実行してください）:
 1. feature-dev:code-reviewer Agentを起動し、以下ファイルを仕様準拠+コード品質の2観点でレビュー:
-$(echo "$FILES" | sed 's/^/   - /')
+${FILES}
 2. ブロッカーがあれば修正
 3. 完了したら: touch ~/.claude/state/codex-review.done
 
 これでパイプライン（auto-skill-review等）が再開します。
-EOF
+</system-reminder>"
     exit 0
 fi
 
@@ -61,7 +74,11 @@ echo "$COUNT" > "$COUNT_FILE"
 if [ "$COUNT" -ge 2 ]; then
     date '+%Y-%m-%d %H:%M:%S' > "$DONE"
     rm -f "$FALLBACK_FLAG"
-    echo "✅ Codex review Stage 2 (品質) recorded. Both stages complete. checklist解除可能。"
+    emit_context "<system-reminder severity=\"info\">
+✅ Codex review Stage 2 (品質) recorded. Both stages complete. checklist解除可能。
+</system-reminder>"
 else
-    echo "✅ Codex review Stage 1 (仕様準拠) recorded. Stage 2 (品質レビュー) が必要です。"
+    emit_context "<system-reminder severity=\"info\" action-required=\"codex-stage-2\">
+✅ Codex review Stage 1 (仕様準拠) recorded. Stage 2 (品質レビュー) が必要です。
+</system-reminder>"
 fi
