@@ -19,9 +19,9 @@ CODEX_DONE="$STATE_DIR/codex-review.done"
 cat > /dev/null
 
 # Guard: 既にレビュー済み / pending なし / Codex未完了
-[ -f "$DONE_FILE" ] && exit 0
-[ ! -f "$PENDING_FILE" ] || [ ! -s "$PENDING_FILE" ] && exit 0
-[ -f "$CODEX_DONE" ] || exit 0
+if [ -f "$DONE_FILE" ]; then exit 0; fi
+if [ ! -f "$PENDING_FILE" ] || [ ! -s "$PENDING_FILE" ]; then exit 0; fi
+if [ ! -f "$CODEX_DONE" ]; then exit 0; fi
 
 # 単一 python3 起動で分類 → Tier判定 → Scope判定 → JSON出力 まで処理
 export PENDING_FILE DONE_FILE
