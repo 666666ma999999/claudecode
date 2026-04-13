@@ -15,9 +15,9 @@ FE_VERIFIED="$STATE_DIR/fe-browser-verified.done"
 mkdir -p "$STATE_DIR"
 
 # 単一 python3 起動で分類判定 → pending 更新 → JSON出力 まで処理
-# shell変数と Python ソースの混在を排除（JSON injection 対策）
-export PENDING_FILE FE_VERIFIED
-echo "$INPUT" | python3 <<'PYEOF'
+# stdin は heredoc に占有されるため、INPUT を環境変数経由で Python に渡す（JSON injection 対策）
+export PENDING_FILE FE_VERIFIED HOOK_INPUT="$INPUT"
+python3 <<'PYEOF'
 import json
 import os
 import sys
@@ -25,8 +25,8 @@ from datetime import datetime
 from pathlib import Path
 
 try:
-    data = json.load(sys.stdin)
-except json.JSONDecodeError:
+    data = json.loads(os.environ["HOOK_INPUT"])
+except (json.JSONDecodeError, KeyError):
     sys.exit(0)
 
 tool_name = data.get("tool_name", "")
