@@ -118,9 +118,11 @@ if pending_file.exists() and pending_file.stat().st_size > 0:
     log("blocker: implementation-checklist pending")
 
 # チェック2: docker-compose + tests-passed
+# Stop hook payload の cwd を優先（hook 実行時の cwd が不明瞭なため）
+cwd = Path(data.get("cwd") or os.getcwd())
 compose_file = None
 for name in ("docker-compose.yml", "docker-compose.yaml"):
-    if Path(name).exists():
+    if (cwd / name).exists():
         compose_file = name
         break
 
