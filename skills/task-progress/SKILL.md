@@ -113,7 +113,7 @@ ls .claude/workspace/task.md 2>/dev/null
 | tool_limitation | ツールの機能制限 | Playwright MCPでfile://が使えない |
 | environment_constraint | 環境固有の制約 | M1 Macでx86バイナリが動かない |
 | dependency_failure | 依存パッケージの問題 | npm install失敗、バージョン非互換 |
-| config_issue | 設定ファイルの問題 | .envrc未設定、ポート競合 |
+| config_issue | 設定ファイルの問題 | 環境変数未設定、ポート競合 |
 | api_auth | API認証の問題 | トークン期限切れ、権限不足 |
 | api_behavior | APIの予期しない動作 | レスポンス形式変更、undocumented制限 |
 | service_unavailable | 外部サービス停止 | GitHub API障害、CMS応答なし |
