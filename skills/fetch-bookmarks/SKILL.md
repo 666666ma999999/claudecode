@@ -18,7 +18,7 @@ triggers:
 - Cookie期限切れでブックマーク取得できない時
 
 ## Prerequisites
-- influxプロジェクト: `~/Desktop/prm/influx`（INFLUX_ROOT環境変数 or デフォルト）
+- influxプロジェクト: `~/Desktop/biz/influx`（INFLUX_ROOT環境変数 or デフォルト）
 - Docker: `docker-compose.vnc.yml` が存在すること
 - VNCコンテナ `xstock-vnc` が起動していること
 - `x_profile/cookies.json` が有効であること
@@ -27,7 +27,7 @@ triggers:
 
 ### Step 1: influxプロジェクト確認
 ```bash
-INFLUX_ROOT="${INFLUX_ROOT:-$HOME/Desktop/prm/influx}"
+INFLUX_ROOT="${INFLUX_ROOT:-$HOME/Desktop/biz/influx}"
 ls "$INFLUX_ROOT/scripts/fetch_bookmarks.py" && echo "OK"
 ```
 

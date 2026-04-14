@@ -42,7 +42,8 @@ fi
 
 # Always allow: prm projects (cross-project edits from Obsidian workspace)
 PRM_DIR="$HOME/Desktop/prm/"
-if [[ "$FILE_PATH" == "$PRM_DIR"* ]]; then
+BIZ_DIR="$HOME/Desktop/biz/"
+if [[ "$FILE_PATH" == "$PRM_DIR"* ]] || [[ "$FILE_PATH" == "$BIZ_DIR"* ]]; then
   exit 0
 fi
 

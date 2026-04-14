@@ -283,7 +283,7 @@ if __name__ == "__main__":
 
 influxプロジェクト経由で実行:
 ```bash
-cd ~/Desktop/prm/influx
+cd ~/Desktop/biz/influx
 docker exec xstock-vnc python scripts/fetch_bookmarks.py \
   --out /app/output/bookmarks.jsonl \
   --max-empty-batches 5 \
