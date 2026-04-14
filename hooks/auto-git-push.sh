@@ -64,6 +64,7 @@ fi
     templates/ \
     sessions/ \
     state/ \
+    extensions/ \
     2>/dev/null
   git diff --cached --quiet && exit 0
   git commit -m "auto: update $(date '+%Y-%m-%d %H:%M')" --no-verify
