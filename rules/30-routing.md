@@ -17,8 +17,9 @@
 | SubAgent委託・デバッグ・リファクタリング | `execution-patterns` |
 | 叩き台・探索・試作・UI案・API挙動確認・要件曖昧 | `/prototype` コマンド |
 | 実装完了・完了報告前・検証完了 | `implementation-checklist` |
-| 新機能開発・設計比較・アーキテクチャ設計 | `feature-dev-hybrid` |
-| 新プロジェクト初期化 | `project-bootstrap` |
+| 新機能/MVP開始・4項目ブリーフ収集→Plan mode起動 | `new-feature` |
+| 新機能開発・設計比較・3並列アーキテクチャ比較が必要 | `feature-dev-hybrid` |
+| 新プロジェクト初期化(.gitignore/Docker/CLAUDE.md 等) | `project-bootstrap` |
 | ベスプラ検索・Claude Code運用改善・最新Tips | `search-best-practice` |
 | Plan mode前スキル検索・外部レジストリ検索 | `find-skills` |
 | Plan中のアーキテクチャ判断・設計リスク分析 | `plan-adversarial-review` |
