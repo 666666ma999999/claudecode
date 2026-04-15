@@ -6,7 +6,14 @@ set -uo pipefail
 # 比較ロジックは plan-drift-warn.sh と同じ (偽陰性/偽陽性回避のため tail2 採用)。
 
 INPUT=$(cat)
-FILE_PATH=$(python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_input',{}).get('file_path',''))" <<<"$INPUT" 2>/dev/null | tr -d '\n')
+FILE_PATH=$(python3 -c "
+import json, sys
+try:
+    data = json.loads(sys.stdin.read() or '{}')
+    print(data.get('tool_input', {}).get('file_path', ''))
+except Exception:
+    pass
+" <<<"$INPUT" 2>/dev/null | tr -d '\n')
 
 [ -z "$FILE_PATH" ] && exit 0
 
