@@ -7,7 +7,7 @@ LOG_FILE="$LOG_DIR/auto-git-pull.log"
 LOCK_FILE="$LOG_DIR/auto-git-pull.lock"
 mkdir -p "$LOG_DIR"
 
-# 前回失敗ログがあれば冒頭で表示 (古いログは自動削除)
+# 前回エラーログがあれば冒頭で表示 (成功時は書き込まないので、残っている=実エラー)
 if [ -s "$LOG_FILE" ]; then
     echo "warn: 前回 pull でエラー発生:"
     tail -3 "$LOG_FILE"
@@ -17,6 +17,7 @@ fi
 # ロック取得ヘルパ: mkdir はクロスプラットフォームでアトミック
 # (macOS に flock がないため mkdir-based lock を採用)
 # .git/index.lock も事前チェックして二重防御
+# pull 成功時はログに書かず、エラー時のみ LOG_FILE に記録する
 acquire_lock_and_pull() {
     local lock_dir="$1"
     local git_dir="$2"  # .git のパス
@@ -27,7 +28,13 @@ acquire_lock_and_pull() {
         return 0  # 他 Claude セッションがロック中、skip
     fi
     trap "rmdir '$lock_dir' 2>/dev/null" EXIT
-    git pull --ff-only >>"$LOG_FILE" 2>&1
+    local tmp_out; tmp_out=$(mktemp)
+    if git pull --ff-only >"$tmp_out" 2>&1; then
+        rm -f "$tmp_out"  # 成功時はログを残さない
+    else
+        cat "$tmp_out" >>"$LOG_FILE"
+        rm -f "$tmp_out"
+    fi
 }
 
 # 1. カレントディレクトリがgitリポジトリの場合、BG で pull
