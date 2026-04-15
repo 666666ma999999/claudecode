@@ -32,5 +32,5 @@ if [ ! -f "$DONE" ]; then
 fi
 
 # Codexレビュー済み — 解除を許可し、追跡ファイルもクリーンアップ
-rm -f "$DONE" "$STATE_DIR/codex-review.count"
+rm -f "$DONE" "$STATE_DIR/codex-review.count" "$STATE_DIR/codex-fallback-needed"
 exit 0
