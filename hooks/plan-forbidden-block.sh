@@ -37,9 +37,11 @@ print('/'.join(parts[-2:]) if len(parts) >= 2 else parts[-1])
 
 [ -z "$TAIL2" ] && exit 0
 
-MATCHED=$(python3 - "$TAIL2" "$FORBIDDEN" <<'PY' 2>/dev/null
-import sys
+MATCHED=$(python3 - "$TAIL2" "$FORBIDDEN" "$FILE_PATH" <<'PY' 2>/dev/null
+import sys, os
 tail = sys.argv[1]
+full_path = sys.argv[3]
+basename = os.path.basename(full_path)
 try:
     with open(sys.argv[2]) as f:
         lines = [l.strip() for l in f if l.strip()]
@@ -51,7 +53,12 @@ def tail2(p):
     return '/'.join(parts[-2:]) if len(parts) >= 2 else parts[-1]
 
 for line in lines:
-    if tail2(line) == tail:
+    line_tail2 = tail2(line)
+    line_basename = os.path.basename(line.strip('/'))
+    # 末尾2セグメント一致 (主) または 登録側が単一セグメントで basename 一致 (フォールバック)
+    if line_tail2 == tail:
+        print('YES'); sys.exit(0)
+    if '/' not in line.strip('/') and line_basename == basename:
         print('YES'); sys.exit(0)
 print('NO')
 PY
