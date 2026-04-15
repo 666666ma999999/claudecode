@@ -582,5 +582,11 @@
   },
   "enabledPlugins": {
     "feature-dev@claude-code-plugins": true
-  }
+  },
+  "claudeMdExcludes": [
+    "**/firecrawl/**",
+    "**/templates/**",
+    "**/plugins/**",
+    "**/node_modules/**"
+  ]
 }
