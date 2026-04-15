@@ -14,6 +14,22 @@ if [ -s "$LOG_FILE" ]; then
     rm -f "$LOG_FILE"
 fi
 
+# ロック取得ヘルパ: mkdir はクロスプラットフォームでアトミック
+# (macOS に flock がないため mkdir-based lock を採用)
+# .git/index.lock も事前チェックして二重防御
+acquire_lock_and_pull() {
+    local lock_dir="$1"
+    local git_dir="$2"  # .git のパス
+    if [ -f "$git_dir/index.lock" ]; then
+        return 0  # 他 git 操作が進行中、skip
+    fi
+    if ! mkdir "$lock_dir" 2>/dev/null; then
+        return 0  # 他 Claude セッションがロック中、skip
+    fi
+    trap "rmdir '$lock_dir' 2>/dev/null" EXIT
+    git pull --ff-only >>"$LOG_FILE" 2>&1
+}
+
 # 1. カレントディレクトリがgitリポジトリの場合、BG で pull
 if [ -d ".git" ]; then
     if ! git rev-parse --abbrev-ref --symbolic-full-name @{u} &>/dev/null; then
@@ -21,23 +37,14 @@ if [ -d ".git" ]; then
     elif ! git diff --quiet 2>/dev/null || ! git diff --cached --quiet 2>/dev/null; then
         echo "info: skipping pull (unstaged/staged changes present)"
     else
-        (
-            exec 9>"$LOCK_FILE.cwd"
-            if command -v flock >/dev/null 2>&1; then
-                flock -n 9 || exit 0
-            fi
-            git pull --ff-only >>"$LOG_FILE" 2>&1
-        ) &
+        (acquire_lock_and_pull "$LOCK_FILE.cwd.d" ".git") &
     fi
 fi
 
 # 2. ~/.claude/ を pull（バックグラウンド）
 (
-    exec 9>"$LOCK_FILE.claude"
-    if command -v flock >/dev/null 2>&1; then
-        flock -n 9 || exit 0
-    fi
-    cd ~/.claude 2>/dev/null && git pull --ff-only >>"$LOG_FILE" 2>&1
+    cd ~/.claude 2>/dev/null || exit 0
+    acquire_lock_and_pull "$LOCK_FILE.claude.d" ".git"
 ) &
 
 exit 0
