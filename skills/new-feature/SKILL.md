@@ -59,14 +59,18 @@ allowed-tools: "Read Write Edit Glob Grep Bash AskUserQuestion"
 
 `~/.claude/templates/plan.md` が存在しない場合はエラーを出力して停止する。
 
-4項目を収集したら `tasks/{slug}.md` を作成する (tasks/ が未存在ならまず作成):
+4項目を収集したら `tasks/{slug}.md` を作成する。以下を実行する前に、必ず:
+
+1. **cwd 確認**: `git rev-parse --show-toplevel 2>/dev/null || pwd` でプロジェクトルート推定。別ディレクトリにいる場合は `cd` でプロジェクトルートに移動する
+2. **プレースホルダ置換**: 以下のコマンドで `{slug}` を Phase 1 で確認した feature-slug (例: `ad-revenue-mvp`) にリテラル置換してから Bash 実行 (山括弧 `<>` は使わない — シェル リダイレクト誤爆防止)
 
 ```bash
+# 実行前に {slug} を実際のスラッグに置換すること (例: {slug} → ad-revenue-mvp)
 mkdir -p tasks
 cp ~/.claude/templates/plan.md tasks/{slug}.md
 ```
 
-その後 `tasks/{slug}.md` の各セクション（Why/Who/非ゴール/成功基準）を収集した回答で埋める。
+その後 `tasks/{slug}.md` の各セクション（Why/Who/非ゴール/成功基準）を Edit ツールで埋める。
 
 ## Phase 2: Plan Mode 起動
 
