@@ -59,9 +59,10 @@ allowed-tools: "Read Write Edit Glob Grep Bash AskUserQuestion"
 
 `~/.claude/templates/plan.md` が存在しない場合はエラーを出力して停止する。
 
-4項目を収集したら `tasks/<feature-slug>.md` を作成する:
+4項目を収集したら `tasks/<feature-slug>.md` を作成する (tasks/ が未存在ならまず作成):
 
 ```bash
+mkdir -p tasks
 cp ~/.claude/templates/plan.md tasks/<feature-slug>.md
 ```
 
