@@ -1,12 +1,10 @@
 ---
 name: project-recall
 description: |
-  プロジェクト復帰時のコンテキスト再構築スキル。Explore Agent + Codex MCP + 並列Agent Teamsで
-  コードベース・履歴・Memory を統合分析し、復帰レポートを生成・Memory永続化する。
-  Phase Protocol（並列探索→クロス検証→統合）で調査品質を保証。
-  キーワード: プロジェクト思い出す, 久しぶり, 何だったっけ, コンテキスト復元, 前回何してた, 忘れた,
-  project recall, what was this, remind me, catch up, context restore
-  NOT for: アクティブ作業中の進捗管理（→ task-progress）, 初回コードベース調査（→ codebase-investigation）
+  プロジェクト復帰時のコンテキスト再構築。Explore+Codex+並列Agent Teamsで
+  コード・履歴・Memoryを統合分析し復帰レポートを生成・永続化。
+  キーワード: プロジェクト思い出す, 久しぶり, コンテキスト復元, project recall, catch up。
+  NOT for: 進捗管理（→ task-progress）, 初回調査（→ codebase-investigation）
 allowed-tools: "Read Glob Grep Agent mcp__codex__codex mcp__codex__codex-reply"
 metadata:
   author: masaaki-nagasawa
