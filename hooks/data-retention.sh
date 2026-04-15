@@ -119,6 +119,13 @@ cleanup_files "${CLAUDE_DIR}/telemetry" 14 "telemetry"
 # 9. backups/ - Delete files older than 7 days
 cleanup_files "${CLAUDE_DIR}/backups" 7 "backups"
 
+# 9b. state/precompact-backups/ - Delete snapshot directories older than 7 days
+# (PreCompact hook が作る 1 セッション単位の state snapshot が無限蓄積するのを防ぐ)
+if [[ -d "${CLAUDE_DIR}/state/precompact-backups" ]]; then
+    find "${CLAUDE_DIR}/state/precompact-backups" -mindepth 1 -maxdepth 1 -type d -mtime +7 -exec rm -rf {} + 2>/dev/null
+    log "precompact-backups: purged snapshots older than 7 days"
+fi
+
 # 10. plans/ - Delete plan files older than 14 days
 cleanup_files "${CLAUDE_DIR}/plans" 14 "plans"
 
