@@ -1,11 +1,10 @@
 ---
 name: obsidian-short-note-merge
 description: |
-  Obsidian Vault内の短文MD or DONEエントリを「どの既存ファイルへ統合するか」と「どう書いて追記するか」を
-  Codex + Explore Agentの並列分析で設計するスキル。移動先候補の提案と、最終Markdownブロックの
-  整形に特化。検出・編集・削除は行わない（ユーザーが実施）。
-  キーワード: 移動先選定, 統合先提案, 書き方設計, MDマージ, Obsidian, 断片整理, destination selection, DONEエントリ再配置
-  NOT for: 短文ファイル検出（ユーザー実施）、Edit/削除の実行（ユーザー実施）、NOW→DONE移動（→ obsidian-now-done）
+  Obsidian Vault内の短文MD/DONEエントリの統合先選定と追記Markdown設計スキル。
+  Codex+Explore並列分析で移動先候補と整形ブロックを提案（検出・編集は不実施）。
+  キーワード: 移動先選定, 統合先提案, MDマージ, Obsidian, 断片整理, DONEエントリ再配置。
+  NOT for: 検出・Edit・削除実行, NOW→DONE移動（→ obsidian-now-done）
 allowed-tools: "Read Glob Grep Bash Agent mcp__codex__codex mcp__codex__codex-reply"
 license: proprietary
 metadata:
