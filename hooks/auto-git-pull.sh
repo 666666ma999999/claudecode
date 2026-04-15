@@ -34,7 +34,11 @@ acquire_lock_and_pull() {
     if git pull --ff-only >"$tmp_out" 2>&1; then
         rm -f "$tmp_out"  # 成功時はログを残さない
     else
-        cat "$tmp_out" >>"$LOG_FILE"
+        {
+            echo "[$(date +%Y-%m-%dT%H:%M:%S) sid=$SESSION_ID cwd=$(pwd)]"
+            cat "$tmp_out"
+            echo "---"
+        } >>"$LOG_FILE"
         rm -f "$tmp_out"
     fi
 }
