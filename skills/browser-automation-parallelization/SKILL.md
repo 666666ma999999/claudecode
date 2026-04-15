@@ -8,6 +8,8 @@ triggers:
   - バッチスループット向上
   - mutex競合解消
   - 並列CMS登録
+allowed-tools: "Read Edit Write Grep Glob Bash"
+license: proprietary
 ---
 
 # Browser Automation Parallelization
