@@ -37,11 +37,13 @@ if [ -d ".git" ]; then
     elif ! git diff --quiet 2>/dev/null || ! git diff --cached --quiet 2>/dev/null; then
         echo "info: skipping pull (unstaged/staged changes present)"
     else
+        echo "info: git pull running in background (log: ~/.claude/state/auto-git-pull.log)"
         (acquire_lock_and_pull "$LOCK_FILE.cwd.d" ".git") &
     fi
 fi
 
 # 2. ~/.claude/ を pull（バックグラウンド）
+echo "info: ~/.claude pull running in background"
 (
     cd ~/.claude 2>/dev/null || exit 0
     acquire_lock_and_pull "$LOCK_FILE.claude.d" ".git"
