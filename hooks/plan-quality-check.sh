@@ -59,7 +59,7 @@ fi
 # パス抽出元:
 #   - plan-files-snapshot.txt ← 影響範囲セクション (drift-warn.sh が参照)
 #   - plan-forbidden.txt      ← 変更禁止ファイルセクション (plan-forbidden-block.sh が参照)
-RESULT=$(python3 - "$PLAN_FILE" "$STATE_DIR" <<'PY' 2>/dev/null
+RESULT=$(python3 - "$PLAN_FILE" "$STATE_DIR" <<'PY' 2>"$STATE_DIR/plan-quality-check-err.log"
 import re, sys, json, os, datetime
 
 plan_path = sys.argv[1]
