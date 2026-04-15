@@ -59,20 +59,20 @@ allowed-tools: "Read Write Edit Glob Grep Bash AskUserQuestion"
 
 `~/.claude/templates/plan.md` が存在しない場合はエラーを出力して停止する。
 
-4項目を収集したら `tasks/<feature-slug>.md` を作成する (tasks/ が未存在ならまず作成):
+4項目を収集したら `tasks/{slug}.md` を作成する (tasks/ が未存在ならまず作成):
 
 ```bash
 mkdir -p tasks
-cp ~/.claude/templates/plan.md tasks/<feature-slug>.md
+cp ~/.claude/templates/plan.md tasks/{slug}.md
 ```
 
-その後 `tasks/<feature-slug>.md` の各セクション（Why/Who/非ゴール/成功基準）を収集した回答で埋める。
+その後 `tasks/{slug}.md` の各セクション（Why/Who/非ゴール/成功基準）を収集した回答で埋める。
 
 ## Phase 2: Plan Mode 起動
 
 `EnterPlanMode` を呼ぶ。Plan mode 内で Claude が以下を実行する:
 
-1. **影響範囲の提案**: `Grep`/`Glob` でコードベースをスキャンし、変更が及ぶファイル/ディレクトリを列挙して `tasks/<feature-slug>.md` の「影響範囲」セクションに追記する。
+1. **影響範囲の提案**: `Grep`/`Glob` でコードベースをスキャンし、変更が及ぶファイル/ディレクトリを列挙して `tasks/{slug}.md` の「影響範囲」セクションに追記する。
 2. **変更禁止ファイルの提案**: `core/`・`shared/`・設定ファイル等のクリティカルファイルを特定し「変更禁止ファイル」セクションに追記する。
 3. **実装計画策定**: `task-planner` スキルに準拠したバッチ構成（Batch 1-N + fast_verify）を plan に追記する。
 
@@ -90,7 +90,7 @@ cp ~/.claude/templates/plan.md tasks/<feature-slug>.md
 
 1. `implementation-checklist` スキル STEP 1-4 を実行する。
 2. Obsidian NOW→DONE 移動は `obsidian-now-done` スキルに従う。
-3. `tasks/<feature-slug>.md` の Session Handoff セクションを更新する（`task-progress` スキル参照）。
+3. `tasks/{slug}.md` の Session Handoff セクションを更新する（`task-progress` スキル参照）。
 
 ## 既存スキルとの関係
 
@@ -99,10 +99,10 @@ cp ~/.claude/templates/plan.md tasks/<feature-slug>.md
 | `feature-dev-hybrid` | 3並列設計比較が必要な大規模機能。new-feature はその軽量版 |
 | `project-bootstrap` | 完全新規プロジェクトの `.gitignore`/Docker初期化。new-feature は機能設計に集中 |
 | `task-planner` | Phase 2 の計画策定で内部参照する |
-| `task-progress` | Phase 1 で生成した `tasks/<feature-slug>.md` はこのスキルの管理対象になる |
+| `task-progress` | Phase 1 で生成した `tasks/{slug}.md` はこのスキルの管理対象になる |
 | `execution-patterns` | Phase 3 のバッチ実行・SubAgent委託ルールを提供 |
 | `implementation-checklist` | Phase 4 の完了ゲートを提供 |
 
 ## Execution Strategy
 
-このスキルは常に **Delivery モード** で動作する。成功基準は Phase 1 で確定させ、`tasks/<feature-slug>.md` の「成功基準」セクションに記載する。成功基準が定義できない場合は `AskUserQuestion` で確認し、必要なら **Clarify モード** に切り替える。
+このスキルは常に **Delivery モード** で動作する。成功基準は Phase 1 で確定させ、`tasks/{slug}.md` の「成功基準」セクションに記載する。成功基準が定義できない場合は `AskUserQuestion` で確認し、必要なら **Clarify モード** に切り替える。
