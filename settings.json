@@ -22,6 +22,10 @@
       "Grep"
     ],
     "deny": [
+      "Bash(env)",
+      "Bash(env *)",
+      "Bash(printenv)",
+      "Bash(printenv *)",
       "Bash(pip install*)",
       "Bash(pip3 install*)",
       "Bash(python -m pip install*)",
