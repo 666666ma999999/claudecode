@@ -1,5 +1,0 @@
- M hooks/precompact-backup-session.sh
- M hooks/precompact-build-restore-note.sh
-?? commands/commit-push-pr.md
-?? sessions/
-?? state/
