@@ -40,6 +40,7 @@
 
 | トリガー | 参照スキル |
 |---------|-----------|
+| Rohan原稿不一致・登録バグ・input_a/subtitle/ISS調査・session疑念・PPV調査 | `history-first-diagnosis` |
 | デバッグガイド・根本原因分析 | `debugging-guide` |
 | 敵対的レビュー・前提疑問・ロジック検証 | `/adversarial-review` コマンド |
 | 行き詰まり・Codex完遂力が必要・stuck時引き渡し | `/rescue` コマンド |
