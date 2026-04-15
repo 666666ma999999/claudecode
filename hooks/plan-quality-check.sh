@@ -87,7 +87,8 @@ missing = [k for k, v in required.items() if not v]
 
 # セクション本文を抽出してパス収集
 def section_body(headers):
-    pattern = r'##\s*(?:' + '|'.join(headers) + r')[^\n]*\n(.*?)(?=\n##\s|\Z)'
+    # 終了条件: 任意の見出し (##, ###, ...) または末尾
+    pattern = r'##\s*(?:' + '|'.join(headers) + r')[^\n]*\n(.*?)(?=\n#{1,6}\s|\Z)'
     mm = re.search(pattern, content, re.S | re.I)
     return mm.group(1) if mm else ''
 
