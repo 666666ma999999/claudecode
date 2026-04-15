@@ -1,8 +1,8 @@
 ---
 name: capture-improvement
 description: プロジェクト改善を定量評価し、Material Bankに登録する。任意のプロジェクトから実行可能なグローバルスキル。定量的なBefore/Afterがない改善は登録しない。
-user_invocable: true
-invocation: /capture-improvement [改善メモ]
+user-invocable: true
+argument-hint: "[改善メモ]"
 allowed-tools:
   - Read
   - Write
