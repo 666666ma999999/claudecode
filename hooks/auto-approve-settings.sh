@@ -82,9 +82,24 @@ if [[ "$TOOL_NAME" == "Bash" ]] && [[ -n "$BASH_CMD" ]]; then
   fi
 fi
 
-# 5. Any tool when CWD is inside .claude/
+# 5. Relative-path ops when CWD is inside .claude/
+#    Guards against auto-approving writes to absolute paths OUTSIDE .claude
+#    (e.g. /etc, /usr, $HOME/Desktop) even when the session runs from .claude/
 if is_claude_cwd; then
-  allow
+  reject=0
+  # Absolute FILE_PATH pointing outside .claude → don't auto-approve
+  if [[ "$FILE_PATH" == /* ]] \
+     && [[ "$FILE_PATH" != *"/.claude/"* ]] \
+     && [[ "$FILE_PATH" != *".claude/"* ]]; then
+    reject=1
+  fi
+  # Bash command referencing sensitive absolute paths → don't auto-approve
+  if [[ "$reject" == 0 ]] && [[ -n "$BASH_CMD" ]]; then
+    if echo "$BASH_CMD" | grep -Eq '(^|[^./[:alnum:]])/(etc|usr|System|var|Library|bin|sbin|private|boot|root)(/|$)'; then
+      reject=1
+    fi
+  fi
+  [[ "$reject" == 0 ]] && allow
 fi
 
 # 6. Settings/config tools
