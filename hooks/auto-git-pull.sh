@@ -5,6 +5,8 @@
 LOG_DIR="$HOME/.claude/state"
 LOG_FILE="$LOG_DIR/auto-git-pull.log"
 LOCK_FILE="$LOG_DIR/auto-git-pull.lock"
+# セッション識別子 (ログ interleave 判別用)
+SESSION_ID="$(date +%H%M%S)-$$"
 mkdir -p "$LOG_DIR"
 
 # 前回エラーログがあれば冒頭で表示 (成功時は書き込まないので、残っている=実エラー)
