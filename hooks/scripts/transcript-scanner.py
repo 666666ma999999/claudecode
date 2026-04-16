@@ -202,8 +202,8 @@ def main():
         if cjk_ratio(c["matched_text"]) < CJK_MIN_RATIO:
             continue
 
-        # 3要素スコア: 手段 + 結果 + 価値 (0〜3)
-        ss = story_score(c["matched_text"])
+        # 3要素スコア: 手段(全体) + 結果(userのみ) + 価値(userのみ)
+        ss = story_score(c["matched_text"], c.get("user_text", ""))
         c["story_score"] = ss
 
         # 0-1点 → 破棄（ストーリーがない）
