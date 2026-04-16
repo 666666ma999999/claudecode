@@ -59,7 +59,7 @@ if dels > 50 and net > 0:
     c = min(0.9, 0.5 + net / 500)
     sigs.append(('numeric', '\u6570\u5024Before/After', f'{dels}\u884c\u524a\u9664\uff08\u7d14\u6e1b{net}\u884c\uff09', c,
                  f'\u300c{net}\u884c\u524a\u6e1b\u300d\u306f\u6570\u5024\u30a4\u30f3\u30d1\u30af\u30c8\u304c\u5f37\u3044\u8a18\u4e8b\u7d20\u6750\u3067\u3059'))
-m = re.search(r'(\d+\.?\d*)\s*[\u2192\->]+\s*(\d+\.?\d*)', G['l5'])
+m = re.search(r'(\d+\.?\d*)\s*(?:\u2192|->)\s*(\d+\.?\d*)', G['l5'])
 if m:
     sigs.append(('numeric', '\u6570\u5024Before/After', f'Before\u2192After: {m.group(0)}', 0.85,
                  f'\u300c{m.group(0)}\u300d\u306e\u6570\u5024\u5909\u5316\u306fX\u6295\u7a3f\u3067\u6700\u3082\u3044\u3044\u306d\u304c\u4ed8\u304f\u30d1\u30bf\u30fc\u30f3\u3067\u3059'))
