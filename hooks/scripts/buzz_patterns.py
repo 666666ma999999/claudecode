@@ -213,22 +213,32 @@ def story_elements(text: str) -> dict:
 
 def generate_title(matched_text: str, pattern_name: str) -> str:
     """
-    Extract first sentence (up to 。or . or newline).
-    Truncate to 60 chars.
-    If no sentence found, use first 60 chars + "...".
+    Find the first meaningful sentence (>= 15 chars) that contains
+    a buzz keyword. Skip short confirmations like "はい、その通りです".
     """
-    # Find first sentence boundary
-    m = re.search(r'[。.\n]', matched_text)
-    if m:
-        sentence = matched_text[:m.start()]
-    else:
-        sentence = ""
+    # Split into sentences by 。. \n
+    sentences = re.split(r'[。.\n]+', matched_text)
 
-    if sentence:
-        if len(sentence) > 60:
-            return sentence[:60]
-        return sentence
-    else:
-        if len(matched_text) > 60:
-            return matched_text[:60] + "..."
-        return matched_text
+    # Find first sentence that is meaningful (>= 15 chars and contains a keyword)
+    for s in sentences:
+        s = s.strip()
+        if len(s) < 15:
+            continue
+        # Check if sentence contains any pattern keyword (light check)
+        if PREFILTER_REGEX.search(s):
+            if len(s) > 60:
+                return s[:60] + "..."
+            return s
+
+    # Fallback: first sentence >= 15 chars
+    for s in sentences:
+        s = s.strip()
+        if len(s) >= 15:
+            if len(s) > 60:
+                return s[:60] + "..."
+            return s
+
+    # Last resort
+    if len(matched_text) > 60:
+        return matched_text[:60] + "..."
+    return matched_text
