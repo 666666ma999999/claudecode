@@ -203,7 +203,7 @@ def main():
     for c in new_candidates:
         entry = {
             "id": f"mat_{next_id:03d}",
-            "category": "tech_tips",
+            "category": PATTERNS[c["pattern_name"]].get("x_category", "tech_tips"),
             "type": c["type"],
             "title": generate_title(c["matched_text"], c["pattern_name"]),
             "content": c["matched_text"][:2000],
