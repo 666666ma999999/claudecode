@@ -20,7 +20,7 @@ from pathlib import Path
 # Ensure the sibling buzz_patterns module is importable
 sys.path.insert(0, str(Path(__file__).parent))
 
-from buzz_patterns import PATTERNS, PREFILTER_REGEX, match_patterns, extract_numbers, generate_title, PatternMatch, story_score
+from buzz_patterns import PATTERNS, PREFILTER_REGEX, match_patterns, extract_numbers, generate_title, PatternMatch, story_score, story_elements
 
 
 # ---------------------------------------------------------------------------
