@@ -120,15 +120,27 @@ def main():
                 continue
 
             content = entry.get("message", {}).get("content", "")
-            text = ""
+            raw_texts = []
             if isinstance(content, str):
-                text = content
+                raw_texts = [content]
             elif isinstance(content, list):
-                text = " ".join(
+                raw_texts = [
                     block.get("text", "")
                     for block in content
                     if isinstance(block, dict) and block.get("type") == "text"
-                )
+                ]
+
+            # Filter out system content / noise
+            clean_texts = []
+            for t in raw_texts:
+                if any(t.lstrip().startswith(p) for p in NOISE_PREFIXES):
+                    continue
+                # Strip inline system-reminder tags
+                t = SYSTEM_TAG_RE.sub("", t).strip()
+                if t:
+                    clean_texts.append(t)
+
+            text = " ".join(clean_texts)
 
             if not text or len(text) < 50:
                 continue
