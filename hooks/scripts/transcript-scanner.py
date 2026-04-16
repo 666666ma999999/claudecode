@@ -158,7 +158,7 @@ def main():
     candidates = list(deduped.values())
 
     # ------------------------------------------------------------------
-    # Phase 3: Quality gate
+    # Phase 3: Quality gate (形式チェック + 3要素スコアリング)
     # ------------------------------------------------------------------
     filtered = []
     for c in candidates:
@@ -168,13 +168,24 @@ def main():
             continue
         if cjk_ratio(c["matched_text"]) < CJK_MIN_RATIO:
             continue
+
+        # 3要素スコア: 手段 + 結果 + 価値 (0〜3)
+        ss = story_score(c["matched_text"])
+        c["story_score"] = ss
+
+        # 0-1点 → 破棄（ストーリーがない）
+        if ss <= 1:
+            continue
+
+        # 2点 → pending_review, 3点 → pending_ingest
+        c["auto_status"] = "pending_ingest" if ss == 3 else "pending_review"
         filtered.append(c)
 
     # Keep top 5 by score
     filtered.sort(key=lambda x: x["score"], reverse=True)
     filtered = filtered[:TOP_K]
 
-    print(f"[transcript-scanner] {len(raw_candidates)} raw candidates → {len(filtered)} after quality gate")
+    print(f"[transcript-scanner] {len(raw_candidates)} raw candidates → {len(filtered)} after quality gate (story_scores: {[c['story_score'] for c in filtered]})")
 
     # ------------------------------------------------------------------
     # Phase 4: Fingerprint dedup
