@@ -460,6 +460,15 @@
             "command": "~/.claude/hooks/improvement-ingest-check.sh"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/verify-step-session-cleanup.sh"
+          }
+        ]
       }
     ],
     "PermissionRequest": [
