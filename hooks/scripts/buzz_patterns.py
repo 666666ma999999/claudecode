@@ -156,6 +156,58 @@ def extract_numbers(text: str) -> list:
     return matches[:5]
 
 
+# ---------------------------------------------------------------------------
+# 3要素スコアリング: 手段 / 結果 / 価値
+# ---------------------------------------------------------------------------
+
+_MEANS_KEYWORDS = [
+    "Claude", "AI", "Copilot", "MCP", "Agent", "API", "gog", "gogcli",
+    "Playwright", "hook", "cron", "Docker", "Obsidian", "Slack",
+    "自動化", "自動", "連携", "スクリプト", "パイプライン", "ワークフロー",
+    "実装", "構築", "作った", "設計", "導入",
+]
+
+_RESULT_KEYWORDS = [
+    "→", "から", "に変更", "に短縮", "に削減",
+    "秒", "分", "時間", "%", "倍", "件", "行",
+    "完成", "完了", "成功", "解決", "修正", "復旧",
+    "できた", "動いた", "通った", "実現",
+]
+
+_VALUE_KEYWORDS = [
+    "時短", "コスト削減", "効率", "便利", "楽になった", "助かる",
+    "売上", "CVR", "KPI", "ROI", "利益", "粗利",
+    "誰でも", "簡単", "すぐ", "ノーコード",
+    "安全", "セキュリティ", "保護", "堅牢",
+    "発見", "知らなかった", "驚", "すごい", "感動",
+]
+
+MEANS_REGEX = re.compile("|".join(re.escape(k) for k in _MEANS_KEYWORDS))
+RESULT_REGEX = re.compile("|".join(re.escape(k) for k in _RESULT_KEYWORDS))
+VALUE_REGEX = re.compile("|".join(re.escape(k) for k in _VALUE_KEYWORDS))
+
+
+def story_score(text: str) -> int:
+    """3要素スコア: 手段(+1) + 結果(+1) + 価値(+1) = 0〜3"""
+    score = 0
+    if MEANS_REGEX.search(text):
+        score += 1
+    if RESULT_REGEX.search(text):
+        score += 1
+    if VALUE_REGEX.search(text):
+        score += 1
+    return score
+
+
+def story_elements(text: str) -> dict:
+    """デバッグ用: どの要素がマッチしたか返す"""
+    return {
+        "means": bool(MEANS_REGEX.search(text)),
+        "result": bool(RESULT_REGEX.search(text)),
+        "value": bool(VALUE_REGEX.search(text)),
+    }
+
+
 def generate_title(matched_text: str, pattern_name: str) -> str:
     """
     Extract first sentence (up to 。or . or newline).
