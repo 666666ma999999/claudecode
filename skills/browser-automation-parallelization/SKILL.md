@@ -72,12 +72,24 @@ async def execute_conversion(conv):
             await execute_step(conv.session_id, step)
 ```
 
-### ステップ3: BrowserContext分離
+### ステップ3: BrowserContext分離（Option A: 単一ブラウザ + 複数Context）
 
 ```python
-async def launch_browser_for_conversion():
-    browser = await playwright.chromium.launch(proxy=PROXY_CONFIG)
-    # 各コンバージョン専用のContextを作成
+from contextlib import asynccontextmanager
+
+# ブラウザは1プロセスを共有（Option Aの核心）
+_browser: Browser | None = None
+
+async def get_shared_browser() -> Browser:
+    global _browser
+    if _browser is None or not _browser.is_connected():
+        _browser = await playwright.chromium.launch(proxy=PROXY_CONFIG)
+    return _browser
+
+@asynccontextmanager
+async def browser_context_for_conversion():
+    """各コンバージョン専用のContextを共有ブラウザから作成"""
+    browser = await get_shared_browser()
     context = await browser.new_context(
         storage_state=None,  # 毎回fresh start
         ignore_https_errors=True,
@@ -86,8 +98,10 @@ async def launch_browser_for_conversion():
         yield context
     finally:
         await context.close()
-        await browser.close()
+        # Note: ブラウザ自体は閉じない（共有リソース）
 ```
+
+> **Option B への切替**: `get_shared_browser()` をコンバージョンごとの `launch()` に差し替えるだけで移行可能。
 
 ## パーティショニング方針
 
