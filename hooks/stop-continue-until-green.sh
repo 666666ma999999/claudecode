@@ -38,6 +38,9 @@ fix_count_file = state_dir / "fix-retry-count"
 
 blockers = []
 
+# cwd を早期に取得（全チェックで使用）
+hook_cwd = Path(data.get("cwd") or os.getcwd()).resolve()
+
 
 def log(msg: str) -> None:
     print(msg, file=sys.stderr)
@@ -50,19 +53,43 @@ def read_int(path: Path, default: int = 0) -> int:
         return default
 
 
-# チェック0: 中間バッチ検証
+def cwd_matches(stored_cwd: str) -> bool:
+    """stored_cwd が空なら True（旧形式は常にマッチ）、違うプロジェクトなら False"""
+    if not stored_cwd:
+        return True
+    return Path(stored_cwd).resolve() == hook_cwd
+
+
+# チェック0: 中間バッチ検証（cwd + TTL 対応）
 if verify_pending.exists():
     try:
-        edit_count = int(json.loads(verify_pending.read_text(encoding="utf-8")).get("edit_count", 0))
+        vp_data = json.loads(verify_pending.read_text(encoding="utf-8"))
+        edit_count = int(vp_data.get("edit_count", 0))
     except (OSError, json.JSONDecodeError, ValueError):
+        vp_data = {}
         edit_count = 0
     if edit_count > 0:
-        blockers.append(f"⚠️ 中間バッチ検証が未完了です（{edit_count}回の編集が未検証）。検証を実行してください。")
-        log(f"blocker: verify-step pending ({edit_count} edits)")
+        vp_cwd = vp_data.get("cwd", "")
+        if not cwd_matches(vp_cwd):
+            log(f"verify-step: cwd mismatch (hook={hook_cwd} vs stored={vp_cwd}), skipping")
+        else:
+            # TTL check: 期限切れなら自動削除してスキップ
+            from datetime import datetime
+            ttl = vp_data.get("ttl_expires_at", "")
+            expired = False
+            if ttl:
+                try:
+                    expired = datetime.fromisoformat(ttl) < datetime.now()
+                except ValueError:
+                    pass
+            if expired:
+                verify_pending.unlink(missing_ok=True)
+                log("verify-step: TTL expired, auto-deleted")
+            else:
+                blockers.append(f"⚠️ 中間バッチ検証が未完了です（{edit_count}回の編集が未検証）。検証を実行してください。")
+                log(f"blocker: verify-step pending ({edit_count} edits)")
 
-# チェック0.5: /simplify 未実行
-# 判定: simplify-done.timestamp が needs-simplify.pending より新しければOK
-# iteration上限なし（実際に/simplifyを実行しない限りブロックし続ける）
+# チェック0.5: /simplify 未実行（cwd 対応）
 simplify_done = state_dir / "simplify-done.timestamp"
 if simplify_pending.exists():
     if simplify_done.exists() and simplify_done.stat().st_mtime > simplify_pending.stat().st_mtime:
@@ -71,8 +98,18 @@ if simplify_pending.exists():
             f.unlink(missing_ok=True)
         log("simplify: done (marker newer than pending)")
     else:
-        blockers.append("/simplify を実行してコード品質を確認してください。実行するまでブロックされます。")
-        log(f"blocker: simplify pending, done_marker={'exists' if simplify_done.exists() else 'missing'}")
+        # cwd チェック: JSON形式なら cwd を確認、旧形式(数値のみ)は常にマッチ
+        simplify_skip = False
+        try:
+            sp_data = json.loads(simplify_pending.read_text(encoding="utf-8"))
+            if isinstance(sp_data, dict) and not cwd_matches(sp_data.get("cwd", "")):
+                simplify_skip = True
+                log(f"simplify: cwd mismatch, skipping")
+        except (json.JSONDecodeError, ValueError):
+            pass  # 旧形式（数値のみ）→ cwd チェックなし
+        if not simplify_skip:
+            blockers.append("/simplify を実行してコード品質を確認してください。実行するまでブロックされます。")
+            log(f"blocker: simplify pending, done_marker={'exists' if simplify_done.exists() else 'missing'}")
 
 # チェック0.75: FEブラウザ検証
 if (
