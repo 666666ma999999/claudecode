@@ -491,6 +491,16 @@
             "command": "~/.claude/hooks/stop-continue-until-green.sh"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/stop-material-auto-capture.sh",
+            "timeout": 5000
+          }
+        ]
       }
     ],
     "PreCompact": [
