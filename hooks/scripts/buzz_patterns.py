@@ -160,6 +160,9 @@ def extract_numbers(text: str) -> list:
 # 3要素スコアリング: 手段 / 結果 / 価値
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# 手段: user + assistant 両方で判定OK（ツール名はどちらでも検出可）
+# ---------------------------------------------------------------------------
 _MEANS_KEYWORDS = [
     "Claude", "AI", "Copilot", "MCP", "Agent", "API", "gog", "gogcli",
     "Playwright", "hook", "cron", "Docker", "Obsidian", "Slack",
@@ -167,22 +170,39 @@ _MEANS_KEYWORDS = [
     "実装", "構築", "作った", "設計", "導入",
 ]
 
+# ---------------------------------------------------------------------------
+# 結果: ユーザー発言のみで判定（Claudeの作業ログ語は除外）
+# 「完了」「修正」「改善」等のClaude定型語ではなく、
+# ユーザーが成果を語る時の表現に絞る
+# ---------------------------------------------------------------------------
 _RESULT_KEYWORDS = [
-    "→", "から", "に変更", "に短縮", "に削減",
-    "秒", "分", "時間", "%", "倍", "件", "行",
-    "完成", "完了", "成功", "解決", "修正", "復旧",
-    "できた", "動いた", "通った", "実現",
-    "改善", "上がった", "下がった", "増えた", "減った",
-    "短縮", "削減", "高速化",
+    # ユーザーが変化を語る表現
+    "なった", "になった", "に変わった",
+    "速くなった", "短くなった", "減った", "増えた",
+    "上がった", "下がった", "なくなった",
+    "できるようになった", "動くようになった",
+    "半分", "倍になった",
+    # Before/After の構文
+    "→", "から", "だったのが", "までに",
+    # ユーザーが数値で結果を述べる（Claudeログではなく会話中の言及）
+    "秒で", "分で", "時間で", "件に", "行に",
 ]
 
+# ---------------------------------------------------------------------------
+# 価値: ユーザー発言のみで判定（ユーザーが価値を感じた表現）
+# ---------------------------------------------------------------------------
 _VALUE_KEYWORDS = [
-    "時短", "コスト削減", "効率", "便利", "楽になった", "助かる",
-    "売上", "CVR", "KPI", "ROI", "利益", "粗利",
-    "誰でも", "簡単", "すぐ", "ノーコード",
-    "安全", "セキュリティ", "保護", "堅牢",
-    "発見", "知らなかった", "驚", "すごい", "感動",
-    "短縮", "高速", "省力", "自動で",
+    # 感情・評価
+    "楽になった", "助かる", "嬉しい", "便利", "すごい", "感動",
+    "やばい", "神", "最高",
+    # 実用価値
+    "時短", "コスト", "効率", "省力",
+    "売上", "CVR", "KPI", "ROI", "利益",
+    # 共有動機
+    "知らなかった", "発見", "驚", "教えたい", "シェア",
+    "誰でも", "簡単", "ノーコード",
+    # 安心感
+    "安全", "安心", "堅牢",
 ]
 
 MEANS_REGEX = re.compile("|".join(re.escape(k) for k in _MEANS_KEYWORDS))
@@ -190,24 +210,31 @@ RESULT_REGEX = re.compile("|".join(re.escape(k) for k in _RESULT_KEYWORDS))
 VALUE_REGEX = re.compile("|".join(re.escape(k) for k in _VALUE_KEYWORDS))
 
 
-def story_score(text: str) -> int:
-    """3要素スコア: 手段(+1) + 結果(+1) + 価値(+1) = 0〜3"""
+def story_score(text: str, user_text: str = "") -> int:
+    """
+    3要素スコア: 手段(+1) + 結果(+1) + 価値(+1) = 0〜3
+
+    手段: text全体（user+assistant）で判定
+    結果・価値: user_text のみで判定（空なら text 全体にフォールバック）
+    """
+    judge_text = user_text if user_text else text
     score = 0
     if MEANS_REGEX.search(text):
         score += 1
-    if RESULT_REGEX.search(text):
+    if RESULT_REGEX.search(judge_text):
         score += 1
-    if VALUE_REGEX.search(text):
+    if VALUE_REGEX.search(judge_text):
         score += 1
     return score
 
 
-def story_elements(text: str) -> dict:
+def story_elements(text: str, user_text: str = "") -> dict:
     """デバッグ用: どの要素がマッチしたか返す"""
+    judge_text = user_text if user_text else text
     return {
         "means": bool(MEANS_REGEX.search(text)),
-        "result": bool(RESULT_REGEX.search(text)),
-        "value": bool(VALUE_REGEX.search(text)),
+        "result": bool(RESULT_REGEX.search(judge_text)),
+        "value": bool(VALUE_REGEX.search(judge_text)),
     }
 
 
