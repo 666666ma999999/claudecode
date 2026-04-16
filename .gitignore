@@ -35,6 +35,7 @@ backup_local/
 jupyter_ml/
 whisper2/
 whisper3/
+firecrawl/
 
 # シークレット保護
 .mcp.json

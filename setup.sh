@@ -26,12 +26,19 @@ else
   echo "[SKIP] .mcp.json already exists"
 fi
 
-# 3. .envrc をテンプレートからコピー
-if [ ! -f "$CLAUDE_DIR/.envrc" ]; then
-  cp "$CLAUDE_DIR/templates/envrc.example" "$CLAUDE_DIR/.envrc"
-  echo "[OK] .envrc created (edit and run 'direnv allow')"
+# 3. シークレット確認（~/.zshrc に必要なキーが export 済みか）
+REQUIRED_KEYS=(OPENAI_API_KEY)
+MISSING_KEYS=()
+for key in "${REQUIRED_KEYS[@]}"; do
+  if ! grep -q "^export ${key}=" "$HOME/.zshrc" 2>/dev/null; then
+    MISSING_KEYS+=("$key")
+  fi
+done
+if [ ${#MISSING_KEYS[@]} -gt 0 ]; then
+  echo "[WARN] ~/.zshrc に未設定のキー: ${MISSING_KEYS[*]}"
+  echo "  → 手動で追記: echo 'export OPENAI_API_KEY=\"sk-...\"' >> ~/.zshrc"
 else
-  echo "[SKIP] .envrc already exists"
+  echo "[OK] ~/.zshrc に必須キー設定済み"
 fi
 
 # 4. memory/ ディレクトリ作成
@@ -74,5 +81,6 @@ echo ""
 echo "=== Setup Complete ==="
 echo "Next steps:"
 echo "  1. Edit ~/.claude/.mcp.json with your local paths"
-echo "  2. Edit ~/.claude/.envrc with your API keys"
-echo "  3. Run 'direnv allow' in ~/.claude/"
+echo "  2. ~/.zshrc に API キーを export で追記（OPENAI_API_KEY 等）"
+echo "  3. source ~/.zshrc → そのターミナルから 'claude' 起動"
+echo "  4. 'claude mcp list' で全 MCP が ✓ Connected か確認"
