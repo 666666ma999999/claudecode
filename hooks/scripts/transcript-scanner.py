@@ -228,7 +228,8 @@ def main():
             "source": "session_auto_capture",
             "source_project": extract_project_name(cwd),
             "buzz_pattern": c["pattern_name"],
-            "status": "pending_review",
+            "story_score": c.get("story_score", 0),
+            "status": c.get("auto_status", "pending_review"),
         }
 
         with open(QUEUE_FILE, "a", encoding="utf-8") as qf:
