@@ -35,6 +35,17 @@ CJK_REGEX = re.compile(r"[\u3000-\u9fff\uf900-\ufaff]")
 CJK_MIN_RATIO = 0.20
 TOP_K = 5
 
+# System content to strip from messages
+SYSTEM_TAG_RE = re.compile(r"<system-reminder[^>]*>.*?</system-reminder>", re.DOTALL)
+NOISE_PREFIXES = (
+    "Base directory for this skill:",
+    "Stop hook",
+    "Hook ",
+    "<system-reminder",
+    "<task-notification",
+    "<local-command-caveat",
+)
+
 STATE_DIR = Path.home() / ".claude" / "state"
 FINGERPRINT_FILE = STATE_DIR / "auto-capture-fingerprints.txt"
 QUEUE_FILE = STATE_DIR / "improvement-queue.jsonl"
