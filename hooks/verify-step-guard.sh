@@ -106,12 +106,11 @@ if [ "$EDIT_COUNT" -ge "$THRESHOLD" ] 2>/dev/null; then
     esac
     [ -z "$VERIFY_HINT" ] && VERIFY_HINT="変更に応じた最短検証を実行"
 
-    # deny応答を返してWrite/Editをブロック
-    REASON="🛑 VERIFY-STEP REQUIRED: ${EDIT_COUNT}回のコード編集が未検証です。次の編集に進む前に中間検証を実行してください。${VERIFY_HINT} BE検証コマンド（curl, pytest, npm test等）はBash実行で自動リセットされます。"
-    REASON_ESCAPED=$(echo "$REASON" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))" 2>/dev/null)
+    # deny応答を返してWrite/Editをブロック（環境変数経由でPythonに渡す）
+    export VS_REASON="🛑 VERIFY-STEP REQUIRED: ${EDIT_COUNT}回のコード編集が未検証です。次の編集に進む前に中間検証を実行してください。${VERIFY_HINT} BE検証コマンド（curl, pytest, npm test等）はBash実行で自動リセットされます。"
     python3 -c "
-import json
-reason = json.loads($REASON_ESCAPED)
+import json, os
+reason = os.environ.get('VS_REASON', 'Verification required')
 print(json.dumps({
     'hookSpecificOutput': {
         'hookEventName': 'PreToolUse',
