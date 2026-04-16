@@ -160,11 +160,12 @@ def main():
             continue
 
         window_end = min(i + WINDOW_SIZE, len(messages))
-        # Only include messages >= 50 chars in window text (skip "はい" etc.)
-        window_texts = [m["text"] for m in messages[i:window_end] if len(m["text"]) >= 50]
-        if not window_texts:
+        window_msgs = [m for m in messages[i:window_end] if len(m["text"]) >= 50]
+        if not window_msgs:
             continue
-        window_text = "\n".join(window_texts)
+        window_text = "\n".join(m["text"] for m in window_msgs)
+        # ユーザー発言のみを分離（結果・価値の判定用）
+        user_text = "\n".join(m["text"] for m in window_msgs if m["role"] == "user")
 
         matches = match_patterns(window_text)
         for m in matches:
@@ -175,6 +176,7 @@ def main():
                 "score": m.score,
                 "type": PATTERNS[m.pattern_name]["type"],
                 "start_idx": messages[i]["line_idx"],
+                "user_text": user_text,
             })
 
     # Deduplicate overlapping candidates: same pattern_name + start_idx within WINDOW_SIZE
