@@ -143,10 +143,22 @@ if (
         )
         log("blocker: FE browser verification pending")
 
-# チェック1: checklist.pending
+# チェック1: checklist.pending（cwd 対応）
 if pending_file.exists() and pending_file.stat().st_size > 0:
-    blockers.append("⚠️ implementation-checklist が未完了です。完了してから停止してください。")
-    log("blocker: implementation-checklist pending")
+    # ファイルパスからプロジェクトを推測（2行目以降がファイルパス）
+    cl_skip = False
+    try:
+        cl_lines = pending_file.read_text(encoding="utf-8").splitlines()
+        if len(cl_lines) >= 2:
+            first_file = cl_lines[1].strip()
+            if first_file and not first_file.startswith(str(hook_cwd)):
+                cl_skip = True
+                log(f"checklist: file path outside current project ({first_file} vs {hook_cwd}), skipping")
+    except OSError:
+        pass
+    if not cl_skip:
+        blockers.append("⚠️ implementation-checklist が未完了です。完了してから停止してください。")
+        log("blocker: implementation-checklist pending")
 
 # チェック2: docker-compose + tests-passed
 # Stop hook payload の cwd を優先（hook 実行時の cwd が不明瞭なため）
