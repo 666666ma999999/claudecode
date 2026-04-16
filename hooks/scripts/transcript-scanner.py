@@ -132,8 +132,16 @@ def main():
     raw_candidates = []  # {"pattern_name", "matched_text", "keyword_hits", "score", "type", "start_idx"}
 
     for i in range(len(messages)):
+        # Skip windows starting with short messages (acknowledgments/confirmations)
+        if len(messages[i]["text"]) < 80:
+            continue
+
         window_end = min(i + WINDOW_SIZE, len(messages))
-        window_text = "\n".join(m["text"] for m in messages[i:window_end])
+        # Only include messages >= 50 chars in window text (skip "はい" etc.)
+        window_texts = [m["text"] for m in messages[i:window_end] if len(m["text"]) >= 50]
+        if not window_texts:
+            continue
+        window_text = "\n".join(window_texts)
 
         matches = match_patterns(window_text)
         for m in matches:
