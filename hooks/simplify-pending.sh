@@ -30,10 +30,36 @@ esac
 STATE_DIR="$HOME/.claude/state"
 PENDING="$STATE_DIR/needs-simplify.pending"
 
-# カウンタインクリメント
-COUNT=0
-[ -f "$PENDING" ] && COUNT=$(cat "$PENDING" 2>/dev/null | tr -d '[:space:]')
-COUNT=$((COUNT + 1))
-echo "$COUNT" > "$PENDING"
+# hook入力からcwdを取得
+HOOK_CWD=$(echo "$INPUT" | python3 -c "import sys,json,os; print(os.path.realpath(json.load(sys.stdin).get('cwd','')))" 2>/dev/null)
+
+# JSON形式でカウンタ+cwd を記録（stop hookのcwdチェック対応）
+PENDING_FILE="$PENDING" HOOK_CWD="$HOOK_CWD" python3 -c "
+import json, os, sys
+
+pending = os.environ.get('PENDING_FILE', '')
+hook_cwd = os.environ.get('HOOK_CWD', '')
+count = 0
+
+if os.path.isfile(pending):
+    try:
+        raw = open(pending).read().strip()
+        try:
+            data = json.loads(raw)
+            if isinstance(data, dict):
+                stored_cwd = data.get('cwd', '')
+                if stored_cwd and hook_cwd and os.path.realpath(stored_cwd) != os.path.realpath(hook_cwd):
+                    count = 0  # 別プロジェクト → リセット
+                else:
+                    count = data.get('count', 0)
+        except json.JSONDecodeError:
+            count = int(raw) if raw.isdigit() else 0  # 旧形式互換
+    except:
+        count = 0
+
+count += 1
+with open(pending, 'w') as f:
+    json.dump({'count': count, 'cwd': hook_cwd}, f)
+" 2>/dev/null
 
 exit 0
