@@ -7,41 +7,76 @@ import re
 from dataclasses import dataclass
 
 PATTERNS = {
-    "数値Before/After": {
-        "keywords": ["削減", "短縮", "改善", "→", "%", "秒", "時間", "LOC", "token", "トークン", "高速化", "倍"],
+    # === 既存カテゴリ ===
+    "効率化": {
+        "keywords": [
+            "削減", "短縮", "改善", "高速化", "倍", "自動化", "自動",
+            "→", "%", "秒", "時間", "LOC", "token", "トークン",
+            "簡略化", "整理", "まとめ", "Obsidian",
+        ],
         "min_keywords": 2,
         "type": "data_point",
         "base_score": 8.0,
+        "x_category": "tech_tips",
     },
-    "失敗→復旧ストーリー": {
-        "keywords": ["バグ", "エラー", "修正", "原因", "解決", "ハマった", "壊れ", "障害", "復旧"],
+    "こんなことできるんだ": {
+        "keywords": [
+            "API", "連携", "gog", "gogcli", "GA", "広告",
+            "比較", "試した", "使ってみた", "vs", "導入",
+            "知らなかった", "発見", "初めて", "わかった", "実は", "盲点",
+        ],
         "min_keywords": 2,
-        "type": "experience",
-        "base_score": 7.5,
-    },
-    "TIL": {
-        "keywords": ["知らなかった", "発見", "初めて", "わかった", "実は", "盲点", "気づ"],
-        "min_keywords": 1,
         "type": "insight",
-        "base_score": 6.5,
+        "base_score": 7.5,
+        "x_category": "tech_tips",
     },
-    "Builder's Diary": {
-        "keywords": ["実装", "作った", "構築", "完成", "リリース", "デプロイ", "設計"],
+    "堅牢化": {
+        "keywords": [
+            "セキュリティ", "パスワード", "pass", "credential", "認証",
+            "暗号", "漏洩", "権限", "gitignore", "secret", "env",
+            "管理", "保護", "バックアップ",
+        ],
         "min_keywords": 2,
         "type": "experience",
         "base_score": 7.0,
+        "x_category": "tech_tips",
     },
-    "ツール比較/発見": {
-        "keywords": ["比較", "試した", "使ってみた", "vs", "乗り換え", "移行", "導入"],
-        "min_keywords": 2,
-        "type": "experience",
-        "base_score": 7.0,
-    },
-    "Vibe Coding体験": {
-        "keywords": ["Claude", "自動", "Agent", "一発で", "AI", "Copilot", "MCP", "自律"],
+    # === 新規カテゴリ ===
+    "仕組み化": {
+        "keywords": [
+            "hook", "cron", "定期", "毎朝", "毎日", "自動実行",
+            "パイプライン", "ワークフロー", "仕組み", "Routine",
+            "通知", "Slack", "自動集計", "レポート",
+            "設計", "アーキテクチャ", "スキル作成",
+        ],
         "min_keywords": 2,
         "type": "experience",
         "base_score": 7.5,
+        "x_category": "tech_tips",
+    },
+    "売上直結": {
+        "keywords": [
+            "売上", "問い合わせ", "成約", "CVR", "コンバージョン",
+            "ROI", "コスト", "利益", "粗利", "KPI",
+            "顧客", "LP", "広告費", "単価",
+            "円", "万", "件", "率",
+        ],
+        "min_keywords": 2,
+        "type": "data_point",
+        "base_score": 8.5,
+        "x_category": "ceo_perspective",
+    },
+    "非エンジニアでもできた": {
+        "keywords": [
+            "コード書かず", "コード0行", "ノーコード", "プログラミング不要",
+            "素人", "初心者", "非エンジニア", "営業", "事務",
+            "簡単", "誰でも", "すぐできる", "2時間", "30分",
+            "Claude Code", "AI", "Copilot",
+        ],
+        "min_keywords": 2,
+        "type": "experience",
+        "base_score": 8.0,
+        "x_category": "tech_tips",
     },
 }
 
