@@ -3,14 +3,22 @@
 # Codexレビュー未実行で pending ファイルを rm しようとした場合 exit 2 でブロック
 
 INPUT=$(cat)
+
+STATE_DIR="$HOME/.claude/state"
+DONE="$STATE_DIR/codex-review.done"
+PENDING="$STATE_DIR/implementation-checklist.pending"
+
+# pending ファイルが存在しなければ保護する対象がない → 即通過
+[ ! -f "$PENDING" ] && exit 0
+
 COMMAND=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_input',{}).get('command',''))" 2>/dev/null)
 
-# implementation-checklist.pending を削除しようとするコマンドのみ検査
+# implementation-checklist.pending を直接削除しようとするコマンドのみ検査
+# 注: *">"* は 2>/dev/null 等のリダイレクションに誤マッチするため除外
 case "$COMMAND" in
     *implementation-checklist.pending*)
-        # rm / unlink / mv 等の削除系コマンドか確認
         case "$COMMAND" in
-            *rm*|*unlink*|*mv*|*">"*)
+            *rm\ *|*rm$'\t'*|*unlink*|*mv\ *|*os.remove*|*os.unlink*|*"echo "*">"*checklist*)
                 ;;
             *)
                 exit 0
@@ -22,23 +30,17 @@ case "$COMMAND" in
         ;;
 esac
 
-STATE_DIR="$HOME/.claude/state"
-DONE="$STATE_DIR/codex-review.done"
-PENDING="$STATE_DIR/implementation-checklist.pending"
-
 # cwd チェック: pending が別プロジェクトのものなら Codex レビューなしで解除許可
-if [ -f "$PENDING" ]; then
-    HOOK_CWD=$(echo "$INPUT" | python3 -c "import sys,json,os; print(os.path.realpath(json.load(sys.stdin).get('cwd','')))" 2>/dev/null)
-    STORED_FILE=$(sed -n '2p' "$PENDING" 2>/dev/null | tr -d '[:space:]')
-    if [ -n "$STORED_FILE" ] && [ -n "$HOOK_CWD" ]; then
-        case "$STORED_FILE" in
-            "$HOOK_CWD"*) ;;  # 同一プロジェクト → 通常フローへ
-            *)
-                # 別プロジェクトのpending → Codexレビュー不要で解除許可
-                exit 0
-                ;;
-        esac
-    fi
+HOOK_CWD=$(echo "$INPUT" | python3 -c "import sys,json,os; print(os.path.realpath(json.load(sys.stdin).get('cwd','')))" 2>/dev/null)
+STORED_FILE=$(sed -n '2p' "$PENDING" 2>/dev/null | tr -d '[:space:]')
+if [ -n "$STORED_FILE" ] && [ -n "$HOOK_CWD" ]; then
+    case "$STORED_FILE" in
+        "$HOOK_CWD"*) ;;  # 同一プロジェクト → 通常フローへ
+        *)
+            # 別プロジェクトのpending → Codexレビュー不要で解除許可
+            exit 0
+            ;;
+    esac
 fi
 
 if [ ! -f "$DONE" ]; then
