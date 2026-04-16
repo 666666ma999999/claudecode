@@ -1,9 +1,9 @@
 ---
 name: new-feature
 description: |
-  新機能/新プロジェクト着手時のブリーフ収集→Plan mode 起動の統合スキル。
-  Why/Who/非ゴール/成功基準の4項目を AskUserQuestion で対話収集し、
-  ~/.claude/templates/plan.md をコピー後 Plan mode に入る。
+  新機能/新プロジェクト着手時のブリーフ収集→壁打ち→Plan mode 起動の統合スキル。
+  Why/Who/非ゴール/成功基準の4項目を対話収集し、構成案（アプローチ・Phase分解・技術選定）を
+  壁打ちで合意してから Plan mode に入る。
   キーワード: 新機能, 新プロジェクト, MVP, ブリーフ, Plan mode 起動, /new-feature
   NOT for: 1ファイル修正, バグ修正 (→ debugging-guide), リファクタリング (→ refactoring-guide)
 triggers:
