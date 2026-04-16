@@ -2,7 +2,7 @@
 # PostToolUse hook: Write/Edit でコードファイルを変更したら verify-step pending を積む
 # implementation-checklist.pending（最終ゲート）とは別の中間検証用state
 # edit_count が閾値を超えたら次の Write/Edit をブロックするための情報を蓄積
-# ファイルパス追跡は implementation-checklist.pending に一本化済み
+# v2: cwd スコーピング + TTL + 環境変数経由Python（quote injection対策）
 
 INPUT=$(cat)
 TOOL_NAME=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_name',''))" 2>/dev/null)
@@ -34,6 +34,9 @@ STATE_DIR="$HOME/.claude/state"
 mkdir -p "$STATE_DIR"
 PENDING_FILE="$STATE_DIR/verify-step.pending"
 
+# hook入力からcwdを取得
+HOOK_CWD=$(echo "$INPUT" | python3 -c "import sys,json,os; print(os.path.realpath(json.load(sys.stdin).get('cwd','')))" 2>/dev/null)
+
 # FE/BE種別判定
 FILE_TYPE="unknown"
 case "$FILE_PATH" in
@@ -52,50 +55,87 @@ case "$FILE_PATH" in
         ;;
 esac
 
-if [ -f "$PENDING_FILE" ]; then
-    # 既存のpendingを更新（edit_count + file_types のみ）
-    EDIT_COUNT=$(python3 -c "
-import json, sys
-try:
-    with open('$PENDING_FILE') as f:
-        data = json.load(f)
+# pending作成/更新（環境変数経由でPythonに値を渡す — quote injection対策）
+EDIT_COUNT=$(PENDING_FILE="$PENDING_FILE" HOOK_CWD="$HOOK_CWD" FILE_TYPE="$FILE_TYPE" python3 -c "
+import json, os, sys, tempfile
+from datetime import datetime, timedelta
+
+pending_path = os.environ.get('PENDING_FILE', '')
+hook_cwd = os.environ.get('HOOK_CWD', '')
+file_type = os.environ.get('FILE_TYPE', 'unknown')
+ttl_minutes = 30
+
+def write_atomic(path, data):
+    \"\"\"原子的書き込み: tmp → os.replace\"\"\"
+    dir_name = os.path.dirname(path)
+    fd, tmp = tempfile.mkstemp(dir=dir_name, suffix='.tmp')
+    try:
+        with os.fdopen(fd, 'w') as f:
+            json.dump(data, f, indent=2)
+        os.replace(tmp, path)
+    except:
+        try: os.unlink(tmp)
+        except: pass
+        raise
+
+now = datetime.now()
+
+if os.path.isfile(pending_path):
+    try:
+        with open(pending_path) as f:
+            data = json.load(f)
+    except:
+        data = {}
+
+    # cwd不一致 → 別プロジェクトの古い状態。リセットして新規作成
+    stored_cwd = data.get('cwd', '')
+    if stored_cwd and hook_cwd and os.path.realpath(stored_cwd) != os.path.realpath(hook_cwd):
+        data = {
+            'created_at': now.isoformat(),
+            'cwd': hook_cwd,
+            'ttl_expires_at': (now + timedelta(minutes=ttl_minutes)).isoformat(),
+            'file_types': [file_type],
+            'edit_count': 1,
+            'fe_verify_required': file_type == 'FE'
+        }
+        write_atomic(pending_path, data)
+        print(1)
+        sys.exit(0)
+
+    # 同一プロジェクト → edit_count インクリメント + TTL更新
     data['edit_count'] = data.get('edit_count', 0) + 1
     types = set(data.get('file_types', []))
-    types.add('$FILE_TYPE')
+    types.add(file_type)
     data['file_types'] = list(types)
-    if '$FILE_TYPE' == 'FE':
+    if file_type == 'FE':
         data['fe_verify_required'] = True
-    with open('$PENDING_FILE', 'w') as f:
-        json.dump(data, f, indent=2)
+    # cwd が無い古い形式のファイル → cwd追加
+    if not data.get('cwd'):
+        data['cwd'] = hook_cwd
+    # TTLをローリング更新
+    data['ttl_expires_at'] = (now + timedelta(minutes=ttl_minutes)).isoformat()
+    write_atomic(pending_path, data)
     print(data['edit_count'])
-except Exception as e:
-    print(0, file=sys.stderr)
-    print(0)
+else:
+    # 新規pending作成
+    data = {
+        'created_at': now.isoformat(),
+        'cwd': hook_cwd,
+        'ttl_expires_at': (now + timedelta(minutes=ttl_minutes)).isoformat(),
+        'file_types': [file_type],
+        'edit_count': 1,
+        'fe_verify_required': file_type == 'FE'
+    }
+    write_atomic(pending_path, data)
+    print(1)
 " 2>/dev/null)
-else
-    # 新規pending作成（files[] なし）
-    python3 -c "
-import json
-from datetime import datetime
-data = {
-    'created_at': datetime.now().isoformat(),
-    'file_types': ['$FILE_TYPE'],
-    'edit_count': 1,
-    'fe_verify_required': '$FILE_TYPE' == 'FE'
-}
-with open('$PENDING_FILE', 'w') as f:
-    json.dump(data, f, indent=2)
-" 2>/dev/null
-    EDIT_COUNT=1
-fi
 
 # 編集回数が閾値に達したら警告（ブロックはguard側で行う）
-# FE: ブロック閾値2のため、1回目で警告（次でブロック予告）
-# BE: ブロック閾値4のため、3回目で警告（従来通り）
-WARN_THRESHOLD=3
-if [ "$FILE_TYPE" = "FE" ] && [ "$EDIT_COUNT" -ge 1 ] 2>/dev/null; then
+# FE: ブロック閾値3のため、2回目で警告
+# BE: ブロック閾値4のため、3回目で警告
+if [ "$FILE_TYPE" = "FE" ] && [ "$EDIT_COUNT" -ge 2 ] 2>/dev/null; then
     echo "⚡ FE VERIFY WARNING: FE変更${EDIT_COUNT}回目。次の編集でブロックされます。Playwright MCPでブラウザ検証を実行してください（browser_navigate → console_messages → snapshot/click）。"
-elif [ "$EDIT_COUNT" -ge "$WARN_THRESHOLD" ] 2>/dev/null; then
+elif [ "$EDIT_COUNT" -ge 3 ] 2>/dev/null; then
     echo "⚡ VERIFY-STEP REMINDER: ${EDIT_COUNT}回のコード編集が未検証です。次の編集前に検証を実行してください（BE: curl/テスト、FE: ブラウザ確認）。"
 fi
 
@@ -105,11 +145,9 @@ FIX_LAST_FILE="$STATE_DIR/fix-last-file"
 if [ -f "$FIX_LAST_FILE" ]; then
     LAST_FILE=$(cat "$FIX_LAST_FILE" 2>/dev/null)
     if [ "$LAST_FILE" = "$FILE_PATH" ]; then
-        # 同一ファイルへの連続修正 → カウント増加
         CURRENT_COUNT=$(cat "$FIX_COUNT_FILE" 2>/dev/null || echo 0)
         echo $((CURRENT_COUNT + 1)) > "$FIX_COUNT_FILE"
     else
-        # 別ファイルに移った → リセット
         echo 1 > "$FIX_COUNT_FILE"
     fi
 else
