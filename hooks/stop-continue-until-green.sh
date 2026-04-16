@@ -176,15 +176,26 @@ if compose_file and pending_file.exists() and pending_file.stat().st_size > 0:
         blockers.append("⚠️ テストが未検証です。テストを実行してください。")
         log("blocker: tests-passed older than pending")
 
-# チェック3: 3-Fix Limit
+# チェック3: 3-Fix Limit（fix-last-file のパスで cwd チェック）
 if fix_count_file.exists():
     fix_count = read_int(fix_count_file, 0)
     if fix_count >= 3:
-        blockers.append(
-            f"🛑 3-Fix Limit到達（{fix_count}回連続修正）。"
-            "ブロッカープロトコルに従い、ユーザーに確認してください。"
-        )
-        log(f"blocker: 3-fix-limit reached ({fix_count})")
+        fix_skip = False
+        fix_last = state_dir / "fix-last-file"
+        if fix_last.exists():
+            try:
+                last_path = fix_last.read_text(encoding="utf-8").strip()
+                if last_path and not last_path.startswith(str(hook_cwd)):
+                    fix_skip = True
+                    log(f"3-fix-limit: file outside current project ({last_path}), skipping")
+            except OSError:
+                pass
+        if not fix_skip:
+            blockers.append(
+                f"🛑 3-Fix Limit到達（{fix_count}回連続修正）。"
+                "ブロッカープロトコルに従い、ユーザーに確認してください。"
+            )
+            log(f"blocker: 3-fix-limit reached ({fix_count})")
 
 # ブロッカーがあれば JSON decision=block で作業継続を強制
 if blockers:
