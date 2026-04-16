@@ -13,6 +13,7 @@
       "mcp__grok-search",
       "mcp__playwright",
       "mcp__google-search-console",
+      "Monitor",
       "WebSearch",
       "WebFetch",
       "Write",
