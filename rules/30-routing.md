@@ -86,7 +86,7 @@
 | Playwright並列化・ブラウザ自動化高速化・mutex競合解消 | `browser-automation-parallelization` |
 | X(Twitter)ブックマーク取得・Cookie再取得・教師データ変換 | `fetch-bookmarks` |
 | UIデザイン品質・カラーパレット・タイポグラフィ・コンポーネント設計 | `frontend-design` |
-| Gmail・カレンダー・Drive・Google Sheets・Google Workspace操作 | `gog-cli` |
+| Gmail・カレンダー・Drive・Google Sheets・スプレッドシート・Google Docs・Slides・`docs.google.com/spreadsheets/`・`docs.google.com/document/`・`drive.google.com/`・Google Workspace操作 | `gog-cli`（WebFetch は認証を通せないため禁止。`PreToolUse(WebFetch)` hook で自動 deny される） |
 | 通知設定・アラート設定 | `notification-alert` |
 | デスクトップ整理・ファイル整理 | `organize-desktop` |
 | 設定配置・グローバル vs プロジェクト | `config-placement-guide` |
