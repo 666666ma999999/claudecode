@@ -1,6 +1,15 @@
 ---
 name: gog-cli
-description: Google Workspace CLI (gogcli) for Gmail, Calendar, Drive, Docs, Sheets operations.
+description: |
+  Google Workspace（Gmail / Calendar / Drive / Docs / Sheets / Slides）を CLI (`gog`) で操作するスキル。
+  以下に該当する場合は WebFetch を使わず、必ずこのスキルを先に起動すること:
+  - Google Sheets / スプレッドシート / `docs.google.com/spreadsheets/` を含むURLの読み書き
+  - Google Docs / ドキュメント / `docs.google.com/document/` のエクスポート・読取
+  - Google Slides / スライド / `docs.google.com/presentation/` のエクスポート
+  - Google Drive / `drive.google.com/file/` `drive.google.com/drive/folders/` のダウンロード・一覧
+  - Gmail 検索・送信・ラベル操作、Google Calendar 予定確認・作成
+  - Tasks / Contacts / Classroom / Chat 等の Google Workspace 操作
+  WebFetch では認証が通らず中身が読めないため、URL検出時は即 `gog` コマンドへ切替える。
 ---
 
 # gogcli (gog) CLI
