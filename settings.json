@@ -276,6 +276,15 @@
             "timeout": 30
           }
         ]
+      },
+      {
+        "matcher": "WebFetch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/route-google-workspace.py"
+          }
+        ]
       }
     ],
     "PostToolUse": [
