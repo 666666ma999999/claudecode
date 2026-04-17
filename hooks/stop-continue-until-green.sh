@@ -169,12 +169,24 @@ for name in ("docker-compose.yml", "docker-compose.yaml"):
         break
 
 if compose_file and pending_file.exists() and pending_file.stat().st_size > 0:
-    if not tests_passed.exists():
-        blockers.append("⚠️ テストが未検証です。テストを実行してください。")
-        log("blocker: tests not verified (no tests-passed file)")
-    elif pending_file.stat().st_mtime > tests_passed.stat().st_mtime:
-        blockers.append("⚠️ テストが未検証です。テストを実行してください。")
-        log("blocker: tests-passed older than pending")
+    # cwd チェック: pending_file に記載された編集ファイルが他プロジェクトなら skip（チェック1 と同じパターン）
+    tp_skip = False
+    try:
+        tp_lines = pending_file.read_text(encoding="utf-8").splitlines()
+        if len(tp_lines) >= 2:
+            tp_first = tp_lines[1].strip()
+            if tp_first and not tp_first.startswith(str(hook_cwd)):
+                tp_skip = True
+                log(f"tests-passed: file outside current project ({tp_first} vs {hook_cwd}), skipping")
+    except OSError:
+        pass
+    if not tp_skip:
+        if not tests_passed.exists():
+            blockers.append("⚠️ テストが未検証です。テストを実行してください。")
+            log("blocker: tests not verified (no tests-passed file)")
+        elif pending_file.stat().st_mtime > tests_passed.stat().st_mtime:
+            blockers.append("⚠️ テストが未検証です。テストを実行してください。")
+            log("blocker: tests-passed older than pending")
 
 # チェック3: 3-Fix Limit（fix-last-file のパスで cwd チェック）
 if fix_count_file.exists():
