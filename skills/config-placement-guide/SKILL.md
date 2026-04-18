@@ -7,7 +7,6 @@ triggers:
   - config placement
   - 設定優先順位
   - settings scope
-allowed-tools: []
 ---
 
 # 設定配置ガイド
