@@ -36,6 +36,7 @@ jupyter_ml/
 whisper2/
 whisper3/
 firecrawl/
+mcp-servers/
 
 # シークレット保護
 .mcp.json
