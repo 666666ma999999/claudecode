@@ -190,20 +190,7 @@ implementation-checklist は**最終完了ゲート**であり、中間バッチ
 
 ## Obsidian連携
 
-プロジェクトのCLAUDE.mdに Obsidian MD のパスが記載されている場合、以下に従うこと:
-
-- 作業開始時: 記載されたMDファイルのNOWセクションを確認する
-- NOW完了時:
-  - 完了タスクをNOW→DONEに移動。NOWに書かれていた指示プロンプトを一字一句そのまま残し、結果を追記する:
-    ```
-    ##### タスク名 (完了日)
-    （NOWの元プロンプト全文をそのまま維持）
-
-    **結果:** （実行結果のサマリー）
-    ```
-  - 見出しは h5（`#####`）固定。他MDへの貼り付け時にh1-h3構造を壊さないため
-  - 確定した仕様は同ファイルのSPECセクションに追記する
-- MDファイルの場所: `~/Documents/Obsidian Vault/` 配下
+プロジェクトのCLAUDE.mdに Obsidian MD のパスが記載されている場合、作業開始時に該当MDのNOWセクションを確認し、完了時は NOW→DONE 移動する。MDの場所は `~/Documents/Obsidian Vault/` 配下。詳細手順（元プロンプト保存・h5固定・結果マーカー）は `obsidian-now-done` スキル参照。
 
 ## Memory Update Protocol
 
