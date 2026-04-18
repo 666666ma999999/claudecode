@@ -25,11 +25,10 @@
 | understand-explain | `2e71576` | 2026-03-27 |
 | understand-onboard | `2cdaea2` | 2026-03-27 |
 
-### 単体導入
+### 単体導入（symlink via ~/.agents/skills/）
 | スキル | ソース | ハッシュ | 導入日 |
 |--------|--------|---------|--------|
 | humanizer-ja | gonta223/humanizer-ja | `a1e3436` | 2026-03-27 |
-| find-skills | vercel-labs/skills | `c2f3117` | 2026-02-12 |
 | smux | ShawnPana/smux | — | 2026-03-29 |
 
 ### npx skills 経由だが local コピー済み
@@ -38,6 +37,7 @@
 | health | tw93/claude-health | `058768d` | 2026-03-26 |
 | frontend-design | anthropics/claude-code | `3bd61ba` | 2026-03-26 |
 | gog-cli | intellectronica/agent-skills | `9133282` | 2026-03-26 |
+| find-skills | vercel-labs/skills | `c2f3117` | 2026-02-12 |
 
 ## Local Skills（自作 — ~/.claude/skills/ 直接配置）
 
