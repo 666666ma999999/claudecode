@@ -111,7 +111,7 @@ cat output/engagement/*.skipped.log
 python3 scripts/update_material_table.py \
   --jsonl output/engagement/YYYYMMDD.jsonl \
   --candidates output/plans/claude_tips_theme_a_b_candidates.md \
-  --target output/plans/claude_tips_concept.md \
+  --target output/plans/claude_tips_planmd.md \
   --threshold 100
 ```
 
@@ -148,7 +148,7 @@ status値:
 ### 生成ファイル
 - 生JSONL: `output/engagement/YYYYMMDD.jsonl`
 - スキップログ: `output/engagement/YYYYMMDD.skipped.log`
-- 素材テーブル（更新済み）: `output/plans/claude_tips_concept.md`
+- 素材テーブル（更新済み）: `output/plans/claude_tips_planmd.md`
 
 ## Failure handling
 
