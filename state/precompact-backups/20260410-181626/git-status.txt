@@ -1,5 +1,0 @@
- M backend/routers/manuscript_generation.py
- M backend/services/batch_processing.py
- M backend/services/csv_batch_runner.py
- M backend/utils/response_processor.py
-?? .claude/hooks/block-dangerous-commands.sh

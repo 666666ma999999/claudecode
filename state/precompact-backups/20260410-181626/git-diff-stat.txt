@@ -1,5 +1,0 @@
- backend/routers/manuscript_generation.py | 14 ++++++----
- backend/services/batch_processing.py     | 47 ++++++++++++++++++++++++--------
- backend/services/csv_batch_runner.py     | 13 +++++++--
- backend/utils/response_processor.py      | 41 ++++++++++++++++------------
- 4 files changed, 77 insertions(+), 38 deletions(-)
