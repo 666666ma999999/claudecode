@@ -32,8 +32,12 @@ DOCKER_PREFIXES = (
 )
 
 # Patterns that are explicitly allowed even if they match DENY_PATTERNS.
+# グローバルCLAUDE.mdの適用除外「MCP設定、Claude Codeツール拡張、スキル検索」に対応。
 ALLOW_PATTERNS = [
     r"\bnpm\s+(install|i)\s+(-g\s+)?@openai/codex\b",
+    # ~/.claude/mcp-servers/ 配下でのMCPサーバーfork用 npm操作
+    r"\.claude/mcp-servers\b.*\bnpm\s+(install|i|ci|run)\b",
+    r"\bnpm\s+(install|i|ci|run)\b.*\.claude/mcp-servers\b",
 ]
 
 
@@ -89,6 +93,13 @@ def main():
     for candidate in list(candidates):
         for part in re.split(r"[;&|]+", candidate):
             candidates.add(part.strip())
+
+    # Whole-command allow check: `cd <allowed-dir> && npm install` のような
+    # ディレクトリ指定付きコマンドは全体を見ないと許可判定できないため、
+    # 先に全体コマンドを ALLOW_PATTERNS に照合する。
+    for allow_pat in ALLOW_PATTERNS:
+        if re.search(allow_pat, cmd) or re.search(allow_pat, inner):
+            return
 
     for candidate in candidates:
         # Check allow-list first: if ANY candidate matches an allow pattern, skip deny
