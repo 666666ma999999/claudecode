@@ -147,20 +147,22 @@ if (
         )
         log("blocker: FE browser verification pending")
 
-# チェック1: checklist.pending（cwd 対応）
+# チェック1: checklist.pending（cwd 対応: 自プロジェクト由来の行が1つでもあればblocker）
 if pending_file.exists() and pending_file.stat().st_size > 0:
-    # ファイルパスからプロジェクトを推測（2行目以降がファイルパス）
-    cl_skip = False
+    cl_has_cwd_file = False
     try:
         cl_lines = pending_file.read_text(encoding="utf-8").splitlines()
-        if len(cl_lines) >= 2:
-            first_file = cl_lines[1].strip()
-            if first_file and not first_file.startswith(str(hook_cwd)):
-                cl_skip = True
-                log(f"checklist: file path outside current project ({first_file} vs {hook_cwd}), skipping")
+        hook_cwd_str = str(hook_cwd)
+        for line in cl_lines[1:]:
+            f = line.strip()
+            if f and f.startswith(hook_cwd_str):
+                cl_has_cwd_file = True
+                break
+        if not cl_has_cwd_file and len(cl_lines) >= 2:
+            log(f"checklist: no files under current project {hook_cwd}, skipping")
     except OSError:
         pass
-    if not cl_skip:
+    if cl_has_cwd_file:
         blockers.append("⚠️ implementation-checklist が未完了です。完了してから停止してください。")
         log("blocker: implementation-checklist pending")
 
@@ -173,18 +175,21 @@ for name in ("docker-compose.yml", "docker-compose.yaml"):
         break
 
 if compose_file and pending_file.exists() and pending_file.stat().st_size > 0:
-    # cwd チェック: pending_file に記載された編集ファイルが他プロジェクトなら skip（チェック1 と同じパターン）
-    tp_skip = False
+    # cwd チェック: 自プロジェクト由来の行が1つでもあればblocker判定に入る
+    tp_has_cwd_file = False
     try:
         tp_lines = pending_file.read_text(encoding="utf-8").splitlines()
-        if len(tp_lines) >= 2:
-            tp_first = tp_lines[1].strip()
-            if tp_first and not tp_first.startswith(str(hook_cwd)):
-                tp_skip = True
-                log(f"tests-passed: file outside current project ({tp_first} vs {hook_cwd}), skipping")
+        hook_cwd_str = str(hook_cwd)
+        for line in tp_lines[1:]:
+            f = line.strip()
+            if f and f.startswith(hook_cwd_str):
+                tp_has_cwd_file = True
+                break
+        if not tp_has_cwd_file and len(tp_lines) >= 2:
+            log(f"tests-passed: no files under current project {hook_cwd}, skipping")
     except OSError:
         pass
-    if not tp_skip:
+    if tp_has_cwd_file:
         if not tests_passed.exists():
             blockers.append("⚠️ テストが未検証です。テストを実行してください。")
             log("blocker: tests not verified (no tests-passed file)")
