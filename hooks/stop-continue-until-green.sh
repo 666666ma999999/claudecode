@@ -111,7 +111,7 @@ if simplify_pending.exists():
             blockers.append("/simplify を実行してコード品質を確認してください。実行するまでブロックされます。")
             log(f"blocker: simplify pending, done_marker={'exists' if simplify_done.exists() else 'missing'}")
 
-# チェック0.75: FEブラウザ検証
+# チェック0.75: FEブラウザ検証（cwd対応: 他プロジェクトのFEファイルを誤検出しない）
 if (
     pending_file.exists()
     and pending_file.stat().st_size > 0
@@ -120,10 +120,14 @@ if (
     fe_exts = {".html", ".css", ".scss", ".less", ".tsx", ".jsx"}
     fe_dirs = ("/frontend/", "/static/", "/public/", "/components/", "/pages/")
     has_fe = False
+    hook_cwd_str = str(hook_cwd)
     try:
         for line in pending_file.read_text(encoding="utf-8").splitlines()[1:]:
             f = line.strip()
             if not f:
+                continue
+            # cwd外のファイルは他セッション由来とみなしてスキップ
+            if not f.startswith(hook_cwd_str):
                 continue
             ext = os.path.splitext(f)[1].lower()
             if ext in fe_exts or any(d in f for d in fe_dirs):
