@@ -159,29 +159,49 @@ def load_legacy_list(md_path: Path) -> set[str]:
     }
 
 
+def _clean_heading(heading: str) -> str:
+    cleaned = heading.lstrip("#").strip()
+    cleaned = HEADING_DATE_RE.sub("", cleaned).strip()
+    return cleaned
+
+
 def extract_summary(body_text: str, heading: str) -> str:
-    """本文からプロンプト要約を自動生成。"""
+    """本文からプロンプト要約を自動生成。
+
+    優先度:
+      1. タイトル行抽出 → 見出し + 商品タイトル で結合
+      2. テンプレ除外後の本文先頭の意味ある行
+      3. 見出しをそのまま要約に使う（見出しが既に十分情報的なケース）
+    """
+    heading_clean = _clean_heading(heading)
+
+    # 1. タイトル行
     m = TITLE_ROW_RE.search(body_text)
     if m:
         title = m.group(1).strip()
-        if title:
-            return f"占い商品登録: {title}"
-    # 意味ある最初の行を使う
+        if title and len(title) > 3:
+            title_trim = title if len(title) <= 60 else title[:57] + "..."
+            return f"{heading_clean} — 商品: {title_trim}"
+
+    # 2. テンプレ除外後の本文先頭
     for raw in body_text.splitlines():
         line = raw.strip()
         if not line:
             continue
         if line.startswith("#") or line.startswith("|") or line.startswith("```"):
             continue
-        if len(line) < 5:
+        if len(line) < 10:
+            continue
+        if any(t in line for t in TEMPLATE_PHRASES):
+            continue
+        if TEMPLATE_LINE_PREFIX_RE.match(line):
             continue
         if len(line) > 100:
             return line[:97] + "..."
         return line
-    # フォールバック: 見出しを使う
-    cleaned = heading.lstrip("#").strip()
-    cleaned = HEADING_DATE_RE.sub("", cleaned).strip()
-    return cleaned or "(要約未生成)"
+
+    # 3. 見出しをそのまま使う
+    return heading_clean or "(要約未生成)"
 
 
 def plan_migration(md_path: Path) -> list[dict]:
