@@ -405,7 +405,11 @@ def main() -> int:
 
     if args.apply:
         print("\n[APPLY] Proceeding with migration...")
-        result = apply_migration(md_path, plans)
+        try:
+            result = apply_migration(md_path, plans)
+        except RuntimeError as e:
+            print(f"\n{e}", file=sys.stderr)
+            return 2
         print(f"\nMigrated entries: {result['migrated']}")
         print(f"Refs files written: {result['written_refs']}")
         print(f"Main MD lines: {result['lines_before']} → {result['lines_after']}")
