@@ -158,7 +158,8 @@ def apply_split(md_path: Path, plan: dict) -> dict:
     archive_path.write_text(archive_content, encoding="utf-8")
 
     # 本体: DONEセクションをポインタブロックに置換
-    pointer = build_pointer_block(plan["archive_stem"])
+    date_range = extract_date_range(lines, start, end)
+    pointer = build_pointer_block(plan["archive_stem"], plan["entry_count"], date_range)
     new_lines = lines[:start] + pointer + lines[end:]
     md_path.write_text("\n".join(new_lines) + "\n", encoding="utf-8")
 
