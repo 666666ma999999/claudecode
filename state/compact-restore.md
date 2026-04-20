@@ -1,67 +1,58 @@
-# Session Restore Note (auto-generated at 2026-04-18 21:20:11)
+# Session Restore Note (auto-generated at 2026-04-19 20:52:42)
 
 ## Pending State
-- implementation-checklist: pending
+- implementation-checklist: clear
 - verify-step: clear
-  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/anniversary/manifest.json
-  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/src/features/tag-search/manifest.json
-  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/arbitrage-calc/calculator.ts
-  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/scripts/build-features.ts
-  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/scripts/build-data.ts
-  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/scripts/lib/rankings-remap.ts
-  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/ranking-generator/calculator.ts
-  - /Users/masaaki_nagasawa/Desktop/biz/pokeca-invest/extensions/pokeca-chart-scraper/scraper.ts
+
 
 ## Git Status
 ```
- M .claude/CLAUDE.md
- M extensions/_domain/pokeca/query-builder.ts
- M extensions/_domain/pokeca/tier-config.ts
- M extensions/arbitrage-calc/calculator.ts
- M extensions/ebay-scraper/listing-classifier.ts
- M extensions/ebay-scraper/scraper.ts
- M extensions/pokeca-chart-scraper/scraper.ts
- M extensions/price-aggregator/aggregation.ts
- M extensions/psa-population/browser.ts
- M extensions/psa-population/scraper.ts
- M extensions/ranking-generator/calculator.ts
- M scripts/build-data.ts
- M scripts/build-tier-targets.ts
- M scripts/test-phase4.ts
- M scripts/test-query-comparison.ts
- M scripts/test-raw-arbitrage.ts
- M src/app/about/page.tsx
- M src/app/disclaimer/page.tsx
- M src/app/page.tsx
- M src/app/privacy/page.tsx
+ M CLAUDE.md
+ M README.md
+ M collector/classifier.py
+ M collector/config.py
+ M collector/llm_classifier.py
+ M data/few_shot_examples.json
+ M extensions/tier3_posting/account_routing.py
+ M extensions/tier3_posting/cli/build_style_dataset.py
+ M extensions/tier3_posting/cli/compose.py
+ M extensions/tier3_posting/cli/run.py
+ M extensions/tier3_posting/cli/server.py
+ M extensions/tier3_posting/cli/track.py
+ M extensions/tier3_posting/impression_tracker/scraper.py
+ M extensions/tier3_posting/services/style_prompt_builder.py
+ M extensions/tier3_posting/ui/review.html
+ M extensions/tier3_posting/x_poster/post_store.py
+ M extensions/tier3_posting/x_poster/poster.py
+ M scripts/collect_tweets.py
+ M scripts/fetch_bookmarks.py
+ M scripts/merge_all_dates.py
 ```
 
 ## Changed Files (unstaged)
-.claude/CLAUDE.md
-extensions/_domain/pokeca/query-builder.ts
-extensions/_domain/pokeca/tier-config.ts
-extensions/arbitrage-calc/calculator.ts
-extensions/ebay-scraper/listing-classifier.ts
-extensions/ebay-scraper/scraper.ts
-extensions/pokeca-chart-scraper/scraper.ts
-extensions/price-aggregator/aggregation.ts
-extensions/psa-population/browser.ts
-extensions/psa-population/scraper.ts
-extensions/ranking-generator/calculator.ts
-scripts/build-data.ts
-scripts/build-tier-targets.ts
-scripts/test-phase4.ts
-scripts/test-query-comparison.ts
-scripts/test-raw-arbitrage.ts
-src/app/about/page.tsx
-src/app/disclaimer/page.tsx
-src/app/page.tsx
-src/app/privacy/page.tsx
-src/data/anomaly-report.json
-src/data/arbitrage.json
-src/data/cards.json
-src/features/cards/components/CardGrid.tsx
-src/features/cards/components/CardListItem.tsx
+CLAUDE.md
+README.md
+collector/classifier.py
+collector/config.py
+collector/llm_classifier.py
+data/few_shot_examples.json
+extensions/tier3_posting/account_routing.py
+extensions/tier3_posting/cli/build_style_dataset.py
+extensions/tier3_posting/cli/compose.py
+extensions/tier3_posting/cli/run.py
+extensions/tier3_posting/cli/server.py
+extensions/tier3_posting/cli/track.py
+extensions/tier3_posting/impression_tracker/scraper.py
+extensions/tier3_posting/services/style_prompt_builder.py
+extensions/tier3_posting/ui/review.html
+extensions/tier3_posting/x_poster/post_store.py
+extensions/tier3_posting/x_poster/poster.py
+scripts/collect_tweets.py
+scripts/fetch_bookmarks.py
+scripts/merge_all_dates.py
+scripts/merge_codex_batches.py
+scripts/research_influencers.py
+tasks/lessons.md
 
 ## Staged Files
 (none)
