@@ -200,6 +200,9 @@ def extract_summary(body_text: str, heading: str) -> str:
         # STEP/STEP1-8 ラベル行
         if re.match(r"^(STEP\s*\d|Step\s*\d)", line):
             continue
+        # URLが占める大半の行（http://, https://）
+        if re.match(r"^https?://", line):
+            continue
         if len(line) > 100:
             return line[:97] + "..."
         return line
