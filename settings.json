@@ -412,6 +412,15 @@
         "hooks": [
           {
             "type": "command",
+            "command": "~/.claude/hooks/jsonl-archive.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
             "command": "~/.claude/hooks/data-retention.sh"
           }
         ]

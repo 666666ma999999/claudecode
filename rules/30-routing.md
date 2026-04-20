@@ -93,6 +93,20 @@
 | 設定診断・health check・設定不整合・hook監査 | `health` |
 | Codex汎用委譲・非エンジニアタスク・資料レビュー | `codex-delegate` |
 
+### 記事生成・検証（X Articles パイプライン）
+
+| トリガー | 参照スキル |
+|---------|-----------|
+| X Articles 長文記事生成・6 Agent Teams 並列生成 | `generate-x-article`（make_article 専用） |
+| 記事短文投稿・3候補並列生成 | `generate-x-post`（make_article 専用） |
+| 記事の体験・数値・シーン捏造チェック・AI捏造排除 | `verify-experience` |
+| 記事のプロンプト例・コマンド・日付の環境履歴裏取り・自動ファクトチェック | `fact-check-from-history` |
+| 記事のプロンプト実行可能性検証・読者コピペできるか・ペルソナシミュレーション | `verify-prompt-executability` |
+| 記事画像計画・視覚化優先度付け・画像マーカー挿入 | `plan-article-images` |
+| 記事投稿・プロモツイート・記事本文クリップボード | `post-article` |
+| 投稿結果メトリクス記録・Feedback Loop | `record-result` |
+| Feedback Loopパフォーマンス分析・素材パターン評価 | `analyze-performance` |
+
 ### スキル管理
 
 | トリガー | 参照スキル |

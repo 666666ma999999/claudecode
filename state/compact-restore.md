@@ -1,4 +1,4 @@
-# Session Restore Note (auto-generated at 2026-04-19 20:52:42)
+# Session Restore Note (auto-generated at 2026-04-20 14:58:07)
 
 ## Pending State
 - implementation-checklist: clear
@@ -7,55 +7,57 @@
 
 ## Git Status
 ```
- M CLAUDE.md
- M README.md
- M collector/classifier.py
- M collector/config.py
- M collector/llm_classifier.py
- M data/few_shot_examples.json
- M extensions/tier3_posting/account_routing.py
- M extensions/tier3_posting/cli/build_style_dataset.py
- M extensions/tier3_posting/cli/compose.py
- M extensions/tier3_posting/cli/run.py
- M extensions/tier3_posting/cli/server.py
- M extensions/tier3_posting/cli/track.py
- M extensions/tier3_posting/impression_tracker/scraper.py
- M extensions/tier3_posting/services/style_prompt_builder.py
- M extensions/tier3_posting/ui/review.html
- M extensions/tier3_posting/x_poster/post_store.py
- M extensions/tier3_posting/x_poster/poster.py
- M scripts/collect_tweets.py
- M scripts/fetch_bookmarks.py
- M scripts/merge_all_dates.py
+ M .claude/rules/content-rules.md
+ M .claude/skills/generate-x-article/SKILL.md
+ M .claude/skills/post-article/SKILL.md
+ M scripts/fetch_and_ingest.sh
+ M scripts/fetch_bookmarks_for_influx.py
+ M scripts/post_to_x.py
+?? .claude/skills/fact-check-from-history/
+?? .claude/skills/plan-article-images/
+?? .claude/skills/verify-experience/
+?? .claude/skills/verify-prompt-executability/
+?? output/drafts/art_012_mac_mini_2pc_6projects_2026-04-19.md
+?? output/drafts/art_013.images.md
+?? output/drafts/art_013_2pc_fastdev_tools_2026-04-19.md
+?? output/engagement/
+?? output/plans/
+?? scripts/_inj_test.json
+?? scripts/fetch_engagement_via_influx.sh
+?? scripts/update_material_table.py
+?? tasks/
 ```
 
 ## Changed Files (unstaged)
-CLAUDE.md
-README.md
-collector/classifier.py
-collector/config.py
-collector/llm_classifier.py
-data/few_shot_examples.json
-extensions/tier3_posting/account_routing.py
-extensions/tier3_posting/cli/build_style_dataset.py
-extensions/tier3_posting/cli/compose.py
-extensions/tier3_posting/cli/run.py
-extensions/tier3_posting/cli/server.py
-extensions/tier3_posting/cli/track.py
-extensions/tier3_posting/impression_tracker/scraper.py
-extensions/tier3_posting/services/style_prompt_builder.py
-extensions/tier3_posting/ui/review.html
-extensions/tier3_posting/x_poster/post_store.py
-extensions/tier3_posting/x_poster/poster.py
-scripts/collect_tweets.py
-scripts/fetch_bookmarks.py
-scripts/merge_all_dates.py
-scripts/merge_codex_batches.py
-scripts/research_influencers.py
-tasks/lessons.md
+.claude/rules/content-rules.md
+.claude/skills/generate-x-article/SKILL.md
+.claude/skills/post-article/SKILL.md
+scripts/fetch_and_ingest.sh
+scripts/fetch_bookmarks_for_influx.py
+scripts/post_to_x.py
 
 ## Staged Files
 (none)
 
 ## Current Task
-No active task
+Source: task.md
+## Session Handoff
+
+### 最終作業内容（2026-03-21）
+- X Articles長文記事生成スキル `/generate-x-article` を新規作成
+- 4 Agent Teams構成: Marketing / Planning / Writer / Editorial の並列生成→統合
+- 8軸スコアリング基準（既存5軸 + readability, narrative_flow, completeness）
+- X Articles執筆ガイド（article_guide.md）、記事Few-shot例を作成
+- categories.yamlにarticle_hook_types, article_optimal_lengthを追加
+- schema.mdにArticle固有スキーマ（format: "article"）を追加
+
+### 注意事項
+- Material Bankはまだ空。`/collect-materials` で体験を登録してからの方がオリジナル度が上がる
+- Material Bankが空でもフォールバック生成は可能（Few-shot+パターンで生成）
+- `training_data/curated/` はアーカイブとして残してある（削除不要）
+- x_searchは**grok-4モデルのみ対応**（grok-3-miniは不可）
+- XAI_API_KEY: `~/.envrc.shared` に設定済み
+- `/generate-x-article` は4 SubAgentを並列起動するため、生成に5-10分かかる
+
+### ファイル構成（主要）
+```
