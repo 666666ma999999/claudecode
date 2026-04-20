@@ -38,6 +38,23 @@ RESULT_MARKER = "**結果:**"
 
 TITLE_ROW_RE = re.compile(r"^\s*\|?\s*タイトル\s*\|\s*([^|]+?)\s*\|?\s*$", re.MULTILINE)
 
+# 要約抽出時にスキップする定型テンプレ文字列（部分一致）
+TEMPLATE_PHRASES = [
+    "現状の運用STEP",
+    "運用STEP",
+    "全8ステップ",
+    "占い商品開発",
+    "ロジック・原稿仕様",
+    "ロジック•原稿仕様",
+    "キャラクター設定",
+    "執筆要件とデータ参照",
+    "添付ファイル（任意）",
+    "サイトID・ロジックID",
+]
+
+# 要約抽出時にスキップする行先頭パターン
+TEMPLATE_LINE_PREFIX_RE = re.compile(r"^[①②③④⑤⑥⑦⑧⑨⑩「『]")
+
 
 @dataclass
 class Entry:
