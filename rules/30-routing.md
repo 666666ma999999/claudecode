@@ -91,6 +91,7 @@
 | デスクトップ整理・ファイル整理 | `organize-desktop` |
 | 設定配置・グローバル vs プロジェクト | `config-placement-guide` |
 | 設定診断・health check・設定不整合・hook監査 | `health` |
+| MCP使用回数・ツール頻度・スキル起動数・編集ファイル数・セッション数の実測裏取り | `env-factcheck` |
 | Codex汎用委譲・非エンジニアタスク・資料レビュー | `codex-delegate` |
 
 ### 記事生成・検証（X Articles パイプライン）
