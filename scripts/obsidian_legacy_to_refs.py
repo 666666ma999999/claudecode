@@ -301,6 +301,26 @@ def apply_migration(md_path: Path, plans: list[dict]) -> dict:
     if not migrate_plans:
         return {"migrated": 0, "written_refs": 0, "lines_before": 0, "lines_after": 0}
 
+    # Pre-flight: refs/ 既存衝突があれば abort（silent skip で本体だけ書換える事故を防ぐ）
+    collisions = []
+    for p in migrate_plans:
+        refs_abs = Path(p["refs_path"])
+        if refs_abs.exists():
+            collisions.append((p["heading"], str(refs_abs)))
+    if collisions:
+        msg_lines = [
+            "ERROR: refs/ 既存ファイルとの衝突を検出。適用を中止します。",
+            "既存 refs ファイルと migrate 候補の内容が異なる可能性があり、",
+            "本体だけ [[refs/...]] リンクに差し替わると誤リンクになります。",
+            "",
+        ]
+        for heading, path in collisions:
+            msg_lines.append(f"  - {heading}")
+            msg_lines.append(f"    → {path}")
+        msg_lines.append("")
+        msg_lines.append("対処: 既存 refs を別名に退避するか、該当エントリを legacy list に追加して再実行。")
+        raise RuntimeError("\n".join(msg_lines))
+
     # バックアップ
     bak_path = md_path.with_suffix(md_path.suffix + ".bak-refs-migration")
     bak_path.write_text(md_path.read_text(encoding="utf-8"), encoding="utf-8")
@@ -309,13 +329,10 @@ def apply_migration(md_path: Path, plans: list[dict]) -> dict:
     refs_dir = md_path.parent / "refs"
     refs_dir.mkdir(exist_ok=True)
 
-    # refs/ ファイル書き出し
+    # refs/ ファイル書き出し（衝突は pre-flight で排除済み）
     written = 0
     for p in migrate_plans:
         refs_abs = Path(p["refs_path"])
-        if refs_abs.exists():
-            # 既存があれば上書きしない（append-only 原則）
-            continue
         content = build_refs_content(md_path, p["heading"], p["prompt_body"])
         refs_abs.write_text(content, encoding="utf-8")
         written += 1
