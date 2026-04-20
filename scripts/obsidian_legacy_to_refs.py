@@ -188,13 +188,17 @@ def extract_summary(body_text: str, heading: str) -> str:
         line = raw.strip()
         if not line:
             continue
-        if line.startswith("#") or line.startswith("|") or line.startswith("```"):
+        # 見出し・表（ASCII|・Unicode│・罫線）・コードブロック
+        if line.startswith(("#", "|", "│", "```", "---", "===")):
             continue
         if len(line) < 10:
             continue
         if any(t in line for t in TEMPLATE_PHRASES):
             continue
         if TEMPLATE_LINE_PREFIX_RE.match(line):
+            continue
+        # STEP/STEP1-8 ラベル行
+        if re.match(r"^(STEP\s*\d|Step\s*\d)", line):
             continue
         if len(line) > 100:
             return line[:97] + "..."
