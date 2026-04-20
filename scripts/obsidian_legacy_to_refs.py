@@ -202,6 +202,9 @@ def extract_summary(body_text: str, heading: str) -> str:
         # URL占有行
         if re.match(r"^https?://", line):
             continue
+        # 絶対ファイルパス占有行
+        if re.match(r"^/[A-Za-z]", line) and " " not in line[:20]:
+            continue
         # テンプレ語句スキップ
         if any(t in line for t in TEMPLATE_PHRASES):
             continue
