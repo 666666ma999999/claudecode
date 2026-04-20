@@ -185,7 +185,7 @@ def extract_summary(body_text: str, heading: str) -> str:
             title_trim = title if len(title) <= 60 else title[:57] + "..."
             return f"{heading_clean} — 商品: {title_trim}"
 
-    # 2. テンプレ除外後の本文先頭
+    # 2. テンプレ除外後の本文先頭（要約として十分な情報量がある場合のみ採用）
     for raw in body_text.splitlines():
         line = raw.strip()
         if not line:
@@ -193,23 +193,29 @@ def extract_summary(body_text: str, heading: str) -> str:
         # 見出し・表（ASCII|・Unicode│・罫線）・コードブロック
         if line.startswith(("#", "|", "│", "```", "---", "===")):
             continue
-        if len(line) < 10:
+        # セクション装飾マーカー（■◼▪●◆◇▼▽）
+        if re.match(r"^[■◼▪●◆◇▼▽]", line):
             continue
-        if any(t in line for t in TEMPLATE_PHRASES):
-            continue
-        if TEMPLATE_LINE_PREFIX_RE.match(line):
-            continue
-        # STEP/STEP1-8 ラベル行
+        # STEP/Step ラベル行
         if re.match(r"^(STEP\s*\d|Step\s*\d)", line):
             continue
-        # URLが占める大半の行（http://, https://）
+        # URL占有行
         if re.match(r"^https?://", line):
+            continue
+        # テンプレ語句スキップ
+        if any(t in line for t in TEMPLATE_PHRASES):
+            continue
+        # 先頭記号スキップ (①-⑩「『)
+        if TEMPLATE_LINE_PREFIX_RE.match(line):
+            continue
+        # 情報量の閾値: 30文字以上を「意味ある narrative」とみなす
+        if len(line) < 30:
             continue
         if len(line) > 100:
             return line[:97] + "..."
         return line
 
-    # 3. 見出しをそのまま使う
+    # 3. 見出しをそのまま使う（narrative 行が取れなかった場合）
     return heading_clean or "(要約未生成)"
 
 
