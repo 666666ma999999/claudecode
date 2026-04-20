@@ -83,12 +83,16 @@ def build_archive_content(md_path: Path, done_lines: list[str]) -> str:
     return "\n".join(header) + "\n".join(done_lines).rstrip() + "\n"
 
 
-def build_pointer_block(archive_stem: str) -> list[str]:
+def build_pointer_block(archive_stem: str, entry_count: int, date_range: tuple[str, str] | None) -> list[str]:
     """本体MDに残すポインタブロック。"""
+    if date_range:
+        info = f"{entry_count}件（{date_range[0]} 〜 {date_range[1]}）"
+    else:
+        info = f"{entry_count}件"
     return [
         "## DONE",
         "",
-        f"過去の完了タスクは [[{archive_stem}]] を参照。",
+        f"過去の完了タスク {info}は [[{archive_stem}]] を参照。",
         "",
     ]
 
