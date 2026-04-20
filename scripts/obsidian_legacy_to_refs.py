@@ -172,8 +172,8 @@ def extract_summary(body_text: str, heading: str) -> str:
 
     優先度:
       1. タイトル行抽出 → 見出し + 商品タイトル で結合
-      2. テンプレ除外後の本文先頭の意味ある行
-      3. 見出しをそのまま要約に使う（見出しが既に十分情報的なケース）
+      2. 本文が短い場合（非空行<10）のみ、narrative 先頭行を採用
+      3. それ以外は見出し転写（長文本文はテンプレ混入しやすく信頼性が低いため）
     """
     heading_clean = _clean_heading(heading)
 
@@ -185,40 +185,35 @@ def extract_summary(body_text: str, heading: str) -> str:
             title_trim = title if len(title) <= 60 else title[:57] + "..."
             return f"{heading_clean} — 商品: {title_trim}"
 
-    # 2. テンプレ除外後の本文先頭（要約として十分な情報量がある場合のみ採用）
-    for raw in body_text.splitlines():
-        line = raw.strip()
-        if not line:
-            continue
-        # 見出し・表（ASCII|・Unicode│・罫線）・コードブロック
-        if line.startswith(("#", "|", "│", "```", "---", "===")):
-            continue
-        # セクション装飾マーカー（■◼▪●◆◇▼▽）
-        if re.match(r"^[■◼▪●◆◇▼▽]", line):
-            continue
-        # STEP/Step ラベル行
-        if re.match(r"^(STEP\s*\d|Step\s*\d)", line):
-            continue
-        # URL占有行
-        if re.match(r"^https?://", line):
-            continue
-        # 絶対ファイルパス占有行
-        if re.match(r"^/[A-Za-z]", line) and " " not in line[:20]:
-            continue
-        # テンプレ語句スキップ
-        if any(t in line for t in TEMPLATE_PHRASES):
-            continue
-        # 先頭記号スキップ (①-⑩「『)
-        if TEMPLATE_LINE_PREFIX_RE.match(line):
-            continue
-        # 情報量の閾値: 30文字以上を「意味ある narrative」とみなす
-        if len(line) < 30:
-            continue
-        if len(line) > 100:
-            return line[:97] + "..."
-        return line
+    # 2. 本文が短い場合のみ narrative 抽出を試みる
+    lines = body_text.splitlines()
+    non_empty = sum(1 for l in lines if l.strip())
+    if non_empty < 10:
+        for raw in lines:
+            line = raw.strip()
+            if not line:
+                continue
+            if line.startswith(("#", "|", "│", "```", "---", "===")):
+                continue
+            if re.match(r"^[■◼▪●◆◇▼▽]", line):
+                continue
+            if re.match(r"^(STEP\s*\d|Step\s*\d)", line):
+                continue
+            if re.match(r"^https?://", line):
+                continue
+            if re.match(r"^/[A-Za-z]", line) and " " not in line[:20]:
+                continue
+            if any(t in line for t in TEMPLATE_PHRASES):
+                continue
+            if TEMPLATE_LINE_PREFIX_RE.match(line):
+                continue
+            if len(line) < 20:
+                continue
+            if len(line) > 100:
+                return line[:97] + "..."
+            return line
 
-    # 3. 見出しをそのまま使う（narrative 行が取れなかった場合）
+    # 3. 見出し転写
     return heading_clean or "(要約未生成)"
 
 
