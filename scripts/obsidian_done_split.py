@@ -24,9 +24,13 @@ Obsidian MD の `## DONE` セクション全体を別ファイル `<basename>-ar
 from __future__ import annotations
 
 import argparse
+import re
 import shutil
 import sys
 from pathlib import Path
+
+
+DATE_IN_HEADING_RE = re.compile(r"\((\d{4}-\d{2}-\d{2})\)")
 
 
 def find_done_section(lines: list[str]) -> tuple[int, int] | None:
