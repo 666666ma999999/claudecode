@@ -82,7 +82,7 @@ class Entry:
         result_part は '**結果:**' 行以降 (マーカー含む)。見つからなければ空文字。
         """
         for i, line in enumerate(self.body_lines):
-            if RESULT_MARKER in line:
+            if line.strip().startswith(RESULT_MARKER):
                 prompt = "\n".join(self.body_lines[:i]).rstrip()
                 result = "\n".join(self.body_lines[i:]).rstrip()
                 return prompt, result
