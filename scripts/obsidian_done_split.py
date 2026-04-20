@@ -55,6 +55,21 @@ def count_done_entries(lines: list[str], start: int, end: int) -> int:
     return sum(1 for i in range(start, end) if lines[i].startswith("##### "))
 
 
+def extract_date_range(lines: list[str], start: int, end: int) -> tuple[str, str] | None:
+    """DONEセクション内の見出しから日付範囲 (min, max) を抽出。見つからなければ None。"""
+    dates = set()
+    for i in range(start, end):
+        if not lines[i].startswith("##### "):
+            continue
+        m = DATE_IN_HEADING_RE.search(lines[i])
+        if m:
+            dates.add(m.group(1))
+    if not dates:
+        return None
+    ds = sorted(dates)
+    return (ds[0], ds[-1])
+
+
 def build_archive_content(md_path: Path, done_lines: list[str]) -> str:
     """archive.md の内容を構築。"""
     parent_stem = md_path.stem
