@@ -1,4 +1,4 @@
-# Session Restore Note (auto-generated at 2026-04-20 14:58:07)
+# Session Restore Note (auto-generated at 2026-04-20 17:31:41)
 
 ## Pending State
 - implementation-checklist: clear
@@ -13,19 +13,20 @@
  M scripts/fetch_and_ingest.sh
  M scripts/fetch_bookmarks_for_influx.py
  M scripts/post_to_x.py
+ M training_data/patterns/article_patterns.jsonl
 ?? .claude/skills/fact-check-from-history/
 ?? .claude/skills/plan-article-images/
 ?? .claude/skills/verify-experience/
 ?? .claude/skills/verify-prompt-executability/
+?? hooks/prompts-verify-check.sh
+?? hooks/record-result-reminder.sh
 ?? output/drafts/art_012_mac_mini_2pc_6projects_2026-04-19.md
 ?? output/drafts/art_013.images.md
+?? output/drafts/art_013_2pc_fastdev_tools_2026-04-19.bak_20260420_171822.md
 ?? output/drafts/art_013_2pc_fastdev_tools_2026-04-19.md
 ?? output/engagement/
 ?? output/plans/
 ?? scripts/_inj_test.json
-?? scripts/fetch_engagement_via_influx.sh
-?? scripts/update_material_table.py
-?? tasks/
 ```
 
 ## Changed Files (unstaged)
@@ -35,6 +36,7 @@
 scripts/fetch_and_ingest.sh
 scripts/fetch_bookmarks_for_influx.py
 scripts/post_to_x.py
+training_data/patterns/article_patterns.jsonl
 
 ## Staged Files
 (none)
