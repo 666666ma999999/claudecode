@@ -44,12 +44,14 @@ for skill_md in "$SKILLS_DIR"/*/SKILL.md; do
     fi
 
     # Required fields: name, description
-    if ! echo "$fm" | grep -qE '^name:'; then
+    # NOTE: use grep -c (consumes all stdin) instead of grep -q to avoid SIGPIPE
+    # under `set -o pipefail` — grep -q exits on first match and echo gets SIGPIPE.
+    if [ "$(echo "$fm" | grep -cE '^name:')" -eq 0 ]; then
         errors+=("[skill] $skill_name: missing 'name' field")
         fail=$((fail + 1))
         continue
     fi
-    if ! echo "$fm" | grep -qE '^description:'; then
+    if [ "$(echo "$fm" | grep -cE '^description:')" -eq 0 ]; then
         errors+=("[skill] $skill_name: missing 'description' field")
         warn=$((warn + 1))
     fi
