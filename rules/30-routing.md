@@ -159,6 +159,8 @@
 - **builtinで済むものをMCPで呼ばない** — GitHub starは`gh`、WebSearchはbuiltin。MCP経由は10倍遅い
 - **grepで集計しない** — JSONL は `jq` か `env-factcheck`。grep は artifact に騙される
 - **同一ソースを複数スキルから独立に叩かない** — Canonical Module原則のリサーチ版
+- **X/バズ系クエリを WebSearch(builtin) で取らない** — バズ・いいね・話題・トレンド・バイラルを含む X検索は **`mcp__grok-search__web_search` sources=["x"]** を使う。WebSearch(builtin) は likes/views を返さないため `/fetch-engagement` での再計測が必要になり二度手間（実測: builtin 409回 / grok-search 62回 の棲み分けが崩れていた）
+- **補助ルートを個別に直叩きしない** — HN/Reddit/Zenn/Qiita/はてブ/Hugging Face 等は Codex MCP の「横断」機能に任せる。個別curl叩きは情報源追加のたびにルーティング表が肥大する
 
 ## エクステンション設計の分岐
 
