@@ -135,6 +135,7 @@
 |---|---|---|
 | X(Twitter) バズ | `mcp__grok-search__web_search` sources=["x"] + `/fetch-engagement` | Codex自律 |
 | GitHub star/trending | `gh api search/repositories topic:...` または `/gh-star-harvest` | WebFetch(github.com/trending) |
+| GitHub リポの中身を読む（star調査→コード深掘り連携） | `mcp__repomix__pack_remote_repository` / `codebase-investigation` | `gh api /repos/.../contents` |
 | Anthropic 公式 | WebFetch `anthropic.com/news` | WebSearch `site:anthropic.com` |
 | Hacker News | `curl hn.algolia.com/api/v1/search` + jq | Codex |
 | Reddit | `curl reddit.com/r/.../top.json` + jq | Codex |
