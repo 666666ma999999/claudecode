@@ -120,5 +120,6 @@ Top 10 のうち、以下のリポは Material Bank の**候補**としてユー
 ## 関連スキル
 
 - `/fetch-engagement` - X側の実測（2軸の主軸）
+- `codebase-investigation` / `repomix` - Top10リポの中身を深掘り（メタデータ→コード分析の橋渡し、STEP 3.5参照）
 - `/generate-x-article` - 集めた素材で記事生成
 - `env-factcheck` - 実使用計測（自分 vs 世界）
