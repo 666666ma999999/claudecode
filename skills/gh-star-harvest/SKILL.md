@@ -49,12 +49,28 @@ bash ~/.claude/skills/gh-star-harvest/harvest.sh [days] [topic] [min_stars]
 - 直近 pushed 日時（活発度）
 - 言語分布
 
+### STEP 3.5: 深掘り候補の選定（repomix連携）
+
+description だけでは記事素材として判断できない Top リポは **`repomix` で中身を圧縮取得**して実装確認する。
+
+- **役割分担**: `gh`（本スキル）= メタデータ (stars/pushed/description) / `repomix` = 実装コード中身
+- **起動例**:
+  ```
+  "次の html_url を pack_remote_repository で圧縮して要約して:
+   https://github.com/{full_name}"
+  ```
+- **対象**: Top 10 のうち description が曖昧 or 記事素材として使う予定のリポ
+- **出力の保管**: repomix 結果は記事素材メモとして `output/research/` などに保存
+
+これで「人気リポだが実はスカスカ」を事前検出できる。
+
 ### STEP 4: Material Bank への ingest 判定
 
 Top 10 のうち、以下のリポは Material Bank の**候補**としてユーザーに提示:
 - star 増加率が高い（`created` と `pushed` が近く、stars が多い）
 - description に記事テーマ該当キーワードが含まれる
 - まだ Material Bank にない
+- **STEP 3.5 で実装中身を確認済み**（深掘りしたリポは信頼度が上がる）
 
 ユーザー承認後、`training_data/materials/tech_tips.jsonl` に追記（スキーマは既存に準拠）。
 
