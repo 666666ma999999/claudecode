@@ -466,15 +466,6 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/firecrawl-start.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
             "command": "~/.claude/hooks/improvement-ingest-check.sh"
           }
         ]
