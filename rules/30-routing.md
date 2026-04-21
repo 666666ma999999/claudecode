@@ -115,21 +115,52 @@
 | スキル作成・更新・判断 | `skill-lifecycle-reference` |
 | スキル新規作成・ワークフロー保存 | `skill-creator` |
 
-## Web リサーチツール選択
+## Web リサーチツール選択（2軸主義）
+
+**情報収集の主軸は2つだけ**。残りは補助情報として必要時に使う。
+
+### 主軸・副軸の定義
+
+| 位置づけ | ツール | 指標の性格 | 用途 |
+|---|---|---|---|
+| **主軸** | **X バズ**（grok-search + `/fetch-engagement` 2段） | 鮮度・バイラル兆候 | いいね/views/RTの実測、今Xで何が流行ってるか |
+| **副軸** | **GitHub star**（`gh` CLI + `/gh-star-harvest`） | 客観性・継続性 | 世界中のdevが投票した結果、数値が絶対 |
+| 補助 | 公式・Anthropic直系 | 確度最高 | 出現頻度低、補助扱い |
+| 補助 | MCPレジストリ（pulsemcp/smithery等） | 範囲狭い | 特定記事テーマの時のみ |
+| 補助 | HN/Reddit/Zenn/Qiita/はてブ等 | X/GitHubと重複 | Codex経由でまとめて横断 |
+
+### 情報源ごとの推奨ツール
+
+| 情報源 | 第一選択 | フォールバック |
+|---|---|---|
+| X(Twitter) バズ | `mcp__grok-search__web_search` sources=["x"] + `/fetch-engagement` | Codex自律 |
+| GitHub star/trending | `gh api search/repositories topic:...` または `/gh-star-harvest` | WebFetch(github.com/trending) |
+| Anthropic 公式 | WebFetch `anthropic.com/news` | WebSearch `site:anthropic.com` |
+| Hacker News | `curl hn.algolia.com/api/v1/search` + jq | Codex |
+| Reddit | `curl reddit.com/r/.../top.json` + jq | Codex |
+| Zenn | `curl zenn.dev/api/articles?order=liked` + jq | WebFetch |
+| Qiita | `curl qiita.com/api/v2/items` + jq | WebFetch |
+| Hugging Face | `curl huggingface.co/api/models` + jq | — |
+| MCP レジストリ | `curl api.pulsemcp.com/v0beta/servers` + jq | smithery API |
+| 動的ページ/SPA | Playwright MCP | — |
+| 単発の事実確認 | WebSearch + WebFetch (builtin) | — |
+| 複数ソース横断・要約 | Codex MCP（自律多段階） | `/find-popular` |
+| 自分の環境集計 | `env-factcheck` | — |
+
+### 日常運用フロー
 
 ```
-1. 単純な事実確認・1〜2ページ参照？ → WebSearch + WebFetch
-2. 複数ソース横断・比較分析・深掘り調査？ → Codex（自律的に多段階検索・要約）
-3. 特定サイトの全ページクロール・構造化データ抽出？ → Firecrawl（Docker起動必要）
-4. X(Twitter)データ？ → Grok Search（XAI_API_KEY必要）、代替: Codex（Yahoo!リアルタイム経由）
+毎日:    X バズ候補取得（grok-search + /fetch-engagement）
+毎週:    GitHub star 収集（/gh-star-harvest 7 claude-code 50）
+必要時:  公式blog 直読み / MCPレジストリ API叩き
+横断:    Codex に任せる（1軸で見えない時のみ）
 ```
 
-| ツール | 強み | 用途 |
-|--------|------|------|
-| WebSearch + WebFetch | 低レイテンシ、直接統合 | 単発検索、既知URLの内容取得 |
-| Codex | 自律多段階リサーチ、一次情報源に到達 | 調査・比較分析・要約が必要な検索 |
-| Firecrawl | サイト全体クロール、スキーマ指定抽出 | 定型データ収集・大量ページ取得 |
-| Grok Search | X/Twitterデータ直接アクセス | X投稿のリアルタイム検索 |
+### Don'ts
+
+- **builtinで済むものをMCPで呼ばない** — GitHub starは`gh`、WebSearchはbuiltin。MCP経由は10倍遅い
+- **grepで集計しない** — JSONL は `jq` か `env-factcheck`。grep は artifact に騙される
+- **同一ソースを複数スキルから独立に叩かない** — Canonical Module原則のリサーチ版
 
 ## エクステンション設計の分岐
 
