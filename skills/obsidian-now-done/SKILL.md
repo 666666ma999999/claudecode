@@ -10,9 +10,9 @@ allowed-tools: "Read Edit Write Grep Glob"
 license: proprietary
 metadata:
   author: masaaki-nagasawa
-  version: 2.0.0
+  version: 2.1.0
   category: workflow-automation
-  tags: [obsidian, now-done, task-completion, prompt-preservation, refs-separation]
+  tags: [obsidian, now-done, task-completion, prompt-preservation, refs-separation, suggest-integration]
 ---
 
 # Obsidian NOW→DONE 移動スキル (refs/分離方式)
