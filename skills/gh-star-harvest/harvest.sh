@@ -83,8 +83,14 @@ for lang, n in c.most_common(10):
     print(f'  {n:3d}  {lang}')
 "
 
+# 前週比較（diff.sh が同ディレクトリにあれば自動実行）
+DIFF_SH="$(dirname "$0")/diff.sh"
+if [[ -x "$DIFF_SH" ]]; then
+  echo ""
+  bash "$DIFF_SH" "$TOPIC" "$OUTFILE" || true
+fi
+
 echo ""
 echo "次のアクション:"
 echo "  - Material Bank 追加候補を抽出: Top 10 で description に記事テーマ該当"
-echo "  - 前週比較: diff $OUTDIR/\$(date -v-7d +%Y-%m-%d)_${TOPIC}.jsonl $OUTFILE"
 echo "  - X側でも収集: /fetch-engagement --urls-from-candidates"
