@@ -69,6 +69,7 @@ pack_remote_repository(url="https://github.com/owner/repo")
 ```
 - OSSライブラリの構造理解
 - 競合プロジェクトの設計比較
+- **典型的な入力元**: `/gh-star-harvest` が出力する JSONL の `html_url`（副軸収集→有望リポの実装確認という接続ワークフロー）
 
 ## repomix を使わない場面
 
