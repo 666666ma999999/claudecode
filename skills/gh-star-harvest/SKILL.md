@@ -22,8 +22,26 @@ allowed-tools:
 | 引数 | デフォルト | 例 |
 |---|---|---|
 | days | 7 | 14（過去2週間） |
-| topic | claude-code | mcp / anthropic-claude / ai-agent |
+| topic | claude-code | mcp / anthropic-claude / ai-agent / llm-tools / agent-framework / prompt-engineering |
 | min_stars | 50 | 100 |
+
+## 推奨 topic 一覧（週次ローテ用）
+
+| topic | 期待する素材領域 | 想定該当例 |
+|---|---|---|
+| `claude-code` | Claude Code本体 / 拡張 | claude-mem / cc-switch / awesome-claude-skills |
+| `mcp` | MCPサーバー・MCP関連ツール | pulsemcp / smithery関連 |
+| `anthropic-claude` | Anthropic公式API系 | Claude SDK wrapper |
+| `ai-agent` | Agent Framework全般 | agno / CrewAI / SuperAGI |
+| `llm-tools` | LLM操作CLI | llm-cli (simonw) / litellm |
+| `agent-framework` | マルチエージェント構成 | LangGraph / AutoGen / pydantic-ai |
+| `prompt-engineering` | プロンプト設計 | promptfoo / DSPy |
+
+## 検索条件の設計判断（2026-04-22）
+
+- **`pushed:>` 採用**（created:> 併用しない）: `created:>` のみだと古参リポのstar急増を全く取りこぼす。`pushed:>` ならアクティブなリポを広く拾える（例: claude-code topic で 18件 → 505件）
+- **`--paginate` 採用**: 100件超過する topic（claude-code, mcp 等）で取りこぼしゼロ化
+- **diff.sh 連携**: 同ディレクトリに `diff.sh` があれば harvest後に7日前JSONLと自動比較（新規登場Top5 / star急増Top5）
 
 ## 実行フロー
 
