@@ -134,19 +134,16 @@
 | 情報源 | 第一選択 | フォールバック |
 |---|---|---|
 | X(Twitter) バズ | `mcp__grok-search__web_search` sources=["x"] + `/fetch-engagement` | Codex自律 |
-| GitHub star/trending | `gh api search/repositories topic:...` または `/gh-star-harvest` | WebFetch(github.com/trending) |
+| GitHub star/trending | `/gh-star-harvest` (gh CLI + pushed:> + paginate) | WebFetch(github.com/trending) |
 | GitHub リポの中身を読む（star調査→コード深掘り連携） | `mcp__repomix__pack_remote_repository` / `codebase-investigation` | `gh api /repos/.../contents` |
 | Anthropic 公式 | WebFetch `anthropic.com/news` | WebSearch `site:anthropic.com` |
-| Hacker News | `curl hn.algolia.com/api/v1/search` + jq | Codex |
-| Reddit | `curl reddit.com/r/.../top.json` + jq | Codex |
-| Zenn | `curl zenn.dev/api/articles?order=liked` + jq | WebFetch |
-| Qiita | `curl qiita.com/api/v2/items` + jq | WebFetch |
-| Hugging Face | `curl huggingface.co/api/models` + jq | — |
 | MCP レジストリ | `curl api.pulsemcp.com/v0beta/servers` + jq | smithery API |
 | 動的ページ/SPA | Playwright MCP | — |
+| HN / Reddit / Zenn / Qiita / はてブ / Hugging Face / dev.to 等の横断 | **Codex MCP（自律多段階）に一本化** | 個別API直叩きは基本しない |
 | 単発の事実確認 | WebSearch + WebFetch (builtin) | — |
-| 複数ソース横断・要約 | Codex MCP（自律多段階） | `/find-popular` |
 | 自分の環境集計 | `env-factcheck` | — |
+
+> **削減判断（2026-04-22）**: HN/Reddit/Zenn/Qiita/はてブ の個別curl叩きは、Codex横断に任せた方が（a）問いを1回で済む（b）ソース横断の要約が一貫する（c）ドキュメント肥大化を避けられる。どうしても個別APIが必要な時だけ、Codex内から該当APIを呼ばせる。
 
 ### 日常運用フロー
 
