@@ -46,19 +46,18 @@ docker ps --filter name=xstock-vnc --filter status=running -q
 cd ~/Desktop/biz/influx && docker compose -f docker-compose.vnc.yml up -d
 ```
 
-### Step 3: Cookie有効性確認（任意）
+### Step 3: Cookie有効性確認（自動実行）
+ラッパー `fetch_engagement_via_influx.sh` がバッチ先頭で自動プリフライトする:
+- **age < 12日**: `[PRE-FLIGHT] Cookie age=Nd: OK`
+- **12日 ≤ age < 14日**: `[WARN]` 近日中に refresh 推奨を表示して続行
+- **age ≥ 14日**: `[ERROR]` refresh コマンドを表示して **exit 3**
+
+手動確認したい場合:
 ```bash
-docker exec xstock-vnc python3 -c "
-import sys; sys.path.insert(0, '/app')
-from collector.cookie_crypto import load_cookies_encrypted
-c = load_cookies_encrypted('./x_profile/cookies.json')
-auth = [ck for ck in c if ck.get('name') in ('auth_token','ct0')]
-print(f'Cookies: {len(c)}, Auth: {len(auth)}')
-if len(auth) < 2: print('WARNING: Cookie expired')
-"
+python3 -c "import os, time; p='$HOME/Desktop/biz/influx/x_profile/cookies.json'; print(int((time.time() - os.path.getmtime(p))/86400), 'days')"
 ```
 
-Cookie期限切れの場合（実行時にexit code 3 + refreshコマンドが表示される）:
+Cookie期限切れの場合（プリフライト or 実行時にexit code 3）:
 ```bash
 docker exec xstock-vnc rm -f /app/x_profile/SingletonLock /app/x_profile/SingletonCookie /app/x_profile/SingletonSocket
 docker exec -d xstock-vnc python scripts/refresh_cookies_vnc.py --timeout 600
