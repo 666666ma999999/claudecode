@@ -34,9 +34,9 @@ echo "MinStars : ${MIN_STARS}"
 echo "Output   : ${OUTFILE}"
 echo ""
 
-# API呼出（per_page=100が上限）
-gh api -X GET "search/repositories" \
-  -f q="topic:${TOPIC} created:>${SINCE} stars:>${MIN_STARS}" \
+# API呼出（pushed:> でアクティブリポを広く拾う、--paginate で 101件目以降も取得）
+gh api --paginate -X GET "search/repositories" \
+  -f q="topic:${TOPIC} pushed:>${SINCE} stars:>${MIN_STARS}" \
   -f sort=stars -f order=desc -f per_page=100 \
   --jq '.items[] | {
     full_name,
