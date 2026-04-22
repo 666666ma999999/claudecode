@@ -129,7 +129,8 @@
       "Bash(crontab -e*)",
       "Bash(mkfs*)",
       "Bash(diskutil erase*)"
-    ]
+    ],
+    "defaultMode": "default"
   },
   "hooks": {
     "PreToolUse": [
