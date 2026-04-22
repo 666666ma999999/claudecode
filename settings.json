@@ -1,4 +1,9 @@
 {
+  "env": {
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "15",
+    "ENABLE_TOOL_SEARCH": "auto:5",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
   "permissions": {
     "allow": [
       "Bash(*)",
@@ -583,6 +588,9 @@
     "command": "cat | bash ~/.claude/statusline.sh",
     "padding": 2
   },
+  "enabledPlugins": {
+    "feature-dev@claude-code-plugins": true
+  },
   "extraKnownMarketplaces": {
     "claude-code-plugins": {
       "source": {
@@ -591,8 +599,8 @@
       }
     }
   },
-  "effortLevel": "high",
   "spinnerTipsOverride": {
+    "excludeDefault": false,
     "tips": [
       "ルーティングテーブル(30-routing.md)確認した？",
       "SubAgent強制ルール: 2ファイル以上→SubAgent必須",
@@ -601,21 +609,14 @@
       "コード検査のみでの完了判断は禁止",
       "FE変更後: Playwright MCPで必ずブラウザ検証（3編集でブロック）",
       "事実確認は必ずツールで実態を確認してから"
-    ],
-    "excludeDefault": false
+    ]
   },
-  "env": {
-    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "75",
-    "ENABLE_TOOL_SEARCH": "auto:5",
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
-  },
-  "enabledPlugins": {
-    "feature-dev@claude-code-plugins": true
-  },
+  "effortLevel": "xhigh",
   "claudeMdExcludes": [
     "**/firecrawl/**",
     "**/templates/**",
     "**/plugins/**",
     "**/node_modules/**"
-  ]
+  ],
+  "tui": "fullscreen"
 }
