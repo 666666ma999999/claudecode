@@ -7,7 +7,7 @@ description: |
   /init-project コマンド実行時、新しいプロジェクトディレクトリのセットアップ時に使用。
   キーワード: プロジェクト初期化, セットアップ, init, 新規プロジェクト, 環境構築
   NOT for: 既存プロジェクトの通常作業、コード修正、デバッグ
-allowed-tools: "Bash Read Write Edit Glob Grep"
+allowed-tools: [Bash, Read, Write, Edit, Glob, Grep]
 ---
 
 # プロジェクト初期化チェックリスト
