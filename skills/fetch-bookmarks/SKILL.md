@@ -8,6 +8,7 @@ triggers:
   - Xのブックマーク
   - bookmark export
   - ブックマーク更新
+allowed-tools: [Read, Glob, Grep, Bash]
 ---
 
 # X Bookmark Fetch Skill
