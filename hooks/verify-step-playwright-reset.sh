@@ -8,7 +8,9 @@ INPUT=$(cat)
 # 意味のある検証ツールのみリセット対象（screenshot単体等は除外）
 TOOL_NAME=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_name',''))" 2>/dev/null)
 case "$TOOL_NAME" in
-    mcp__playwright__browser_navigate|mcp__playwright__browser_snapshot|mcp__playwright__browser_click|mcp__playwright__browser_console_messages)
+    mcp__playwright__browser_navigate|mcp__playwright__browser_snapshot|mcp__playwright__browser_click|mcp__playwright__browser_console_messages| \
+    mcp__playwright-mkb__browser_navigate|mcp__playwright-mkb__browser_snapshot|mcp__playwright-mkb__browser_click|mcp__playwright-mkb__browser_console_messages| \
+    mcp__plugin_playwright_playwright__browser_navigate|mcp__plugin_playwright_playwright__browser_snapshot|mcp__plugin_playwright_playwright__browser_click|mcp__plugin_playwright_playwright__browser_console_messages)
         ;;
     *)
         exit 0
