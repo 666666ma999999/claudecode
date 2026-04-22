@@ -83,8 +83,9 @@
 | Webスクレイピング・Agent Teams構成 | `tool-selection-reference` |
 | 無限スクロール・大量データスクレイピング・Playwright逐次保存 | `max-scroll-scrape` |
 | Playwright並列化・ブラウザ自動化高速化・mutex競合解消 | `browser-automation-parallelization` |
-| X(Twitter)ブックマーク取得・Cookie再取得・教師データ変換 | `fetch-bookmarks` |
+| X(Twitter)ブックマーク取得・教師データ変換 | `fetch-bookmarks` |
 | X(Twitter)投稿エンゲージメント取得・候補URLの実測検証・いいね数確認 | `fetch-engagement` |
+| X Cookie再取得・Chrome→x_profiles抽出・auth_token更新・`import_chrome_cookies.py` | influx側 `refresh-x-cookies`（`~/Desktop/biz/influx/.claude/skills/refresh-x-cookies/SKILL.md`、VNC方式は2026-04-21に廃止） |
 | UIデザイン品質・カラーパレット・タイポグラフィ・コンポーネント設計 | `frontend-design` |
 | Gmail・カレンダー・Drive・Google Sheets・スプレッドシート・Google Docs・Slides・`docs.google.com/spreadsheets/`・`docs.google.com/document/`・`drive.google.com/`・Google Workspace操作 | `gog-cli`（WebFetch は認証を通せないため禁止。`PreToolUse(WebFetch)` hook で自動 deny される） |
 | 通知設定・アラート設定 | `notification-alert` |
