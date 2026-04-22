@@ -7,7 +7,7 @@ description: |
   スキル作成・更新・判断時に使用。実装完了後のスキル化判断にも参照。
   キーワード: スキル作成, スキル更新, SKILL.md, メタデータ, 横展開, 重複チェック
   NOT for: 通常の実装作業、コード編集
-allowed-tools: "Read Glob Grep"
+allowed-tools: [Read, Glob, Grep]
 ---
 
 # スキルライフサイクル
