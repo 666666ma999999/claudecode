@@ -1,7 +1,7 @@
 ---
 name: organize-desktop
 description: デスクトップのファイル/フォルダを自動分類・整理するスキル。日本語ファイル名・業務データ対応。分析→計画→確認→実行→要約の5ステップで安全に整理。
-allowed-tools: "Bash Read Glob Grep"
+allowed-tools: [Bash, Read, Glob, Grep]
 compatibility: "requires: macOS (trash command recommended)"
 license: proprietary
 metadata:
