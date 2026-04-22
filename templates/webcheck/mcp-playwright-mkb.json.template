@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "playwright-mkb": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest",
+        "--headless",
+        "--proxy-server", "http://common-proxy.mkb.ne.jp:3128",
+        "--proxy-bypass", "localhost,127.0.0.1",
+        "--user-data-dir", "./.playwright-mcp/profile"
+      ],
+      "env": {
+        "PLAYWRIGHT_DISABLE_FORCED_CHROMIUM_PROXIED_LOOPBACK": "1"
+      }
+    }
+  }
+}
