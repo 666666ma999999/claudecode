@@ -6,7 +6,7 @@ description: |
   git commit/push/add実行時、.gitignore設定時、セキュリティインシデント対応時に使用。
   キーワード: git安全, コミット禁止, 事故対応, .vscode, push protection, secret scanning
   NOT for: 通常のコード編集、ファイル読み取り、git以外の操作
-allowed-tools: "Read Glob Grep"
+allowed-tools: [Read, Glob, Grep]
 ---
 
 # Git Safety Reference
