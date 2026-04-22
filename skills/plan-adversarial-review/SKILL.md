@@ -6,7 +6,7 @@ description: |
   過剰設計・見落とし・よりシンプルな代替案を発見する。
   キーワード: プラン検証, 設計レビュー, リスク分析, 計画品質, 敵対的プラン
   NOT for: 実装後のコードレビュー（→ /simplify, /adversarial-review）、セキュリティ監査（→ security-twin-audit）
-allowed-tools: "Read Glob Grep Agent"
+allowed-tools: [Read, Glob, Grep, Agent]
 license: proprietary
 metadata:
   author: masaaki-nagasawa
