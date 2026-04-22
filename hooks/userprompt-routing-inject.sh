@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # UserPromptSubmit hook: プロンプトのキーワードを 30-routing.md と突き合わせ、
 # 該当スキル行を stdout に出力して Claude の context に注入する。
-# stdout は context に入るため、ノイズ防止のため明確な一致のみ出力。
+# stdout は context に入るため、ノイズ防止のため最大4件まで。
 
-set -euo pipefail
+set -eu
 
 input=$(cat 2>/dev/null || echo "{}")
 prompt=$(echo "$input" | python3 -c 'import sys,json
@@ -20,50 +20,27 @@ except Exception:
 ROUTING="$HOME/.claude/rules/30-routing.md"
 [ ! -f "$ROUTING" ] && exit 0
 
-# キーワード（日本語+英語）。プロンプトに含まれたら routing 表から該当行を抽出
-keywords=(
-  "デバッグ" "リファクタリング" "セキュリティ監査" "脆弱性"
-  "KPI" "ダッシュボード" "可視化" "売上分析"
-  "テスト修正" "test fixing"
-  "スキル作成" "skill creator"
-  "プロジェクト復帰" "catch up"
-  "ブックマーク" "bookmark"
-  "エンゲージメント" "engagement" "いいね数"
-  "Playwright" "Firecrawl" "スクレイピング"
-  "Codex" "Agent Teams" "SubAgent"
-  "Plan mode" "新機能" "MVP"
-  "Obsidian" "NOW→DONE"
-  "gitコミット" "git push" "シークレット" "API鍵"
-  "repomix" "コードベース調査"
-  "Gmail" "Google Sheets" "スプレッドシート" "Docs"
-)
+# キーワードリスト（日本語+英語）
+keywords="デバッグ リファクタリング セキュリティ監査 脆弱性 KPI ダッシュボード 可視化 売上分析 テスト修正 スキル作成 プロジェクト復帰 ブックマーク エンゲージメント いいね数 Playwright Firecrawl スクレイピング Codex SubAgent 新機能 MVP Obsidian gitコミット シークレット API鍵 repomix Gmail スプレッドシート Docs ツール選択 Agent"
 
-# 最大表示件数
 max_hits=4
-hit_count=0
-declare -A seen
-output=""
+tmp=$(mktemp -t routing-hits.XXXXXX 2>/dev/null || echo "/tmp/routing-hits.$$")
+trap 'rm -f "$tmp"' EXIT
 
-for kw in "${keywords[@]}"; do
-  if [ "$hit_count" -ge "$max_hits" ]; then
-    break
-  fi
-  # case-insensitive, literal match
+for kw in $keywords; do
   if echo "$prompt" | grep -qiF "$kw"; then
-    # 対応する routing 表の行（パイプで始まる表行、またはトリガー行）を抽出
-    match=$(grep -iF "$kw" "$ROUTING" 2>/dev/null | grep -E '^\|' | head -1 || true)
-    if [ -n "$match" ] && [ -z "${seen[$match]:-}" ]; then
-      seen[$match]=1
-      output="${output}${match}"$'\n'
-      hit_count=$((hit_count + 1))
-    fi
+    grep -iF "$kw" "$ROUTING" 2>/dev/null | grep -E '^\|' | head -1 >> "$tmp" || true
   fi
 done
 
-if [ -n "$output" ]; then
-  echo "【Skill Routing Hint (30-routing.md 自動抽出)】"
-  echo "$output" | sed 's/^/  /'
-  echo "（該当スキルの利用を検討。無関係なら無視してよい）"
+# 重複除去して上位4件
+if [ -s "$tmp" ]; then
+  hits=$(sort -u "$tmp" | head -"$max_hits")
+  if [ -n "$hits" ]; then
+    echo "【Skill Routing Hint (30-routing.md 自動抽出)】"
+    echo "$hits" | sed 's/^/  /'
+    echo "（該当スキルの利用を検討。無関係なら無視してよい）"
+  fi
 fi
 
 exit 0
