@@ -6,7 +6,7 @@ description: |
   BE新機能追加・APIエンドポイント追加・BEエクステンション作成時に使用。
   キーワード: BEエクステンション, HookPoint, AsyncEventBus, ExtensionRegistry, FastAPI, NestJS
   NOT for: FE実装, インフラ構成, DB設計（エクステンション構造に関わらない場合）
-allowed-tools: "Read Glob Grep"
+allowed-tools: [Read, Glob, Grep]
 license: proprietary
 metadata:
   category: guide-reference
