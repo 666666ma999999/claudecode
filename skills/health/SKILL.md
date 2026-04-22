@@ -1,6 +1,7 @@
 ---
 name: health
 description: Run when Claude feels off, ignores rules, or hooks/MCP need auditing.
+allowed-tools: [Read, Glob, Grep, Bash]
 ---
 
 # Claude Code Configuration Health Audit
