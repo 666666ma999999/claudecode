@@ -11,7 +11,7 @@ triggers:
   - 機能設計
   - アーキテクチャ比較
   - 設計フェーズ
-allowed-tools: "Read Glob Grep Bash Agent"
+allowed-tools: [Read, Glob, Grep, Bash, Agent]
 ---
 
 # Feature-Dev Hybrid Workflow
