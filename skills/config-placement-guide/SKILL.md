@@ -7,6 +7,7 @@ triggers:
   - config placement
   - 設定優先順位
   - settings scope
+allowed-tools: [Read, Glob, Grep, Bash]
 ---
 
 # 設定配置ガイド
