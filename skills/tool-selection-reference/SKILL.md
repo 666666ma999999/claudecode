@@ -6,7 +6,7 @@ description: |
   Firecrawl実装パターン。Web情報取得時、エージェント構成検討時に使用。
   キーワード: Webスクレイピング, Firecrawl, Playwright, SubAgent, Agent Teams, ツール選択
   NOT for: 通常のファイル操作、コード編集
-allowed-tools: "Read Glob Grep"
+allowed-tools: [Read, Glob, Grep]
 ---
 
 # ツール選択ガイド
