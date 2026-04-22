@@ -5,7 +5,7 @@ description: |
   KPI表示・分解・ドリルダウン・因果分析・売上/粗利/コスト分解時に使用。
   キーワード: KPI, 計算式, ドリルダウン, 葉ノード, 因果分解。
   NOT for: 単純集計（SUM/AVG）、1回限りアドホック分析。
-allowed-tools: "Read Write Edit Glob Grep Bash"
+allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
 license: proprietary
 metadata:
   author: masaaki-nagasawa
