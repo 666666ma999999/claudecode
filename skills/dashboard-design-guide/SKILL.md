@@ -6,7 +6,7 @@ description: |
   matplotlib/PythonのPNGグラフを設計・生成する。経営資料、KPIレポート、行政・事業会社の定例報告、
   役員会向けサマリ、業績モニタリング、施策効果の可視化に使う。
 type: workflow
-allowed-tools: "Bash(python:*) Read Write Edit Glob Grep"
+allowed-tools: ["Bash(python:*)", Read, Write, Edit, Glob, Grep]
 ---
 
 # dashboard-design-guide
