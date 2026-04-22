@@ -10,6 +10,7 @@ description: |
   - Gmail 検索・送信・ラベル操作、Google Calendar 予定確認・作成
   - Tasks / Contacts / Classroom / Chat 等の Google Workspace 操作
   WebFetch では認証が通らず中身が読めないため、URL検出時は即 `gog` コマンドへ切替える。
+allowed-tools: [Read, Glob, Grep, Bash]
 ---
 
 # gogcli (gog) CLI
