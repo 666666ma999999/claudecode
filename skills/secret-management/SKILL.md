@@ -6,7 +6,7 @@ description: |
   .mcp.json操作時、APIキー設定時、新プロジェクトセットアップ時に使用。
   キーワード: シークレット, API鍵, zshrc, mcp.json, 環境変数, ${VAR}
   NOT for: 通常の開発作業、git操作
-allowed-tools: "Read Glob Grep"
+allowed-tools: [Read, Glob, Grep]
 ---
 
 # シークレット管理ルール
