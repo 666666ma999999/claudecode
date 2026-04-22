@@ -5,7 +5,7 @@ description: |
   非エンジニアタスク（資料レビュー、契約書チェック、文章校正、翻訳、要約等）にも対応。
   キーワード: Codex委譲, codex delegate, Codexに任せて, Codexで, 資料レビュー, 契約書チェック
   NOT for: コードレビュー（→ /review）、敵対的レビュー（→ /adversarial-review）、stuck時rescue（→ /rescue）
-allowed-tools: "Read Glob Grep Bash"
+allowed-tools: [Read, Glob, Grep, Bash]
 license: proprietary
 metadata:
   author: masaaki-nagasawa
