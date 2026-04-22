@@ -2,7 +2,7 @@
 name: search-best-practice
 description: "Web上のClaude Code運用ベストプラクティスを検索し、現環境との差分分析から適用計画を立てる。NOT for: コードレビュー、特定ライブラリ調査（→ context7）、セキュリティ監査（→ security-twin-audit）"
 user-invocable: true
-allowed-tools: "Read Glob Grep Agent WebSearch WebFetch mcp__grok-search__web_search"
+allowed-tools: [Read, Glob, Grep, Agent, WebSearch, WebFetch, mcp__grok-search__web_search]
 metadata:
   category: productivity
   tags: [web-search, best-practice, claude-code, self-improvement]
