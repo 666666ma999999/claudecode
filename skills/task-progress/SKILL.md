@@ -1,6 +1,6 @@
 ---
 name: task-progress
-description: task.md進捗管理スキル。セッション継続・要件変更追跡・stuck記録・ハンドオフを管理する。
+description: task.md進捗管理スキル。セッション継続・要件変更追跡・stuck記録・ハンドオフを管理する。NOT for: Obsidian NOW→DONE移動（→ obsidian-now-done）、プロジェクト復帰時のコンテキスト復元（→ project-recall）
 triggers:
   - task進捗
   - stuck記録
