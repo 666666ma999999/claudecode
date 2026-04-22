@@ -5,7 +5,7 @@ description: |
   単一視点では見逃しがちなリスク・トレードオフを発見する汎用レビュー手法。
   キーワード: 設計判断, トレードオフ, 反証, 妥当性検証, 対立検証, devil's advocate
   NOT for: 単純なコード修正、セキュリティ監査（→ security-twin-audit）、1ファイル変更
-allowed-tools: "Read Glob Grep Bash Agent"
+allowed-tools: [Read, Glob, Grep, Bash, Agent]
 license: proprietary
 metadata:
   author: masaaki-nagasawa
