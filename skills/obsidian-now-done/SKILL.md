@@ -6,7 +6,7 @@ description: |
   全文保存ルールは維持（場所だけ変更）。hookによる違反検出と連携。
   キーワード: NOW→DONE, Obsidian, タスク完了, 元プロンプト保存, 結果記録, refs分離
   NOT for: task.md更新（→ task-progress）、通常のファイル編集
-allowed-tools: "Read Edit Write Grep Glob"
+allowed-tools: [Read, Edit, Write, Grep, Glob]
 license: proprietary
 metadata:
   author: masaaki-nagasawa
