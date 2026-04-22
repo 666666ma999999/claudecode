@@ -6,7 +6,7 @@ description: |
   実装削除・置換・統合・不要コード整理の前後で使用。
   キーワード: リファクタリング, 削除安全性, エントリポイント, 影響範囲, 回帰防止, 完全性チェック
   単純な文言修正やUI文言変更のみの作業では使用しない。
-allowed-tools: "Read Glob Grep"
+allowed-tools: [Read, Glob, Grep]
 license: proprietary
 metadata:
   author: masaaki-nagasawa
