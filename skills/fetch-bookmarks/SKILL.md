@@ -1,7 +1,7 @@
 ---
 name: fetch-bookmarks
-description: influxプロジェクトのVNCコンテナ経由でX(Twitter)のブックマークを取得する。ブックマーク取得、Cookie再取得、教師データ変換を統合実行。任意のプロジェクトから呼び出し可能。
-keywords: bookmark, ブックマーク, X, Twitter, 取得, fetch, scrape, 教師データ, style dataset
+description: influxプロジェクトのVNCコンテナ経由でX(Twitter)のブックマークを取得する。複数アカ対応（x_profiles/<account>）。教師データ変換を統合実行。Cookie更新は refresh-x-cookies スキル参照。
+keywords: bookmark, ブックマーク, X, Twitter, 取得, fetch, scrape, 教師データ, style dataset, 複数アカウント
 triggers:
   - ブックマーク取得
   - fetch bookmarks
@@ -15,13 +15,15 @@ triggers:
 ## When to use
 - ユーザーがXのブックマークを取得/エクスポートしたい時
 - ブックマーク教師データを更新したい時
-- Cookie期限切れでブックマーク取得できない時
+
+## Not for
+- 投稿エンゲージメントの実測取得 → `fetch-engagement`
+- **Cookie更新** → influx側 `refresh-x-cookies` スキル（`~/Desktop/biz/influx/.claude/skills/refresh-x-cookies/SKILL.md`）
 
 ## Prerequisites
 - influxプロジェクト: `~/Desktop/biz/influx`（INFLUX_ROOT環境変数 or デフォルト）
-- Docker: `docker-compose.vnc.yml` が存在すること
-- VNCコンテナ `xstock-vnc` が起動していること
-- `x_profile/cookies.json` が有効であること
+- Docker: `docker-compose.vnc.yml` が存在し `xstock-vnc` コンテナ起動可能
+- **Cookie**: `x_profiles/<account>/cookies.json` が有効（account は `maaaki` or `kabuki666999`）
 
 ## Workflow
 
@@ -40,37 +42,36 @@ docker ps --filter name=xstock-vnc --format "{{.Status}}" || \
 
 ### Step 3: Cookie有効性確認
 ```bash
-docker exec xstock-vnc python -c "
-from collector.cookie_crypto import load_cookies_encrypted
-c = load_cookies_encrypted('./x_profile/cookies.json')
-auth = [ck for ck in c if ck.get('name') in ('auth_token','ct0')]
-print(f'Cookies: {len(c)}, Auth: {len(auth)}')
-if len(auth) < 2: print('WARNING: Cookie expired')
-"
+# 使うアカウントの Cookie mtime 確認
+ACCOUNT="maaaki"  # or kabuki666999
+python3 -c "import os,time;p=f'$HOME/Desktop/biz/influx/x_profiles/$ACCOUNT/cookies.json';print(int((time.time()-os.path.getmtime(p))/86400),'days')"
 ```
 
-Cookie期限切れの場合:
+**Cookie期限切れ時** → **influx側 `refresh-x-cookies` スキル** 参照:
 ```bash
-docker exec xstock-vnc rm -f /app/x_profile/SingletonLock /app/x_profile/SingletonCookie /app/x_profile/SingletonSocket
-docker exec -d xstock-vnc python scripts/refresh_cookies_vnc.py --timeout 600
-echo "http://localhost:6080 でVNCを開きXにログインしてください"
+cd ~/Desktop/biz/influx
+python3 scripts/import_chrome_cookies.py --chrome-profile "Default"   --account maaaki
+python3 scripts/import_chrome_cookies.py --chrome-profile "Profile 2" --account kabuki666999
 ```
 
-### Step 4: ブックマーク取得
+### Step 4: ブックマーク取得（複数アカ対応）
+
+**make_article からのラッパー経由**:
 ```bash
-# 出力先はユーザーに確認（デフォルト: influx内）
+cd ~/Desktop/biz/make_article
+bash scripts/fetch_and_ingest.sh --account maaaki
+# or
+bash scripts/fetch_and_ingest.sh --account kabuki666999 --max-scrolls 10
+```
+
+**直接 influx で実行**:
+```bash
+cd "$INFLUX_ROOT"
 docker exec xstock-vnc python scripts/fetch_bookmarks.py \
+  --profile x_profiles/maaaki \
   --out /app/output/bookmarks.jsonl \
   --max-empty-batches 5 \
   --max-runtime-min 30
-```
-
-別プロジェクトに直接出力する場合:
-```bash
-docker exec xstock-vnc python scripts/fetch_bookmarks.py \
-  --out /app/output/bookmarks.jsonl
-# ホスト側でコピー
-cp "$INFLUX_ROOT/output/bookmarks.jsonl" "<destination_path>"
 ```
 
 ### Step 5: 結果確認
@@ -98,11 +99,17 @@ python3 extensions/tier3_posting/cli/build_style_dataset.py --use-llm
 ```
 
 ## Failure handling
-- Cookie期限切れ → Step 3のrefresh手順を案内
-- VNCコンテナ未起動 → `docker compose -f docker-compose.vnc.yml up -d`
-- SingletonLockエラー → `rm -f /app/x_profile/Singleton*`
-- noVNCが開かない → `docker exec xstock-vnc ln -sf /usr/share/novnc/vnc.html /usr/share/novnc/index.html`
+- **Cookie期限切れ** → influx側 `refresh-x-cookies` スキル参照（1コマンドで完結）
+- **Cookie未セットアップ** → `python3 scripts/import_chrome_cookies.py --chrome-profile <profile> --account <account>`
+- **VNCコンテナ未起動** → `cd ~/Desktop/biz/influx && docker compose -f docker-compose.vnc.yml up -d`
+- **DOM selector変化でentryが取れない** → `fetch_bookmarks.py` の GraphQL URL パターン確認
 
 ## Output
 - 生データ: `output/bookmarks.jsonl` (JSONL形式)
 - 教師データ: `data/writing_style/bookmarks/normalized.jsonl` (ラベル付きJSONL)
+
+## 関連ファイル
+- ラッパー: `~/Desktop/biz/make_article/scripts/fetch_and_ingest.sh`
+- 本体テンプレ: `~/Desktop/biz/make_article/scripts/fetch_bookmarks_for_influx.py`（influxへコピーして使用）
+- **Cookie管理**: `~/Desktop/biz/influx/.claude/skills/refresh-x-cookies/SKILL.md`（Canonical）
+- **抽出スクリプト**: `~/Desktop/biz/influx/scripts/import_chrome_cookies.py`
