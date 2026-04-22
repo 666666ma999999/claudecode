@@ -9,6 +9,7 @@ triggers:
   - max scroll
   - 全件取得
   - スクロールで全部取る
+allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
 ---
 
 # Max Scroll Scrape Pattern
