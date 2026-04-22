@@ -5,7 +5,7 @@ description: |
   コード・履歴・Memoryを統合分析し復帰レポートを生成・永続化。
   キーワード: プロジェクト思い出す, 久しぶり, コンテキスト復元, project recall, catch up。
   NOT for: 進捗管理（→ task-progress）, 初回調査（→ codebase-investigation）
-allowed-tools: "Read Glob Grep Agent mcp__codex__codex mcp__codex__codex-reply"
+allowed-tools: [Read, Glob, Grep, Agent, mcp__codex__codex, mcp__codex__codex-reply]
 metadata:
   author: masaaki-nagasawa
   version: 2.0.0
