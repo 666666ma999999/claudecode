@@ -6,7 +6,7 @@ description: |
   EventBusによるext間通信のガイド。FE新機能追加・ページ追加・ウィジェット追加時に使用。
   キーワード: エクステンション作成, ページ追加, ウィジェット追加, FEアーキテクチャ, MountPoint, EventBus, Zustand
   NOT for: バックエンド実装, インフラ構成, DB設計, 既存バグ修正（アーキテクチャ変更を伴わない場合）
-allowed-tools: "Read Glob Grep"
+allowed-tools: [Read, Glob, Grep]
 ---
 
 # FE エクステンションパターン ガイド
