@@ -5,7 +5,7 @@ description: |
   Agent Teams を使用して攻撃者視点と防御者視点で並行分析し、統合レポートを生成する。
   キーワード: セキュリティ監査, security audit, 脆弱性診断, Red Team, Blue Team, Twin Agents
   NOT for: 単純なコード修正、テスト実行、通常のコードレビュー
-allowed-tools: "Read Glob Grep Bash Task TaskCreate TaskUpdate TaskList TeamCreate SendMessage"
+allowed-tools: [Read, Glob, Grep, Bash, Task, TaskCreate, TaskUpdate, TaskList, TeamCreate, SendMessage]
 ---
 
 # Security Twin Audit スキル
