@@ -10,6 +10,7 @@ triggers:
 not_for:
   - データ整合性チェック（→ salesmtg-data-audit）
   - スクレイパー修正
+allowed-tools: [Read, Glob, Grep, Bash]
 ---
 
 # salesmtg ダッシュボードQAスキル
