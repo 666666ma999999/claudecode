@@ -12,7 +12,7 @@ triggers:
   - /new-feature
   - MVP 開始
   - 機能着手
-allowed-tools: "Read Write Edit Glob Grep Bash AskUserQuestion"
+allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion]
 ---
 
 # New Feature Workflow
