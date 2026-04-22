@@ -5,7 +5,7 @@ description: |
   Codex+Explore並列分析で移動先候補と整形ブロックを提案（検出・編集は不実施）。
   キーワード: 移動先選定, 統合先提案, MDマージ, Obsidian, 断片整理, DONEエントリ再配置。
   NOT for: 検出・Edit・削除実行, NOW→DONE移動（→ obsidian-now-done）
-allowed-tools: "Read Glob Grep Bash Agent mcp__codex__codex mcp__codex__codex-reply"
+allowed-tools: [Read, Glob, Grep, Bash, Agent, mcp__codex__codex, mcp__codex__codex-reply]
 license: proprietary
 metadata:
   author: masaaki-nagasawa
