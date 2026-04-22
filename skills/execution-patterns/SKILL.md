@@ -7,7 +7,7 @@ description: |
   SubAgent委託時、デバッグ時、大量データ分析時、リファクタリング時に使用。
   キーワード: SubAgent, 委託, デバッグ, リファクタリング, データ分析, Extract-to-File
   NOT for: 単純なタスク実行、1ファイル修正
-allowed-tools: "Read Glob Grep"
+allowed-tools: [Read, Glob, Grep]
 ---
 
 # 実行パターン詳細ガイド
