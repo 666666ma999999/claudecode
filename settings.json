@@ -653,5 +653,12 @@
     "**/plugins/**",
     "**/node_modules/**"
   ],
-  "tui": "fullscreen"
+  "tui": "fullscreen",
+  "autoMode": {
+    "environment": [
+      "macOS darwin23, cwd主に ~/Desktop/biz 配下, Docker開発環境"
+    ],
+    "allow": [],
+    "soft_deny": []
+  }
 }
