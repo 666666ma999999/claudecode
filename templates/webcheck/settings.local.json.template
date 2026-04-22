@@ -1,0 +1,18 @@
+{
+  "enableAllProjectMcpServers": false,
+  "enabledMcpjsonServers": ["__SERVER_NAME__"],
+  "permissions": {
+    "allow": [
+      "mcp____SERVER_NAME____browser_navigate",
+      "mcp____SERVER_NAME____browser_snapshot",
+      "mcp____SERVER_NAME____browser_console_messages",
+      "mcp____SERVER_NAME____browser_take_screenshot",
+      "mcp____SERVER_NAME____browser_click",
+      "mcp____SERVER_NAME____browser_wait_for",
+      "mcp____SERVER_NAME____browser_fill_form",
+      "mcp____SERVER_NAME____browser_type",
+      "mcp____SERVER_NAME____browser_evaluate",
+      "mcp____SERVER_NAME____browser_close"
+    ]
+  }
+}
