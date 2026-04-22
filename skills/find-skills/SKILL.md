@@ -1,6 +1,7 @@
 ---
 name: find-skills
 description: Discover and install agent skills from the ecosystem. Use when the user asks "how do I do X", "find a skill for X", or wants to extend capabilities with an installable skill.
+allowed-tools: [Read, Glob, Grep, Bash]
 ---
 
 # Find Skills
