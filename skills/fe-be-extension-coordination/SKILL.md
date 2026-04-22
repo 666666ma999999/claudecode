@@ -6,7 +6,7 @@ description: |
   イベントコントラクト共有のガイド。FE+BE連携・APIコントラクト設計時に使用。
   キーワード: FE+BE連携, APIコントラクト, 共有Extension ID, デプロイ協調, イベントコントラクト
   NOT for: FE単体実装, BE単体実装, インフラ構成
-allowed-tools: "Read Glob Grep"
+allowed-tools: [Read, Glob, Grep]
 license: proprietary
 metadata:
   category: guide-reference
