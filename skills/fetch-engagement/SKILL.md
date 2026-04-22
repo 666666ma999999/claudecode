@@ -9,6 +9,7 @@ triggers:
   - バズ投稿検証
   - 候補URLの数値確認
   - fetch engagement
+allowed-tools: [Read, Write, Glob, Grep, Bash]
 ---
 
 # X Post Engagement Fetch Skill
