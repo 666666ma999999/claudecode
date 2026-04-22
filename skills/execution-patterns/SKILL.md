@@ -6,7 +6,7 @@ description: |
   （3-Fix Limit、根本原因特定まで修正禁止）、リファクタリング戦略（参考コード方式）。
   SubAgent委託時、デバッグ時、大量データ分析時、リファクタリング時に使用。
   キーワード: SubAgent, 委託, デバッグ, リファクタリング, データ分析, Extract-to-File
-  NOT for: 単純なタスク実行、1ファイル修正
+  NOT for: 単純なタスク実行、1ファイル修正、デバッグの根本原因分析手法のみ（→ debugging-guide）、リファクタリング戦略そのもの（→ refactoring-guide）
 allowed-tools: [Read, Glob, Grep]
 ---
 
