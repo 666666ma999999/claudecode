@@ -10,6 +10,7 @@ triggers:
 not_for:
   - ダッシュボードUI修正（→ salesmtg-dashboard-qa）
   - 通常のコード修正
+allowed-tools: [Read, Glob, Grep, Bash]
 ---
 
 # salesmtg データ整合性監査スキル
