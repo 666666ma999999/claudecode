@@ -18,7 +18,7 @@ not_for:
 
 - ダッシュボードHTML生成後の品質チェック
 - 「数字がおかしい」「表示が違う」の報告時
-- generate_dashboard.py の表示ロジック変更時
+- generate_unified_dashboard.py の表示ロジック変更時
 - 新セグメント追加時
 
 ## QAチェックリスト
