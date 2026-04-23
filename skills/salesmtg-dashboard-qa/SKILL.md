@@ -64,7 +64,7 @@ not_for:
 # DASHBOARD_DATAからセグメント別の値を抽出して検証
 python3 -c "
 import json, re
-html = open('output/dashboard_salesmtg.html').read()
+html = open('output/dashboard_unified.html').read()
 m = re.search(r'const DASHBOARD_DATA = ({.*?});\s*\n', html, re.DOTALL)
 data = json.loads(m.group(1))
 # ... セグメント別の値を出力
