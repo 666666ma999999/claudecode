@@ -56,6 +56,11 @@ git_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "-")
 project_dir=$(echo "$input" | jq -r '.workspace.project_dir // empty')
 project_name=$(basename "${project_dir:-$(pwd)}")
 
+# Effort level (from settings.json — merge project > user)
+effort_level=$(jq -r '.effortLevel // empty' "$CLAUDE_DIR/settings.json" 2>/dev/null)
+[ -z "$effort_level" ] && effort_level=$(jq -r '.effortLevel // empty' "$CLAUDE_DIR/settings.local.json" 2>/dev/null)
+[ -z "$effort_level" ] && effort_level="default"
+
 # Format number with k/M suffix
 fmt() {
   local n=$1
