@@ -8,9 +8,9 @@ import sys
 
 # 危険なgitコマンドパターン
 DENY_PATTERNS = [
-    # Force push（全形式）
-    (r"\bgit\s+push\s+.*--force\b", "git push --force は禁止です。--force-with-lease を使用してください。"),
-    (r"\bgit\s+push\s+.*-f\b", "git push -f は禁止です。--force-with-lease を使用してください。"),
+    # Force push（全形式） — --force-with-lease は許可（安全側）
+    (r"\bgit\s+push\s+.*--force(?:\s|$)", "git push --force は禁止です。--force-with-lease を使用してください。"),
+    (r"\bgit\s+push\s+.*(?<!-)-f(?:\s|$)", "git push -f は禁止です。--force-with-lease を使用してください。"),
     (r"\bgit\s+push\s+.*\+[^\s]+:[^\s]+", "git push +refspec（force-push回避パターン）は禁止です。"),
     # 履歴破壊
     (r"\bgit\s+reset\s+--hard\b", "git reset --hard は禁止です。git stash → git reset --soft を使用してください。"),
