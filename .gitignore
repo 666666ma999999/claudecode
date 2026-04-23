@@ -44,6 +44,7 @@ mcp-servers/
 
 # バックアップファイル
 backups/
+*.bak_*
 
 # ローカル設定（PC固有）
 settings.local.json
@@ -57,6 +58,7 @@ __pycache__/
 # テレメトリ・使用データ
 telemetry/
 usage-data/
+metrics/
 
 # アーカイブ
 *.tar.gz
@@ -72,3 +74,8 @@ tasks/
 .sl_live/
 .sl_usage_log.csv
 .sl_quota_start
+archives/
+
+# 一時分析スクリプト
+tmp_analysis/
+tmp_*/
