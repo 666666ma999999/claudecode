@@ -227,8 +227,9 @@ fi
 remaining_pct=$(awk "BEGIN {printf \"%.1f\", 100 - ${used_pct:-0}}")
 
 # Output (3 lines)
-printf "🤖 %s │ 📊 %s%% used / %s%% remaining\n" \
+printf "🤖 %s │ ⚡%s │ 📊 %s%% used / %s%% remaining\n" \
   "$model" \
+  "$effort_level" \
   "$used_pct" \
   "$remaining_pct"
 printf "⏱ 5h %s %d%% (%s) │ 📅 7d %s %d%% (%s)\n" \
