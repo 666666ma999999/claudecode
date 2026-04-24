@@ -166,12 +166,11 @@ codex --version        # 0.124 以降を期待
 
 ## STEP 3: MCP `.mcp.json` 配置
 
-各プロジェクトの `.mcp.json` は **構造だけコピー**し、値は空の `${VAR}` のままにする。
+グローバル MCP 設定（`~/.claude/.mcp.json`）を **構造だけコピー**し、値は空の `${VAR}` のままにする。現環境では 6 サーバー（codex / grok-search / memory / playwright / postgresql / repomix）をグローバル1ファイルで管理しており、プロジェクトごとに `.mcp.json` を置かない運用。
 
 ```bash
-# 例: make_article
 cp ~/.claude/skills/machine-bootstrap/inventory/mcp-template.json \
-   ~/Desktop/biz/make_article/.mcp.json
+   ~/.claude/.mcp.json
 ```
 
 ### シークレット注入（手動）
