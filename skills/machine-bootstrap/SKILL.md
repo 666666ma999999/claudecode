@@ -73,6 +73,20 @@ npm ls -g --depth=0 --parseable --json \
 cp ~/.claude/.mcp.json \
    ~/.claude/skills/machine-bootstrap/inventory/mcp-template.json
 
+# MCP が必要とする環境変数名（${VAR} 参照を抽出 → 新 Mac で export すべきキー一覧）
+jq -r '
+  [.mcpServers[] |
+    ((.env // {}) | to_entries[] | .value),
+    (.args[]? | select(type=="string"))
+  ]
+  | map(scan("\\$\\{([A-Z_][A-Z0-9_]*)\\}"))
+  | flatten
+  | map(select(. != "HOME"))
+  | unique
+  | .[]
+' ~/.claude/skills/machine-bootstrap/inventory/mcp-template.json \
+  > ~/.claude/skills/machine-bootstrap/inventory/mcp-required-env-keys.txt
+
 # VSCode extensions
 code --list-extensions \
   > ~/.claude/skills/machine-bootstrap/inventory/vscode-extensions.txt
