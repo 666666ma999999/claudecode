@@ -62,6 +62,8 @@ if pending.exists():
     if file_path not in lines:
         with pending.open("a", encoding="utf-8") as f:
             f.write(file_path + "\n")
+    # 既存ファイルでも mtime を更新（TTL のローリング更新のため）
+    os.utime(pending, None)
 else:
     pending.write_text(
         f"{datetime.now():%Y-%m-%d %H:%M:%S}\n{file_path}\n",

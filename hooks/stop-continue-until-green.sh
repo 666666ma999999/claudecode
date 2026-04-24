@@ -12,12 +12,18 @@ python3 <<'PYEOF'
 import json
 import os
 import sys
+import time
+from datetime import datetime
 from pathlib import Path
 
 try:
     data = json.loads(os.environ.get("HOOK_INPUT", "{}"))
 except json.JSONDecodeError:
     data = {}
+
+# TTL（時間単位、環境変数で上書き可）
+CHECKLIST_TTL_HOURS = float(os.environ.get("CHECKLIST_TTL_HOURS", "24"))
+SIMPLIFY_TTL_HOURS = float(os.environ.get("SIMPLIFY_TTL_HOURS", "24"))
 
 # 無限ループ防止
 if str(data.get("stop_hook_active", False)).lower() == "true":
@@ -89,7 +95,7 @@ if verify_pending.exists():
                 blockers.append(f"⚠️ 中間バッチ検証が未完了です（{edit_count}回の編集が未検証）。検証を実行してください。")
                 log(f"blocker: verify-step pending ({edit_count} edits)")
 
-# チェック0.5: /simplify 未実行（cwd 対応）
+# チェック0.5: /simplify 未実行（cwd 対応 + TTL）
 simplify_done = state_dir / "simplify-done.timestamp"
 if simplify_pending.exists():
     if simplify_done.exists() and simplify_done.stat().st_mtime > simplify_pending.stat().st_mtime:
@@ -98,18 +104,48 @@ if simplify_pending.exists():
             f.unlink(missing_ok=True)
         log("simplify: done (marker newer than pending)")
     else:
-        # cwd チェック: JSON形式なら cwd を確認、旧形式(数値のみ)は常にマッチ
-        simplify_skip = False
+        # TTL チェック: JSON の ttl_expires_at 優先、無ければ mtime で判定
+        simplify_expired = False
+        sp_data = None
         try:
-            sp_data = json.loads(simplify_pending.read_text(encoding="utf-8"))
+            sp_raw = simplify_pending.read_text(encoding="utf-8")
+            sp_data = json.loads(sp_raw)
+        except (OSError, json.JSONDecodeError, ValueError):
+            sp_data = None
+        if isinstance(sp_data, dict):
+            ttl = sp_data.get("ttl_expires_at", "")
+            if ttl:
+                try:
+                    if datetime.fromisoformat(ttl) < datetime.now():
+                        simplify_expired = True
+                except ValueError:
+                    pass
+        if not simplify_expired:
+            # フォールバック: mtime で判定
+            age_hours = (time.time() - simplify_pending.stat().st_mtime) / 3600
+            if age_hours > SIMPLIFY_TTL_HOURS:
+                simplify_expired = True
+        if simplify_expired:
+            for f in (simplify_pending, simplify_snapshot, simplify_iteration):
+                f.unlink(missing_ok=True)
+            log(f"simplify: TTL expired, auto-deleted")
+        else:
+            # cwd チェック: JSON形式なら cwd を確認、旧形式(数値のみ)は常にマッチ
+            simplify_skip = False
             if isinstance(sp_data, dict) and not cwd_matches(sp_data.get("cwd", "")):
                 simplify_skip = True
                 log(f"simplify: cwd mismatch, skipping")
-        except (json.JSONDecodeError, ValueError):
-            pass  # 旧形式（数値のみ）→ cwd チェックなし
-        if not simplify_skip:
-            blockers.append("/simplify を実行してコード品質を確認してください。実行するまでブロックされます。")
-            log(f"blocker: simplify pending, done_marker={'exists' if simplify_done.exists() else 'missing'}")
+            if not simplify_skip:
+                blockers.append("/simplify を実行してコード品質を確認してください。実行するまでブロックされます。")
+                log(f"blocker: simplify pending, done_marker={'exists' if simplify_done.exists() else 'missing'}")
+
+# TTL チェック: checklist.pending が古すぎる場合は自動削除
+# （消し忘れで次セッションが永久ブロックされるのを防ぐ）
+if pending_file.exists() and pending_file.stat().st_size > 0:
+    age_hours = (time.time() - pending_file.stat().st_mtime) / 3600
+    if age_hours > CHECKLIST_TTL_HOURS:
+        pending_file.unlink(missing_ok=True)
+        log(f"checklist: TTL expired (age={age_hours:.1f}h > {CHECKLIST_TTL_HOURS}h), auto-deleted")
 
 # チェック0.75: FEブラウザ検証（cwd対応: 他プロジェクトのFEファイルを誤検出しない）
 if (
