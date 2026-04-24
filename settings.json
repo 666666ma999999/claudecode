@@ -647,18 +647,19 @@
     ]
   },
   "effortLevel": "xhigh",
+  "tui": "fullscreen",
   "claudeMdExcludes": [
     "**/firecrawl/**",
     "**/templates/**",
     "**/plugins/**",
     "**/node_modules/**"
   ],
-  "tui": "fullscreen",
   "autoMode": {
+    "allow": [],
+    "soft_deny": [],
     "environment": [
       "macOS darwin23, cwd主に ~/Desktop/biz 配下, Docker開発環境"
-    ],
-    "allow": [],
-    "soft_deny": []
-  }
+    ]
+  },
+  "remoteControlAtStartup": true
 }
