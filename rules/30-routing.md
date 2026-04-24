@@ -91,6 +91,7 @@
 | 通知設定・アラート設定 | `notification-alert` |
 | デスクトップ整理・ファイル整理 | `organize-desktop` |
 | 設定配置・グローバル vs プロジェクト | `config-placement-guide` |
+| 2台目で設定再現・MCP追加後の手順書化・~/.codex/変更の配布・~/.zshrc export追加の codify | `codify-config` |
 | 設定診断・health check・設定不整合・hook監査 | `health` |
 | MCP使用回数・ツール頻度・スキル起動数・編集ファイル数・セッション数の実測裏取り | `env-factcheck` |
 | Codex汎用委譲・非エンジニアタスク・資料レビュー | `codex-delegate` |
