@@ -33,12 +33,14 @@ PENDING="$STATE_DIR/needs-simplify.pending"
 # hook入力からcwdを取得
 HOOK_CWD=$(echo "$INPUT" | python3 -c "import sys,json,os; print(os.path.realpath(json.load(sys.stdin).get('cwd','')))" 2>/dev/null)
 
-# JSON形式でカウンタ+cwd を記録（stop hookのcwdチェック対応）
+# JSON形式でカウンタ+cwd+TTL を記録（stop hookのcwd/TTLチェック対応）
 PENDING_FILE="$PENDING" HOOK_CWD="$HOOK_CWD" python3 -c "
 import json, os, sys
+from datetime import datetime, timedelta
 
 pending = os.environ.get('PENDING_FILE', '')
 hook_cwd = os.environ.get('HOOK_CWD', '')
+ttl_hours = 24
 count = 0
 
 if os.path.isfile(pending):
@@ -58,8 +60,13 @@ if os.path.isfile(pending):
         count = 0
 
 count += 1
+now = datetime.now()
 with open(pending, 'w') as f:
-    json.dump({'count': count, 'cwd': hook_cwd}, f)
+    json.dump({
+        'count': count,
+        'cwd': hook_cwd,
+        'ttl_expires_at': (now + timedelta(hours=ttl_hours)).isoformat(),
+    }, f)
 " 2>/dev/null
 
 exit 0
