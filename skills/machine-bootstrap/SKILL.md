@@ -178,14 +178,20 @@ cp ~/.claude/skills/machine-bootstrap/inventory/mcp-template.json \
 `~/.zshrc` か `~/Desktop/biz/.envrc.shared` に必要な export を追加する:
 
 ```bash
-# ~/.zshrc 末尾に追加する雛形（値は手で埋める）
-export ANTHROPIC_API_KEY=sk-ant-...
-export GROK_API_KEY=xai-...
-export POSTGRES_CONNECTION_STRING=postgres://...
-# 等
+# ~/.zshrc （または ~/Desktop/biz/.envrc.shared）末尾に追加する雛形（値は手で埋める）
+export XAI_API_KEY=xai-...                    # grok-search MCP 用
+export DB_CONNECTION_STRING=postgres://...    # postgresql MCP 用
+# Claude Code / Codex の API 認証は OAuth フロー（STEP 4）で行うため .zshrc への直 export は不要
 ```
 
-**一覧は inventory 側の `zshrc-export-keys.txt` を参照**（KEY 名のみ記録済・値は含まれない）。
+### 参照すべき inventory ファイル
+
+| ファイル | 内容 | 新 Mac での用途 |
+|---|---|---|
+| `mcp-required-env-keys.txt` | `mcp-template.json` から抽出した `${VAR}` 名の正規リスト | **新 Mac で必ず export すべき KEY 名**（上記雛形の根拠） |
+| `zshrc-export-keys.txt` | 送り出し側 `~/.zshrc` の export 実績（値なし） | 現行マシンで何が PATH 系に流れていたかの参考情報 |
+
+> 現環境では API キーは `~/.zshrc` ではなく `~/Desktop/biz/.envrc.shared` 経由で export されている。新 Mac でも同じ分離方針に従うなら `.envrc.shared` に書き、`~/.zshrc` から `source` する運用を引き継ぐ。
 
 ### 起動確認
 
