@@ -559,6 +559,15 @@
             "command": "~/.claude/hooks/promote-lessons.sh"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f \"$(pwd)/wiki/hot.md\" ] && cat \"$(pwd)/wiki/hot.md\" || true"
+          }
+        ]
       }
     ],
     "Notification": [
