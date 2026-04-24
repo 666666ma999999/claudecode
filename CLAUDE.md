@@ -169,8 +169,11 @@ implementation-checklist は**最終完了ゲート**であり、中間バッチ
    - 動作を証明できるまでタスクを完了とマークしない
    - テスト実行・ログ確認・差分チェックで正しく動作することを示す
 6. **Session Handoff更新**（セッション終了前 — 必須）
-   - task.mdが存在する場合、Session Handoffセクションを最新化
+   - **task.md 更新必須**: Session Handoff セクション最新化、Progress Snapshot の Blocked/Next 更新
    - 未完了タスクがある場合、Failures/Stuck Context記録は必須。空のまま終了禁止
+   - **plan.md 更新**: Phase 完了・設計判断追加があれば反映（該当なければスキップ）
+   - **phase-tracker.md 更新**: Phase 進捗に変化があれば反映
+   - memory 記録は task.md の代替ではない（memory=横断知見、task.md=再開ポイント）
    - `task-progress` スキルのWrite Protocol参照
 
 ## 事実確認ルール（最優先）
