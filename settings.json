@@ -367,7 +367,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/obsidian-now-done-guard.sh"
+            "command": "[ -d \"$(pwd)/wiki\" ] && [ -d \"$(pwd)/.git\" ] && cd \"$(pwd)\" && git add wiki/ .raw/ .vault-meta/ 2>/dev/null && (git diff --cached --quiet || git commit -m \"wiki: auto-commit $(date '+%Y-%m-%d %H:%M')\" 2>/dev/null) || true"
           }
         ]
       },
