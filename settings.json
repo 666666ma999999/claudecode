@@ -480,6 +480,15 @@
             "command": "~/.claude/hooks/verify-step-session-cleanup.sh"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/checklist-session-cleanup.sh"
+          }
+        ]
       }
     ],
     "PermissionRequest": [
