@@ -4,13 +4,6 @@
 
 INPUT=$(cat)
 
-# Fast-path: INPUT 生JSON に $HOME/.claude/ が含まれなければ python3 起動不要（95%+ のケース）
-# 後段の case "$FILE_PATH" in "$CLAUDE_DIR"/*) が最終判定なので誤通過しても安全
-case "$INPUT" in
-  *"$HOME/.claude/"*) ;;
-  *) exit 0 ;;
-esac
-
 # JSON解析: file_path or path を抽出
 FILE_PATH="$(echo "$INPUT" | python3 -c "
 import sys, json
