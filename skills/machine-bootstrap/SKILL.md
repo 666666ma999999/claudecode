@@ -137,6 +137,8 @@ brew bundle --file=~/.claude/skills/machine-bootstrap/inventory/Brewfile
 **想定時間**: 10〜30分（回線と初回 Xcode ライセンス処理による）。
 **途中失敗時**: `brew bundle check` で未導入分のみ再試行できる。
 
+> **注**: Brewfile は `--no-vscode` で生成済のため formulae + casks のみ。VSCode extensions は STEP 5 で別途入れる（責務分離）。
+
 ### npm グローバル
 
 ```bash
