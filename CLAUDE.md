@@ -118,12 +118,31 @@ implementation-checklist は**最終完了ゲート**であり、中間バッチ
 
 `CLAUDE.md`（全体方針）> `rules/`（領域別ルール）> スキル（実装手順）。競合時はより上位のルールが優先。
 
+## plan.md / task.md 運用（標準タスクの前提ルール）
+
+全標準タスクは **plan.md（設計 SSoT）+ task.md（実行追跡）の 2 層構造** で管理する。
+
+- **plan.md**: feature/プロジェクト全体の Why/Who/成功基準/Phase 分解/影響範囲。配置: `<project-root>/plan.md` or `src/features/<name>/plan.md`
+- **task.md**: 個別実行の Scope/Progress/Stuck/Session Handoff。配置: `<project-root>/tasks/<task-name>.md`
+- **軽量版**: 単発タスクは `task-light.md` で可。テンプレ: `~/.claude/templates/{plan,task,task-light}.md`
+
+**必須トリガー**:
+- plan.md 必須: 新 feature、複数 Phase、アーキテクチャ変更、3 ファイル以上変更
+- task.md 必須: 標準タスク全般、`EnterPlanMode` 使用時、複数セッション跨ぎ、stuck 発生時
+- 即答タスク・1 ファイル数行修正は省略可
+
+**禁止**: plan.md/task.md を作らずに 3 ファイル以上変更に入ること。memory 更新で task.md を代替すること。
+
+詳細（役割分担・トリガー・配置・Red Flags）は `rules/05-plan-task-md.md` 参照。
+
 ## 標準ワークフロー
 
-0. **task.md確認**（セッション開始時）
-   - 既存の `tasks/*.md` または `task.md` があれば読み込み、Session Handoffを確認
-   - フックからの警告がある場合、前回stuck理由を必ず確認してから作業開始
-   - なければスキップ（新規タスクでは実装開始後に作成）
+0. **plan.md / task.md 確認**（セッション開始時）
+   - `ls plan.md tasks/*.md 2>/dev/null` で既存を検出
+   - plan.md → Phase 分解 / 成功基準を確認
+   - 該当 task.md → Session Handoff / Stuck Context / 前回 stuck 理由を確認してから作業開始
+   - フックからの警告がある場合、前回stuck理由を必ず確認
+   - 新規標準タスクなら着手前に task.md を起こす（plan.md 要否は `05-plan-task-md.md` トリガー条件で判定）
 1. **スキル確認**（Plan mode 前に必ず実行）
    a. ローカル確認 → `30-routing.md` のルーティングテーブルでマッチするスキルを参照
    b. ローカルにマッチなし → `find-skills` スキルで外部レジストリ検索（`npx skills find "キーワード"`）
