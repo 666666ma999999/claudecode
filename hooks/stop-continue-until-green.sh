@@ -12,12 +12,18 @@ python3 <<'PYEOF'
 import json
 import os
 import sys
+import time
+from datetime import datetime
 from pathlib import Path
 
 try:
     data = json.loads(os.environ.get("HOOK_INPUT", "{}"))
 except json.JSONDecodeError:
     data = {}
+
+# TTL（時間単位、環境変数で上書き可）
+CHECKLIST_TTL_HOURS = float(os.environ.get("CHECKLIST_TTL_HOURS", "24"))
+SIMPLIFY_TTL_HOURS = float(os.environ.get("SIMPLIFY_TTL_HOURS", "24"))
 
 # 無限ループ防止
 if str(data.get("stop_hook_active", False)).lower() == "true":
