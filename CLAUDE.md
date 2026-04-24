@@ -150,8 +150,10 @@ implementation-checklist は**最終完了ゲート**であり、中間バッチ
 1.5. **曖昧点の洗い出し**（3ファイル以上の変更が予想される場合）
    - feature-dev Phase 3 パターン: エッジケース、エラーハンドリング、統合ポイントを明示的に列挙
    - 不明点があれば `AskUserQuestion` で確認（Plan Mode に入る前に解消）
-2. **Planモード** → `EnterPlanMode`で計画策定
+2. **Planモード** → plan.md 確定 → `EnterPlanMode`で実行計画策定
    - 3ステップ以上 or アーキテクチャに関わるタスクは必ずPlanモードで開始
+   - **plan.md 必須**: 新 feature・複数 Phase・3 ファイル以上変更の場合、`EnterPlanMode` 前に plan.md 作成/更新（Why/Who/成功基準/構成案/影響範囲）
+   - **task.md 必須**: 標準タスク全般で `tasks/<name>.md` を起こす（成功基準を記載）
    - **プラン必須セクション**: Goal / Architecture / Tasks / Verification / 成功基準
    - 各タスクに必須: ファイルパス、検証コマンド
    - 各タスクに推奨: 関数名、コード例
