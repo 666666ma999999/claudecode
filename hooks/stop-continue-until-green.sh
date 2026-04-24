@@ -139,6 +139,14 @@ if simplify_pending.exists():
                 blockers.append("/simplify を実行してコード品質を確認してください。実行するまでブロックされます。")
                 log(f"blocker: simplify pending, done_marker={'exists' if simplify_done.exists() else 'missing'}")
 
+# TTL チェック: checklist.pending が古すぎる場合は自動削除
+# （消し忘れで次セッションが永久ブロックされるのを防ぐ）
+if pending_file.exists() and pending_file.stat().st_size > 0:
+    age_hours = (time.time() - pending_file.stat().st_mtime) / 3600
+    if age_hours > CHECKLIST_TTL_HOURS:
+        pending_file.unlink(missing_ok=True)
+        log(f"checklist: TTL expired (age={age_hours:.1f}h > {CHECKLIST_TTL_HOURS}h), auto-deleted")
+
 # チェック0.75: FEブラウザ検証（cwd対応: 他プロジェクトのFEファイルを誤検出しない）
 if (
     pending_file.exists()
