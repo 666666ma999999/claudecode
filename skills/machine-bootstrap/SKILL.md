@@ -69,9 +69,9 @@ npm ls -g --depth=0 --parseable --json \
   | jq -r '.dependencies | keys[]' \
   > ~/.claude/skills/machine-bootstrap/inventory/npm-globals.txt
 
-# MCP テンプレート（値は ${VAR} 化済のプロジェクト .mcp.json を雛形に）
-cp ~/Desktop/biz/make_article/.mcp.json \
-   ~/.claude/skills/machine-bootstrap/inventory/mcp-template.json 2>/dev/null || true
+# MCP テンプレート（値は ${VAR} 化済のグローバル .mcp.json を雛形に）
+cp ~/.claude/.mcp.json \
+   ~/.claude/skills/machine-bootstrap/inventory/mcp-template.json
 
 # VSCode extensions
 code --list-extensions \
