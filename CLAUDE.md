@@ -27,31 +27,13 @@
   - リサーチ・調査・並列分析はサブエージェントに任せる
   - 1サブエージェントにつき1タスクを割り当てる
   - 独立性が高いタスクは `isolation: "worktree"` でworktree隔離委託する
-- **Obsidian MDのNOW→DONE移動は refs/分離方式で記録する**（最優先・例外なし）
-  - **元プロンプト全文は必ず保存する** — ただしメインMDではなく同ディレクトリの `refs/YYYY-MM-DD_slug.md` に退避する（メインMD肥大化防止・監査性維持の両立）
-  - メインMDのDONEエントリは軽量（要約+結果+refsリンク）に保つ
-  - 見出しは **h5（`#####`）固定**。他MDファイルへの貼り付け時にh1-h3構造を壊さないため
-  - メインMD側の正しい形式:
-    ```
-    ##### タスク名 (完了日)
-    **プロンプト要約:** （NOWプロンプトの意図を1-3行で要約）
-    **元プロンプト:** [[refs/YYYY-MM-DD_slug]]
-
-    **結果:** （実行結果のサマリー）
-    ```
-  - `refs/YYYY-MM-DD_slug.md` の形式:
-    ```
-    # タスク名 (完了日)
-    参照元: [[../<元ファイル名>]]
-
-    ---
-
-    （NOWの元プロンプト全文を一字一句そのまま記録）
-    ```
-  - **refs/ 配下のファイルは append-only 運用** — 編集・削除禁止（監査性担保）
-  - `obsidian-now-done-guard.sh` hookが違反を検出して編集をブロックする
-  - 既存の legacy 形式（本体に全文）は grandfather 扱いで通る（hookが自動判別）
-  - 詳細手順は `obsidian-now-done` スキル参照
+- **Obsidian vault は claude-obsidian 方式で運用する**（2026-04-24 以降）
+  - セッション記録は `/save` コマンドで vault に wiki ノートとして保存
+  - ソース取り込みは `/ingest <file|url>` で `.raw/` に immutable 保存 → wiki/ に自動整理
+  - 調査は `/autoresearch <topic>` で iterative research
+  - vault 構造: `.raw/` (immutable sources) + `wiki/{concepts,entities,sources,meta}/` (LLM-maintained) + `wiki/hot.md` (500 字 session cache)
+  - 既存の NOW→DONE refs/分離 運用は廃止（既存ファイルは grandfather 扱いで触らない）
+  - 詳細は `wiki` / `save` / `wiki-ingest` / `autoresearch` / `wiki-query` / `wiki-lint` スキル参照
 
 ## タスク規模判定（最優先）
 
