@@ -61,8 +61,8 @@ P1 = 骨組み + 自動化層のみ。以下の **4 STEP** が実装済み:
 新しい Mac へ渡す前に、**送り出し側の最新スナップショット**を取る。
 
 ```bash
-# brew bundle
-brew bundle dump --file=~/.claude/skills/machine-bootstrap/inventory/Brewfile --force
+# brew bundle（VSCode extensions は STEP 5 が所有するため除外）
+brew bundle dump --file=~/.claude/skills/machine-bootstrap/inventory/Brewfile --force --no-vscode
 
 # npm globals
 npm ls -g --depth=0 --parseable --json \
