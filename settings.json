@@ -446,11 +446,11 @@
         ]
       },
       {
-        "matcher": "",
+        "matcher": "startup|resume",
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/obsidian-session-reminder.sh"
+            "command": "[ -f \"$(pwd)/wiki/hot.md\" ] && cat \"$(pwd)/wiki/hot.md\" || true"
           }
         ]
       },
