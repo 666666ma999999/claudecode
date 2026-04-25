@@ -189,15 +189,6 @@
         ]
       },
       {
-        "matcher": "Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/auto-git-pull-pre.sh"
-          }
-        ]
-      },
-      {
         "matcher": "Write|Edit",
         "hooks": [
           {
@@ -238,15 +229,6 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/block-checklist-clear.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
             "command": "~/.claude/hooks/block-dangerous-git.py"
           }
         ]
@@ -257,15 +239,6 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/block-host-installs.py"
-          }
-        ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/filter-test-output.sh"
           }
         ]
       },
@@ -322,15 +295,6 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/memory-warn.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
             "command": "~/.claude/hooks/simplify-pending.sh"
           }
         ]
@@ -359,15 +323,6 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/verify-step-pending.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "[ -d \"$(pwd)/wiki\" ] && [ -d \"$(pwd)/.git\" ] && cd \"$(pwd)\" && git add wiki/ .raw/ .vault-meta/ 2>/dev/null && (git diff --cached --quiet || git commit -m \"wiki: auto-commit $(date '+%Y-%m-%d %H:%M')\" 2>/dev/null) || true"
           }
         ]
       },
@@ -424,51 +379,6 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/data-retention.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/auto-git-pull.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/task-progress-check.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "startup|resume",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "[ -f \"$(pwd)/wiki/hot.md\" ] && cat \"$(pwd)/wiki/hot.md\" || true"
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/detect-extension-project.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/improvement-ingest-check.sh"
           }
         ]
       },
@@ -556,15 +466,6 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/promote-lessons.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
             "command": "[ -f \"$(pwd)/wiki/hot.md\" ] && cat \"$(pwd)/wiki/hot.md\" || true"
           }
         ]
@@ -599,15 +500,6 @@
             "command": "~/.claude/hooks/auto-skill-review.sh"
           }
         ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/improvement-capture-prompt.sh"
-          }
-        ]
       }
     ],
     "UserPromptSubmit": [
@@ -629,17 +521,6 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/subagent-verify-reminder.sh"
-          }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/sessionend-summary.sh"
           }
         ]
       }
