@@ -96,10 +96,6 @@ Main Agentは統合・意思決定のみ。例外: 1ファイル数行の修正 
 検証コマンド（curl, pytest, npm test等）の実行で自動リセットされる。手動リセット: `rm ~/.claude/state/verify-step.pending`
 implementation-checklist は**最終完了ゲート**であり、中間バッチ検証の代替ではない。
 
-## ルール適用の優先順位
-
-`CLAUDE.md`（全体方針）> `rules/`（領域別ルール）> スキル（実装手順）。競合時はより上位のルールが優先。
-
 ## plan.md / task.md 運用（標準タスクの前提ルール）
 
 全標準タスクは plan.md（設計 SSoT）+ task.md（実行追跡）の 2 層で管理する。
