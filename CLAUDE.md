@@ -102,20 +102,9 @@ implementation-checklist は**最終完了ゲート**であり、中間バッチ
 
 ## plan.md / task.md 運用（標準タスクの前提ルール）
 
-全標準タスクは **plan.md（設計 SSoT）+ task.md（実行追跡）の 2 層構造** で管理する。
-
-- **plan.md**: feature/プロジェクト全体の Why/Who/成功基準/Phase 分解/影響範囲。配置: `<project-root>/plan.md` or `src/features/<name>/plan.md`
-- **task.md**: 個別実行の Scope/Progress/Stuck/Session Handoff。配置: `<project-root>/tasks/<task-name>.md`
-- **軽量版**: 単発タスクは `task-light.md` で可。テンプレ: `~/.claude/templates/{plan,task,task-light}.md`
-
-**必須トリガー**:
-- plan.md 必須: 新 feature、複数 Phase、アーキテクチャ変更、3 ファイル以上変更
-- task.md 必須: 標準タスク全般、`EnterPlanMode` 使用時、複数セッション跨ぎ、stuck 発生時
-- 即答タスク・1 ファイル数行修正は省略可
-
-**禁止**: plan.md/task.md を作らずに 3 ファイル以上変更に入ること。memory 更新で task.md を代替すること。
-
-詳細（役割分担・トリガー・配置・Red Flags）は `rules/05-plan-task-md.md` 参照。
+全標準タスクは plan.md（設計 SSoT）+ task.md（実行追跡）の 2 層で管理する。
+**禁止**: plan.md/task.md を作らずに 3 ファイル以上変更すること、memory 更新で task.md を代替すること。
+詳細（役割分担・必須トリガー・配置・テンプレ・Red Flags）は `rules/05-plan-task-md.md` 参照。
 
 ## 標準ワークフロー
 
