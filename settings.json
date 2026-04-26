@@ -408,6 +408,15 @@
             "command": "~/.claude/hooks/checklist-session-cleanup.sh"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/obsidian-session-reminder.sh"
+          }
+        ]
       }
     ],
     "PermissionRequest": [
