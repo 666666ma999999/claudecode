@@ -17,7 +17,7 @@ mkdir -p "$STATE_DIR"
 # stdin は heredoc に占有されるため、INPUT を環境変数経由で Python に渡す
 INPUT=$(cat)
 export PENDING COUNT_FILE DONE FALLBACK_FLAG HOOK_INPUT="$INPUT"
-python3 <<'PYEOF'
+python3 -I <<'PYEOF'
 import json
 import os
 import re
