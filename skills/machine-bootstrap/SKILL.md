@@ -317,4 +317,5 @@ EOF
 ## Decision Log
 
 - **2026-04-24**: P1 起草。STEP 0/1/3/6 のみ実装、STEP 2/4/5 は骨子 placeholder。手動層は STEP 6 に一覧化。
+- **2026-04-26**: Claude Code 2.1.120 から配布形式が Node script → Bun-compiled native Mach-O (`com.anthropic.claude-code` 署名) に変更。macOS TCC が新規アプリとして default-deny し、`~/Desktop` 配下で `ls` / `python3 <<EOF` / Stop hook が EPERM になる症状を 2台目セットアップで再現。STEP 6 に「FDA 付与」を追加し `~/.claude/scripts/grant-fda-claude.sh` を codify（apply/verify/status/path の 4 サブコマンド）。並行して `~/.claude/hooks/*.sh` の `python3 <<'PYEOF'` を `python3 -I <<'PYEOF'` に置換（cwd を sys.path から外す保険、6 ファイル）。
 - **方針**: inventory 側は **KEY 名のみ**を持ち、値は持たない。送り出し側と受け取り側の Mac 間で plist/秘密鍵/Cookie は直接コピーしない。
