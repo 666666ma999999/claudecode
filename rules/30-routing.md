@@ -12,7 +12,7 @@
 |---------|-----------|
 | タスク細分化・実装計画策定 | `task-planner` |
 | task進捗・stuck記録・セッション引き継ぎ | `task-progress` |
-| Obsidian NOW→DONE移動・元プロンプト保存・タスク完了記録 | `obsidian-now-done` |
+| Obsidian NOW→DONE移動・元プロンプト/原文/証跡/refs/ログ保存・タスク完了記録・`/done` | `obsidian-now-done` |
 | プロジェクト復帰・コンテキスト復元 | `project-recall` |
 | SubAgent委託・デバッグ・リファクタリング | `execution-patterns` |
 | 叩き台・探索・試作・UI案・API挙動確認・要件曖昧 | `/prototype` コマンド |
