@@ -1,25 +1,9 @@
 # 運用ルール
 
-## git安全ルール
+## git安全ルール（要点）
 
-### 禁止コマンド
-
-- `git push --force`, `git push -f`, `git push origin +*` → 代替: `--force-with-lease`
-- `git reset --hard` → 代替: `git stash` + `git reset --soft`
-- `git checkout .`, `git restore .` → 代替: 個別ファイル指定
-- `git clean -f/-df` → 代替: `git clean -n` で確認後、個別削除
-- `git branch -D` → 代替: `git branch -d`
-- `git rebase main/master` → 代替: `git merge`
-- `git update-ref` → 禁止
-
-### ステージング方針
-
-`git add -A`, `git add .` は禁止。ファイルを個別指定してステージング。
-
-### コミット禁止ファイル
-
-.env*, credentials*, 秘密鍵(*.pem/*.key), DBダンプ(*.sqlite3), node_modules/, .DS_Store, *.log, .docker/config.json, .npmrc, *.bak
-詳細14カテゴリ: `git-safety-reference` スキル参照。
+- 禁止コマンド（`git push --force` / `git reset --hard` / `git checkout .` / `git clean -f` / `git branch -D` / `git rebase main` / `git update-ref`）と代替、ステージング方針（`git add -A`/`.` 禁止）、コミット禁止ファイル 14 カテゴリは `git-safety-reference` スキル参照
+- 事故発生時の緊急対応（鍵無効化 → 新規発行 → 履歴削除）も同スキル参照
 
 ## 実行ガード
 
