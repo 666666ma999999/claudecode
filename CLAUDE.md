@@ -32,8 +32,9 @@
   - ソース取り込みは `/ingest <file|url>` で `.raw/` に immutable 保存 → wiki/ に自動整理
   - 調査は `/autoresearch <topic>` で iterative research
   - vault 構造: `.raw/` (immutable sources) + `wiki/{concepts,entities,sources,meta}/` (LLM-maintained) + `wiki/hot.md` (500 字 session cache)
-  - 既存の NOW→DONE refs/分離 運用は廃止（既存ファイルは grandfather 扱いで触らない）
-  - 詳細は `wiki` / `save` / `wiki-ingest` / `autoresearch` / `wiki-query` / `wiki-lint` スキル参照
+  - **併用方針**: `/save` `/wiki` `/canvas` `/autoresearch` = 知識化ノートを `wiki/` 配下に作成。`/done`「タスク完了」「NOW→DONE」 = 証跡として原文を `<project>/refs/` 配下に保存
+  - 「保存して」（曖昧語）は既定で知識化（wiki）。「原文/証跡/refs」指定があれば refs 優先。両方指定時は refs 保存 → wiki 要約の順で相互リンク（wiki に `ref:` フィールド）
+  - 詳細は `wiki` / `save` / `wiki-ingest` / `autoresearch` / `wiki-query` / `wiki-lint` / `obsidian-now-done` スキル参照
 
 ## タスク規模判定（最優先）
 
