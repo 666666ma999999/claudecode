@@ -327,6 +327,15 @@
         ]
       },
       {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/obsidian-now-done-guard.sh"
+          }
+        ]
+      },
+      {
         "matcher": "Skill|SlashCommand",
         "hooks": [
           {
