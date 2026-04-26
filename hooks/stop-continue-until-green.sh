@@ -8,7 +8,7 @@ STATE_DIR="$HOME/.claude/state"
 INPUT=$(cat)
 export STATE_DIR HOOK_INPUT="$INPUT"
 # 単一 python3 起動で全チェックを処理（hot path 短縮 + JSON injection 防止）
-python3 <<'PYEOF'
+python3 -I <<'PYEOF'
 import json
 import os
 import sys
