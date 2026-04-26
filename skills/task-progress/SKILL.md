@@ -159,6 +159,85 @@ ls .claude/workspace/task.md 2>/dev/null
 - 単発タスク: プロジェクトルートの `task.md`
 - テンプレート: `~/.claude/templates/task.md` からコピーして使用
 
+## Phase ↔ task.md 紐付け方式（B+ ハイブリッド軽量方式）
+
+`05-plan-task-md.md` から移管（2026-04-26）。plan.md に書いた Phase と `tasks/*.md` を紐付けるための運用ルール。
+小〜中規模プロジェクト（task 数 <30、貢献者 ≤2、Phase 数 ≤5）はこの軽量方式で十分。
+
+### 命名規則（タスクファイル名プレフィックス）
+
+```
+p<N>-<slug>.md       → Phase N のタスク（例: p1-ebay-setnumber.md）
+sprint<N>-<slug>.md  → Sprint/Tech Debt タスク（例: sprint2-mercari-phase1-run.md）
+bl-<N>-<slug>.md     → Blocker 記録（例: bl-1-arbitrage-filter-fix.md）
+<slug>.md            → Phase 非依存（phase-tracker.md / lessons.md 等の管理ファイル）
+```
+
+**利点**: `ls tasks/p1-*.md` / `rg "^##### " tasks/sprint2-*.md` で Phase 別一覧が可能。
+
+### task.md 冒頭の固定 2 行（必須）
+
+タイトル直後に Phase と phase-tracker への双方向リンクを配置する:
+
+```markdown
+# Task: [タスク名]
+
+**Phase:** [Phase N — <Phase タイトル>](../plan.md#phase-<N>)
+**Tracker:** [phase-tracker §Phase N](./phase-tracker.md#phase-<N>)
+
+## Execution Strategy
+...
+```
+
+### plan.md / phase-tracker.md 側の安定アンカー
+
+名称変更に伴うリンク切れを防ぐため、各 Phase 見出し直後に明示アンカーを配置:
+
+```markdown
+### Phase 1: データ foundation 固め
+<!-- phase-id: phase-1 — tasks/p1-*.md から参照される安定アンカー -->
+<a id="phase-1"></a>
+```
+
+**アンカー命名**: `phase-<N>` / `phase-sprint-<N>` / `phase-<feature>` 等。見出し日本語に依存しない。
+
+### phase-tracker 側の逆リンク（推奨）
+
+各進捗項目から tasks/*.md への逆参照:
+
+```markdown
+- [x] eBay setNumber 充填 → [p1-ebay-setnumber](./p1-ebay-setnumber.md)
+- [ ] Mercari 本番 run → [sprint2-mercari-phase1-run](./sprint2-mercari-phase1-run.md)
+```
+
+### 壊れたリンクの検知
+
+月 1 回手動で:
+```bash
+npx markdown-link-check tasks/*.md plan.md --config .mlc.json
+```
+plan.md の見出し変更時のみ:
+```bash
+rg "plan.md#phase-" tasks/
+```
+
+### 規模超過時の自動化方式（将来の案 A 昇格）
+
+tasks/phase-tracker.md 冒頭に下記コメントで監視する:
+```markdown
+<!-- 軽量紐付け方式の継続条件:
+     - tasks/*.md 数: < 30
+     - 貢献者数: ≤ 2
+     - Phase 数: ≤ 5 + Sprint 枠
+     超過したら自動生成方式（frontmatter + build-phase-tracker.ts）へ段階移行 -->
+```
+
+超過条件:
+- task.md 40 件以上 → frontmatter + CI 検証が必要
+- Phase 10 個以上 → `p01-` ゼロ埋めでプレフィックス衝突回避
+- 貢献者 3 名以上 → 命名規則違反を機械検知する必要あり
+- Phase 再編が月次 → 手動 rename コストが自動化投資を上回る
+
 ## Use Cases
 
 ### A. セッション継続系（Engineer寄り）

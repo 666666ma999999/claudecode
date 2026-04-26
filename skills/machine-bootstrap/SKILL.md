@@ -251,13 +251,14 @@ LaunchAgents（例: `org.git-scm.git.daily.plist` 等）は `~/Library/LaunchAge
 P1 完了時点で **新 Mac 側で手で握る必要がある項目**を明示する。記事の Fact-check 素材にもなる。
 
 ### 必ず手動
-| カテゴリ | 項目 | 理由 |
+| カテゴリ | 項目 | 理由 / 支援スクリプト |
 |---|---|---|
 | 認証 | SSH 鍵生成 + GitHub 登録 | 秘密鍵は移植しない方針 |
 | 認証 | Claude Code / Codex OAuth | ブラウザ必須 |
 | 認証 | gh / gcloud OAuth | 同上 |
 | 認証 | MCP 各サーバーの API key | `~/.zshrc` か `envrc.shared` に手書き |
 | 認証 | X Cookie（influx 用） | `x_profiles/` は手動コピー（`refresh-x-cookies` skill 参照） |
+| OS 権限 | **claude.exe を Full Disk Access に追加** | Claude Code 2.1.x は Bun-compiled native Mach-O (`com.anthropic.claude-code`) で TCC は新規アプリ扱い。親 (iTerm2) の grant 不継承。GUI 操作のみで付与可能。**支援: `~/.claude/scripts/grant-fda-claude.sh apply`** → System Settings 起動 + path 自動コピー。完了後 `verify` で `ls ~/Desktop` / `python3 <<EOF` / Stop hook smoke を一括チェック |
 | セキュリティ | GPG 署名設定 | 現状ゼロ件運用。必要ならここで鍵生成 |
 
 ### 現環境では未使用だが考慮しておく
@@ -316,4 +317,5 @@ EOF
 ## Decision Log
 
 - **2026-04-24**: P1 起草。STEP 0/1/3/6 のみ実装、STEP 2/4/5 は骨子 placeholder。手動層は STEP 6 に一覧化。
+- **2026-04-26**: Claude Code 2.1.120 から配布形式が Node script → Bun-compiled native Mach-O (`com.anthropic.claude-code` 署名) に変更。macOS TCC が新規アプリとして default-deny し、`~/Desktop` 配下で `ls` / `python3 <<EOF` / Stop hook が EPERM になる症状を 2台目セットアップで再現。STEP 6 に「FDA 付与」を追加し `~/.claude/scripts/grant-fda-claude.sh` を codify（apply/verify/status/path の 4 サブコマンド）。並行して `~/.claude/hooks/*.sh` の `python3 <<'PYEOF'` を `python3 -I <<'PYEOF'` に置換（cwd を sys.path から外す保険、6 ファイル）。
 - **方針**: inventory 側は **KEY 名のみ**を持ち、値は持たない。送り出し側と受け取り側の Mac 間で plist/秘密鍵/Cookie は直接コピーしない。

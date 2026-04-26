@@ -18,7 +18,7 @@ HTML_PATH=$(echo "$COMMAND" | grep -oE '[^ ]+\.html' | head -1)
 [ ! -f "$HTML_PATH" ] && exit 0
 
 # Playwrightで検証
-RESULT=$(python3 << PYEOF 2>&1
+RESULT=$(python3 -I << PYEOF 2>&1
 import sys
 try:
     from playwright.sync_api import sync_playwright

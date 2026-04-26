@@ -88,38 +88,14 @@ Command系の処理を追加する際、以下を全て確認すること:
 
 ## Browser Verification（FE変更後の検証 — 必須）
 
-FEファイル（HTML/JS/CSS）を変更した場合、**構文チェック・静的解析だけでは検証完了としない**。
+FE（HTML/JS/CSS）変更後は静的解析だけで完了としない。**Playwright 4点セット**を同一セッション内で順に実行すること:
 
-### 必須検証
-1. **ブラウザでページを開く**（Playwright MCP利用可）
-2. **コンソールエラーがゼロ**であることを確認
-3. **変更した機能を実際に操作**して動作確認
+1. `browser_navigate` — HTTP 200 系（タイムアウト/接続拒否は不可）
+2. `browser_wait_for` — セレクタ/テキストで明示的に描画完了を待つ（`sleep` 不可）
+3. `browser_console_messages` — **error 0件 かつ warning 0件**。取得失敗を「エラー0」と誤判定しない
+4. `browser_take_screenshot` — 変更箇所が写るスクショを保存
 
-### Playwright検証4点セット（FE変更完了判定の最低条件）
+`mcp__playwright__*` / `mcp__playwright-mkb__*` / `mcp__plugin_playwright_playwright__*` いずれでも可。
 
-FE変更後の完了判定で「ブラウザ確認済み」と主張するには、以下の4ツールを**同一セッション内で順に実行**していること:
-
-| # | ツール | 意味 | 合格条件 |
-|---|---|---|---|
-| 1 | `browser_navigate` | ページを開く | HTTP 200 系レスポンス（タイムアウト/接続拒否は不可） |
-| 2 | `browser_wait_for` | 描画完了を待つ | セレクタまたはテキスト指定で明示的な完了確認（`sleep` 代替不可） |
-| 3 | `browser_console_messages` | コンソールログ取得 | **error 0件 かつ warning 0件**。取得失敗＝「エラー0」と誤判定しない |
-| 4 | `browser_take_screenshot` | 視覚エビデンス | 変更箇所が写るスクショを保存 |
-
-**`mcp__playwright__*`, `mcp__playwright-mkb__*`, `mcp__plugin_playwright_playwright__*` いずれでも可**（プロジェクトのMCP構成に合わせる）。
-
-### 4点セットの違反例（検証失敗扱い）
-
-- スクショだけ撮って完了報告（navigate/console未実行）
-- `browser_navigate` がタイムアウトしたのに console_messages の空配列を「エラー0」と主張
-- SPA ローディング完了前に snapshot を取り「表示OK」と判定
-- `browser_wait_for` を省略し、非同期レンダリング中に console_messages 取得
-
-### 禁止
-- AST解析・括弧バランスチェック・import確認だけで「検証OK」とすること
-- 「構文が通る = 動く」という判断
-- 4点セットのうち1〜3個のみで「確認済み」と報告すること
-
-### 原則
-**「動く」の証明 = 実際に動かす。** 静的検証は必要条件であって十分条件ではない。
-**「4点揃って初めて検証完了」。** 1つでも欠けたら未検証扱い。
+**禁止**: AST解析・構文チェックのみで完了報告 / 1〜3個のみで「確認済み」報告 / navigate タイムアウトを無視。
+**原則**: 4点揃って初めて検証完了。1つでも欠けたら未検証扱い。

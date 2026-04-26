@@ -550,13 +550,20 @@
     "padding": 2
   },
   "enabledPlugins": {
-    "feature-dev@claude-code-plugins": true
+    "feature-dev@claude-code-plugins": true,
+    "claude-mem@thedotmack": true
   },
   "extraKnownMarketplaces": {
     "claude-code-plugins": {
       "source": {
         "source": "github",
         "repo": "anthropics/claude-code"
+      }
+    },
+    "thedotmack": {
+      "source": {
+        "source": "github",
+        "repo": "thedotmack/claude-mem"
       }
     }
   },
@@ -580,12 +587,12 @@
     "**/plugins/**",
     "**/node_modules/**"
   ],
+  "remoteControlAtStartup": true,
   "autoMode": {
     "allow": [],
     "soft_deny": [],
     "environment": [
       "macOS darwin23, cwd主に ~/Desktop/biz 配下, Docker開発環境"
     ]
-  },
-  "remoteControlAtStartup": true
+  }
 }

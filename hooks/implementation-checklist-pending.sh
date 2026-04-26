@@ -17,7 +17,7 @@ mkdir -p "$STATE_DIR"
 # 単一 python3 起動で分類判定 → pending 更新 → JSON出力 まで処理
 # stdin は heredoc に占有されるため、INPUT を環境変数経由で Python に渡す（JSON injection 対策）
 export PENDING_FILE FE_VERIFIED HOOK_INPUT="$INPUT"
-python3 <<'PYEOF'
+python3 -I <<'PYEOF'
 import json
 import os
 import sys
