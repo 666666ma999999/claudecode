@@ -11,6 +11,24 @@ allowed-tools: [Read, Glob, Grep]
 
 # Git Safety Reference
 
+## 禁止コマンド（実行前ガード）
+
+`10-git-and-execution-guard.md` から移管（2026-04-26）。以下のコマンドは実行禁止、代替を使うこと。
+
+| 禁止コマンド | 代替 |
+|---|---|
+| `git push --force`, `git push -f`, `git push origin +*` | `--force-with-lease` |
+| `git reset --hard` | `git stash` + `git reset --soft` |
+| `git checkout .`, `git restore .` | 個別ファイル指定 |
+| `git clean -f/-df` | `git clean -n` で確認後、個別削除 |
+| `git branch -D` | `git branch -d` |
+| `git rebase main/master` | `git merge` |
+| `git update-ref` | 禁止（代替なし） |
+
+### ステージング方針
+
+`git add -A`, `git add .` は禁止。ファイルを個別指定してステージング。
+
 ## コミット禁止ファイル（14カテゴリ）
 
 以下のファイルは**絶対にgitにコミットしない**。`~/.gitignore_global` + `file-protection.sh` + `security-scan.sh`で三重防御。
