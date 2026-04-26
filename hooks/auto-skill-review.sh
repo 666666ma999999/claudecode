@@ -25,7 +25,7 @@ if [ ! -f "$CODEX_DONE" ]; then exit 0; fi
 
 # 単一 python3 起動で分類 → Tier判定 → Scope判定 → JSON出力 まで処理
 export PENDING_FILE DONE_FILE
-python3 <<'PYEOF'
+python3 -I <<'PYEOF'
 import json
 import os
 import sys
