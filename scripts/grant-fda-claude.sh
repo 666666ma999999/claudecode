@@ -64,11 +64,14 @@ cmd_status() {
     local p
     if p=$(detect_claude_path); then
         echo "  path:       $p"
+        # codesign 抽出は SIGPIPE で pipefail に引っかかるので || true で握る
+        local cs
+        cs=$(codesign -dvvv "$p" 2>&1 || true)
         local id
-        id=$(codesign -dvvv "$p" 2>&1 | awk -F= '/^Identifier=/{print $2; exit}')
+        id=$(printf '%s\n' "$cs" | awk -F= '/^Identifier=/{print $2; exit}')
         echo "  identifier: ${id:-unknown}"
         local auth
-        auth=$(codesign -dvvv "$p" 2>&1 | grep -m1 "Authority=Developer ID" | sed 's/^Authority=//')
+        auth=$(printf '%s\n' "$cs" | awk -F= '/^Authority=Developer ID/{sub(/^Authority=/,"",$0); print; exit}')
         echo "  signed by:  ${auth:-unsigned}"
     else
         echo "  path: NOT FOUND" >&2
