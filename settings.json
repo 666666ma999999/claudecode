@@ -417,6 +417,15 @@
             "command": "~/.claude/hooks/obsidian-session-reminder.sh"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/aiads-ope-now-cat.sh"
+          }
+        ]
       }
     ],
     "PermissionRequest": [
