@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # SessionStart hook: AIads_ope.md の `## now` セクションを抽出して表示
 # 司令塔運用 (option A) — セッション開始時に「今聞きたいこと」を可視化
+# 端末ごとに vault 配置が異なるため settings.local.json から登録すること。
+# vault が無い端末でも完全 no-op になるよう FILE 不在時は exit 0。
 set -euo pipefail
 
 FILE="$HOME/Documents/Obsidian Vault/AIads_ope.md"
