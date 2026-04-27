@@ -594,5 +594,6 @@
     "environment": [
       "macOS darwin23, cwd主に ~/Desktop/biz 配下, Docker開発環境"
     ]
-  }
+  },
+  "agentPushNotifEnabled": true
 }
