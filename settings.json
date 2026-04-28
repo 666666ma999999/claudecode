@@ -579,7 +579,7 @@
       "事実確認は必ずツールで実態を確認してから"
     ]
   },
-  "effortLevel": "xhigh",
+  "effortLevel": "medium",
   "tui": "fullscreen",
   "claudeMdExcludes": [
     "**/firecrawl/**",
@@ -588,6 +588,7 @@
     "**/node_modules/**"
   ],
   "remoteControlAtStartup": true,
+  "agentPushNotifEnabled": true,
   "autoMode": {
     "allow": [],
     "soft_deny": [],
@@ -595,5 +596,5 @@
       "macOS darwin23, cwd主に ~/Desktop/biz 配下, Docker開発環境"
     ]
   },
-  "agentPushNotifEnabled": true
+  "model": "sonnet"
 }
