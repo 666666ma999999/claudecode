@@ -3,8 +3,9 @@ name: opponent-review
 description: |
   対立検証（Opponent Processor）スキル。2つの対立するSubAgentに議論させ、
   単一視点では見逃しがちなリスク・トレードオフを発見する汎用レビュー手法。
+  発動条件（全て満たす場合のみ）: ① 3ファイル以上の変更/判断 ② アーキテクチャ層変更 OR 公開API変更 OR 二択判断のいずれか。
   キーワード: 設計判断, トレードオフ, 反証, 妥当性検証, 対立検証, devil's advocate
-  NOT for: 単純なコード修正、セキュリティ監査（→ security-twin-audit）、1ファイル変更
+  NOT for: 単純なコード修正、セキュリティ監査（→ security-twin-audit）、1〜2ファイルの変更、軽い前提検証（→ /review --mode=challenge で十分）
 allowed-tools: [Read, Glob, Grep, Bash, Agent]
 license: proprietary
 metadata:
