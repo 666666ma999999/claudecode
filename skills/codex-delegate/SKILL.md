@@ -4,7 +4,7 @@ description: |
   汎用Codex委譲スキル（thin forwarder）。任意のタスクをCodexに委譲して結果を取得する。
   非エンジニアタスク（資料レビュー、契約書チェック、文章校正、翻訳、要約等）にも対応。
   キーワード: Codex委譲, codex delegate, Codexに任せて, Codexで, 資料レビュー, 契約書チェック
-  NOT for: コードレビュー（→ /review）、敵対的レビュー（→ /adversarial-review）、stuck時rescue（→ /rescue）
+  NOT for: コードレビュー（→ /review）、敵対的レビュー（→ /review --mode=challenge）、stuck時rescue（→ /rescue）
 allowed-tools: [Read, Glob, Grep, Bash]
 license: proprietary
 metadata:
