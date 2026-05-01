@@ -143,8 +143,20 @@ if simplify_pending.exists():
                 simplify_skip = True
                 log(f"simplify: cwd mismatch, skipping")
             if not simplify_skip:
-                blockers.append("/simplify を実行してコード品質を確認してください。実行するまでブロックされます。")
-                log(f"blocker: simplify pending, done_marker={'exists' if simplify_done.exists() else 'missing'}")
+                # 閾値ガード: 高リスクパスなし かつ 累計編集 < 閾値 なら blocker 化しない
+                sp_count = 0
+                if isinstance(sp_data, dict):
+                    try:
+                        sp_count = int(sp_data.get("count", 0))
+                    except (TypeError, ValueError):
+                        sp_count = 0
+                if not is_high_risk and sp_count < SMALL_CHANGE_FILE_THRESHOLD:
+                    for f in (simplify_pending, simplify_snapshot, simplify_iteration):
+                        f.unlink(missing_ok=True)
+                    log(f"simplify: small-change skip (count={sp_count}, no high-risk path)")
+                else:
+                    blockers.append("/simplify を実行してコード品質を確認してください。実行するまでブロックされます。")
+                    log(f"blocker: simplify pending, done_marker={'exists' if simplify_done.exists() else 'missing'}, high_risk={is_high_risk}, count={sp_count}")
 
 # TTL チェック: checklist.pending が古すぎる場合は自動削除
 # （消し忘れで次セッションが永久ブロックされるのを防ぐ）
