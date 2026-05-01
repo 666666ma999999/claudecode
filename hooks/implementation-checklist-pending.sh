@@ -47,6 +47,19 @@ code_exts = {".py", ".js", ".ts", ".tsx", ".jsx", ".html", ".css",
 if Path(file_path).suffix.lower() not in code_exts:
     sys.exit(0)
 
+# テストファイルは pending 対象外（テスト実行で別途検証されるため）
+test_markers = ("/tests/", "/__tests__/", "/test/", "/spec/")
+test_name_patterns = ("_test.py", "test_", ".test.ts", ".test.tsx",
+                     ".test.js", ".test.jsx", ".spec.ts", ".spec.js")
+fp_lower = file_path.lower()
+if any(m in fp_lower for m in test_markers) or any(p in fp_lower for p in test_name_patterns):
+    sys.exit(0)
+
+# 高リスクパス判定（認証/秘密情報/外部 API）: 後の閾値ガードで例外扱い
+HIGH_RISK_KEYWORDS = ("auth", "secret", "password", "token", "oauth",
+                     "credential", "login", "session", "/api/", "webhook")
+is_high_risk = any(kw in fp_lower for kw in HIGH_RISK_KEYWORDS)
+
 # FEファイル編集時はブラウザ検証スタンプをクリア
 fe_exts = {".html", ".css", ".scss", ".less", ".tsx", ".jsx"}
 fe_dirs = ("/frontend/", "/static/", "/public/")
