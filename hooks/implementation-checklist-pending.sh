@@ -91,6 +91,11 @@ else:
 all_lines = pending.read_text(encoding="utf-8").splitlines()
 count = sum(1 for line in all_lines[1:] if line.strip())
 
+# 高リスクパスを含む変更があれば flag を立てる（stop hook の閾値ガードで参照）
+high_risk_flag = pending.parent / "checklist-high-risk.flag"
+if is_high_risk:
+    high_risk_flag.touch()
+
 # json.dumps で自動エスケープ（ファイルパスに " や \ が含まれても安全）
 msg = (
     '<system-reminder severity="high" action-required="implementation-checklist">\n'
@@ -98,7 +103,7 @@ msg = (
     f"最新変更: {file_path}\n\n"
     "ユーザーへの完了報告の前に implementation-checklist スキルを実行してください。\n"
     "- STEP 1: サーバー再起動/ヘルスチェック\n"
-    "- STEP 2: Codexレビュー（2段階: 仕様準拠 → 品質）\n"
+    "- STEP 2: Codexレビュー（1段統合: 仕様準拠+品質）\n"
     "- STEP 3: スキル化判断\n"
     "- STEP 4: セッション記録\n\n"
     "詳細: ~/.claude/state/implementation-checklist.pending\n"
