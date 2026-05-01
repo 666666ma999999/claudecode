@@ -2,6 +2,7 @@
 
 変更内容をCodexで**1回のプロンプト**にまとめて仕様準拠＋コード品質の両観点でレビューする。
 従来の Stage 1 / Stage 2 別呼び出しは廃止（トークン節約のため）。`--spec` / `--quality` は片観点のみを単独で実行したい場合の明示オプションとして残す。
+批判的・敵対的視点で前提・設計の妥当性を疑うレビューが必要な場合は `--mode=challenge` を使う（旧 `/adversarial-review` を吸収）。
 
 ## 引数
 
@@ -14,11 +15,13 @@
 | (なし) | **デフォルト**: 仕様準拠 + コード品質を 1 プロンプトで実行（Codex 1 回） |
 | --spec | 仕様準拠観点のみ単独実行（明示時のみ） |
 | --quality | コード品質観点のみ単独実行（明示時のみ） |
+| --mode=challenge | **敵対的レビュー**: 前提・設計判断・ロジック妥当性を批判的に検証（旧 `/adversarial-review`） |
 | --staged | ステージング済みの変更のみレビュー |
 | --file PATH | 特定ファイルのみレビュー |
 | --last-commit | 直前のコミットをレビュー |
 
-`--spec` / `--quality` は `--staged` / `--file` / `--last-commit` と組み合わせ可能。
+`--spec` / `--quality` / `--mode=challenge` は `--staged` / `--file` / `--last-commit` と組み合わせ可能。
+`--mode=challenge` は `--spec` / `--quality` とは排他（敵対モードは独立した観点のため）。
 
 ## 実行手順
 
