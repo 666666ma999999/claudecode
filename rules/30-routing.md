@@ -34,7 +34,7 @@
 | コード重複・dual-path・DRY違反 | `20-code-quality.md` + `75-be-architecture.md` 参照 |
 | BEパイプライン重複・BE設計 | `75-be-architecture.md` 参照 |
 | vanilla FE設計・Command/Query分離・FEパイプライン | `70-fe-architecture.md` 参照 |
-| 設計判断・トレードオフ・反証・妥当性検証・対立検証 | `opponent-review` |
+| 3F+設計判断・大規模アーキ判断・公開API変更・二択判断 | `opponent-review`（軽い前提検証は `/review --mode=challenge`） |
 
 ### コード品質・リファクタリング
 
