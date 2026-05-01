@@ -41,6 +41,13 @@ simplify_snapshot = state_dir / "simplify-snapshot"
 simplify_iteration = state_dir / "simplify-iteration"
 fe_verified = state_dir / "fe-browser-verified.done"
 fix_count_file = state_dir / "fix-retry-count"
+high_risk_flag = state_dir / "checklist-high-risk.flag"
+
+# 閾値ガード: 高リスクパスを含まない小修正は強制ブロックを免除する
+# （reduce-review-token: 認証/秘密情報/外部APIを含まない 3ファイル未満の変更は
+#  /review・/simplify を任意化してトークン消費を抑える）
+SMALL_CHANGE_FILE_THRESHOLD = 3
+is_high_risk = high_risk_flag.exists()
 
 blockers = []
 
