@@ -103,7 +103,7 @@ if is_error:
     )
     sys.exit(0)
 
-# 正常系: カウント更新
+# 正常系: カウント更新（1段統合レビュー: count>=1 で done）
 count = 0
 if count_file.exists():
     try:
@@ -113,18 +113,11 @@ if count_file.exists():
 count += 1
 count_file.write_text(f"{count}\n", encoding="utf-8")
 
-if count >= 2:
-    done_file.write_text(f"{datetime.now():%Y-%m-%d %H:%M:%S}\n", encoding="utf-8")
-    fallback_flag.unlink(missing_ok=True)
-    emit(
-        '<system-reminder severity="info">\n'
-        "✅ Codex review Stage 2 (品質) recorded. Both stages complete. checklist解除可能。\n"
-        "</system-reminder>"
-    )
-else:
-    emit(
-        '<system-reminder severity="info" action-required="codex-stage-2">\n'
-        "✅ Codex review Stage 1 (仕様準拠) recorded. Stage 2 (品質レビュー) が必要です。\n"
-        "</system-reminder>"
-    )
+done_file.write_text(f"{datetime.now():%Y-%m-%d %H:%M:%S}\n", encoding="utf-8")
+fallback_flag.unlink(missing_ok=True)
+emit(
+    '<system-reminder severity="info">\n'
+    "✅ Codex review (1段統合: 仕様準拠+品質) recorded. checklist解除可能。\n"
+    "</system-reminder>"
+)
 PYEOF
