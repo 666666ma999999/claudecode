@@ -579,6 +579,7 @@
       "事実確認は必ずツールで実態を確認してから"
     ]
   },
+  "effortLevel": "xhigh",
   "tui": "fullscreen",
   "claudeMdExcludes": [
     "**/firecrawl/**",
@@ -594,6 +595,5 @@
     "environment": [
       "macOS darwin23, cwd主に ~/Desktop/biz 配下, Docker開発環境"
     ]
-  },
-  "effortLevel": "medium"
+  }
 }
