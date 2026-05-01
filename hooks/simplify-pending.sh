@@ -27,6 +27,12 @@ case "$FILE_PATH" in
     *) exit 0 ;;
 esac
 
+# テストファイルは simplify 対象外
+case "$FILE_PATH" in
+    */tests/*|*/__tests__/*|*/test/*|*/spec/*) exit 0 ;;
+    *_test.py|*test_*.py|*.test.ts|*.test.tsx|*.test.js|*.test.jsx|*.spec.ts|*.spec.js) exit 0 ;;
+esac
+
 STATE_DIR="$HOME/.claude/state"
 PENDING="$STATE_DIR/needs-simplify.pending"
 
