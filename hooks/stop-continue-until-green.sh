@@ -202,24 +202,26 @@ if (
         )
         log("blocker: FE browser verification pending")
 
-# チェック1: checklist.pending（cwd 対応: 自プロジェクト由来の行が1つでもあればblocker）
+# チェック1: checklist.pending（cwd + 閾値ガード対応）
 if pending_file.exists() and pending_file.stat().st_size > 0:
-    cl_has_cwd_file = False
+    cl_cwd_count = 0
     try:
         cl_lines = pending_file.read_text(encoding="utf-8").splitlines()
         hook_cwd_str = str(hook_cwd)
         for line in cl_lines[1:]:
             f = line.strip()
             if f and f.startswith(hook_cwd_str):
-                cl_has_cwd_file = True
-                break
-        if not cl_has_cwd_file and len(cl_lines) >= 2:
+                cl_cwd_count += 1
+        if cl_cwd_count == 0 and len(cl_lines) >= 2:
             log(f"checklist: no files under current project {hook_cwd}, skipping")
     except OSError:
         pass
-    if cl_has_cwd_file:
-        blockers.append("⚠️ implementation-checklist が未完了です。完了してから停止してください。")
-        log("blocker: implementation-checklist pending")
+    if cl_cwd_count > 0:
+        if not is_high_risk and cl_cwd_count < SMALL_CHANGE_FILE_THRESHOLD:
+            log(f"checklist: small-change skip (count={cl_cwd_count}, no high-risk path)")
+        else:
+            blockers.append("⚠️ implementation-checklist が未完了です。完了してから停止してください。")
+            log(f"blocker: implementation-checklist pending (count={cl_cwd_count}, high_risk={is_high_risk})")
 
 # チェック2: docker-compose + tests-passed
 cwd = hook_cwd  # 早期定義済み
