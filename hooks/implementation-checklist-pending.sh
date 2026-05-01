@@ -82,12 +82,10 @@ else:
         f"{datetime.now():%Y-%m-%d %H:%M:%S}\n{file_path}\n",
         encoding="utf-8",
     )
-    # 新規 pending 作成時は Codex レビューカウントと done フラグをリセット
-    # （前セッションの残留状態を引き継がないため）
-    state_dir = pending.parent
-    (state_dir / "codex-review.count").unlink(missing_ok=True)
-    (state_dir / "codex-review.done").unlink(missing_ok=True)
-    (state_dir / "codex-fallback-needed").unlink(missing_ok=True)
+    # NOTE: 旧仕様では新規 pending 作成のたびに codex-review.count/done を
+    # リセットしていたが、バッチ毎にフル 2 段レビューが再走してトークンを消費する
+    # 主因となっていたため停止（2026-05-01 reduce-review-token タスク）。
+    # 同一 diff 内の連続編集では Codex 完了状態を保持する。
 
 # 件数カウント（先頭のタイムスタンプ行を除外）
 all_lines = pending.read_text(encoding="utf-8").splitlines()
