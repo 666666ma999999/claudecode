@@ -1,12 +1,5 @@
 {
   "mcpServers": {
-    "memory": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-memory"],
-      "env": {
-        "MEMORY_FILE_PATH": "${HOME}/.claude/memory/memory.jsonl"
-      }
-    },
     "postgresql": {
       "command": "npx",
       "args": [
