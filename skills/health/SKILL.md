@@ -159,11 +159,11 @@ done | head -20
 
 # --- Skill scan ---
 # Exclude self by frontmatter name, stable across install paths.
-SELF_SKILL=$( (grep -rl '^name: health$' "$P/.claude/skills" "$HOME/.claude/skills" 2>/dev/null || true) | grep 'SKILL.md' | head -1)
+SELF_SKILL=$( (grep -rl '^name: health$' "$P_SKILLS" "$HOME/.claude/skills" 2>/dev/null || true) | grep 'SKILL.md' | head -1)
 [ -z "$SELF_SKILL" ] && SELF_SKILL="health/SKILL.md"
 
 echo "=== SKILL INVENTORY ==="
-for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
+for DIR in "$P_SKILLS" "$HOME/.claude/skills"; do
   [ -d "$DIR" ] || continue
   find -L "$DIR" -name "SKILL.md" 2>/dev/null | grep -v "$SELF_SKILL" | while IFS= read -r f; do
     WORDS=$(wc -w < "$f" | tr -d ' ')
@@ -177,7 +177,7 @@ for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
 done
 
 echo "=== SKILL FRONTMATTER ==="
-for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
+for DIR in "$P_SKILLS" "$HOME/.claude/skills"; do
   [ -d "$DIR" ] || continue
   find -L "$DIR" -name "SKILL.md" 2>/dev/null | grep -v "$SELF_SKILL" | while IFS= read -r f; do
     if head -1 "$f" | grep -q '^---'; then
@@ -190,7 +190,7 @@ for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
 done
 
 echo "=== SKILL SYMLINK PROVENANCE ==="
-for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
+for DIR in "$P_SKILLS" "$HOME/.claude/skills"; do
   [ -d "$DIR" ] || continue
   find "$DIR" -maxdepth 1 -type l 2>/dev/null | while IFS= read -r link; do
     TARGET=$(readlink -f "$link")
@@ -204,7 +204,7 @@ for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
 done
 
 echo "=== SKILL FULL CONTENT (sample: up to 5 skills, 80 lines each) ==="
-{ for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
+{ for DIR in "$P_SKILLS" "$HOME/.claude/skills"; do
     [ -d "$DIR" ] || continue
     find -L "$DIR" -name "SKILL.md" 2>/dev/null | grep -v "$SELF_SKILL"
   done
