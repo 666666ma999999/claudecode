@@ -181,6 +181,21 @@ implementation-checklist は**最終完了ゲート**であり、中間バッチ
 学習ループ: 修正を受けたら `tasks/lessons.md` にパターンを記録、同じミスを繰り返さないルールを書き続ける。
 セッション開始時に該当プロジェクトの lessons をレビューする。
 
+## 検証出力フィルタ（トークン節約）
+
+重い検証スクリプト・テスト・ログ確認は raw stdout を読まず、必ずフィルタ＋tail で要点だけ取得すること:
+
+```bash
+python3 verify.py > /tmp/v.log 2>&1; rg -n "FAIL|ERROR|Traceback|✗" /tmp/v.log | tail -20 || echo OK
+docker compose logs backend --tail=200 2>&1 | rg -n "ERROR|CRITICAL|Traceback" | tail -20
+pytest tests/ 2>&1 | rg -n "FAILED|ERROR|passed|failed" | tail -10
+```
+
+- 成功時は `echo OK` のみで完了報告
+- 失敗詳細は二段階で `/tmp/v.log` を `sed -n '<L-5>,<L+20>p'` で局所読み
+- 100 行超の raw stdout を `Bash` で受け取らない（context 浪費）
+- 重い検証は `Agent`（subagent）に隔離する
+
 ## Docker-Only開発
 
 依存管理・ビルド・実行はDocker経由。ホスト上 `pip install`, `npm install`, `npx` 等は禁止。

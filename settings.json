@@ -390,7 +390,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/jsonl-archive.sh"
+            "command": "(~/.claude/hooks/jsonl-archive.sh) 2>&1 | head -50"
           }
         ]
       },
@@ -399,7 +399,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/data-retention.sh"
+            "command": "(~/.claude/hooks/data-retention.sh) 2>&1 | head -50"
           }
         ]
       },
@@ -408,7 +408,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/verify-step-session-cleanup.sh"
+            "command": "(~/.claude/hooks/verify-step-session-cleanup.sh) 2>&1 | head -50"
           }
         ]
       },
@@ -417,7 +417,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/checklist-session-cleanup.sh"
+            "command": "(~/.claude/hooks/checklist-session-cleanup.sh) 2>&1 | head -50"
           }
         ]
       },
@@ -426,7 +426,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/obsidian-session-reminder.sh"
+            "command": "(~/.claude/hooks/obsidian-session-reminder.sh) 2>&1 | head -50"
           }
         ]
       }
