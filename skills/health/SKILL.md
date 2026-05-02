@@ -42,24 +42,31 @@ Run one block to collect data.
 ```bash
 P=$(pwd)
 SETTINGS="$P/.claude/settings.local.json"
+# Meta-project fallback: when cwd is ~/.claude itself, project-local paths
+# collapse (skills live at $P/skills, not $P/.claude/skills).
+if [ "$P" = "$HOME/.claude" ]; then
+  P_SKILLS="$P/skills"; P_RULES="$P/rules"
+else
+  P_SKILLS="$P/.claude/skills"; P_RULES="$P/.claude/rules"
+fi
 
 echo "=== TIER METRICS ==="
 echo "project_files: $(git -C "$P" ls-files 2>/dev/null | wc -l || find "$P" -type f -not -path "*/.git/*" -not -path "*/node_modules/*" -not -path "*/dist/*" -not -path "*/build/*" | wc -l)"
 echo "contributors: $(git -C "$P" log -n 500 --format='%ae' 2>/dev/null | sort -u | wc -l)"
 echo "ci_workflows:  $(ls "$P/.github/workflows/"*.yml "$P/.github/workflows/"*.yaml 2>/dev/null | wc -l)"
-echo "skills:        $(find "$P/.claude/skills" -name "SKILL.md" 2>/dev/null | grep -v '/health/SKILL.md' | wc -l)"
+echo "skills:        $(find "$P_SKILLS" -name "SKILL.md" 2>/dev/null | grep -v '/health/SKILL.md' | wc -l)"
 echo "claude_md_lines: $(wc -l < "$P/CLAUDE.md" 2>/dev/null)"
 
 echo "=== CLAUDE.md (global) ===" ; cat ~/.claude/CLAUDE.md 2>/dev/null || echo "(none)"
 echo "=== CLAUDE.md (local) ===" ; cat "$P/CLAUDE.md" 2>/dev/null || echo "(none)"
 echo "=== settings.local.json ===" ; cat "$SETTINGS" 2>/dev/null || echo "(none)"
-echo "=== rules/ ===" ; find "$P/.claude/rules" -name "*.md" 2>/dev/null | while IFS= read -r f; do echo "--- $f ---"; cat "$f"; done
-echo "=== skill descriptions ===" ; { [ -d "$P/.claude/skills" ] && grep -r "^description:" "$P/.claude/skills" 2>/dev/null; grep -r "^description:" ~/.claude/skills 2>/dev/null; } | sort -u
+echo "=== rules/ ===" ; find "$P_RULES" -name "*.md" 2>/dev/null | while IFS= read -r f; do echo "--- $f ---"; cat "$f"; done
+echo "=== skill descriptions ===" ; { [ -d "$P_SKILLS" ] && grep -r "^description:" "$P_SKILLS" 2>/dev/null; grep -r "^description:" ~/.claude/skills 2>/dev/null; } | sort -u
 echo "=== STARTUP CONTEXT ESTIMATE ==="
 echo "global_claude_words: $(wc -w < ~/.claude/CLAUDE.md 2>/dev/null | tr -d ' ' || echo 0)"
 echo "local_claude_words: $(wc -w < "$P/CLAUDE.md" 2>/dev/null | tr -d ' ' || echo 0)"
-echo "rules_words: $(find "$P/.claude/rules" -name "*.md" 2>/dev/null | while IFS= read -r f; do cat "$f"; done | wc -w | tr -d ' ')"
-echo "skill_desc_words: $({ [ -d "$P/.claude/skills" ] && grep -r "^description:" "$P/.claude/skills" 2>/dev/null; grep -r "^description:" ~/.claude/skills 2>/dev/null; } | wc -w | tr -d ' ')"
+echo "rules_words: $(find "$P_RULES" -name "*.md" 2>/dev/null | while IFS= read -r f; do cat "$f"; done | wc -w | tr -d ' ')"
+echo "skill_desc_words: $({ [ -d "$P_SKILLS" ] && grep -r "^description:" "$P_SKILLS" 2>/dev/null; grep -r "^description:" ~/.claude/skills 2>/dev/null; } | wc -w | tr -d ' ')"
 python3 -c "
 import json, sys
 try:
