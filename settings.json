@@ -337,6 +337,15 @@
             "command": "~/.claude/hooks/codex-review-tracker.sh"
           }
         ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/data-provenance-guard.sh"
+          }
+        ]
       }
     ],
     "SessionStart": [
