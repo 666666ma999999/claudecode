@@ -34,6 +34,10 @@
 
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
+| #14775 | 7:07 AM | ⚖️ | Two-layer Obsidian skill architecture established | ~517 |
+| #14776 | " | ✅ | obsidian-cli usage guards added to vault rules | ~360 |
+| #14771 | " | 🟣 | kepano-obsidian-skills integration completed with bilingual trigger extension | ~395 |
+| #14773 | " | ✅ | Two-layer Obsidian skill architecture documented | ~390 |
 | #14767 | 7:06 AM | 🔵 | kepano-obsidian-skills migration status and fusion strategy confirmed | ~414 |
 | #14761 | 7:01 AM | ✅ | Documented kepano-obsidian-skills integration architecture and obsidian-cli safety guards | ~376 |
 </claude-mem-context>
