@@ -83,6 +83,8 @@ vault 全域 CRUD 可能なため、不変ルール（既存 142 件無変更 / 
 - hook が `[ -d wiki ]` ガードなしで vault 操作している
 - 既存 142 ノートに git diff が出ている
 - `.raw/` 配下のファイルが書き換えられている（append-only 違反）
+- `obsidian-cli` が `/save` `/canvas` `/autoresearch` `/wiki-ingest` などの workflow skill から自動呼び出しされている
+- vault 直下既存 142 件 md / `.raw/` 既存ファイル / `refs/` 既存ファイルが `obsidian-cli` 経由で書き換えられている
 - `rules/40-obsidian.md` の行数が 200 行を超えている（公式 200 行ガイドライン違反）
 
 ## 関連リンク
