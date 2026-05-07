@@ -34,5 +34,6 @@
 
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
+| #14767 | 7:06 AM | 🔵 | kepano-obsidian-skills migration status and fusion strategy confirmed | ~414 |
 | #14761 | 7:01 AM | ✅ | Documented kepano-obsidian-skills integration architecture and obsidian-cli safety guards | ~376 |
 </claude-mem-context>
