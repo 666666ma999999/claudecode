@@ -35,6 +35,8 @@ DOCKER_PREFIXES = (
 # グローバルCLAUDE.mdの適用除外「MCP設定、Claude Codeツール拡張、スキル検索」に対応。
 ALLOW_PATTERNS = [
     r"\bnpm\s+(install|i)\s+(-g\s+)?@openai/codex\b",
+    # kepano/obsidian-skills の defuddle skill が使うCLI（Claude Codeツール拡張）
+    r"\bnpm\s+(install|i)\s+(-g\s+)?defuddle\b",
     # ~/.claude/mcp-servers/ 配下でのMCPサーバーfork用 npm操作
     r"\.claude/mcp-servers\b.*\bnpm\s+(install|i|ci|run)\b",
     r"\bnpm\s+(install|i|ci|run)\b.*\.claude/mcp-servers\b",
