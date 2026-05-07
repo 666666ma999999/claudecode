@@ -138,6 +138,15 @@
   "hooks": {
     "PreToolUse": [
       {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/block-claude-mem-inject.sh"
+          }
+        ]
+      },
+      {
         "matcher": "mcp__playwright__browser_navigate",
         "hooks": [
           {
@@ -205,15 +214,6 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/security-scan.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
             "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/restrict-cwd-edits.sh"
           }
         ]
@@ -271,21 +271,12 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/auto-format.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
             "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/check-extension-imports.py"
           }
         ]
       },
       {
-        "matcher": "Write|Edit",
+        "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
@@ -298,34 +289,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/simplify-pending.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/plan-drift-warn.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/implementation-checklist-pending.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/verify-step-pending.sh"
+            "command": "[ -f ~/.claude/state/plan-readiness.done ] && ~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/plan-drift-warn.sh || true"
           }
         ]
       },
@@ -381,7 +345,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/jsonl-archive.sh"
+            "command": "(~/.claude/hooks/jsonl-archive.sh) 2>&1 | head -50"
           }
         ]
       },
@@ -390,7 +354,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/data-retention.sh"
+            "command": "(~/.claude/hooks/data-retention.sh) 2>&1 | head -50"
           }
         ]
       },
@@ -399,7 +363,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/verify-step-session-cleanup.sh"
+            "command": "(~/.claude/hooks/verify-step-session-cleanup.sh) 2>&1 | head -50"
           }
         ]
       },
@@ -408,7 +372,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/checklist-session-cleanup.sh"
+            "command": "(~/.claude/hooks/checklist-session-cleanup.sh) 2>&1 | head -50"
           }
         ]
       },
@@ -417,7 +381,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/obsidian-session-reminder.sh"
+            "command": "(~/.claude/hooks/obsidian-session-reminder.sh) 2>&1 | head -50"
           }
         ]
       }
@@ -459,6 +423,42 @@
           {
             "type": "command",
             "command": "cd \"$(pwd)\" && [ -d wiki ] && [ -d .git ] && git diff --name-only HEAD 2>/dev/null | grep -q '^wiki/' && echo 'WIKI_CHANGED: Wiki pages were modified this session. Please update wiki/hot.md with a brief summary of what changed (under 500 words). Use the hot cache format: Last Updated, Key Recent Facts, Recent Changes, Active Threads. Keep it factual. Overwrite the file completely. It is a cache, not a journal.' || true"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/auto-format.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/simplify-pending.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/implementation-checklist-pending.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/verify-step-pending.sh"
           }
         ]
       }
@@ -582,7 +582,7 @@
       "事実確認は必ずツールで実態を確認してから"
     ]
   },
-  "effortLevel": "xhigh",
+  "effortLevel": "medium",
   "tui": "fullscreen",
   "claudeMdExcludes": [
     "**/firecrawl/**",

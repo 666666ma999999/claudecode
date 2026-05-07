@@ -61,30 +61,10 @@ while IFS= read -r file; do
   fi
 done <<< "$md_files"
 
-echo ""
-echo "=== Obsidian NOW→DONE ルール再確認 ==="
-cat <<'EOF'
-Obsidian MDのNOW→DONE移動時は必ず以下の新形式（見出しは h5 = ##### 固定）:
-  ##### タスク名 (完了日)
-  **プロンプト要約:** 1-3行
-  **元プロンプト:** [[refs/YYYY-MM-DD_slug]]
-
-  **結果:** （実行結果のサマリー）
-
-- 見出しは他MDへの貼り付け時の衝突回避のため必ず h5（#####）を使う
-- 元プロンプト全文は <project>/refs/YYYY-MM-DD_slug.md に一字一句そのまま退避（append-only）
-- メインMDのDONEエントリは要約 + refs リンクのみで軽量化
-- 起動: /done コマンド or 「タスク完了」「NOW→DONE」 で obsidian-now-done スキル発動
-（~/.claude/rules/40-obsidian.md「併用方針」参照）
-EOF
-
+# 違反検出時のみ簡潔に通知（ルール本文は ~/.claude/rules/40-obsidian.md 参照）
 if [ "$violations_found" = "1" ]; then
-  echo ""
-  echo "🚨 既存DONEエントリに形式違反あり:"
-  echo -e "$violation_output"
-  echo "  → 新規編集時は必ずこの形式を遵守すること。既存違反は放置可（元プロンプトが失われているため）。"
+  echo "Obsidian DONE形式違反あり（h5 + refs/ 分離・40-obsidian.md 参照）:"
+  echo -e "$violation_output" | head -5
 fi
-
-echo "=========================================="
 
 exit 0
