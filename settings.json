@@ -591,7 +591,7 @@
       "事実確認は必ずツールで実態を確認してから"
     ]
   },
-  "effortLevel": "xhigh",
+  "effortLevel": "medium",
   "tui": "fullscreen",
   "claudeMdExcludes": [
     "**/firecrawl/**",
