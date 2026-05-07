@@ -8,6 +8,7 @@
 | 新機能/MVP・4項目ブリーフ | `new-feature` |
 | 完了報告前・検証完了 | `implementation-checklist` |
 | Plan前スキル検索 | `find-skills` |
+| ダッシュボード数値の出典管理 | `data-provenance-first` |
 | Plan中アーキ判断・設計リスク | `plan-adversarial-review` |
 | BE新機能/API/HookPoint | `be-extension-pattern` |
 | FE新機能/ページ/ウィジェット | `fe-extension-pattern` |
