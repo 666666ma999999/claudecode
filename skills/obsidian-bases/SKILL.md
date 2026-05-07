@@ -1,6 +1,6 @@
 ---
 name: obsidian-bases
-description: Create and edit Obsidian Bases (.base files) with views, filters, formulas, and summaries. Use when working with .base files, creating database-like views of notes, or when the user mentions Bases, table views, card views, filters, or formulas in Obsidian.
+description: Create and edit Obsidian Bases (.base files) with views, filters, formulas, and summaries. Use when working with .base files, creating database-like views of notes, or when the user mentions Bases, table views, card views, filters, or formulas in Obsidian. Triggers on (kepano-obsidian-skills bundle): 「obsidian-skills を使って」「obsidian-skills」「.base ファイル」「Bases」「Obsidian の Bases」「テーブルビュー」「カードビュー」「フィルター式」「formula 式」「ノートDB」.
 ---
 
 # Obsidian Bases Skill
