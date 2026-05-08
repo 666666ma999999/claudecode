@@ -402,6 +402,15 @@
             "command": "(~/.claude/hooks/obsidian-session-reminder.sh) 2>&1 | head -50"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f \"/Users/masaaki/Documents/Obsidian Vault/wiki/COMMAND-CENTER.md\" ] && echo '=== 🧭 COMMAND CENTER ===' && cat \"/Users/masaaki/Documents/Obsidian Vault/wiki/COMMAND-CENTER.md\" || true"
+          }
+        ]
       }
     ],
     "PermissionRequest": [
