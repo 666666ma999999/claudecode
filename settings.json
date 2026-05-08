@@ -408,7 +408,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "[ -f \"/Users/masaaki/Documents/Obsidian Vault/wiki/COMMAND-CENTER.md\" ] && echo '=== 🧭 COMMAND CENTER ===' && cat \"/Users/masaaki/Documents/Obsidian Vault/wiki/COMMAND-CENTER.md\" || true"
+            "command": "[ -f \"/Users/masaaki/Documents/Obsidian Vault/02_ai/ai_dashboard/COMMAND-CENTER.md\" ] && echo '=== 🧭 COMMAND CENTER ===' && cat \"/Users/masaaki/Documents/Obsidian Vault/02_ai/ai_dashboard/COMMAND-CENTER.md\" || true"
           }
         ]
       }
