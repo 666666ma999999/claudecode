@@ -34,29 +34,6 @@
       "Bash(env *)",
       "Bash(printenv)",
       "Bash(printenv *)",
-      "Bash(pip install*)",
-      "Bash(pip3 install*)",
-      "Bash(python -m pip install*)",
-      "Bash(python3 -m pip install*)",
-      "Bash(python -m venv*)",
-      "Bash(python3 -m venv*)",
-      "Bash(virtualenv *)",
-      "Bash(npm install*)",
-      "Bash(npm i *)",
-      "Bash(yarn *)",
-      "Bash(pnpm *)",
-      "Bash(bun install*)",
-      "Bash(bun add*)",
-      "Bash(uv pip*)",
-      "Bash(uv venv*)",
-      "Bash(poetry install*)",
-      "Bash(poetry add*)",
-      "Bash(conda install*)",
-      "Bash(conda create*)",
-      "Bash(pip *install*)",
-      "Bash(source */activate)",
-      "Bash(source venv/bin/activate*)",
-      "Bash(. venv/bin/activate*)",
       "Bash(git push --force*)",
       "Bash(git push -f*)",
       "Bash(git push *--force*)",
@@ -131,7 +108,26 @@
       "Bash(crontab -r*)",
       "Bash(crontab -e*)",
       "Bash(mkfs*)",
-      "Bash(diskutil erase*)"
+      "Bash(diskutil erase*)",
+      "Read(~/PassVault/**)",
+      "Read(/Volumes/PassVault/**)",
+      "Write(~/PassVault/**)",
+      "Write(/Volumes/PassVault/**)",
+      "Edit(~/PassVault/**)",
+      "Edit(/Volumes/PassVault/**)",
+      "Bash(cat ~/PassVault*)",
+      "Bash(cat /Volumes/PassVault*)",
+      "Bash(less ~/PassVault*)",
+      "Bash(less /Volumes/PassVault*)",
+      "Bash(head ~/PassVault*)",
+      "Bash(tail ~/PassVault*)",
+      "Bash(grep * ~/PassVault*)",
+      "Bash(grep * /Volumes/PassVault*)",
+      "Read(~/Documents/Obsidian Vault/**/*password*)",
+      "Read(~/Documents/Obsidian Vault/**/*secret*)",
+      "Read(~/Documents/Obsidian Vault/**/*wallet*)",
+      "Read(~/Documents/Obsidian Vault/**/*seed*)",
+      "Read(~/Documents/Obsidian Vault/**/PassVault/**)"
     ],
     "defaultMode": "default"
   },
@@ -263,6 +259,15 @@
             "command": "~/.claude/hooks/route-google-workspace.py"
           }
         ]
+      },
+      {
+        "matcher": "AskUserQuestion",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/pretooluse-askuserquestion-guard.sh"
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -346,6 +351,24 @@
             "command": "~/.claude/hooks/open-md-in-obsidian.sh"
           }
         ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/posttooluse-claudeenv.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/posttooluse-vault-warning.sh"
+          }
+        ]
       }
     ],
     "SessionStart": [
@@ -395,11 +418,82 @@
         ]
       },
       {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f ~/.claude/state/recurring-mistakes.md ] && echo '=== ⚠️ Recurring Mistakes (実行時注入ルール) ===' && head -20 ~/.claude/state/recurring-mistakes.md | tail -15 || true"
+          }
+        ]
+      },
+      {
         "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "[ -f \"/Users/masaaki/Documents/Obsidian Vault/02_ai/ai_dashboard/COMMAND-CENTER.md\" ] && echo '=== 🧭 COMMAND CENTER ===' && cat \"/Users/masaaki/Documents/Obsidian Vault/02_ai/ai_dashboard/COMMAND-CENTER.md\" || true"
+            "command": "(~/.claude/hooks/sessionstart-version-diff.sh) 2>&1 | head -10"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "(~/.claude/hooks/sessionstart-edit-policy.sh) 2>&1 | head -5"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "(~/.claude/hooks/sessionstart-project-registry.sh) 2>&1 | head -30"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "(~/.claude/hooks/sessionstart-prime-ad-daily-unread.sh) 2>&1 | head -20"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "(bash ~/.claude/scripts/check-rule-hook-consistency.sh) 2>&1 | head -10"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "(~/.claude/hooks/sessionstart-vault-audit-warning.sh) 2>&1 | head -10"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "(~/.claude/hooks/sessionstart-vault-audit-bootstrap.sh) 2>&1 | head -5"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "(~/.claude/hooks/sessionstart-spec-pulse.sh) 2>&1 | head -60"
           }
         ]
       }
