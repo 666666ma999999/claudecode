@@ -82,7 +82,6 @@
 | `lint the wiki` | orphan / dead link / gap 検出 | `wiki-lint` |
 | `update hot cache` | `wiki/hot.md` を最新会話文脈で刷新 | `wiki` |
 | `query the wiki ...` | wiki 内検索（filename / 内容） | `wiki-query` |
-| `fold ...` | 重複ノート統合 | `wiki-fold` |
 
 ## MCP Server (mcpvault)
 
@@ -92,7 +91,7 @@
 - 設定ファイル: `~/.claude/.mcp.json`
 - 確認: `claude mcp list` で `mcpvault: connected` 表示
 
-## スキル一覧（11 種）
+## スキル一覧（8 種・active）
 
 `~/.claude/skills/` 配下:
 
@@ -103,12 +102,12 @@
 | `wiki-ingest` | ソース取込み → 8-15 ページ自動分解 |
 | `wiki-query` | wiki 検索 |
 | `wiki-lint` | リンク健全性検証 |
-| `wiki-fold` | 重複統合 |
 | `autoresearch` | 自律調査ループ |
 | `canvas` | Canvas 操作 |
 | `obsidian-markdown` | Obsidian 拡張 markdown 仕様 |
-| `obsidian-bases` | Obsidian Bases (DB-like) 操作 |
 | `defuddle` | Web ページ → 整形 markdown |
+
+退避済み (`skills/_dormant/`、30日未使用): `wiki-fold` / `obsidian-bases` / `obsidian-short-note-merge`。必要時に戻す。
 
 各スキルの引数・出力例・失敗パターンの正典は対応 `SKILL.md`。
 

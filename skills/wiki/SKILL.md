@@ -229,6 +229,6 @@ Do NOT show the footer after:
 - `/save` (quick save operation)
 - `/canvas` (visual work, intermediate)
 - `/defuddle` (utility)
-- `obsidian-bases`, `obsidian-markdown` (reference skills, not output)
+- `obsidian-markdown` (reference skill, not output)
 - Hot cache updates, index updates, or any background maintenance
 - Error messages or prompts for more information
