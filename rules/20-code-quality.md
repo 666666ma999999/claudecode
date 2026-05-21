@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/*.{py,js,ts,tsx,jsx,vue,mjs,cjs,go,rb,php,java,rs,swift,kt,c,cc,cpp,h,hpp}"
+  - "**/*.{html,css,scss}"
+---
+
 # コード品質ルール（全プロジェクト共通）
 
 ## Canonical Module原則（Single Source of Truth）

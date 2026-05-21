@@ -1,3 +1,13 @@
+---
+paths:
+  - "**/extensions.json"
+  - "**/extensions.yaml"
+  - "**/extensions/**"
+  - "**/src/extensions/**"
+  - "**/routers/**"
+  - "**/backend/routers/**"
+---
+
 # エクステンションパターンルール
 
 <!-- CMS命名規約（hayatomo/izumo等）はプロジェクト固有の CLAUDE.md に配置すること -->

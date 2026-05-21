@@ -34,6 +34,10 @@
 
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
+| #15029 | 8:23 PM | 🔵 | Existing Obsidian integration architecture uses dual-system approach | ~429 |
+| #15027 | 8:22 PM | ⚖️ | Obsidian Vault as Claude Code Command Center Architecture | ~197 |
+| #15005 | 7:21 PM | 🔵 | MCP Configuration Located in ~/.claude/.mcp.json | ~170 |
+| #15004 | 7:20 PM | 🔵 | Hook Architecture and Nested Documentation Structure | ~496 |
 | #14775 | 7:07 AM | ⚖️ | Two-layer Obsidian skill architecture established | ~517 |
 | #14776 | " | ✅ | obsidian-cli usage guards added to vault rules | ~360 |
 | #14771 | " | 🟣 | kepano-obsidian-skills integration completed with bilingual trigger extension | ~395 |

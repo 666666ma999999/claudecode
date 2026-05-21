@@ -19,4 +19,15 @@
 | #9770 | 7:42 PM | 🔵 | security-scan.sh Detects Secrets in File Content via Regex | ~435 |
 | #9766 | " | 🔵 | auto-git-push.sh Auto-Commits and Pushes ~/.claude Changes | ~444 |
 | #9764 | " | 🔵 | file-protection.sh Already Blocks Dangerous File Writes | ~387 |
+
+### May 8, 2026
+
+| ID | Time | T | Title | Read |
+|----|------|---|-------|------|
+| #15038 | 8:32 PM | 🟣 | Phase 1 MVP vault synchronization system implemented with security hardening | ~1157 |
+| #15037 | 8:26 PM | 🔵 | Security vulnerabilities in Obsidian sync design identified | ~600 |
+| #15034 | 8:24 PM | 🔵 | CWD restriction hook implementation examined | ~624 |
+| #15033 | " | 🔵 | File protection hook implements fast-path security filtering | ~410 |
+| #15027 | 8:22 PM | ⚖️ | Obsidian Vault as Claude Code Command Center Architecture | ~197 |
+| #15004 | 7:20 PM | 🔵 | Hook Architecture and Nested Documentation Structure | ~496 |
 </claude-mem-context>

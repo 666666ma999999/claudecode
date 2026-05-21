@@ -131,6 +131,63 @@
     ],
     "defaultMode": "default"
   },
+  "skillOverrides": {
+    "step1-manuscript": "name-only",
+    "step2-menu-register": "name-only",
+    "step2-komi-diagnosis": "name-only",
+    "step3-ppv-info": "name-only",
+    "step4-menu-config": "name-only",
+    "step5-mkb-upload": "name-only",
+    "step6-izumo-sync": "name-only",
+    "step8-subtitle": "name-only",
+    "register-all": "name-only",
+    "verify-production": "name-only",
+    "retitle-product": "name-only",
+    "yudo-recommend": "name-only",
+    "headline-optimizer": "name-only",
+    "csv-format-converter": "name-only",
+    "playwright-browser-automation": "name-only",
+    "fetch-bookmarks": "name-only",
+    "fetch-engagement": "name-only",
+    "gh-star-harvest": "name-only",
+    "max-scroll-scrape": "name-only",
+    "browser-automation-parallelization": "name-only",
+    "machine-bootstrap": "name-only",
+    "codify-config": "name-only",
+    "env-factcheck": "name-only",
+    "organize-desktop": "name-only",
+    "capture-improvement": "name-only",
+    "project-bootstrap": "name-only",
+    "notification-alert": "name-only",
+    "health": "name-only",
+    "canvas": "name-only",
+    "json-canvas": "name-only",
+    "obsidian-bases": "name-only",
+    "obsidian-cli": "name-only",
+    "obsidian-markdown": "name-only",
+    "defuddle": "name-only",
+    "wiki": "name-only",
+    "wiki-fold": "name-only",
+    "wiki-ingest": "name-only",
+    "wiki-lint": "name-only",
+    "wiki-query": "name-only",
+    "save": "name-only",
+    "autoresearch": "name-only",
+    "obsidian-short-note-merge": "name-only",
+    "obsidian-now-done": "name-only",
+    "dashboard-design-guide": "name-only",
+    "data-visualization": "name-only",
+    "data-provenance-first": "name-only",
+    "kpi-tree-first": "name-only",
+    "sales-analysis": "name-only",
+    "salesmtg-dashboard-qa": "name-only",
+    "salesmtg-data-audit": "name-only",
+    "tool-selection-reference": "name-only",
+    "skill-lifecycle-reference": "name-only",
+    "git-safety-reference": "name-only",
+    "frontend-design": "name-only",
+    "claude-api": "name-only"
+  },
   "hooks": {
     "PreToolUse": [
       {
@@ -496,6 +553,15 @@
             "command": "(~/.claude/hooks/sessionstart-spec-pulse.sh) 2>&1 | head -60"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/masaaki/.claude/hooks/vault-sync-sessionstart.sh"
+          }
+        ]
       }
     ],
     "PermissionRequest": [
@@ -553,6 +619,15 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/verify-step-pending.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/masaaki/.claude/hooks/vault-sync-stop.sh"
           }
         ]
       }

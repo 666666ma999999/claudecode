@@ -7,6 +7,7 @@
 
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
+| #15004 | 7:20 PM | 🔵 | Hook Architecture and Nested Documentation Structure | ~496 |
 | #14771 | 7:07 AM | 🟣 | kepano-obsidian-skills integration completed with bilingual trigger extension | ~395 |
 | #14772 | " | ⚖️ | Bilingual skill triggering strategy for Japanese-English mixed environments | ~361 |
 </claude-mem-context>

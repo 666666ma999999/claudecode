@@ -1,3 +1,14 @@
+---
+paths:
+  - "frontend/**"
+  - "backend/**"
+  - "src/**/*.{py,js,ts,tsx,jsx,vue}"
+  - "**/*.{tsx,jsx,vue}"
+  - "**/routers/**"
+  - "**/services/**"
+  - "**/api/**"
+---
+
 # FE/BE アーキテクチャルール
 
 FE (vanilla JS / React / Vue) と BE (Python / Node.js / Go) 共通の設計原則。

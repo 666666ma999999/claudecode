@@ -1,3 +1,13 @@
+---
+paths:
+  - "**/Obsidian Vault/**"
+  - "**/wiki/**"
+  - "**/.raw/**"
+  - "**/refs/**"
+  - "**/*.canvas"
+  - "**/*.base"
+---
+
 # Obsidian 連携ルール（claude-obsidian 方式）
 
 CLAUDE.md「行動原則 §Obsidian」の不変ルール定義。2026-04-24 以降の運用。

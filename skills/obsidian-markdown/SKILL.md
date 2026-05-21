@@ -1,6 +1,6 @@
 ---
 name: obsidian-markdown
-description: Create and edit Obsidian Flavored Markdown with wikilinks, embeds, callouts, properties, and other Obsidian-specific syntax. Use when working with .md files in Obsidian, or when the user mentions wikilinks, callouts, frontmatter, tags, embeds, or Obsidian notes. Triggers on (kepano-obsidian-skills bundle): 「obsidian-skills を使って」「obsidian-skills」「Obsidianノート編集」「Obsidianノートを書いて」「ウィキリンク」「wikilink を貼って」「コールアウト」「callout で」「frontmatter 整える」「埋め込み」「.md 編集」「Obsidian Markdown」.
+description: Create and edit Obsidian Flavored Markdown with wikilinks, embeds, callouts, properties, and other Obsidian-specific syntax. Use when working with .md files in Obsidian or when the user mentions wikilinks, callouts, frontmatter, tags, or embeds. Triggers (kepano bundle): 「obsidian-skills を使って」「Obsidianノート編集」「ウィキリンク」「コールアウト」「frontmatter 整える」「.md 編集」.
 ---
 
 # Obsidian Flavored Markdown Skill
