@@ -1,0 +1,172 @@
+#!/usr/bin/env python3
+"""obs-refs-index: vault の References/raw/ を走査して Sources/_index.md を再生成する。
+
+実行: obs-refs-index           (= ~/Documents/Obsidian Vault を対象)
+      VAULT=/path obs-refs-index (= 任意 vault)
+
+副作用: References/Sources/_index.md を上書きする (全置換)。
+"""
+from __future__ import annotations
+
+import os
+import sys
+from datetime import datetime
+from pathlib import Path
+
+VAULT = Path(os.environ.get("VAULT", os.path.expanduser("~/Documents/Obsidian Vault")))
+REFS = VAULT / "References"
+RAW = REFS / "raw"
+SOURCES = REFS / "Sources"
+INDEX = SOURCES / "_index.md"
+
+TYPE_RULES = [
+    ("news/", "news-daily"),
+    ("grok-twittora", "x-ingest"),
+    ("material-bank", "material-bank"),
+    ("lessons/", "lessons-sync"),
+    ("autopost-metrics/", "autopost-metrics"),
+]
+
+
+def detect_type(rel_path: str) -> str:
+    for pattern, type_name in TYPE_RULES:
+        if pattern in rel_path:
+            return type_name
+    return "other"
+
+
+def human_size(n: int) -> str:
+    size = float(n)
+    for unit in ("B", "KB", "MB", "GB"):
+        if size < 1024:
+            return f"{size:.0f}{unit}" if unit == "B" else f"{size:.1f}{unit}"
+        size /= 1024
+    return f"{size:.1f}TB"
+
+
+def find_summary(filename: str) -> Path | None:
+    base = filename.rsplit(".", 1)[0]
+    candidate = SOURCES / f"{base}.md"
+    return candidate if candidate.exists() else None
+
+
+def extract_imported_date(f: Path) -> str | None:
+    """md ファイルの frontmatter から imported:/ingested_at: を抽出。"""
+    if f.suffix != ".md":
+        return None
+    try:
+        with f.open(encoding="utf-8") as fh:
+            head = [next(fh, "") for _ in range(15)]
+    except (OSError, UnicodeDecodeError):
+        return None
+    for line in head:
+        for key in ("imported:", "ingested_at:", "date:"):
+            if line.strip().startswith(key):
+                val = line.split(":", 1)[1].strip().strip('"').strip("'")
+                if len(val) >= 10 and val[4] == "-" and val[7] == "-":
+                    return val[:10]
+    return None
+
+
+def scan_raw() -> list[dict]:
+    rows: list[dict] = []
+    if not RAW.exists():
+        return rows
+    for f in sorted(RAW.rglob("*")):
+        if not f.is_file() or f.name.startswith("."):
+            continue
+        rel = f.relative_to(REFS).as_posix()
+        stat = f.stat()
+        summary = find_summary(f.name)
+        ingested = extract_imported_date(f) or datetime.fromtimestamp(stat.st_mtime).strftime("%Y-%m-%d")
+        rows.append(
+            {
+                "path": rel,
+                "ingested": ingested,
+                "type": detect_type(rel),
+                "size": human_size(stat.st_size),
+                "status": "summarized" if summary else "raw",
+                "summary": f"[[Sources/{summary.stem}]]" if summary else "-",
+            }
+        )
+    rows.sort(key=lambda r: (r["ingested"], r["path"]), reverse=True)
+    return rows
+
+
+def find_standalones(raw_rows: list[dict]) -> list[str]:
+    """Sources/ にあるが raw/ に対応原典がないもの。"""
+    raw_basenames = {Path(r["path"]).stem for r in raw_rows}
+    standalones = []
+    for f in sorted(SOURCES.glob("*.md")):
+        if f.name == "_index.md":
+            continue
+        if f.stem not in raw_basenames:
+            standalones.append(f.stem)
+    return standalones
+
+
+def render(rows: list[dict], standalones: list[str]) -> str:
+    type_counts = sorted({r["type"] for r in rows})
+    type_summary = ", ".join(
+        f"{t}={sum(1 for r in rows if r['type'] == t)}" for t in type_counts
+    )
+    raw_count = sum(1 for r in rows if r["status"] == "raw")
+    sum_count = sum(1 for r in rows if r["status"] == "summarized")
+
+    head = f"""---
+type: index
+title: "Sources Index"
+updated: {datetime.now().strftime("%Y-%m-%d %H:%M")}
+auto-generated: true
+generator: ~/.claude/bin/obs-refs-index
+---
+
+# Sources Index
+
+`References/raw/` 配下を全部リストアップした自動生成台帳。手で編集してもスクリプト再実行で上書きされる。
+
+## 集計
+
+- 総ファイル数: **{len(rows)}**
+- 種類別: {type_summary}
+- 未整理 (status=raw): **{raw_count}** / 整理済 (summarized): **{sum_count}**
+
+## Convention
+
+- 1 原典 = 1 ノート（`Sources/<原典 basename>.md`）
+- raw 原典に対応する Sources/*.md があれば「整理済」、無ければ「未整理」
+- frontmatter: `type: source`, `raw_path`, `ingested_at`, `source_type`, `status`
+- 本文: 要約 / 鍵となる引用 / 抽出された entities・concepts へのリンク
+
+## ファイル一覧（raw/ 全件）
+
+| ファイル | 日付 | 種類 | サイズ | 状態 | 要約リンク |
+|---|---:|---|---:|---|---|
+"""
+    body = "\n".join(
+        f"| `{r['path']}` | {r['ingested']} | {r['type']} | {r['size']} | {r['status']} | {r['summary']} |"
+        for r in rows
+    )
+
+    standalone_section = ""
+    if standalones:
+        standalone_section = "\n\n## Standalone Sources（raw に原典がない wiki ノート）\n\n"
+        standalone_section += "\n".join(f"- [[{name}]]" for name in standalones)
+
+    return head + body + standalone_section + "\n"
+
+
+def main() -> int:
+    if not VAULT.exists():
+        print(f"ERROR: vault not found: {VAULT}", file=sys.stderr)
+        return 1
+    SOURCES.mkdir(parents=True, exist_ok=True)
+    rows = scan_raw()
+    standalones = find_standalones(rows)
+    INDEX.write_text(render(rows, standalones), encoding="utf-8")
+    print(f"Wrote {INDEX} ({len(rows)} raw files, {len(standalones)} standalones)")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
