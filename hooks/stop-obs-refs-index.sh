@@ -5,8 +5,8 @@
 
 vault="$HOME/Documents/Obsidian Vault"
 
-# Guard: vault must exist and have References/raw/
-[ -d "$vault/References/raw" ] || exit 0
+# Guard: vault must exist and have .raw/
+[ -d "$vault/.raw" ] || exit 0
 
 # Run index generator (silent unless error)
 "$HOME/.claude/bin/obs-refs-index" >/dev/null 2>&1 || true

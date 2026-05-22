@@ -15,7 +15,7 @@
 ```
 ~/Documents/Obsidian Vault/
 ├── .obsidian/                    Obsidian 設定（既存）
-├── References/raw/                         immutable sources（取り込み元の生データ、append-only）
+├── .raw/                         immutable sources（取り込み元の生データ、append-only）
 │   ├── material-bank-*.{md,jsonl}  改善素材（Material Bank）
 │   └── lessons/                    各プロジェクトの lessons.md コピー
 ├── wiki/                         LLM-maintained 知識ベース
@@ -78,7 +78,7 @@
 
 | フレーズ | 用途 | スキル |
 |---|---|---|
-| `ingest <file\|url>` | ソースを `References/raw/` に取り込み → `wiki/` に 8-15 ページ自動分解 | `wiki-ingest` |
+| `ingest <file\|url>` | ソースを `.raw/` に取り込み → `wiki/` に 8-15 ページ自動分解 | `wiki-ingest` |
 | `lint the wiki` | orphan / dead link / gap 検出 | `wiki-lint` |
 | `update hot cache` | `wiki/hot.md` を最新会話文脈で刷新 | `wiki` |
 | `query the wiki ...` | wiki 内検索（filename / 内容） | `wiki-query` |

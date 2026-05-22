@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""obs-refs-index: vault の References/raw/ を走査して Sources/_index.md を再生成する。
+"""obs-refs-index: vault の .raw/ を走査して wiki/sources/_index.md を再生成する。
 
 実行: obs-refs-index           (= ~/Documents/Obsidian Vault を対象)
       VAULT=/path obs-refs-index (= 任意 vault)
 
-副作用: References/Sources/_index.md を上書きする (全置換)。
+副作用: wiki/sources/_index.md を上書きする (全置換)。
 """
 from __future__ import annotations
 
@@ -14,9 +14,8 @@ from datetime import datetime
 from pathlib import Path
 
 VAULT = Path(os.environ.get("VAULT", os.path.expanduser("~/Documents/Obsidian Vault")))
-REFS = VAULT / "References"
-RAW = REFS / "raw"
-SOURCES = REFS / "Sources"
+RAW = VAULT / ".raw"
+SOURCES = VAULT / "wiki" / "sources"
 INDEX = SOURCES / "_index.md"
 
 TYPE_RULES = [
@@ -75,7 +74,7 @@ def scan_raw() -> list[dict]:
     for f in sorted(RAW.rglob("*")):
         if not f.is_file() or f.name.startswith("."):
             continue
-        rel = f.relative_to(REFS).as_posix()
+        rel = f.relative_to(VAULT).as_posix()
         stat = f.stat()
         summary = find_summary(f.name)
         ingested = extract_imported_date(f) or datetime.fromtimestamp(stat.st_mtime).strftime("%Y-%m-%d")
@@ -86,7 +85,7 @@ def scan_raw() -> list[dict]:
                 "type": detect_type(rel),
                 "size": human_size(stat.st_size),
                 "status": "summarized" if summary else "raw",
-                "summary": f"[[Sources/{summary.stem}]]" if summary else "-",
+                "summary": f"[[{summary.stem}]]" if summary else "-",
             }
         )
     rows.sort(key=lambda r: (r["ingested"], r["path"]), reverse=True)
@@ -123,7 +122,7 @@ generator: ~/.claude/bin/obs-refs-index
 
 # Sources Index
 
-`References/raw/` 配下を全部リストアップした自動生成台帳。手で編集してもスクリプト再実行で上書きされる。
+`.raw/` 配下を全部リストアップした自動生成台帳。手で編集してもスクリプト再実行で上書きされる。
 
 ## 集計
 
@@ -133,8 +132,8 @@ generator: ~/.claude/bin/obs-refs-index
 
 ## Convention
 
-- 1 原典 = 1 ノート（`Sources/<原典 basename>.md`）
-- raw 原典に対応する Sources/*.md があれば「整理済」、無ければ「未整理」
+- 1 原典 = 1 ノート（`wiki/sources/<原典 basename>.md`）
+- raw 原典に対応する `wiki/sources/*.md` があれば「整理済」、無ければ「未整理」
 - frontmatter: `type: source`, `raw_path`, `ingested_at`, `source_type`, `status`
 - 本文: 要約 / 鍵となる引用 / 抽出された entities・concepts へのリンク
 

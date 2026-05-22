@@ -21,7 +21,7 @@ status: <seed|developing|mature|evergreen>
 related:
   - "[[Other Page]]"
 sources:
-  - "[[References/raw/articles/source-file.md]]"
+  - "[[.raw/articles/source-file.md]]"
 ---
 ```
 
