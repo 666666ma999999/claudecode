@@ -58,7 +58,7 @@ Install via Settings > Community Plugins > Turn off Restricted Mode > Browse.
 
 | Plugin | Purpose |
 |--------|---------|
-| **Templater** | Auto-populate frontmatter on note creation from `_templates/`. |
+| **Templater** | Auto-populate frontmatter on note creation from `templates/`. |
 | **Obsidian Git** | Auto-commit every 15 minutes. Protects against bad writes. |
 | **Calendar** | Right-sidebar calendar with word count, task, and link indicators. Pre-installed in this vault via `.obsidian/plugins/calendar/`. |
 | **Thino** | Quick memo capture panel in right sidebar. Pre-installed via `.obsidian/plugins/thino/`. |
@@ -90,7 +90,7 @@ Set the default folder to `.raw/` in the extension settings.
 ## After Installing Plugins
 
 1. Enable Bases: Settings > Core Plugins > toggle on (already on by default in Obsidian v1.9.10+)
-2. Enable Templater: Settings > Templater > set template folder to `_templates`
+2. Enable Templater: Settings > Templater > set template folder to `templates`
 3. Enable Obsidian Git: Settings > Obsidian Git > Auto backup interval: 15 minutes
 4. Enable the CSS snippet: Settings > Appearance > CSS Snippets > toggle on `vault-colors`
 5. *(Optional)* Enable Dataview only if you want the legacy `wiki/meta/dashboard.md` queries to work alongside the primary `dashboard.base`

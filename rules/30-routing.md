@@ -9,6 +9,7 @@
 | 完了報告前・検証完了 | `implementation-checklist` |
 | Plan前スキル検索 | `find-skills` |
 | ダッシュボード数値の出典管理 | `data-provenance-first` |
+| 確定知見の台帳更新 (prime_crm) | `finding-sync` |
 | Plan中アーキ判断・設計リスク | `plan-adversarial-review` |
 | BE新機能/API/HookPoint | `be-extension-pattern` |
 | FE新機能/ページ/ウィジェット | `fe-extension-pattern` |

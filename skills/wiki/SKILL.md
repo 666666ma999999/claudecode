@@ -122,7 +122,7 @@ Steps:
 3. Create full folder structure under `wiki/` based on the mode.
 4. Create domain pages + `_index.md` sub-indexes.
 5. Create `wiki/index.md`, `wiki/log.md`, `wiki/hot.md`, `wiki/overview.md`.
-6. Create `_templates/` files for each note type.
+6. Create `templates/` files for each note type.
 7. Apply visual customization. Read `references/css-snippets.md`. Create `.obsidian/snippets/vault-colors.css`.
 8. Create the vault CLAUDE.md using the template below.
 9. Initialize git. Read `references/git-setup.md`.

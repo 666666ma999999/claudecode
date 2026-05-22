@@ -14,7 +14,7 @@
 
 ## 成功基準 <a id="acceptance"></a>
 
-1. `~/Documents/Obsidian Vault/` に `.raw/`, `wiki/{concepts,entities,sources,meta}/`, `_templates/` が存在する
+1. `~/Documents/Obsidian Vault/` に `.raw/`, `wiki/{concepts,entities,sources,meta}/`, `templates/` が存在する
 2. 既存 142 ノート（`~/Documents/Obsidian Vault/` 配下の既存 md）が全て残っている
 3. Claude Code で `/wiki` `/save` `/ingest` `/autoresearch` `/canvas` が呼び出せる
 4. vault 外のプロジェクト（例: `~/Desktop/prm/rohan`）で Write/Edit しても vault への誤コミットが発生しない
@@ -39,7 +39,7 @@
 │   ├── hot.md                      (セッション間の 500 字キャッシュ)
 │   ├── index.md
 │   └── log.md
-├── _templates/                     (新規)
+├── templates/                     (新規)
 └── (既存 142 md ノート)             (無変更)
 
 ~/.claude/
@@ -59,7 +59,7 @@
 - A3. `/tmp/claude-obsidian-test/commands/*.md` を `~/.claude/commands/` へコピー（4 commands）
 - A4. `/tmp/claude-obsidian-test/agents/*.md` を `~/.claude/agents/` へコピー（2 agents）
 - A5. `bash /tmp/claude-obsidian-test/bin/setup-vault.sh ~/Documents/Obsidian\ Vault`
-- A6. 検証: `ls "$VAULT/.raw" "$VAULT/wiki" "$VAULT/_templates"` が成功し、既存 md 数が減っていない
+- A6. 検証: `ls "$VAULT/.raw" "$VAULT/wiki" "$VAULT/templates"` が成功し、既存 md 数が減っていない
 
 **fast_verify**: `find "$VAULT" -maxdepth 2 -name "*.md" | wc -l` が 140 以上
 
@@ -106,7 +106,7 @@
 - `~/.claude/CLAUDE.md` （Obsidian連携セクション刷新、NOW→DONE ルール削除）
 - `~/.claude/{skills,commands,agents}/` （新規追加のみ、既存上書きなし）
 - `~/Documents/Obsidian Vault/.obsidian/{graph,app,appearance}.json` （setup-vault.sh が上書き）
-- `~/Documents/Obsidian Vault/` 配下に `.raw/`, `wiki/`, `_templates/` 新設
+- `~/Documents/Obsidian Vault/` 配下に `.raw/`, `wiki/`, `templates/` 新設
 
 ## 変更禁止ファイル
 

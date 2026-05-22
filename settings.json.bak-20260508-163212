@@ -1,0 +1,629 @@
+{
+  "env": {
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "15",
+    "ENABLE_TOOL_SEARCH": "auto:5",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "mcp__context7",
+      "mcp__memory",
+      "mcp__repomix",
+      "mcp__codex__codex",
+      "mcp__codex__codex-reply",
+      "mcp__firecrawl",
+      "mcp__chrome-devtools",
+      "mcp__playwright",
+      "mcp__playwright-mkb",
+      "mcp__plugin_playwright_playwright",
+      "mcp__postgresql",
+      "mcp__grok-search",
+      "mcp__google-search-console",
+      "Monitor",
+      "WebSearch",
+      "WebFetch",
+      "Write",
+      "Edit",
+      "Read",
+      "Glob",
+      "Grep"
+    ],
+    "deny": [
+      "Bash(env)",
+      "Bash(env *)",
+      "Bash(printenv)",
+      "Bash(printenv *)",
+      "Bash(pip install*)",
+      "Bash(pip3 install*)",
+      "Bash(python -m pip install*)",
+      "Bash(python3 -m pip install*)",
+      "Bash(python -m venv*)",
+      "Bash(python3 -m venv*)",
+      "Bash(virtualenv *)",
+      "Bash(npm install*)",
+      "Bash(npm i *)",
+      "Bash(yarn *)",
+      "Bash(pnpm *)",
+      "Bash(bun install*)",
+      "Bash(bun add*)",
+      "Bash(uv pip*)",
+      "Bash(uv venv*)",
+      "Bash(poetry install*)",
+      "Bash(poetry add*)",
+      "Bash(conda install*)",
+      "Bash(conda create*)",
+      "Bash(pip *install*)",
+      "Bash(source */activate)",
+      "Bash(source venv/bin/activate*)",
+      "Bash(. venv/bin/activate*)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git push *--force*)",
+      "Bash(git push *-f *)",
+      "Bash(git push *+*:*)",
+      "Bash(git reset --hard*)",
+      "Bash(git checkout .)",
+      "Bash(git checkout -- .)",
+      "Bash(git restore .)",
+      "Bash(git restore --staged .)",
+      "Bash(git clean -f*)",
+      "Bash(git clean -df*)",
+      "Bash(git clean -fd*)",
+      "Bash(git branch -D*)",
+      "Bash(git rebase *main*)",
+      "Bash(git rebase *master*)",
+      "Bash(git update-ref*)",
+      "Bash(git add -A*)",
+      "Bash(git add --all*)",
+      "Bash(git add .)",
+      "Bash(git add . *)",
+      "Bash(rm -rf /*)",
+      "Bash(rm -rf ~*)",
+      "Bash(sudo *)",
+      "Bash(curl*|*sh*)",
+      "Bash(wget*|*sh*)",
+      "Bash(cat *.env*)",
+      "Bash(less *.env*)",
+      "Bash(head *.env*)",
+      "Bash(tail *.env*)",
+      "Bash(more *.env*)",
+      "Bash(grep * *.env*)",
+      "Bash(sed * *.env*)",
+      "Bash(awk * *.env*)",
+      "Read(*.env*)",
+      "Read(~/.ssh/*)",
+      "Read(~/.aws/*)",
+      "Read(~/.gnupg/*)",
+      "Read(~/.config/gcloud/*)",
+      "Edit(~/.ssh/*)",
+      "Edit(~/.aws/*)",
+      "Edit(~/.gnupg/*)",
+      "Edit(~/.config/gcloud/*)",
+      "Read(*credentials*)",
+      "Read(*.tfvars)",
+      "Read(*.tfstate*)",
+      "Read(*.sqlite3)",
+      "Read(*.sqlite)",
+      "Read(dump.sql)",
+      "Read(*.docker/config.json)",
+      "Read(.kube/config)",
+      "Read(*/kubeconfig*)",
+      "Read(.npmrc)",
+      "Read(.pypirc)",
+      "Read(.netrc)",
+      "Read(*.jks)",
+      "Read(*.keystore)",
+      "Read(*google-services.json)",
+      "Bash(npx rimraf*)",
+      "Bash(kill -9 *)",
+      "Bash(killall *)",
+      "Bash(docker system prune*)",
+      "Bash(docker volume prune*)",
+      "Bash(docker container prune*)",
+      "Bash(docker image prune*)",
+      "Bash(chmod 777*)",
+      "Bash(chmod -R 777*)",
+      "Bash(dd if=*)",
+      "Bash(dd of=*)",
+      "Bash(launchctl load*)",
+      "Bash(launchctl unload*)",
+      "Bash(crontab -r*)",
+      "Bash(crontab -e*)",
+      "Bash(mkfs*)",
+      "Bash(diskutil erase*)"
+    ],
+    "defaultMode": "default"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/block-claude-mem-inject.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__playwright__browser_navigate",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/playwright-proxy-guard.py"
+          }
+        ]
+      },
+      {
+        "matcher": "EnterPlanMode",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/plan-readiness-check.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "ExitPlanMode",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/plan-quality-check.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/plan-forbidden-block.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/verify-step-guard.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/enforce-extension-pattern.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/file-protection.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/restrict-cwd-edits.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/memory-guard.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/block-dangerous-git.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/block-host-installs.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/html-preview-guard.sh",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "matcher": "WebFetch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/route-google-workspace.py"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/check-extension-imports.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/auto-git-push.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f ~/.claude/state/plan-readiness.done ] && ~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/plan-drift-warn.sh || true"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/obsidian-now-done-guard.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Skill|SlashCommand",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/simplify-done-marker.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/verify-step-auto-reset.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__playwright__browser_navigate|mcp__playwright__browser_snapshot|mcp__playwright__browser_console_messages|mcp__playwright__browser_click|mcp__playwright__browser_take_screenshot|mcp__playwright__browser_type|mcp__playwright__browser_fill_form|mcp__playwright-mkb__browser_navigate|mcp__playwright-mkb__browser_snapshot|mcp__playwright-mkb__browser_console_messages|mcp__playwright-mkb__browser_click|mcp__playwright-mkb__browser_take_screenshot|mcp__playwright-mkb__browser_type|mcp__playwright-mkb__browser_fill_form|mcp__plugin_playwright_playwright__browser_navigate|mcp__plugin_playwright_playwright__browser_snapshot|mcp__plugin_playwright_playwright__browser_console_messages|mcp__plugin_playwright_playwright__browser_click|mcp__plugin_playwright_playwright__browser_take_screenshot|mcp__plugin_playwright_playwright__browser_type|mcp__plugin_playwright_playwright__browser_fill_form",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/verify-step-playwright-reset.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__codex__codex",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/codex-review-tracker.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/data-provenance-guard.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/open-md-in-obsidian.sh"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "(~/.claude/hooks/jsonl-archive.sh) 2>&1 | head -50"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "(~/.claude/hooks/data-retention.sh) 2>&1 | head -50"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "(~/.claude/hooks/verify-step-session-cleanup.sh) 2>&1 | head -50"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "(~/.claude/hooks/checklist-session-cleanup.sh) 2>&1 | head -50"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "(~/.claude/hooks/obsidian-session-reminder.sh) 2>&1 | head -50"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f \"/Users/masaaki/Documents/Obsidian Vault/02_ai/ai_dashboard/COMMAND-CENTER.md\" ] && echo '=== 🧭 COMMAND CENTER ===' && cat \"/Users/masaaki/Documents/Obsidian Vault/02_ai/ai_dashboard/COMMAND-CENTER.md\" || true"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/auto-approve-settings.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/stop-continue-until-green.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/stop-material-auto-capture.sh",
+            "timeout": 5000
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"$(pwd)\" && [ -d wiki ] && [ -d .git ] && git diff --name-only HEAD 2>/dev/null | grep -q '^wiki/' && echo 'WIKI_CHANGED: Wiki pages were modified this session. Please update wiki/hot.md with a brief summary of what changed (under 500 words). Use the hot cache format: Last Updated, Key Recent Facts, Recent Changes, Active Threads. Keep it factual. Overwrite the file completely. It is a cache, not a journal.' || true"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/auto-format.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/simplify-pending.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/implementation-checklist-pending.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/verify-step-pending.sh"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/precompact-backup-session.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/precompact-build-restore-note.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f \"$(pwd)/wiki/hot.md\" ] && cat \"$(pwd)/wiki/hot.md\" || true"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "idle_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/idle-notify.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "permission_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/permission-notify.sh"
+          }
+        ]
+      }
+    ],
+    "TaskCompleted": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/auto-skill-review.sh"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/userprompt-routing-inject.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/subagent-verify-reminder.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "cat | bash ~/.claude/statusline.sh",
+    "padding": 2
+  },
+  "enabledPlugins": {
+    "feature-dev@claude-code-plugins": true,
+    "claude-mem@thedotmack": true
+  },
+  "extraKnownMarketplaces": {
+    "claude-code-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-code"
+      }
+    },
+    "thedotmack": {
+      "source": {
+        "source": "github",
+        "repo": "thedotmack/claude-mem"
+      }
+    }
+  },
+  "spinnerTipsOverride": {
+    "excludeDefault": false,
+    "tips": [
+      "ルーティングテーブル(30-routing.md)確認した？",
+      "SubAgent強制ルール: 2ファイル以上→SubAgent必須",
+      "バッチ検証: 3編集ごとに検証ポイント",
+      "成功基準を先に定義してからPlan Mode",
+      "コード検査のみでの完了判断は禁止",
+      "FE変更後: Playwright MCPで必ずブラウザ検証（3編集でブロック）",
+      "事実確認は必ずツールで実態を確認してから"
+    ]
+  },
+  "effortLevel": "medium",
+  "tui": "fullscreen",
+  "claudeMdExcludes": [
+    "**/firecrawl/**",
+    "**/templates/**",
+    "**/plugins/**",
+    "**/node_modules/**"
+  ],
+  "remoteControlAtStartup": true,
+  "agentPushNotifEnabled": true,
+  "autoMode": {
+    "allow": [],
+    "soft_deny": [],
+    "environment": [
+      "macOS darwin23, cwd主に ~/Desktop/biz 配下, Docker開発環境"
+    ]
+  }
+}

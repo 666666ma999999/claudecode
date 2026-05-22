@@ -27,7 +27,7 @@
 │   ├── hot.md                      500字 session cache（SessionStart で自動 cat）
 │   ├── index.md                    wiki 全体の index
 │   └── log.md                      更新ログ
-├── _templates/                   Obsidian Templater 雛形
+├── templates/                   Obsidian Templater 雛形
 └── (既存 142 件の md ノート)      無変更で grandfather 保持
 ```
 
