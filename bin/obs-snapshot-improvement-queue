@@ -1,0 +1,116 @@
+#!/usr/bin/env python3
+"""obs-snapshot-improvement-queue: improvement-queue.jsonl を vault に週次 snapshot。
+
+source: ~/.claude/state/improvement-queue.jsonl
+output: $VAULT/.raw/material-bank-YYYY-MM-DD.{jsonl, md}
+
+- 前回 snapshot と内容 hash が同じならスキップ（無駄な書き込み防止）
+- jsonl は単純コピー、md は frontmatter付きの index ノート
+- 実行: 手動 / launchd 週次（推奨: 日曜 06:00）
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import sys
+from datetime import datetime
+from pathlib import Path
+from shutil import copyfile
+
+SOURCE = Path(os.path.expanduser("~/.claude/state/improvement-queue.jsonl"))
+VAULT = Path(os.environ.get("VAULT", os.path.expanduser("~/Documents/Obsidian Vault")))
+RAW = VAULT / ".raw"
+
+
+def file_hash(p: Path) -> str:
+    h = hashlib.sha256()
+    with p.open("rb") as f:
+        for chunk in iter(lambda: f.read(65536), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def latest_snapshot_hash() -> str | None:
+    """過去 snapshot の中で最新の jsonl の hash を返す。"""
+    snapshots = sorted(RAW.glob("material-bank-*.jsonl"))
+    if not snapshots:
+        return None
+    return file_hash(snapshots[-1])
+
+
+def count_entries(p: Path) -> int:
+    return sum(1 for line in p.open(encoding="utf-8") if line.strip())
+
+
+def render_md(date: str, src: Path, entries: int) -> str:
+    return f"""---
+type: source-index
+source: "{src}"
+imported: {date}
+entries: {entries}
+status: raw
+auto-generated: true
+generator: ~/.claude/bin/obs-snapshot-improvement-queue
+---
+
+# Material Bank — {date} import
+
+`~/.claude/state/improvement-queue.jsonl` の週次 snapshot。Claude セッション中に
+`session_auto_capture` が貯めたビジネス価値ある data point 群。
+
+## 統計
+
+- entries: **{entries}**
+- source size: {src.stat().st_size:,} bytes
+- imported: {date}
+
+## 使い方
+
+```bash
+# 内容を覗く
+jq -r '.title // .id' "$VAULT/.raw/material-bank-{date}.jsonl" | head -20
+
+# カテゴリ別件数
+jq -r '.category' "$VAULT/.raw/material-bank-{date}.jsonl" | sort | uniq -c
+
+# X 投稿候補だけ抽出
+jq -c 'select(.tags | index("ブログネタ"))' "$VAULT/.raw/material-bank-{date}.jsonl"
+```
+
+## 整理 task
+
+- [ ] wiki/sources/material-bank-{date}.md を作成して要約（要約後にこのファイルの status を summarized に）
+- [ ] 価値高い entries を wiki/concepts/ や wiki/entities/ に展開
+"""
+
+
+def main() -> int:
+    if not SOURCE.exists():
+        print(f"ERROR: source not found: {SOURCE}", file=sys.stderr)
+        return 1
+    if not VAULT.exists():
+        print(f"ERROR: vault not found: {VAULT}", file=sys.stderr)
+        return 1
+    RAW.mkdir(parents=True, exist_ok=True)
+
+    new_hash = file_hash(SOURCE)
+    prev_hash = latest_snapshot_hash()
+    if new_hash == prev_hash:
+        print(f"unchanged since last snapshot (hash={new_hash[:12]}), skip")
+        return 0
+
+    date = datetime.now().strftime("%Y-%m-%d")
+    out_jsonl = RAW / f"material-bank-{date}.jsonl"
+    out_md = RAW / f"material-bank-{date}.md"
+
+    copyfile(SOURCE, out_jsonl)
+    entries = count_entries(out_jsonl)
+    out_md.write_text(render_md(date, SOURCE, entries), encoding="utf-8")
+
+    print(f"snapshot created: {out_jsonl.name} ({entries} entries)")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

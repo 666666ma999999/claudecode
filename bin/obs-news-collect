@@ -1,0 +1,185 @@
+#!/usr/bin/env python3
+"""Fetch Claude Code–related news from a few sources and append to daily JSONL.
+
+Intended to be run daily (e.g., via launchd/cron). Stdlib only.
+"""
+from __future__ import annotations
+
+import datetime as dt
+import hashlib
+import html
+import json
+import os
+import re
+import sys
+import urllib.request
+import xml.etree.ElementTree as ET
+from typing import Any, Callable, Iterable
+
+UA = "obs-news-collect/1.0 (personal use)"
+TIMEOUT = 15
+TAGS: dict[str, list[str]] = {
+    "hn_claude_code": ["hn", "community"],
+    "anthropic_status": ["anthropic", "status"],
+    "claude_code_releases": ["github", "release", "claude-code"],
+    "reddit_claudeai": ["reddit", "community"],
+    "obsidian_releases": ["github", "release", "obsidian"],
+}
+SOURCES: list[tuple[str, str, str]] = [
+    ("hn_claude_code", "https://hn.algolia.com/api/v1/search_by_date?query=claude+code&tags=story&hitsPerPage=20", "json"),
+    ("anthropic_status", "https://status.anthropic.com/history.atom", "atom"),
+    ("claude_code_releases", "https://github.com/anthropics/claude-code/releases.atom", "atom"),
+    ("reddit_claudeai", "https://www.reddit.com/r/ClaudeAI/.rss", "rss"),
+    ("obsidian_releases", "https://github.com/obsidianmd/obsidian-releases/releases.atom", "atom"),
+]
+
+_TAG_RE = re.compile(r"<[^>]+>")
+
+
+def eprint(msg: str) -> None:
+    print(msg, file=sys.stderr)
+
+
+def sha256_hex(s: str) -> str:
+    return hashlib.sha256(s.encode("utf-8")).hexdigest()
+
+
+def text_excerpt(s: str, limit: int = 200) -> str:
+    s = html.unescape(_TAG_RE.sub("", s or "")).strip()
+    s = re.sub(r"\s+", " ", s)
+    return (s[:limit] + "…") if len(s) > limit else s
+
+
+def fetch(url: str) -> bytes:
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*"})
+    with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
+        return r.read()
+
+
+def local(tag: str) -> str:
+    return tag.split("}", 1)[-1] if "}" in tag else tag
+
+
+def first_child(elem: ET.Element, name: str) -> ET.Element | None:
+    for c in elem:
+        if local(c.tag) == name:
+            return c
+    return None
+
+
+def child_text(elem: ET.Element, name: str) -> str:
+    c = first_child(elem, name)
+    return (c.text or "").strip() if c is not None else ""
+
+
+def parse_atom(xml: bytes) -> list[dict[str, str]]:
+    root = ET.fromstring(xml)
+    out: list[dict[str, str]] = []
+    for entry in root.iter():
+        if local(entry.tag) != "entry":
+            continue
+        title = child_text(entry, "title")
+        published = child_text(entry, "published") or child_text(entry, "updated")
+        summary = child_text(entry, "summary") or child_text(entry, "content")
+        link = ""
+        for c in entry:
+            if local(c.tag) == "link":
+                href = c.attrib.get("href", "")
+                rel = c.attrib.get("rel", "")
+                if href and (not link or rel in ("alternate", "")):
+                    link = href
+        if title and link:
+            out.append({"title": title, "url": link, "published_at": published, "summary": summary})
+    return out
+
+
+def parse_rss(xml: bytes) -> list[dict[str, str]]:
+    root = ET.fromstring(xml)
+    out: list[dict[str, str]] = []
+    for item in root.iter():
+        if local(item.tag) != "item":
+            continue
+        title = child_text(item, "title")
+        link = child_text(item, "link")
+        published = child_text(item, "pubDate") or child_text(item, "date")
+        summary = child_text(item, "description")
+        if title and link:
+            out.append({"title": title, "url": link, "published_at": published, "summary": summary})
+    return out
+
+
+def parse_hn_json(blob: bytes) -> list[dict[str, str]]:
+    data = json.loads(blob.decode("utf-8"))
+    out: list[dict[str, str]] = []
+    for hit in data.get("hits", []):
+        title = (hit.get("title") or hit.get("story_title") or "").strip()
+        url = (hit.get("url") or hit.get("story_url") or "").strip()
+        if not url and hit.get("objectID"):
+            url = f"https://news.ycombinator.com/item?id={hit['objectID']}"
+        published = (hit.get("created_at") or "").strip()
+        summary = hit.get("story_text") or hit.get("comment_text") or ""
+        if title and url:
+            out.append({"title": title, "url": url, "published_at": published, "summary": summary})
+    return out
+
+
+def load_hashes(path: str) -> set[str]:
+    hashes: set[str] = set()
+    if not os.path.exists(path):
+        return hashes
+    with open(path, "r", encoding="utf-8") as f:
+        for line in f:
+            try:
+                hashes.add(json.loads(line).get("url_hash", ""))
+            except Exception:
+                continue
+    hashes.discard("")
+    return hashes
+
+
+def main() -> int:
+    vault = os.environ.get("VAULT") or os.path.expanduser("~/Documents/Obsidian Vault")
+    today = dt.date.today().isoformat()
+    out_path = os.path.join(vault, ".raw", "news", f"{today}.jsonl")
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+
+    existing = load_hashes(out_path)
+    fetched_at = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+    parsers: dict[str, Callable[[bytes], list[dict[str, str]]]] = {
+        "json": parse_hn_json,
+        "atom": parse_atom,
+        "rss": parse_rss,
+    }
+
+    any_ok = False
+    with open(out_path, "a", encoding="utf-8") as out:
+        for source, url, fmt in SOURCES:
+            try:
+                items = parsers[fmt](fetch(url))
+                any_ok = True
+                for it in items:
+                    u = it["url"].strip()
+                    h = sha256_hex(u)
+                    if h in existing:
+                        continue
+                    entry: dict[str, Any] = {
+                        "source": source,
+                        "title": it["title"].strip(),
+                        "url": u,
+                        "published_at": it.get("published_at", ""),
+                        "fetched_at": fetched_at,
+                        "url_hash": h,
+                        "tags": TAGS.get(source, []),
+                        "priority": "P2",
+                        "summary": text_excerpt(it.get("summary", "")),
+                    }
+                    out.write(json.dumps(entry, ensure_ascii=False) + "\n")
+                    existing.add(h)
+            except Exception as e:
+                eprint(f"[{source}] ERROR: {e}")
+    return 0 if any_ok else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
