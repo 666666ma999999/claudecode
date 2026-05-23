@@ -21,7 +21,9 @@
 | セキュリティ監査 | `security-twin-audit` |
 | git commit/push/事故 | `git-safety-reference` |
 | .mcp.json/APIキー | `secret-management` |
-| Obsidian NOW→DONE/`/done` | `obsidian-now-done` |
+| Obsidian NOW→DONE/`/done` | `obsidian-now-done`（_dormant 退避済 2026-05-23） |
+| アーキ判断・設計決定の記録 | `/save decision` → `wiki/meta/decisions.md` |
+| 過去ノートの誤記訂正 | `rules/40-obsidian.md §訂正プロトコル` |
 | `/save` `/wiki` `/canvas` `/autoresearch` | claude-obsidian 系 |
 | Web リサーチ | `~/.claude/docs/web-research-tools.md` |
 | Google Workspace | `gog-cli`（WebFetch禁止） |

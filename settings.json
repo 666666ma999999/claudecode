@@ -316,15 +316,6 @@
             "command": "~/.claude/hooks/route-google-workspace.py"
           }
         ]
-      },
-      {
-        "matcher": "AskUserQuestion",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/pretooluse-askuserquestion-guard.sh"
-          }
-        ]
       }
     ],
     "PostToolUse": [
@@ -343,15 +334,6 @@
           {
             "type": "command",
             "command": "[ -f ~/.claude/state/plan-readiness.done ] && ~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/plan-drift-warn.sh || true"
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/obsidian-now-done-guard.sh"
           }
         ]
       },
@@ -408,24 +390,6 @@
             "command": "~/.claude/hooks/open-md-in-obsidian.sh"
           }
         ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/posttooluse-claudeenv.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/posttooluse-vault-warning.sh"
-          }
-        ]
       }
     ],
     "SessionStart": [
@@ -466,15 +430,6 @@
         ]
       },
       {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "(~/.claude/hooks/obsidian-session-reminder.sh) 2>&1 | head -50"
-          }
-        ]
-      },
-      {
         "hooks": [
           {
             "type": "command",
@@ -497,6 +452,15 @@
           {
             "type": "command",
             "command": "/Users/masaaki/.claude/hooks/vault-sync-sessionstart.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/wiki-dormant-warn.sh"
           }
         ]
       }
@@ -576,6 +540,15 @@
             "command": "~/.claude/hooks/stop-obs-refs-index.sh 2>&1 | head -3"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/wiki-auto-capture-on-stop.sh"
+          }
+        ]
       }
     ],
     "PreCompact": [
@@ -645,6 +618,16 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/userprompt-routing-inject.sh",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/wiki-recall-on-prompt.sh",
             "timeout": 5
           }
         ]
