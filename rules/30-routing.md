@@ -23,6 +23,7 @@
 | .mcp.json/APIキー | `secret-management` |
 | Obsidian NOW→DONE/`/done` | `obsidian-now-done`（_dormant 退避済 2026-05-23） |
 | アーキ判断・設計決定の記録 | `/save decision` → `wiki/meta/decisions.md` |
+| 失敗パターン・教訓・再発防止 | `/save mistake` → `wiki/meta/mistakes.md`（de-dup、2 回目以降は既存統合） |
 | 過去ノートの誤記訂正 | `rules/40-obsidian.md §訂正プロトコル` |
 | `/save` `/wiki` `/canvas` `/autoresearch` | claude-obsidian 系 |
 | Web リサーチ | `~/.claude/docs/web-research-tools.md` |

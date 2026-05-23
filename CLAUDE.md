@@ -17,7 +17,7 @@
 - **曖昧は `AskUserQuestion`**: 仮定で進めず確認。複数解釈可能な指示は選択肢提示
 - **SubAgent 積極活用**: メイン context をクリーンに保つ。リサーチ・調査・並列分析は委託。1 SubAgent 1 タスク。独立性高は `isolation: "worktree"`
 - **Obsidian vault は claude-obsidian 方式**（2026-04-24 以降）: 詳細は `rules/40-obsidian.md`
-- **vault 書き分け (Phase E 2026-05-23〜)**: アーキ判断→`wiki/meta/decisions.md` (append-only), 実行追跡→`<repo>/tasks/*.md`, 設計 SSoT→`<repo>/plan.md`, プロジェクト概念→`wiki/{concepts,entities}/`。3 hook (recall/capture/dormant) が自動参照・促し・dormant 検出。詳細 `rules/40-obsidian.md`
+- **vault 書き分け (Phase E 2026-05-23〜)**: アーキ判断→`wiki/meta/decisions.md` (append-only), ミス・教訓→`wiki/meta/mistakes.md` (de-dup 上書き型、2 回目以降は既存 entry 統合), 実行追跡→`<repo>/tasks/*.md`, 設計 SSoT→`<repo>/plan.md`, プロジェクト概念→`wiki/{concepts,entities}/`。3 hook (recall/capture/dormant) が自動参照・促し・dormant 検出。詳細 `rules/40-obsidian.md`
 
 ## タスク規模判定（最優先）
 

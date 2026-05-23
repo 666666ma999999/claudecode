@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
-# wiki-auto-capture-on-stop.sh — Stop hook
+# wiki-auto-capture-on-stop.sh — Stop hook (二系統化 2026-05-23)
 #
-# vault 内 cwd の時、transcript に決定/教訓ワードが現れ、かつ
-# wiki/meta/decisions.md が直近 30 分以内に更新されていない場合、警告を出す。
+# vault 内 cwd の時、transcript に
+#   (1) 決定/採用/却下 系キーワード → decisions.md (append-only)
+#   (2) 教訓/失敗/再発 系キーワード → mistakes.md (de-dup 上書き型)
+# が出現し、かつ該当 md が直近 30 分以内に未更新の場合、警告を出す。
 #
 # 設計理由 (plan.md#phase-e):
-# - 過去 2 回の Stop hook は echo のみで Claude が無視できた (inform-only failure)。
-# - 初版は exit 0 で警告のみ、Phase 2 audit で効果不足なら exit 2 強化。
-# - exit 2 即時化は Claude が無限に再 invoke される懸念があるため段階的アプローチ。
+# - 過去 2 回の Stop hook は echo のみで Claude が無視できた (inform-only failure)
+# - 初版 (2026-05-23 朝) は decisions.md 単系統。mistakes.md の capture が欠落
+# - 本版 (同日午後) で二系統化、両 md が dormant 化しないよう独立に促す
 
 set -u
 
@@ -30,50 +32,72 @@ except: print('')
 [ -z "$TRANSCRIPT" ] && exit 0
 [ -f "$TRANSCRIPT" ] || exit 0
 
-# assistant turn 本文から決定キーワード grep
-HITS=$(python3 -c "
+# 二系統のキーワード群を独立に検出
+COUNTS=$(python3 -c "
 import json, sys
-keywords = ['決定した', '採用し', '却下', '教訓', 'adopted', 'rejected as', 'lesson learned']
-count = 0
+decision_kw = ['決定した', '採用し', '却下', 'adopted', 'rejected as', '方針確定', '確定し']
+mistake_kw  = ['教訓', 'lesson learned', '失敗した', '再発した', '同じミス', '再発防止', 'recurring mistake', 'made the same']
+d_count, m_count = 0, 0
 try:
     with open('$TRANSCRIPT', encoding='utf-8') as f:
         for line in f:
             try:
                 d = json.loads(line)
-                if d.get('type') == 'assistant':
-                    msg = d.get('message', {})
-                    contents = msg.get('content', [])
-                    if isinstance(contents, list):
-                        for c in contents:
-                            if isinstance(c, dict) and c.get('type') == 'text':
-                                text = c.get('text', '')
-                                if any(kw in text for kw in keywords):
-                                    count += 1
-                                    break
+                if d.get('type') != 'assistant': continue
+                msg = d.get('message', {})
+                contents = msg.get('content', [])
+                if not isinstance(contents, list): continue
+                text = ''
+                for c in contents:
+                    if isinstance(c, dict) and c.get('type') == 'text':
+                        text += c.get('text', '')
+                hit_d = any(kw in text for kw in decision_kw)
+                hit_m = any(kw in text for kw in mistake_kw)
+                if hit_d: d_count += 1
+                if hit_m: m_count += 1
             except: pass
 except: pass
-print(count)
+print(f'{d_count} {m_count}')
 " 2>/dev/null)
 
-[ -z "$HITS" ] && HITS=0
-[ "$HITS" -lt 1 ] && exit 0
+D_HITS=$(echo "$COUNTS" | awk '{print $1}')
+M_HITS=$(echo "$COUNTS" | awk '{print $2}')
+[ -z "$D_HITS" ] && D_HITS=0
+[ -z "$M_HITS" ] && M_HITS=0
+
+# 該当 md が直近 30 分以内に更新されているか判定
+check_stale () {
+  local file="$1"
+  [ -f "$file" ] || { echo "stale"; return; }
+  local now=$(date +%s)
+  local mtime=$(stat -f '%m' "$file" 2>/dev/null || echo 0)
+  local age=$((now - mtime))
+  if [ "$age" -lt 1800 ]; then echo "fresh"; else echo "stale"; fi
+}
 
 DECISIONS="$VAULT/wiki/meta/decisions.md"
-if [ -f "$DECISIONS" ]; then
-  NOW=$(date +%s)
-  MTIME=$(stat -f '%m' "$DECISIONS" 2>/dev/null || echo 0)
-  AGE=$((NOW - MTIME))
-  # 直近 30 分以内に更新済み = capture 済み、警告不要
-  if [ "$AGE" -lt 1800 ]; then
-    exit 0
-  fi
+MISTAKES="$VAULT/wiki/meta/mistakes.md"
+D_STALE=$(check_stale "$DECISIONS")
+M_STALE=$(check_stale "$MISTAKES")
+
+ANY_WARN=0
+
+if [ "$D_HITS" -ge 1 ] && [ "$D_STALE" = "stale" ]; then
+  echo ""
+  echo "💾 WIKI_AUTO_CAPTURE [decisions]: 決定/採用/却下に関する議論が $D_HITS turn 検出されました。"
+  echo "   wiki/meta/decisions.md が直近 30 分以上未更新。重要な判断があれば append してください："
+  echo "   $DECISIONS"
+  ANY_WARN=1
 fi
 
-echo ""
-echo "💾 WIKI_AUTO_CAPTURE: このセッションで決定/教訓に関する議論が $HITS turn 検出されました。"
-echo "   wiki/meta/decisions.md が直近 30 分以上更新されていません。"
-echo "   重要な判断・教訓があった場合は \`wiki/meta/decisions.md\` に append してください："
-echo "   $DECISIONS"
-echo ""
+if [ "$M_HITS" -ge 1 ] && [ "$M_STALE" = "stale" ]; then
+  echo ""
+  echo "💾 WIKI_AUTO_CAPTURE [mistakes]: 教訓/失敗/再発に関する議論が $M_HITS turn 検出されました。"
+  echo "   wiki/meta/mistakes.md が直近 30 分以上未更新。同一パターン 2 回以上で 1 entry に統合 (de-dup)："
+  echo "   $MISTAKES"
+  echo "   ↳ 初回発生は新規追加、2 回目以降は既存 entry の「最終発生」「頻度」を更新"
+  ANY_WARN=1
+fi
 
+[ "$ANY_WARN" -eq 1 ] && echo ""
 exit 0

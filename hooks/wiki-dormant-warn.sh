@@ -23,12 +23,17 @@ esac
 cd "$VAULT" || exit 0
 
 # 過去 7 日間に wiki/meta/decisions.md / mistakes.md / wiki/decisions/** への
-# 追加・変更 commit を数える（merge / sync mirror は除外）
+# 追加・変更 commit を数える（merge / pre-sync snapshot のみ除外）
+#
+# 注意 (2026-05-23 fix): "vault backup:" は除外しない。
+# 実運用では Claude/ユーザーの編集は vault backup auto-commit に吸収される。
+# git log の `-- <path>` filter で当該 md を触った backup commit だけが残るので、
+# 除外すると false-negative（実際に編集があっても 0 件と報告）になる。
 RECENT=$(git log --since="7 days ago" --diff-filter=AM --format="%H %s" -- \
   'wiki/meta/decisions.md' \
   'wiki/meta/mistakes.md' \
   'wiki/decisions/' 2>/dev/null \
-  | grep -vE "^[a-f0-9]+ (Merge|sync mirror:|pre-sync snapshot:|vault backup:)" \
+  | grep -vE "^[a-f0-9]+ (Merge|sync mirror:|pre-sync snapshot:)" \
   | wc -l | tr -d ' ')
 
 if [ "${RECENT:-0}" -eq 0 ]; then
