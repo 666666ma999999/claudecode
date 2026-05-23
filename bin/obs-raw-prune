@@ -1,0 +1,139 @@
+#!/usr/bin/env python3
+"""Prune old raw data in $VAULT/.raw/ according to .policy.json.
+
+Default mode is dry-run. Use --execute to actually move files.
+Target archive path: $VAULT/.raw/.archive/YYYY/MM/<filename>
+
+Policy rule types:
+- ttl_days: archive files whose mtime is older than N days
+- keep_latest: keep N newest files matching pattern, archive the rest
+
+Usage:
+  obs-raw-prune                # dry-run, show what would be archived
+  obs-raw-prune --execute      # actually move files
+  obs-raw-prune --policy PATH  # use alternate policy file
+
+Stdlib only.
+"""
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import fnmatch
+import json
+import os
+import shutil
+import sys
+
+
+def eprint(msg: str) -> None:
+    print(msg, file=sys.stderr)
+
+
+def collect_files(raw_dir: str, archive_dir_name: str) -> list[str]:
+    """Walk raw_dir excluding archive_dir, return list of rel paths."""
+    matches: list[str] = []
+    for root, dirs, files in os.walk(raw_dir):
+        rel_root = os.path.relpath(root, raw_dir)
+        # Exclude archive dir
+        if rel_root == archive_dir_name or rel_root.startswith(archive_dir_name + os.sep):
+            continue
+        # Skip hidden files at top of walk
+        for fname in files:
+            if fname.startswith("."):
+                # .policy.json などは skip
+                continue
+            rel_path = os.path.relpath(os.path.join(root, fname), raw_dir)
+            matches.append(rel_path)
+    return matches
+
+
+def archive_target(raw_dir: str, archive_root: str, rel_path: str) -> str:
+    """Decide target path: $archive/YYYY/MM/<filename>."""
+    src = os.path.join(raw_dir, rel_path)
+    mtime = dt.date.fromtimestamp(os.path.getmtime(src))
+    target_dir = os.path.join(archive_root, f"{mtime.year}", f"{mtime.month:02d}")
+    return os.path.join(target_dir, os.path.basename(rel_path))
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--execute", action="store_true",
+                        help="Actually move files (default: dry-run)")
+    parser.add_argument("--policy", default=None,
+                        help="Path to policy.json (default: $VAULT/.raw/.policy.json)")
+    args = parser.parse_args()
+
+    vault = os.environ.get("VAULT") or os.path.expanduser("~/Documents/Obsidian Vault")
+    raw_dir = os.path.join(vault, ".raw")
+    policy_path = args.policy or os.path.join(raw_dir, ".policy.json")
+
+    if not os.path.exists(policy_path):
+        eprint(f"policy not found: {policy_path}")
+        return 1
+
+    with open(policy_path, "r", encoding="utf-8") as f:
+        policy = json.load(f)
+
+    archive_dir_name = policy.get("archive_dir", ".archive")
+    archive_root = os.path.join(raw_dir, archive_dir_name)
+    today = dt.date.today()
+
+    all_files = collect_files(raw_dir, archive_dir_name)
+    # to_archive is dict to dedup
+    to_archive: dict[str, str] = {}  # rel_path -> reason
+
+    for rule in policy.get("rules", []):
+        pattern = rule["pattern"]
+        matches = [p for p in all_files if fnmatch.fnmatch(p, pattern)]
+
+        if "ttl_days" in rule:
+            for rel in matches:
+                full = os.path.join(raw_dir, rel)
+                mtime = dt.date.fromtimestamp(os.path.getmtime(full))
+                age = (today - mtime).days
+                if age >= rule["ttl_days"]:
+                    to_archive.setdefault(rel, f"ttl_days>={rule['ttl_days']} (age={age}d)")
+
+        if "keep_latest" in rule:
+            # Sort by mtime DESC, keep top N, archive rest
+            matches_sorted = sorted(
+                matches,
+                key=lambda p: os.path.getmtime(os.path.join(raw_dir, p)),
+                reverse=True,
+            )
+            for rel in matches_sorted[rule["keep_latest"]:]:
+                to_archive.setdefault(rel, f"keep_latest={rule['keep_latest']}")
+
+    if not to_archive:
+        print("Nothing to archive.")
+        return 0
+
+    print(f"=== {len(to_archive)} file(s) to archive ===")
+    for rel, reason in sorted(to_archive.items()):
+        src = os.path.join(raw_dir, rel)
+        dst = archive_target(raw_dir, archive_root, rel)
+        rel_dst = os.path.relpath(dst, raw_dir)
+        print(f"  .raw/{rel}")
+        print(f"    -> .raw/{rel_dst}")
+        print(f"    reason: {reason}")
+
+    if not args.execute:
+        print()
+        print(f"DRY-RUN. Pass --execute to actually move {len(to_archive)} file(s).")
+        return 0
+
+    moved = 0
+    for rel in to_archive:
+        src = os.path.join(raw_dir, rel)
+        dst = archive_target(raw_dir, archive_root, rel)
+        os.makedirs(os.path.dirname(dst), exist_ok=True)
+        shutil.move(src, dst)
+        moved += 1
+    print()
+    print(f"Moved {moved} file(s) to {archive_root}/")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
