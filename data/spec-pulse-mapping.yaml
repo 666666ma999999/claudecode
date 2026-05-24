@@ -1,0 +1,64 @@
+# Spec Pulse: tag → M番号 マッピング辞書
+# weekly_spec_pulse.sh が読み込み、P0/P1 イシューの tags から関連施策候補を自動付与
+#
+# 運用ルール:
+#   - 「候補」明示・断定しない (誤紐付け時の信頼失墜を防ぐ)
+#   - ☑ チェックは人間が手動 (Plan §3 Non-Goal 準拠)
+#   - 新施策 M34+ 追加時は本ファイルを手動更新 (rules/05 plan.md/task.md の更新フローと同型)
+#
+# 配置: ~/.claude/data/spec-pulse-mapping.yaml
+# 関連: ~/Desktop/prm/prime_suite/prime_ad/tasks/spec-pulse-plan.md §7
+
+mappings:
+  # 顧客データ・名寄せ系
+  customer_match: [M24, M27, M30]
+  enhanced_conversions: [M28, M14]
+
+  # 媒体プラットフォーム
+  meta: [M13, M30]
+  graph_api: [M13]
+  meta_api: [M13]
+
+  # プライバシー・ブラウザ
+  privacy_sandbox: [M15, M18, M28]
+  itp: [M15, M18]
+  att: [M13]
+  chrome: [M15, M18]
+  webkit: [M15, M18]
+
+  # 計測・タグ
+  ga4: [M15, M18, M26]
+  gtm: [M28, M3]
+  measurement_protocol: [M28, M3]
+
+  # Google Ads UI・ポリシー
+  policy: [M8, M10]
+  search: []  # 全検索 CP に影響しうるので個別判定 (auto-empty で人間判断に委ねる)
+  performance_max: [M2, M9, M9-9a, M9-9b, M9-9c, M16, M29]
+  pmax: [M2, M9, M16, M29]
+  demand_gen: [M10]
+  asset_group: [M9, M9-9a, M9-9b]
+
+  # tROAS / 入札
+  bidding: [M19, M5, M7]
+  troas: [M19]
+
+  # Stripe / prime_crm
+  stripe: []  # prime_crm スコープ・現状未紐付け
+  billing: []
+  churn: []
+  subscriptions: []
+
+  # 全般 (auto-empty: 個別 source に紐付かないものは人間判断)
+  release_notes: []
+  api: []
+  changelog: []
+  whats_new: []
+
+# 削除済 M (rules 整合性のため記録)
+deleted_measures:
+  M6: "M2 統合"
+  M11: "M19 統合 (学習リセットコスト大)"
+  M17: "M28 統合 (Enhanced Conversions で代替)"
+  M21: "M3 統合"
+  M22: "Google 自動拡張で十分"

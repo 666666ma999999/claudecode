@@ -1,0 +1,173 @@
+# Daily news collector の情報源定義
+# collect_news.py が読み込み、RSS/Atom を取得して .raw/news/YYYY-MM-DD.jsonl に append
+# 既存収集 (grok-collect-twittora=X, gh-star-harvest=GitHub trending) と重複しない選定
+
+sources:
+  - name: hn_claude_code
+    type: rss
+    url: https://hnrss.org/newest?q=claude+code
+    tags: [hn, community]
+
+  - name: hn_anthropic
+    type: rss
+    url: https://hnrss.org/newest?q=anthropic
+    tags: [hn, community]
+
+  - name: reddit_claudeai
+    type: rss
+    url: https://www.reddit.com/r/ClaudeAI/.rss
+    tags: [reddit, community]
+
+  - name: anthropic_status
+    type: rss
+    url: https://status.anthropic.com/history.rss
+    tags: [official, infra]
+
+  - name: claude_code_releases
+    type: github_releases
+    repo: anthropics/claude-code
+    tags: [official, changelog]
+
+  - name: awesome_claude_code_commits
+    type: github_commits
+    repo: hesreallyhim/awesome-claude-code
+    tags: [ecosystem]
+
+  # === 公式 lane (Anthropic / Claude Code / MCP / Obsidian) ===
+  - name: anthropic_news_commits
+    type: github_commits
+    repo: anthropics/anthropic-cookbook
+    tags: [official, anthropic]
+
+  - name: claude_code_docs_commits
+    type: github_commits
+    repo: anthropics/claude-code
+    tags: [official, claude-code, changelog]
+
+  - name: mcp_spec_releases
+    type: github_releases
+    repo: modelcontextprotocol/modelcontextprotocol
+    tags: [official, mcp, spec]
+
+  - name: obsidian_releases
+    type: github_releases
+    repo: obsidianmd/obsidian-releases
+    tags: [official, obsidian]
+
+  # === prime_ad / prime_crm 公式仕様 lane (spec-pulse・2026-05-18 追加) ===
+  # 集約: weekly_spec_pulse.sh が月曜 09:30 に過去 7 日 jsonl を集約
+  # マッピング: ~/.claude/data/spec-pulse-mapping.yaml (tag → M番号)
+  # 出力: vault 02_Ai/AI_adscrm/wiki/weekly-update-YYYY-MM-DD.md
+  # 起案: prime_ad/tasks/spec-pulse-plan.md
+  #
+  # Tier 1 (RSS / Atom / GitHub API・既存 handler でそのまま動く)
+
+  - name: chrome_dev_blog
+    type: rss
+    url: https://developer.chrome.com/static/blog/feed.xml
+    tags: [official, spec_pulse, chrome, privacy, p1]
+
+  - name: chrome_status_features
+    type: atom
+    url: https://chromestatus.com/features.xml
+    tags: [official, spec_pulse, chrome, privacy_sandbox, p0]
+
+  - name: webkit_blog
+    type: rss
+    url: https://webkit.org/feed/
+    tags: [official, spec_pulse, webkit, itp, p0]
+
+  - name: google_search_central
+    type: rss
+    url: https://feeds.feedburner.com/blogspot/amDG
+    tags: [official, spec_pulse, google_search, p1]
+
+  - name: google_search_docs
+    type: rss
+    url: https://developers.google.com/search/updates/search_docs_updates.rss
+    tags: [official, spec_pulse, google_search, docs, p1]
+
+  - name: apple_developer_releases
+    type: rss
+    url: https://developer.apple.com/news/releases/rss/releases.rss
+    tags: [official, spec_pulse, apple, ios, p1]
+
+  - name: ga_python_releases
+    type: github_releases
+    repo: googleads/google-ads-python
+    tags: [official, spec_pulse, google_ads, api, p0]
+
+  - name: ga_php_releases
+    type: github_releases
+    repo: googleads/google-ads-php
+    tags: [official, spec_pulse, google_ads, api, p0]
+
+  - name: fb_sdk_codegen_commits
+    type: github_commits
+    repo: facebook/facebook-business-sdk-codegen
+    tags: [official, spec_pulse, meta, api, graph_api, p0]
+
+  - name: ga_dev_tools_releases
+    type: github_releases
+    repo: googleanalytics/ga-dev-tools
+    tags: [official, spec_pulse, ga4, p1]
+
+  - name: stripe_node_releases
+    type: github_releases
+    repo: stripe/stripe-node
+    tags: [official, spec_pulse, stripe, billing, p1]
+
+  # Tier 2 (HTML scrape・content_hash 差分検知のみ・本文取得しない)
+
+  - name: google_ads_api_release_notes
+    type: html_scrape
+    url: https://developers.google.com/google-ads/api/docs/release-notes
+    tags: [official, spec_pulse, google_ads, api, release_notes, p0]
+
+  - name: google_ads_policies
+    type: html_scrape
+    url: https://support.google.com/adspolicy/answer/6008942?hl=en
+    tags: [official, spec_pulse, google_ads, policy, p0]
+
+  - name: google_ads_customer_match_policy
+    type: html_scrape
+    url: https://support.google.com/google-ads/answer/6299717?hl=en
+    tags: [official, spec_pulse, google_ads, customer_match, policy, p0]
+
+  - name: google_ads_enhanced_conversions
+    type: html_scrape
+    url: https://support.google.com/google-ads/answer/9888656?hl=en
+    tags: [official, spec_pulse, google_ads, enhanced_conversions, p0]
+
+  - name: ga4_whats_new
+    type: html_scrape
+    url: https://support.google.com/analytics/answer/9164320?hl=en
+    tags: [official, spec_pulse, ga4, whats_new, p0]
+
+  - name: gtm_release_notes
+    type: html_scrape
+    url: https://support.google.com/tagmanager/answer/4620708?hl=en
+    tags: [official, spec_pulse, gtm, release_notes, p0]
+
+  - name: meta_graph_api_changelog
+    type: html_scrape
+    url: https://developers.facebook.com/docs/graph-api/changelog/versions
+    tags: [official, spec_pulse, meta, graph_api, changelog, p0]
+
+  - name: webkit_tracking_prevention
+    type: html_scrape
+    url: https://webkit.org/tracking-prevention/
+    tags: [official, spec_pulse, webkit, itp, p0]
+
+  - name: apple_att_docs
+    type: html_scrape
+    url: https://developer.apple.com/documentation/apptrackingtransparency
+    tags: [official, spec_pulse, apple, att, p0]
+
+  - name: stripe_changelog
+    type: html_scrape
+    url: https://docs.stripe.com/changelog
+    tags: [official, spec_pulse, stripe, billing, churn, p0]
+
+# wiki/sources/ への昇格は手動 (wiki-ingest または /save) のみ
+# .raw/news/YYYY-MM-DD.jsonl は append-only (40-obsidian.md 不変ルール準拠)

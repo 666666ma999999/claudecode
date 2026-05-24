@@ -48,6 +48,11 @@ mcp-servers/
 # バックアップファイル
 backups/
 *.bak_*
+*.bak-*
+*.bak
+
+# Playwright MCP キャッシュ
+.playwright-mcp/
 
 # ローカル設定（PC固有）
 settings.local.json
