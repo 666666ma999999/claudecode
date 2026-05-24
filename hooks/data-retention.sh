@@ -144,6 +144,7 @@ for ephemeral_file in \
     "${CLAUDE_DIR}/state/fe-browser-verified.done" \
     "${CLAUDE_DIR}/state/plan-readiness.done" \
     "${CLAUDE_DIR}/state/plan-files-snapshot.txt" \
+    "${CLAUDE_DIR}/state/plan-strategy.json" \
     "${CLAUDE_DIR}/state/improvement-capture.done"; do
     if [[ -f "${ephemeral_file}" ]]; then
         rm -f "${ephemeral_file}"

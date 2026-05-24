@@ -117,7 +117,14 @@ case "$RESULT" in
         ;;
     MISSING=*)
         SECTIONS=$(echo "$RESULT" | cut -d= -f2)
-        echo "PLAN QUALITY: プランに以下の必須セクションがありません: ${SECTIONS}。追加してください (~/.claude/templates/plan.md 参照)。"
+        # missing 個数で挙動分岐: 3 個全欠落 → ハードブロック、1-2 個 → warn のみ
+        MISS_COUNT=$(echo "$SECTIONS" | awk -F',' '{print NF}')
+        if [ "$MISS_COUNT" -ge 3 ]; then
+            echo "PLAN QUALITY [BLOCK]: 必須セクション全欠落: ${SECTIONS}。~/.claude/templates/plan.md を参照してプランを書き直してください。" >&2
+            exit 2
+        else
+            echo "PLAN QUALITY [WARN]: 不足セクション: ${SECTIONS}。追加推奨 (~/.claude/templates/plan.md 参照)。"
+        fi
         ;;
     *)
         echo "PLAN QUALITY: プランファイルの検証に失敗しました。"

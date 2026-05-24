@@ -20,6 +20,7 @@ DENY_PATTERNS = [
     r"\bconda\s+(install|create)\b",
     r"\bsource\s+.*/?activate\b",
     r"\.\s+.*/?activate\b",
+    r"\bnpx\s+\S",  # npx によるパッケージ実行（npm exec 経由インストール）
 ]
 
 DOCKER_PREFIXES = (
@@ -35,6 +36,9 @@ DOCKER_PREFIXES = (
 # グローバルCLAUDE.mdの適用除外「MCP設定、Claude Codeツール拡張、スキル検索」に対応。
 ALLOW_PATTERNS = [
     r"\bnpm\s+(install|i)\s+(-g\s+)?@openai/codex\b",
+    # Claude Code自身のアップデート（CLAUDE.md Docker-Only除外対象）
+    # 末尾 \s*$ で pipe チェーン (... | npm install evil) バイパスを拒否
+    r"\bnpm\s+(install|i|update|up)\s+(-g\s+)?@anthropic-ai/claude-code(@[\w.\-]+)?(\s+--force)?\s*$",
     # kepano/obsidian-skills の defuddle skill が使うCLI（Claude Codeツール拡張）
     r"\bnpm\s+(install|i)\s+(-g\s+)?defuddle\b",
     # ~/.claude/mcp-servers/ 配下でのMCPサーバーfork用 npm操作
@@ -66,7 +70,10 @@ def extract_inner_command(cmd: str) -> str:
 
 
 def main():
-    data = json.load(sys.stdin)
+    try:
+        data = json.load(sys.stdin)
+    except (json.JSONDecodeError, ValueError):
+        sys.exit(2)  # fail-closed: パース失敗はブロック扱い
     tool_name = data.get("tool_name", "")
 
     if tool_name != "Bash":
@@ -120,7 +127,13 @@ def main():
                     "Docker経由で実行してください:\n"
                     "  docker compose exec dev pip install ...\n"
                     "  docker compose exec dev npm install ...\n"
-                    "  docker compose run --rm dev python -m venv .venv"
+                    "  docker compose run --rm dev python -m venv .venv\n"
+                    "\n"
+                    "※ npx skills / Claude Code upgrade は AI 実行不可・構造上の制約です。\n"
+                    "   ユーザーが `!` プレフィックスでセッションシェル直接実行してください:\n"
+                    "     ! npx skills find <query>\n"
+                    "     ! npm install -g @anthropic-ai/claude-code@latest\n"
+                    "   詳細: CLAUDE.md §Docker-Only 開発 / rules/10-git-and-execution-guard.md"
                 )
 
 

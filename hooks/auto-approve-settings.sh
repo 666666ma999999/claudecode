@@ -93,9 +93,19 @@ if is_claude_cwd; then
      && [[ "$FILE_PATH" != *".claude/"* ]]; then
     reject=1
   fi
+  # Relative path escape (../) → don't auto-approve (could resolve outside .claude)
+  if [[ "$reject" == 0 ]] && [[ "$FILE_PATH" == *".."* ]]; then
+    reject=1
+  fi
   # Bash command referencing sensitive absolute paths → don't auto-approve
   if [[ "$reject" == 0 ]] && [[ -n "$BASH_CMD" ]]; then
     if echo "$BASH_CMD" | grep -Eq '(^|[^./[:alnum:]])/(etc|usr|System|var|Library|bin|sbin|private|boot|root)(/|$)'; then
+      reject=1
+    fi
+  fi
+  # Bash command with ../ escape → don't auto-approve
+  if [[ "$reject" == 0 ]] && [[ -n "$BASH_CMD" ]]; then
+    if echo "$BASH_CMD" | grep -Eq '(^|[[:space:]])\.\./'; then
       reject=1
     fi
   fi

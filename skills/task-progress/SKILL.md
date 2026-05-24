@@ -52,7 +52,7 @@ ls .claude/workspace/task.md 2>/dev/null
 4. **Progress Snapshot** → Blocked/Next を確認
 5. **Failures / Stuck Context** → 過去の失敗を把握（同じ轍を踏まない）
 6. **Current Agreed Scope** → Must/Descoped境界を確認
-7. **Decision Log** → 過去の判断理由を把握
+7. **Decision Log** → 過去の判断理由を把握。vault 連携プロジェクトは vault の `<project>-impl-notes.md` を開いて読む（registry に note パスあり・rules/41 専用節）
 
 ### Step 3: 状況報告
 読み込み後、ユーザーに以下を簡潔に報告:
@@ -87,10 +87,11 @@ ls .claude/workspace/task.md 2>/dev/null
 4. ユーザーに変更影響を報告
 
 ### 意思決定時
-1. **Decision Log** に記録（選択肢・理由・却下理由すべて）
+1. **Decision Log** に記録（選択肢・理由・却下理由すべて）。仕様書/plan.md からの逸脱・解釈・要確認は「仕様差分」列に種別 (on-spec/interpreted/deviation/open-question) を明記。vault 連携プロジェクトは vault の `<project>-impl-notes.md` が正本（rules/41 専用節）
 2. 重要な判断は **Iteration History** にも反映
 
 ### セッション終了前（必須）
+0. **`/recap` 実行**: セッション1行要約を生成し、Session Handoff の Start Here の参考にする（Claude Code 2.1.140+ の built-in command）
 1. **Session Handoff** の4セクションを全て更新:
    - Start Here: 次セッションの再開ポイント
    - Avoid Repeating: 試して駄目だったアプローチ

@@ -15,7 +15,7 @@ f=$(echo "$json" | jq -r '.tool_response.filePath // .tool_input.file_path // em
 
 # Match: vault path AND .md extension
 case "$f" in
-  "/Users/masaaki/Documents/Obsidian Vault/"*.md)
+  "$HOME/Documents/Obsidian Vault/"*.md)
     open -a Obsidian "$f" 2>/dev/null
     ;;
 esac

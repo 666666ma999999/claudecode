@@ -1,70 +1,67 @@
 #!/bin/bash
-# ~/.claude/hooks/obsidian-session-reminder.sh
-# SessionStart フック: Obsidian Vault 内のDONEエントリで形式違反があればセッション開始時に警告表示
+# SessionStart hook: Obsidian Vault DONE 形式違反警告 (cached + background refresh)
 #
-# 目的: 元プロンプト保存ルールをセッション開始時にClaudeに再認識させる
+# 設計: 重い grep -r を毎回起動時に走らせていた (1.15s) のを改善。
+#   - 起動時: 前回のキャッシュ (state/obsidian-done-violations.txt) を即時出力
+#   - 並行: バックグラウンドで Vault スキャン → キャッシュ更新 (次回に反映)
+# DONE 違反は時間軸で蓄積する性質なので 1 セッション遅延で問題なし。
 
-# stdin を消費
 cat > /dev/null
 
-VAULT="/Users/masaaki/Documents/Obsidian Vault"
+VAULT="$HOME/Documents/Obsidian Vault"
+CACHE="$HOME/.claude/state/obsidian-done-violations.txt"
+mkdir -p "$(dirname "$CACHE")"
 
-if [ ! -d "$VAULT" ]; then
-  exit 0
-fi
+# 1) 即時出力: 前回キャッシュをそのまま吐く
+[ -s "$CACHE" ] && cat "$CACHE"
 
-# DONEセクションを持つMDファイルを列挙
-md_files=$(grep -rl '^## DONE' "$VAULT" 2>/dev/null | head -20)
+# 2) Vault が存在しない場合はバックグラウンド更新も不要
+[ -d "$VAULT" ] || exit 0
 
-if [ -z "$md_files" ]; then
-  exit 0
-fi
+# 3) バックグラウンドでキャッシュ更新 (次回 SessionStart に反映)
+(
+  md_files=$(grep -rl '^## DONE' "$VAULT" 2>/dev/null | head -20)
+  [ -z "$md_files" ] && { : > "$CACHE"; exit 0; }
 
-violations_found=0
-violation_output=""
+  violations_found=0
+  violation_output=""
 
-while IFS= read -r file; do
-  [ -z "$file" ] && continue
+  while IFS= read -r file; do
+    [ -z "$file" ] && continue
+    done_section=$(awk '
+      /^## DONE/ { in_done=1; next }
+      /^## / && in_done { exit }
+      in_done { print }
+    ' "$file")
+    [ -z "$done_section" ] && continue
 
-  done_section=$(awk '
-    /^## DONE/ { in_done=1; next }
-    /^## / && in_done { exit }
-    in_done { print }
-  ' "$file")
-
-  [ -z "$done_section" ] && continue
-
-  # 各 `##### ` エントリが `**結果:**` を持つかチェック
-  file_violations=$(echo "$done_section" | awk '
-    BEGIN { current=""; has_result=0 }
-    /^##### / {
-      if (current != "" && !has_result) {
-        print current
+    file_violations=$(echo "$done_section" | awk '
+      BEGIN { current=""; has_result=0 }
+      /^##### / {
+        if (current != "" && !has_result) { print current }
+        current=$0; has_result=0; next
       }
-      current=$0
-      has_result=0
-      next
-    }
-    /\*\*結果:\*\*/ { has_result=1 }
-    END {
-      if (current != "" && !has_result) {
-        print current
-      }
-    }
-  ')
+      /\*\*結果:\*\*/ { has_result=1 }
+      END { if (current != "" && !has_result) { print current } }
+    ')
 
-  if [ -n "$file_violations" ]; then
-    violations_found=1
-    violation_count=$(echo "$file_violations" | wc -l | tr -d ' ')
-    rel_file=$(echo "$file" | sed "s|$VAULT/||")
-    violation_output="${violation_output}  ⚠ ${rel_file}: ${violation_count}件の違反エントリ\n"
+    if [ -n "$file_violations" ]; then
+      violations_found=1
+      violation_count=$(echo "$file_violations" | wc -l | tr -d ' ')
+      rel_file=$(echo "$file" | sed "s|$VAULT/||")
+      violation_output="${violation_output}  ⚠ ${rel_file}: ${violation_count}件の違反エントリ\n"
+    fi
+  done <<< "$md_files"
+
+  if [ "$violations_found" = "1" ]; then
+    {
+      echo "Obsidian DONE形式違反あり（h5 + refs/ 分離・40-obsidian.md 参照）:"
+      echo -e "$violation_output" | head -5
+    } > "$CACHE"
+  else
+    : > "$CACHE"
   fi
-done <<< "$md_files"
-
-# 違反検出時のみ簡潔に通知（ルール本文は ~/.claude/rules/40-obsidian.md 参照）
-if [ "$violations_found" = "1" ]; then
-  echo "Obsidian DONE形式違反あり（h5 + refs/ 分離・40-obsidian.md 参照）:"
-  echo -e "$violation_output" | head -5
-fi
+) </dev/null >/dev/null 2>&1 &
+disown 2>/dev/null || true
 
 exit 0

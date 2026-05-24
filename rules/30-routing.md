@@ -31,6 +31,9 @@
 | 叩き台/探索/UI試作 | `/prototype` |
 | task細分化/進捗/復帰 | `task-planner` / `task-progress` / `project-recall` |
 | SubAgent委譲判断 | `execution-patterns` |
+| ニュース収集・news JSONL確認 | `~/.claude/scripts/collect_news.py` + `.raw/news/YYYY-MM-DD.jsonl` |
+| news → wiki 昇格（知識化） | `wiki-ingest` または `/save` |
+| news → 深掘り | `autoresearch` |
 
 その他のカテゴリ（KPI・データ可視化・ダッシュボード・売上分析・スクレイピング・X Articles 12種・スキル管理・設定診断・Codex委譲 ほか）は `routing-table.md` 参照。
 
@@ -38,7 +41,7 @@
 
 | extensions.yaml | extensions.json | 適用ルール |
 |:-:|:-:|---|
-| あり | あり | 同一リポ → `60-cms-and-extension-pattern.md` ハイブリッド + 各スキル併用。分離リポ → `fe-be-extension-coordination` |
+| あり | あり | 同一リポ → `be-extension-pattern` + `fe-extension-pattern` 個別適用 (両者ハイブリッド)。分離リポ → `fe-be-extension-coordination` |
 | あり | なし | BE: `be-extension-pattern`。FE: Step 2 |
 | なし | あり | FE: `fe-extension-pattern`。BE: Step 2 |
 | なし | なし | Step 2 |
