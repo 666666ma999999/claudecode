@@ -407,6 +407,15 @@
         "hooks": [
           {
             "type": "command",
+            "command": "(~/Desktop/biz/make_article/hooks/improvement-ingest-check.sh) 2>&1 | head -10"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
             "command": "(~/.claude/hooks/data-retention.sh) 2>&1 | head -50"
           }
         ]
