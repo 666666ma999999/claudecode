@@ -320,6 +320,15 @@
     ],
     "PostToolUse": [
       {
+        "matcher": "Write|Edit|MultiEdit|NotebookEdit|Read|NotebookRead",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/posttooluse-edit-history.sh"
+          }
+        ]
+      },
+      {
         "matcher": "Write|Edit",
         "hooks": [
           {
@@ -451,7 +460,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "(~/.claude/hooks/sessionstart-prime-ad-daily-unread.sh) 2>&1 | head -20"
+            "command": "~/.claude/hooks/vault-sync-sessionstart.sh"
           }
         ]
       },
@@ -460,7 +469,17 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/masaaki/.claude/hooks/vault-sync-sessionstart.sh"
+            "command": "(~/.claude/hooks/sessionstart-project-registry.sh) 2>&1 | head -30"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/sessionstart-github-issues.sh",
+            "timeout": 15
           }
         ]
       },
@@ -537,7 +556,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/masaaki/.claude/hooks/vault-sync-stop.sh"
+            "command": "~/.claude/hooks/vault-sync-stop.sh"
           }
         ]
       },
@@ -556,6 +575,26 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/wiki-auto-capture-on-stop.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/stop-vault-summary-suggest.sh",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/vault-moc-sync-guard.sh",
+            "timeout": 5
           }
         ]
       }
@@ -637,6 +676,16 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/wiki-recall-on-prompt.sh",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/userpromptsubmit-edit-recheck-warn.py",
             "timeout": 5
           }
         ]

@@ -10,7 +10,7 @@
 
 重複禁止: 同じ情報を両方に書かない。task.md → plan.md へリンク（`plan.md#成功基準` 等）。
 
-**vault との境界（Phase E 2026-05-23〜）**: `tasks/*.md` は **実行追跡 SSoT**、vault `wiki/meta/decisions.md` は **判断 SSoT**。重複時は task.md 側から `[[Obsidian Vault/wiki/meta/decisions.md#YYYY-MM-DD-slug]]` でリンク参照、本文転記禁止。詳細: `rules/40-obsidian.md`
+**vault との境界**: Obsidian 連携全条項 (`tasks/*.md` ↔ `wiki/meta/decisions.md` の SSoT 境界、wikilink 参照ルール、訂正プロトコル) は `rules/40-obsidian.md` 参照。重複定義は同ファイルに集約。
 
 ## トリガー
 

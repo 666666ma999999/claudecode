@@ -18,6 +18,11 @@
 - **SubAgent 積極活用**: メイン context をクリーンに保つ。リサーチ・調査・並列分析は委託。1 SubAgent 1 タスク。独立性高は `isolation: "worktree"`
 - **Obsidian vault は claude-obsidian 方式**（2026-04-24 以降）: 詳細は `rules/40-obsidian.md`
 - **vault 書き分け (Phase E 2026-05-23〜)**: アーキ判断→`wiki/meta/decisions.md` (append-only), ミス・教訓→`wiki/meta/mistakes.md` (de-dup 上書き型、2 回目以降は既存 entry 統合), 実行追跡→`<repo>/tasks/*.md`, 設計 SSoT→`<repo>/plan.md`, プロジェクト概念→`wiki/{concepts,entities}/`。3 hook (recall/capture/dormant) が自動参照・促し・dormant 検出。詳細 `rules/40-obsidian.md`
+- **Claude × Obsidian 連携 2 セット運用 (2026-05-24〜)**:
+  - **Set 1 (グローバル抽象・全 project 共通)**: Recall (UserPromptSubmit で decisions/mistakes 注入) / Capture (`/save decision` `/save mistake` → vault) / Overwrite (mistakes de-dup, hot.md/_index.md 完全上書き) / **Ingest (外部情報の `.raw/` 自動取得 + `wiki/sources/` 昇格・更新)** の **4 ルール**。詳細は vault `wiki/concepts/Claude-Obsidian feedback loop.md`、実装規約は `rules/40-obsidian.md`、ルール本体は [[vault-rules-global]] / [[vault-rules-project]]
+  - **Set 2 (プロジェクト実装・各 project 固有)**: 各 `<project>/CLAUDE.md` に `## Vault Integration` セクションを置き、Set 1 の 4 ルールを **当 project でどう投影するか** を記述。テンプレ: `~/.claude/templates/vault-rules-project.md` (例: AIads → impl-notes ノート + AIads_ope.md MOC / prime_crm → findings ノート + finding-sync skill / make_article → x-article-stock + Material Bank + article_bridge.py)
+  - **両者の対応**: 同じ 4 ルール構造を 2 レイヤーで持つことで drift 検出可能。各 project の Vault Integration セクションは Claude Code 標準動作で自動 load される (グローバルから「読ませる」hook 不要)
+- **ファイル配置 59 種 (2026-05-25〜・Phase 2 連動)**: 詳細 `rules/42-file-type-placement.md` (Active)。Stop hook `stop-vault-summary-suggest.sh` が rules/42 対象ファイル編集を検出 → `/sync-vault-summary` skill 起動で要約生成 + vault MOC `## 🔁 最新更新ログ` に append。`~/.claude/state/vault-cc-enabled` flag gate で完全休眠可
 
 ## タスク規模判定（最優先）
 
@@ -67,6 +72,7 @@
 - 禁止: 推測・一般論回答、ツール実行なし断定、外部サービスエラー原因推測断定
 - 手順: ツール確認 → 確認結果に基づき回答 → 不可なら「未確認」明示
 - 外部 API: エラーコード確認 → 公式ドキュメント照合 → 実レスポンス確認 → 診断。契約形態を勝手推測禁止
+- **自編集ファイル問い直し時**: ユーザーが「○○確認してる?」「○○の意味は?」「これですか?」と問い直したら、**自分で Write/Edit したファイルでも即 `Read` で全体再確認**してから回答。`file state is current` 表示は信用しない（Edit は部分置換のため全体構造の認識保証にならない・wiki/meta/mistakes.md「自編集ファイルの記憶過信」由来）
 
 ## エラー報告・バグ修正
 

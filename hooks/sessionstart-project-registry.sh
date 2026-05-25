@@ -8,7 +8,7 @@
 #   ~/.claude/state/vault-cc-enabled が存在しなければ即 exit (休眠・完全無害)。
 #
 # 設計:
-#   - 住所録: ~/Documents/Obsidian Vault/02_Ai/AI_adscrm/project-registry.md
+#   - 住所録: ~/Documents/Obsidian Vault/wiki/meta/project-registry.md
 #   - 各プロジェクトは `## <name>` 見出しで開始、`- **root**: \`<path>\`` 行を 1 つ持つ
 #   - cwd が root 以下なら該当セクションを出力（subpath 含む）
 #   - 複数 root が match する場合は **最長 prefix** を採用（registry 拡張時の入れ子安全性）
@@ -23,7 +23,7 @@ cat > /dev/null 2>&1
 # Feature flag gate (デフォルト OFF = 休眠 = 何もしない)
 [ -f "$HOME/.claude/state/vault-cc-enabled" ] || exit 0
 
-REGISTRY="$HOME/Documents/Obsidian Vault/02_Ai/AI_adscrm/project-registry.md"
+REGISTRY="$HOME/Documents/Obsidian Vault/wiki/meta/project-registry.md"
 [ -f "$REGISTRY" ] || exit 0
 
 # cwd を symlink 解決した物理パスに正規化

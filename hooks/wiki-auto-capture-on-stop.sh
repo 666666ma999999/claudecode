@@ -1,24 +1,23 @@
 #!/usr/bin/env bash
-# wiki-auto-capture-on-stop.sh — Stop hook (二系統化 2026-05-23)
+# wiki-auto-capture-on-stop.sh — Stop hook (Phase 2 拡張 2026-05-24)
 #
-# vault 内 cwd の時、transcript に
+# transcript に
 #   (1) 決定/採用/却下 系キーワード → decisions.md (append-only)
 #   (2) 教訓/失敗/再発 系キーワード → mistakes.md (de-dup 上書き型)
 # が出現し、かつ該当 md が直近 30 分以内に未更新の場合、警告を出す。
 #
-# 設計理由 (plan.md#phase-e):
+# 設計理由 (plan.md#phase-e + Phase 2):
 # - 過去 2 回の Stop hook は echo のみで Claude が無視できた (inform-only failure)
 # - 初版 (2026-05-23 朝) は decisions.md 単系統。mistakes.md の capture が欠落
-# - 本版 (同日午後) で二系統化、両 md が dormant 化しないよう独立に促す
+# - 二系統化版 (同日午後) で両 md が dormant 化しないよう独立に促す
+# - Phase 2 (2026-05-24): vault path guard を撤去。repo cwd (~/Desktop/prm/*) で
+#   開発中も発火させる (decisions.md 0 entry の根本原因対策)。vault file 操作はせず
+#   stdout 警告のみのため、rules/40 「vault 外プロジェクトで vault 操作禁止」とは
+#   両立する (この変更は decision として wiki/meta/decisions.md に記録予定)
 
 set -u
 
 VAULT="$HOME/Documents/Obsidian Vault"
-
-case "$PWD" in
-  "$VAULT"|"$VAULT"/*) ;;
-  *) exit 0 ;;
-esac
 
 INPUT=$(cat 2>/dev/null || true)
 TRANSCRIPT=$(echo "$INPUT" | python3 -c "

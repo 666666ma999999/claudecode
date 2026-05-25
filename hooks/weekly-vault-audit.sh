@@ -56,17 +56,44 @@ done
 # ============================================================
 # 検証 3: registry hardcode 整合 (3 箇所)
 # ============================================================
-HOOK_REG=$(grep 'AI_adscrm/project-registry' "$HOME/.claude/hooks/sessionstart-project-registry.sh" 2>/dev/null | head -1)
-RULES41_REG=$(grep 'AI_adscrm/project-registry' "$HOME/.claude/rules/41-vault-project-structure.md" 2>/dev/null | head -1)
-RULES05_REG=$(grep 'AI_adscrm/project-registry' "$HOME/.claude/rules/05-plan-task-md.md" 2>/dev/null | head -1)
-[ -n "$HOOK_REG" ] || { result="${result}- ❌ registry: hook script に AI_adscrm/project-registry 言及なし\n"; violations=$((violations + 1)); }
-[ -n "$RULES41_REG" ] || { result="${result}- ❌ registry: rules/41 に AI_adscrm/project-registry 言及なし\n"; violations=$((violations + 1)); }
-[ -n "$RULES05_REG" ] || { result="${result}- ❌ registry: rules/05 に AI_adscrm/project-registry 言及なし\n"; violations=$((violations + 1)); }
+HOOK_REG=$(grep 'wiki/meta/project-registry' "$HOME/.claude/hooks/sessionstart-project-registry.sh" 2>/dev/null | head -1)
+RULES41_REG=$(grep 'wiki/meta/project-registry' "$HOME/.claude/rules/41-vault-project-structure.md" 2>/dev/null | head -1)
+RULES42_REG=$(grep 'wiki/meta/project-registry' "$HOME/.claude/rules/42-file-type-placement.md" 2>/dev/null | head -1)
+[ -n "$HOOK_REG" ] || { result="${result}- ❌ registry: hook script に wiki/meta/project-registry 言及なし\n"; violations=$((violations + 1)); }
+[ -n "$RULES41_REG" ] || { result="${result}- ❌ registry: rules/41 に wiki/meta/project-registry 言及なし\n"; violations=$((violations + 1)); }
+[ -n "$RULES42_REG" ] || { result="${result}- ❌ registry: rules/42 に wiki/meta/project-registry 言及なし\n"; violations=$((violations + 1)); }
 
 # ============================================================
 # (検証 4 削除: 2026-05-17 X2 統合構成移行で AIads/AIcrm 両方の
 #  measures.md が削除済のため。施策本体は repo `docs/measures-detail.md` 側に移譲)
 # ============================================================
+
+# ============================================================
+# 検証 5: rules/42 K-3 違反 (project 内 wiki/ 廃止)
+# 02_Ai/<group>/wiki/ ディレクトリ存在を検出。
+# AI_adscrm/wiki/ は本 hook 自身の audit 出力先で既知 hardcode 残課題のため allowlist。
+# ============================================================
+while IFS= read -r dir; do
+  [ -z "$dir" ] && continue
+  case "$dir" in
+    "$VAULT/02_Ai/AI_adscrm/wiki") continue ;;  # 既知例外 (hook 自身の出力先)
+  esac
+  result="${result}- ❌ K-3 placement: ${dir#$VAULT/} - project 内 wiki/ は廃止 (rules/42 K-3、vault root wiki/meta/ に集約)\n"
+  violations=$((violations + 1))
+done < <(find "$VAULT/02_Ai" -maxdepth 3 -type d -name wiki 2>/dev/null)
+
+# ============================================================
+# 検証 6: rules/42 placement 違反 (repo 専用ファイルの vault 流入)
+# repo 側 SSoT のファイル名が vault 内に存在 = drift サイン
+# (A-2 phase-tracker / 0-4+0-5 施策実体 / C-1+C-2 データ系譜)
+# ============================================================
+for repo_only_file in phase-tracker.md measures-detail.md measure-impact-table.md data_lineage.yaml data-sources.md; do
+  while IFS= read -r f; do
+    [ -z "$f" ] && continue
+    result="${result}- ❌ placement: ${f#$VAULT/} - repo 専用ファイル名が vault に流入 (rules/42、正本は repo <project>/{tasks,docs}/)\n"
+    violations=$((violations + 1))
+  done < <(find "$VAULT" -type f -name "$repo_only_file" 2>/dev/null)
+done
 
 # ============================================================
 # audit ファイル append-only 更新
@@ -95,7 +122,7 @@ fi
   echo ""
   echo "## $TIMESTAMP (violations: $violations)"
   if [ "$violations" -eq 0 ]; then
-    echo "- ✅ all checks passed (frontmatter / ambiguity / registry)"
+    echo "- ✅ all checks passed (frontmatter / ambiguity / registry / K-3 placement / repo-only files)"
   else
     echo -e "$result"
   fi

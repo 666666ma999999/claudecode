@@ -34,6 +34,7 @@
 | ニュース収集・news JSONL確認 | `~/.claude/scripts/collect_news.py` + `.raw/news/YYYY-MM-DD.jsonl` |
 | news → wiki 昇格（知識化） | `wiki-ingest` または `/save` |
 | news → 深掘り | `autoresearch` |
+| ファイル配置 59 種仕分け / vault MOC 自動同期 | `rules/42-file-type-placement.md` + `/sync-vault-summary` skill |
 
 その他のカテゴリ（KPI・データ可視化・ダッシュボード・売上分析・スクレイピング・X Articles 12種・スキル管理・設定診断・Codex委譲 ほか）は `routing-table.md` 参照。
 

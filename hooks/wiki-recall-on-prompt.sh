@@ -1,24 +1,21 @@
 #!/usr/bin/env bash
 # wiki-recall-on-prompt.sh — UserPromptSubmit hook
 #
-# vault 内 cwd の時、wiki/meta/decisions.md / mistakes.md の最新 entry を
+# wiki/meta/decisions.md / mistakes.md の最新 entry を
 # stdout に出力して Claude の context に注入する。
 #
 # 設計理由 (plan.md#phase-e):
 # - 過去 2 回が「rule を書いても Claude が参照しない」で失敗した。
 # - UserPromptSubmit hook で物理的に prompt の前に注入することで参照を強制する。
 # - 全文ではなく entry header + 短い summary に絞ってトークン節約。
+#
+# 2026-05-25: vault cwd guard 撤去 — repo cwd でも mistakes.md が context 注入されるよう
+# (wiki/meta/mistakes.md「自編集ファイルの記憶過信」再発防止の (a) 改修)
+# vault 外プロジェクトでの作業中も過去 mistake パターンを Claude が認識できる
 
 set -u
 
 VAULT="$HOME/Documents/Obsidian Vault"
-
-# vault path prefix match (vault 外 cwd では何もしない)
-case "$PWD" in
-  "$VAULT"|"$VAULT"/*) ;;
-  *) exit 0 ;;
-esac
-
 DECISIONS="$VAULT/wiki/meta/decisions.md"
 MISTAKES="$VAULT/wiki/meta/mistakes.md"
 
