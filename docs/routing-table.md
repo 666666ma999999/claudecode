@@ -31,9 +31,9 @@
 | BE新機能・APIエンドポイント・エクステンション・HookPoint | `be-extension-pattern` |
 | FE新機能・ページ追加・ウィジェット追加・FEアーキテクチャ | `fe-extension-pattern` |
 | FE+BE連携・APIコントラクト・デプロイ協調 | `fe-be-extension-coordination` |
-| コード重複・dual-path・DRY違反 | `20-code-quality.md` + `75-be-architecture.md` 参照 |
-| BEパイプライン重複・BE設計 | `75-be-architecture.md` 参照 |
-| vanilla FE設計・Command/Query分離・FEパイプライン | `70-fe-architecture.md` 参照 |
+| コード重複・dual-path・DRY違反 | `20-code-quality.md` + `70-architecture.md` 参照 |
+| BEパイプライン重複・BE設計 | `70-architecture.md`「BE 固有」参照 |
+| vanilla FE設計・Command/Query分離・FEパイプライン | `70-architecture.md`「FE 固有」参照 |
 | 3F+設計判断・大規模アーキ判断・公開API変更・二択判断 | `opponent-review`（軽い前提検証は `/review --mode=challenge`） |
 
 ### コード品質・リファクタリング
@@ -139,8 +139,8 @@ BE/FEは独立に判定し、それぞれのルールを並行適用する。
 
 ### Step 2: マーカーなし時の判定
 
-- `backend/` or `src/` にPythonサービスコードあり → `75-be-architecture.md` 適用
-- `frontend/*.html` + JS あり（React/TypeScript不使用）→ `70-fe-architecture.md` 適用
+- `backend/` or `src/` にPythonサービスコードあり → `70-architecture.md`「BE 固有」適用
+- `frontend/*.html` + JS あり（React/TypeScript不使用）→ `70-architecture.md`「FE 固有」適用
 - 上記いずれにも該当しない → ユーザーにBE/FEを確認
 
 ### 適用優先順

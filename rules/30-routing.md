@@ -47,7 +47,7 @@
 | なし | あり | FE: `fe-extension-pattern`。BE: Step 2 |
 | なし | なし | Step 2 |
 
-Step 2: `backend/`/`src/` Python あり → `75-be-architecture.md` / `frontend/*.html`+JS → `70-fe-architecture.md` / 不明 → ユーザー確認。
+Step 2: `backend/`/`src/` Python あり または `frontend/*.html`+JS → `70-architecture.md`（FE/BE 統合・該当する「FE 固有」/「BE 固有」節を参照） / 不明 → ユーザー確認。
 
 優先順: `CLAUDE.md` > `rules/` > スキル。マーカー有スキル > マーカー無アーキ。競合は限定的なルールを優先。
 

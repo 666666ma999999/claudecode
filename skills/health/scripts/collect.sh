@@ -11,6 +11,14 @@ fi
 SKILL_DIRS="$P_SKILLS"
 [ "$P_SKILLS" != "$HOME/.claude/skills" ] && SKILL_DIRS="$SKILL_DIRS $HOME/.claude/skills"
 
+# Hooks/MCP source resolution. Hooks live in settings.json (user + project),
+# MCP servers live in .mcp.json -- NOT in settings.local.json. The collector
+# previously read only $SETTINGS, so on this kind of env it under-reported
+# hooks={} / MCP=0. Aggregate the real sources (Claude Code merge order).
+if [ "$P" = "$HOME/.claude" ]; then CFG_DIR="$P"; else CFG_DIR="$P/.claude"; fi
+HOOK_SOURCES="$HOME/.claude/settings.json $CFG_DIR/settings.json $CFG_DIR/settings.local.json"
+MCP_SOURCES="$HOME/.claude/.mcp.json $CFG_DIR/.mcp.json"
+
 echo "=== TIER METRICS ==="
 echo "project_files: $(git -C "$P" ls-files 2>/dev/null | wc -l || find "$P" -type f -not -path "*/.git/*" -not -path "*/node_modules/*" -not -path "*/dist/*" -not -path "*/build/*" | wc -l)"
 echo "contributors: $(git -C "$P" log -n 500 --format='%ae' 2>/dev/null | sort -u | wc -l)"
@@ -28,48 +36,95 @@ echo "global_claude_words: $(wc -w < ~/.claude/CLAUDE.md 2>/dev/null | tr -d ' '
 echo "local_claude_words: $(wc -w < "$P/CLAUDE.md" 2>/dev/null | tr -d ' ' || echo 0)"
 echo "rules_words: $(find "$P_RULES" -name "*.md" 2>/dev/null | while IFS= read -r f; do cat "$f"; done | wc -w | tr -d ' ')"
 echo "skill_desc_words: $(for D in $SKILL_DIRS; do [ -d "$D" ] && grep -r "^description:" "$D" 2>/dev/null; done | wc -w | tr -d ' ')"
-python3 -c "
-import json, sys
-try:
-    d = json.load(open('$SETTINGS'))
-except Exception as e:
-    msg = '(unavailable: settings.local.json missing or malformed)'
-    print('=== hooks ==='); print(msg)
-    print('=== MCP ==='); print(msg)
-    print('=== MCP FILESYSTEM ==='); print(msg)
-    print('=== allowedTools count ==='); print(msg)
-    sys.exit(0)
+python3 - "$SETTINGS" "$HOOK_SOURCES" "$MCP_SOURCES" <<'PY' 2>/dev/null || echo "(unavailable)"
+import json, os, sys
+settings_path = sys.argv[1] if len(sys.argv) > 1 else ''
+hook_files = (sys.argv[2] if len(sys.argv) > 2 else '').split()
+mcp_files  = (sys.argv[3] if len(sys.argv) > 3 else '').split()
+HOME = os.path.expanduser('~')
 
+def load(f):
+    try:
+        return json.load(open(os.path.expanduser(f)))
+    except Exception:
+        return None
+
+# --- hooks: aggregate event -> entry count across user + project settings ---
 print('=== hooks ===')
-print(json.dumps(d.get('hooks', {}), indent=2))
+counts, found, seen = {}, [], set()
+for f in hook_files:
+    if not f or f in seen:
+        continue
+    seen.add(f)
+    d = load(f)
+    if not d:
+        continue
+    h = d.get('hooks') or {}
+    if h:
+        found.append(f.replace(HOME, '~'))
+    for ev, arr in h.items():
+        if isinstance(arr, list):
+            counts[ev] = counts.get(ev, 0) + sum(len(m.get('hooks', [])) for m in arr if isinstance(m, dict))
+if counts:
+    print('source:', ', '.join(found))
+    for ev in sorted(counts):
+        print(f'{ev}: {counts[ev]}')
+    print('total_hook_entries:', sum(counts.values()))
+else:
+    print('(none found in settings.json / settings.local.json)')
 
+# --- MCP: aggregate server names from .mcp.json (+ settings mcpServers) ---
 print('=== MCP ===')
-s = d.get('mcpServers', d.get('enabledMcpjsonServers', {}))
-names = list(s.keys()) if isinstance(s, dict) else list(s)
+names, src, seen_mcp = [], [], set()
+for f in mcp_files:
+    if not f or f in seen_mcp:
+        continue
+    seen_mcp.add(f)
+    d = load(f)
+    s = (d or {}).get('mcpServers')
+    if isinstance(s, dict) and s:
+        src.append(f.replace(HOME, '~'))
+        for k in s:
+            if k not in names:
+                names.append(k)
+emb = (load(settings_path) or {}).get('mcpServers')
+if isinstance(emb, dict):
+    for k in emb:
+        if k not in names:
+            names.append(k)
 n = len(names)
 print(f'servers({n}):', ', '.join(names))
+print('source:', ', '.join(src) or '(none)')
 est = n * 25 * 200
 print(f'est_tokens: ~{est} ({round(est/2000)}% of 200K)')
+print('NOTE: MCP tools are deferred (lazy-loaded via ToolSearch); real startup cost ~0.')
+print('      Session-connected servers may exceed config-declared (other .mcp.json / user config).')
 
+# --- MCP FILESYSTEM (from .mcp.json aggregation) ---
 print('=== MCP FILESYSTEM ===')
-if isinstance(s, list):
-    print('filesystem_present: (array format -- check .mcp.json)')
-    print('allowedDirectories: (not detectable)')
-else:
-    fs = s.get('filesystem') if isinstance(s, dict) else None; a = []
-    if isinstance(fs, dict):
-        a = fs.get('allowedDirectories') or (fs.get('config', {}).get('allowedDirectories') if isinstance(fs.get('config'), dict) else [])
-        if not a and isinstance(fs.get('args'), list):
-            args = fs['args']
-            for i, v in enumerate(args):
-                if v in ('--allowed-directories', '--allowedDirectories') and i+1 < len(args): a = [args[i+1]]; break
-            if not a: a = [v for v in args if v.startswith('/') or (v.startswith('~') and len(v) > 1)]
-    print('filesystem_present:', 'yes' if fs else 'no')
-    print('allowedDirectories:', a or '(missing or not detected)')
+fs = None
+for f in mcp_files:
+    s = (load(f) or {}).get('mcpServers')
+    if isinstance(s, dict) and isinstance(s.get('filesystem'), dict):
+        fs = s['filesystem']
+        break
+a = []
+if isinstance(fs, dict):
+    a = fs.get('allowedDirectories') or (fs.get('config', {}).get('allowedDirectories') if isinstance(fs.get('config'), dict) else [])
+    if not a and isinstance(fs.get('args'), list):
+        args = fs['args']
+        for i, v in enumerate(args):
+            if v in ('--allowed-directories', '--allowedDirectories') and i + 1 < len(args):
+                a = [args[i + 1]]; break
+        if not a:
+            a = [v for v in args if v.startswith('/') or (v.startswith('~') and len(v) > 1)]
+print('filesystem_present:', 'yes' if fs else 'no')
+print('allowedDirectories:', a or '(missing or not detected)')
 
+# --- allowedTools count (project-local settings) ---
 print('=== allowedTools count ===')
-print(len(d.get('permissions', {}).get('allow', [])))
-" 2>/dev/null || echo "(unavailable)"
+print(len((load(settings_path) or {}).get('permissions', {}).get('allow', [])))
+PY
 echo "=== NESTED CLAUDE.md ===" ; find "$P" -maxdepth 4 -name "CLAUDE.md" -not -path "$P/CLAUDE.md" -not -path "*/.git/*" -not -path "*/node_modules/*" 2>/dev/null || echo "(none)"
 echo "=== GITIGNORE ==="
 _GITIGNORE_HIT=$(git -C "$P" check-ignore -v .claude/settings.local.json 2>/dev/null || true)

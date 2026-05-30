@@ -16,8 +16,8 @@ paths:
 - **禁止**: 同じ目的を達成する実行経路を複数作ること
 - **禁止**: 既存関数と同等処理の再実装（名前違い・層違い含む）
 - **必須**: 変更時に `rg` で既存実装を探索し、正規モジュールを特定する
-- FE具体化: `70-fe-architecture.md` の「Single Pipeline」
-- BE具体化: `75-be-architecture.md` の「Single Mutation Pipeline」
+- FE具体化: `70-architecture.md` の「Single Pipeline / Mutation Pipeline」+「FE 固有」
+- BE具体化: `70-architecture.md` の「Single Pipeline / Mutation Pipeline」+「BE 固有」
 
 ## 変更時ゲート（新規・改修の両方に適用）
 
