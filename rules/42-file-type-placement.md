@@ -1,218 +1,67 @@
-# ファイル種別 配置仕分け（プロジェクトルール v1）
+# ファイル種別 配置仕分け（プロジェクトルール v1・索引）
 
-> **✅ Status: Active (2026-05-25 Phase 2 連動運用中)**
->
-> Phase 2 実装完了 (Stop hook `stop-vault-summary-suggest.sh` + skill `/sync-vault-summary` + helper `sync-vault-summary.py` + settings.json 登録)。本ルールは運用導線に接続済 (`~/.claude/state/vault-cc-enabled` flag gate 連動)。
->
-> **段階的展開フェーズ**:
-> - Phase 1 (本日完了): Draft 解除 + 欠落種別 M 追記 + CLAUDE.md/30-routing に参照リンク追加
-> - Phase 2 (本日完了): Stop hook + skill + script 実装 + 動作テスト
-> - Phase 3 (本日完了): weekly-vault-audit 拡張 (検証 5 K-3 project 内 wiki/ 廃止 + 検証 6 repo 専用ファイルの vault 流入検出)
-> - Phase 5 (本日完了・2026-05-25): H-6 issue tracking (GitHub Issues SoT) 採用・SessionStart hook `sessionstart-github-issues.sh` + `sync-vault-summary.py issues` 実装・3 MOC に `## 📋 Open Issues` 初期化
-> - Phase 4 (次セッション以降): 全 9 project の CLAUDE.md に Vault Integration セクション展開
->
-> **既知の運用上の留意点** (enforcement なし・warning レベルのみ):
-> - 53 種仕分けは AI_adscrm (prime_ad + prime_crm) + make_article + vault AI_adscrm 監査で 100% カバー。rohan FE+BE / aiimg / autopost 等は 53 種に該当しないファイルあり → 対象外節 (本ルール末尾) で明示
-> - hook hardcode 残課題 (H-1 リネーム / H-4 spec-pulse 出力先 / K-3+K-4 audit パス) は次セッション以降
-> - decisions.md 2026-05-25 entry「rules/42 自動展開を Phase 2 から段階的に着手」参照
+> **✅ Status: Active** (2026-05-25 Phase 2 連動 / `~/.claude/state/vault-cc-enabled` flag gate)。
+> **本ファイルは常時ロードされる薄い索引**。67 種の詳細表・備考・命名規約・根拠・適用順序・運用履歴は
+> **`docs/file-placement-detail.md`（= `~/.claude/docs/file-placement-detail.md`）を必要時 Read**。
+> （`30-routing.md` → `docs/routing-table.md` と同型の分離・2026-05-30 スリム化）
 
-**確定日**: 2026-05-24 (Phase 1 完了・Active 化: 2026-05-25)
-**位置づけ**: Claude ↔ Obsidian 連携プロジェクトでの **ファイル種別 60 種の配置 SSoT** (Active・Phase 2+5 hook 連動)
-**関連 rules**:
-- `rules/40-obsidian.md` — vault 全体運用（claude-obsidian、wiki/、meta/）
-- `rules/41-vault-project-structure.md` — Type A 詳細（MOC 構造 / frontmatter / drift 防止）
-- `rules/05-plan-task-md.md` — plan.md / task.md 役割分担
-
-**vault サマリ版**: `~/Documents/Obsidian Vault/wiki/meta/file-placement-rules.md`（叩き台フォーマットの簡潔版）
+**確定日**: 2026-05-24 (Active 化: 2026-05-25)
+**位置づけ**: Claude ↔ Obsidian 連携プロジェクトでの **ファイル種別 67 種の配置 SSoT**
+**関連 rules**: `40-obsidian.md`（vault 全体）/ `41-vault-project-structure.md`（Type A 詳細）/ `05-plan-task-md.md`
+**vault サマリ版**: `~/Documents/Obsidian Vault/wiki/meta/file-placement-rules.md`
+**詳細表 SSoT**: `~/.claude/docs/file-placement-detail.md`（全 67 種 + §0-6 補足 + N 命名規約・根拠 + 統計 + 適用順序 + 運用履歴）
 
 ---
 
-## 基本原則（叩き台 [Finalized] 準拠）
+## 基本原則
 
-- **vault** = サマリ + 索引（人間レビュー動線）
-- **repo** = 全文 SSoT（コード・実データ・git 履歴一体管理）
-- **例外**: implementation-notes は vault SSoT（rules/41 §④例外条項）
+- **vault** = サマリ + 索引（人間レビュー動線） / **repo** = 全文 SSoT（コード・実データ・git 一体）
+- **例外**: implementation-notes は vault SSoT（rules/41 §④）
+- **secrets / 認証情報は placement 禁止**（M-1・全 repo）。`~/.zshrc` export + `${VAR}` 参照（`secret-management` skill）
+- **命名**: 汎用名（`plan.md` / `measures.md` / `summary.md` / `index.md` 等）単体禁止・スコープ語前置（rules/41 §②）
 
-## プロジェクトタイプ
+## プロジェクトタイプ判定
 
 | タイプ | 説明 | 例 |
 |---|---|---|
-| **A: repo 連携** | 分析・コード・データを repo で運用、vault は索引 | AI_adscrm (prime_ad + prime_crm) |
-| **B: vault-only** | repo を持たず vault 内に全て | 知識ベース、PM ToDo、軽量分析 |
-| **C: 単発ノート** | 1 ファイル完結 | AI_LP.md 等の単独 .md |
+| **A: repo 連携** | 分析・コード・データ=repo、vault=索引 | AI_adscrm |
+| **B: vault-only** | repo なし・vault 内に全て | 知識ベース / PM ToDo |
+| **C: 単発ノート** | 1 ファイル完結 | AIera.md 等 |
 
-判定: ① 実コード or 実データを持つ → A / ② plan + 施策 + 分析 + 進捗のうち 2 種以上を継続運用 → B / それ以外 → C
-
----
-
-## 0. 既決定（叩き台より・8 種）
-
-| # | 種別 | vault | repo | 全文側 |
-|---|---|---|---|---|
-| 0-1 | 知識 / GTD / 日記 / PM ToDo | project root 直下 | — | **vault** |
-| 0-2 | draft | project root | — | **vault** |
-| 0-3 | 仕様 | 住所 + サマリ | 全文 | **repo** |
-| 0-4 | 施策 | 住所 + 1 行サマリ | 全文 | **repo** |
-| 0-5 | 計画 / 施策ファイル | サマリ | 全文 | **repo** |
-| 0-6 | 分析 | 住所 + サマリ + 図解 | 実データ + 詳細 | **repo** |
-| 0-7 | X 投稿ネタ | `wiki/x-article-stock.md`（cross） | — | **vault** |
-| 0-8 | wiki 知識化 | `wiki/` 配下（cross） | — | **vault** |
+判定: ① 実コード or 実データを持つ → A / ② plan + 施策 + 分析 + 進捗の 2 種以上を継続運用 → B / それ以外 → C
 
 ---
 
-## A. 実行追跡（5）
+## カテゴリ索引（各種の #・正確な配置・備考は `docs/file-placement-detail.md`）
 
-| # | 種別 | 配置 |
+| 群 | 種別数 | 配置の要点 |
 |---|---|---|
-| A-1 | 個別 task.md | repo `tasks/<slug>.md` |
-| A-2 | phase tracker | repo `tasks/phase-tracker.md`（vault は 1 行サマリ） |
-| A-3 | Session Handoff | repo `tasks/phase-tracker.md` 内 |
-| A-4 | lessons learned | repo `tasks/lessons.md` |
-| A-5 | TODO（task 内 sub） | task.md 内チェックリスト |
+| **0** 既決定 | 8 | 知識/draft→vault root直下 / 仕様・施策・計画・分析→repo 全文+vault 索引 / X ネタ`wiki/x-article-stock.md`・wiki 知識化`wiki/`→vault cross |
+| **A** 実行追跡 | 5 | repo `tasks/`（`<slug>.md` / `phase-tracker.md`(Session Handoff含) / `lessons.md`） |
+| **B** メタ・思考ログ | 4 | decisions/mistakes→vault `wiki/meta/`(cross) / impl-notes→**vault SSoT 例外** / 旧版→repo `archive/` |
+| **C** データ・スキーマ | 5 | repo `docs/`（`data-sources.md` / `data_lineage.yaml` / `schema-*.md` / `glossary.md` / `rationales/`） |
+| **D** 入口・設定 | 5 | repo root（README / CLAUDE / AGENTS / SECURITY）+ `docs/setup-runbook.md` |
+| **E** 参考・取り込み | 2 | 取り込み→vault `.raw/<topic>/`(append-only) / 監査→vault `wiki/meta/_audit/<group>.md` |
+| **F** 議事録 | 0 | **本ルール射程外**（vault `01_Biz/` で project 独立運用） |
+| **G** 制作物 | 3 | 記事→repo `output/` / 画像→vault `attachments/` / プロンプト→vault `02_Ai/` 直下 |
+| **H** 横串・レポート | 5 | group MOC `<group>_ope.md` / 1-pager / レビュー記録 / spec-pulse / **registry=`wiki/meta/project-registry.md`** / issue=**GitHub Issues SoT** + MOC `## 📋 Open Issues` ミラー |
+| **I** コード系 | 5 | repo `scripts/<domain>/` / `scripts/pipelines/` / `tests/`（top集約）/ `hooks/` |
+| **J** インフラ・設定 | 4 | repo root/`config/`（YAML/JSON / Dockerfile / requirements.txt / .env.example） |
+| **K** テンプレ・特殊 | 4 | repo `templates/` / project 内 wiki/（`_index.md` `_audit.md`）は**廃止**（MOC 代替） |
+| **L** ライフサイクル | 3 | refs→repo `<sub>/refs/` 集約 / bak・legacy→`archive/` 隔離保持 |
+| **M** データ・運用 | 6 | **secrets=禁止** / logs・data raw/processed・cache→repo gitignore / reports→repo+vault サマリ |
+| **N** ファイル命名規約 | 8 | research / concepts / sources / meta / raw / MOC / impl-notes / claude-task の type 別命名形式 |
 
-## B. メタ・思考ログ（4）
-
-| # | 種別 | 配置 |
-|---|---|---|
-| B-1 | アーキ決定ログ | vault `wiki/meta/decisions.md`（cross・append-only） |
-| B-2 | ミス・教訓 | vault `wiki/meta/mistakes.md`（cross・de-dup 上書き） |
-| B-3 | implementation-notes | vault `02_Ai/<group>/<sub>-impl-notes.md`（**vault SSoT 例外**） |
-| B-4 | 旧版 archive | repo `docs/archive/` / `tasks/archive/` |
-
-## C. データ・スキーマ（5）
-
-| # | 種別 | 配置 |
-|---|---|---|
-| C-1 | データソース台帳 | repo `docs/data-sources.md`（vault は住所 + 主要表） |
-| C-2 | データ系譜 | repo `docs/data_lineage.yaml`（vault はカテゴリ別構造表） |
-| C-3 | スキーマ辞書 | repo `docs/schema-*.md` |
-| C-4 | 用語集 | repo `docs/glossary.md` |
-| C-5 | 統計根拠（rationales） | repo `docs/rationales/*.md` |
-
-## D. 入口・設定（5）
-
-| # | 種別 | 配置 |
-|---|---|---|
-| D-1 | README.md | repo root |
-| D-2 | CLAUDE.md（root） | repo root |
-| D-3 | AGENTS.md | repo root |
-| D-4 | SECURITY.md | repo root |
-| D-5 | setup-runbook | repo `docs/setup-runbook.md` |
-
-## E. 参考・取り込み（2）
-
-| # | 種別 | 配置 |
-|---|---|---|
-| E-1 | 取り込みソース | vault `.raw/<topic>/`（cross・append-only） |
-| E-3 | 監査レポート | K-4 で再配置（vault `wiki/meta/_audit/<group>.md`） |
-
-*E-2 (refs) は L-2 へ統合。*
-
-## F. 議事録 — 射程外
-
-| # | 種別 | 配置 |
-|---|---|---|
-| F-1 / F-2 | 議事録（内部 / 外部） | **本ルール射程外**（vault `01_Biz/` で project 独立運用） |
-
-## G. 制作物（3）
-
-| # | 種別 | 配置 |
-|---|---|---|
-| G-1 | 記事原稿（make_article 系） | repo `make_article/output/` |
-| G-2 | スクリーンショット・画像 | vault `attachments/` |
-| G-3 | プロンプトメモ | vault `02_Ai/` 直下（Type C） |
+**合計 67 種**（カバー率: prime_ad 92 + prime_crm 57 + vault AI_adscrm 12 ファイル = **100%**）。
 
 ---
 
-## H. 横串・レポート（5）
+## 対象外（rules/42 で配置判定しない・各 project の慣習に従う）
 
-| # | 種別 | 配置 | 備考 |
-|---|---|---|---|
-| H-1 | 横串 MOC（group 統合） | vault `02_Ai/<group>/<group>_ope.md` | **`adscrm_cross.md` → `AI_adscrm_ope.md` リネーム要**（hook hardcode 影響範囲調査） |
-| H-2 | エグゼクティブサマリ / 1-pager | vault `02_Ai/<group>/<group> 経営層 1-pager.md` | 図解付き（Mermaid / 表） |
-| H-3 | レビュー記録（日付つきセカンドオピニオン） | **内容で分ける**（戦略レビュー→vault / 仕様レビュー→repo `<sub>/docs/reviews/`） | codex 推奨 C |
-| H-4 | 定期レポート（spec-pulse 系） | repo `<sub>/metrics/spec-pulse/<date>.md` + vault サマリ | **spec-pulse-plan.md の出力先 hardcode 改修要** |
-| H-5 | プロジェクト住所録（registry） | vault `wiki/meta/project-registry.md`（cross-project 統合） | 2026-05-25 移設: 旧 `02_Ai/AI_adscrm/project-registry.md` → `wiki/meta/` (vault 全体の横串インデックスとして B グループ meta と統合) |
-| H-6 | issue tracking (bug / feature request / 第三者報告) | **GitHub Issues SoT** (`gh issue create -R <repo>`) + vault MOC `<sub>_ope.md` の `## 📋 Open Issues` セクションに自動ミラー | 2026-05-25 採用: `.github/ISSUE_TEMPLATE/bug-report.yml` 標準項目・SessionStart hook `sessionstart-github-issues.sh` + helper `sync-vault-summary.py issues` で `gh issue list` 上位 5 件を自動同期。vault は read-only mirror。境界: issue = 観測事象 / task.md = fix 作業 / impl-notes Open Questions = 実装中の設計疑問 |
-
-## I. コード系（5・全 repo）
-
-| # | 種別 | 配置 | 備考 |
-|---|---|---|---|
-| I-1 | 本番スクリプト | repo `scripts/<domain>/` ドメイン分割（`fetch/`, `aggregate/`, `sheet_sync/`, `guard/`, `etl/`） | codex 推奨 B |
-| I-2 | 探索スクリプト（prefix `_`） | 現状維持（プロジェクトごと判断） | — |
-| I-3 | ETL/分析パイプライン（番号 prefix） | repo `scripts/pipelines/<name>/step_NN.py` | — |
-| I-4 | テスト | repo トップ `tests/` 集約 | prime_crm の近接配置も移動 |
-| I-5 | プロジェクト hooks | repo `hooks/` | — |
-
-## J. インフラ・設定（4・全 repo・全て現状維持）
-
-| # | 種別 | 配置 |
-|---|---|---|
-| J-1 | 構造化設定（YAML/JSON） | repo `config/` トップ |
-| J-2 | インフラ定義（Dockerfile / docker-compose.yml） | repo ルート |
-| J-3 | 依存管理（requirements.txt） | repo ルート |
-| J-4 | 環境変数テンプレ（.env.example） | repo ルート |
-
-## K. テンプレ・特殊（4）
-
-| # | 種別 | 配置 | 備考 |
-|---|---|---|---|
-| K-1 | プロジェクト固有テンプレ | repo `templates/` | — |
-| K-2 | サブディレクトリ CLAUDE.md | **claude-mem 専用と割り切る**（人間ガイダンスは root CLAUDE.md のみ） | — |
-| K-3 | プロジェクト内 wiki index (_index.md) | **廃止**（MOC で代替） | rules で project 内 wiki/ は推奨なし |
-| K-4 | プロジェクト内 wiki audit (_audit.md) | **vault root `wiki/meta/_audit/<group>.md` に集約** | hook hardcode 修正要（weekly-vault-audit.sh L15 / sessionstart-vault-audit-warning.sh L20）。project 内 wiki/ ディレクトリ自体は廃止 |
-
-## L. ライフサイクル（3）
-
-| # | 種別 | 配置 | 備考 |
-|---|---|---|---|
-| L-1 | 1 回限り診断レポート | **0-6「分析」カテゴリに統合**（独立種別不要） | — |
-| L-2 | 過去証跡 refs（ブレスト退避 / DONE 元プロンプト退避） | **すべて repo `<sub>/refs/` 集約** | vault `02_Ai/rohan/refs/` も repo へ移動 |
-| L-3 | バックアップ / legacy（*.bak-*, .obsidian-done-legacy-*） | **`archive/` サブディレクトリ隔離保持**（例: `rohan/archive/`） | 即時削除は避け、必要時に復活可能 |
-
-## M. データ・運用（6・2026-05-25 追記）
-
-| # | 種別 | 配置 | 備考 |
-|---|---|---|---|
-| M-1 | secrets / 認証情報 | **placement 禁止** (全 repo) | `~/.zshrc` export + `${VAR}` 参照 (`rules/30-routing.md §シークレット` + `secret-management` skill 準拠) |
-| M-2 | logs / 実行ログ | repo `logs/` (gitignore) | size 100MB 超は launchd で rotate |
-| M-3 | データ raw | repo `data/raw/` (gitignore) | append-only / 取得元は `docs/data-sources.md` (C-1) |
-| M-4 | データ processed | repo `data/processed/` (gitignore) | 再生成可能 / lineage は `docs/data_lineage.yaml` (C-2) |
-| M-5 | キャッシュ | repo `.cache/` (gitignore) | 削除可・再生成前提・*.ok ファイル等の自動生成 marker 含む |
-| M-6 | reports (定期出力) | repo `reports/<topic>-<date>.md` + vault サマリ | finding-sync skill 経由 (主に prime_crm)・finding ノート + key_findings.md + decision_log + executive_summary |
-
-## 対象外節（2026-05-25 明示）
-
-以下は本ルール (rules/42) の **enforcement 対象外**。Claude が新規ファイル配置を判断する際、これらは「rules/42 で配置先を判定しない・各 project の慣習に従う」:
-
-- **gitignore 配下の自動生成物**: `*.pyc`, `__pycache__/`, `node_modules/`, ビルド成果物
-- **FE+BE 構成プロジェクト** (rohan 等): `frontend/` `backend/` `routers/` 等の framework 規約配下は本ルール射程外。各 project の README/CLAUDE.md に従う
-- **vault 全体の非連携領域**: `00_General/` `00_Inbox/` `01_Biz/` `03_ClaudeEnv/` `Lifehack/` `Visual/` `tips/` `pf structure/` `projects/` `templates/` `attachments/` `02_Ai/` 直下の単独 .md (AIera.md 等)
-- **議事録 (F グループ・既出)**: `01_Biz/` で project 独立運用
-
----
-
-## 統計
-
-- 既決定 8 / A 5 / B 4 / C 5 / D 5 / E 2 / F 0（射程外）/ G 3
-- H 5 / I 5 / J 4 / K 4 / L 3 / **M 6 (2026-05-25 追記)**
-- **合計 59 種**
-
-カバー率（実プロジェクト監査）: prime_ad 92 ファイル / prime_crm 57 ファイル / vault AI_adscrm 12 ファイル → **100%**
-
----
-
-## 適用順序
-
-1. K-3+K-4 → AI_adscrm/wiki/ 解体 + hook hardcode 修正（3 ファイル）
-2. H-1 → adscrm_cross.md → AI_adscrm_ope.md リネーム + hook hardcode 影響範囲調査
-3. H-4 → weekly-update を repo へ移動 + spec-pulse-plan.md の出力先改修
-4. 既存 Red Flag（前棚卸し由来）: prime_ad/plan.md 1170 行肥大化 / prime_crm/plan.md 重複 / AIcrm_ope.md L93-204 / aiads-ope-now-cat.sh hardcode バグ
-5. L-2 / L-3 → vault `02_Ai/rohan/` の refs と .bak / legacy 整理
-6. I-1 → prime_ad/scripts/ ドメイン分割（影響範囲: import パス）
-
-詳細マッピング・差分案は `~/Desktop/prm/prime_suite-inventory/inventory/` を参照（worktree branch: `inventory/role-split-2026-05-24`）。
+- **gitignore 配下の自動生成物**: `*.pyc` / `__pycache__/` / `node_modules/` / ビルド成果物
+- **FE+BE 構成プロジェクト**（rohan 等）: `frontend/` `backend/` `routers/` 等の framework 規約配下 → 各 project の README/CLAUDE.md
+- **vault 非連携領域**: `00_General/` `00_Inbox/` `01_Biz/` `03_ClaudeEnv/` `Lifehack/` `Visual/` `tips/` `pf structure/` `projects/` `templates/` `attachments/` と `02_Ai/` 直下の単独 .md（AIera.md 等）
+- **議事録（F 群）**: `01_Biz/` で project 独立運用
 
 ---
 
