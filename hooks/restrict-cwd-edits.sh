@@ -34,6 +34,13 @@ if [[ "$FILE_PATH" == "$HOME/.claude/"* ]]; then
   exit 0
 fi
 
+# Always allow: git worktrees of the ~/.claude config repo (.claude-wt-*).
+# Worktrees are a sanctioned workflow (CLAUDE.md "isolation: worktree"); a worktree
+# is the same repo on a branch at a sibling path, so treat it like ~/.claude/.
+if [[ "$FILE_PATH" == "$HOME/.claude-wt-"* ]]; then
+  exit 0
+fi
+
 # Always allow: Obsidian Vault (project spec MDs managed via Obsidian)
 OBSIDIAN_VAULT="$HOME/Documents/Obsidian Vault/"
 if [[ "$FILE_PATH" == "$OBSIDIAN_VAULT"* ]]; then
