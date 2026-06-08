@@ -56,6 +56,26 @@ git_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "-")
 project_dir=$(echo "$input" | jq -r '.workspace.project_dir // empty')
 project_name=$(basename "${project_dir:-$(pwd)}")
 
+# 今回のセッション目標 — その作業ツリーで「今やろうとしていること」を1行表示する。
+#   保存先: ~/.claude/state/session-goals/<worktree-root をサニタイズ>.txt (repo 外 = git を汚さない)
+#   セット方法: ユーザーが「今回の目標は〜」と言うと Claude がこのファイルを書き換える。
+#   未設定なら何も出さない (4行目は消える) ので雑音にならない。
+session_goal=""
+_pdir="${project_dir:-$(pwd)}"
+# project の単位は「作業ツリー (worktree)」に揃える (worktree ごとに別目標・subdir でもズレない)。
+# --show-toplevel は subdir からでも作業ツリーの root を返す。worktree は main と別 root なので別キーになる。
+_proot=$(git -C "$_pdir" rev-parse --show-toplevel 2>/dev/null)
+[ -z "$_proot" ] && _proot="$_pdir"
+_goal_key=$(printf '%s' "$_proot" | sed 's|[^A-Za-z0-9._-]|-|g; s|^-*||')
+_goal_file="$CLAUDE_DIR/state/session-goals/$_goal_key.txt"
+if [ -f "$_goal_file" ]; then
+  session_goal=$(head -1 "$_goal_file" | tr -d '\r\n')
+  # 40 文字超は末尾を … に圧縮 (perl で UTF-8 文字単位カウント・macOS 安全)
+  if [ -n "$session_goal" ]; then
+    session_goal=$(printf '%s' "$session_goal" | perl -CSAD -ne 'chomp; if (length > 40){print substr($_,0,40)."\x{2026}"} else {print}' 2>/dev/null)
+  fi
+fi
+
 # Effort level (from settings.json — merge project > user)
 effort_level=$(jq -r '.effortLevel // empty' "$CLAUDE_DIR/settings.json" 2>/dev/null)
 [ -z "$effort_level" ] && effort_level=$(jq -r '.effortLevel // empty' "$CLAUDE_DIR/settings.local.json" 2>/dev/null)
@@ -242,3 +262,7 @@ printf "⏱ 5h %s %d%% (%s) │ 📅 7d %s %d%% (%s)\n" \
 printf "🔀 %s │ 📁 %s" \
   "$git_branch" \
   "$project_name"
+# 4行目: 今回のセッション目標 (作業中に「今やろうとしてること」を見失わない anchor)
+if [ -n "$session_goal" ]; then
+  printf "\n🎯 今回の目標: %s" "$session_goal"
+fi
