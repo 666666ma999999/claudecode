@@ -94,4 +94,20 @@ cwd_label="$(basename "$CWD" | tr -d '\n\r\t')"
   echo "$best_section" | head -25
 }
 
+# ─── playbook 注入 (該当 section に playbook 絶対パスがあれば Must Remember を出力) ───
+# registry の playbook 行に書かれた `~/Documents/...-playbook.md` を抽出し、
+# その `## Must Remember` section を context 注入する (= project ごと運用知の自動想起)。
+# playbook 行が無いプロジェクトでは何も出ない (= 既存動作に影響なし・安全)
+playbook_path="$(echo "$best_section" | grep -oE '~/Documents/[^`]*-playbook\.md' | head -1)"
+playbook_path="${playbook_path/#\~/$HOME}"
+if [ -n "$playbook_path" ] && [ -f "$playbook_path" ]; then
+  # `## Must Remember` section から箇条書き行 (- or *) のみ抽出 (説明文/HTMLコメント/空行除外・最大 15 行)
+  must_remember="$(awk '/^## Must Remember/{f=1;next} /^## /{f=0} f' "$playbook_path" | grep -E '^[[:space:]]*[-*] ' | head -15)"
+  if [ -n "$must_remember" ]; then
+    echo ""
+    echo "=== 📒 $(basename "$playbook_path" .md) Must Remember (運用知・自動想起) ==="
+    echo "$must_remember"
+  fi
+fi
+
 exit 0

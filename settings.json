@@ -469,7 +469,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "(~/.claude/hooks/sessionstart-project-registry.sh) 2>&1 | head -30"
+            "command": "(~/.claude/hooks/sessionstart-project-registry.sh) 2>&1 | head -45"
           }
         ]
       },
@@ -489,6 +489,15 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/wiki-dormant-warn.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/sessionstart-vault-audit-warning.sh"
           }
         ]
       }
@@ -626,6 +635,15 @@
             "command": "[ -f \"$(pwd)/wiki/hot.md\" ] && cat \"$(pwd)/wiki/hot.md\" || true"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/precompact-vault-sync.sh"
+          }
+        ]
       }
     ],
     "Notification": [
@@ -740,6 +758,7 @@
   },
   "effortLevel": "xhigh",
   "tui": "fullscreen",
+  "skipWorkflowUsageWarning": true,
   "claudeMdExcludes": [
     "**/firecrawl/**",
     "**/templates/**",
@@ -754,5 +773,6 @@
     "environment": [
       "macOS darwin23, cwd主に ~/Desktop/biz 配下, Docker開発環境"
     ]
-  }
+  },
+  "model": "claude-fable-5[1m]"
 }
