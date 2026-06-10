@@ -87,3 +87,7 @@ archives/
 # 一時分析スクリプト
 tmp_analysis/
 tmp_*/
+
+# 端末固有の自動生成ステートファイル（cleanup tick / self-update 記録）
+/.last-cleanup
+/.last-update-result.json
