@@ -22,6 +22,7 @@
 | git commit/push/事故 | `git-safety-reference` |
 | .mcp.json/APIキー | `secret-management` |
 | Obsidian NOW→DONE/`/done` | `obsidian-now-done`（_dormant 退避済 2026-05-23） |
+| vault にレポート/分析/findings を綺麗に整形・清書・報告書化・経営層1-pager/ダッシュボード化・スクショ映え | `vault-report-writing`（設計担当・構文は `obsidian-markdown` に委譲） |
 | アーキ判断・設計決定の記録 | `/save decision` → `wiki/meta/decisions.md` |
 | 失敗パターン・教訓・再発防止 | `/save mistake` → `wiki/meta/mistakes.md`（de-dup、2 回目以降は既存統合） |
 | 過去ノートの誤記訂正 | `rules/40-obsidian.md §訂正プロトコル` |
@@ -29,12 +30,15 @@
 | Web リサーチ | `~/.claude/docs/web-research-tools.md` |
 | Google Workspace | `gog-cli`（WebFetch禁止） |
 | 叩き台/探索/UI試作 | `/prototype` |
+| 探索的分析の隔離・使い捨てスクリプト/中間データ管理・リサーチ worktree 運用・確定知見の昇格 | `research-isolation`（思想・型／全プロジェクト普遍）。具体は各 project の `docs/research-workflow.md` |
 | task細分化/進捗/復帰 | `task-planner` / `task-progress` / `project-recall` |
 | SubAgent委譲判断 | `execution-patterns` |
 | ニュース収集・news JSONL確認 | `~/.claude/scripts/collect_news.py` + `.raw/news/YYYY-MM-DD.jsonl` |
 | news → wiki 昇格（知識化） | `wiki-ingest` または `/save` |
 | news → 深掘り | `autoresearch` |
-| ファイル配置 59 種仕分け / vault MOC 自動同期 | `rules/42-file-type-placement.md` + `/sync-vault-summary` skill |
+| ファイル配置 67 種仕分け / vault MOC 自動同期 | `rules/42-file-type-placement.md` + `/sync-vault-summary` skill |
+| プロジェクトの過去作業サマリー / 作業順序を git 履歴から把握 | `/project-history`（`~/.claude/scripts/project-history.sh`・期間/日別作業量/種類集計。「5手順マップして」で①〜⑤対応表） |
+| 作業メソドロジー雛形(0層+①〜⑥+メタ層)を現プロジェクトに配置 | `/methodology`（`~/.claude/scripts/place-methodology.sh`・`templates/methodology-5step.md` をコピー。お手本=`[[prime_suite-methodology-draft]]`） |
 | 今回のセッション目標を画面下(statusline)に常時表示・忘れ防止「今回の目標は〜」 | `session-goal` / `/session-goal`（`~/.claude/scripts/session-goal.sh`・作業ツリー(worktree)単位=worktreeごとに別目標・repo 外保存） |
 
 その他のカテゴリ（KPI・データ可視化・ダッシュボード・売上分析・スクレイピング・X Articles 12種・スキル管理・設定診断・Codex委譲 ほか）は `routing-table.md` 参照。

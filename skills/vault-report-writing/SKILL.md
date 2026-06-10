@@ -1,0 +1,135 @@
+---
+name: vault-report-writing
+description: Obsidian vault に「読み手が数秒で結論へ到達でき・drift せず・スクショ映えする」レポートを書くための設計 skill。レポートの構成・要約・情報密度・読ませ方を決める (Obsidian 構文そのものは obsidian-markdown skill に委譲)。Use when writing/cleaning up a report, analysis note, findings, executive 1-pager, progress/MOC dashboard, incident postmortem, or security report in Obsidian. Triggers: 「vault に綺麗なレポート」「Obsidian レポート」「レポート整形/清書」「綺麗にまとめて」「経営層サマリ/エグゼクティブサマリ/1-pager」「findings 清書」「ダッシュボード化」「インシデント報告書/ポストモーテム」「ゴール&やること先頭」「目標と次アクション」「優先順位とその理由」「BLUF/結論先出し」「スクショ映え」「report craft」.
+---
+
+# Vault Report Writing — レポート設計 skill
+
+vault に置く**人が読む成果物**を「読まれる資料」に仕上げる。**設計担当**（誰向け / 何を先に見せる / 情報密度 / どの表現を選ぶか）であり、**構文担当ではない** — callout/embed/frontmatter/Mermaid の書き方は [[obsidian-markdown]] skill を呼ぶ。
+
+## When to use / NOT
+
+- **使う**: 分析レポート・findings 清書 / 経営層サマリ・1-pager / 進捗・MOC・ダッシュボード / インシデント・ポストモーテム / セキュリティ・リスク監査 / 「綺麗にまとめて」「読みやすくして」。
+- **使わない**: コード実装・データ抽出そのもの（→ 各 project skill）/ 1〜3 行の事実メモ（過剰）/ Obsidian 構文の質問だけ（→ obsidian-markdown）。
+
+## 🎯 最優先：ゴール&やること を冒頭に（結論より先）
+
+レポートの**一番上**（タイトル直下・結論より前）に必ず置く。読み手が最初の数秒で「**何を目指していて、まず何をすればいいか**」を掴めるようにする。「結論」「最重要事実」はこのブロックの**下**に置く（結論先出しより、ゴール先出し）。
+
+```markdown
+> [!todo] 🎯 ゴール & やること（最初に読む）
+> **ゴール**: 〈この作業/レポートで達成したい状態を1文〉
+> **やること（優先順・各項目に「なぜその順位か」を必ず書く）**:
+> 1. 〈具体的な施策＝実際に何をするか。成果物・数値・着手単位まで〉 — **なぜ1番**: 〔判定軸〕…の理由
+> 2. 〈具体的な施策〉 — **なぜ2番**: 〔判定軸〕…の理由
+> 3. 〈具体的な施策〉 — **なぜ3番**: 〔判定軸〕…の理由
+> **現在地**: 〈今ここ / 次の一手〉   ←任意
+```
+
+**3つの必須要素（1つでも欠けたら不完全＝過去に毎回これが抜けた）**:
+1. **優先順位** — やることは番号付きで上から優先順に並べる。
+2. **なぜその順位か（ロジック）** — 各項目に「なぜN番」を書き、下の判定軸のどれが効いたかを明示する（恣意的に並べない）。
+3. **具体施策** — 各項目は「実際に何をするか」を成果物・数値・着手単位まで書く。**「○○を出す」のような記号・参照で済ませない**（コード名・テーマ名だけはNG）。
+
+**優先順位の判定軸**（「なぜN番」の根拠に使う・恣意性を排除）:
+
+| 軸 | 上位になる理由 |
+|---|---|
+| 依存関係 | これを先にやらないと他が進まない（土台・前提） |
+| 着手コスト | 今すぐ着手できる（準備不要）ものが上、準備が要るものは下 |
+| ROI（効果×コスト） | 効果が大きく低コスト |
+| 不可逆/リスク | 後回しにすると取り返しがつかない |
+| 鮮度/締切 | 旬・期限がある |
+
+> [!warning] ガードレール（必読）
+> 🎯ブロックの**ゴール・やることの中身を新規に決める／変更する時は、書く前にユーザーに確認する**。ゴールを勝手に再定義しない。前回と同じゴールを踏襲する時は確認不要、変える時だけ確認。
+
+## 5 つの不変原則（商材非依存・これだけは守る）
+
+1. **BLUF（結論先出し）** — 上記 🎯 ゴール&やることブロックの**直下**に「答え・推奨・取るべき行動」を 1 ブロックで置き、以降を根拠で支える逆ピラミッド。`> [!success] 結論` に Who/What/Impact/Action を 1-2 行。（🎯 が最上＝ゴール先出し、その次が結論先出し）
+2. **二層化** — 同じ事実を「経営層サマリ（非技術・インパクト）」と「技術詳細（再現・証拠）」に物理分離。片方だけ読めるようにする。
+3. **vault=サマリー / repo=実体** — 同じ内容を 2 箇所に書かない。embed `![[Note#section]]` と block reference で単一正本。司令塔/MOC は実体コピーでなくリンク索引（rules/41 anti-bloat）。
+4. **引く美学（Tufte）** — data-ink を最大化し chartjunk（グリッド・枠・3D・装飾）を削る。**色と強調は希少資源**: グレー基調 + 1 色だけ強調。「全部強調＝何も強調しない」。色だけに頼らず太字・直接ラベルを併用（色覚多様性 4% 配慮）。
+5. **スキャン構造** — 短い見出し・短段落（3-7 行）・front-load（重要度降順）・F 字導線。長表の前に「読み方ガイド」を 1 行。
+
+## Workflow
+
+1. **読み手と目的を 1 行で確定** — 誰が・何を判断するために読むか。これで種別が決まる。
+2. **種別を選ぶ** → [references/report-types.md](references/report-types.md) の decision table で「冒頭ブロック・本文構造・図・索引・折りたたみ方針」を引く。
+3. **BLUF 冒頭を書く** — 結論 callout（下記テンプレ）。
+4. **本文を種別テンプレで埋める** — 種別ごとの定型（report-types.md）。詳細・根拠・raw は `[!type]-` foldable か別ノート embed に隔離。
+5. **意味で視覚を割り当てる**（下記 callout 語彙）。
+6. **drift 防止** — frontmatter properties を入れ、索引は Dataview/Bases で動的化。手書き一覧表を作らない。
+7. **構文は [[obsidian-markdown]] に委譲**して整える。
+8. **仕上げチェックリスト**（末尾）を通す。
+
+## callout 語彙の固定（意味レイヤー・全レポート横断で一貫）
+
+| callout | 意味 |
+|---|---|
+| `success` | 確定知見・結論・うまくいった |
+| `warning` | 留保データ・要注意・まずかった |
+| `question` | 未解決の論点 |
+| `info` | 前提条件・運が良かった |
+| `danger` | 閾値超え・Critical |
+| `bug` | finding（指摘事項） |
+| `abstract` / `example` | 根拠・付録（foldable で隔離） |
+| `todo` | 🎯 ゴール&やること（冒頭・行動起点・結論より上） |
+
+→ callout は**装飾ではなく意味**。この割当を崩さない。
+
+## BLUF 冒頭テンプレ
+
+```markdown
+> [!success] 結論
+> **誰に**: <意思決定者> / **何が**: <1 行の結論> / **影響**: <数字> / **次アクション**: <1 つ>
+
+> [!abstract]- 根拠（開くと詳細）
+> <SCQA: 状況→複雑化→問い→答え。深掘りはここに隔離>
+```
+
+## 図はテキストで持つ（diagrams as code）
+
+スクショ画像は検索・diff・リンクが効かない。**Mermaid**（flowchart/sequence/gantt/pie/timeline）と vault 内 **Excalidraw** を優先。KPI ツリー・パイプライン・Phase 遷移・attack narrative を図解。ノード→ノートは `class NodeName internal-link;`。
+
+- **レイアウト既定は縦長**（`flowchart TD`）。Obsidian は縦スクロール閲覧なので、各ステップを上から順に追える縦並びが読みやすいため。横長（`flowchart LR`）は「要素が 2-3 個で横一列が明快」または**ユーザーの明示指定**のときだけ。迷ったら TD。（ユーザー確定ルール 2026-06-01）
+- **棒グラフに `xychart-beta` を使わない**（Obsidian の Mermaid は実験的な xychart-beta の bar を描画しないことがある＝タイトル・軸目盛は出るが棒が空白。2026-06-01 実機で確認）。棒・量の比較は **表＋コードブロックの █ バー**で出す＝全環境で確実に描画。例: `` `███████▋········` 32% ``（8分の1ブロック ▏▎▍▌▋▊▉ で端数）。`flowchart`/`pie`/`gantt`/`timeline` は正式機能なので可。
+- **`pie` は既定色が隣接スライスで近く見分けづらい** → 先頭に `%%{init: {"theme":"base","themeVariables":{"pie1":"#D55E00","pie2":"#56B4E9","pie3":"#009E73","pie4":"#E69F00","pie5":"#0072B2","pie6":"#CC79A7","pie7":"#BBBBBB","pieStrokeColor":"#ffffff","pieStrokeWidth":"2px"}}}%%` を置き、Okabe-Ito 等の高コントラスト色を明示（「その他」はグレー・白枠で境界分離）。スライス数だけ pie1..pieN を定義。
+
+## drift を構造で防ぐ
+
+- 全ノートに frontmatter properties（`project / type / status / last_updated / 主要KPI`）。
+- 索引・集計は `dataview TABLE ... WHERE ...` か Bases（公式・プラグイン非依存）で**動的化** → 「メタを直せば表が自動追従」。
+- 司令塔/MOC は embed `![[Note#section]]` で集約（実体コピー禁止）。
+
+## 仕上げチェックリスト
+
+- [ ] **冒頭に 🎯 ゴール&やること があるか（結論より上）**
+- [ ] **やること各項に「①優先順位 ②なぜN番(判定軸) ③具体施策(記号でなく実内容)」が揃っているか**
+- [ ] **ゴール/やることを新規決定・変更した時、書く前にユーザー確認したか**
+- [ ] 結論が**冒頭 1 ブロック**にあるか（15 行以内・🎯 の直下）
+- [ ] callout が**意味と一致**しているか（装飾になっていないか）
+- [ ] 二重管理（コピペ）を embed 化したか
+- [ ] chartjunk・過剰な太字/色を削ったか（1 色強調か）
+- [ ] 種別を混ぜていないか（how-to / reference / explanation・Diátaxis）
+- [ ] `last_updated` を当日にしたか
+- [ ] スクショして**1 画面で要点が掴める**か
+
+## references
+
+| ファイル | 中身 |
+|---|---|
+| [report-types.md](references/report-types.md) | レポート種別 → 表現 decision table + 種別別コピペテンプレ |
+| [obsidian-patterns-for-reports.md](references/obsidian-patterns-for-reports.md) | Obsidian 表現の「いつ使うか」カタログ（14 件） |
+| [visualization-principles.md](references/visualization-principles.md) | Tufte/Few/Minto/Diátaxis/公式の原則（15 件） |
+| [hacker-report-methods.md](references/hacker-report-methods.md) | PTES/OWASP/postmortem の報告術（14 件） |
+| [x-post-angles.md](references/x-post-angles.md) | X 発信の型 + 記事アングル（→ `wiki/x-article-stock.md`） |
+| [model-case-aiads-v2.md](references/model-case-aiads-v2.md) | 実例: 広告候補レポート v2 の構造分解 + 4 スタイル実験 |
+| [before-after-examples.md](references/before-after-examples.md) | 悪い例 → 改善例の短い比較 |
+| [sources.md](references/sources.md) | 全出典 URL（48 件・research 2026-05-30） |
+
+## 境界（obsidian-markdown との分担）
+
+- **vault-report-writing（本 skill）** = 設計: 誰向け / 何を先に / どの表現を選ぶ / 情報密度をどう落とす。
+- **[[obsidian-markdown]]** = 構文: wikilink・embed・callout・properties・Mermaid の正しい書き方。
+- 構文一覧を本 skill に再掲しない（重複回避）。
