@@ -30,6 +30,11 @@ for f in "$VAULT/02_Ai/AI_adscrm/"*.md \
          "$VAULT/02_Ai/AI_adscrm/AIcrm/research/_raw/"*.md \
          "$VAULT/02_Ai/AI_adscrm/AIcrm/research/_archive/"*.md; do
   [ -f "$f" ] || continue
+  # claude-mem 自動生成ファイル (AGENTS.md/CLAUDE.md) はスキップ。
+  # frontmatter を足しても再生成で消えるため audit 対象外 (2026-06-10)。
+  if head -1 "$f" 2>/dev/null | grep -q '<claude-mem-context>'; then
+    continue
+  fi
   # 例外 type (concept/registry/guide) スキップ
   if awk '/^---$/{c++; if(c==2)exit} c==1' "$f" 2>/dev/null | grep -qE '^type: (concept|registry|guide)$'; then
     continue
