@@ -22,7 +22,7 @@
   - **Set 1 (グローバル抽象・全 project 共通)**: Recall (UserPromptSubmit で decisions/mistakes 注入) / Capture (`/save decision` `/save mistake` → vault) / Overwrite (mistakes de-dup, hot.md/_index.md 完全上書き) / **Ingest (外部情報の `.raw/` 自動取得 + `wiki/sources/` 昇格・更新)** の **4 ルール**。詳細は vault `wiki/concepts/Claude-Obsidian feedback loop.md`、実装規約は `rules/40-obsidian.md`、ルール本体は [[vault-rules-global]] / [[vault-rules-project]]
   - **Set 2 (プロジェクト実装・各 project 固有)**: 各 `<project>/CLAUDE.md` に `## Vault Integration` セクションを置き、Set 1 の 4 ルールを **当 project でどう投影するか** を記述。テンプレ: `~/.claude/templates/vault-rules-project.md` (例: AIads → impl-notes ノート + AIads_ope.md MOC / prime_crm → findings ノート + finding-sync skill / make_article → x-article-stock + Material Bank + article_bridge.py)
   - **両者の対応**: 同じ 4 ルール構造を 2 レイヤーで持つことで drift 検出可能。各 project の Vault Integration セクションは Claude Code 標準動作で自動 load される (グローバルから「読ませる」hook 不要)
-- **ファイル配置 59 種 (2026-05-25〜・Phase 2 連動)**: 詳細 `rules/42-file-type-placement.md` (Active)。Stop hook `stop-vault-summary-suggest.sh` が rules/42 対象ファイル編集を検出 → `/sync-vault-summary` skill 起動で要約生成 + vault MOC `## 🔁 最新更新ログ` に append。`~/.claude/state/vault-cc-enabled` flag gate で完全休眠可
+- **ファイル配置 67 種 (2026-05-25〜・Phase 2 連動)**: 詳細 `rules/42-file-type-placement.md` (Active)。Stop hook `stop-vault-summary-suggest.sh` が rules/42 対象ファイル編集を検出 → `/sync-vault-summary` skill 起動で要約生成 + vault MOC `## 🔁 最新更新ログ` に append。`~/.claude/state/vault-cc-enabled` flag gate で完全休眠可
 
 ## タスク規模判定（最優先）
 
@@ -58,6 +58,7 @@
 ## 標準ワークフロー
 
 0. **plan.md/task.md 確認** → plan.md → 該当 task.md の Session Handoff/Stuck Context
+0.5. **新プロジェクト着手時のみ**: `/init-project`（環境基盤）+ `/methodology`（作業の型 = 0層+①〜⑥+メタ層を配置）→ 各ステップの「問い」に当 project のデータ・ツールで答える。概念=[[作業メソドロジー]] / 雛形=`templates/methodology-5step.md`
 1. **スキル確認**（Plan 前必須）: `30-routing.md` → なければ `find-skills`
 1.5. **曖昧点洗い出し**（3 ファイル以上）: エッジケース・エラー・統合ポイント列挙、不明点は `AskUserQuestion`
 2. **Plan モード**: 必須セクション Goal/Architecture/Tasks/Verification/成功基準。アーキ判断は `plan-adversarial-review` 検討

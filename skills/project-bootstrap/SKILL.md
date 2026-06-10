@@ -40,6 +40,11 @@ allowed-tools: [Bash, Read, Write, Edit, Glob, Grep]
 ### 5. タスク管理
 - [ ] `.claude/workspace/` ディレクトリ作成（必要時）
 
+### 6. 作業メソドロジー（5手順デフォルト）
+- [ ] `~/.claude/templates/methodology-5step.md` をプロジェクトに配置（例: `docs/methodology-5step.md` または `plan.md` 冒頭に転記）
+- [ ] データ駆動で施策を回す5手順（既存データ分析→実運用確認→公式確認→施策起案→ファクトチェック）の作業チェックリスト雛形
+- [ ] 各ステップの「問い」に当プロジェクトのデータ・ツールで答えて、具体タスクに書き換える（prime_ad の具体例をそのまま使わない）
+
 ## テンプレート適用コマンド例
 
 ```bash
