@@ -51,7 +51,7 @@ MOC=$(python3 ~/.claude/scripts/sync-vault-summary.py resolve <repo_file>)
 
 heuristic マッピング:
 - `/prime_suite/prime_ad/` → `02_Ai/AI_adscrm/AIads_ope.md`
-- `/prime_suite/prime_crm/` → `02_Ai/AI_adscrm/AIcrm_ope.md`
+- `/prime_suite/prime_crm/` → `02_Ai/AI_adscrm/AIcrm/AIcrm_ope.md`
 - `/prime_suite/` → `02_Ai/AI_adscrm/adscrm_cross.md`
 - `/biz/make_article/` → `02_Ai/make_article/make_article_ope.md`
 

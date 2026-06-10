@@ -149,7 +149,7 @@ AskUserQuestion で「この知見は不変ルール変更や採用/却下の分
 vault が同マシン上に存在する場合のみ実行:
 
 ```bash
-VAULT_MOC="$HOME/Documents/Obsidian Vault/02_ai/AI_adscrm/AIcrm_ope.md"
+VAULT_MOC="$HOME/Documents/Obsidian Vault/02_Ai/AI_adscrm/AIcrm/AIcrm_ope.md"
 if [ -f "$VAULT_MOC" ]; then
   # last_updated を当日に更新
   # SECURITY.md V1-V5 の vault 固有ルールに従って数値丸め判定をユーザーに確認

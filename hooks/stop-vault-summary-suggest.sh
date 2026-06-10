@@ -43,6 +43,7 @@ PAT = re.compile(
     r"data-sources|data_lineage|schema-|glossary|README|CLAUDE|"
     r"SECURITY|setup-runbook|rationales/).*\.(md|ya?ml)$"
     r"|/tasks/phase-tracker\.md$"
+    r"|/02_Ai/[^/]+/(?:[^/]+/)?research/(?:_raw/|_archive/)?[^/]+\.md$"
 )
 seen = {}
 if log.exists():

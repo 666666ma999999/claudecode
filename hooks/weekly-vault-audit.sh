@@ -25,7 +25,10 @@ result=""
 # rules/41 ②章準拠
 # ============================================================
 for f in "$VAULT/02_Ai/AI_adscrm/"*.md \
-         "$VAULT/02_Ai/AI_adscrm/wiki/"*.md; do
+         "$VAULT/02_Ai/AI_adscrm/wiki/"*.md \
+         "$VAULT/02_Ai/AI_adscrm/AIcrm/research/"*.md \
+         "$VAULT/02_Ai/AI_adscrm/AIcrm/research/_raw/"*.md \
+         "$VAULT/02_Ai/AI_adscrm/AIcrm/research/_archive/"*.md; do
   [ -f "$f" ] || continue
   # 例外 type (concept/registry/guide) スキップ
   if awk '/^---$/{c++; if(c==2)exit} c==1' "$f" 2>/dev/null | grep -qE '^type: (concept|registry|guide)$'; then
