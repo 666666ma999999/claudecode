@@ -21,7 +21,7 @@ ROUTING="$HOME/.claude/rules/30-routing.md"
 [ ! -f "$ROUTING" ] && exit 0
 
 # キーワードリスト（日本語+英語）
-keywords="デバッグ リファクタリング セキュリティ監査 脆弱性 KPI ダッシュボード 可視化 売上分析 テスト修正 スキル作成 プロジェクト復帰 ブックマーク エンゲージメント いいね数 Playwright Firecrawl スクレイピング Codex SubAgent 新機能 MVP Obsidian gitコミット シークレット API鍵 repomix Gmail スプレッドシート Docs ツール選択 Agent"
+keywords="デバッグ リファクタリング セキュリティ監査 脆弱性 KPI ダッシュボード 可視化 売上分析 テスト修正 スキル作成 プロジェクト復帰 ブックマーク エンゲージメント いいね数 Playwright Firecrawl スクレイピング Codex SubAgent 新機能 MVP Obsidian gitコミット シークレット API鍵 repomix Gmail スプレッドシート Docs ツール選択 Agent レポート 整形 清書 1-pager 報告書 経営層"
 
 max_hits=4
 tmp=$(mktemp -t routing-hits.XXXXXX 2>/dev/null || echo "/tmp/routing-hits.$$")

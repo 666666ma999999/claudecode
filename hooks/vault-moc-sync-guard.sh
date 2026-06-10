@@ -50,7 +50,7 @@ except Exception: print("")' 2>/dev/null)
   Stop)
     [ -f "$PENDING" ] || exit 0
     src=$(head -1 "$PENDING" 2>/dev/null)
-    msg="vault MOC 未同期です。repo 司令塔ファイル ($src) を更新しましたが、対応する vault MOC (02_Ai/AI_adscrm/AIads_ope.md または AIcrm_ope.md) のサマリーと frontmatter last_updated を同期更新していません (rules/41 §drift 防止の同期義務)。vault MOC を同期更新するか、同期不要なら 'rm ~/.claude/state/vault-moc-sync.pending' を実行し理由を述べてください。"
+    msg="vault MOC 未同期です。repo 司令塔ファイル ($src) を更新しましたが、対応する vault MOC (02_Ai/<group>/<sub>_ope.md・例: AIads_ope.md / AIcrm_ope.md / make_article_ope.md / x-operation_ope.md 等) のサマリーと frontmatter last_updated を同期更新していません (rules/41 §drift 防止の同期義務)。vault MOC を同期更新するか、同期不要なら 'rm ~/.claude/state/vault-moc-sync.pending' を実行し理由を述べてください。"
     if [ ! -f "$BLOCKED" ]; then
       # 初回 Stop: ブロックして Claude に同期を促す (escape hatch あり)
       touch "$BLOCKED"

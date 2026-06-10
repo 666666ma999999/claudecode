@@ -32,7 +32,7 @@ X 記事ネタを vault グローバルストックへ保存する。**追加専
 保存先ファイルを確認する。
 
 ```
-STOCK_FILE="$HOME/Documents/Obsidian Vault/x-article-stock.md"
+STOCK_FILE="$HOME/Documents/Obsidian Vault/wiki/x-article-stock.md"
 ```
 
 - ファイルが存在しなければ「x-article-stock.md が見つかりません」と報告して停止。
