@@ -11,6 +11,10 @@ The three knowledge capture layers:
 - `/autoresearch` → structured knowledge (wiki/sources/, wiki/concepts/)
 - `/canvas` → visual references (wiki/canvases/)
 
+> ⚠️ **Project-specific analysis** (prime_crm の hvs-*/keyword-*/first-menu-*/top200-*/uranai- 等) は
+> `wiki/concepts/` ではなく `02_Ai/<group>/<sub>/research/{,_raw,_archive}/` 配下に置く (rules/42 §0-6)。
+> `wiki/concepts/` は Claude × Obsidian 自身のメタ概念や横断的フレームワーク用のみ。
+
 A canvas is a JSON file Obsidian renders as an infinite visual board. This skill reads and writes canvas JSON directly. Read `references/canvas-spec.md` for the full format reference before making any edits. This spec aligns with the [JSON Canvas open standard](https://jsoncanvas.org/). If the kepano/obsidian-skills plugin is installed, its json-canvas skill is the authoritative canvas spec reference. Otherwise, use the guidance below.
 
 ---

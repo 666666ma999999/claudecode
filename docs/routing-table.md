@@ -132,7 +132,7 @@ BE/FEは独立に判定し、それぞれのルールを並行適用する。
 
 | extensions.yaml | extensions.json | 適用ルール |
 |:-:|:-:|---|
-| あり | あり | 同一リポ → `60-cms-and-extension-pattern.md` のハイブリッドルール + 各スキル併用。分離リポ → `fe-be-extension-coordination` スキル参照 |
+| あり | あり | 同一リポ → `be-extension-pattern` + `fe-extension-pattern` 個別適用 (両者ハイブリッド)。分離リポ → `fe-be-extension-coordination` スキル参照 |
 | あり | なし | BE: `be-extension-pattern` スキル。FE: Step 2 へ |
 | なし | あり | FE: `fe-extension-pattern` スキル。BE: Step 2 へ |
 | なし | なし | Step 2 へ |

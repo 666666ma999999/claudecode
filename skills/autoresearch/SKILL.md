@@ -100,6 +100,10 @@ Created:
   wiki/concepts/[Concept 1].md
   wiki/entities/[Entity 1].md
 
+# ⚠️ Project-specific analysis (prime_crm の hvs-/keyword-/first-menu-/top200-/uranai- 等) は
+#    wiki/concepts/ ではなく 02_Ai/<group>/<sub>/research/{,_raw,_archive}/ 配下に出力する (rules/42 §0-6)。
+#    wiki/concepts/ は Claude × Obsidian 自身のメタ概念や横断的フレームワーク用のみ。
+
 Key findings:
 - [Finding 1]
 - [Finding 2]

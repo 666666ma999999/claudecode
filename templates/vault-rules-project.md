@@ -15,7 +15,7 @@
 
 ### 1. 過去の読み込み (Recall)
 - グローバル: recall hook が `wiki/meta/{decisions,mistakes}.md` 最新 5 件を毎 prompt 注入 (自動)
-- 当 project 固有素材: `<vault path 例: vault/x-article-stock.md / vault/.raw/material-bank-*.jsonl>`
+- 当 project 固有素材: `<vault path 例: vault/wiki/x-article-stock.md / vault/.raw/material-bank-*.jsonl>`
 - 自動転送 queue (任意): `<script名 が vault からどこに何を流すか>`
 
 ### 2. 書き込み (Capture)

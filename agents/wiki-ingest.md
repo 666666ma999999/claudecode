@@ -30,7 +30,7 @@ You will be given:
 3. Read `wiki/hot.md` for recent context.
 4. Create a source summary page in `wiki/sources/`. Use proper frontmatter.
 5. For each significant person, org, product, or repo mentioned: check the index. Create or update the entity page in `wiki/entities/`.
-6. For each significant concept, idea, or framework: check the index. Create or update the concept page in `wiki/concepts/`.
+6. For each significant concept, idea, or framework: check the index. Create or update the concept page in `wiki/concepts/`. **NOT for project-specific analysis dumps** (例: prime_crm の hvs-*/keyword-*/first-menu-*/top200-*/uranai-*) — それらは `02_Ai/<group>/<sub>/research/{,_raw,_archive}/` 配下に置く (rules/42 §0-6)。`wiki/concepts/` は Claude × Obsidian 自身のメタ概念や横断的フレームワーク用のみ。
 7. Update relevant domain pages. Add a brief mention and wikilink to new pages.
 8. Update `wiki/entities/_index.md` and `wiki/concepts/_index.md`.
 9. Check for contradictions with existing pages. Add `> [!contradiction]` callouts where needed.

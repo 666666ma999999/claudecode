@@ -20,6 +20,6 @@ X 記事ネタを vault グローバルストック（x-article-stock.md）に a
 
 ## 関連
 
-- vault: `~/Documents/Obsidian Vault/x-article-stock.md`
+- vault: `~/Documents/Obsidian Vault/wiki/x-article-stock.md`
 - skill: `~/.claude/skills/x-stock/SKILL.md`
 - 記事化（draft→posted）: `make_article` cwd で別フロー
