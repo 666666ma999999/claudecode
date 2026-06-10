@@ -22,7 +22,7 @@ allowed-tools:
 | 引数 | デフォルト | 例 |
 |---|---|---|
 | days | 7 | 14（過去2週間） |
-| topic | claude-code | mcp / anthropic-claude / ai-agent / llm-tools / agent-framework / prompt-engineering |
+| topic | claude-code | mcp / anthropic-claude / ai-agent / llm-tools / agent-framework / prompt-engineering / claude-skills / claude-plugins / obsidian-claude |
 | min_stars | 50 | 100 |
 
 ## 推奨 topic 一覧（週次ローテ用）
@@ -36,6 +36,9 @@ allowed-tools:
 | `llm-tools` | LLM操作CLI | llm-cli (simonw) / litellm |
 | `agent-framework` | マルチエージェント構成 | LangGraph / AutoGen / pydantic-ai |
 | `prompt-engineering` | プロンプト設計 | promptfoo / DSPy |
+| `claude-skills` | Claude Code Skill 拡張 | awesome-claude-skills / kepano-obsidian-skills |
+| `claude-plugins` | Claude Code Plugin 配布 | awesome-claude-plugins |
+| `obsidian-claude` | Claude × Obsidian 連携 | obsidian-claude-code-mcp |
 
 ## 検索条件の設計判断（2026-04-22）
 

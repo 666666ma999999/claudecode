@@ -169,5 +169,33 @@ sources:
     url: https://docs.stripe.com/changelog
     tags: [official, spec_pulse, stripe, billing, churn, p0]
 
+  # === Claude Code 開発者ハック lane (2026-05-27 追加) ===
+  # dev.to / Zenn / Qiita の tag feed + 主要 awesome list の追跡
+  # 既存 hn_claude_code / claude_code_releases / awesome_claude_code_commits を補完
+  - name: devto_claudecode
+    type: rss
+    url: https://dev.to/feed/tag/claudecode
+    tags: [community, devto, claude-code, hacks]
+
+  - name: zenn_claudecode
+    type: rss
+    url: https://zenn.dev/topics/claudecode/feed
+    tags: [community, zenn, claude-code, hacks]
+
+  - name: qiita_claude_code
+    type: rss
+    url: https://qiita.com/tags/claude-code/feed
+    tags: [community, qiita, claude-code, hacks]
+
+  - name: awesome_claude_skills_commits
+    type: github_commits
+    repo: ComposioHQ/awesome-claude-skills
+    tags: [ecosystem, claude-code, skills]
+
+  - name: awesome_claude_plugins_commits
+    type: github_commits
+    repo: quemsah/awesome-claude-plugins
+    tags: [ecosystem, claude-code, plugins]
+
 # wiki/sources/ への昇格は手動 (wiki-ingest または /save) のみ
 # .raw/news/YYYY-MM-DD.jsonl は append-only (40-obsidian.md 不変ルール準拠)
