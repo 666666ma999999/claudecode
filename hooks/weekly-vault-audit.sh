@@ -12,7 +12,8 @@
 set -u
 
 VAULT="$HOME/Documents/Obsidian Vault"
-AUDIT_FILE="$VAULT/02_Ai/AI_adscrm/wiki/_audit.md"
+# audit 出力先は vault-level wiki/meta/_audit/ に集約 (rules/42 K-3: project 内 wiki/ 廃止・2026-06-13)
+AUDIT_FILE="$VAULT/wiki/meta/_audit/AI_adscrm.md"
 STATE_FILE="$HOME/.claude/state/vault-audit-violations"
 TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
@@ -25,7 +26,6 @@ result=""
 # rules/41 ②章準拠
 # ============================================================
 for f in "$VAULT/02_Ai/AI_adscrm/"*.md \
-         "$VAULT/02_Ai/AI_adscrm/wiki/"*.md \
          "$VAULT/02_Ai/AI_adscrm/AIcrm/research/"*.md \
          "$VAULT/02_Ai/AI_adscrm/AIcrm/research/_raw/"*.md \
          "$VAULT/02_Ai/AI_adscrm/AIcrm/research/_archive/"*.md; do
@@ -79,13 +79,11 @@ RULES42_REG=$(grep 'wiki/meta/project-registry' "$HOME/.claude/rules/42-file-typ
 # ============================================================
 # 検証 5: rules/42 K-3 違反 (project 内 wiki/ 廃止)
 # 02_Ai/<group>/wiki/ ディレクトリ存在を検出。
-# AI_adscrm/wiki/ は本 hook 自身の audit 出力先で既知 hardcode 残課題のため allowlist。
+# (2026-06-13: AI_adscrm/wiki/ 解体・audit 出力を wiki/meta/_audit/ へ移したため allowlist 撤去。
+#  以後 project 内 wiki/ が再生成されたら違反として検出する)
 # ============================================================
 while IFS= read -r dir; do
   [ -z "$dir" ] && continue
-  case "$dir" in
-    "$VAULT/02_Ai/AI_adscrm/wiki") continue ;;  # 既知例外 (hook 自身の出力先)
-  esac
   result="${result}- ❌ K-3 placement: ${dir#$VAULT/} - project 内 wiki/ は廃止 (rules/42 K-3、vault root wiki/meta/ に集約)\n"
   violations=$((violations + 1))
 done < <(find "$VAULT/02_Ai" -maxdepth 3 -type d -name wiki 2>/dev/null)
@@ -113,7 +111,7 @@ if [ ! -f "$AUDIT_FILE" ]; then
   cat > "$AUDIT_FILE" <<'EOF'
 ---
 type: guide
-folder: "02_Ai/AI_adscrm/wiki/"
+folder: "wiki/meta/_audit/"
 last_updated: 2026-05-16
 tags:
   - type/guide

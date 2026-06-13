@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 # Weekly Spec Pulse: 過去 7 日の .raw/news/*.jsonl から spec_pulse 系を集約し
-# vault/02_Ai/AI_adscrm/wiki/weekly-update-YYYY-MM-DD.md を生成する。
+# vault/02_Ai/AI_adscrm/reports/weekly-update-YYYY-MM-DD.md を生成する。
+# (2026-06-13: 出力先を project wiki/ → reports/ へ移設。rules/42 K-3 project 内 wiki/ 廃止)
 #
 # launchd: ~/Library/LaunchAgents/com.masa.weekly-spec-pulse.plist (月曜 09:30 JST)
 # 起案: ~/Desktop/prm/prime_suite/prime_ad/tasks/spec-pulse-plan.md
 # マッピング: ~/.claude/data/spec-pulse-mapping.yaml
 #
 # 出力:
-#   - vault/02_Ai/AI_adscrm/wiki/weekly-update-YYYY-MM-DD.md  (人間用 + SessionStart 注入)
+#   - vault/02_Ai/AI_adscrm/reports/weekly-update-YYYY-MM-DD.md  (人間用 + SessionStart 注入)
 #   - ~/.claude/state/weekly-spec-pulse.last_run             (mtime 死活監視)
 #   - ~/.claude/state/weekly-spec-pulse.log                  (ログ)
 
@@ -16,7 +17,7 @@ set -uo pipefail
 PY=/usr/bin/python3
 HOME_DIR="$HOME"
 RAW_DIR="$HOME_DIR/Documents/Obsidian Vault/.raw/news"
-OUT_DIR="$HOME_DIR/Documents/Obsidian Vault/02_Ai/AI_adscrm/wiki"
+OUT_DIR="$HOME_DIR/Documents/Obsidian Vault/02_Ai/AI_adscrm/reports"
 MAPPING="$HOME_DIR/.claude/data/spec-pulse-mapping.yaml"
 HEALTH="$HOME_DIR/.claude/state/news_health.json"
 STATE_DIR="$HOME_DIR/.claude/state"
@@ -147,7 +148,7 @@ lines = []
 lines.append("---")
 lines.append("project: prime_ad")
 lines.append("type: weekly-spec-pulse")
-lines.append('folder: "02_Ai/AI_adscrm/wiki/"')
+lines.append('folder: "02_Ai/AI_adscrm/reports/"')
 lines.append("categories:")
 lines.append('  - "[[AIads_ope]]"')
 lines.append(f"generated_at: {TODAY.isoformat()}")
@@ -193,7 +194,7 @@ lines.append("")
 lines.append("## 関連リンク")
 lines.append("")
 lines.append("- [AIads_ope.md](file:///Users/masaaki_nagasawa/Documents/Obsidian%20Vault/02_Ai/AI_adscrm/AIads_ope.md)")
-lines.append("- [AIcrm_ope.md](file:///Users/masaaki_nagasawa/Documents/Obsidian%20Vault/02_Ai/AI_adscrm/AIcrm_ope.md)")
+lines.append("- [AIcrm_ope.md](file:///Users/masaaki_nagasawa/Documents/Obsidian%20Vault/02_Ai/AI_adscrm/AIcrm/AIcrm_ope.md)")
 lines.append("- [measures-detail.md](file:///Users/masaaki_nagasawa/Desktop/prm/prime_suite/prime_ad/docs/measures-detail.md)")
 lines.append("- [spec-pulse-plan.md](file:///Users/masaaki_nagasawa/Desktop/prm/prime_suite/prime_ad/tasks/spec-pulse-plan.md)")
 lines.append("")

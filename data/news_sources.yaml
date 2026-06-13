@@ -57,7 +57,7 @@ sources:
   # === prime_ad / prime_crm 公式仕様 lane (spec-pulse・2026-05-18 追加) ===
   # 集約: weekly_spec_pulse.sh が月曜 09:30 に過去 7 日 jsonl を集約
   # マッピング: ~/.claude/data/spec-pulse-mapping.yaml (tag → M番号)
-  # 出力: vault 02_Ai/AI_adscrm/wiki/weekly-update-YYYY-MM-DD.md
+  # 出力: vault 02_Ai/AI_adscrm/reports/weekly-update-YYYY-MM-DD.md
   # 起案: prime_ad/tasks/spec-pulse-plan.md
   #
   # Tier 1 (RSS / Atom / GitHub API・既存 handler でそのまま動く)

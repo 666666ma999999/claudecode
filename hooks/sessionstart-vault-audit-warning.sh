@@ -17,7 +17,7 @@ violations=$(cat "$STATE_FILE" 2>/dev/null || echo 0)
 [ "$violations" -gt 0 ] || exit 0
 
 timestamp=$(cat "${STATE_FILE}.timestamp" 2>/dev/null || echo "unknown")
-AUDIT_FILE="$HOME/Documents/Obsidian Vault/02_Ai/AI_adscrm/wiki/_audit.md"
+AUDIT_FILE="$HOME/Documents/Obsidian Vault/wiki/meta/_audit/AI_adscrm.md"
 
 echo "=== ⚠️ vault audit: $violations violation(s) detected ($timestamp) ==="
 echo "詳細: cat \"$AUDIT_FILE\""

@@ -26,7 +26,8 @@
 - **subproject MOC は group 直下に直置き** (1 ファイルしかない場合にサブディレクトリを切らない・空に近い階層を作らない)。例: `02_Ai/AI_adscrm/AIads_ope.md` / `02_Ai/AI_adscrm/AIcrm_ope.md`
 - subproject に **複数の md ファイルが必要になった場合のみ** `<subproject>/` ディレクトリを切る (例: `02_Ai/AI_adscrm/AIads/AIads_ope.md` + `02_Ai/AI_adscrm/AIads/refs/`)
 - 横断 MOC が必要になったら `<group>_ope.md`（group 直下）を追加し、各 subproject の `*_ope.md` をリンクする
-- 実装例 (group 構造の完成形): [`02_Ai/AI_adscrm/`](file:///Users/masaaki_nagasawa/Documents/Obsidian%20Vault/02_Ai/AI_adscrm/)（`AIads_ope.md` + `AIcrm_ope.md` の 2 subproject MOC を横断 `AIprm_ope.md` で束ねる構造）
+- 実装例 (group 構造の完成形): [`02_Ai/AI_adscrm/`](file:///Users/masaaki_nagasawa/Documents/Obsidian%20Vault/02_Ai/AI_adscrm/)（`AIads_ope.md` + `AIcrm/AIcrm_ope.md` の 2 subproject MOC を横断 `adscrm_cross.md` で束ねる構造。横断 MOC の実名は `adscrm_cross.md`・2026-06-13 確認）
+- subproject 配下の生成物: dated レポートは `<group>/reports/`、定期実行プロンプトは `<group>/prompts/` に集約（group root には MOC・playbook・impl-notes・living draft のみ残す。2026-06-13 AI_adscrm で適用）
 - **registry の置き場所は `wiki/meta/project-registry.md` に固定** (vault 全体の横串インデックスとして `wiki/meta/` に集約・hook `~/.claude/hooks/sessionstart-project-registry.sh:26` で hardcode・全 group 同一 registry に追記)
 - `wiki/`, `refs/`, `.raw/` は 40-obsidian.md のルールに従い append-only
 
@@ -89,7 +90,8 @@ vault 全体でファイル名 unique を保証し、`[[plan]]` 等の ambiguous
 ## ③Phase / MOC 構造
 
 - **Phase 正本**: **repo `<project>/tasks/phase-tracker.md`** (rules/05 「実体は repo」原則・2026-05-17 改訂)
-- **vault MOC** (`<project>_ope.md`): Phase 一行サマリー (Exit 条件のみ) + repo phase-tracker への file:// リンク
+  - **例外 (prime_suite・2026-06-12〜)**: prime_ad/prime_crm は phase-tracker.md を**凍結**し、優先順位+Phase 状態の生きた正本を **`tasks/NOW.md`** に一本化済み (decisions.md 2026-06-12)。当 group の Phase を参照/更新する時は phase-tracker ではなく NOW.md を見る。他 project は従来どおり phase-tracker.md が正本
+- **vault MOC** (`<project>_ope.md`): Phase 一行サマリー (Exit 条件のみ) + repo phase-tracker (prime_suite は NOW.md) への file:// リンク
 - **施策本体**: **repo `<project>/docs/measures-detail.md`** (32+ 件詳細)
 - **vault MOC**: 施策サマリー一覧 (1 行/施策: ID・一言要約・Phase・優先順位・状態) + Phase 別 file:// リンク索引。詳細手順・寄与/CPA 見積り・統計根拠など実体は repo 側 (下記 ④「施策サマリーは MOC に書く」節)
 - **施策フォーマット (repo 側ガイドライン・参考)**: 各施策は H4 + 6 要素 (何をするか / なぜやるか / 期待効果 / 使用データ / 📌 サマリー / 詳細リンク)

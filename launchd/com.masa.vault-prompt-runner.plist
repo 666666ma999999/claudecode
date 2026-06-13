@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.masa.vault-prompt-runner</string>
+  <!--
+    vault プロンプトを headless claude -p で定期実行し reports/ へ書き戻す。
+    /bin/bash -lc で login profile (nvm PATH + ~/.zshrc secrets) をロード。
+    ~/Documents (TCC 保護) への書込は bash 経路で回避。
+
+    ⚠️ このファイルはステージング (~/.claude/launchd/)。activate するには:
+        cp ~/.claude/launchd/com.masa.vault-prompt-runner.plist ~/Library/LaunchAgents/
+        launchctl load ~/Library/LaunchAgents/com.masa.vault-prompt-runner.plist
+    停止: launchctl unload ~/Library/LaunchAgents/com.masa.vault-prompt-runner.plist
+    別プロンプトを足す時は複製し Label と末尾のプロンプトパスを変える。
+  -->
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>-lc</string>
+    <string>/Users/masaaki_nagasawa/.claude/scripts/vault-prompt-runner.sh "/Users/masaaki_nagasawa/Documents/Obsidian Vault/02_Ai/AI_adscrm/prompts/adscrm-weekly-ops-review.md"</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/masaaki_nagasawa/Desktop/prm/prime_suite/prime_ad</string>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key><integer>1</integer>
+    <key>Hour</key><integer>7</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+  <key>RunAtLoad</key>
+  <false/>
+  <key>StandardOutPath</key>
+  <string>/Users/masaaki_nagasawa/.claude/state/vault-prompt-runner.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/masaaki_nagasawa/.claude/state/vault-prompt-runner.err.log</string>
+</dict>
+</plist>
