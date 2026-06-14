@@ -163,21 +163,14 @@ def cmd_issues(repo_path: str) -> int:
     text = moc.read_text()
     new_section = f"{SECTION_OPEN_ISSUES}\n\n{body}\n"
 
-    # 既存 ## 📋 Open Issues セクションを次の ## まで完全置換
+    # 自動フィードは MOC 最下段の「自動生成ゾーン」へ (rules/41 §④・2026-06-14)。
+    # 人間向け司令塔セクションより上に出さない。既存セクションを除去してから末尾へ。
     pattern = re.compile(
         rf"^{re.escape(SECTION_OPEN_ISSUES)}.*?(?=^## |\Z)",
         re.MULTILINE | re.DOTALL,
     )
-    if pattern.search(text):
-        text = pattern.sub(new_section, text)
-    else:
-        # frontmatter 直後に新設
-        fm = re.search(r"^---\n.*?\n---\n", text, re.DOTALL)
-        if fm:
-            insert_at = fm.end()
-            text = text[:insert_at] + "\n" + new_section + text[insert_at:]
-        else:
-            text = new_section + "\n" + text
+    text = pattern.sub("", text)
+    text = text.rstrip() + "\n\n" + new_section
 
     # frontmatter last_updated 更新
     if text.startswith("---"):
@@ -196,55 +189,15 @@ def cmd_issues(repo_path: str) -> int:
 
 
 def cmd_append(moc_path: str, entry: str) -> int:
-    moc = Path(moc_path)
-    if not moc.exists():
-        print(f"ERROR: MOC not found: {moc}", file=sys.stderr)
-        return 1
-    text = moc.read_text()
-    today = datetime.date.today().isoformat()
-
-    # frontmatter last_updated 更新 (frontmatter なければスキップ)
-    if text.startswith("---"):
-        text = re.sub(
-            r"^last_updated:.*$",
-            f"last_updated: {today}",
-            text,
-            count=1,
-            flags=re.M,
-        )
-
-    entry_clean = entry.strip()
-
-    if SECTION_TITLE not in text:
-        # frontmatter (---...---) の直後に新設
-        m = re.search(r"^---\n.*?\n---\n", text, re.DOTALL)
-        if m:
-            insert_at = m.end()
-            new_section = f"\n{SECTION_TITLE}\n\n{entry_clean}\n\n"
-            text = text[:insert_at] + new_section + text[insert_at:]
-        else:
-            text = f"{SECTION_TITLE}\n\n{entry_clean}\n\n" + text
-    else:
-        # 同日 + basename の重複 merge (時刻や行番号の違いに耐性あり)
-        # entry 例: "- 2026-05-25 13:30 [plan.md L196] ..."
-        m = re.match(r"^-?\s*(\d{4}-\d{2}-\d{2})[^\n]*?\[([^\] ]+\.\w+)", entry_clean)
-        if m:
-            date_str = m.group(1)
-            basename = m.group(2)
-            # 既存の同日+同 basename entry を 1 行ごと削除 (次行までを 1 entry とみなす簡易版)
-            pattern = rf"(?m)^-\s*{re.escape(date_str)}[^\n]*?\[{re.escape(basename)}[^\n]*\n?"
-            text = re.sub(pattern, "", text)
-            # 空行整理
-            text = re.sub(r"\n{3,}", "\n\n", text)
-
-        # セクション直下に prepend
-        idx = text.index(SECTION_TITLE) + len(SECTION_TITLE)
-        text = text[:idx] + f"\n\n{entry_clean}" + text[idx:]
-        # 余分な改行整理
-        text = re.sub(r"\n{3,}", "\n\n", text)
-
-    moc.write_text(text)
-    print(f"appended to {moc} (last_updated={today})")
+    # RETIRED 2026-06-14: 「🔁 最新更新ログ」MOC 追記は廃止 (ユーザー裁定・rules/41 §④)。
+    # 理由: 人間は読み返さず、AI 判断用データとしても decisions.md(毎プロンプト注入)
+    #       + git log + claude-mem の劣化コピー (git log と 1:1・rules/20 Dual-Path/SSoT 違反)。
+    # MOC には書かず no-op で返す。AI の「最近の活動」把握は本物の SSoT を参照すること。
+    print(
+        "RETIRED: 最新更新ログ への append は廃止されました "
+        "(rules/41 §④ / AI は decisions.md + git log + claude-mem を参照)",
+        file=sys.stderr,
+    )
     return 0
 
 

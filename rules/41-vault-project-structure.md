@@ -70,6 +70,7 @@ tags:
 ## ④Anti-Bloat（肥大化防止）
 
 - vault MOC は**司令塔**＝施策サマリー一覧と優先順位を持つ。**実体（詳細手順・統計根拠・Session Handoff）は repo にコピーしない**
+- **自動フィード禁止 (2026-06-14)**: ロボット生成ログ（`## 🔁 最新更新ログ` 等）は MOC に**置かない・生成しない**。git log + `wiki/meta/decisions.md`（毎プロンプト注入）+ claude-mem の劣化コピーで人間も読み返さず、`rules/20` Dual-Path/SSoT 違反。AI の最近の活動把握は本物 SSoT に委ねる。ライブミラー（`## 📋 Open Issues`）は許容するが **MOC 最下段の「自動生成ゾーン」**に置き、人間向け司令塔セクションより上に出さない（`sync-vault-summary.py cmd_issues` が末尾挿入）。`weekly-vault-audit.sh` が MOC 内の `## 🔁 最新更新ログ` 残存を回帰検出する
 - **例外: implementation-notes ノート** = vault `02_Ai/<group>/<project>-impl-notes.md` が意思決定ログの唯一の正本（vault 連携プロジェクトのみ・`type: implementation-notes`・テンプレ `~/.claude/templates/impl-notes.md`）
 - **drift 防止の同期義務（必須）**: repo `phase-tracker.md` / `measures-detail.md` の施策状態・優先順位・KPI を変更したセッションでは**同セッション内で** vault MOC のサマリーも更新し `last_updated` を当日にする。「repo だけ更新して MOC 据え置き」は禁止（hook `vault-moc-sync-guard.sh` が reminder）
 - ファイル追加の禁止基準・違反の典型・Red Flags・正本一箇所の全テーブル → 詳細は docs/

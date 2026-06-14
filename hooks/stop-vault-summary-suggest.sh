@@ -20,6 +20,14 @@ INPUT=$(cat 2>/dev/null || true)
 # flag check
 [ -f "$HOME/.claude/state/vault-cc-enabled" ] || exit 0
 
+# ─── RETIRED 2026-06-14 ───────────────────────────────────────────────
+# 「🔁 最新更新ログ」自動フィードは廃止 (ユーザー裁定)。理由: 人間は読み返さず、
+# AI 判断用データとしても decisions.md(毎プロンプト注入)+ git log + claude-mem
+# の劣化コピー (git log と 1:1・rules/20 Dual-Path 違反)。本 hook は no-op。
+# 規約: rules/41 §④。再有効化するなら下記の候補抽出 + 推奨 echo を復活させる。
+exit 0
+# ──────────────────────────────────────────────────────────────────────
+
 # 再入防止
 STOP_ACTIVE=$(echo "$INPUT" | python3 -c "import json,sys
 try: print(json.load(sys.stdin).get('stop_hook_active',False))

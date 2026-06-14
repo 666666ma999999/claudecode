@@ -102,6 +102,17 @@ for repo_only_file in phase-tracker.md measures-detail.md measure-impact-table.m
 done
 
 # ============================================================
+# 検証 7: MOC 内の自動フィード残存 (rules/41 §④・2026-06-14)
+# 「## 🔁 最新更新ログ」は廃止 (人間が読まず・git log/decisions の劣化コピー)。
+# MOC に残っていたら回帰違反として検出。
+# ============================================================
+while IFS= read -r f; do
+  [ -z "$f" ] && continue
+  result="${result}- ❌ auto-feed: ${f#$VAULT/} - 「## 🔁 最新更新ログ」は廃止 (rules/41 §④・MOC から撤去せよ)\n"
+  violations=$((violations + 1))
+done < <(grep -rlE "^## 🔁 最新更新ログ" "$VAULT/02_Ai" --include="*.md" 2>/dev/null)
+
+# ============================================================
 # audit ファイル append-only 更新
 # ============================================================
 mkdir -p "$(dirname "$AUDIT_FILE")"

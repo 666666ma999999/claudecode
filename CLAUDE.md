@@ -22,7 +22,7 @@
   - **Set 1 (グローバル抽象・全 project 共通)**: Recall (UserPromptSubmit で decisions/mistakes 注入) / Capture (`/save decision` `/save mistake` → vault) / Overwrite (mistakes de-dup, hot.md/_index.md 完全上書き) / **Ingest (外部情報の `.raw/` 自動取得 + `wiki/sources/` 昇格・更新)** の **4 ルール**。詳細は vault `wiki/concepts/Claude-Obsidian feedback loop.md`、実装規約は `rules/40-obsidian.md`、ルール本体は [[vault-rules-global]] / [[vault-rules-project]]
   - **Set 2 (プロジェクト実装・各 project 固有)**: 各 `<project>/CLAUDE.md` に `## Vault Integration` セクションを置き、Set 1 の 4 ルールを **当 project でどう投影するか** を記述。テンプレ: `~/.claude/templates/vault-rules-project.md` (例: AIads → impl-notes ノート + AIads_ope.md MOC / prime_crm → findings ノート + finding-sync skill / make_article → x-article-stock + Material Bank + article_bridge.py)
   - **両者の対応**: 同じ 4 ルール構造を 2 レイヤーで持つことで drift 検出可能。各 project の Vault Integration セクションは Claude Code 標準動作で自動 load される (グローバルから「読ませる」hook 不要)
-- **ファイル配置 67 種 (2026-05-25〜・Phase 2 連動)**: 詳細 `rules/42-file-type-placement.md` (Active)。Stop hook `stop-vault-summary-suggest.sh` が rules/42 対象ファイル編集を検出 → `/sync-vault-summary` skill 起動で要約生成 + vault MOC `## 🔁 最新更新ログ` に append。`~/.claude/state/vault-cc-enabled` flag gate で完全休眠可
+- **ファイル配置 67 種 (2026-05-25〜・Phase 2 連動)**: 詳細 `rules/42-file-type-placement.md` (Active)。`~/.claude/state/vault-cc-enabled` flag gate で完全休眠可。**(2026-06-14 改訂) MOC への `## 🔁 最新更新ログ` 自動 append は廃止** — ロボット生成ログは git log + `decisions.md`(毎プロンプト注入)の劣化コピー(rules/20 Dual-Path 違反)で人間も読み返さない。AI の最近の活動把握は本物 SSoT(decisions.md / git log / claude-mem)に委ねる。MOC は人間向け司令塔セクションのみ・自動フィード(Open Issues 等)は最下段の自動生成ゾーンへ(規約 `rules/41 §④`)
 
 ## タスク規模判定（最優先）
 
