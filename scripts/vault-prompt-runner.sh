@@ -20,6 +20,9 @@
 #   runner_workdir: "/Users/.../Desktop/prm/prime_suite/prime_ad"  # データ参照用 cwd
 #   runner_out_dir: "/Users/.../02_Ai/AI_adscrm/reports"           # 出力先
 #   runner_model:   "claude-opus-4-8"                 # モデル上書き
+#   runner_project: "prime_ad"          # 出力 frontmatter の project / tag (全プロジェクト対応・既定 unknown)
+#   runner_moc:     "AIads_ope"         # 出力の categories wikilink [[<MOC>]] (空なら categories 省略)
+#   runner_folder:  "02_Ai/AI_adscrm/reports/"  # 出力 frontmatter の folder (空なら runner_out_dir から vault 相対で自動導出)
 set -uo pipefail
 
 PROMPT_FILE="${1:-}"
@@ -51,6 +54,16 @@ TOOLS="$(fm_get runner_tools)";   TOOLS="${TOOLS:-Read Grep Glob WebSearch}"
 WORKDIR="${3:-$(fm_get runner_workdir)}"; WORKDIR="${WORKDIR:-$HOME}"
 OUT_DIR="$(fm_get runner_out_dir)"; OUT_DIR="${OUT_DIR:-$HOME/Documents/Obsidian Vault/02_Ai/AI_adscrm/reports}"
 MODEL="$(fm_get runner_model)"
+
+# --- 出力 identity (全プロジェクト対応・prime_ad ハードコード解消 2026-06-14) ---
+PROJECT="$(fm_get runner_project)"; PROJECT="${PROJECT:-unknown-project}"
+MOC="$(fm_get runner_moc)"; MOC="${MOC#\[\[}"; MOC="${MOC%\]\]}"   # [[X]] が来ても X に正規化
+VAULT_ROOT="$HOME/Documents/Obsidian Vault"
+FOLDER="$(fm_get runner_folder)"
+if [ -z "$FOLDER" ]; then
+  FOLDER="${OUT_DIR#"$VAULT_ROOT"/}"   # vault 相対へ (vault 外なら絶対のまま)
+fi
+case "$FOLDER" in */) ;; *) FOLDER="$FOLDER/" ;; esac   # 末尾スラッシュ保証
 
 DATE="$(date +%Y-%m-%d)"
 TS="$(date -Iseconds)"
@@ -85,16 +98,18 @@ fi
 # --- レポート書き戻し (wrapper が書く・claude には Write 不要) ---
 {
   echo "---"
-  echo "project: prime_ad"
+  echo "project: $PROJECT"
   echo "type: analysis"
-  echo 'folder: "02_Ai/AI_adscrm/reports/"'
-  echo "categories:"
-  echo '  - "[[AIads_ope]]"'
+  echo "folder: \"$FOLDER\""
+  if [ -n "$MOC" ]; then
+    echo "categories:"
+    echo "  - \"[[$MOC]]\""
+  fi
   echo "source_prompt: \"${PROMPT_FILE/#$HOME/~}\""
   echo "generated_at: $DATE"
   echo "last_updated: $DATE"
   echo "tags:"
-  echo "  - project/prime_ad"
+  echo "  - project/$PROJECT"
   echo "  - type/analysis"
   echo "  - auto-generated"
   echo "---"
