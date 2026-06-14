@@ -23,9 +23,9 @@ CLAUDE.md「行動原則 §Obsidian」の **総則 + index** (2026-04-24〜)。O
 
 - 対象 vault: `~/Documents/Obsidian Vault/`
 - 構成要素: workflow skills + 5 slash commands + 4 kepano skills (primitive 層) + 2 agents + 6 hooks + 1 MCP server (mcpvault)
-- 退避済み (`skills/_dormant/`、30 日未使用): `obsidian-bases` / `obsidian-short-note-merge` / `wiki-fold` / `obsidian-now-done` (`commands/done.md` も退避相当・新規利用非推奨)
+- 退避済み skill (`skills/_dormant/`、30 日未使用): `obsidian-bases` / `obsidian-short-note-merge` / `wiki-fold` / `obsidian-now-done`。**ただし `/done` コマンド (`commands/done.md`) は自己完結化済み・現役**（dormant skill には依存しない・2026-06-13 修理）
 - vault 外プロジェクトでは vault **file 操作系** hook が no-op（`[ -d wiki ] && [ -d .git ]` または vault path ガードによる）。**warning 系** hook (`wiki-auto-capture-on-stop.sh` 等) は cwd 不問で警告 stdout を発火可 (vault file 操作はしない・Phase 2 2026-05-24〜)
-- **基本方針**: 知識化は claude-obsidian (`wiki/`)、証跡 refs/ は obsidian-now-done 退避により縮小
+- **基本方針**: 知識化は claude-obsidian (`wiki/`)、証跡 refs/ は `/done` コマンド (自己完結・現役) が append-only で書く
 
 ## 基本コマンド（カタログ）
 
@@ -35,7 +35,7 @@ CLAUDE.md「行動原則 §Obsidian」の **総則 + index** (2026-04-24〜)。O
 | `/save [name]` | claude-obsidian | `wiki/` | `skills/save/SKILL.md` |
 | `/canvas [op]` | claude-obsidian | `wiki/canvases/` | `skills/canvas/SKILL.md` |
 | `/autoresearch <topic>` | claude-obsidian | `wiki/` | `skills/autoresearch/SKILL.md` |
-| `/done [task]` | obsidian-now-done (退避済・新規利用非推奨) | `<project>/refs/` + 該当 MD | `skills/_dormant/obsidian-now-done/SKILL.md` |
+| `/done [task]` | 自己完結コマンド (現役) | `<project>/refs/` + 該当 MD (NOW→DONE) | `commands/done.md` |
 
 フレーズ trigger: `ingest <file|url>` → wiki-ingest (`.raw/` → `wiki/`)、`lint the wiki` → wiki-lint (`wiki/meta/`)。
 
@@ -47,7 +47,7 @@ CLAUDE.md「行動原則 §Obsidian」の **総則 + index** (2026-04-24〜)。O
 | `/save mistake`・「教訓」・「再発防止」・「同じミス」 | claude-obsidian (save) | `wiki/meta/mistakes.md`（**de-dup 上書き型**、2 回目以降は既存 entry 統合） |
 | `/wiki` `/save` `/canvas` `/autoresearch` | claude-obsidian | `wiki/{concepts,entities,sources}/` |
 | 「これ保存して」（曖昧） | **既定 = claude-obsidian** | `wiki/` |
-| 「原文も」「証跡」「refs」 | refs/ 直書き (退避済・縮小運用) | `<project>/refs/` (append-only)、wiki に `ref:` フィールドで相互リンク |
+| 「原文も」「証跡」「refs」 | `/done` コマンド (refs/ 直書き・現役) | `<project>/refs/` (append-only)、wiki に `ref:` フィールドで相互リンク |
 
 ## kepano-obsidian-skills（primitive 層・2026-05-07 導入）
 

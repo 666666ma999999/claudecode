@@ -1,59 +1,50 @@
-# Vault プロジェクト構造ルール（AI_adscrm 実装準拠）
+# Vault プロジェクト構造ルール（索引・AI_adscrm 実装準拠）
+
+> **常時注入される薄い索引**。全テーブル・例外条項・更新フロー・Red Flags・段階移行判定は
+> **`docs/vault-project-structure-detail.md`（= `~/.claude/docs/vault-project-structure-detail.md`）を必要時 Read**。
+> （`rules/30-routing.md`→`docs/routing-table.md`、`rules/42`→`docs/file-placement-detail.md` と同型の分離・2026-06-14 スリム化）
 
 **適用範囲**: `~/Documents/Obsidian Vault/02_Ai/<project>/` 配下の**新規プロジェクトのみ**。
-既存プロジェクト（rohan/, AIshift.md, AIera.md, ai_dashboard/ 等）は**一切変更しない**。
-リビングリファレンス実装: `file:///Users/masaaki_nagasawa/Documents/Obsidian%20Vault/02_Ai/AI_adscrm/`
+既存プロジェクト（rohan/, AIera.md, ai_dashboard/ 等）は**一切変更しない**。
+リビング雛形: [`02_Ai/AI_adscrm/`](file:///Users/masaaki_nagasawa/Documents/Obsidian%20Vault/02_Ai/AI_adscrm/)
+
+---
+
+## 基本原則（これだけ守れば大筋 OK）
+
+- **vault = 索引 + サマリー / 実体の SSoT は repo**（例外: implementation-notes は vault SSoT・§④）
+- 新規プロジェクトは **MOC 1 ファイル統合構成**（`<project>_ope.md` に戦略入口・Phase 入口・施策サマリー・データソース・連携を統合）で開始
+- 同じ情報を vault と repo の両方に書かない（40-obsidian.md Anti-drift 原則）
 
 ---
 
 ## ①ディレクトリ & ファイル構成
 
-新規プロジェクトは **MOC 1 ファイル統合構成** で開始する (案 X2・2026-05-17 改訂・rules/05 純化方針に整合):
-
 ```
 02_Ai/<project>/
-  <project>_ope.md        # MOC 1 ファイルに全要素統合 (戦略入口 + Phase 入口 + 施策サマリー索引 + データソース + 連携)
+  <project>_ope.md   # MOC（司令塔）= 索引・サマリー・file:// リンクのみ
 ```
 
-**実体は全て repo 側**・vault は索引・サマリー・file:// リンクのみ:
-- 戦略 → `repo/<project>/plan.md`
-- Phase 正本 → `repo/<project>/tasks/phase-tracker.md`
-- 施策本体 → `repo/<project>/docs/measures-detail.md`
-- 施策仕様 → `repo/<project>/docs/rationales/*.md`
-
-実装例 (リビング雛形): [`02_Ai/AI_adscrm/AIads_ope.md`](file:///Users/masaaki_nagasawa/Documents/Obsidian%20Vault/02_Ai/AI_adscrm/AIads_ope.md)
-
-- **subproject MOC は group 直下に直置き** (1 ファイルしかない場合にサブディレクトリを切らない・空に近い階層を作らない)。例: `02_Ai/AI_adscrm/AIads_ope.md` / `02_Ai/AI_adscrm/AIcrm_ope.md`
-- subproject に **複数の md ファイルが必要になった場合のみ** `<subproject>/` ディレクトリを切る (例: `02_Ai/AI_adscrm/AIads/AIads_ope.md` + `02_Ai/AI_adscrm/AIads/refs/`)
-- 横断 MOC が必要になったら `<group>_ope.md`（group 直下）を追加し、各 subproject の `*_ope.md` をリンクする
-- 実装例 (group 構造の完成形): [`02_Ai/AI_adscrm/`](file:///Users/masaaki_nagasawa/Documents/Obsidian%20Vault/02_Ai/AI_adscrm/)（`AIads_ope.md` + `AIcrm/AIcrm_ope.md` の 2 subproject MOC を横断 `adscrm_cross.md` で束ねる構造。横断 MOC の実名は `adscrm_cross.md`・2026-06-13 確認）
-- subproject 配下の生成物: dated レポートは `<group>/reports/`、定期実行プロンプトは `<group>/prompts/` に集約（group root には MOC・playbook・impl-notes・living draft のみ残す。2026-06-13 AI_adscrm で適用）
-- **registry の置き場所は `wiki/meta/project-registry.md` に固定** (vault 全体の横串インデックスとして `wiki/meta/` に集約・hook `~/.claude/hooks/sessionstart-project-registry.sh:26` で hardcode・全 group 同一 registry に追記)
-- `wiki/`, `refs/`, `.raw/` は 40-obsidian.md のルールに従い append-only
-
-### 既存プロジェクトの段階移行判定 (3 条件・OR)
-
-既存プロジェクト (`02_Ai/rohan/` `AIera.md` 等) を本ルールに移行するかの判定は以下 3 条件の **OR** で発火:
-
-1. 新規 plan / measures / progress / strategy を追加する予定がある
-2. Phase 表 (`## Phase 進捗` 等) が 2 箇所以上に分散している
-3. wikilink ambiguity が検出されている (`plan.md` `measures.md` 等の汎用名が複数存在)
-
-3 条件のいずれも該当しない場合は**移行禁止** (5/8 ai_dashboard 同型「やった方が良さそう → 頓挫」回避)。
+- 実体は全て repo 側: 戦略→`repo/<project>/plan.md` / Phase 正本→`repo/<project>/tasks/phase-tracker.md` / 施策本体→`repo/<project>/docs/measures-detail.md`
+- subproject MOC は group 直下に直置き。複数 md が要る時のみ `<subproject>/` を切る。横断 MOC は `<group>_ope.md`（実名例: `adscrm_cross.md`）
+- subproject 生成物: dated レポート→`<group>/reports/`、定期実行プロンプト→`<group>/prompts/` に集約（group root は MOC・playbook・impl-notes・living draft のみ。2026-06-13〜）
+- **registry の置き場所は `wiki/meta/project-registry.md` に固定**（vault 全体の横串インデックス・hook `sessionstart-project-registry.sh` で hardcode・全 group 同一 registry に追記）
+- `wiki/` `refs/` `.raw/` は 40-obsidian.md に従い append-only
+- 既存プロジェクトの段階移行判定（3 条件 OR）→ 詳細は docs/
 
 ---
 
 ## ②フロントマター & 命名
 
-全ファイルに以下 6 フィールドを必ず含める（**AI_adscrm 実装準拠**・2026-05-16 改訂）:
+全ファイルに以下 **6 フィールド必須**（AI_adscrm 実装準拠）:
 
 ```yaml
 ---
 project: <project-name>            # 例: prime_ad / prime_crm
 type: <note-type>                  # moc / plan / measures-index / progress / implementation-notes / stub / concept / registry / hub
-folder: "02_Ai/<project>/"         # ← vault 相対パス・末尾スラッシュ必須・Dataview/Bases クエリ用
-categories:                        # ← 所属 MOC への wikilink (kepano 式)
-  - "[[<parent-MOC>]]"
+folder: "02_Ai/<project>/"         # vault 相対パス・末尾スラッシュ必須・Dataview 用
+categories:
+  - "[[<parent-MOC>]]"             # 所属 MOC への wikilink (kepano 式)
 last_updated: YYYY-MM-DD
 tags:
   - project/<project-name>
@@ -61,138 +52,37 @@ tags:
 ---
 ```
 
-### type 別追加フィールド (任意)
-
-- **plan**: `phase` / `goal_deadline` / `target_cv` `target_cpa` `target_budget` 等
-- **progress**: `phase` / `current_cv` `current_cpa` `current_budget` 等
-- **measures-index**: `updated`
-- **moc** (データ管理含む場合): `data_root` / `processed_root` / `lineage_doc` / `sources_doc` (全て file:// URI)
-- **linked**: 関連 MOC・主要ノートへの wikilink 配列 (cross-link)
-
-### 命名禁止
-
-`plan.md` / `measures.md` / `strategy.md` / `progress.md` / `index.md` 等の汎用名単体は禁止。
-必ずスコープ語を前置すること（例: `prime ad strategy.md`, `AIads_ope.md`）。
-vault 全体でファイル名 unique を保証し、`[[plan]]` 等の ambiguous wikilink を作らない。
-
-### 例外 type の最小要件 (vault 全体に関わる特殊 type)
-
-以下の特殊 type は 6 フィールド全部は不要・最小要件で OK:
-
-- **concept** (vault コンセプト定義): 最小 `type:` + `title:` + `updated:` (project / categories / tags 任意)
-- **registry** (プロジェクト住所録・hook 連動): 最小 `type:` + `title:` + `updated:` (project / categories / tags 任意)
-- **guide** (人間向けガイド): 最小 `type:` + `folder:` + `last_updated:` (project / categories / tags 任意)
-
-これら以外の全 type (`moc` / `plan` / `measures-index` / `progress` / `stub` / `hub` 等) は 6 フィールド必須。
+- **命名禁止**: `plan.md` / `measures.md` / `strategy.md` / `progress.md` / `index.md` 等の汎用名単体は禁止。スコープ語を前置（例 `AIads_ope.md`）。vault 全体でファイル名 unique を保証し ambiguous wikilink を作らない
+- **例外 type**（6 フィールド全部は不要）: `concept` / `registry` / `guide` は最小要件で OK
+- type 別追加フィールド（plan の `phase`/`target_*` 等）→ 詳細は docs/
 
 ---
 
 ## ③Phase / MOC 構造
 
-- **Phase 正本**: **repo `<project>/tasks/phase-tracker.md`** (rules/05 「実体は repo」原則・2026-05-17 改訂)
-  - **例外 (prime_suite・2026-06-12〜)**: prime_ad/prime_crm は phase-tracker.md を**凍結**し、優先順位+Phase 状態の生きた正本を **`tasks/NOW.md`** に一本化済み (decisions.md 2026-06-12)。当 group の Phase を参照/更新する時は phase-tracker ではなく NOW.md を見る。他 project は従来どおり phase-tracker.md が正本
-- **vault MOC** (`<project>_ope.md`): Phase 一行サマリー (Exit 条件のみ) + repo phase-tracker (prime_suite は NOW.md) への file:// リンク
-- **施策本体**: **repo `<project>/docs/measures-detail.md`** (32+ 件詳細)
-- **vault MOC**: 施策サマリー一覧 (1 行/施策: ID・一言要約・Phase・優先順位・状態) + Phase 別 file:// リンク索引。詳細手順・寄与/CPA 見積り・統計根拠など実体は repo 側 (下記 ④「施策サマリーは MOC に書く」節)
-- **施策フォーマット (repo 側ガイドライン・参考)**: 各施策は H4 + 6 要素 (何をするか / なぜやるか / 期待効果 / 使用データ / 📌 サマリー / 詳細リンク)
-
-```
-### 施策名
-- **何をするか**: ...
-- **なぜやるか**: ...
-- **期待効果**: | 指標 | 現状 | 目標 |（表形式）
-- **使用データ**: `file:///...` 絶対パス
-- **サマリー**: H5 (`#####`) で 3-5 行
-- **詳細リンク**: `[[関連ノート]]` or 外部 URL
-```
-
-- `*_ope.md` はサブプロジェクト MOC。司令塔として現状俯瞰・施策サマリー一覧・優先順位・クイックリンクを持つ（詳細実体は持たない・下記 ④ 参照）
+- **Phase 正本 = repo `<project>/tasks/phase-tracker.md`**（rules/05「実体は repo」）
+  - **例外（prime_suite・2026-06-12〜）**: prime_ad/prime_crm は phase-tracker.md を**凍結**し、生きた正本を **`tasks/NOW.md`** に一本化。当 group の Phase を見る時は NOW.md。他 project は従来どおり phase-tracker.md
+- **vault MOC**: Phase 一行サマリー（Exit 条件のみ）+ 施策サマリー一覧（1 行/施策: ID・一言要約・Phase・優先順位・状態）+ repo への file:// リンク索引。詳細手順・寄与/CPA 見積り・統計根拠は repo 側
+- 施策フォーマット（H4 + 6 要素）→ 詳細は docs/
 
 ---
 
 ## ④Anti-Bloat（肥大化防止）
 
-**vault = 索引 + 施策サマリー。コンテンツ実体の SSoT は repo 側**:
-- plan.md / task.md / spec の実体は **repo 配下**に置く
-- vault ノートは `file://` リンクまたは `[[wikilink]]` でポイントするだけ
-- 同じ情報を vault と repo の両方に書くことは**禁止**（40-obsidian.md Anti-drift 原則）
-
-### 情報の正本一箇所原則 (案 X2・2026-05-17 改訂)
-
-**vault は索引 + 施策サマリー・実体は repo**（実体側の例外: implementation-notes ノート・下記専用節）。以下の情報の正本は repo 側:
-
-| 情報 | 正本 (repo) | vault MOC の扱い |
-|---|---|---|
-| 戦略 / Why / 成功基準 | `repo/<project>/plan.md` | 主要 KPI 表 (正式 / 留保) + file:// リンク |
-| Phase 状態 / Exit 条件 / 期間 | `repo/<project>/tasks/phase-tracker.md` | 1 行 Phase サマリー + file:// リンク |
-| 施策本体 (詳細手順・統計根拠) | `repo/<project>/docs/measures-detail.md` | **施策サマリー一覧 (1 行/施策) + 優先順位** + Phase 別 file:// リンク索引 (下記専用節) |
-| 施策仕様 (統計根拠書) | `repo/<project>/docs/rationales/*.md` | 主要施策のみ link |
-| データソース系譜 | `repo/<project>/docs/data_lineage.yaml` | カテゴリ別構造表 + link |
-| データ取得履歴 | `repo/<project>/docs/data-sources.md` | 主要データ表 + link |
-| Session Handoff | `repo/<project>/tasks/phase-tracker.md` | (vault には書かない) |
-| Implementation Notes (意思決定ログ) | **例外: vault `02_Ai/<group>/<project>-impl-notes.md`** | vault が SSoT。MOC は `[[<project>-impl-notes]]` で索引。詳細は下記専用節 |
-
-### 施策サマリーは MOC に書く (summary / 実体 の線引き・2026-05-20 改訂)
-
-vault MOC (`<project>_ope.md`) は**司令塔**として、施策の**サマリー一覧と優先順位を保持する**。「司令塔に実体コピー禁止」原則は維持しつつ、サマリー (要約) と実体 (詳細) を以下で線引きする:
-
-| 種別 | 置き場所 | 含めてよい内容 |
-|---|---|---|
-| **施策サマリー** (MOC に書く) | vault MOC | 施策 ID / 一言要約 (1 行) / Phase / 優先順位ランク / 状態 (絵文字 1 つ) / 現状ステータス俯瞰 (主要 KPI の最新値) / NOW・次アクション |
-| **施策実体** (MOC に書かない) | repo `measures-detail.md` / `measure-impact-table.md` / `rationales/` / `phase-tracker.md` | 詳細手順・寄与 CV 見積りレンジ・CPA 影響・統計根拠・実施日・Session Handoff |
-
-**drift 防止の同期義務 (必須)**: repo `phase-tracker.md` / `measures-detail.md` の施策状態・優先順位・一言要約・主要 KPI を変更したセッションでは、**同セッション内で** vault MOC のサマリーも更新し `last_updated` を当日にする (CLAUDE.md「司令塔リンク索引の手動更新」原則の拡張)。「repo だけ更新して MOC 据え置き」は禁止 (2026-05-18→05-20 で実際に発生した drift の再発防止)。
-
-**サマリーに数値見積り (寄与 CV / CPA レンジ) を載せる場合**: 正本は repo `measure-impact-table.md`。MOC には参考値として転記してよいが、上記同期義務の対象に含める。
-
-### implementation-notes ノート (vault 実体・例外条項・2026-05-20)
-
-意思決定ログ (Thariq Shihipar 提唱の implementation-notes) は **vault 連携プロジェクトに限り vault を SSoT とする**。理由: 記事の目的は「人間がレビューして初めて価値が出る」こと。レビューは Obsidian で行うが repo md は Obsidian が描画できず可視化されない。実体を vault に 1 つだけ持つため drift は発生しない。
-
-- **置き場所**: `02_Ai/<group>/<project>-impl-notes.md` (MOC `<project>_ope.md` と同階層)
-- **SSoT**: 本ノートが意思決定ログの唯一の正本。vault 連携プロジェクトでは repo task.md の `## Decision Log` は使わない (非 vault プロジェクトは従来どおり task.md Decision Log)
-- **MOC との接続**: impl-notes ノートの `categories: [[<project>_ope]]` frontmatter が MOC への逆リンクになる (Obsidian のバックリンク/グラフに自動表示)。**MOC 本体の編集は不要** (registry が「非編集」とする凍結 MOC でも適用可)
-- **frontmatter**: `type: implementation-notes`・6 フィールド必須
-- **テンプレート**: `~/.claude/templates/impl-notes.md`
-- **書き手**: Claude Code が実装中に直接追記 (vault パスは編集 ALLOW リスト内)
-- **構造**: `## Decision Log` 表 (task.md と同じ「仕様差分」列 on-spec/interpreted/deviation/open-question) + `## Open Questions` (未解決の要確認)
-- **承知の上のトレードオフ**: repo コミット/PR に判断ログは乗らない。vault は obsidian-git で別途版管理される
-
-違反の典型 (5/8 / 5/14 同型・要警戒):
-- vault に Phase 表・施策本文・成功基準など実体を書く (= rules/05 違反)
-- vault progress.md / strategy.md / measures.md を独立ファイルとして作成・運用 (二重管理発生)
-- strategy.md に `## repo 側正本` 表が独立、Phase 別索引に絵文字状態 (`🟢` 等) や期間直書き
-
-検証: `weekly-vault-audit.sh` (MOC 1 ファイル前提・将来拡張で機械検出予定・現状は手動 review 併用)。
-
-**ファイル追加の禁止基準**:
-- 既存 4 ファイルのどれかに H2 セクション追加で収まる場合は新規ファイルを作らない
-- "整理のための整理" ノート（index, summary, overview 等の汎用名）は作らない
-
-**成功基準（grep 検証可能）**: `~/.claude/hooks/weekly-vault-audit.sh` が ④章 grep 検証を実装済み (週次 launchd 起動 + SessionStart warning 注入)。手動実行は `bash ~/.claude/hooks/weekly-vault-audit.sh`。検証内容: (1) MOC `_ope.md` 存在 (2) frontmatter 6 必須フィールド (例外 type 除く) (3) Phase 正本 (4) wikilink ambiguity 検出。
-
-**Red Flags**:
-- `progress.md` 以外のファイルに Phase 表がある（二重管理）
-- `folder:` プロパティ未設定のファイルがある
-- 汎用名ファイル（`plan.md` 等）が vault に存在する
-- vault ノートに spec/実装詳細が直接書かれている（repo に書くべき）
+- vault MOC は**司令塔**＝施策サマリー一覧と優先順位を持つ。**実体（詳細手順・統計根拠・Session Handoff）は repo にコピーしない**
+- **例外: implementation-notes ノート** = vault `02_Ai/<group>/<project>-impl-notes.md` が意思決定ログの唯一の正本（vault 連携プロジェクトのみ・`type: implementation-notes`・テンプレ `~/.claude/templates/impl-notes.md`）
+- **drift 防止の同期義務（必須）**: repo `phase-tracker.md` / `measures-detail.md` の施策状態・優先順位・KPI を変更したセッションでは**同セッション内で** vault MOC のサマリーも更新し `last_updated` を当日にする。「repo だけ更新して MOC 据え置き」は禁止（hook `vault-moc-sync-guard.sh` が reminder）
+- ファイル追加の禁止基準・違反の典型・Red Flags・正本一箇所の全テーブル → 詳細は docs/
 
 ---
 
-## 更新フロー (rules/41 自身の変更ルール)
+## 検証 / 更新フロー
 
-### 標準順序: 実装 → rules/41 → guide
+- **機械検証**: `bash ~/.claude/hooks/weekly-vault-audit.sh`（週次 launchd）。検証内容: (1) MOC `_ope.md` 存在 (2) frontmatter 6 必須フィールド（例外 type 除く）(3) Phase 正本 (4) wikilink ambiguity。違反時は次回 SessionStart で warning 注入
+- **更新順序**: ①実装 → ②本ルール（不変化したルールだけ）→ ③guide の順で同セッション内に追従。「rules だけ変えて終わり」禁止 → 詳細は docs/
 
-AI_adscrm/ 実装変更時は **同セッション内で**: ①実装 → ②rules/41 (不変化したルールだけ) → ③guide (リンクと説明のみ) の順で追従。
+## 関連ルール / 優先順位
 
-### rules 先行の例外節
-
-`rules/41` を先に変更してから実装を migration するケース (例: 新必須フィールド追加で既存実装が違反になる) は、**同 PR / 同セッション内で実装 migration まで完了する場合に限り許可**。「rules だけ変えて終わり」は禁止 (5/14 Control Tower Sync 同型回避)。
-
-### 機械的 drift 検知
-
-`~/.claude/hooks/weekly-vault-audit.sh` が週次で ④章 grep 検証を実行 (launchd `com.masa.vault-audit.plist`)。違反検出時は `sessionstart-vault-audit-warning.sh` が次回 SessionStart で warning 注入。
-
-## 関連ルール
-
-本ルールは `rules/40-obsidian.md` §index で参照される **vault 構造の専門則** (Obsidian 連携の入口は 40)。優先順位: `40-obsidian.md` > 本ルール > 各スキル SKILL.md。
+本ルールは `rules/40-obsidian.md` §index が参照する **vault 構造の専門則**（Obsidian 連携の入口は 40）。
+優先順位: `CLAUDE.md` > `rules/40-obsidian.md` > `rules/42` > **本ルール** > 各スキル SKILL.md。
+詳細表 SSoT: `~/.claude/docs/vault-project-structure-detail.md`。
