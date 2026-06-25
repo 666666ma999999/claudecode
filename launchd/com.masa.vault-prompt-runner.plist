@@ -9,25 +9,32 @@
     /bin/bash -lc で login profile (nvm PATH + ~/.zshrc secrets) をロード。
     ~/Documents (TCC 保護) への書込は bash 経路で回避。
 
+    【1系統統合 2026-06-16】毎週月曜 10:30 発火。bash -lc 内の DOM 判定で
+      第2月曜(dom 8-14) / 第4月曜(dom 22-28) → 隔週深掘り PDCA プロンプト
+      それ以外の月曜               → 従来の軽量 ops-review プロンプト
+    を選択する (= 1 plist でモード切替・レポートは常に1枚)。
+    週番号式は prime_ad/scripts/drift_check_daily.sh:155-157 と同一 (SSoT 1本)。
+    時刻 10:30 = 集計ジョブ (09:00/09:30) 完了後の鮮度を担保。
+
     ⚠️ このファイルはステージング (~/.claude/launchd/)。activate するには:
         cp ~/.claude/launchd/com.masa.vault-prompt-runner.plist ~/Library/LaunchAgents/
-        launchctl load ~/Library/LaunchAgents/com.masa.vault-prompt-runner.plist
+        launchctl unload ~/Library/LaunchAgents/com.masa.vault-prompt-runner.plist 2>/dev/null
+        launchctl load   ~/Library/LaunchAgents/com.masa.vault-prompt-runner.plist
     停止: launchctl unload ~/Library/LaunchAgents/com.masa.vault-prompt-runner.plist
-    別プロンプトを足す時は複製し Label と末尾のプロンプトパスを変える。
   -->
   <key>ProgramArguments</key>
   <array>
     <string>/bin/bash</string>
     <string>-lc</string>
-    <string>/Users/masaaki_nagasawa/.claude/scripts/vault-prompt-runner.sh "/Users/masaaki_nagasawa/Documents/Obsidian Vault/02_Ai/AI_adscrm/prompts/adscrm-weekly-ops-review.md"</string>
+    <string>dom=$(( 10#$(TZ=Asia/Tokyo date '+%d') )); if { [ "$dom" -ge 8 ] &amp;&amp; [ "$dom" -le 14 ]; } || { [ "$dom" -ge 22 ] &amp;&amp; [ "$dom" -le 28 ]; }; then P="/Users/masaaki_nagasawa/Documents/Obsidian Vault/02_Ai/AI_adscrm/AIads/prompts/scheduled/adscrm-biweekly-ads-pdca.md"; else P="/Users/masaaki_nagasawa/Documents/Obsidian Vault/02_Ai/AI_adscrm/AIads/prompts/scheduled/adscrm-weekly-ops-review.md"; fi; /Users/masaaki_nagasawa/.claude/scripts/vault-prompt-runner.sh "$P"</string>
   </array>
   <key>WorkingDirectory</key>
   <string>/Users/masaaki_nagasawa/Desktop/prm/prime_suite/prime_ad</string>
   <key>StartCalendarInterval</key>
   <dict>
     <key>Weekday</key><integer>1</integer>
-    <key>Hour</key><integer>7</integer>
-    <key>Minute</key><integer>0</integer>
+    <key>Hour</key><integer>10</integer>
+    <key>Minute</key><integer>30</integer>
   </dict>
   <key>RunAtLoad</key>
   <false/>

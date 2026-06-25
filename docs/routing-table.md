@@ -68,6 +68,7 @@
 | KPI分解・構成要素・ドリルダウン・因果分析・計算式定義 | `kpi-tree-first` |
 | データ可視化・チャート生成 | `data-visualization` |
 | 経営層向けダッシュボード・デジタル庁ガイドブック準拠・matplotlib PNG | `dashboard-design-guide` |
+| vault に司令塔/現状診断ボード/運用ダッシュボードを **full** で設計（薄い索引でなく判断材料を内包）・経営層1-pager・findings 清書・スクショ映え | `vault-report-writing`（設計／構文は `obsidian-markdown`。配置構造は rules/41・42 が正本。MOC の薄い索引化は `/sync-vault-summary`。※ `dashboard-design-guide`=matplotlib PNG生成・`salesmtg-dashboard-qa`=表示QA とは射程が別） |
 | 売上分析・多変数分析 | `sales-analysis` |
 | salesmtg CSV整合性・粗利構成不整合・スクレイピング後検証 | `salesmtg-data-audit` |
 | salesmtg ダッシュボード表示・セグメント統一・N/A表示・QA | `salesmtg-dashboard-qa` |

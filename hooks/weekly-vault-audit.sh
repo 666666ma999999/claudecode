@@ -21,15 +21,26 @@ TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 violations=0
 result=""
 
+# retention sweep 設定: dated な「自動生成 read-once」レポートを N 日経過で reports/_archive/ へ。
+# 参照ドキュメント (type: progress 等) は type ゲートで永久保護。環境変数で日数上書き可。
+SWEEP_DAYS="${VAULT_REPORT_RETENTION_DAYS:-14}"
+swept=0
+swept_log=""
+
 # ============================================================
 # 検証 1: AI_adscrm/ frontmatter 6 必須フィールド (例外 type 除く)
 # rules/41 ②章準拠
 # ============================================================
 for f in "$VAULT/02_Ai/AI_adscrm/"*.md \
+         "$VAULT/02_Ai/AI_adscrm/AIads/"*.md \
+         "$VAULT/02_Ai/AI_adscrm/AIcrm/"*.md \
          "$VAULT/02_Ai/AI_adscrm/AIcrm/research/"*.md \
          "$VAULT/02_Ai/AI_adscrm/AIcrm/research/_raw/"*.md \
          "$VAULT/02_Ai/AI_adscrm/AIcrm/research/_archive/"*.md; do
   [ -f "$f" ] || continue
+  # symlink (repo の NOW.md 等を Obsidian に出す「窓」) はスキップ。
+  # 実体は repo 側にあり vault frontmatter を持たないため audit 対象外 (2026-06-14)。
+  [ -L "$f" ] && continue
   # claude-mem 自動生成ファイル (AGENTS.md/CLAUDE.md) はスキップ。
   # frontmatter を足しても再生成で消えるため audit 対象外 (2026-06-10)。
   if head -1 "$f" 2>/dev/null | grep -q '<claude-mem-context>'; then
@@ -113,6 +124,48 @@ while IFS= read -r f; do
 done < <(grep -rlE "^## 🔁 最新更新ログ" "$VAULT/02_Ai" --include="*.md" 2>/dev/null)
 
 # ============================================================
+# 検証 8: retention sweep (read-once レポートの自動アーカイブ・2026-06-17)
+# 「閲覧頻度=一回見たら終わる」自動生成 dated レポートを N 日経過で reports/_archive/ へ移動。
+# 安全ゲート (誤掃き防止):
+#   - 対象 type: (analysis かつ tag auto-generated) または weekly-spec-pulse のみ
+#   - type: progress / moc / playbook 等の「参照ドキュメント」は日付付きでも永久保護
+#   - 固定名 (overwrite モード・日付なし) は対象外 = 常に最新1枚を残す
+#   - _archive/ 配下・symlink は対象外
+# violations ではなく housekeeping (掃いた件数を info 行で記録)。reversible (mv のみ・削除しない)。
+# ============================================================
+now_epoch="$(date +%s)"
+# reports/ は group 直下 (02_Ai/<g>/reports) と subproject 配下 (02_Ai/<g>/<sub>/reports) の両方を走査。
+# _archive/ 配下は除外 (既に退避済み)。
+for f in "$VAULT/02_Ai/"*/reports/*.md "$VAULT/02_Ai/"*/*/reports/*.md; do
+  [ -f "$f" ] || continue
+  [ -L "$f" ] && continue
+  case "$f" in */_archive/*) continue ;; esac
+  base="$(basename "$f" .md)"
+  # 末尾が -YYYY-MM-DD のものだけ (dated)。固定名は末尾日付なし → 対象外
+  fdate="$(printf '%s' "$base" | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}$')"
+  [ -n "$fdate" ] || continue
+  # frontmatter type ゲート (--- ... --- の最初のブロック)
+  fm="$(awk '/^---$/{c++; if(c==2)exit} c==1' "$f" 2>/dev/null)"
+  ftype="$(printf '%s\n' "$fm" | awk -F':' '/^type:/{sub(/^[ \t]*/,"",$2); gsub(/[" \r]/,"",$2); print $2; exit}')"
+  sweepable=0
+  case "$ftype" in
+    weekly-spec-pulse) sweepable=1 ;;
+    analysis) printf '%s\n' "$fm" | grep -qE '^[[:space:]]*-[[:space:]]*auto-generated[[:space:]]*$' && sweepable=1 ;;
+  esac
+  [ "$sweepable" -eq 1 ] || continue
+  # 経過日数判定 (macOS date)
+  fepoch="$(date -j -f "%Y-%m-%d" "$fdate" "+%s" 2>/dev/null)" || continue
+  age_days=$(( (now_epoch - fepoch) / 86400 ))
+  [ "$age_days" -gt "$SWEEP_DAYS" ] || continue
+  arch_dir="$(dirname "$f")/_archive"
+  mkdir -p "$arch_dir"
+  if mv "$f" "$arch_dir/" 2>/dev/null; then
+    swept=$((swept + 1))
+    swept_log="${swept_log}- 🧹 swept (${age_days}d > ${SWEEP_DAYS}d): ${f#$VAULT/} → _archive/\n"
+  fi
+done
+
+# ============================================================
 # audit ファイル append-only 更新
 # ============================================================
 mkdir -p "$(dirname "$AUDIT_FILE")"
@@ -137,11 +190,14 @@ fi
 
 {
   echo ""
-  echo "## $TIMESTAMP (violations: $violations)"
+  echo "## $TIMESTAMP (violations: $violations, swept: $swept)"
   if [ "$violations" -eq 0 ]; then
     echo "- ✅ all checks passed (frontmatter / ambiguity / registry / K-3 placement / repo-only files)"
   else
     echo -e "$result"
+  fi
+  if [ "$swept" -gt 0 ]; then
+    echo -e "$swept_log"
   fi
 } >> "$AUDIT_FILE"
 

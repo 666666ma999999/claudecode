@@ -91,3 +91,10 @@ tmp_*/
 # 端末固有の自動生成ステートファイル（cleanup tick / self-update 記録）
 /.last-cleanup
 /.last-update-result.json
+
+# daemon ランタイム状態（control.key 等の機密含む・端末固有）
+daemon/
+daemon.log
+
+# ジョブ実行ランタイム（セッション固有）
+jobs/

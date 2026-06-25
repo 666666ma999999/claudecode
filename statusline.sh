@@ -66,13 +66,24 @@ _pdir="${project_dir:-$(pwd)}"
 # --show-toplevel は subdir からでも作業ツリーの root を返す。worktree は main と別 root なので別キーになる。
 _proot=$(git -C "$_pdir" rev-parse --show-toplevel 2>/dev/null)
 [ -z "$_proot" ] && _proot="$_pdir"
-_goal_key=$(printf '%s' "$_proot" | sed 's|[^A-Za-z0-9._-]|-|g; s|^-*||')
-_goal_file="$CLAUDE_DIR/state/session-goals/$_goal_key.txt"
+_goal_key=$(printf '%s' "$_proot" | sed 's|[^A-Za-z0-9._-]|-|g; s|^-*||' | tr '[:upper:]' '[:lower:]')
+# session(会話)単位: stdin の session_id (L24) で複合キーを読む（別会話の目標を出さない）。
+# session_id が無い/unknown のときだけ旧 worktree 単一キーへ degrade。
+if [ -n "$session_id" ] && [ "$session_id" != "unknown" ]; then
+  _goal_file="$CLAUDE_DIR/state/session-goals/${_goal_key}__${session_id}.txt"
+else
+  _goal_file="$CLAUDE_DIR/state/session-goals/$_goal_key.txt"
+fi
+_goal_stale=""   # 前日以前に設定された目標は「古い可能性」マーカーを付ける (凍結目標の黙示的誤誘導を防ぐ)
+                 # ※ しきい値は hooks/session-goal-gate.sh の鮮度判定と一致させること (変更時は両方直す・drift 防止)
+_goal_setdate=""
 if [ -f "$_goal_file" ]; then
   session_goal=$(head -1 "$_goal_file" | tr -d '\r\n')
   # 40 文字超は末尾を … に圧縮 (perl で UTF-8 文字単位カウント・macOS 安全)
   if [ -n "$session_goal" ]; then
     session_goal=$(printf '%s' "$session_goal" | perl -CSAD -ne 'chomp; if (length > 40){print substr($_,0,40)."\x{2026}"} else {print}' 2>/dev/null)
+    _goal_setdate=$(stat -f %Sm -t %Y-%m-%d "$_goal_file" 2>/dev/null)
+    [ -n "$_goal_setdate" ] && [ "$_goal_setdate" != "$(date +%Y-%m-%d)" ] && _goal_stale=1
   fi
 fi
 
@@ -264,5 +275,9 @@ printf "🔀 %s │ 📁 %s" \
   "$project_name"
 # 4行目: 今回のセッション目標 (作業中に「今やろうとしてること」を見失わない anchor)
 if [ -n "$session_goal" ]; then
-  printf "\n🎯 今回の目標: %s" "$session_goal"
+  if [ -n "$_goal_stale" ]; then
+    printf "\n🎯 今回の目標: %s  ⚠️%s設定・要確認" "$session_goal" "$_goal_setdate"
+  else
+    printf "\n🎯 今回の目標: %s" "$session_goal"
+  fi
 fi

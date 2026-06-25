@@ -22,7 +22,7 @@ CLAUDE.md「行動原則 §Obsidian」の **総則 + index** (2026-04-24〜)。O
 ## 適用条件
 
 - 対象 vault: `~/Documents/Obsidian Vault/`
-- 構成要素: workflow skills + 5 slash commands + 4 kepano skills (primitive 層) + 2 agents + 6 hooks + 1 MCP server (mcpvault)
+- 構成要素: workflow skills + slash commands + kepano skills (primitive 層) + agents + 連携 hook 群 + vault MCP (mcpvault)（個数は変動するため数値を持たせない・実数は `settings.json`/`hooks/` を参照）
 - 退避済み skill (`skills/_dormant/`、30 日未使用): `obsidian-bases` / `obsidian-short-note-merge` / `wiki-fold` / `obsidian-now-done`。**ただし `/done` コマンド (`commands/done.md`) は自己完結化済み・現役**（dormant skill には依存しない・2026-06-13 修理）
 - vault 外プロジェクトでは vault **file 操作系** hook が no-op（`[ -d wiki ] && [ -d .git ]` または vault path ガードによる）。**warning 系** hook (`wiki-auto-capture-on-stop.sh` 等) は cwd 不問で警告 stdout を発火可 (vault file 操作はしない・Phase 2 2026-05-24〜)
 - **基本方針**: 知識化は claude-obsidian (`wiki/`)、証跡 refs/ は `/done` コマンド (自己完結・現役) が append-only で書く

@@ -1,98 +1,76 @@
 <claude-mem-context>
 # Memory Context
 
-# [.claude] recent context, 2026-05-25 4:38pm GMT+9
+# [.claude] recent context, 2026-06-24 9:29am GMT+9
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (16,090t read) | 651,869t work | 98% savings
+Stats: 50 obs (18,007t read) | 2,200,526t work | 99% savings
 
-### May 24, 2026
-671 3:53p ⚖️ Claude x Obsidian Integration Architecture Structure Design Decision
-673 3:57p 🔵 H-1 横串MOC実体確認: adscrm_cross.md は prime_suite 2プロジェクト横断司令塔
-674 " 🔵 H-4 定期レポート実体確認: weekly-spec-pulse は75ソース仕様変更追跡の週次レポート
-675 " 🔵 H-3 レビュー記録実体確認: vault側と repo側に分散している現状を確認
-690 3:58p 🔵 L-2 過去brainstorm refs の実態確認: 2種の使われ方が判明
-691 " 🟣 Task #10 作成: ファイル種別56種 確定版v2 仕分け表アップデート
-678 5:32p 🔵 make_article プロジェクト構造と vault 連携の現状確認
-682 " 🔵 make_article/CLAUDE.md の全構造と Vault Integration セクション未存在確認
-683 " 🔵 project-registry.md の現構造 — prime_suite のみ登録・make_article 未登録
-684 5:43p 🔵 ルール体系に「公式情報アップデート」機能の欠落が指摘された
-687 5:45p ⚖️ ユーザーが vault 物理統合方針に転換 — Codex + Agent Team での検討指示
-685 5:50p 🔵 Ingest 系インフラの実態調査完了 — 6 機能・4 .raw/ ディレクトリが稼働中
-686 " 🟣 vault-rules-global.md に「## 4. Ingest」セクションを追加 — 外部情報取得フローを正式化
-692 5:52p ⚖️ vault x-operation 物理移動統合プラン設計依頼（make_article 配下）
-694 6:04p ⚖️ Vault物理統合プラン設計：x-operation→make_article移行の設計開始
-695 " ⚖️ vault-rules-project.md 作成依頼 — vault/repo role-split フレームワークの wiki/meta 集約
-693 6:05p 🔵 x-operation wikilink グラフは x-operation/ 内部完結であることが確認された
-704 9:01p 🔴 vault_config_loader.py parents[2] → parents[3] depth fix
-697 9:07p 🔵 make_article vault 23-file structure mapped with duplication candidates identified
-698 " ⚖️ Vault consolidation design scope defined: 8-section plan with 5 file-level disposal decisions required
-699 9:08p ⚖️ wiki/meta/ 配置適否を Codex + Agent Team で検証する方針
-700 9:11p 🔵 wiki-recall-on-prompt.sh は decisions/mistakes のみ読む — impl-notes は recall 対象外（設計どおり）
-705 " ⚖️ file-placement-rules.md 導入計画：Codex + Agent Team による環境構築タスク開始
-706 10:03p 🟣 Task #15 作成: rules/42 導入前整理（codex + agent team・4観点）
-707 " ⚖️ Codex判断: rules/42 本番導入は「No-Go（条件付き）」— 運用経路が未接続
-708 " 🔵 prime_suite-inventory/inventory/ の実ファイル構成確認
-709 10:10p ⚖️ make_article vault 14ファイル削減設計依頼 — vault/repo/統合の3方向判定
-710 10:14p ⚖️ Task #14方針: env/memo読込 + vault↔Claude Code双方向フィードバック環境構築
-### May 25, 2026
-717 9:10a ⚖️ Adversarial review requested for rules/42 Go judgment
-718 12:27p ⚖️ Vault Auto-Feedback System: New Feature Request Scoped
-719 " ⚖️ Task #17 Created: rules/42 Auto-Deployment Mechanism Design Verification
-720 12:29p ⚖️ rules/42 全プロジェクト自動実行化の設計審査リクエスト
-721 12:31p 🔵 既存 3 資産の実態確認: CLAUDE.md / vault-rules-project.md / rules/42 / file-placement-rules.md の内容を照合
-722 12:45p ⚖️ rules/42 自動展開 4フェーズ実装プラン策定
-723 1:55p ⚖️ Phase 2 Vault MOC Auto-Summary Design: Three Candidate Approaches Evaluated
-724 1:56p 🔵 wiki-auto-capture-on-stop.sh: Dual-Channel Keyword Detection with 30-Min Staleness Guard
-725 " 🔵 posttooluse-edit-history.sh: JSONL Edit/Read Tracking for Self-Edit Memory Guard
-726 " 🔵 save/SKILL.md: Decision/Mistake Append Workflows with Exact Insertion Point Protocol
-727 2:22p 🔵 Obsidian Vault wiki/ ディレクトリ構造の現状確認
-729 " 🟣 rules/42 再設計用 git worktree を ~/.claude-wt-rules42 に作成
-728 2:23p 🔵 project-registry.md パスが複数 hook・rules に hardcode されている実態確認
-730 2:35p ✅ project-registry.md migrated from AI_adscrm/ to wiki/meta/ (cross-project)
-731 " 🔵 project-registry.md already at wiki/meta/ but hooks and rules still reference old AI_adscrm/ path
-732 3:21p 🟣 feedback_directory-structure-diagram.md メモリノート作成 — ASCII tree 必須ルール
-S366 Claude Code hook system audit and Phase 1 fixes: vault-moc-sync-guard Stop registration + wiki-auto-capture double-registration removal (May 25 at 3:22 PM)
-S363 vault project root wiki/ 管理ポリシー確認 + ディレクトリ構成変更時は ASCII tree 必須ルール保存 (May 25 at 3:22 PM)
-S364 新タスク受領: Codex + Agent Team を使って env/memo を読み込み、Claude Code 開発中に vault 側への適切なフィードバック環境を構築する実装計画を立てる (May 25 at 3:22 PM)
-735 3:27p 🟣 vault-feedback-org チーム作成と5並列整理Phaseタスク設計
-733 3:38p 🔵 ~/.claude/ complete file inventory confirmed
-734 " 🔵 Obsidian Vault complete file inventory confirmed
-S367 Phase 1 hook fixes (settings.json) + file placement rules finalization — verify edits persisted after session restart, then add subproject MOC placement entry to vault file-placement-rules.md (May 25 at 3:45 PM)
-S368 Obsidian subproject MOC 配置の公式慣行調査 → file-placement-rules.md への明示追記 (ファイル配置テーマ完了への最終ステップ) (May 25 at 3:58 PM)
-S369 subproject MOC 配置の公式慣行調査 + file-placement-rules.md への追記検討 / ファイル配置テーマ最終クローズ (May 25 at 3:59 PM)
-S370 file-placement-rules.md の subproject MOC 明示追記 + vault wiki/ 配置の公式開発者リサーチ (May 25 at 4:16 PM)
-738 4:18p ✅ file-placement-rules.md に subproject MOC エントリを追記
-S371 公式 vault 開発者のフォルダ構造リサーチ + file-placement-rules.md への subproject MOC エントリ追記完了 (May 25 at 4:18 PM)
-S372 file-placement-rules.md の曖昧表現修正（draft / 仕様・施策サマリーの MOC 内セクション vs 独立ファイル誤読問題） (May 25 at 4:28 PM)
-739 4:28p ✅ file-placement-rules.md revision_history に MOC 2 種明示化のエントリを追記
-741 4:35p ✅ file-placement-rules.md の vault project root セクション曖昧表現を修正
-S373 file-placement-rules.md の vault project root セクション修正（draft / 仕様 / 施策 / 計画 / 分析の曖昧表現を明確化） (May 25 at 4:35 PM)
-**Investigated**: - file-placement-rules.md の全文を読み込み、2箇所の曖昧表現を特定
-    - 曖昧点1: draft行の「vault project root で plan.md を作成」→ vault に plan.md を置く誤読
-    - 曖昧点2: 仕様/施策/計画/分析が独立ファイルとして列挙 → MOC内サブセクションであることが不明瞭
-    - rules/41 §④「施策サマリーは MOC に書く」原則を確認（独立ファイル禁止・MOC サブセクション方式）
-    - 修正案 A/B/C を検討し、最小変更の案 A を採用
-    - Bash grep で issue/課題/problem 系ファイルの配置定義状況を調査（rules/42 に未定義、task.md テンプレに Failures/Stuck Context セクションあり）
+### Jun 23, 2026
+3468 7:16p 🔵 sync-vault-summary SKILL.md fully confirmed stale — cmd_append is no-op in .py but SKILL.md still describes full prepend workflow
+3469 " 🔵 rules/41 基本原則 line still says "vault = 索引 + サマリー / 実体の SSoT は repo" — directly contradicts 2026-06-23 decision
+3470 " 🔵 file-placement-detail.md H-1 table (line 151) vs supersede note (line 261) — exact text of both confirmed
+3473 7:23p ⚖️ Adversarial review commissioned for Obsidian×Claude file placement rules proposal
+3474 " 🔵 sync-vault-summary.py cmd_append confirmed RETIRED/no-op since 2026-06-14
+3475 " 🔵 decisions.md L34-46 verbatim-confirmed: "vault=索引のみ" is explicitly the rejected alternative ②
+3476 " 🔵 Two real drifts confirmed: detail L98 contradicts index L64 on prime_suite Phase structure
+3477 " 🔵 rules/40 L13 confirmed as existing master declaration — "原典の穴" claim in prior draft was factual error
+3488 7:29p 🔵 decisions.md §Supersedes は L45 に実在・「別途承認後」の明示保留が Stage 3 の法的根拠
+3489 " 🔵 sync-vault-summary の「休眠した罠」: cmd_append は no-op だが CLI/docstring/SKILL手順は生存中
+3490 " ⚖️ Codex 敵対レビュー 6手裁定 + 追加指摘（2026-06-23 最終）
+3491 " ⚖️ aiads-ope-now-cat.sh cross-reference 監査完了: ~/.claude + ~/Library/LaunchAgents で間接呼出ゼロ確認
+3492 " ⚖️ Obsidian vault 構造の全面再設計案をユーザーが提示
+3503 8:21p ⚖️ Vault root cleanup workflow: directory structure must be displayed before each move
+3505 8:35p ⚖️ Vault Root Cleanup Phase① — User Approved First Batch of File Operations
+3510 8:53p ✅ memo_Pmac.md moved from vault root to 00_Inbox/
+3511 9:08p ⚖️ Vault Root Ambiguous Files — Agent Team + Codex Adversarial Review Requested
+3514 9:10p 🔵 Obsidian vault contains 5 real API keys committed to git history
+3515 " ⚖️ Vault scattered-file triage plan finalized after internal adversarial review
+3516 " 🔵 AIads/prompts/ confirmed as canonical subproject prompt structure template
+3517 10:40p ⚖️ Vault 散乱ファイル仕分け 確定版 — 敵対的レビュー発動
+3518 " 🚨 Obsidian vault に OpenAI×2 + Anthropic×3 の実 API キーが git tracked で存在
+3519 10:41p 🔵 rules/41 §① の「定期実行プロンプト」配置先テキストに両論解釈が実在することを実読確認
+3520 " 🔵 file-placement-detail.md の全争点条項が実在することを行番号で確認 — 内部レビューの「捏造」主張は誤り
+3521 " 🔵 adscrm-asks-triage-2026-06-14.md を実読 — adscrm_prompt の行き先は「AIads/prompts/」と確定できず「prompts/」止まり
+3522 " 🔵 17 moves 対象ファイル全件の実在位置を確認 — 仕分けプランの現在地記述は全て正確
+3523 10:43p 🔵 Codex adversarial review: prompt hierarchy rule is group-level, not subproject-level
+3524 " 🔵 Codex: 3 of 6 rule clause citations in sorting plan are misapplied (G-3, 0-7, 0-1)
+3525 " 🔵 Codex: adscrm_prompt.md triage document says decompose+archive, NOT move to AIads/prompts/
+3526 " 🔵 Codex: analytics_prompt.md destination is AIcrm/research/_requests/ (existing), not AIcrm/prompts/ (new)
+3527 " 🔵 Codex 17-move final verdicts: 10 support, 5 require correction, 1 reject, 1 conditional
+3528 10:48p 🔵 全17対象ファイルの内容実読完了 — コンテンツと配置ルールの照合により5件の計画誤認を発見
+S1551 散在prompt8件の実読完了 — 新名称・移動先の提案表を作成、ユーザー承認待ち (Jun 23 at 10:56 PM)
+S1555 Vault散乱ファイル仕分け — 8件promptファイルのN-8命名規約（YYYY-MM-DD_slug）適用・移動先確定・APIキー漏洩revoke待ち (Jun 23 at 10:56 PM)
+S1553 vault全体のdone/フォルダとresult命名パターンの実態調査 (Jun 23 at 10:59 PM)
+S1552 vault-spot-runner.shの命名ロジックとfile-placement-detail.mdのN群命名規約を確認 (Jun 23 at 10:59 PM)
+S1554 Vault散乱ファイル仕分け確定作業 — 8件promptファイルのN-8命名規約適用・移動先確定・API漏洩対応 (Jun 23 at 10:59 PM)
+S1556 Vault散乱promptファイル8件の仕分け確定 + ファイル保管・命名ルールのWeb研究agent teamを起動 (Jun 23 at 11:00 PM)
+S1557 Vault散乱promptファイル8件の命名・移動確定 + ファイル保管・命名ルール共通化のWebリサーチagent team起動・待機 (Jun 23 at 11:00 PM)
+S1558 vault ファイル保管・命名ルール Codex 敵対的レビュー完了 → 8種簡素化ルール確定 + spot vs task 区別の説明 (Jun 23 at 11:09 PM)
+3531 11:12p 🔵 File Placement Standardization Framework (rules/42) Already Defined with 67 Types
+3532 " 🔵 Prompt Execution Infrastructure: Scheduled vs Spot Prompt Segregation
+3533 " 🔵 Naming Pattern Drift Across Projects: Common Files Lack Standardized Naming
+3534 " ⚖️ File Organization & Naming Specification (Draft): 12-Type Taxonomy with Lifecycle Rules
+3538 " 🔵 ユーザーが spot プロンプトと claude-task の区別を質問
+### Jun 24, 2026
+3535 7:31a ⚖️ Adversarial Review Commissioned for Vault File Storage/Naming Rule (Codex共通化版)
+3536 " 🔴 敵対的レビュー用参照ファイル群の一斉実読完了 — 条項番号・実体の照合結果
+3537 " 🔴 H-4引用の構造的問題: ルール定義行 vs 適用順序メモの混同
+S1559 vault 散らばりプロンプト7件の確定移動先と命名を決定 + tasks/archive/ 完了慣行の実ファイル確認 (Jun 24 at 8:57 AM)
+3539 8:57a 🔵 タスク管理手法の比較調査リクエスト: NOW/DONE 1枚 MD vs 現行 tasks/ マルチファイル方式
+S1560 NOW/DONE 1枚MD方式 vs フォルダ移動方式のグローバル主流比較 — エージェントチームで Web 調査 + 内部敵対レビュー (Jun 24 at 9:03 AM)
+3540 9:10a 🔵 prime_suite 週次ゴールが2目的混在し可読性低下
+3541 9:11a 🔵 prime_suite に新旧フォーマット混在で目標が2つ見える根本原因を特定
+3542 " 🔵 prime_suite 関連リポジトリが ~/Desktop/ 直下に8分割で存在
+3543 " 🔵 Meta Ads Playbook Stage 0 は6/23に既完了・AGENTS.md に詳細履歴確認
+3544 9:12a 🔵 AIads-playbook.md の実在場所を特定: Obsidian Vault 内 AI_adscrm/AIads/ 配下
+3545 9:14a 🔵 Explore agent 完了: Meta Playbook Stage 0 は 6/23 に完了済み・4キーワードはすでに実装済み構造に対応
+3553 9:22a 🔵 session-goal conflict root cause clarified — terminal title is LINE Push, not Meta Playbook
+3555 " 🔵 prime_suite has 9 worktrees — "LINEプッシュ" terminal likely maps to prime_suite-line-push or prime_suite-line24, not main prime_suite worktree
+3554 9:25a 🔵 session-goal state inspection: prime_suite has 3 goal files — old worktree-key + 2 new session-scoped files all showing Meta Playbook goal
 
-**Learned**: - rules/42 に「issue / 課題 / problem」ファイルの配置定義は現時点では存在しない
-    - task.md テンプレには `## Failures / Stuck Context` セクションが既にある（issue を task 内で管理する設計）
-    - 既存プロジェクトで issues 系独立ファイルは rohan/data/IssueAnalysisPrompt.md のみ（rules/42 対象外の FE+BE 構成）
-    - 仕様/施策/計画/分析サマリーは MOC 内サブセクションが正解（独立ファイル化は Anti-Bloat 違反）
-
-**Completed**: - file-placement-rules.md の vault project root セクションを修正:
-      - draft 行: 「repo 側で別途」を明示して plan.md vault 配置誤読を解消
-      - 仕様/施策/計画/分析: 「MOC 内のサブセクションとして書く（独立ファイルではない・rules/41 §④準拠）」を見出しで明示
-      - 各項目に repo 側の具体パス（measures-detail.md / plan.md）を併記
-    - revision_history に 4件目エントリを追加（2026-05-25 修正内容を記録）
-    - 「ファイル配置」テーマを完全クローズ
-
-**Next Steps**: - ingest-improvements スキル（/ingest-improvements）の実行を試みている（スキル名が不明のため検索中）
-    - improvement-queue 6件の取り込みと記事候補提案
-
-
-Access 652k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 2201k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

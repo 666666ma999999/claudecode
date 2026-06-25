@@ -10,8 +10,14 @@
 | **技術詳細 / 仕様** | 実装者 | 前提・再現手順・差分 | H2/H3・code block・脚注・section link | deep dive |
 | **分析レポート / findings** | 分析者・事業責任者 | 仮説・比較表・解釈 | 意味別 callout・表(Tufte)・Mermaid ツリー | evidence-first |
 | **進捗 / MOC / ダッシュボード** | PM・チーム | 今の変化・blocker・次 | frontmatter + Dataview/Bases・embed・折りたたみ | status / dashboard |
+| **司令塔（運用ダッシュボード）/ command-center** | 毎日開く運用者・横断統括者(PM) | ①📖30秒ストーリー(専門語ゼロ) → ②🎯ゴール&やること実行順表 → ③`[!success]-`数字版結論 | story-first + 🎯`[!todo]`実行順表 + 状態の地図表(実行順と別) + 末尾「データ前提」+「関連(正本リンク)」+ 自動生成ゾーン(最下段) | **full**（薄い索引にしない）・**固定名で上書き** |
 | **インシデント / ポストモーテム** | 運用・監査 | 事実→影響→暫定対応 | `[!danger]`・timeline・decision log | incident writeup |
 | **セキュリティ / リスク監査** | 決裁者+実装者 | 深刻度サマリ | 深刻度マトリクス・`[!bug]` finding・付録 foldable | findings-first |
+
+> [!important] 司令塔 vs MOC の切り分け（同じ "dashboard" でも別物）
+> - **MOC＝薄い索引**: 人間向け司令塔セクション + embed/Dataview。**実体（サマリ・優先ロジック）を持たない**。サマリや順位の理由を外部リンクへ逃がしてよいのは MOC のみ。
+> - **司令塔（command-center）＝full**: 判断に要る「単位別サマリ + なぜこの順のロジック + やること」を**中に内包**する。薄い索引化すると判断できなくなる。
+> - **配置・命名・frontmatter6必須・自動フィード禁止・drift 同期義務は ここに書かない** → 正本は `rules/41 §②③④`・`rules/42 H群`。skill は型の「書き方」だけを持つ（skill は優先順位最下位＝最弱の場所に正本を作らない）。
 
 ### 補助ルール（順序）
 - 数字で判断する文書: **結論 callout → 比較表 → 補足**
@@ -144,4 +150,17 @@ SORT last_updated DESC
 ## 各セクション（embed で集約・実体コピー禁止）
 ![[施策A#結論]]
 ![[施策B#結論]]
+
+<!-- 人間向けセクションより必ず下に自動生成ゾーン（rules/41 §④ 2026-06-14）。
+     「## 🔁 最新更新ログ」は置かない＝禁止（git log / decisions.md の劣化コピー）。
+     Open Issues ライブミラーのみ可（sync-vault-summary.py が末尾挿入） -->
+## 📋 Open Issues
 ```
+
+### 司令塔（運用ダッシュボード・command-center）
+
+毎日まず開く full レポート。冒頭は**固定順**：📖30秒ストーリー（専門語ゼロ）→ 🎯ゴール&やること実行順表（NOW 順ミラー）→ `[!success]-` 数字版結論 → 💡かみくだき → §1 状態の地図（重症度降順・「やる順ではない」明記・`実行→`列で NOW# 相互参照）→ 各単位の現状診断表＋部品別 `[!todo]`（やること先頭 / なぜ後置 / 重い根拠は `[!abstract]-` 折りたたみ）→ §2 データ前提 → 関連表 → 自動生成ゾーン（Open Issues・最下段）。
+
+- **コピペ可 skeleton 全文（domain-neutral）**: [templates/cockpit-report.md](file:///Users/masaaki_nagasawa/.claude/templates/cockpit-report.md) ← 雛形の正本はこの 1 枚（ここに全文コピーしない）
+- **広告ドメインの当てはめ実例**: [model-case-aiads-v2.md](model-case-aiads-v2.md)（真ROAS・①KW②広告文③掲載商品④入札・6軸表）
+- **新ドメイン（CRM 司令塔等）**: skeleton はいじらず `model-case-<domain>.md` を 1 枚足してスロット当てはめだけ書く（普遍 skeleton は単一正本のまま増殖させない）。

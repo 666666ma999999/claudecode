@@ -12,7 +12,9 @@ allowed-tools: Read Write Edit Bash Glob Grep
 
 # sync-vault-summary
 
-repo のファイル編集を **Claude が 1-3 行に要約** → vault MOC の「🔁 最新更新ログ」に prepend するスキル。
+> **⚠️ 2026-06-14 RETIRED（誤用注意）**: 「🔁 最新更新ログ」への append は**廃止**（rules/41 §④・MOC 自動ログ全廃）。helper の `append` subcommand は **no-op**（`scripts/sync-vault-summary.py` cmd_append）。よって本 skill の **STEP 2-4（append 系手順）は実行しても何も起きない**。現状で有効に残るのは `list`（候補抽出）/ `resolve`（repo→MOC マッピング）/ `cmd_issues`（Open Issues ライブミラー）のみ。**本 skill の全面改訂は vault 構造リフォーム施策で実施予定** → [[vault-restructure-proposal]]。それまで append を再実装しないこと。
+
+repo のファイル編集を **Claude が 1-3 行に要約** → vault MOC の「🔁 最新更新ログ」に prepend するスキル。**（↑ 上記のとおり append は廃止済。以下の記述は歴史的経緯・改訂待ち）**
 
 ## 起動条件
 - ユーザーが `/sync-vault-summary` を入力

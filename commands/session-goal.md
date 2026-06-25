@@ -2,7 +2,7 @@
 
 「今回のセッションの目標」を1行で保存し、statusline 4行目（🎯 今回の目標: …）に常時表示する。
 
-どのプロジェクトの cwd からでも使用可。作業ツリー (worktree) 単位で保存（worktree ごとに別々の目標を持てる・メインリポジトリも 1 つの作業ツリーとして独立）。
+どのプロジェクトの cwd からでも使用可。**セッション(会話)単位で保存**（2026-06-23〜・同じフォルダ/worktree でも会話ごとに別々の目標を持てる。resume/`/clear` で session_id が変わると新しい会話扱い＝未設定に戻る）。
 
 ## 使い方
 
@@ -26,5 +26,5 @@
 
 - skill: `~/.claude/skills/session-goal/SKILL.md`
 - 実体スクリプト: `~/.claude/scripts/session-goal.sh`
-- 保存先: `~/.claude/state/session-goals/`（repo 外・git を汚さない・作業ツリー単位＝worktree ごとに別々の目標）
+- 保存先: `~/.claude/state/session-goals/<worktree-key>__<session_id>.txt`（repo 外・git を汚さない・**セッション(会話)単位**）
 - 表示: `~/.claude/statusline.sh` 4行目

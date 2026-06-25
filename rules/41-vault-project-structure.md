@@ -61,7 +61,7 @@ tags:
 ## ③Phase / MOC 構造
 
 - **Phase 正本 = repo `<project>/tasks/phase-tracker.md`**（rules/05「実体は repo」）
-  - **例外（prime_suite・2026-06-12〜）**: prime_ad/prime_crm は phase-tracker.md を**凍結**し、生きた正本を **`tasks/NOW.md`** に一本化。当 group の Phase を見る時は NOW.md。他 project は従来どおり phase-tracker.md
+  - **例外（prime_suite・2026-06-12〜 / 2026-06-15 精製）**: prime_ad/prime_crm は **時間スケールで 2 層分離**。**優先順位・やること・進捗（TODO/行動・速い）= `tasks/NOW.md`**（スコア式・**唯一の優先順位正本**）／ **Phase の地図（大きな節目・Exit・今ここ・遅い）= `tasks/phase-tracker.md`**（凍結解除し「現在地マップ」に再生・**優先順位とタスクと施策リストは置かない**）。NOW の各タスクは `Ph` タグで地図上の位置を指す。凍結前スナップショットは `tasks/archive/phase-tracker-presplit-*.md`。他 project は従来どおり phase-tracker.md
 - **vault MOC**: Phase 一行サマリー（Exit 条件のみ）+ 施策サマリー一覧（1 行/施策: ID・一言要約・Phase・優先順位・状態）+ repo への file:// リンク索引。詳細手順・寄与/CPA 見積り・統計根拠は repo 側
 - 施策フォーマット（H4 + 6 要素）→ 詳細は docs/
 

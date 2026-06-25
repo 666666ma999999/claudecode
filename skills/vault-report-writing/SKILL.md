@@ -1,6 +1,6 @@
 ---
 name: vault-report-writing
-description: Obsidian vault に「読み手が数秒で結論へ到達でき・drift せず・スクショ映えする」レポートを書くための設計 skill。レポートの構成・要約・情報密度・読ませ方を決める (Obsidian 構文そのものは obsidian-markdown skill に委譲)。Use when writing/cleaning up a report, analysis note, findings, executive 1-pager, progress/MOC dashboard, incident postmortem, or security report in Obsidian. Triggers: 「vault に綺麗なレポート」「Obsidian レポート」「レポート整形/清書」「綺麗にまとめて」「経営層サマリ/エグゼクティブサマリ/1-pager」「findings 清書」「ダッシュボード化」「インシデント報告書/ポストモーテム」「ゴール&やること先頭」「目標と次アクション」「優先順位とその理由」「BLUF/結論先出し」「スクショ映え」「report craft」.
+description: Obsidian vault に「読み手が数秒で結論へ到達でき・drift せず・スクショ映えする」レポートを書くための設計 skill。レポートの構成・要約・情報密度・読ませ方を決める (Obsidian 構文そのものは obsidian-markdown skill に委譲)。Use when writing/cleaning up a report, analysis note, findings, executive 1-pager, progress/MOC dashboard, incident postmortem, or security report in Obsidian. Triggers: 「vault に綺麗なレポート」「Obsidian レポート」「レポート整形/清書」「綺麗にまとめて」「経営層サマリ/エグゼクティブサマリ/1-pager」「findings 清書」「ダッシュボード化」「インシデント報告書/ポストモーテム」「ゴール&やること先頭」「目標と次アクション」「優先順位とその理由」「BLUF/結論先出し」「スクショ映え」「report craft」「司令塔/command-center」「運用ダッシュボード/現状診断ボード」「横断司令塔」「毎日見るダッシュボード」.
 ---
 
 # Vault Report Writing — レポート設計 skill
@@ -55,6 +55,8 @@ score = 月次期待増分粗利(¥k) × 確度 ÷ 工数(h)
 | # | 施策 | 期待増分 | 確度 | 工数h | score |
 |--:|---|--:|--:|--:|--:|
 | 1 | 〈施策名〉 | ¥80k | 0.8 | 1 | 64 |
+
+> **司令塔型の例外（優先順位の正本が repo にある project）**: 優先順位の正本が repo の `tasks/NOW.md`（スコア式）にある project（prime_suite 等）では、vault 司令塔は掲載式を**持たず** NOW 順の**ミラー（実行#番号で引用・値リテラル非保持）+ リンク**のみを置く。掲載式（score = 期待増分 × 確度 ÷ 工数）は正本側に書く＝二重正本を避ける（prime_suite CLAUDE.md / decisions.md 2026-06-12・06-15）。
 
 > [!warning] ガードレール（必読）
 > 🎯ブロックの**ゴール・やることの中身を新規に決める／変更する時は、書く前にユーザーに確認する**。ゴールを勝手に再定義しない。前回と同じゴールを踏襲する時は確認不要、変える時だけ確認。
@@ -143,6 +145,11 @@ score = 月次期待増分粗利(¥k) × 確度 ÷ 工数(h)
 - [ ] 種別を混ぜていないか（how-to / reference / explanation・Diátaxis）
 - [ ] `last_updated` を当日にしたか
 - [ ] スクショして**1 画面で要点が掴める**か
+- [ ] **（cost/clicks の明細を出すレポートのみ）全表に絶対量＝件数列があるか** grep で確認したか（率・ROAS だけにしない・広告なら真CV＝GA4 purchases・管理画面値は約 3.1 倍盛りを注記。feedback_report_show_cv_count 2026-06-16）
+- [ ] **（同上）本文の全数字が frontmatter `period`/窓と一致**するか（最新 CSV 混入・窓跨ぎ比較なし）
+- [ ] **（効果・変化を語るレポート）rolling 窓に介入前期間が混じっていないか**・在/不在の断定は台帳(ground truth)のみで・無ければ「未確認」と書いたか（mistakes.md window-contaminated inference）
+- [ ] **（ランキング・選定を含む）headline 数字の母集団＝施策が適用される母集団か**（単発含む全体か・選択バイアスなしか。feedback_full_population_not_hvs）
+- [ ] **（司令塔型のみ）状態の地図（重症度降順）と実行順を別表にし NOW# で相互参照**したか・**full**（サマリ+優先ロジック+やること内包）で薄い索引化していないか・自動生成ゾーンを最下段に置いたか
 
 ## references
 
@@ -153,7 +160,7 @@ score = 月次期待増分粗利(¥k) × 確度 ÷ 工数(h)
 | [visualization-principles.md](references/visualization-principles.md) | Tufte/Few/Minto/Diátaxis/公式の原則（15 件） |
 | [hacker-report-methods.md](references/hacker-report-methods.md) | PTES/OWASP/postmortem の報告術（14 件） |
 | [x-post-angles.md](references/x-post-angles.md) | X 発信の型 + 記事アングル（→ `wiki/x-article-stock.md`） |
-| [model-case-aiads-v2.md](references/model-case-aiads-v2.md) | 実例: 広告候補レポート v2 の構造分解 + 4 スタイル実験 |
+| [model-case-aiads-v2.md](references/model-case-aiads-v2.md) | 実例: 広告候補レポート v2 の構造分解 + 4 スタイル実験 + **司令塔(cp-review系)の広告ドメイン当てはめ** |
 | [before-after-examples.md](references/before-after-examples.md) | 悪い例 → 改善例の短い比較 |
 | [sources.md](references/sources.md) | 全出典 URL（48 件・research 2026-05-30） |
 

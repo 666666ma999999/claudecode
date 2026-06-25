@@ -36,3 +36,20 @@
 4. **更新で壊れにくいか**（analyst の動的索引が最強）
 
 → 結論: **単一の「正解レイアウト」はない。読み手 × 目的で選ぶ**。だから skill は decision_table を持つ。
+
+---
+
+## 司令塔（command-center）モデルケース：AIads-cp-review.md
+
+live ノート: `02_Ai/AI_adscrm/reports/AIads-cp-review.md`（`type: progress`・固定名上書き・約 580 行）。上の launch-candidates-v2（候補棚卸しの分析 findings 系・123 行）とは**別物**——**cp-review 系＝毎日見る運用司令塔(full)** ／ **launch-candidates＝候補棚卸しの分析 findings**。
+
+司令塔 skeleton（[templates/cockpit-report.md](file:///Users/masaaki_nagasawa/.claude/templates/cockpit-report.md)）の `{{スロット}}` に広告ドメインを当てはめた実例として読む（**数値は live ノートが正本・ここにコピーしない**＝コピーすると drift 防止に自己矛盾）。
+
+## skeleton スロットへの広告ドメイン当てはめ（＝普遍層へ昇格させない要素）
+
+- **{{単位}}** = CP（キャンペーン）。**{{主要指標}}** = 真ROAS（GA4 purchases 売上 ÷ cost）。管理画面 ROAS は約 3.1 倍（CP 別 1.45〜6.2 倍）に盛れるので headline に使わず盛り倍率を注記。
+- **{{部品}}** = ①KW（検索語＝振り分け）②広告文（RSA・有効上限 3 本・ETA 編集不可）③掲載商品（着地＝LTV 源）④入札。**かぶせ NG は①KW のみ**（学習分散回避・②③は重複 OK）。PMax/DGen は KW を持たないので「なし」。
+- **6 軸現状表** = cost / 真CV / CPC / 真CVR / KW構成 / 入札・着地。**真CPA = CPC ÷ 真CVR** で原因を分解。
+- **{{判定軸}}の具体** = スマート入札の学習リセット制約（KW/広告/着地を一度に大入替すると 14〜30 日 CPA 1.5〜2 倍 → 1 本ずつ追加・勝ち CP は触らない）／ tROAS 段階緩和 ±20%/ステップ ／ 増分真ROAS（追加 1 円の追加売上で拡大可否・窓重複+売上ラグで下振れ注意）／ 掲載スコア = 初回獲得数 × cohort 生涯 LTV。
+
+→ これらは「ルール」でなく **AIads 版の適用例**。CRM 等の新ドメイン司令塔では skeleton を再利用し、`model-case-<domain>.md` を別に足してそのドメインの当てはめを書く（**普遍 skeleton は不変**）。

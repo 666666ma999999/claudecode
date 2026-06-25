@@ -49,7 +49,7 @@ TARGET_PAT = re.compile(
 # registry の `**root**:` を補完。registry 改修なしで動かすため
 HEURISTIC_MAP = [
     # (path substring, vault MOC relative path)
-    ("/prime_suite/prime_ad/", "02_Ai/AI_adscrm/AIads_ope.md"),
+    ("/prime_suite/prime_ad/", "02_Ai/AI_adscrm/AIads/AIads_ope.md"),
     ("/prime_suite/prime_crm/", "02_Ai/AI_adscrm/AIcrm/AIcrm_ope.md"),
     ("/prime_suite/", "02_Ai/AI_adscrm/adscrm_cross.md"),
     ("/biz/make_article/", "02_Ai/make_article/make_article_ope.md"),

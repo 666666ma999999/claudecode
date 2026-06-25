@@ -15,13 +15,17 @@ Steps:
    a. A `*_ope.md` MOC or `tasks/NOW.md` in the current project that contains a `## NOW` section.
    b. If none, search the cwd's tracked MD for a `## NOW` heading.
 2. Pick the target task (newest under `## NOW`, or the slug match for `/done [task-name]`).
-3. Archive the original prompt verbatim to `<project>/refs/YYYY-MM-DD_<slug>.md` (create `refs/` if absent; append-only — never overwrite an existing ref).
-4. Move the task from `## NOW` to `## DONE` using the refs-separation format:
-   `##### YYYY-MM-DD <task title>` + one-line summary + `[[refs/YYYY-MM-DD_<slug>]]` link + result summary.
-5. Update the file's `last_updated` frontmatter to today.
+3. Archive the original prompt verbatim. Preferred path: `<project>/tasks/refs/YYYY-MM-DD_<slug>.md` (next to `tasks/NOW.md`); if the NOW MD lives elsewhere, use a `refs/` dir alongside it. Create the dir if absent; append-only — never overwrite an existing ref.
+4. Record the task under the DONE section (`## Done` or `## DONE`), **matching that section's existing format**:
+   - If it is a markdown table, insert a new row right after the header separator (newest on top) with a one-line summary + a link to the refs file.
+   - Otherwise use the h5 refs-separation format: `##### YYYY-MM-DD <task title>` + one-line summary + refs link + result summary.
+   Then remove the task from `## NOW` (if it was listed there).
+5. Update the file's `last_updated` frontmatter (or `**最終更新**:` line) to today.
+
+Note: **spot prompts** use `~/.claude/scripts/vault-spot-runner.sh` instead — it runs the prompt (result to `reports/`) and moves the prompt file to `prompts/spot/done/` as the completion marker (no NOW.md row, no refs/ copy). `/done` is the manual NOW→DONE path for tasks worked interactively that you want recorded in the `## Done` ledger.
 
 Edge cases:
-- No `## NOW` section / no eligible entries → skip and report: "No NOW/DONE MD found in this project. The /done command requires a project MD with `## NOW` and `## DONE` sections."
+- No `## NOW` section / no eligible entries → skip and report: "No NOW/DONE MD found in this project. The /done command requires a project MD with a `## NOW` and a `## Done`/`## DONE` section."
 - `/done list` → list NOW tasks only; make no changes.
 
 Natural-language triggers: "タスク完了" / "NOW→DONE" route here too.
