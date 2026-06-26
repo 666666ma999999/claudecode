@@ -22,7 +22,7 @@ Steps:
    Then remove the task from `## NOW` (if it was listed there).
 5. Update the file's `last_updated` frontmatter (or `**最終更新**:` line) to today.
 
-Note: **spot prompts** use `~/.claude/scripts/vault-spot-runner.sh` instead — it runs the prompt (result to `reports/`) and moves the prompt file to `prompts/spot/done/` as the completion marker (no NOW.md row, no refs/ copy). `/done` is the manual NOW→DONE path for tasks worked interactively that you want recorded in the `## Done` ledger.
+Note: **spot prompts** use `~/.claude/scripts/vault-spot-runner.sh` instead — it runs the prompt (result to `reports/`) and appends a full-text record (prompt body + いつ/なぜ/結果) to the project's `prompts/_INBOX.md` under `## 📒 記録` as the completion marker (no NOW.md row, no refs/ copy; the old `prompts/spot/done/` move was retired 2026-06-26 — see [[decisions]]). `/done` is the manual NOW→DONE path for tasks worked interactively that you want recorded in the `## Done` ledger.
 
 Edge cases:
 - No `## NOW` section / no eligible entries → skip and report: "No NOW/DONE MD found in this project. The /done command requires a project MD with a `## NOW` and a `## Done`/`## DONE` section."

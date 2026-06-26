@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.masa.monthly-prompt-stocktake</string>
+  <!--
+    月次 プロンプト棚卸し。全 project の prompts/_INBOX.md `## 📒 記録` 先月分を
+    headless claude -p で採点し、wiki/meta/monthly-prompt-stocktake-result.md（固定名・上書き）へ
+    「良かったプロンプト + 資産化おすすめ」を提案する（提案のみ・変更はしない）。
+
+    /bin/bash -lc で login profile (nvm PATH + ~/.zshrc secrets) をロード。
+    ~/Documents (TCC 保護) への書込は vault-prompt-runner.sh (bash 経路) が担当。
+    毎月 1 日 10:00 発火（週次集計ジョブ後の鮮度を担保）。
+
+    ⚠️ 正本はステージング (~/.claude/launchd/)。activate:
+        cp ~/.claude/launchd/com.masa.monthly-prompt-stocktake.plist ~/Library/LaunchAgents/
+        launchctl unload ~/Library/LaunchAgents/com.masa.monthly-prompt-stocktake.plist 2>/dev/null
+        launchctl load   ~/Library/LaunchAgents/com.masa.monthly-prompt-stocktake.plist
+    手動テスト: launchctl start com.masa.monthly-prompt-stocktake
+    停止:       launchctl unload ~/Library/LaunchAgents/com.masa.monthly-prompt-stocktake.plist
+  -->
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>-lc</string>
+    <string>/Users/masaaki_nagasawa/.claude/scripts/vault-prompt-runner.sh "/Users/masaaki_nagasawa/Documents/Obsidian Vault/00_General/prompts/scheduled/monthly-prompt-stocktake.md"</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/masaaki_nagasawa</string>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Day</key><integer>1</integer>
+    <key>Hour</key><integer>10</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+  <key>RunAtLoad</key>
+  <false/>
+  <key>StandardOutPath</key>
+  <string>/Users/masaaki_nagasawa/.claude/state/monthly-prompt-stocktake.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/masaaki_nagasawa/.claude/state/monthly-prompt-stocktake.err.log</string>
+</dict>
+</plist>

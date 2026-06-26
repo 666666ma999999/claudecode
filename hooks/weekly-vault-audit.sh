@@ -124,6 +124,17 @@ while IFS= read -r f; do
 done < <(grep -rlE "^## 🔁 最新更新ログ" "$VAULT/02_Ai" --include="*.md" 2>/dev/null)
 
 # ============================================================
+# 検証 7.5: 旧プロンプトモデル残存 (2026-06-26 cutover)
+# _INBOX.md は新モデル「## 🔵 やってほしいこと / ## 📒 記録」に統一済み。
+# 旧「## ✅ 完了（…1 行で残す）」が _INBOX に残っていたら未移行=回帰違反。
+# ============================================================
+while IFS= read -r f; do
+  [ -z "$f" ] && continue
+  result="${result}- ❌ prompt-model: ${f#$VAULT/} - 旧 _INBOX 構造「## ✅ 完了」が残存 (rules/41・📒 記録へ移行せよ)\n"
+  violations=$((violations + 1))
+done < <(grep -rlE "^## ✅ 完了" "$VAULT" --include="_INBOX.md" 2>/dev/null)
+
+# ============================================================
 # 検証 8: retention sweep (read-once レポートの自動アーカイブ・2026-06-17)
 # 「閲覧頻度=一回見たら終わる」自動生成 dated レポートを N 日経過で reports/_archive/ へ移動。
 # 安全ゲート (誤掃き防止):
