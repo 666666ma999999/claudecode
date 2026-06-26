@@ -140,7 +140,7 @@
 |---|---|---|
 | G-1 | 記事原稿（make_article 系） | repo `make_article/output/` |
 | G-2 | スクリーンショット・画像 | vault `attachments/` |
-| G-3 | プロンプトメモ | vault `02_Ai/` 直下（Type C） |
+| G-3 | プロンプト | `<project>/prompts/_INBOX.md`（投函＋`## 📒 記録`・全文保存・要約禁止。`spot/` 別ファイルと `_README` は廃止 2026-06-26・[[decisions]]） |
 
 ---
 

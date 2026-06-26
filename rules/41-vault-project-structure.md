@@ -27,7 +27,7 @@
 
 - 実体は全て repo 側: 戦略→`repo/<project>/plan.md` / Phase 正本→`repo/<project>/tasks/phase-tracker.md` / 施策本体→`repo/<project>/docs/measures-detail.md`
 - subproject MOC は group 直下に直置き。複数 md が要る時のみ `<subproject>/` を切る。横断 MOC は `<group>_ope.md`（実名例: `adscrm_cross.md`）
-- subproject 生成物: dated レポート→`<group>/reports/`、定期実行プロンプト→`<group>/prompts/` に集約（group root は MOC・playbook・impl-notes・living draft のみ。2026-06-13〜）
+- subproject 生成物: dated レポート→`<group>/reports/`、プロンプトは `<project>/prompts/_INBOX.md` 1 枚（投函＋`## 📒 記録`・全文保存）に集約。定期実行のみ `prompts/scheduled/`（launchd）。**`spot/` 別ファイル・`_README` は作らない（2026-06-26〜・[[decisions]]）**（group root は MOC・playbook・impl-notes・living draft のみ。2026-06-13〜）
 - **registry の置き場所は `wiki/meta/project-registry.md` に固定**（vault 全体の横串インデックス・hook `sessionstart-project-registry.sh` で hardcode・全 group 同一 registry に追記）
 - `wiki/` `refs/` `.raw/` は 40-obsidian.md に従い append-only
 - 既存プロジェクトの段階移行判定（3 条件 OR）→ 詳細は docs/
