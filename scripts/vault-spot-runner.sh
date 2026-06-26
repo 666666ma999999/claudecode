@@ -100,17 +100,29 @@ ENTRY_FILE="$(mktemp)"
 } > "$ENTRY_FILE"
 rm -f "$BODY_FILE"
 
-# --- 4. `## 📒 記録` セクション先頭(既存 ### の直前 / 無ければ <details> or --- / 末尾)へ挿入 ---
-INS_LINE="$(awk '/^## 📒 記録/{f=1; next} f && /^### /{print NR; exit} f && (/^<details>/||/^---$/){print NR; exit}' "$INBOX")"
+# --- 4. `## 📒 記録` セクション先頭へ最新を挿入 ---
+# アンカー = ヘッダー直後の最初の「項目らしい行」(### 見出し / - * リスト履歴 / 次セクション ## / <details> / --- 罫線)。
+# その直前に挿入することで「> IP遺産」等の案内ブロッククォートは上に残しつつ最新を上積みする。
+# ヘッダーが無ければセクションごと新規作成。ヘッダーはあるがアンカーが無い(空セクション)場合は
+# ヘッダー直後へ挿入する(=末尾に📒セクションを二重作成しない)。
 TMP_OUT="$(mktemp)"
-if [ -n "$INS_LINE" ]; then
-  head -n "$((INS_LINE-1))" "$INBOX" > "$TMP_OUT"
-  cat "$ENTRY_FILE" >> "$TMP_OUT"
-  tail -n "+${INS_LINE}" "$INBOX" >> "$TMP_OUT"
-else
+HDR_LINE="$(awk '/^## 📒 記録/{print NR; exit}' "$INBOX")"
+if [ -z "$HDR_LINE" ]; then
   cat "$INBOX" > "$TMP_OUT"
   printf '\n## 📒 記録（実行したプロンプト・消さない／新しいものを上に積む）\n\n' >> "$TMP_OUT"
   cat "$ENTRY_FILE" >> "$TMP_OUT"
+else
+  INS_LINE="$(awk -v h="$HDR_LINE" 'NR>h { if(/^## /||/^### /||/^[-*] /||/^<details>/||/^---$/){print NR; exit} }' "$INBOX")"
+  if [ -n "$INS_LINE" ]; then
+    head -n "$((INS_LINE-1))" "$INBOX" > "$TMP_OUT"
+    cat "$ENTRY_FILE" >> "$TMP_OUT"
+    tail -n "+${INS_LINE}" "$INBOX" >> "$TMP_OUT"
+  else
+    head -n "$HDR_LINE" "$INBOX" > "$TMP_OUT"
+    printf '\n' >> "$TMP_OUT"
+    cat "$ENTRY_FILE" >> "$TMP_OUT"
+    tail -n "+$((HDR_LINE+1))" "$INBOX" | sed '1{/^$/d;}' >> "$TMP_OUT"
+  fi
 fi
 mv "$TMP_OUT" "$INBOX"
 rm -f "$ENTRY_FILE"
