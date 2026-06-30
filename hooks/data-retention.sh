@@ -151,3 +151,26 @@ for ephemeral_file in \
         log "ephemeral-state: removed $(basename "${ephemeral_file}")"
     fi
 done
+
+# 13. Append-only observability logs - cap to last N lines when oversized.
+#     (profiling/stop/capture ログは edit 毎に無制限増殖するが、正しさを依存する
+#      消費者がいない。improvement-queue.jsonl 等の機能キューは意図的に除外。)
+#     best-effort: SessionStart 中の並行追記で末尾数行を失う可能性は許容。
+cap_log() {
+    local file="$1" max_bytes="$2" keep_lines="$3" label="$4"
+    [[ -f "${file}" ]] || return 0
+    local size
+    size=$(stat -f%z "${file}" 2>/dev/null || echo 0)
+    if [[ "${size}" -gt "${max_bytes}" ]]; then
+        local tmp="${file}.captmp"
+        if tail -n "${keep_lines}" "${file}" > "${tmp}" 2>/dev/null; then
+            mv "${tmp}" "${file}"
+            log "${label}: capped to last ${keep_lines} lines (was $((size/1048576))MB)"
+        else
+            rm -f "${tmp}" 2>/dev/null || true
+        fi
+    fi
+}
+cap_log "${CLAUDE_DIR}/state/hook-profiling.jsonl" 2097152 5000 "hook-profiling"
+cap_log "${CLAUDE_DIR}/state/subagent-stops.log"   2097152 3000 "subagent-stops"
+cap_log "${CLAUDE_DIR}/state/auto-capture.log"     2097152 3000 "auto-capture"

@@ -426,7 +426,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "(~/Desktop/biz/make_article/hooks/improvement-ingest-check.sh) 2>&1 | head -10"
+            "command": "case \"$PWD\" in *make_article*) (~/Desktop/biz/make_article/hooks/improvement-ingest-check.sh) 2>&1 | head -10 ;; esac"
           }
         ]
       },
