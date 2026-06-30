@@ -231,7 +231,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/plan-forbidden-block.sh"
+            "command": "~/.claude/hooks/plan-forbidden-block.sh"
           }
         ]
       },
@@ -240,7 +240,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/verify-step-guard.sh"
+            "command": "~/.claude/hooks/verify-step-guard.sh"
           }
         ]
       },
@@ -249,7 +249,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/enforce-extension-pattern.py"
+            "command": "~/.claude/hooks/enforce-extension-pattern.py"
           }
         ]
       },
@@ -258,7 +258,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/file-protection.sh"
+            "command": "~/.claude/hooks/file-protection.sh"
           }
         ]
       },
@@ -267,7 +267,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/restrict-cwd-edits.sh"
+            "command": "~/.claude/hooks/restrict-cwd-edits.sh"
           }
         ]
       },
@@ -276,7 +276,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/memory-guard.sh"
+            "command": "~/.claude/hooks/memory-guard.sh"
           }
         ]
       },
@@ -333,7 +333,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/check-extension-imports.py"
+            "command": "~/.claude/hooks/check-extension-imports.py"
           }
         ]
       },
@@ -342,7 +342,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "[ -f ~/.claude/state/plan-readiness.done ] && ~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/plan-drift-warn.sh || true"
+            "command": "[ -f ~/.claude/state/plan-readiness.done ] && ~/.claude/hooks/plan-drift-warn.sh || true"
           }
         ]
       },
@@ -397,7 +397,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/data-provenance-guard.sh"
+            "command": "~/.claude/hooks/data-provenance-guard.sh"
           }
         ]
       },
@@ -557,7 +557,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/implementation-checklist-pending.sh"
+            "command": "~/.claude/hooks/implementation-checklist-pending.sh"
           }
         ]
       },
@@ -566,7 +566,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/_profile-wrapper.sh ~/.claude/hooks/verify-step-pending.sh"
+            "command": "~/.claude/hooks/verify-step-pending.sh"
           }
         ]
       },
