@@ -1,76 +1,138 @@
 <claude-mem-context>
 # Memory Context
 
-# [.claude] recent context, 2026-06-24 9:29am GMT+9
+# [.claude] recent context, 2026-06-30 11:48am GMT+9
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (18,007t read) | 2,200,526t work | 99% savings
+Stats: 50 obs (11,148t read) | 1,405,822t work | 99% savings
 
-### Jun 23, 2026
-3468 7:16p 🔵 sync-vault-summary SKILL.md fully confirmed stale — cmd_append is no-op in .py but SKILL.md still describes full prepend workflow
-3469 " 🔵 rules/41 基本原則 line still says "vault = 索引 + サマリー / 実体の SSoT は repo" — directly contradicts 2026-06-23 decision
-3470 " 🔵 file-placement-detail.md H-1 table (line 151) vs supersede note (line 261) — exact text of both confirmed
-3473 7:23p ⚖️ Adversarial review commissioned for Obsidian×Claude file placement rules proposal
-3474 " 🔵 sync-vault-summary.py cmd_append confirmed RETIRED/no-op since 2026-06-14
-3475 " 🔵 decisions.md L34-46 verbatim-confirmed: "vault=索引のみ" is explicitly the rejected alternative ②
-3476 " 🔵 Two real drifts confirmed: detail L98 contradicts index L64 on prime_suite Phase structure
-3477 " 🔵 rules/40 L13 confirmed as existing master declaration — "原典の穴" claim in prior draft was factual error
-3488 7:29p 🔵 decisions.md §Supersedes は L45 に実在・「別途承認後」の明示保留が Stage 3 の法的根拠
-3489 " 🔵 sync-vault-summary の「休眠した罠」: cmd_append は no-op だが CLI/docstring/SKILL手順は生存中
-3490 " ⚖️ Codex 敵対レビュー 6手裁定 + 追加指摘（2026-06-23 最終）
-3491 " ⚖️ aiads-ope-now-cat.sh cross-reference 監査完了: ~/.claude + ~/Library/LaunchAgents で間接呼出ゼロ確認
-3492 " ⚖️ Obsidian vault 構造の全面再設計案をユーザーが提示
-3503 8:21p ⚖️ Vault root cleanup workflow: directory structure must be displayed before each move
-3505 8:35p ⚖️ Vault Root Cleanup Phase① — User Approved First Batch of File Operations
-3510 8:53p ✅ memo_Pmac.md moved from vault root to 00_Inbox/
-3511 9:08p ⚖️ Vault Root Ambiguous Files — Agent Team + Codex Adversarial Review Requested
-3514 9:10p 🔵 Obsidian vault contains 5 real API keys committed to git history
-3515 " ⚖️ Vault scattered-file triage plan finalized after internal adversarial review
-3516 " 🔵 AIads/prompts/ confirmed as canonical subproject prompt structure template
-3517 10:40p ⚖️ Vault 散乱ファイル仕分け 確定版 — 敵対的レビュー発動
-3518 " 🚨 Obsidian vault に OpenAI×2 + Anthropic×3 の実 API キーが git tracked で存在
-3519 10:41p 🔵 rules/41 §① の「定期実行プロンプト」配置先テキストに両論解釈が実在することを実読確認
-3520 " 🔵 file-placement-detail.md の全争点条項が実在することを行番号で確認 — 内部レビューの「捏造」主張は誤り
-3521 " 🔵 adscrm-asks-triage-2026-06-14.md を実読 — adscrm_prompt の行き先は「AIads/prompts/」と確定できず「prompts/」止まり
-3522 " 🔵 17 moves 対象ファイル全件の実在位置を確認 — 仕分けプランの現在地記述は全て正確
-3523 10:43p 🔵 Codex adversarial review: prompt hierarchy rule is group-level, not subproject-level
-3524 " 🔵 Codex: 3 of 6 rule clause citations in sorting plan are misapplied (G-3, 0-7, 0-1)
-3525 " 🔵 Codex: adscrm_prompt.md triage document says decompose+archive, NOT move to AIads/prompts/
-3526 " 🔵 Codex: analytics_prompt.md destination is AIcrm/research/_requests/ (existing), not AIcrm/prompts/ (new)
-3527 " 🔵 Codex 17-move final verdicts: 10 support, 5 require correction, 1 reject, 1 conditional
-3528 10:48p 🔵 全17対象ファイルの内容実読完了 — コンテンツと配置ルールの照合により5件の計画誤認を発見
-S1551 散在prompt8件の実読完了 — 新名称・移動先の提案表を作成、ユーザー承認待ち (Jun 23 at 10:56 PM)
-S1555 Vault散乱ファイル仕分け — 8件promptファイルのN-8命名規約（YYYY-MM-DD_slug）適用・移動先確定・APIキー漏洩revoke待ち (Jun 23 at 10:56 PM)
-S1553 vault全体のdone/フォルダとresult命名パターンの実態調査 (Jun 23 at 10:59 PM)
-S1552 vault-spot-runner.shの命名ロジックとfile-placement-detail.mdのN群命名規約を確認 (Jun 23 at 10:59 PM)
-S1554 Vault散乱ファイル仕分け確定作業 — 8件promptファイルのN-8命名規約適用・移動先確定・API漏洩対応 (Jun 23 at 10:59 PM)
-S1556 Vault散乱promptファイル8件の仕分け確定 + ファイル保管・命名ルールのWeb研究agent teamを起動 (Jun 23 at 11:00 PM)
-S1557 Vault散乱promptファイル8件の命名・移動確定 + ファイル保管・命名ルール共通化のWebリサーチagent team起動・待機 (Jun 23 at 11:00 PM)
-S1558 vault ファイル保管・命名ルール Codex 敵対的レビュー完了 → 8種簡素化ルール確定 + spot vs task 区別の説明 (Jun 23 at 11:09 PM)
-3531 11:12p 🔵 File Placement Standardization Framework (rules/42) Already Defined with 67 Types
-3532 " 🔵 Prompt Execution Infrastructure: Scheduled vs Spot Prompt Segregation
-3533 " 🔵 Naming Pattern Drift Across Projects: Common Files Lack Standardized Naming
-3534 " ⚖️ File Organization & Naming Specification (Draft): 12-Type Taxonomy with Lifecycle Rules
-3538 " 🔵 ユーザーが spot プロンプトと claude-task の区別を質問
-### Jun 24, 2026
-3535 7:31a ⚖️ Adversarial Review Commissioned for Vault File Storage/Naming Rule (Codex共通化版)
-3536 " 🔴 敵対的レビュー用参照ファイル群の一斉実読完了 — 条項番号・実体の照合結果
-3537 " 🔴 H-4引用の構造的問題: ルール定義行 vs 適用順序メモの混同
-S1559 vault 散らばりプロンプト7件の確定移動先と命名を決定 + tasks/archive/ 完了慣行の実ファイル確認 (Jun 24 at 8:57 AM)
-3539 8:57a 🔵 タスク管理手法の比較調査リクエスト: NOW/DONE 1枚 MD vs 現行 tasks/ マルチファイル方式
-S1560 NOW/DONE 1枚MD方式 vs フォルダ移動方式のグローバル主流比較 — エージェントチームで Web 調査 + 内部敵対レビュー (Jun 24 at 9:03 AM)
-3540 9:10a 🔵 prime_suite 週次ゴールが2目的混在し可読性低下
-3541 9:11a 🔵 prime_suite に新旧フォーマット混在で目標が2つ見える根本原因を特定
-3542 " 🔵 prime_suite 関連リポジトリが ~/Desktop/ 直下に8分割で存在
-3543 " 🔵 Meta Ads Playbook Stage 0 は6/23に既完了・AGENTS.md に詳細履歴確認
-3544 9:12a 🔵 AIads-playbook.md の実在場所を特定: Obsidian Vault 内 AI_adscrm/AIads/ 配下
-3545 9:14a 🔵 Explore agent 完了: Meta Playbook Stage 0 は 6/23 に完了済み・4キーワードはすでに実装済み構造に対応
-3553 9:22a 🔵 session-goal conflict root cause clarified — terminal title is LINE Push, not Meta Playbook
-3555 " 🔵 prime_suite has 9 worktrees — "LINEプッシュ" terminal likely maps to prime_suite-line-push or prime_suite-line24, not main prime_suite worktree
-3554 9:25a 🔵 session-goal state inspection: prime_suite has 3 goal files — old worktree-key + 2 new session-scoped files all showing Meta Playbook goal
+### Jun 28, 2026
+4173 4:19p ⚖️ メモとプロンプトを分離・引き渡しは簡単に
+4175 4:21p 🔵 @fukufuku_ikbm（福福トレカ池袋本館）セラーリスク評価 → MEDIUM
+4176 " 🔵 @sato_pkmj セラーリスク評価 → UNKNOWN（全ツール取得不能）
+4177 " 🔵 pokeca-invest データ構造確定：card-index・snkrdunk約定生データ・cards.json の3レイヤー
+4178 " 🔵 P2エージェント出力：47件の出品リスト・28アカウント・25件のvettingで risk分布確認
+4181 4:26p 🔵 P1 底値圏スクリーニングレポートをvaultへ書き込み完了（pokeca-invest 底値圏買い時スクリーニング 2026-06.md）
+4182 " 🔵 P2 MUR出品者信用調査レポートをvaultへ書き込み完了（pokeca-invest MUR出品者 信用調査 2026-06.md）
+4184 " 🔵 ユーザーが並行実行セッションの混乱を報告 — ゴール喪失・2ターミナル要否を質問
+4185 " ⚖️ ユーザーが「AI側で2ターミナル並行起動」を明示要求
+4197 4:31p 🔵 User questions _MEMO.md placement inside prompts/ directory
+4200 " ⚖️ 📝 メモ.md ファイル命名に意図的な設計判断が存在
+4187 4:43p 🟣 pokeca-invest: 2ターミナル物理並行実行パターンを実装（git worktree + iTerm2 osascript）
+4191 " 🔴 ユーザー好み永続化: 並行実行 = iTerm2 別ウィンドウ × git worktree（背景プロセス・抽象オーケストレーション不可）
+4208 " ✅ pokeca-invest 機能のX投稿記事化リクエスト
+4212 10:01p 🔵 X記事の起点：Obsidian CloudプロンプトからiTerm2並行実行への技術進化
+4216 10:02p 🔵 pokeca-invest カード連動指数依頼は現場委託中・未回答ステータスと判明
+4217 " ⚖️ pokeca-invest _MEMO.md にタスク状態マーカー（⏳/🔲/✅）を導入することをユーザーが承認
+### Jun 29, 2026
+4218 10:04a 🔵 pokeca-invest _MEMO.md には既に 💡思いつき・🔨作った記録の2セクション構造が実装済み
+4219 " ✅ pokeca-invest _MEMO.md にタスク状態マーカー（💭/🔲/⏳/✅）システムを実装
+4220 10:05a ✅ pokeca-invest _MEMO.md の既存メモ項目に⏳「答え待ち」マーカーを付与開始
+4221 10:06a ✅ pokeca-invest _MEMO.md にタスク状態管理システムの完全実装が完了
+4226 " 🔵 User questions category grouping in _MEMO.md state management system
+4223 10:18a 🔵 PSA10 底値圏スクリーニング実施 — 市場は最高値圏、買い場は4枚のみ
+4224 " 🔵 プロンプトランナー関連スクリプト構成を確認
+4225 10:19a 🔵 vault-spot-runner.sh は2026-06-26新モデル対応済み — spot/done/移動を廃止しINBOX記録方式に更新済み
+4243 11:00a 🔵 make_article vault フォルダに記事ファイルが存在しない
+4246 " 🔵 make_article 記事フロントマタースキーマと art_026 改稿経緯を確認
+4244 11:01a 🔵 make_article vault フォルダの記事命名規則・配置構造を確認
+4268 11:20a ⚖️ pokeca-invest _MEMO.md カテゴリ別グループ化の実施承認
+4269 " 🔵 pokeca-invest _MEMO.md 現状構造の確認（再構成前ベースライン）
+4270 " ✅ pokeca-invest _MEMO.md を5カテゴリ別に再構成・完了
+4271 11:22a ✅ feedback memory「memo-content-verbatim」をルール精緻化・並べ替えOKを明示
+4281 " ⚖️ pokeca-invest _MEMO.md ステータス印の公式ルール確定（ユーザー明示）
+4294 " ⚖️ pokeca-invest _MEMO.md 並べ替え基準をステータス印（💭🔲⏳✅）に確定
+4302 11:41a ⚖️ pokeca-invest _MEMO.md に「実行プロンプト」カテゴリを新設
+S1890 pokeca-invest _MEMO.md の ⏳ 答え待ち2件の置き場所整理（メモ vs prompts/_INBOX.md の境界確定） (Jun 29 at 12:24 PM)
+S1892 art_027検証パイプライン実行 + 意思決定保存（X記事はmake_articleで書く方針） (Jun 29 at 12:25 PM)
+4303 12:28p ⚖️ X記事・投稿は make_article プロジェクトで慣習に従って書く方針を意思決定として確定保存
+S1893 art_027検証パイプライン3並列エージェント実行 + 意思決定保存（X記事はmake_articleで書く方針） (Jun 29 at 12:28 PM)
+S1891 art_027検証パイプライン実行 + 意思決定保存（X記事はmake_articleで書く方針） (Jun 29 at 12:28 PM)
+S1894 art_027検証パイプライン完走 + 検証指摘を両ファイルに反映（full/short・fix-then-post完了） (Jun 29 at 12:29 PM)
+4307 12:31p 🔵 ファイル間メモ移行がユーザーの摩擦ポイントと判明
+S1895 ファイル間メモ移行の手間を解消する方法の検討と運用方針の提案 (Jun 29 at 12:37 PM)
+S1926 claude health — ~/.claude config repo health audit observation pass (2026-06-30) (Jun 29 at 12:38 PM)
+### Jun 30, 2026
+4347 11:29a 🔵 Claude Code ~/.claude health audit snapshot — 2026-06-30
+4349 " 🔵 Health audit output has 20+ sections beyond the basic tier metrics
+S1928 起草 — hook-profiling.jsonl 無制限増殖問題に対する data-retention.sh 拡張案の起草 (Jun 30 at 11:29 AM)
+4353 11:37a 🔵 Claude Code hook architecture inventory — 43 hooks across 9 lifecycle events
+4354 " 🔵 All 55 hook scripts confirmed present on disk — zero missing files
+S1929 hook-profiling.jsonl 無制限増殖修正 — data-retention.sh に Section 13 (cap_log) を追加して適用完了 (Jun 30 at 11:37 AM)
+4355 11:40a ⚖️ 命名ルール設計タスク: プロジェクト横断ファイルの命名規約策定
+4356 11:41a 🔵 横断共通ファイル実態調査エージェント起動
+4357 11:42a 🔵 vault 02_Ai ディレクトリ構造の実態確認
+4358 " 🔵 既存命名ルール矛盾調査エージェント起動
+4359 " 🔵 _INBOX.md が vault 内で 4 箇所衝突・AGENTS.md が 2 箇所衝突を実測確認
+4360 " 🔵 feedback_romaji-filenames.md で _INBOX.md↔_MEMO.md の「対称コンテナ」設計と bare 名採用根拠を確認
+4361 " 🔵 全 git リポジトリ一覧: Desktop/biz・Desktop/prm 配下に 10 個の project repo
+4362 " 🔵 file-placement-detail.md §N 命名規約 (N-1〜N-8) は横断コンテナ型ファイルを対象外としている
+4363 " 🔵 decisions.md から 2026-06-26「per-project _INBOX.md 統一」の完全な決定文脈を確認
+S1930 横断共通ファイル（_INBOX.md / _MEMO.md 等）の命名規約設計 — エージェントチームで設計・Codex 敵対的レビュー (Jun 30 at 11:47 AM)
+**Investigated**: - vault 全体 + Desktop repos で _INBOX.md / _MEMO.md の実ファイルパスを find で全列挙
+    - 各 repo（pokeca-invest, make_article, influx, autopost, prime_suite/prime_ad, prime_suite/prime_crm）の tasks/ / prompts/ / docs/ 構造を ls で確認
+    - claude-mem SQLite DB（~/.claude-mem/claude-mem.db）の observations テーブルをクエリ: distinct projects / 共有 basename の cross-project 出現頻度 / _INBOX.md・_MEMO.md・NOW.md・phase-tracker・plan.md・data-sources.md の各プロジェクト別出現数
+    - vault 内 wikilink で bare 共有 basename を参照しているリンクを grep -rEoh で列挙
+    - 02_Ai 配下の scope-prefixed ファイル（_ope.md / -impl-notes.md / -playbook.md）を find で全列挙し prefix 規約の実態を確認
+    - claude-mem のデータモデル（observations テーブルスキーマ: project / title / files_read / files_modified カラム構造）を PRAGMA table_info で確認
 
-Access 2201k tokens of past work via get_observations([IDs]) or mem-search skill.
+**Learned**: **_INBOX.md は vault-only・repo には存在しない（修正）**:
+    - vault: 6 件（00_General/prompts/, 03_ClaudeEnv/prompts/, Uranai/prompts/, pokeca-invest/prompts/, AIads/prompts/, AIcrm/prompts/）
+    - Desktop/biz / Desktop/prm repos: 0 件。_INBOX.md は vault 専用ファイル
+    - _MEMO.md は vault 1 件（pokeca-invest/_MEMO.md）のみ
+
+    **claude-mem での shared basename 問題の実態**:
+    claude-mem observations テーブルは `project` カラムが短縮名（prime_ad / pokeca-invest 等）で、`title` フィールドに bare ファイル名が出現する。共有 basename が何プロジェクトにまたがるか:
+    - `plan.md`: 12 プロジェクト（最多）
+    - `tasks/phase-tracker.md`: 7 プロジェクト
+    - `docs/data-sources.md`: 5 プロジェクト
+    - `tasks/NOW.md`: 4 プロジェクト
+    - `prompts/_INBOX.md`: 5 プロジェクト（claude-mem 上）
+    - `_MEMO.md`: 5 プロジェクト（claude-mem 上）← vault では 1 件だが claude-mem 上は 5 件（セッション跨ぎで複数 project コンテキストから参照）
+
+    **scope-prefix 規約は vault 実態で既に機能している**:
+    - `_ope.md`: AIads_ope.md / AIcrm_ope.md / pokeca-invest_ope.md など全 7 件が `<project>_` prefix で unique
+    - `-impl-notes.md`: 全 4 件が `<project>-` prefix
+    - `-playbook.md`: 全 3 件が `<project>-` prefix
+    - → scope-prefix 規約（N-6/N-7）は実際に運用されており機能している。問題は「コンテナ型」（_INBOX.md/_MEMO.md）のみが bare 名で例外扱いされている点
+
+    **vault wikilink の ambiguity は軽微**:
+    - bare basename への wikilink は 8 件のみ: `[[data-sources.md]]`×2、`[[plan#施策]]`×2、`[[tasks/phase-tracker]]`×2、`[[lessons]]`×1
+    - _INBOX.md / _MEMO.md への wikilink はゼロ（ユーザーが Obsidian からリンクする運用ではない）
+    - 最大の問題は wikilink ではなく claude-mem のタイトル表示とエディタのタブタイトル
+
+    **make_article/prompts/ はコンテナ型を採用していない**:
+    - make_article/prompts/ 配下: agent_templates/, few_shot/, tone/ の subdirs + article_guide.md / system_prompt.md / が存在。_INBOX.md は未採用
+
+    **claude-mem DB 構造**:
+    - テーブル: observations, session_summaries, user_prompts (各 FTS 付き)
+    - observations の project カラムはフラット文字列。サブ project は "prime_suite/prime_suite-ad" のようにスラッシュ区切り
+    - files_read / files_modified カラムに相対パス文字列が格納 → basename しか見えない問題の直接原因はここ
+
+**Completed**: **調査フェーズ（全完了）**:
+    - vault 全体の _INBOX.md（6件） / _MEMO.md（1件）の実ファイルパス確認
+    - Desktop repos での _INBOX.md 存在確認（0件 → vault-only 確定）
+    - claude-mem SQLite DB で shared basename の cross-project 出現頻度を定量化（plan.md 12プロジェクト最多）
+    - vault wikilink での bare basename 参照数を grep で定量化（8件、_INBOX/_MEMO への参照はゼロ）
+    - scope-prefix 実態調査（_ope.md / -impl-notes.md / -playbook.md は全件 unique で機能）
+    - 既存命名制約（rules/41 §②・rules/42 N-1〜N-8）の精読・gap 特定（コンテナ型カテゴリが N-group に欠落）
+    - decisions.md・feedback_romaji-filenames.md から bare 名採用根拠の確認
+
+**Next Steps**: 調査フェーズが完了。設計エージェントを起動し、以下の命名規約案を立案する段階：
+
+    1. **N-9 コンテナ型ルール案の立案**: 既存 N-1〜N-8 に欠落している「全プロジェクト横断展開型コンテナ」カテゴリを追加定義。設計の軸:
+       - bare 名維持（`_INBOX.md`/`_MEMO.md`）は decisions.md と feedback memory で確定→リネームなし
+       - 「コンテナ型は `_` prefix + ALL-CAPS」を明文化し §② の scope-prefix ルールの例外として規約化
+       - 将来追加される横断コンテナ型の命名体系（`_NOTES.md` / `_LOG.md` 等）のガイドライン
+       - claude-mem / エディタでの識別問題への対処（frontmatter の `project:` フィールドを必須化、または観測ログ書式の改善）
+
+    2. **今後増えると想定される横断共通ファイルの体系化**: plan.md（12プロジェクト）・phase-tracker.md（7プロジェクト）・NOW.md（4プロジェクト）・data-sources.md（5プロジェクト）は「タスク型共通ファイル」として別カテゴリが必要かを判断
+
+    3. **Codex 敵対的レビュー**: 設計案完成後に mcp__codex__codex でレビューを実施
+
+
+Access 1406k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

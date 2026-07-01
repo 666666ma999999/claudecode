@@ -27,7 +27,7 @@
 
 - 実体は全て repo 側: 戦略→`repo/<project>/plan.md` / Phase 正本→`repo/<project>/tasks/phase-tracker.md` / 施策本体→`repo/<project>/docs/measures-detail.md`
 - subproject MOC は group 直下に直置き。複数 md が要る時のみ `<subproject>/` を切る。横断 MOC は `<group>_ope.md`（実名例: `adscrm_cross.md`）
-- subproject 生成物: dated レポート→`<group>/reports/`、プロンプトは `<project>/prompts/_INBOX.md` 1 枚（投函＋`## 📒 記録`・全文保存）に集約。定期実行のみ `prompts/scheduled/`（launchd）。**`spot/` 別ファイル・`_README` は作らない（2026-06-26〜・[[decisions]]）**（group root は MOC・playbook・impl-notes・living draft のみ。2026-06-13〜）
+- subproject 生成物: dated レポート→`<group>/reports/`、プロンプトは `<project>/prompts/<project>_INBOX.md` 1 枚（投函＋`## 📒 記録`・全文保存）に集約。定期実行のみ `prompts/scheduled/`（launchd）。**`spot/` 別ファイル・`_README` は作らない（2026-06-26〜・[[decisions]]）**（group root は MOC・playbook・impl-notes・living draft のみ。2026-06-13〜）
 - **registry の置き場所は `wiki/meta/project-registry.md` に固定**（vault 全体の横串インデックス・hook `sessionstart-project-registry.sh` で hardcode・全 group 同一 registry に追記）
 - `wiki/` `refs/` `.raw/` は 40-obsidian.md に従い append-only
 - 既存プロジェクトの段階移行判定（3 条件 OR）→ 詳細は docs/
@@ -55,6 +55,29 @@ tags:
 - **命名禁止**: `plan.md` / `measures.md` / `strategy.md` / `progress.md` / `index.md` 等の汎用名単体は禁止。スコープ語を前置（例 `AIads_ope.md`）。vault 全体でファイル名 unique を保証し ambiguous wikilink を作らない
 - **例外 type**（6 フィールド全部は不要）: `concept` / `registry` / `guide` は最小要件で OK
 - type 別追加フィールド（plan の `phase`/`target_*` 等）→ 詳細は docs/
+
+### 横断共通ファイルの命名（Identity must survive a flat surface・2026-06-30 / agent team + Codex 敵対レビュー済み・詳細 [[decisions]]）
+
+複数 project で同名展開されるファイル（`plan.md`/`tasks/NOW.md`/`phase-tracker.md`/`lessons.md`/`docs/*.md` 等。**旧 `_INBOX.md`/`_MEMO.md` は 2026-06-30 に `<project>_INBOX.md`/`<project>_MEMO.md` へ改名済**）の命名は **保存場所でなく「参照面」で判定**。判定テスト 1 問:
+
+> **basename が path 抜きで履歴(claude-mem)/タブ/wikilink に単独で出て、どの project か分かるか。**
+
+- **既定＝ scope-prefix 必須**（`<project>_ope.md` / `<project>-impl-notes.md` / `<project>_INBOX.md` / `<project>_MEMO.md` / `<scope>-<descriptor>.md`）。新規ファイルは原則これ。上の「unique・汎用名禁止」がこの既定。
+- **bare 例外＝下の allowlist のみ**（リネーム不能な名前だけ）。例外は「除外条項で曖昧を許す」のでなく、**機械ガード(G1〜G3)で識別を別途担保**する前提（除外条項で §② を骨抜きにしない）。
+
+**bare-allowlist（canonical bare 維持・prefix 禁止）**:
+
+| 種別 | 名前 | bare 理由 |
+|---|---|---|
+| ツール予約 | `CLAUDE.md` / `README.md` / `AGENTS.md` | Claude Code/GitHub/Codex が固定解決・改名不可 |
+| rules/05・§③ 固定 | `plan.md` / `tasks/NOW.md` / `tasks/phase-tracker.md` / `tasks/lessons.md` | 別ルールが `<root>/` 固定名を規約化（外部ツール/別ルールが要求＝改名不可） |
+| auto-gen/予約 | `_index.md` / `hot.md` / `decisions.md` / `mistakes.md` / `project-registry.md` | N-4・hook hardcode（既出） |
+
+> 注: プロンプト箱・メモ帳は**かつて bare（`_INBOX.md`/`_MEMO.md`）だったが**、それらを握るのは自前スクリプト3つ(`vault-spot-runner.sh`/`weekly-vault-audit.sh`/月次棚卸し)だけ＝外部ツール非依存のため、2026-06-30 に `<project>_INBOX.md`/`<project>_MEMO.md` へ改名し**スクリプト側を `*_INBOX.md` グロブへ追従**。bare 例外から外れ既定(prefix)へ移行。
+
+allowlist 外で横断表示されうるファイル（reports / docs / findings 等）は **prefix 必須**。新規横断ファイルは「名前が外部固定か？ → yes=allowlist 追記して bare / no=`<project>-` prefix」で 1 問判定。
+
+**機械ガード**: G2 vault 重複 basename 検出（allowlist 除外）/ G3 危険 bare wikilink（`[[plan]]`/`[[NOW]]`/`[[phase-tracker]]` 等）検出。`weekly-vault-audit.sh` へ追加候補。**G1（claude-mem title に `<project>:` 強制）は保留**＝claude-mem は第三者プラグインで、履歴 DB への外部書込は「稼働中プロセスの書き戻し」事故([[mistakes]])に当たり脆い。改名できない `plan.md`/`NOW.md`/`phase-tracker.md` の履歴識別が課題として残るが、`_INBOX`/`_MEMO` は改名で恒久解決済（G1 不要化）。
 
 ---
 

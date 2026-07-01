@@ -62,8 +62,9 @@ fi
 INBOX="$(fm_get record_inbox)"
 if [ -z "$INBOX" ]; then
   REPORTS_DIR="$(cd "$(dirname "$OUT_MD")" && pwd)"
-  CAND="$(dirname "$REPORTS_DIR")/prompts/_INBOX.md"
-  [ -f "$CAND" ] && INBOX="$CAND"
+  # 記録先 INBOX は project 接頭つき <project>_INBOX.md (2026-06-30 改名)。prompts/ 内に 1 つだけある想定。
+  CAND="$(ls "$(dirname "$REPORTS_DIR")/prompts/"*_INBOX.md 2>/dev/null | head -1)"
+  [ -n "$CAND" ] && [ -f "$CAND" ] && INBOX="$CAND"
 fi
 
 OUT_BASE="$(basename "$OUT_MD" .md)"      # wikilink 用 (拡張子なし)

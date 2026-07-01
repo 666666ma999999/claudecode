@@ -132,7 +132,7 @@ while IFS= read -r f; do
   [ -z "$f" ] && continue
   result="${result}- ❌ prompt-model: ${f#$VAULT/} - 旧 _INBOX 構造「## ✅ 完了」が残存 (rules/41・📒 記録へ移行せよ)\n"
   violations=$((violations + 1))
-done < <(grep -rlE "^## ✅ 完了" "$VAULT" --include="_INBOX.md" 2>/dev/null)
+done < <(grep -rlE "^## ✅ 完了" "$VAULT" --include="*_INBOX.md" 2>/dev/null)
 
 # ============================================================
 # 検証 8: retention sweep (read-once レポートの自動アーカイブ・2026-06-17)

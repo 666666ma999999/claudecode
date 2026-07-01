@@ -98,3 +98,9 @@ daemon.log
 
 # ジョブ実行ランタイム（セッション固有）
 jobs/
+
+# Chrome native host wrapper（端末固有・nvm 絶対パス埋込・自動生成 "do not edit"）
+chrome/
+
+# Playwright/Chrome ブラウザプロファイル実体（129MB・キャッシュ/Local State 等・端末固有ランタイム）
+playwright-line-profile/

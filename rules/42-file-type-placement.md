@@ -43,7 +43,7 @@
 | **D** 入口・設定 | 5 | repo root（README / CLAUDE / AGENTS / SECURITY）+ `docs/setup-runbook.md` |
 | **E** 参考・取り込み | 2 | 取り込み→vault `.raw/<topic>/`(append-only) / 監査→vault `wiki/meta/_audit/<group>.md` |
 | **F** 議事録 | 0 | **本ルール射程外**（vault `01_Biz/` で project 独立運用） |
-| **G** 制作物 | 3 | 記事→repo `output/` / 画像→vault `attachments/` / プロンプト→`<project>/prompts/_INBOX.md`（投函＋📒記録・全文保存・`spot/`/`_README` 廃止 2026-06-26） |
+| **G** 制作物 | 3 | 記事→repo `output/` / 画像→vault `attachments/` / プロンプト→`<project>/prompts/<project>_INBOX.md`（投函＋📒記録・全文保存・`spot/`/`_README` 廃止 2026-06-26） |
 | **H** 横串・レポート | 5 | group MOC `<group>_ope.md` / 1-pager / レビュー記録 / spec-pulse / **registry=`wiki/meta/project-registry.md`** / issue=**GitHub Issues SoT** + MOC `## 📋 Open Issues` ミラー |
 | **I** コード系 | 5 | repo `scripts/<domain>/` / `scripts/pipelines/` / `tests/`（top集約）/ `hooks/` |
 | **J** インフラ・設定 | 4 | repo root/`config/`（YAML/JSON / Dockerfile / requirements.txt / .env.example） |
