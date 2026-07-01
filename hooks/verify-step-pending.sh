@@ -37,6 +37,9 @@ PENDING_FILE="$STATE_DIR/verify-step.pending"
 # hook入力からcwdを取得
 HOOK_CWD=$(echo "$INPUT" | python3 -c "import sys,json,os; print(os.path.realpath(json.load(sys.stdin).get('cwd','')))" 2>/dev/null)
 
+# hook入力から session_id を取得（セッションスコープ用: 並行セッションの誤ブロック防止）
+SESSION_ID=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('session_id',''))" 2>/dev/null)
+
 # FE/BE種別判定
 FILE_TYPE="unknown"
 case "$FILE_PATH" in
@@ -56,13 +59,14 @@ case "$FILE_PATH" in
 esac
 
 # pending作成/更新（環境変数経由でPythonに値を渡す — quote injection対策）
-EDIT_COUNT=$(PENDING_FILE="$PENDING_FILE" HOOK_CWD="$HOOK_CWD" FILE_TYPE="$FILE_TYPE" python3 -c "
+EDIT_COUNT=$(PENDING_FILE="$PENDING_FILE" HOOK_CWD="$HOOK_CWD" FILE_TYPE="$FILE_TYPE" SESSION_ID="$SESSION_ID" python3 -c "
 import json, os, sys, tempfile
 from datetime import datetime, timedelta
 
 pending_path = os.environ.get('PENDING_FILE', '')
 hook_cwd = os.environ.get('HOOK_CWD', '')
 file_type = os.environ.get('FILE_TYPE', 'unknown')
+session_id = os.environ.get('SESSION_ID', '')
 ttl_minutes = 30
 
 def write_atomic(path, data):
@@ -87,12 +91,17 @@ if os.path.isfile(pending_path):
     except:
         data = {}
 
-    # cwd不一致 → 別プロジェクトの古い状態。リセットして新規作成
+    # cwd不一致 or session不一致 → 別プロジェクト/別セッションの状態。リセットして新規作成
+    # （session スコープ化: 並行セッションの編集が互いの pending を汚染しないようにする）
     stored_cwd = data.get('cwd', '')
-    if stored_cwd and hook_cwd and os.path.realpath(stored_cwd) != os.path.realpath(hook_cwd):
+    stored_session = data.get('session_id', '')
+    cwd_mismatch = bool(stored_cwd and hook_cwd and os.path.realpath(stored_cwd) != os.path.realpath(hook_cwd))
+    session_mismatch = bool(stored_session and session_id and stored_session != session_id)
+    if cwd_mismatch or session_mismatch:
         data = {
             'created_at': now.isoformat(),
             'cwd': hook_cwd,
+            'session_id': session_id,
             'ttl_expires_at': (now + timedelta(minutes=ttl_minutes)).isoformat(),
             'file_types': [file_type],
             'edit_count': 1,
@@ -102,7 +111,7 @@ if os.path.isfile(pending_path):
         print(1)
         sys.exit(0)
 
-    # 同一プロジェクト → edit_count インクリメント + TTL更新
+    # 同一プロジェクト・同一セッション → edit_count インクリメント + TTL更新
     data['edit_count'] = data.get('edit_count', 0) + 1
     types = set(data.get('file_types', []))
     types.add(file_type)
@@ -112,6 +121,9 @@ if os.path.isfile(pending_path):
     # cwd が無い古い形式のファイル → cwd追加
     if not data.get('cwd'):
         data['cwd'] = hook_cwd
+    # session_id が無い古い形式のファイル → 追加
+    if not data.get('session_id'):
+        data['session_id'] = session_id
     # TTLをローリング更新
     data['ttl_expires_at'] = (now + timedelta(minutes=ttl_minutes)).isoformat()
     write_atomic(pending_path, data)
@@ -121,6 +133,7 @@ else:
     data = {
         'created_at': now.isoformat(),
         'cwd': hook_cwd,
+        'session_id': session_id,
         'ttl_expires_at': (now + timedelta(minutes=ttl_minutes)).isoformat(),
         'file_types': [file_type],
         'edit_count': 1,

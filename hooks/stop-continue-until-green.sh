@@ -54,6 +54,9 @@ blockers = []
 # cwd を早期に取得（全チェックで使用）
 hook_cwd = Path(data.get("cwd") or os.getcwd()).resolve()
 
+# session_id を早期に取得（verify-step の session スコープ判定で使用）
+current_session = str(data.get("session_id", ""))
+
 
 def log(msg: str) -> None:
     print(msg, file=sys.stderr)
@@ -73,6 +76,16 @@ def cwd_matches(stored_cwd: str) -> bool:
     return Path(stored_cwd).resolve() == hook_cwd
 
 
+def session_matches(stored_session: str) -> bool:
+    """別セッションの pending では block しない（並行セッションの誤ブロック防止）。
+    旧形式(session_id 無し)や自セッションID不明時は安全側で True（cwd 判定にフォールバック）。"""
+    if not stored_session:
+        return True
+    if not current_session:
+        return True
+    return str(stored_session) == current_session
+
+
 # チェック0: 中間バッチ検証（cwd + TTL 対応）
 if verify_pending.exists():
     try:
@@ -83,8 +96,11 @@ if verify_pending.exists():
         edit_count = 0
     if edit_count > 0:
         vp_cwd = vp_data.get("cwd", "")
+        vp_session = vp_data.get("session_id", "")
         if not cwd_matches(vp_cwd):
             log(f"verify-step: cwd mismatch (hook={hook_cwd} vs stored={vp_cwd}), skipping")
+        elif not session_matches(vp_session):
+            log(f"verify-step: session mismatch (hook={current_session} vs stored={vp_session}), skipping")
         else:
             # TTL check: 期限切れなら自動削除してスキップ
             from datetime import datetime
