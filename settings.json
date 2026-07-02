@@ -132,7 +132,7 @@
     ],
     "defaultMode": "default"
   },
-  "model": "sonnet",
+  "model": "claude-fable-5[1m]",
   "skillOverrides": {
     "step1-manuscript": "name-only",
     "step2-menu-register": "name-only",
@@ -618,6 +618,33 @@
             "timeout": 5
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/stop-obs-before-claim.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/stop-evidence-footer.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/stop-dup-guard.sh"
+          }
+        ]
       }
     ],
     "PreCompact": [
@@ -795,6 +822,5 @@
     "environment": [
       "macOS darwin23, cwd主に ~/Desktop/biz 配下, Docker開発環境"
     ]
-  },
-  "model": "claude-fable-5[1m]"
+  }
 }
