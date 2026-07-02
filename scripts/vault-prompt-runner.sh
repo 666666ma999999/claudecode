@@ -110,6 +110,8 @@ RC=$?
 
 if [ $RC -ne 0 ] || [ -z "$RESULT" ]; then
   echo "=== [$(date -Iseconds)] FAILED rc=$RC (result empty=$([ -z "$RESULT" ] && echo yes || echo no)) ===" >> "$LOG"
+  # bunshin v1 Phase 0 / T5 2026-07-02: 無人経路の silent 失敗を可視化 (6/22 rc=127 再発防止)
+  osascript -e "display notification \"vault-prompt-runner FAILED rc=$RC ($SLUG)\" with title \"Claude 定期実行\"" 2>/dev/null || true
   exit 1
 fi
 

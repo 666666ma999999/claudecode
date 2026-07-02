@@ -74,8 +74,11 @@ cleanup_files "${CLAUDE_DIR}/file-history" 60 "file-history"
 # 6. shell-snapshots/ - Delete files older than 30 days
 cleanup_files "${CLAUDE_DIR}/shell-snapshots" 30 "shell-snapshots"
 
-# 7. projects/ - Delete session data (*.jsonl and UUID dirs) older than 14 days
+# 7. projects/ - Archive session prompt logs (*.jsonl) older than 14 days,
+#    delete only the heavy UUID session dirs (subagents/tool-results).
 #    Preserves: memory/, CLAUDE.md, settings.json, sessions-index.json
+#    Archive dir is chmod 700 + gitignored (may contain plaintext tokens until rotated).
+#    (bunshin v1 Phase 0 / T1 2026-07-02: rm -f jsonl -> mv to archives/jsonl)
 cleanup_project_sessions() {
     local projects_dir="${CLAUDE_DIR}/projects"
 
@@ -84,14 +87,28 @@ cleanup_project_sessions() {
     fi
 
     local count=0
+    local archived=0
     local uuid_regex='^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+    local archive_dir="${CLAUDE_DIR}/archives/jsonl"
+    mkdir -p "${archive_dir}" 2>/dev/null
+    chmod 700 "${CLAUDE_DIR}/archives" "${archive_dir}" 2>/dev/null
 
-    # Delete old .jsonl session files (UUID-named only)
+    # Archive old .jsonl session files (UUID-named only) instead of deleting
     while IFS= read -r -d '' file; do
         local basename
         basename=$(basename "${file}" .jsonl)
         if [[ "${basename}" =~ ${uuid_regex} ]]; then
-            rm -f "${file}" 2>/dev/null
+            local projdir dest
+            projdir=$(basename "$(dirname "${file}")")
+            dest="${archive_dir}/${projdir}"
+            mkdir -p "${dest}" 2>/dev/null
+            # -n: never overwrite an already-archived copy. Fallback deletes the
+            # projects/ source ONLY (never the archive side) if a copy exists there.
+            mv -n "${file}" "${dest}/" 2>/dev/null || true
+            if [[ -e "${file}" && -e "${dest}/$(basename "${file}")" ]]; then
+                rm -f "${file}" 2>/dev/null
+            fi
+            [[ ! -e "${file}" ]] && ((archived++)) || true
             ((count++)) || true
         fi
     done < <(find "${projects_dir}" -maxdepth 2 -name "*.jsonl" -type f -mtime +14 -print0 2>/dev/null)
@@ -107,7 +124,7 @@ cleanup_project_sessions() {
     done < <(find "${projects_dir}" -mindepth 2 -maxdepth 2 -type d -mtime +14 -print0 2>/dev/null)
 
     if [[ "${count}" -gt 0 ]]; then
-        log "projects/sessions: deleted ${count} session files/dirs older than 14 days"
+        log "projects/sessions: archived ${archived} jsonl to archives/jsonl, processed ${count} files/dirs older than 14 days"
     fi
 }
 
