@@ -44,4 +44,16 @@
 | #14773 | " | ✅ | Two-layer Obsidian skill architecture documented | ~390 |
 | #14767 | 7:06 AM | 🔵 | kepano-obsidian-skills migration status and fusion strategy confirmed | ~414 |
 | #14761 | 7:01 AM | ✅ | Documented kepano-obsidian-skills integration architecture and obsidian-cli safety guards | ~376 |
+
+### May 26, 2026
+
+| ID | Time | T | Title | Read |
+|----|------|---|-------|------|
+| #16365 | 12:38 PM | 🔵 | Root Cause Analysis of AskUserQuestion Auto-Skip Behavior | ~500 |
+
+### Jun 23, 2026
+
+| ID | Time | T | Title | Read |
+|----|------|---|-------|------|
+| #29318 | 2:44 PM | 🔵 | X投稿/記事ドメイン既存決定事項・ファイル責任の棚卸し完了 (14項目) | ~1169 |
 </claude-mem-context>

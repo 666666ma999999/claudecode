@@ -57,6 +57,8 @@ backups/
 # ローカル設定（PC固有）
 settings.local.json
 mcp-needs-auth-cache.json
+policy-limits.json
+remote-settings.json
 
 # ビルド成果物・キャッシュ
 __pycache__/
