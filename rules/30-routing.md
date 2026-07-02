@@ -30,6 +30,7 @@
 | Web リサーチ | `~/.claude/docs/web-research-tools.md` |
 | Google Workspace | `gog-cli`（WebFetch禁止） |
 | 叩き台/探索/UI試作 | `/prototype` |
+| 本人(MASA)の型でテーマから起案プロンプトを生成・分身で起案 | `bunshin-kian`(`/bunshin-kian <テーマ>`・分身の生成器 v0) |
 | 探索的分析の隔離・使い捨てスクリプト/中間データ管理・リサーチ worktree 運用・確定知見の昇格 | `research-isolation`（思想・型／全プロジェクト普遍）。具体は各 project の `docs/research-workflow.md` |
 | task細分化/進捗/復帰 | `task-planner` / `task-progress` / `project-recall` |
 | SubAgent委譲判断 | `execution-patterns` |
