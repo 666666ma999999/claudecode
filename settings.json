@@ -132,6 +132,7 @@
     ],
     "defaultMode": "default"
   },
+  "model": "sonnet",
   "skillOverrides": {
     "step1-manuscript": "name-only",
     "step2-menu-register": "name-only",
