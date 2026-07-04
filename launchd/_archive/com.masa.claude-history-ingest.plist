@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.masa.claude-history-ingest</string>
+  <!--
+    週次 transcript 検索インデックス更新。
+    ~/.claude/projects/ + ~/.claude/archives/jsonl/ の新規/更新 jsonl を
+    ~/.claude/archives/index.db (SQLite FTS5) へ差分 ingest する（idempotent）。
+    search-history.sh がこの DB を参照するため、放置すると履歴検索が古くなる
+    （2026-04-20〜07-03 の凍結が監査で発覚 → 本 plist で恒久化）。
+
+    ⚠️ 正本はステージング (~/.claude/launchd/)。activate:
+        cp ~/.claude/launchd/com.masa.claude-history-ingest.plist ~/Library/LaunchAgents/
+        launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.masa.claude-history-ingest.plist
+    手動テスト: launchctl kickstart gui/$(id -u)/com.masa.claude-history-ingest
+    停止:       launchctl bootout gui/$(id -u)/com.masa.claude-history-ingest
+    毎週月曜 08:45（8:05 env-pulse の後・9:00 台の週次群の前）。
+  -->
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>-c</string>
+    <string>/usr/bin/python3 /Users/masaaki_nagasawa/.claude/scripts/ingest-jsonl-to-sqlite.py</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/masaaki_nagasawa/.claude</string>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key><integer>1</integer>
+    <key>Hour</key><integer>8</integer>
+    <key>Minute</key><integer>45</integer>
+  </dict>
+  <key>RunAtLoad</key>
+  <false/>
+  <key>StandardOutPath</key>
+  <string>/Users/masaaki_nagasawa/.claude/state/claude-history-ingest.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/masaaki_nagasawa/.claude/state/claude-history-ingest.err.log</string>
+</dict>
+</plist>
