@@ -71,6 +71,10 @@
 
 重い検証は raw stdout を読まず、フィルタ + tail で要点取得。詳細パターン: `~/.claude/docs/verification-filters.md`。100 行超 raw stdout は受け取らず subagent に隔離する。
 
+## プロンプトのトークン節約（画像OCR選択適用・2026-07-04 ユーザー方針）
+
+Claude の画像トークンはピクセル依存（`⌈w/28⌉×⌈h/28⌉ ≒ w×h/750`・内容非依存）。**長い・精密さ不要・高密度なテキスト**（大量の参考資料/ログ等）に限り **長辺1568pxに縮小した画像 OCR** で渡してトークン節約（Fable5 等高解像度 tier は無加工だと最大4784トークン/枚で逆効果）。**コード・パス・コマンド・数値・厳密な指示・細かい日本語命令、および内部 SubAgent/ツール向けプロンプト（text-only API で画像化不可）はテキスト維持**。全画像化は OCR 誤読・プロンプトキャッシュ喪失で害。迷ったらテキスト優先。根拠は X @digimaga(2026-07-04) を Anthropic vision docs で検証済。
+
 ## Docker-Only 開発
 
 依存管理・ビルド・実行は Docker 経由。ホスト上 `pip install`/`npm install`/`npx` 禁止。
