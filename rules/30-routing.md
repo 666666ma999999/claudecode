@@ -18,6 +18,7 @@
 | 行き詰まり・stuck引渡 | `/rescue` |
 | リファクタ戦略/安全性 | `refactoring-guide` / `refactoring-safety` |
 | テスト失敗・TDD | `test-fixing` |
+| 全機能棚卸し→全数テスト→修正→全数再テストの回帰ループ・ユーザーストーリー台帳 | `story-test-loop`(`/story-test-loop`・全プロダクト共通) |
 | セキュリティ監査 | `security-twin-audit` |
 | git commit/push/事故 | `git-safety-reference` |
 | .mcp.json/APIキー | `secret-management` |

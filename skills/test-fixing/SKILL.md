@@ -4,6 +4,8 @@ description: |
   テスト失敗を効率的に修正するスキル。言語・フレームワークを問わず、
   体系的なアプローチでテストを修正する。
   キーワード: テスト修正, テスト失敗, デバッグ, TDD
+  NOT for: 全機能棚卸しの回帰ループ (→ story-test-loop)、story-test-loop Phase 2 実行中の fail
+  （Phase 2 は修正禁止・文書化のみ。修正フローは Phase 3 でのみ発動）
 allowed-tools: [Bash, Read, Write, Edit, Glob, Grep]
 license: proprietary
 metadata:
