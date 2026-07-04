@@ -85,6 +85,7 @@ hooks/pretooluse-askuserquestion-guard.sh  M1-M4ゲート通過後: runner_tools
 
 **T3.5(2026-07-02 追加): 別Mac(MASA.local) 保全** — 別Mac でも data-retention.sh が transcripts を14日で削除し続けており totty/ai_dashboard/rohan 進化分が毎日失われている。手順: ①このMacの T1/T2 を commit+push(T1 は hooks/ と extensions/data-retention/hooks/ の**2箇所**修正) ②別Mac で `git -C ~/.claude pull`(auto-pull なし=手動必須・dirty なら止まって報告) ③別Mac で claude-mem DB を VACUUM INTO で安全コピー→AirDrop でこのMacへ。**コピペプロンプト完成済み**(taxonomy-v2 §7)・人間の手番=別Macで1回貼る+AirDrop 1回
 **T3.6(実施済み 2026-07-02)**: ラベル済みコーパス(全5,516件の二次元ラベル・遷移表・founding dumps)を `~/.claude/archives/bunshin-corpus/`(25MB・chmod 700・gitignored 実測確認)へ退避完了
+**T3.7(位置づけ確定 2026-07-03)**: `~/.claude/archives/index.db`(SQLite FTS5・1.35GB・326,816 msgs・projects+archives/jsonl 全量を 2026-07-03 差分ingest済み)を**分身の採掘用全文検索DB**として保持。用途=次回コーパス採掘時の発話抽出高速化(例:「role=user かつ『もっとシンプル』を含む」を一発クエリ)。再生成は `python3 ~/.claude/scripts/ingest-jsonl-to-sqlite.py`(idempotent・数分・原本jsonlから何度でも再構築可)。**常設自動更新はしない**(decision 2026-07-03「蓄積/実行分離・実行中の仕組み化禁止」準拠。週次launchdジョブは同日撤去→`launchd/_archive/com.masa.claude-history-ingest.plist`)。採掘直前に手動1コマンド更新で足りる。claude-mem DB への外部書込は禁じ手(mistakes: live-process-state-clobbered)のため、claude-mem との関係は read-only 参照のみ
 
 ### Phase 1 — 委譲の配線(v1主軸・7/13 の第2月曜前に必須)
 

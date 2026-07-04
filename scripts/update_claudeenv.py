@@ -846,7 +846,7 @@ collect_news.py                                       ↓
 - 生成スクリプト: `~/.claude/scripts/update_claudeenv.py`
 - 公式情報収集: `~/.claude/scripts/collect_news.py`
 - make_article 橋渡し: `~/.claude/scripts/article_bridge.py`
-- 即時更新 hook: `~/.claude/hooks/posttooluse-claudeenv.sh`
+- 即時更新 hook: (2026-07-04 hooks/_archive/ へ退避・未配線だった)
 - ルール: `~/.claude/rules/40-obsidian.md`
 """
 

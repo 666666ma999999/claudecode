@@ -12,7 +12,7 @@
 |---------|-----------|
 | タスク細分化・実装計画策定 | `task-planner` |
 | task進捗・stuck記録・セッション引き継ぎ | `task-progress` |
-| Obsidian NOW→DONE移動・元プロンプト/原文/証跡/refs/ログ保存・タスク完了記録・`/done` | `obsidian-now-done` |
+| Obsidian NOW→DONE移動・元プロンプト/原文/証跡/refs/ログ保存・タスク完了記録・`/done` | `/done` コマンド（自己完結・skill は _dormant/obsidian-now-done） |
 | プロジェクト復帰・コンテキスト復元 | `project-recall` |
 | SubAgent委託・デバッグ・リファクタリング | `execution-patterns` |
 | 叩き台・探索・試作・UI案・API挙動確認・要件曖昧 | `/prototype` コマンド |
@@ -23,6 +23,7 @@
 | ベスプラ検索・Claude Code運用改善・最新Tips | `search-best-practice` |
 | Plan mode前スキル検索・外部レジストリ検索 | `find-skills` |
 | Plan中のアーキテクチャ判断・設計リスク分析 | `plan-adversarial-review` |
+| 別PC/別Macへの既存プロジェクト引き継ぎ・機密データ移送・setup-runbook 整備 | `project-cross-pc-handoff` |
 
 ### アーキテクチャ・設計
 
@@ -95,6 +96,10 @@
 | 設定診断・health check・設定不整合・hook監査 | `health` |
 | MCP使用回数・ツール頻度・スキル起動数・編集ファイル数・セッション数の実測裏取り | `env-factcheck` |
 | Codex汎用委譲・非エンジニアタスク・資料レビュー | `codex-delegate` |
+| Webページ本文のクリーン抽出（WebFetch 代替・省トークン） | `defuddle` |
+| 新しい Mac の初期構築・環境複製 | `machine-bootstrap` |
+| 高機密情報（銀行/証券/仮想通貨）の vault 基盤構築 | `secret-vault-setup` |
+| JSON Canvas ファイル生成・編集 | `json-canvas` |
 
 ### 記事生成・検証（X Articles パイプライン）
 
@@ -109,6 +114,7 @@
 | 記事投稿・プロモツイート・記事本文クリップボード | `post-article`（make_article 専用） |
 | 投稿結果メトリクス記録・Feedback Loop | `record-result`（make_article 専用） |
 | Feedback Loopパフォーマンス分析・素材パターン評価 | `analyze-performance`（make_article 専用） |
+| reply の多い X 投稿の週次半手動収集（記事ネタ） | `collect-reply-posts` |
 
 ### スキル管理
 

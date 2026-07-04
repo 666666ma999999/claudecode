@@ -106,3 +106,6 @@ chrome/
 
 # Playwright/Chrome ブラウザプロファイル実体（129MB・キャッシュ/Local State 等・端末固有ランタイム）
 playwright-line-profile/
+
+# 監査 Phase 3 退避先 (2026-07-04)
+/archive/

@@ -191,3 +191,4 @@ cap_log() {
 cap_log "${CLAUDE_DIR}/state/hook-profiling.jsonl" 2097152 5000 "hook-profiling"
 cap_log "${CLAUDE_DIR}/state/subagent-stops.log"   2097152 3000 "subagent-stops"
 cap_log "${CLAUDE_DIR}/state/auto-capture.log"     2097152 3000 "auto-capture"
+cap_log "${CLAUDE_DIR}/state/pokeca-psa10-en-refresh.log" 2097152 3000 "pokeca-psa10-en-refresh"

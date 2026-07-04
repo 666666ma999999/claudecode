@@ -3,7 +3,7 @@
 #
 # SOURCE this file (do not execute). It is the ONE place that derives the goal
 # storage key, so the writer (session-goal.sh), the statusline (statusline.sh),
-# and the per-turn injection hook (hooks/userprompt-goal-inject.sh) never drift.
+# and the per-turn injection hook (hooks/session-goal-gate.sh) never drift.
 #
 # Optional input : SGK_BASE env var = base directory (default: current pwd).
 # Exports        : GOAL_KEY, GOAL_DIR, GOAL_FILE, GOAL_ROOT
