@@ -130,7 +130,7 @@
     ],
     "defaultMode": "default"
   },
-  "model": "claude-fable-5[1m]",
+  "model": "sonnet",
   "skillOverrides": {
     "step1-manuscript": "name-only",
     "step2-menu-register": "name-only",

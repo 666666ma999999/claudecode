@@ -7,6 +7,9 @@
 #
 # 導入: 2026-07-02 bunshin「#15 二重記載を必ず止める」(ユーザー高ストレス・注入では防げない実測)
 
+# headless 定期実行(vault-prompt-runner)では無効: Stop block は claude -p の出力を分断し本文を消す(2026-07-03 実障害)
+[ -n "$VAULT_PROMPT_RUNNER" ] && exit 0
+
 INPUT=$(cat)
 export HOOK_INPUT="$INPUT"
 

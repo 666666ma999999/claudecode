@@ -8,6 +8,9 @@
 #
 # 導入: 2026-07-02 bunshin「観測なし完了宣言を hook で止める」(注入90%失敗の実測を受けた本物ガード)
 
+# headless 定期実行(vault-prompt-runner)では無効: Stop block は claude -p の出力を分断し本文を消す(2026-07-03 実障害)
+[ -n "$VAULT_PROMPT_RUNNER" ] && exit 0
+
 INPUT=$(cat)
 export HOOK_INPUT="$INPUT"
 
