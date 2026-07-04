@@ -1,16 +1,20 @@
 ---
 name: secret-vault-setup
 description: |
-  銀行/証券/仮想通貨等の高機密情報を Obsidian で2台 Mac 間管理する基盤構築スキル。
-  既存 vault のリスク監査 (Twin Hacker 並列分析) → アーキテクチャ決定 → 暗号化 APFS Volume +
-  Syncthing P2P 同期 + 別 vault 分離の構築手順 → OPSEC ルール付き記録テンプレ生成までを一貫提供。
-  キーワード: パスワード管理, 機密ノート, password vault, secret vault, Obsidian で金融情報,
-  銀行 仮想通貨 obsidian, passvault, 暗号化 APFS, Syncthing 2台同期, Dropbox から移行
-  NOT for: 単純な .env / API key 管理 (→ secret-management), 1Password 単独運用 (本スキル不要)
+  銀行/証券/仮想通貨等の高機密情報をObsidianで2台Mac間管理する基盤構築スキル。
+  キーワード: パスワード管理, 機密ノート, password vault, secret vault, Obsidianで金融情報,
+  銀行 仮想通貨 obsidian, passvault, 暗号化APFS, Syncthing 2台同期, Dropboxから移行。
+  NOT for: .env/API key管理(→secret-management), 1Password単独運用(本スキル不要)
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, Agent, AskUserQuestion
 ---
 
 # Secret Vault Setup
+
+## 発火・詳細（description から移設 2026-07-03）
+
+既存 vault のリスク監査 (Twin Hacker 並列分析) → アーキテクチャ決定 → 暗号化 APFS Volume +
+Syncthing P2P 同期 + 別 vault 分離の構築手順 → OPSEC ルール付き記録テンプレ生成までを一貫提供。
+NOT for: 単純な .env / API key 管理 (→ secret-management), 1Password 単独運用 (本スキル不要)
 
 ## いつ使うか
 

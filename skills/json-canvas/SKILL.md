@@ -1,9 +1,13 @@
 ---
 name: json-canvas
-description: Create and edit JSON Canvas files (.canvas) with nodes, edges, groups, and connections. Use when working with .canvas files, creating visual canvases, mind maps, flowcharts, or when the user mentions Canvas files in Obsidian. Triggers on (kepano-obsidian-skills bundle): 「obsidian-skills を使って」「obsidian-skills」「.canvas ファイル」「キャンバス作成」「JSON Canvas」「マインドマップ」「フローチャート」「ノードとエッジ」「Obsidian キャンバス編集」.
+description: "JSON Canvas(.canvas)作成/編集(ノード・エッジ・グループ・接続)。発火(kepano-obsidian-skills): .canvas files/ファイル, visual canvases, mind maps, flowcharts, Canvas files in Obsidian, obsidian-skills(を使って), キャンバス作成, JSON Canvas, マインドマップ, フローチャート, ノードとエッジ, Obsidian キャンバス編集"
 ---
 
 # JSON Canvas Skill
+
+## 発火・詳細（description から移設 2026-07-03）
+
+Create and edit JSON Canvas files (.canvas) with nodes, edges, groups, and connections. Use when working with .canvas files, creating visual canvases, mind maps, flowcharts, or when the user mentions Canvas files in Obsidian.
 
 ## File Structure
 

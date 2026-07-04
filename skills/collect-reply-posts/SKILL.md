@@ -1,6 +1,6 @@
 ---
 name: collect-reply-posts
-description: "AI / Claude Code 界隈で reply（返信・会話）を多くもらっている X 投稿を、記事ネタ素材として週1で半手動収集するスキル。探索=手動（保存済み advanced search クエリ）、reply数確認=目視、意味づけ=LLM1回、保存=/x-stock の4段。grok-collect-twittora（likes基準のバズ収集）の補完で、こちらは『議論を呼んでいる＝reply軸』を拾う。/collect-reply-posts で起動。トリガー: 「reply 収集」「返信が多い投稿」「議論を呼んでいる投稿」「reply の多い X」「議論投稿収集」「賛否が割れている投稿」「collect-reply-posts」を含む依頼。"
+description: "AI/Claude Code 界隈で reply（返信・会話）を多くもらっている X 投稿を記事ネタ素材として週1で半手動収集するスキル。/collect-reply-posts で起動。トリガー: reply 収集, 返信が多い投稿, 議論を呼んでいる投稿, reply の多い X, 議論投稿収集, 賛否が割れている投稿, collect-reply-posts"
 user-invocable: true
 allowed-tools:
   - Bash
@@ -10,6 +10,10 @@ allowed-tools:
 ---
 
 # collect-reply-posts
+
+## 発火・詳細（description から移設 2026-07-03）
+
+AI / Claude Code 界隈で reply（返信・会話）を多くもらっている X 投稿を、記事ネタ素材として週1で半手動収集するスキル。探索=手動（保存済み advanced search クエリ）、reply数確認=目視、意味づけ=LLM1回、保存=/x-stock の4段。grok-collect-twittora（likes基準のバズ収集）の補完で、こちらは『議論を呼んでいる＝reply軸』を拾う。/collect-reply-posts で起動。トリガー: 「reply 収集」「返信が多い投稿」「議論を呼んでいる投稿」「reply の多い X」「議論投稿収集」「賛否が割れている投稿」「collect-reply-posts」を含む依頼。
 
 AI / Claude Code 界隈で **reply（返信・会話）をもらっている X 投稿**を、記事ネタ素材バンク（vault `x-article-stock.md`）に週1で溜める。
 

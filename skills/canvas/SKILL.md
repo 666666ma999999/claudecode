@@ -1,10 +1,14 @@
 ---
 name: canvas
-description: "Visual layer of the wiki. Add images, text cards, PDFs, and wiki pages to Obsidian canvas files with auto-positioning inside zones. Integrates with /banana for image capture. Triggers on: /canvas, canvas new, canvas add image, canvas add text, canvas add pdf, canvas add note, canvas zone, canvas list, canvas from banana, add to canvas, put this on the canvas, open canvas, create canvas."
+description: "Obsidian canvas操作(wiki視覚層・zone自動配置・/banana連携)。発火: /canvas, canvas new, canvas add image, canvas add text, canvas add pdf, canvas add note, canvas zone, canvas list, canvas from banana, add to canvas, put this on the canvas, open canvas, create canvas"
 allowed-tools: Read Write Edit Glob Grep
 ---
 
 # canvas: Visual Reference Layer
+
+## 発火・詳細（description から移設 2026-07-03）
+
+Visual layer of the wiki. Add images, text cards, PDFs, and wiki pages to Obsidian canvas files with auto-positioning inside zones. Integrates with /banana for image capture. Triggers on: /canvas, canvas new, canvas add image, canvas add text, canvas add pdf, canvas add note, canvas zone, canvas list, canvas from banana, add to canvas, put this on the canvas, open canvas, create canvas.
 
 The three knowledge capture layers:
 - `/save` → text synthesis (wiki/questions/, wiki/concepts/)

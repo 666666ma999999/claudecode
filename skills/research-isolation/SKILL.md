@@ -1,21 +1,9 @@
 ---
 name: research-isolation
-description: |
-  探索的分析・リサーチ・PoC を「main を汚さず・再生成データを散らかさず・使い捨てファイルを
-  増やさず」回すための普遍 3 原則ガイド。確定知見だけを本流へ昇格させるワークフローを、特定の
-  接頭辞・パス・しきい値に依存しない形で提供する（具体化は各プロジェクトの規約ファイル、例
-  docs/research-workflow.md へ委譲する＝役割分離）。
-  WHEN: 探索的データ分析や調査を始める前に置き場所と隔離方法を決める / リサーチ用にブランチや
-  worktree を切るか迷う / 使い捨てスクリプトや中間データ(pkl・CSV)の扱いを決める / 探索成果を
-  main へ昇格させる / リサーチ worktree を棚卸し撤去する とき。
-  キーワード(JP): リサーチ運用, 探索的分析, 使い捨てスクリプト, 中間データ, worktree 隔離,
-  探索を本流に混ぜない, 確定知見だけ昇格, 残骸を捨てる, 分析ファイルが増える, データ散らかし防止
-  Keywords(EN): research workflow, exploratory analysis, EDA, scratch script, throwaway file,
-  worktree isolation, promote findings, regenerable data, keep main clean
-  NOT for: 通常の機能開発・1ファイル修正・リファクタ・テスト修正・docs のみ編集では使わない。
-  ブランチ削除や rm --cached の git 安全則そのもの(→ git-safety-reference)、確定知見の台帳化
-  実装(→ project の finding-sync 等)、PII マスク実装(→ project の SECURITY ルール)は扱わない。
-  「本流から隔離したい / 使い捨て物が出る / 確定知見だけ昇格する」のどれかが見えている時だけ発動する。
+description: >-
+  探索・PoCをmainから隔離し確定知見だけ昇格させる3原則ガイド(具体は各projectのdocs/research-workflow.mdへ委譲)。
+  トリガー: リサーチ運用,探索的分析,EDA,使い捨てスクリプト,中間データ,worktree隔離,確定知見だけ昇格,残骸を捨てる,データ散らかし防止,research workflow,scratch script,keep main clean。
+  NOT for: 通常開発/リファクタ/テスト修正,git安全則→git-safety-reference,台帳化→finding-sync,PIIマスク→SECURITYルール
 allowed-tools: [Read, Glob, Grep]
 license: proprietary
 metadata:
@@ -26,6 +14,24 @@ metadata:
 ---
 
 # Research Isolation — 探索を本流から隔離する 3 原則
+
+## 発火・詳細（description から移設 2026-07-03）
+
+Keywords(EN 全量): research workflow, exploratory analysis, EDA, scratch script, throwaway file, worktree isolation, promote findings, regenerable data, keep main clean ／ 探索を本流に混ぜない, 分析ファイルが増える, NOT for: 1ファイル修正・docsのみ編集
+
+探索的分析・リサーチ・PoC を「main を汚さず・再生成データを散らかさず・使い捨てファイルを
+増やさず」回すための普遍 3 原則ガイド。確定知見だけを本流へ昇格させるワークフローを、特定の
+接頭辞・パス・しきい値に依存しない形で提供する（具体化は各プロジェクトの規約ファイル、例
+docs/research-workflow.md へ委譲する＝役割分離）。
+
+WHEN: 探索的データ分析や調査を始める前に置き場所と隔離方法を決める / リサーチ用にブランチや
+worktree を切るか迷う / 使い捨てスクリプトや中間データ(pkl・CSV)の扱いを決める / 探索成果を
+main へ昇格させる / リサーチ worktree を棚卸し撤去する とき。
+
+NOT for: 通常の機能開発・1ファイル修正・リファクタ・テスト修正・docs のみ編集では使わない。
+ブランチ削除や rm --cached の git 安全則そのもの(→ git-safety-reference)、確定知見の台帳化
+実装(→ project の finding-sync 等)、PII マスク実装(→ project の SECURITY ルール)は扱わない。
+「本流から隔離したい / 使い捨て物が出る / 確定知見だけ昇格する」のどれかが見えている時だけ発動する。
 
 探索的分析（リサーチ・PoC・データ深掘り）は、確定するまで本流（main）に痕跡を残さない。
 本 skill は **思想（普遍）だけを定義する**。**具体（接頭辞・パス・しきい値・gitignore 実装）は

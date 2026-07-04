@@ -1,12 +1,10 @@
 ---
 name: capture-improvement
 description: |
-  プロジェクト改善・体験談・気付きを Material Bank に登録する。任意のプロジェクトから実行可能なグローバルスキル。
-  定量モード (Before/After あり): improvement_category + metrics + quality_score 付き登録
-  質的モード (数値なし): type=experience/insight/failure 等で登録（mat_001/002 同等構造）
-  トリガー語: "/capture-improvement" "これ記事化したい" "素材化" "マテリアルに" "これ記事ネタ"
-              "改善した" "速くなった" "削減" "失敗した" "学んだ"
-  NOT for: 1 行アイデアメモ (→ /x-stock), 決定/教訓の wiki 記録 (→ /save)
+  改善・体験談・気付きを Material Bank に登録(全プロジェクト可)。定量=metrics付き/質的=type別登録。
+  トリガー: /capture-improvement, これ記事化したい, 素材化, マテリアルに, これ記事ネタ,
+  改善した, 速くなった, 削減, 失敗した, 学んだ。
+  NOT for: 1行アイデアメモ→/x-stock, 決定/教訓のwiki記録→/save
 user-invocable: true
 argument-hint: "[改善メモ]"
 allowed-tools:
@@ -21,6 +19,13 @@ allowed-tools:
 ---
 
 # capture-improvement スキル
+
+## 発火・詳細（description から移設 2026-07-03）
+
+プロジェクト改善・体験談・気付きを Material Bank に登録する。任意のプロジェクトから実行可能なグローバルスキル。
+
+- 定量モード (Before/After あり): improvement_category + metrics + quality_score 付き登録
+- 質的モード (数値なし): type=experience/insight/failure 等で登録（mat_001/002 同等構造）
 
 プロジェクトの改善・体験談・気付きをキャプチャし、make_article の Material Bank に登録する。
 

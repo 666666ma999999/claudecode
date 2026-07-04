@@ -1,9 +1,13 @@
 ---
 name: obsidian-markdown
-description: Create and edit Obsidian Flavored Markdown with wikilinks, embeds, callouts, properties, and other Obsidian-specific syntax. Use when working with .md files in Obsidian or when the user mentions wikilinks, callouts, frontmatter, tags, or embeds. Triggers (kepano bundle): 「obsidian-skills を使って」「Obsidianノート編集」「ウィキリンク」「コールアウト」「frontmatter 整える」「.md 編集」.
+description: "Obsidian Flavored Markdown の作成・編集。Triggers: .md in Obsidian, wikilinks, embeds, callouts, properties, frontmatter, tags, 「obsidian-skills を使って」「Obsidianノート編集」「ウィキリンク」「コールアウト」「frontmatter 整える」「.md 編集」."
 ---
 
 # Obsidian Flavored Markdown Skill
+
+## 発火・詳細（description から移設 2026-07-03）
+
+Create and edit Obsidian Flavored Markdown with wikilinks, embeds, callouts, properties, and other Obsidian-specific syntax. Use when working with .md files in Obsidian or when the user mentions wikilinks, callouts, frontmatter, tags, or embeds. Triggers (kepano bundle): 「obsidian-skills を使って」「Obsidianノート編集」「ウィキリンク」「コールアウト」「frontmatter 整える」「.md 編集」.
 
 Create and edit valid Obsidian Flavored Markdown. Obsidian extends CommonMark and GFM with wikilinks, embeds, callouts, properties, comments, and other syntax. This skill covers only Obsidian-specific extensions -- standard Markdown (headings, bold, italic, lists, quotes, code blocks, tables) is assumed knowledge.
 

@@ -16,8 +16,6 @@
       "mcp__firecrawl",
       "mcp__chrome-devtools",
       "mcp__playwright",
-      "mcp__playwright-mkb",
-      "mcp__plugin_playwright_playwright",
       "mcp__postgresql",
       "mcp__grok-search",
       "mcp__google-search-console",
@@ -377,7 +375,7 @@
         ]
       },
       {
-        "matcher": "mcp__playwright__browser_navigate|mcp__playwright__browser_snapshot|mcp__playwright__browser_console_messages|mcp__playwright__browser_click|mcp__playwright__browser_take_screenshot|mcp__playwright__browser_type|mcp__playwright__browser_fill_form|mcp__playwright-mkb__browser_navigate|mcp__playwright-mkb__browser_snapshot|mcp__playwright-mkb__browser_console_messages|mcp__playwright-mkb__browser_click|mcp__playwright-mkb__browser_take_screenshot|mcp__playwright-mkb__browser_type|mcp__playwright-mkb__browser_fill_form|mcp__plugin_playwright_playwright__browser_navigate|mcp__plugin_playwright_playwright__browser_snapshot|mcp__plugin_playwright_playwright__browser_console_messages|mcp__plugin_playwright_playwright__browser_click|mcp__plugin_playwright_playwright__browser_take_screenshot|mcp__plugin_playwright_playwright__browser_type|mcp__plugin_playwright_playwright__browser_fill_form",
+        "matcher": "mcp__playwright__browser_navigate|mcp__playwright__browser_snapshot|mcp__playwright__browser_console_messages|mcp__playwright__browser_click|mcp__playwright__browser_take_screenshot|mcp__playwright__browser_type|mcp__playwright__browser_fill_form",
         "hooks": [
           {
             "type": "command",
@@ -510,6 +508,25 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/sessionstart-vault-audit-warning.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "(~/.claude/hooks/wiki-recall-on-prompt.sh) 2>&1 | head -40",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "(~/.claude/hooks/postcompact-essentials.sh) 2>&1 | head -60"
           }
         ]
       }
@@ -732,16 +749,6 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/wiki-recall-on-prompt.sh",
-            "timeout": 5
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
             "command": "~/.claude/hooks/userpromptsubmit-edit-recheck-warn.py",
             "timeout": 5
           }
@@ -812,7 +819,9 @@
     "**/firecrawl/**",
     "**/templates/**",
     "**/plugins/**",
-    "**/node_modules/**"
+    "**/node_modules/**",
+    "/Users/masaaki_nagasawa/.claude/rules/CLAUDE.md",
+    "/Users/masaaki_nagasawa/.claude/rules/AGENTS.md"
   ],
   "remoteControlAtStartup": true,
   "agentPushNotifEnabled": true,

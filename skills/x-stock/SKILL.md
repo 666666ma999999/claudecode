@@ -1,13 +1,9 @@
 ---
 name: x-stock
 description: |
-  X (Twitter) 記事ネタを vault の x-article-stock.md に append する。
-  cwd 非依存・どのプロジェクトからでも発火可。
-  トリガー語: "X ネタ" / "記事ネタ" / "ブログネタ" / "Twitter ネタ"
-              "ストック" / "stock" / "あとで書く" / "ネタ帳"
-              "これ記事に" / "これバズる" / "x-stock" / "/x-stock"
-              "tweet idea" / "ネタとして残す" / "あとで tweet"
-  NOT for: 記事本体の執筆 (→ make_article), wiki 知識化 (→ /save /wiki)
+  X(Twitter)記事ネタをvaultのx-article-stock.mdへappendする(cwd非依存・全プロジェクトから発火可)。
+  トリガー語: Xネタ,記事ネタ,ブログネタ,Twitterネタ,ストック,stock,あとで書く,ネタ帳,これ記事に,これバズる,x-stock,/x-stock,tweet idea,ネタとして残す,あとでtweet。
+  NOT for: 記事本体の執筆→make_article, wiki知識化→/save /wiki
 user-invocable: true
 argument-hint: "[idea memo]"
 allowed-tools:

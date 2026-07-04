@@ -1,11 +1,7 @@
 ---
 name: codify-config
 description: |
-  1 台目で試行錯誤した設定変更を、再実行可能なシェルスクリプトに codify し、`~/.claude/scripts/` に置いて git 同期で 2 台目以降へ配布するためのスキル。
-  MCP 設定の新設・変更、`~/.codex/` の構成変更、`~/.zshrc` への export 追加 等を実施した直後に呼ぶ。
-  login / install / OAuth 等「各機で 1 回手動が必要」なものはスクリプト化しない（手動残りとして明記する）。
-  キーワード: 2 台目, 手順書, runbook, 再現, codify, codex-switch, mcp 追加, zshrc export
-  NOT for: 新規 Mac 一発初期化（→ machine-bootstrap）、シークレット値そのものの管理（→ secret-management）、設定配置判断（→ config-placement-guide）
+  1台目の設定変更を再実行可能スクリプトにcodifyしgit同期で2台目へ配布。login/OAuth等手動は対象外。キーワード:2台目,手順書,runbook,再現,codify,codex-switch,mcp追加,MCP設定変更,~/.codex/,zshrc export。NOT for:新規Mac初期化→machine-bootstrap,シークレット値→secret-management,配置判断→config-placement-guide
 triggers:
   - MCP 設定 追加
   - MCP 設定 変更
@@ -18,6 +14,13 @@ allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
 ---
 
 # codify-config — 設定変更を再実行可能なスクリプトにする
+
+## 発火・詳細（description から移設 2026-07-03）
+
+1 台目で試行錯誤した設定変更を、再実行可能なシェルスクリプトに codify し、`~/.claude/scripts/` に置いて git 同期で 2 台目以降へ配布するためのスキル。
+MCP 設定の新設・変更、`~/.codex/` の構成変更、`~/.zshrc` への export 追加 等を実施した直後に呼ぶ。
+login / install / OAuth 等「各機で 1 回手動が必要」なものはスクリプト化しない（手動残りとして明記する）。
+NOT for: 新規 Mac 一発初期化（→ machine-bootstrap）、シークレット値そのものの管理（→ secret-management）、設定配置判断（→ config-placement-guide）
 
 ## 1. コア原則
 

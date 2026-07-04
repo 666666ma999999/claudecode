@@ -1,9 +1,17 @@
 ---
 name: vault-report-writing
-description: Obsidian vault に「読み手が数秒で結論へ到達でき・drift せず・スクショ映えする」レポートを書くための設計 skill。レポートの構成・要約・情報密度・読ませ方を決める (Obsidian 構文そのものは obsidian-markdown skill に委譲)。Use when writing/cleaning up a report, analysis note, findings, executive 1-pager, progress/MOC dashboard, incident postmortem, or security report in Obsidian. Triggers: 「vault に綺麗なレポート」「Obsidian レポート」「レポート整形/清書」「綺麗にまとめて」「経営層サマリ/エグゼクティブサマリ/1-pager」「findings 清書」「ダッシュボード化」「インシデント報告書/ポストモーテム」「ゴール&やること先頭」「目標と次アクション」「優先順位とその理由」「BLUF/結論先出し」「スクショ映え」「report craft」「司令塔/command-center」「運用ダッシュボード/現状診断ボード」「横断司令塔」「毎日見るダッシュボード」.
+description: vaultレポート設計（構文→obsidian-markdown）。トリガー:vaultに綺麗なレポート,Obsidianレポート,レポート整形/清書,綺麗にまとめて,経営層サマリ/エグゼクティブサマリ/1-pager,findings清書,ダッシュボード化,インシデント報告書/ポストモーテム,ゴール&やること先頭,目標と次アクション,優先順位とその理由,BLUF/結論先出し,スクショ映え,report craft,司令塔/command-center,運用ダッシュボード/現状診断ボード,横断司令塔,毎日見るダッシュボード,analysis note,MOC,security report
 ---
 
 # Vault Report Writing — レポート設計 skill
+
+## 発火・詳細（description から移設 2026-07-03）
+
+Obsidian vault に「読み手が数秒で結論へ到達でき・drift せず・スクショ映えする」レポートを書くための設計 skill。レポートの構成・要約・情報密度・読ませ方を決める (Obsidian 構文そのものは obsidian-markdown skill に委譲)。
+
+Use when writing/cleaning up a report, analysis note, findings, executive 1-pager, progress/MOC dashboard, incident postmortem, or security report in Obsidian.
+
+Triggers: 「vault に綺麗なレポート」「Obsidian レポート」「レポート整形/清書」「綺麗にまとめて」「経営層サマリ/エグゼクティブサマリ/1-pager」「findings 清書」「ダッシュボード化」「インシデント報告書/ポストモーテム」「ゴール&やること先頭」「目標と次アクション」「優先順位とその理由」「BLUF/結論先出し」「スクショ映え」「report craft」「司令塔/command-center」「運用ダッシュボード/現状診断ボード」「横断司令塔」「毎日見るダッシュボード」.
 
 vault に置く**人が読む成果物**を「読まれる資料」に仕上げる。**設計担当**（誰向け / 何を先に見せる / 情報密度 / どの表現を選ぶか）であり、**構文担当ではない** — callout/embed/frontmatter/Mermaid の書き方は [[obsidian-markdown]] skill を呼ぶ。
 
@@ -133,6 +141,7 @@ score = 月次期待増分粗利(¥k) × 確度 ÷ 工数(h)
 
 ## 仕上げチェックリスト
 
+- [ ] **（変化・期間比較を報告するレポート）各行が「変化（事実）→ 裁定 → 打つ策（実行#/Q# リンク）」の3段で閉じているか** — 変化だけ書いて策で終わらない行を作らない。策を打たない場合も「裁定: 継続・策: なし（理由）」と明記。裁定はその project の判定ルール正本に従い、他セクション（判定 callout・投入キュー）と矛盾させない（2026-07-03 ユーザー承認フォーマット・AIads-cp-review §🆚 が参照実装）
 - [ ] **冒頭に 🎯 ゴール&やること があるか（結論より上）**
 - [ ] **やること各項に「①優先順位 ②なぜN番(判定軸) ③具体施策(記号でなく実内容)」が揃っているか**
 - [ ] 優先順位リストに**掲載式（score = 期待増分×確度÷工数）と各行の係数が併記されているか** / 図必須 5 条件（時系列・構造・分布・2 軸・ファネル）の該当有無を確認したか

@@ -1,21 +1,29 @@
 ---
 name: project-cross-pc-handoff
 description: |
-  gitignore 対象の機密データ（顧客 PII・認証情報・大容量データ）を含む既存プロジェクトを、
-  別 PC / 別 Mac で安全に継続できる状態へ移すための設計・監査・手順化スキル。
-  資産の 5 分類（Code / Raw PII data / Derived data / Secrets / Runtime）、docs/data-sources.md
-  と docs/setup-runbook.md の整備、gitignore allowlist 落とし穴の検査、ランタイムの Docker
-  ピン留め、push 前セキュリティ監査、明示 git add 運用、別環境での実機 end-to-end 検証を扱う。
-  キーワード: 別PC引き継ぎ, クロスPC, 別Macで続き, 既存プロジェクト移行, handoff,
-  raw data 受け渡し, 再生成手順, データ台帳, data-sources.md, setup-runbook.md,
-  gitignore 引き継ぎ, pandas バージョン不整合, ランタイム固定, Docker 化
-  NOT for: 新しい Mac 全体の初期構築（→ machine-bootstrap）、新規プロジェクト初期化
-  （→ project-bootstrap）、secrets 保管基盤そのものの構築（→ secret-vault-setup）
+  機密データ入り既存プロジェクトを別PCへ安全に移す設計・監査・手順化スキル。
+  トリガー: 別PC引き継ぎ,クロスPC,別Macで続き,既存プロジェクト移行,handoff,raw data受け渡し,再生成手順,データ台帳,data-sources.md,setup-runbook.md,gitignore引き継ぎ,pandasバージョン不整合,ランタイム固定,Docker化.
+  NOT for: 新Mac構築→machine-bootstrap,新規プロジェクト初期化→project-bootstrap,secrets保管基盤→secret-vault-setup
 user_invocable: true
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep]
 ---
 
 # project-cross-pc-handoff
+
+## 発火・詳細（description から移設 2026-07-03）
+
+gitignore 対象の機密データ（顧客 PII・認証情報・大容量データ）を含む既存プロジェクトを、
+別 PC / 別 Mac で安全に継続できる状態へ移すための設計・監査・手順化スキル。
+資産の 5 分類（Code / Raw PII data / Derived data / Secrets / Runtime）、docs/data-sources.md
+と docs/setup-runbook.md の整備、gitignore allowlist 落とし穴の検査、ランタイムの Docker
+ピン留め、push 前セキュリティ監査、明示 git add 運用、別環境での実機 end-to-end 検証を扱う。
+
+キーワード: 別PC引き継ぎ, クロスPC, 別Macで続き, 既存プロジェクト移行, handoff,
+raw data 受け渡し, 再生成手順, データ台帳, data-sources.md, setup-runbook.md,
+gitignore 引き継ぎ, pandas バージョン不整合, ランタイム固定, Docker 化
+
+NOT for: 新しい Mac 全体の初期構築（→ machine-bootstrap）、新規プロジェクト初期化
+（→ project-bootstrap）、secrets 保管基盤そのものの構築（→ secret-vault-setup）
 
 gitignore 対象の機密データを持つ既存プロジェクトを、別 PC で `git clone` した後に
 「分析・開発が**同じ結果で**再現できる状態」へ引き継ぐためのスキル。

@@ -1,13 +1,16 @@
 ---
 name: wiki-lint
 description: >
-  Health check the Obsidian wiki vault. Finds orphan pages, dead wikilinks, stale claims,
-  missing cross-references, frontmatter gaps, and empty sections. Creates or updates
-  Dataview dashboards. Generates canvas maps. Triggers on: "lint", "health check",
-  "clean up wiki", "check the wiki", "wiki maintenance", "find orphans", "wiki audit".
+  Obsidian wiki vault health check (orphans, dead links, stale claims, frontmatter gaps,
+  Dataview dashboard, canvas map). Triggers: lint, health check, clean up wiki,
+  check the wiki, wiki maintenance, find orphans, wiki audit.
 ---
 
 # wiki-lint: Wiki Health Check
+
+## 発火・詳細（description から移設 2026-07-03）
+
+Health check the Obsidian wiki vault. Finds orphan pages, dead wikilinks, stale claims, missing cross-references, frontmatter gaps, and empty sections. Creates or updates Dataview dashboards. Generates canvas maps. Triggers on: "lint", "health check", "clean up wiki", "check the wiki", "wiki maintenance", "find orphans", "wiki audit".
 
 Run lint after every 10-15 ingests, or weekly. Ask before auto-fixing anything. Output a lint report to `wiki/meta/lint-report-YYYY-MM-DD.md`.
 

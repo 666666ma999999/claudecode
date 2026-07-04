@@ -1,17 +1,19 @@
 ---
 name: save
 description: >
-  Save the current conversation, answer, or insight into the Obsidian wiki vault as a
-  structured note. Analyzes the chat, determines the right note type, creates frontmatter,
-  files it in the correct wiki folder, and updates index, log, and hot cache.
-  Triggers on: "save this", "save that answer", "/save", "/save decision", "/save mistake",
-  "file this", "save to wiki", "save this session", "file this conversation", "keep this",
-  "save this analysis", "add this to the wiki", "決定を記録", "方針確定", "教訓",
-  "再発防止", "同じミス", "lesson learned".
+  会話・知見をwikiへ保存。発火: save this, save that answer, /save, /save decision,
+  /save mistake, file this, save to wiki, save this session, file this conversation,
+  keep this, save this analysis, add this to the wiki, 決定を記録, 方針確定, 教訓,
+  再発防止, 同じミス, lesson learned
 allowed-tools: Read Write Edit Glob Grep
 ---
 
 # save: File Conversations Into the Wiki
+
+## 発火・詳細（description から移設 2026-07-03）
+
+Save the current conversation, answer, or insight into the Obsidian wiki vault as a structured note. Analyzes the chat, determines the right note type, creates frontmatter, files it in the correct wiki folder, and updates index, log, and hot cache.
+Triggers on: "save this", "save that answer", "/save", "/save decision", "/save mistake", "file this", "save to wiki", "save this session", "file this conversation", "keep this", "save this analysis", "add this to the wiki", "決定を記録", "方針確定", "教訓", "再発防止", "同じミス", "lesson learned".
 
 Good answers and insights shouldn't disappear into chat history. This skill takes what was just discussed and files it as a permanent wiki page.
 
@@ -88,6 +90,7 @@ For these types, skip the standard "new file with frontmatter" workflow. Use the
 
 4. If superseding a prior decision, fill `**Supersedes**` with the wikilink to the old entry. **Do NOT edit or delete the old entry** — append-only.
 5. Update `wiki/log.md` with `## [YYYY-MM-DD] decision | <title>` at the top.
+5.5. Frontmatter の `updated` / `last_appended` は**置換**する（既存行を書き換え・各 1 行のみ）。**追記して重複キーを作らない**（履歴の正本は本文と log.md。2026-07-03: 重複 15 個に増殖していたのを修理・本ルールで再発防止）。
 6. Confirm: "Appended decision [YYYY-MM-DD — title] to wiki/meta/decisions.md."
 
 ### mistake append/merge workflow

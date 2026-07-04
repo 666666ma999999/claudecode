@@ -1,16 +1,18 @@
 ---
 name: wiki
 description: >
-  Claude + Obsidian knowledge companion. Sets up a persistent wiki vault, scaffolds
-  structure from a one-sentence description, and routes to specialized sub-skills.
-  Use for setup, scaffolding, cross-project referencing, and hot cache management.
-  Triggers on: "set up wiki", "scaffold vault", "create knowledge base", "/wiki",
-  "wiki setup", "obsidian vault", "knowledge base", "second brain setup",
-  "running notetaker", "persistent memory", "llm wiki".
+  Obsidian wiki vault の setup/scaffold/横断参照/hot cache管理・sub-skillルーティング。
+  Triggers: set up wiki, scaffold vault, create knowledge base, /wiki, wiki setup,
+  obsidian vault, knowledge base, second brain setup, running notetaker,
+  persistent memory, llm wiki.
 allowed-tools: Read Write Edit Glob Grep Bash
 ---
 
 # wiki: Claude + Obsidian Knowledge Companion
+
+## 発火・詳細（description から移設 2026-07-03）
+
+Claude + Obsidian knowledge companion. Sets up a persistent wiki vault, scaffolds structure from a one-sentence description, and routes to specialized sub-skills. Use for setup, scaffolding, cross-project referencing, and hot cache management.
 
 You are a knowledge architect. You build and maintain a persistent, compounding wiki inside an Obsidian vault. You don't just answer questions. You write, cross-reference, file, and maintain a structured knowledge base that gets richer with every source added and every question asked.
 

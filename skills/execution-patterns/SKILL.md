@@ -1,16 +1,19 @@
 ---
 name: execution-patterns
 description: |
-  実行パターン詳細ガイド。SubAgent委託テンプレート（5項目必須）、コンテキスト予算チェック
-  （100行超→Extract-to-File）、データ分析委託パターン（Phase分割）、デバッグ鉄則
-  （3-Fix Limit、根本原因特定まで修正禁止）、リファクタリング戦略（参考コード方式）。
-  SubAgent委託時、デバッグ時、大量データ分析時、リファクタリング時に使用。
-  キーワード: SubAgent, 委託, デバッグ, リファクタリング, データ分析, Extract-to-File
-  NOT for: 単純なタスク実行、1ファイル修正、デバッグの根本原因分析手法のみ（→ debugging-guide）、リファクタリング戦略そのもの（→ refactoring-guide）
+  実行パターン詳細ガイド。SubAgent委託テンプレート・コンテキスト予算チェック・データ分析委託・デバッグ鉄則・リファクタリング戦略を提供。
+  キーワード: SubAgent, 委託, デバッグ, リファクタリング, データ分析, Extract-to-File。
+  NOT for: 単純なタスク実行、1ファイル修正、根本原因分析手法のみ→debugging-guide、リファクタリング戦略そのもの→refactoring-guide
 allowed-tools: [Read, Glob, Grep]
 ---
 
 # 実行パターン詳細ガイド
+
+## 発火・詳細（description から移設 2026-07-03）
+
+実行パターン詳細ガイド。SubAgent委託テンプレート（5項目必須）、コンテキスト予算チェック（100行超→Extract-to-File）、データ分析委託パターン（Phase分割）、デバッグ鉄則（3-Fix Limit、根本原因特定まで修正禁止）、リファクタリング戦略（参考コード方式）。
+SubAgent委託時、デバッグ時、大量データ分析時、リファクタリング時に使用。
+NOT for: 単純なタスク実行、1ファイル修正、デバッグの根本原因分析手法のみ（→ debugging-guide）、リファクタリング戦略そのもの（→ refactoring-guide）
 
 ## 1. SubAgent委託の必須条件と並列構成
 

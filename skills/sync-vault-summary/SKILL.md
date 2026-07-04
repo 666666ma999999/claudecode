@@ -1,16 +1,18 @@
 ---
 name: sync-vault-summary
 description: >
-  rules/42 対象ファイル (plan/measures/spec/analysis/CLAUDE/README/data-sources 等) を
-  Claude 自身が 1-3 行に要約し、vault MOC (02_Ai/<group>/<sub>_ope.md) の
-  「🔁 最新更新ログ」セクションに prepend、frontmatter last_updated を当日へ更新する。
-  edit-history.jsonl (同 session の Edit/Write) と git diff を source of truth とする。
-  Triggers on: "/sync-vault-summary", "vault MOC 同期", "MOC 更新", "vault サマリー追記",
-  "VAULT_SUMMARY_SUGGEST" (Stop hook 警告を見たとき).
+  rules/42対象ファイル(plan/measures/spec/analysis/CLAUDE/README/data-sources等)の編集要約を
+  vault MOC(02_Ai/<group>/<sub>_ope.md)へ同期しlast_updated更新するスキル。
+  Triggers: /sync-vault-summary, vault MOC同期, MOC更新, vaultサマリー追記,
+  VAULT_SUMMARY_SUGGEST(Stop hook警告).
 allowed-tools: Read Write Edit Bash Glob Grep
 ---
 
 # sync-vault-summary
+
+## 発火・詳細（description から移設 2026-07-03）
+
+rules/42 対象ファイル (plan/measures/spec/analysis/CLAUDE/README/data-sources 等) を Claude 自身が 1-3 行に要約し、vault MOC (02_Ai/`<group>`/`<sub>`_ope.md) の 「🔁 最新更新ログ」セクションに prepend、frontmatter last_updated を当日へ更新する。 edit-history.jsonl (同 session の Edit/Write) と git diff を source of truth とする。 Triggers on: "/sync-vault-summary", "vault MOC 同期", "MOC 更新", "vault サマリー追記", "VAULT_SUMMARY_SUGGEST" (Stop hook 警告を見たとき).
 
 > **⚠️ 2026-06-14 RETIRED（誤用注意）**: 「🔁 最新更新ログ」への append は**廃止**（rules/41 §④・MOC 自動ログ全廃）。helper の `append` subcommand は **no-op**（`scripts/sync-vault-summary.py` cmd_append）。よって本 skill の **STEP 2-4（append 系手順）は実行しても何も起きない**。現状で有効に残るのは `list`（候補抽出）/ `resolve`（repo→MOC マッピング）/ `cmd_issues`（Open Issues ライブミラー）のみ。**本 skill の全面改訂は vault 構造リフォーム施策で実施予定** → [[vault-restructure-proposal]]。それまで append を再実装しないこと。
 

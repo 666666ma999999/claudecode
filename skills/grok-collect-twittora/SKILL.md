@@ -1,10 +1,14 @@
 ---
 name: grok-collect-twittora
-description: "@twittora_ 向け (Claude Code / AI 活用) の X バズ投稿を Grok x_search で収集し、Obsidian Vault の .raw/ に material-bank 互換 (jsonl + md) で保存するスキル。influx Docker 経由で xai_sdk を実行し、出力ファイルを Vault に転送する。/grok-collect-twittora で起動。トリガー: 「grok 検索」「バズった投稿」「バズ投稿を取得」「X バズ収集」「Twitter バズ」「インプレッション高い投稿」「Twittora 素材」を含む依頼。一般的な Web 検索や mcp__grok-search ツールでの即時回答ではなく、必ず本スキル経由で influx Docker → Vault/.raw/ に保存すること。"
+description: "@twittora_ 向け(Claude Code/AI活用)のXバズ投稿をGrok x_searchで収集しVault/.raw/へ保存(influx Docker経由)。/grok-collect-twittora で起動。トリガー: grok検索,バズった投稿,バズ投稿を取得,Xバズ収集,Twitterバズ,インプレッション高い投稿,Twittora素材。NOT for: 一般Web検索・mcp__grok-searchでの即時回答→必ず本スキル経由でVault/.raw/に保存。"
 allowed-tools: Bash, Read
 ---
 
 # grok-collect-twittora
+
+## 発火・詳細（description から移設 2026-07-03）
+
+@twittora_ 向け (Claude Code / AI 活用) の X バズ投稿を Grok x_search で収集し、Obsidian Vault の .raw/ に material-bank 互換 (jsonl + md) で保存するスキル。influx Docker 経由で xai_sdk を実行し、出力ファイルを Vault に転送する。/grok-collect-twittora で起動。トリガー: 「grok 検索」「バズった投稿」「バズ投稿を取得」「X バズ収集」「Twitter バズ」「インプレッション高い投稿」「Twittora 素材」を含む依頼。一般的な Web 検索や mcp__grok-search ツールでの即時回答ではなく、必ず本スキル経由で influx Docker → Vault/.raw/ に保存すること。
 
 ## ⚠️ 手動実行専用（自動化非推奨）
 

@@ -1,19 +1,23 @@
 ---
 name: gog-cli
 description: |
-  Google Workspace（Gmail / Calendar / Drive / Docs / Sheets / Slides）を CLI (`gog`) で操作するスキル。
-  以下に該当する場合は WebFetch を使わず、必ずこのスキルを先に起動すること:
-  - Google Sheets / スプレッドシート / `docs.google.com/spreadsheets/` を含むURLの読み書き
-  - Google Docs / ドキュメント / `docs.google.com/document/` のエクスポート・読取
-  - Google Slides / スライド / `docs.google.com/presentation/` のエクスポート
-  - Google Drive / `drive.google.com/file/` `drive.google.com/drive/folders/` のダウンロード・一覧
-  - Gmail 検索・送信・ラベル操作、Google Calendar 予定確認・作成
-  - Tasks / Contacts / Classroom / Chat 等の Google Workspace 操作
-  WebFetch では認証が通らず中身が読めないため、URL検出時は即 `gog` コマンドへ切替える。
+  Google Workspace を CLI `gog` で操作。WebFetch 不可→即 gog。トリガー: Google Sheets,スプレッドシート,Google Docs,ドキュメント,Google Slides,スライド,Google Drive,docs.google.com/{spreadsheets,document,presentation}/,drive.google.com/{file,drive/folders}/,Gmail検索・送信・ラベル,Google Calendar予定確認・作成,Tasks,Contacts,Classroom,Chat
 allowed-tools: [Read, Glob, Grep, Bash]
 ---
 
 # gogcli (gog) CLI
+
+## 発火・詳細（description から移設 2026-07-03）
+
+Google Workspace（Gmail / Calendar / Drive / Docs / Sheets / Slides）を CLI (`gog`) で操作するスキル。
+以下に該当する場合は WebFetch を使わず、必ずこのスキルを先に起動すること:
+- Google Sheets / スプレッドシート / `docs.google.com/spreadsheets/` を含むURLの読み書き
+- Google Docs / ドキュメント / `docs.google.com/document/` のエクスポート・読取
+- Google Slides / スライド / `docs.google.com/presentation/` のエクスポート
+- Google Drive / `drive.google.com/file/` `drive.google.com/drive/folders/` のダウンロード・一覧
+- Gmail 検索・送信・ラベル操作、Google Calendar 予定確認・作成
+- Tasks / Contacts / Classroom / Chat 等の Google Workspace 操作
+WebFetch では認証が通らず中身が読めないため、URL検出時は即 `gog` コマンドへ切替える。
 
 A fast, script-friendly CLI for Google Workspace services with JSON-first output and multi-account support.
 

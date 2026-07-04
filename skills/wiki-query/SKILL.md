@@ -1,10 +1,14 @@
 ---
 name: wiki-query
-description: "Answer questions using the Obsidian wiki vault. Reads hot cache first, then index, then relevant pages. Synthesizes answers with citations. Files good answers back as wiki pages. Supports quick, standard, and deep modes. Triggers on: what do you know about, query:, what is, explain, summarize, find in wiki, search the wiki, based on the wiki, wiki query quick, wiki query deep."
+description: "Answer questions from the Obsidian wiki vault with cited synthesis (quick/standard/deep). Triggers: what do you know about, query:, what is, explain, summarize, find in wiki, search the wiki, based on the wiki, wiki query quick, wiki query deep."
 allowed-tools: Read Glob Grep
 ---
 
 # wiki-query: Query the Wiki
+
+## 発火・詳細（description から移設 2026-07-03）
+
+Answer questions using the Obsidian wiki vault. Reads hot cache first, then index, then relevant pages. Synthesizes answers with citations. Files good answers back as wiki pages. Supports quick, standard, and deep modes.
 
 The wiki has already done the synthesis work. Read strategically, answer precisely, and file good answers back so the knowledge compounds.
 

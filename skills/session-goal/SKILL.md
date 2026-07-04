@@ -1,13 +1,9 @@
 ---
 name: session-goal
 description: |
-  「今回のセッションでやろうとしている目標」を1行で保存し、statusline 4行目 (🎯 今回の目標: …) に常時表示する。
-  作業に没頭しても「今これは何のためにやっているか」を AI もユーザーも見失わないためのアンカー。
-  cwd 非依存・どのプロジェクトのどのセッションからでも発火可。**セッション(会話)単位で保存** (2026-06-23〜・同じフォルダ/worktree でも会話ごとに別々の目標を持てる)。resume / /clear で session_id が変わると新しい会話扱い=目標は引き継がない。
-  トリガー語: "今回の目標" / "このセッションの目標" / "セッションの目標" / "今日の目標"
-              "目標をセット" / "目標を設定" / "ゴールは" / "/session-goal" / "/goal" / "session goal"
-              "目標を消して" / "目標クリア" / "今の目標は" / "目標を見せて"
-  NOT for: プロジェクトの永続的な目的 (→ 各 repo の plan.md / CLAUDE.md), タスク分解 (→ task-planner), wiki 知識化 (→ /save)
+  セッション目標を1行保存し statusline に常時表示するアンカー。cwd非依存・会話単位。
+  トリガー: 今回の目標, このセッションの目標, セッションの目標, 今日の目標, 目標をセット, 目標を設定, ゴールは, /session-goal, /goal, session goal, 目標を消して, 目標クリア, 今の目標は, 目標を見せて
+  NOT for: 永続目的(→plan.md/CLAUDE.md), タスク分解(→task-planner), wiki知識化(→/save)
 user-invocable: true
 argument-hint: "[今回の目標テキスト | --clear | (空=表示)]"
 allowed-tools:
@@ -15,6 +11,13 @@ allowed-tools:
 ---
 
 # session-goal skill
+
+## 発火・詳細（description から移設 2026-07-03）
+
+「今回のセッションでやろうとしている目標」を1行で保存し、statusline 4行目 (🎯 今回の目標: …) に常時表示する。
+作業に没頭しても「今これは何のためにやっているか」を AI もユーザーも見失わないためのアンカー。
+cwd 非依存・どのプロジェクトのどのセッションからでも発火可。**セッション(会話)単位で保存** (2026-06-23〜・同じフォルダ/worktree でも会話ごとに別々の目標を持てる)。resume / /clear で session_id が変わると新しい会話扱い=目標は引き継がない。
+NOT for: プロジェクトの永続的な目的 (→ 各 repo の plan.md / CLAUDE.md), タスク分解 (→ task-planner), wiki 知識化 (→ /save)
 
 「今回のセッション目標」を保存して statusline に出す。**実体は `~/.claude/scripts/session-goal.sh`。このスキルはそれを呼ぶだけの薄いラッパー**。
 
