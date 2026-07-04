@@ -97,11 +97,21 @@ EXTRA_DIR_ARGS=()
   echo "    prompt=$PROMPT_FILE slug=$SLUG workdir=$WORKDIR tools=[$TOOLS] -> $OUT_MD"
 } >> "$LOG"
 
+# --allowedTools の渡し方 (2026-07-04): frontmatter がカンマ区切りなら 1 引数で渡す
+# — `Bash(git log:*)` のようなスペース入りパターンに対応。従来のスペース区切りは word-split で後方互換。
+if [[ "$TOOLS" == *,* ]]; then
+  TOOLS_ARGS=(--allowedTools "$TOOLS")
+else
+  # shellcheck disable=SC2206
+  TOOLS_ARGS=(--allowedTools $TOOLS)
+fi
+
 # --- headless 実行: プロンプト本文を stdin で渡し、テキスト出力を取得 ---
 # shellcheck disable=SC2086
+export VAULT_PROMPT_RUNNER=1  # headless: 対話用 Stop 関所(obs/evidence/dup)を無効化(2026-07-03 本文消失バグ対策)
 RESULT="$(cd "$WORKDIR" && "$CLAUDE_BIN" -p \
   --output-format text \
-  --allowedTools $TOOLS \
+  "${TOOLS_ARGS[@]}" \
   --add-dir "$WORKDIR" \
   ${EXTRA_DIR_ARGS[@]+"${EXTRA_DIR_ARGS[@]}"} \
   ${MODEL_ARGS[@]+"${MODEL_ARGS[@]}"} \
@@ -143,5 +153,7 @@ fi
 } > "$OUT_MD"
 
 echo "=== [$(date -Iseconds)] OK -> $OUT_MD ($(wc -l < "$OUT_MD") lines) ===" >> "$LOG"
+# 成功も通知 (2026-07-04): 成果物が「書かれたが誰も読まない」状態の解消 (失敗時通知と対)
+osascript -e "display notification \"$SLUG 完了 → $(basename "$OUT_MD")\" with title \"Claude 定期実行\"" 2>/dev/null || true
 echo "$OUT_MD"
 exit 0

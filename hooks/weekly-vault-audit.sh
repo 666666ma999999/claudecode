@@ -177,6 +177,44 @@ for f in "$VAULT/02_Ai/"*/reports/*.md "$VAULT/02_Ai/"*/*/reports/*.md; do
 done
 
 # ============================================================
+# 検証 9: 常時ロード再肥大ガード (2026-07-04・記事40選採用 T5)
+# CLAUDE.md + rules/{05,10,30,41,42} の合計バイト数が baseline+20% を超えたら違反。
+# baseline = 2026-07-04 スリム化直後の wc -c 実測合計 (31,810B)。
+# MEMORY.md だけ hook 保護され CLAUDE.md/rules が無防備だった非対称の解消。
+# ============================================================
+ALWAYS_LOADED_BASELINE=31810
+al_total=0
+for f in "$HOME/.claude/CLAUDE.md" \
+         "$HOME/.claude/rules/05-plan-task-md.md" \
+         "$HOME/.claude/rules/10-git-and-execution-guard.md" \
+         "$HOME/.claude/rules/30-routing.md" \
+         "$HOME/.claude/rules/41-vault-project-structure.md" \
+         "$HOME/.claude/rules/42-file-type-placement.md"; do
+  [ -f "$f" ] || continue
+  sz=$(wc -c < "$f" | tr -d ' ')
+  al_total=$((al_total + sz))
+done
+al_limit=$((ALWAYS_LOADED_BASELINE * 120 / 100))
+if [ "$al_total" -gt "$al_limit" ]; then
+  result="${result}- ❌ context-bloat: 常時ロード合計 ${al_total}B > 上限 ${al_limit}B (baseline ${ALWAYS_LOADED_BASELINE}B+20%・スリム化の巻き戻り。詳細は docs/ へ委譲せよ)\n"
+  violations=$((violations + 1))
+fi
+
+# ============================================================
+# 検証 10: playbook Must Remember bullet 数 >15 検出 (2026-07-04)
+# sessionstart-project-registry.sh:105 が head -15 で注入するため 16 本目以降は
+# 静かに注入落ちする (make_article で実際に発生)。超過を回帰違反として検出。
+# ============================================================
+while IFS= read -r f; do
+  [ -z "$f" ] && continue
+  mr_count=$(awk '/^## Must Remember/{f=1;next} /^## /{f=0} f' "$f" 2>/dev/null | grep -cE '^[[:space:]]*[-*] ')
+  if [ "$mr_count" -gt 15 ]; then
+    result="${result}- ❌ must-remember-overflow: ${f#$VAULT/} - bullet ${mr_count} 本 > 15 (head -15 で注入落ち・統合して 15 以内へ)\n"
+    violations=$((violations + 1))
+  fi
+done < <(grep -rlE "^## Must Remember" "$VAULT/02_Ai" --include="*-playbook.md" 2>/dev/null)
+
+# ============================================================
 # audit ファイル append-only 更新
 # ============================================================
 mkdir -p "$(dirname "$AUDIT_FILE")"
@@ -203,7 +241,7 @@ fi
   echo ""
   echo "## $TIMESTAMP (violations: $violations, swept: $swept)"
   if [ "$violations" -eq 0 ]; then
-    echo "- ✅ all checks passed (frontmatter / ambiguity / registry / K-3 placement / repo-only files)"
+    echo "- ✅ all checks passed (frontmatter / ambiguity / registry / K-3 placement / repo-only files / context-bloat / must-remember)"
   else
     echo -e "$result"
   fi

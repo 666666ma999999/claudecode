@@ -123,7 +123,16 @@ case "$RESULT" in
             echo "PLAN QUALITY [BLOCK]: 必須セクション全欠落: ${SECTIONS}。~/.claude/templates/plan.md を参照してプランを書き直してください。" >&2
             exit 2
         else
-            echo "PLAN QUALITY [WARN]: 不足セクション: ${SECTIONS}。追加推奨 (~/.claude/templates/plan.md 参照)。"
+            # WARN も配達する (2026-07-04 配達監査): PreToolUse の exit 0 stdout はモデル非注入。
+            # TTL 内初回のみ exit 2 で stderr 配達し、直後の再実行 (ExitPlanMode リトライ) は素通し。
+            WSTAMP="$STATE_DIR/plan-quality-warned"
+            NOW=$(date +%s)
+            WM=$(stat -f %m "$WSTAMP" 2>/dev/null || stat -c %Y "$WSTAMP" 2>/dev/null || echo 0)
+            if [ $((NOW - WM)) -ge 300 ]; then
+                date '+%Y-%m-%d %H:%M:%S' > "$WSTAMP"
+                echo "PLAN QUALITY [WARN・初回のみブロック]: 不足セクション: ${SECTIONS}。追加を推奨 (~/.claude/templates/plan.md 参照)。追加せず進む場合はそのまま ExitPlanMode を再実行すれば通過します。" >&2
+                exit 2
+            fi
         fi
         ;;
     *)

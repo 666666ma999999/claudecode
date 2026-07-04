@@ -1,10 +1,12 @@
 #!/bin/bash
 set -uo pipefail
 # PreToolUse hook: EnterPlanMode 前の準備状態チェック
-# Execution Strategy 未選択 or 成功基準未定義なら警告（ブロックはしない）。
-# 旧実装はセッション中1回のみ表示だったが、2個目タスク以降で効かない問題を解消:
-#   - stamp に 5分TTL を導入（古ければ再警告）
+# 旧版は plain stdout + exit 0 で警告していたが、PreToolUse の exit 0 stdout は
+# モデルに届かない（2026-07-04 配達監査で確定・人間の transcript 表示のみ）。
+# TTL 内初回のみ exit 2 でブロックし stderr でチェックリストを届ける方式に変更。
+# stamp を exit 2 の前に記録するため、再実行（2回目）は素通し = 1往復のみ。
 #   - plan-strategy.json が存在する場合は即 skip（quality-check が直近プランから抽出したもの）
+#   - stamp 5分TTL（古ければ再度チェックリストを出す）
 
 INPUT=$(cat)
 STATE_DIR="$HOME/.claude/state"
@@ -19,7 +21,7 @@ if [ -f "$STRATEGY_FILE" ]; then
     exit 0
 fi
 
-# stamp TTL 判定（5分以内なら skip）
+# stamp TTL 判定（5分以内なら skip = ブロック直後の再実行は通過）
 if [ -f "$STAMP" ]; then
     NOW=$(date +%s)
     # stat -f %m (BSD/macOS) → フォールバック stat -c %Y (GNU/Linux)
@@ -32,18 +34,15 @@ if [ -f "$STAMP" ]; then
     fi
 fi
 
-# 警告出力
-cat <<MSG
-PLAN READINESS CHECK:
-EnterPlanMode 前に以下を確認してください:
-1. Execution Strategy（Delivery/Prototype/Clarify）を選択しましたか？
-2. Deliveryモード: 成功基準を定義しましたか？
-3. スキル確認（30-routing.md + find-skills）を完了しましたか？
-
-確認済みなら続行してください。次の警告は5分後以降、または新しいタスクで再表示されます。
-MSG
-
-# stamp 更新
+# stamp を先に記録（直後の再実行を通すため）
 date '+%Y-%m-%d %H:%M:%S' > "$STAMP"
 
-exit 0
+cat >&2 <<'MSG'
+PLAN READINESS [BLOCK] このタスク初回のみ。下記を認識したらそのまま EnterPlanMode を再実行すれば通過します:
+1. 応答冒頭で「Strategy宣言: [Delivery/Prototype/Clarify] — 成功基準: <1行>」を宣言する
+2. プランは2段で提示する: まず骨組み（見出し+各1行）だけを出してユーザーの合意を取る。肉付けは合意後。いきなり完成品を出さない
+3. 変更2ファイル以上 or 調査+実装+検証が混在するなら、Explore+Verify の並列SubAgent構成をプランに含める（execution-patterns 参照）
+4. アーキ判断・設計二択・3ファイル以上なら敵対レビューの重/軽を決める: plan-adversarial-review（重）/ /review --mode=challenge（軽）。不要なら理由1行
+MSG
+
+exit 2

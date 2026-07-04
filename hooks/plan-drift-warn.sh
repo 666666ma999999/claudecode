@@ -60,7 +60,18 @@ PY
 )
 
 if [ "$MATCHED" != "YES" ]; then
-    echo "PLAN DRIFT: プラン外ファイルへの変更を検出 ($FILE_PATH)。プランの更新が必要な場合は再計画を検討してください。"
+    # 2026-07-04 配達監査: PostToolUse の plain stdout + exit 0 はモデル非注入(人間表示のみ)。
+    # 公式サポートの hookSpecificOutput.additionalContext でツール結果に追記して配達する。
+    python3 - "$FILE_PATH" <<'PY'
+import json, sys
+fp = sys.argv[1]
+print(json.dumps({
+    "hookSpecificOutput": {
+        "hookEventName": "PostToolUse",
+        "additionalContext": f"PLAN DRIFT: プラン外ファイルへの変更を検出 ({fp})。プランの更新が必要な場合は再計画を検討してください。"
+    }
+}, ensure_ascii=False))
+PY
 fi
 
 exit 0

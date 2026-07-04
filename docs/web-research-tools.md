@@ -12,6 +12,7 @@
 | **副軸** | **GitHub star**（`gh` CLI + `/gh-star-harvest`） | 客観性・継続性 | 世界中のdevが投票した結果、数値が絶対 |
 | 補助 | 公式・Anthropic直系 | 確度最高 | 出現頻度低、補助扱い |
 | 補助 | MCPレジストリ（pulsemcp/smithery等） | 範囲狭い | 特定記事テーマの時のみ |
+| 補助 | firecrawl MCP（導入済・self-host localhost:3002） | JS描画ページも綺麗にMarkdown化 | WebFetchで読めない動的ページのscrape/crawl/extract |
 | 補助 | HN/Reddit/Zenn/Qiita/はてブ等 | X/GitHubと重複 | Codex経由でまとめて横断 |
 
 ## 情報源ごとの推奨ツール

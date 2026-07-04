@@ -20,6 +20,22 @@
 # SessionStart hook の stdin (JSON) を読み捨てる
 cat > /dev/null 2>&1
 
+# ─── SPEC 起点 (Specification Layer・2026-07-04) ───
+# vault-cc flag と無関係の普遍動作のため flag gate の手前に置く:
+# cwd の git root に plan.md / tasks/*.md があれば「Session Handoff を読んでから着手」の
+# 起点リマインダーを注入する (本文は注入しない = トークン最小・CLAUDE.md step 0 の act-time 化)。
+SPEC_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd -P 2>/dev/null)"
+if [ -n "$SPEC_ROOT" ]; then
+  spec_plan=""
+  [ -f "$SPEC_ROOT/plan.md" ] && spec_plan="yes"
+  latest_task="$(ls -t "$SPEC_ROOT"/tasks/*.md 2>/dev/null | head -1)"
+  if [ -n "$spec_plan" ] || [ -n "$latest_task" ]; then
+    echo "=== 📐 SPEC起点 (${SPEC_ROOT##*/}) ==="
+    [ -n "$spec_plan" ] && echo "- 設計SSoT: $SPEC_ROOT/plan.md を起点に作業する"
+    [ -n "$latest_task" ] && echo "- 最新task: $latest_task → Session Handoff を読んでから着手する"
+  fi
+fi
+
 # Feature flag gate (デフォルト OFF = 休眠 = 何もしない)
 [ -f "$HOME/.claude/state/vault-cc-enabled" ] || exit 0
 

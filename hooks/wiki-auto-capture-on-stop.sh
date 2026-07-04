@@ -4,7 +4,8 @@
 # transcript に
 #   (1) 決定/採用/却下 系キーワード → decisions.md (append-only)
 #   (2) 教訓/失敗/再発 系キーワード → mistakes.md (de-dup 上書き型)
-# が出現し、かつ該当 md が直近 30 分以内に未更新の場合、警告を出す。
+#   (3) 定石/運用知 系キーワード → /save playbook 促し (2026-07-04 第3系統・Playbook Memory)
+# が出現し、かつ該当 md が直近 30 分以内に未更新の場合、警告を出す ((3) は stale 判定なし)。
 #
 # 設計理由 (plan.md#phase-e + Phase 2):
 # - 過去 2 回の Stop hook は echo のみで Claude が無視できた (inform-only failure)
@@ -36,7 +37,8 @@ COUNTS=$(python3 -c "
 import json, sys
 decision_kw = ['決定した', '採用し', '却下', 'adopted', 'rejected as', '方針確定', '確定し']
 mistake_kw  = ['教訓', 'lesson learned', '失敗した', '再発した', '同じミス', '再発防止', 'recurring mistake', 'made the same']
-d_count, m_count = 0, 0
+playbook_kw = ['定石', '運用ルール化', '今後はこうする', '毎回こうする', '運用知', '確立ルール']
+d_count, m_count, p_count = 0, 0, 0
 try:
     with open('$TRANSCRIPT', encoding='utf-8') as f:
         for line in f:
@@ -52,17 +54,21 @@ try:
                         text += c.get('text', '')
                 hit_d = any(kw in text for kw in decision_kw)
                 hit_m = any(kw in text for kw in mistake_kw)
+                hit_p = any(kw in text for kw in playbook_kw)
                 if hit_d: d_count += 1
                 if hit_m: m_count += 1
+                if hit_p: p_count += 1
             except: pass
 except: pass
-print(f'{d_count} {m_count}')
+print(f'{d_count} {m_count} {p_count}')
 " 2>/dev/null)
 
 D_HITS=$(echo "$COUNTS" | awk '{print $1}')
 M_HITS=$(echo "$COUNTS" | awk '{print $2}')
+P_HITS=$(echo "$COUNTS" | awk '{print $3}')
 [ -z "$D_HITS" ] && D_HITS=0
 [ -z "$M_HITS" ] && M_HITS=0
+[ -z "$P_HITS" ] && P_HITS=0
 
 # 該当 md が直近 30 分以内に更新されているか判定
 check_stale () {
@@ -95,6 +101,14 @@ if [ "$M_HITS" -ge 1 ] && [ "$M_STALE" = "stale" ]; then
   echo "   wiki/meta/mistakes.md が直近 30 分以上未更新。同一パターン 2 回以上で 1 entry に統合 (de-dup)："
   echo "   $MISTAKES"
   echo "   ↳ 初回発生は新規追加、2 回目以降は既存 entry の「最終発生」「頻度」を更新"
+  ANY_WARN=1
+fi
+
+if [ "$P_HITS" -ge 1 ]; then
+  echo ""
+  echo "💾 WIKI_AUTO_CAPTURE [playbook]: 定石/運用知に関する議論が $P_HITS turn 検出されました。"
+  echo "   今後も守る定石・閾値なら \`/save playbook\` で当該 project の playbook (02_Ai/<group>/<sub>-playbook.md) へ保存を検討してください。"
+  echo "   ↳ 保存された playbook の Must Remember は SessionStart で自動注入される (蓄積→翌セッション反映の両輪)"
   ANY_WARN=1
 fi
 
