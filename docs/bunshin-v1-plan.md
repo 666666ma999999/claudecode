@@ -3,6 +3,7 @@
 > 検証の一次データ: 本セッション workflow w0roar5in / w74fhf9be (transcripts は14日で消えるため要点は本ファイルに内蔵済み)。
 > **2026-07-02 深掘り反映(workflow wh6qz3ghx)**: claude-mem SQLite `user_prompts` テーブルに**原文プロンプト verbatim 5,516件(2026-04-26〜07-02・6/15以前4,427件・887セッション)が現存**と実測確認。「原文は6/15以降881件のみ」は誤りだったため本ファイル内の該当前提を訂正済み。アクセスは稼働中DBへ直接クエリせず read-only コピー経由(claude-mem 書き戻し事故回避)。
 > **分析正本**: 分類 v2(工程P0-P5×機能11サブタイプ)・創造プレイブック14手・人間専権12スロット・3類型論・全プロダクト台帳・別Mac保全手順 = `docs/bunshin-taxonomy-v2.md`(2026-07-02)。ラベル済み生データ = `~/.claude/archives/bunshin-corpus/`(25MB・gitignored・退避済み)。
+> **2026-07-05 教材源泉 v3 追補(末尾節・Codex 2R反映)**: ユーザー再設計指示により vault 人筆レイヤー④を源泉に追加・AI筆除外規則を明文化・MASA claude-mem デルタ手順を確定。実測ログ = taxonomy-v2 §12。
 
 # 分身 (bunshin) v1 — 統合実行プラン「投入まで届くレール + 素材保全」
 
@@ -131,7 +132,7 @@ hooks/pretooluse-askuserquestion-guard.sh  M1-M4ゲート通過後: runner_tools
 ### Phase 4 — 条件付き拡張(8月〜・v1では定義のみ・実装しない)
 
 - **無人解禁ゲート(観測指標・恣意的開閉の防止)**: M1=runner 直近4回連続 FAILED 0 / M2=承認差し戻し率<25%(2サイクル) / M3=headless hook probe PASS(T6 で測定済) / M4=是正シグナル 2週連続 baseline比50%以下。**全通過後の最初のタスク(唯一の直列点)**: runner frontmatter `runner_tools` への Write 付与をコード変更なしで個別判断。管理画面投入・メッセージ送信は v2 でも人間承認を維持(fail-close)
-- **コーパス抽出 v0(Q2 回答後)**: 源泉は **三本+補助** — ①claude-mem `user_prompts` このMac(4/26〜・5,516件・ラベル済み退避済み) ②transcripts アーカイブ(6/27〜のフル文脈=AI応答側) ③別Mac claude-mem エクスポート(T3.5・totty genesis/ai_dashboard/rohan 校正群) +補助: git log(pre-window の間接復元)。**環境構築プロンプト(約1,440件=25%)は『仕組み化ループ・サブコーパス』として第一級の正例に昇格**(9サブタイプ+12ループ実例+2-strike+強度階段・taxonomy-v2 §5)。まず claude-mem knowledge-agent/mem-search で30分試行→不足時のみ最小スクリプト1本。前処理仕様は以下で**固定**(2026-07-02 原文検証で更新): ①dedupe+訂正二連投は最終版採用(訂正癖・誤綴り指紋 valut/teamnde はメタ特徴として保持) ②マスク fail-close: `EAA[A-Za-z0-9]{20,}`/32-hex/`Bearer \S+`/`sk-|ghp_|xox[bp]-`/高エントロピー連続40字 `[A-Za-z0-9+/=_-]{40,}` は `[MASKED]`・出力先は gitignore 済みパスのみ・**user_prompts にも適用必須**(6/22 prompt#72 に LINE トークン生値の実在を確認済) ③A群(是正・窓により12-21%・問い詰め型は A/D 複合判定)は負例分離・収録しない ④**AI起草混入(全体の12-18%)の除外**: 1プロンプトセッション663件(SubAgent委譲文)・「あなたは〜」役割付与型185件・[Nh check]定期文・runner frontmatter・obsidian-git Conflicts定型・paste-relay ⑤音声正規化辞書(valutMD→vault MD/コーデックス→codex)は解釈時適用・原文不改変。**B正例は6/15以前4,427件まで遡及可**(ラベル構造140件中94件が5月=型密度最高)。**ノイズ実分離は 2026-07-02 実行済**(`~/.claude/archives/bunshin-corpus/clean/`・正例プール clean_B 2072+keep_A_standard 98=2170件・separate.py で冪等再現)。生成器は clean 正例プール+§11.5「正確な癖テンプレ」を教師にする(汚い§1でなく§11が正)。残: keep_A_standard の27件が AI起草prose逆流=人手1パス要。**生成器仕様は v2 3段パイプへ差し替え**: 第1段=工程認識(P0-P5 判定・週次指紋プロキシ or NOW.md/phase-tracker 読取)→第2段=11サブタイプ別テンプレ充填(必須スロット+実測遷移表 ideate→verify→RULING→dispatch)→第3段=ミクロ品質層(必須要素12項)。詳細 taxonomy-v2 §1-2。**データ分類思考モデル(taxonomy-v2 §10・第一原理15+判定フローQ-1〜Q9+器21行)を生成器の第0層(データ設計)として搭載** — 検証 needs-fixes(的中73%)のため §10.6 の修正リスト適用を Phase 4 の先頭タスクに置く
+- **コーパス抽出 v0(Q2 回答後)**: 源泉は **三本+補助**【2026-07-05 改訂: ④vault人筆レイヤーを追加。源泉一覧・除外規則は末尾「教材源泉 v3」節が正】 — ①claude-mem `user_prompts` このMac(4/26〜・5,516件・ラベル済み退避済み) ②transcripts アーカイブ(6/27〜のフル文脈=AI応答側) ③別Mac claude-mem エクスポート(T3.5・totty genesis/ai_dashboard/rohan 校正群) +補助: git log(pre-window の間接復元)。**環境構築プロンプト(約1,440件=25%)は『仕組み化ループ・サブコーパス』として第一級の正例に昇格**(9サブタイプ+12ループ実例+2-strike+強度階段・taxonomy-v2 §5)。まず claude-mem knowledge-agent/mem-search で30分試行→不足時のみ最小スクリプト1本。前処理仕様は以下で**固定**(2026-07-02 原文検証で更新): ①dedupe+訂正二連投は最終版採用(訂正癖・誤綴り指紋 valut/teamnde はメタ特徴として保持) ②マスク fail-close: `EAA[A-Za-z0-9]{20,}`/32-hex/`Bearer \S+`/`sk-|ghp_|xox[bp]-`/高エントロピー連続40字 `[A-Za-z0-9+/=_-]{40,}` は `[MASKED]`・出力先は gitignore 済みパスのみ・**user_prompts にも適用必須**(6/22 prompt#72 に LINE トークン生値の実在を確認済) ③A群(是正・窓により12-21%・問い詰め型は A/D 複合判定)は負例分離・収録しない ④**AI起草混入(全体の12-18%)の除外**: 1プロンプトセッション663件(SubAgent委譲文)・「あなたは〜」役割付与型185件・[Nh check]定期文・runner frontmatter・obsidian-git Conflicts定型・paste-relay ⑤音声正規化辞書(valutMD→vault MD/コーデックス→codex)は解釈時適用・原文不改変。**B正例は6/15以前4,427件まで遡及可**(ラベル構造140件中94件が5月=型密度最高)。**ノイズ実分離は 2026-07-02 実行済**(`~/.claude/archives/bunshin-corpus/clean/`・正例プール clean_B 2072+keep_A_standard 98=2170件・separate.py で冪等再現)。生成器は clean 正例プール+§11.5「正確な癖テンプレ」を教師にする(汚い§1でなく§11が正)。残: keep_A_standard の27件が AI起草prose逆流=人手1パス要。**生成器仕様は v2 3段パイプへ差し替え**: 第1段=工程認識(P0-P5 判定・週次指紋プロキシ or NOW.md/phase-tracker 読取)→第2段=11サブタイプ別テンプレ充填(必須スロット+実測遷移表 ideate→verify→RULING→dispatch)→第3段=ミクロ品質層(必須要素12項)。詳細 taxonomy-v2 §1-2。**データ分類思考モデル(taxonomy-v2 §10・第一原理15+判定フローQ-1〜Q9+器21行)を生成器の第0層(データ設計)として搭載** — 検証 needs-fixes(的中73%)のため §10.6 の修正リスト適用を Phase 4 の先頭タスクに置く
 - v1.1 候補: AIcrm 横展開(プロンプトmd 1枚)・Gmail draft-only 返信支援(MCP に send 系なし=構造的 fail-safe)・persona-core の要否判断(コーパス実物を見てから)
 
 ## Verification
@@ -238,3 +239,88 @@ approach 1-8: ①Phase 0 新設 ②T7 で窓修理してから T8 追加 ③wiki
 ## 関連ファイルへの追記提案(プラン外・承認後に実施)
 
 - `~/.claude/templates/methodology-5step.md`: 新ファイルは作らず3点追記 — (a)0層に P0 昇格判定則 (b)①に P1 外部情報運搬プロトコル(「これですか？」照合・DL手順MD化・push前秘密確認) (c)実装節に P3 分社/統合判定の定型プロンプト
+
+
+## 2026-07-05 教材源泉 v3 — vault 人筆レイヤーの追加 + MASA claude-mem の確定（[蓄積]・ユーザー再設計指示への回答）
+
+> **位置づけ**: decision 2026-07-03 の分類で **[蓄積]**。Phase 1-3 の実行ループ・M1-M4 ゲート・生成器 v2 仕様には一切触れない（教材の供給源定義と保全手順だけを追加）。新hook・新launchd・常設自動化なし。
+> **指示原文**: vault `00_Inbox/memo.md` L19-27(7/5)「自分の分身プロジェクトに obsidian を読み込ませるのを忘れていました。また、このPCの claude mem も参考になるかもしれません。ただ、ここには AI が作ったファイルもあるので、それを除外して、私の行動原理を読み込む足しにして、再度設計してください」
+> **生成経路**: MASA.local で実測2本（vault 全457md の人筆/AI筆判別・45件実読サンプル / claude-mem read-only VACUUM コピー実測）→ 設計 → Codex 敵対レビュー Round 1 **REJECT**(12 findings) → 7 must-address 全反映 → Round 2 **APPROVE-WITH-CHANGES**(残7点) → 全反映（対応表 = 本節末尾）。実測ログ = taxonomy-v2 §12。
+
+### 源泉一覧 v3（Phase 4「コーパス抽出 v0」の源泉に ④ を追加。①②③⑤は不変）
+
+| # | 源泉 | 規模 | 教材上の役割 |
+|---|---|---|---|
+| ① | masa-2 user_prompts（ラベル済 5,516・正例 2,170） | 済 | 実行指示の文法（P1-P5） |
+| ② | transcripts アーカイブ（6/27〜） | 稼働 | AI応答側フル文脈 |
+| ③ | MASA claude-mem export（10,954件 2/2〜7/3・7/4検収済） | 済 + デルタ手順(下記) | pre-window 2〜4月の唯一の原文・rohan 6,566件 |
+| ④ | **vault 人筆レイヤー（本節で新設）** | 初回サンプル調査の推定 約140-155ファイル・45-55万字（**実装時に ledger で確定**） | **P0候補の追加探索源**（プロンプト以前の草稿・価値観・起案の癖が残る候補地。「P0 gap が直接埋まる」とは主張しない — 実際に何件採れたかは S8b で観測し、0 なら本役割文と taxonomy §12 サマリーの両方を下方修正） |
+| ⑤ | git log | — | 補助 |
+
+### 除外規則（指示の核 =「AIが作ったもの」を教材から外す。**除外は層0(文体教師)からのみ**）
+
+1. claude-mem **observations(MASA 32,568件)・session_summaries(7,207件)** = AI生成要約 → 層0/層1教材から除外。許可用途は (a)セッションの日付・所属特定 (b)読むべき raw transcript の索引、の2つだけ。**要約テキストが教材・価値観抽出へ入る経路は禁止**（AI要約の逆流 = §11.2 dispatch 過大計上事故と同型）
+2. MASA user_prompts の**機械行 41.2%**（`<task-notification>` 30.9% + `Implement the following plan` 貼り戻し 10.3%・11,227件全件grep実測）→ 除外クラスXに MASA 固有2パターンを追加（masa-2 の X=9.1% と混入プロファイルが別物）。ただし捨てるのは層0からだけ — Monitor 運用文・plan 貼り戻し承認は「運用文法サブコーパス」として保持し、承認発行 vs churn の裁定は §8 既存 Open 事項と同軸で Phase 4 で行う
+3. vault の AI筆 約300ファイル（MOC/_ope・reports/・wiki 知識ノート・impl-notes・templates・NOWミラー等）→ provenance ledger で除外。**例外**: decisions.md / mistakes.md は「判断=本人・文=AI」→ 層1（判断基準）入力には使い、層0（文体）には使わない
+
+### vault provenance ledger（**chunk 単位**・主指標 = 抽出物の AI筆混入率）
+
+- 判定3段: **L1 パス** → **L2 frontmatter**（rules/41 6フィールド + **wiki 別スキーマ `type: concept|entity|meta|source` 判定を必須追加**＝素朴実装だと wiki 41件が人筆側へ誤流入する実測済みの穴）→ **L3 文体指紋**（`valut`(12hit)・`コーデックス`(8)・`エージェントチーム`(12)・`goal)`・`[issue]` 等。**指紋は「人筆が存在する印」でありファイル全体の証明ではない**）。globs/regex 詳細 = taxonomy §12.2
+- ledger 行 = path / chunk範囲(見出し or 行range) / 判定(H|A|MIX) / 判定手段(L1|L2|L3|人手) / 抽出可否 / 備考。純 HUMAN は file=1 chunk 可。MIXED（INBOX 📒🔵・decisions 引用・Daily・セッションlog型 — 初回推定 25-35件・**確定は ledger 構築時**）は見出し・引用ブロック・コードフェンス・貼付プロンプト境界で切る
+- **段階採掘**: Wave1 = 人筆TOP20（taxonomy §12.3・パス参照）を全件人手確認して即教材化 → Wave2 = 自動確定 HUMAN 残り(~120)を抜き取り検査 → Wave3 = MIXED セクション抽出を**全件人手検収**。初回推定精度 91-93% は設計根拠にしない（45件実読サンプルの推定・Wave2 で再測定）
+- 成果物と器: masa-2 `~/.claude/archives/bunshin-corpus/` 配下に vault-provenance.csv + pair ledger + 抽出スクリプト（**separate.py 系列・git非追跡・入力/出力/再実行1コマンドを同ディレクトリ README に1行ずつ記録・常設自動化しない**）。vault は read-only 不改変。glob は case-insensitive（実ディレクトリは小文字 `02_ai`）
+
+### 秘密/PII ゲート（fail-close・成功基準に組込み）
+
+パイプ順序固定: 抽出 → secrets スキャン（既存 Phase 4 マスク regex + `AIza[A-Za-z0-9_-]{20,}` + メールアドレス）→ 隔離 dir(chmod700) → マスク → 検収 → コーパス化。**顧客名・社名・個人名は project 固有辞書がある場合のみ機械スキャン、無い場合は Wave1/Wave3 人手検収の必須チェック項目**（検出不能なものを検出可能とは扱わない）。key_api.md は入口除外。`.raw/` 収集ログ・rohan/pokeca 顧客系集計値は教材除外（rules/42 M-1）。スキャンヒット>0 のままコーパス化する経路を作らない。
+
+### dedupe = pair ledger（正規化ハッシュ単独は廃止）
+
+INBOX 📒・refs/・prompt-original は user_prompts と重複しうる。**どちらも削除しない**。pair ledger（vault_path×chunk / prompt_id / 類似度 / 先行側(mtime・created_at) / diff種別[同一|草稿→清書|別物] / 層0採用側）で対応付ける。**層0正本の決定は「先行性 + provenance 判定 + diff 種別」の合議 — AI/MIX 判定の側は先行でも層0正本にしない**（先行がAI生成MOC・後続が本人裁定という逆汚染ケースを塞ぐ）。統計は pair 単位1カウント（S8 の二重計上防止）。
+
+### MASA デルタ手順（手動1コマンド・常設自動化しない = decision 2026-07-03 準拠）
+
+7/4 export の正確な切断時刻が不明（総数差 273 vs cutoff 7/3EOD比 131）→ cutoff は **2026-07-02T23:59:59 の安全側**・重複は user_prompts.id で dedupe:
+
+```bash
+TMP=/tmp/bunshin-delta-tmp.db; FINAL=~/Desktop/bunshin-delta-$(date +%Y%m%d).db
+sqlite3 "file:$HOME/.claude-mem/claude-mem.db?mode=ro" "
+ATTACH DATABASE '$TMP' AS d;
+CREATE TABLE d.sdk_sessions AS SELECT * FROM sdk_sessions WHERE content_session_id IN (SELECT content_session_id FROM user_prompts WHERE created_at > '2026-07-02T23:59:59');
+CREATE TABLE d.user_prompts AS SELECT * FROM user_prompts WHERE created_at > '2026-07-02T23:59:59';
+" && sqlite3 "$TMP" "VACUUM INTO '$FINAL'" && chmod 700 "$FINAL" && rm -f "$TMP"
+```
+
+転送は AirDrop のみ・分析投入前に Phase 4 マスク regex 適用（§7 と同型 fail-close）。observations/summaries はデルタに**含めない**（除外規則1）。実測: 7/4以降 131件（.claude 52 / rohan 46 / influx 14 / totty2 9 / chacha_bot 7 / masaaki 3）＝次回採掘直前にまとめて実行で足りる。
+
+### 成功基準（S1-S5 に追加）
+
+| # | 基準 | 観測方法 |
+|---|---|---|
+| S6 | ledger が vault 全 md をカバーし chunk 行+判定手段列を持つ | csv 行数・列検算 vs `find` 実測数 |
+| S7 | 抽出済みコーパスの AI筆混入: Wave1/Wave3 = 人手全件検収で 0 / Wave2 = **max(50 chunk, 自動HUMAN chunk の10%)** 抜き取りで混入 ≤1。**1件でも発見したらその判定ルール由来の全 chunk を再分類**（2-strike） | 抜き取り記録 |
+| S7b | マスク後の抽出物への secrets/PII スキャンヒット 0 | スキャナ出力 |
+| S8 | pair ledger による正味追加件数・字数（二重計上なし） | 抽出スクリプト出力 |
+| S8b | P0/P1 タグ付き人筆引用の実件数を報告。0 なら「④の役割文(本節)」と「taxonomy §12 サマリー」の**両方**を下方修正 | ledger タグ集計 |
+
+### 実行場所と残手番
+
+- 採掘・ledger 構築 = **masa-2**（vault は obsidian_work git 同期済み・データ転送不要）。**着手前チェック3点**: ① `git -C ~/.claude pull` 済みで本節が読める ② vault 側 pull 済み+conflict なし ③ `02_ai` の大文字小文字差分を glob が吸収している
+- MASA 側の残手番 = デルタ export 1コマンド + AirDrop のみ
+- **衛生（要ユーザー判断・原則即削除推奨）**: MASA `~/Desktop/bunshin-export/` に 7/4 原本 442MB が残置（iCloud Desktop 同期無効は確認済み）。masa-2 検収済み（司令塔 T3.5）を根拠に `rm -rf ~/Desktop/bunshin-export`（実行は人間）。保持例外は「再検収が必要な場合のみ」・最長 2026-08 末・理由を司令塔に1行記録
+
+### 非ゴール（変わらないこと）
+
+persona-core 新ノートは作らない（Cut③維持）/ vault の改変・移動なし / 生成器 v2 3段パイプ・M1-M4 ゲート不変 / 新hook・新launchd・常設自動化なし
+
+### Codex 敵対レビュー対応表（Round 1 REJECT 12 findings → 7 must-address 反映 → Round 2 APPROVE-WITH-CHANGES 残7 → 全反映）
+
+| R2-# | 指摘 | 反映 |
+|---|---|---|
+| 1 | 使い捨てスクリプトの器を縛れ | archives/bunshin-corpus/ 固定・git非追跡・README 1行記録・常設自動化なし |
+| 2 | 「顧客名系列」の機械スキャンは空文化する | 辞書がある場合のみ機械・無い場合は Wave1/3 人手検収の必須チェックへ変更 |
+| 3 | 抜き取り 50 chunk は過少 | max(50, 10%) + 発見時は当該ルール由来の全 chunk 再分類 |
+| 4 | 時刻先行だけの層0正本化は逆汚染 | 先行性+provenance判定+diff種別の合議・AI/MIX 側は正本化しない |
+| 5 | §12 の肥大化ゲート | §12 は要約のみ・詳細は archives・TOP20 はパス参照 |
+| 6 | Desktop 残骸の期限が甘い | 原則即削除推奨・保持例外は再検収時のみ+理由を司令塔に記録 |
+| 7 | S8b の下方修正先が不明 | ④役割文 + §12 サマリーの両方と明記 |
