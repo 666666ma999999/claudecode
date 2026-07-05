@@ -40,10 +40,10 @@ allowed-tools: [Read, Glob, Grep, Bash]
   │       ├─ ルール → .claude/rules/XX-name.md
   │       ├─ スキル → .claude/skills/<name>/SKILL.md
   │       ├─ 設定値 → .claude/settings.json
-  │       └─ MCP   → .claude/.mcp.json
+  │       └─ MCP   → .mcp.json (プロジェクトルート)
   │
   └─ git管理外にしたいか？ (個人設定)
-      ├─ YES → .claude/settings.local.json / .mcp.local.json
+      ├─ YES → .claude/settings.local.json / `claude mcp add --scope local`
       └─ NO  → 上記の通常パスへ
 ```
 
@@ -95,15 +95,15 @@ fi
 
 ### MCP 設定のスコープ
 
-| スコープ | ファイル | git管理 |
+| スコープ | 保存先 | git管理 |
 |---------|---------|---------|
-| Local | `.claude/.mcp.local.json` | 対象外 |
-| Project | `.claude/.mcp.json` | 対象 |
-| User | `~/.claude/.mcp.json` | 対象外 |
+| Local | `~/.claude.json` 内 (project 別・`claude mcp add --scope local`) | 対象外 |
+| Project | `<project root>/.mcp.json` | 対象 |
+| User | `~/.claude.json` の `mcpServers` (`claude mcp add --scope user`) | 対象外 |
 
 - シークレットは `${VAR}` プレースホルダー必須 (直書き禁止)
 - 同名MCPサーバーは Local > Project > User でオーバーライド
-- ローカルで一時的に無効化したい場合: `.mcp.local.json` で同名サーバーを `"disabled": true` に設定
+- ローカルで一時的に無効化したい場合: `/mcp` UI で無効化 (`.claude/settings.local.json` の `disabledMcpjsonServers` に記録される)
 
 ## 検証コマンド
 
@@ -121,8 +121,8 @@ cat .claude/settings.local.json | python3 -m json.tool 2>/dev/null || echo "No l
 
 # MCP設定の確認 (全スコープ)
 echo "=== User ===" && cat ~/.claude/.mcp.json 2>/dev/null | python3 -m json.tool
-echo "=== Project ===" && cat .claude/.mcp.json 2>/dev/null | python3 -m json.tool
-echo "=== Local ===" && cat .claude/.mcp.local.json 2>/dev/null | python3 -m json.tool
+echo "=== Project ===" && cat .mcp.json 2>/dev/null | python3 -m json.tool
+echo "=== 全スコープ統合 ===" && claude mcp list
 
 # Rules一覧 (適用順)
 echo "=== User Rules ===" && ls ~/.claude/rules/ 2>/dev/null
@@ -153,7 +153,7 @@ print('Done')
 | 全プロジェクトで Bash(rm) を禁止 | `~/.claude/settings.json` の `deny` |
 | 特定プロジェクトだけ Docker 許可 | `.claude/settings.json` の `allow` |
 | 個人的に MCP サーバー追加 | `~/.claude/.mcp.json` |
-| プロジェクト共有 MCP 設定 | `.claude/.mcp.json` (git管理) |
+| プロジェクト共有 MCP 設定 | `.mcp.json` (プロジェクトルート・git管理) |
 | チーム共通コーディングルール | `.claude/rules/` (git管理) |
 | 個人的な作業習慣ルール | `~/.claude/rules/` |
 | プロジェクト固有スキル | `.claude/skills/<project-prefix>-<name>/` |

@@ -6,6 +6,8 @@ allowed-tools:
   - Bash
   - Read
   - Edit
+  - Write
+  - Task
   - AskUserQuestion
 ---
 
@@ -46,7 +48,7 @@ agent team 設計 → Codex 敵対的レビュー（2026-06-19）の結論：
 - Obsidian Vault が `~/Documents/Obsidian Vault/` に存在し、`wiki/x-article-stock.md` がある
 - X に**ログイン済みのブラウザ**（advanced search の `min_replies:` はログイン時のみ安定）
 
-## 実行フロー（4段）
+## 実行フロー（4段＋記録）
 
 ### Stage 1: 探索クエリを生成して開く（手動）
 
@@ -108,7 +110,7 @@ bash ~/.claude/skills/collect-reply-posts/gen-queries.sh
 
 - `query_label` は Stage 1 の `gen-queries.sh` が出すラベル（例: `JA / Claude Code・AIエージェント中心の議論`）。どのクエリから来たか分かる範囲で付ける（不明なら `"unknown"`）。
 - `verdict` は `adopted`（x-stock 追加）/ `rejected`（Stage 3 で落とした）の2値。`reason` は短い自由語（後で頻出語を集計するので語彙はなるべく揃える）。
-- 書き込みは Edit ツールでファイル末尾に append（なければ新規作成）。
+- 書き込みは Edit ツールでファイル末尾に append（ファイルがなければ初回のみ Write ツールで新規作成）。
 
 ## 完了報告
 

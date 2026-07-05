@@ -124,7 +124,7 @@ For these types, skip the standard "new file with frontmatter" workflow. Use the
 
 playbook は **project ごとに 1 ファイル** (`02_Ai/<group>/<sub>-playbook.md`)。mistake と同じ de-dup 型だが、置き場所が cross の `wiki/meta/` ではなく **project の vault SSoT**。
 
-1. **どの project の playbook か特定**: cwd / 会話文脈から判定 (例: prime_ad → `02_Ai/AI_adscrm/AIads-playbook.md`)。該当 playbook が無ければ新規作成 (frontmatter `type: playbook` + `## Must Remember` + 4 section: 公式仕様 / 業界経験則 / 案件固有 / 未確認。**順序付きの繰り返しフローがあれば `## Methodology` も追加** — 下記規約参照)。
+1. **どの project の playbook か特定**: cwd / 会話文脈から判定 (例: prime_ad → `02_Ai/AI_adscrm/AIads/AIads-playbook.md`)。該当 playbook が無ければ新規作成 (frontmatter `type: playbook` + `## Must Remember` + 4 section: 公式仕様 / 業界経験則 / 案件固有 / 未確認。**順序付きの繰り返しフローがあれば `## Methodology` も追加** — 下記規約参照)。
 2. **どの section に入るか判定**:
    - Google/Meta/法律 等の外部仕様 → `## 公式仕様` (URL or 「未確認」明記)
    - 運用者間の経験則 → `## 業界経験則`

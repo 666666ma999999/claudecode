@@ -32,7 +32,7 @@ STOCK_FILE="$HOME/Documents/Obsidian Vault/wiki/x-article-stock.md"
 ```
 
 - ファイルが存在しなければ「x-article-stock.md が見つかりません」と報告して停止。
-- 存在すれば現在の最大 idea 番号を `grep "^id: idea_"` で取得する。
+- 存在すれば当日日付 `YYYYMMDD` の既存エントリを `grep "^## idea_<YYYYMMDD>_"` で数え、その日の連番 NNN を決める（当日 0 件なら 001）。ID 体系は `idea_YYYYMMDD_NNN`（見出し `## idea_...`）で固定。
 
 ## STEP 1: ネタ要素収集
 
@@ -64,25 +64,27 @@ STOCK_FILE="$HOME/Documents/Obsidian Vault/wiki/x-article-stock.md"
 ## STEP 3: append 実行
 
 採番ルール:
-- 既存の `id: idea_` を grep して最大番号を取得
-- 新 id = 最大値 + 1（例: 既存最大 006 → `idea_007`）
+- ID 体系は `idea_YYYYMMDD_NNN`（YYYYMMDD=当日, NNN=当日連番3桁ゼロ埋め）
+- `grep "^## idea_<YYYYMMDD>_"` で当日既存件数を数え +1 を NNN とする（例: 当日既存2件→`idea_YYYYMMDD_003`、0件→`idea_YYYYMMDD_001`）
 
 追記フォーマット（ファイル末尾に追加）:
 
-```
----
-id: idea_NNN
-title: "<ユーザーのタイトル>"
+````
+## idea_YYYYMMDD_NNN: <ユーザーのタイトル>
+
+```yaml
 state: idea
+captured_at: YYYY-MM-DD
 source_cwd: "<実際の cwd 絶対パス>"
 source_project: "<推定プロジェクト名>"
-created: "YYYY-MM-DD"
 tags: [<タグ配列・省略時は空配列 []>]
----
-
-<本文メモ（省略可・ない場合は空行のみ）>
-
 ```
+
+**note**:
+- <本文メモ（省略可）>
+
+---
+````
 
 **必須制約**:
 - `x-article-stock.md` の先頭 frontmatter（ファイル先頭 --- ブロック）は**一切変更しない**
@@ -94,7 +96,7 @@ tags: [<タグ配列・省略時は空配列 []>]
 1 行のみ返す:
 
 ```
-idea_NNN 「<title>」を x-article-stock.md に追加 (source: <source_project>)
+idea_YYYYMMDD_NNN 「<title>」を x-article-stock.md に追加 (source: <source_project>)
 ```
 
 記事化は別フロー: `make_article` cwd で collect-materials skill 経由。
@@ -103,4 +105,4 @@ idea_NNN 「<title>」を x-article-stock.md に追加 (source: <source_project>
 
 - 新規追加時: 常に `state: idea`
 - 記事化後: ユーザーが手動で `state: consumed` に更新（この skill は変更しない）
-- 使用中の stage: `idea` / `consumed` の 2 段階のみ（旧 6 段階は既存 entry 互換のため残置）
+- 使用中の stage: `idea` / `draft` / `consumed` の 3 段階（state 集計テーブル準拠。旧多段階は既存 entry 互換で残置）

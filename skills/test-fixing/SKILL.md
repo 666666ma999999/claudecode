@@ -345,6 +345,10 @@ pytest tests/test_example.py -v
 pytest
 ```
 
+## 緑なのに本番で死ぬ 4 パターン
+
+①テストが本番未使用の config 値で dead-wire を緑通過（→ 本番が実際に使う config 値で公開エントリポイントを e2e で叩く） ②「実装済・flag ON」でも実発火を 1 回観測するまで未検証扱い ③ローカル緑を CI 緑と同一視（CI は fresh checkout。untracked 依存を `git ls-files --error-unmatch` で照合） ④dry-run の SKIP フラグが飛ばした経路は本番同一経路で 1 回実走してから完了宣言。
+
 ## チェックリスト
 
 修正前：

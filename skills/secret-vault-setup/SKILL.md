@@ -42,7 +42,7 @@ Agent (white-hacker):           防御設計の具体手順
 **観点固定リスト**（プロンプトに必ず含める）:
 - `~/.claude/settings.json` の `permissions.deny` に vault Read 禁止があるか
 - 既存 Obsidian Vault の `.obsidian/plugins/obsidian-git` 自動 push 設定
-- `~/.claude/hooks/auto-git-push.sh` 等 auto-commit hook の影響範囲
+- `~/.claude/hooks/` 内の auto-commit / auto-push hook の有無（なお `block-dangerous-git.py` は危険 git 操作を禁止するガードであり該当しない）
 - クラウド同期 (Dropbox/iCloud) のバージョン履歴・サブプロセッサリスク
 - Spotlight インデックス・Time Machine 暗号化状況
 - Obsidian コミュニティプラグインのサプライチェーン
@@ -113,8 +113,10 @@ grep -ri -l -E "(password|パスワード|シード|seed phrase|秘密鍵|privat
 ### Step 2.2: 暗号化 APFS Volume 作成（ユーザー手動・対話入力）
 
 ```bash
-# Volume 追加（Claude 経由 OK）
-diskutil apfs addVolume disk3 APFS PassVault
+# APFS コンテナ識別子を先に確認（disk3 は例・環境ごとに異なる）
+diskutil list  # 出力の "Container diskN" の N を確認
+# Volume 追加（Claude 経由 OK・上で確認した diskN を使用）
+diskutil apfs addVolume diskN APFS PassVault
 
 # 暗号化（ターミナル.app で実行必須・! プレフィックスは対話入力非対応）
 diskutil apfs encryptVolume /Volumes/PassVault -user disk

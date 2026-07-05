@@ -1,7 +1,7 @@
 ---
 name: wiki-query
 description: "Answer questions from the Obsidian wiki vault with cited synthesis (quick/standard/deep). Triggers: what do you know about, query:, what is, explain, summarize, find in wiki, search the wiki, based on the wiki, wiki query quick, wiki query deep."
-allowed-tools: Read Glob Grep
+allowed-tools: Read Write Edit Glob Grep
 ---
 
 # wiki-query: Query the Wiki

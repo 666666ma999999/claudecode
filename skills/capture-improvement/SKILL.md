@@ -260,6 +260,6 @@ STEP 2 の結果から以下を判定:
 {現在のcwd}/CLAUDE.md
 ```
 
-## STEP 5: Material Bank スキーマ変換 (M1 Agent)
+## STEP 5-7: Material Bank スキーマ変換 (M1 Agent) → ユーザー確認 → JSONL 追記
 
-品質スコア 3 軸計算・スキーマ変換・ID 採番ルール・素材生成パターンの詳細は `references/material-bank-schema.md` を参照。
+STEP 5（品質スコア 3 軸計算・スキーマ変換・ID 採番ルール・素材生成パターン）、STEP 6（ユーザー確認プレビュー）、STEP 7（Staging Queue / SQLite / Material Bank への書き込みと次アクション提案）の全文は `references/material-bank-schema.md` を参照。STEP 7 の JSONL 追記まで完了して初めてこのスキルは完了。

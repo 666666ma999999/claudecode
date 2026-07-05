@@ -2,7 +2,7 @@
 name: env-factcheck
 description: >-
   Claude Code 環境についての定量主張（MCP使用回数・ツール頻度・セッション数・編集ファイル数・スキル起動回数）を、JSONL ログから正しく裏取りする。grep だけの安易な集計で artifact に騙されるのを防ぐ。
-  週次アーカイブ: `~/.claude/state/weekly-metrics-archive.sh`（JSONL 消失前のスナップショット永続化。retention は settings.json `cleanupPeriodDays`＝現行365日、`~/.claude/metrics/weekly/YYYY-Www.json`）。
+  アーカイブ用スクリプト（手動実行・スケジューラ未配線）: `~/.claude/state/weekly-metrics-archive.sh`（JSONL 消失前のスナップショット永続化。retention は settings.json `cleanupPeriodDays`＝現行365日、`~/.claude/metrics/weekly/YYYY-Www.json`）。
 user_invocable: false
 allowed-tools:
   - Read

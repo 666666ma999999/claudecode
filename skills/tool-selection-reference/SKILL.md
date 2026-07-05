@@ -2,14 +2,18 @@
 name: tool-selection-reference
 description: |
   ツール選択の詳細ガイド。Webスクレイピング3段階エスカレーション
-  （WebFetch→Firecrawl→Playwright）判定フロー、SubAgent vs Agent Teams判定表、
-  Firecrawl実装パターン。Web情報取得時、エージェント構成検討時に使用。
+  （WebFetch→Firecrawl→Playwright）判定フロー、SubAgent vs Agent Teams判定表。
+  Web情報取得時、エージェント構成検討時に使用。
   キーワード: Webスクレイピング, Firecrawl, Playwright, SubAgent, Agent Teams, ツール選択
   NOT for: 通常のファイル操作、コード編集
 allowed-tools: [Read, Glob, Grep]
 ---
 
 # ツール選択ガイド
+
+## 0. ツール提案の前提規律
+
+①収集・検索・自動化を提案する前に、当プロジェクトの既存実装（Cookie 機構・collector・skill）を grep/ls で棚卸しし、あれば第一選択にする ②恒久ブロッカー（API 恒久 403 等）は初回に記録し**既定代替経路を固定**。死んだ経路を提案 ladder の起点にしない（同じ指摘を 10 回受けた実例） ③「不可能」宣言はユーザーが指す既存機構を実調査した後のみ ④欠損データは AI 側解決が第一候補。ユーザー手作業依頼は最終手段で 1 アクションに圧縮。
 
 ## 1. Webスクレイピング 3段階エスカレーション
 
@@ -23,8 +27,8 @@ Level 2: Playwright（フルブラウザ制御）→ ログイン・セッショ
 
 ```
 1. ログイン/セッション管理が必要？ → YES → Playwright系
-2. X（Twitter）のデータ？ → YES → x-scraping
-3. バッチ処理（リスト駆動）？ → YES → web-list-scraper
+2. X（Twitter）のデータ？ → YES → Grok Search（mcp grok-search）
+3. サイト全体クロール/リスト駆動バッチ？ → YES → Firecrawl（crawl/batch）
 4. 単純なページ操作（クリック/スクロール/入力）？ → YES → Firecrawl actions
 5. JSレンダリング/サイト全体クロール？ → YES → Firecrawl MCP
 6. LLMベース構造化データ抽出？ → YES → Firecrawl extract
@@ -35,10 +39,7 @@ Level 2: Playwright（フルブラウザ制御）→ ログイン・セッショ
 
 1. **WebFetch** — 最速・最軽量
 2. **Firecrawl** — JSレンダリング + LLM抽出
-3. **web-list-scraper** — バッチ処理特化
-4. **Playwright系** — フルブラウザが必要な場合のみ
-
-**Firecrawl実装パターン詳細**: `~/.claude/skills/web-scraping-guide/SKILL.md` を参照
+3. **Playwright系** — フルブラウザが必要な場合のみ
 
 ## 2. Web リサーチツール選択（調査・検索）
 
@@ -92,7 +93,3 @@ Level 2: Playwright（フルブラウザ制御）→ ログイン・セッショ
 - 完了時: 全Teammate完了確認 → 結果統合 → シャットダウン → Codexレビュー
 - レビュー指摘が未解決の状態で次タスクに進行しない
 - 注意: `/resume`でTeammateは復元不可、セッションあたり1チームのみ
-
-## 3. Firecrawl実装パターン
-
-詳細は `~/.claude/skills/web-scraping-guide/SKILL.md` を参照。

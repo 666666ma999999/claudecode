@@ -1,10 +1,13 @@
 ---
 name: sync-vault-summary
 description: >
-  rules/42対象ファイル(plan/measures/spec/analysis/CLAUDE/README/data-sources等)の編集要約を
-  vault MOC(02_Ai/<group>/<sub>_ope.md)へ同期しlast_updated更新するスキル。
+  ⚠️2026-06-14 RETIRED: MOC「🔁最新更新ログ」append(=last_updated更新)は廃止・no-op。
+  現状有効なのは list(候補抽出)/resolve(repo→MOC解決)/issues(Open Issuesミラー)のみ。
+  rules/42対象ファイル(plan/measures/spec/analysis/CLAUDE/README/data-sources等)の
+  vault MOC(02_Ai/<group>/<sub>_ope.md)同期スキル。全面改訂は vault-restructure-proposal 待ち。
   Triggers: /sync-vault-summary, vault MOC同期, MOC更新, vaultサマリー追記,
   VAULT_SUMMARY_SUGGEST(Stop hook警告).
+  NOT for: MOC本文の実データ設計→vault-report-writing / 施策状態同期義務→rules/41 §④。
 allowed-tools: Read Write Edit Bash Glob Grep
 ---
 
@@ -102,11 +105,10 @@ helper が以下を atomic に実行:
 処理した件数とサマリーをユーザーに 5 行以内で報告:
 
 ```
-✅ vault MOC 同期完了:
-  - AIads_ope.md ← 2 entry append (M19 tROAS 緩和 / phase-tracker 更新)
-  - AIcrm_ope.md ← 1 entry append (ARPU 施策 N1 仕様変更)
-  - skip 1 件: /Users/.../some-unregistered-repo/plan.md (registry 未登録)
-last_updated: 2026-05-25
+ℹ️ vault MOC append は廃止済(no-op)。実際の書き込みは行われません:
+  - list/resolve は動作。候補: AIads_ope.md, AIcrm_ope.md
+  - append 呼び出しは RETIRED メッセージを返すのみ(MOC 不変)
+  - AI の最近の活動把握は decisions.md + git log + claude-mem を参照
 ```
 
 ## エラー処理

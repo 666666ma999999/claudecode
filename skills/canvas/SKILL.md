@@ -85,7 +85,7 @@ Create `_attachments/images/canvas/` if it doesn't exist.
 
 **Detect aspect ratio:**
 Use `sips -g pixelWidth -g pixelHeight [path]` (macOS built-in). Fallbacks if unavailable: `python3 -c "from PIL import Image; img=Image.open('[path]'); print(img.width, img.height)"` or `identify -format '%w %h' [path]`.
-See `references/canvas-spec.md` for the full aspect ratio → canvas size table (7 ratios including 4:3, 3:4, ultra-wide). Do not use an inline table here. The spec is the single source of truth for sizing.
+See `references/canvas-spec.md` for the full aspect ratio → canvas size table (6 ratios + PDF + Unknown fallback). Do not use an inline table here. The spec is the single source of truth for sizing.
 
 **Position using auto-layout** (see Auto-Positioning section below).
 

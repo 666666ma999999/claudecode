@@ -37,7 +37,7 @@ ls "$INFLUX_ROOT/scripts/fetch_bookmarks.py" && echo "OK"
 ### Step 2: VNCコンテナ確認・起動
 ```bash
 cd "$INFLUX_ROOT"
-docker ps --filter name=xstock-vnc --format "{{.Status}}" || \
+docker ps --filter name=xstock-vnc --format "{{.Status}}" | grep -q "^Up" || \
   docker compose -f docker-compose.vnc.yml up -d
 ```
 

@@ -125,7 +125,6 @@ gog --account work@example.com gmail search "is:unread"
 export GOG_ACCOUNT=work@example.com
 
 # default_account という config キーは存在しない (valid keys: timezone, keyring_backend)
-export GOG_ACCOUNT=work@example.com
 ```
 
 ### Account Aliases

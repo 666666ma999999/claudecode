@@ -2,14 +2,15 @@
 name: obsidian-cli
 description: >-
   Obsidian CLI で vault のノートを read/create/search/管理し、プラグイン/テーマ開発(reload, JS実行, screenshot, DOM検査)も行う。
-  トリガー: obsidian-skills を使って, obsidian CLI, vault 操作, Obsidian プラグイン開発, DOM を調べて
+  トリガー: obsidian-skills を使って, obsidian CLI, Obsidian プラグイン開発, DOM を調べて（ユーザーが obsidian-cli を明示指名した場合のみ・rules/40-obsidian.md「obsidian-cli ガード」準拠）。
+  NOT for: /save /canvas /autoresearch /wiki-ingest 等 workflow skill からの自動委譲（禁止）, 一般の vault 書き込み（正系は wiki-ingest / save / canvas）
 ---
 
 # Obsidian CLI
 
 ## 発火・詳細（description から移設 2026-07-03）
 
-Interact with Obsidian vaults via the Obsidian CLI to read, create, search, and manage notes, plus plugin/theme development (reload plugins, run JS, screenshots, inspect DOM). Use for vault CLI operations or Obsidian plugin debugging. Triggers (kepano bundle): 「obsidian-skills を使って」「obsidian CLI」「vault 操作」「Obsidian プラグイン開発」「DOM を調べて」.
+Interact with Obsidian vaults via the Obsidian CLI to read, create, search, and manage notes, plus plugin/theme development (reload plugins, run JS, screenshots, inspect DOM). Use for vault CLI operations or Obsidian plugin debugging. Triggers (kepano bundle): 「obsidian-skills を使って」「obsidian CLI」「Obsidian プラグイン開発」「DOM を調べて」（ユーザー明示指名時のみ・rules/40-obsidian.md「obsidian-cli ガード」準拠。workflow skill からの自動委譲は禁止）.
 
 Use the `obsidian` CLI to interact with a running Obsidian instance. Requires Obsidian to be open **and** the CLI installed: run `command -v obsidian` first — if not found, install the command line tool per https://help.obsidian.md/cli (Obsidian 1.12+) before proceeding (2026-07-04 時点で本マシンは未インストール).
 

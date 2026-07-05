@@ -128,5 +128,4 @@ Commercial: GO / REVISE / KILL
 
 ## ルールテーブル参照
 詳細な変換テーブル・NG表現は以下を参照:
-- `~/Desktop/prm/chk/tasks/retitle-handoff.md`（全ルール定義）
-- `~/Desktop/prm/rohan/docs/retitle-rules.md`（rohan実装後）
+- `~/Desktop/prm/rohan/backend/routers/retitle/rules.py`（全ルール定義: AGE_LEXICON / TONE_PRINCIPLES / BRACKET_KW_SHIFT / NG_EXPRESSIONS）

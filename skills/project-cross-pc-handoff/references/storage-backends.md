@@ -30,6 +30,7 @@
 
 - `storage_backend`: `s3`
 - `storage_locator`: `s3://<bucket>/<key>`
+- 前提: aws CLI（本マシン未導入 2026-07-05 実測。使用時は `brew install awscli`）
 - 取得: `aws s3 cp s3://<bucket>/<key> <dir>/`
 - フォルダ: `aws s3 sync s3://<bucket>/<prefix>/ <dir>/`
 - 認証: AWS profile / IAM ロール。認証情報は secrets（別経路）。
