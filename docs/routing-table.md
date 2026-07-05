@@ -115,6 +115,7 @@
 | 投稿結果メトリクス記録・Feedback Loop | `record-result`（make_article 専用） |
 | Feedback Loopパフォーマンス分析・素材パターン評価 | `analyze-performance`（make_article 専用） |
 | reply の多い X 投稿の週次半手動収集（記事ネタ） | `collect-reply-posts` |
+| 成果を X 記事化→投稿→24h計測まで一気通貫で出荷・x-stock 消化・「これ記事にして出して」 | `ship-article`（`/ship-article`・thin orchestrator） |
 
 ### スキル管理
 
@@ -122,6 +123,7 @@
 |---------|-----------|
 | スキル作成・更新・判断 | `skill-lifecycle-reference` |
 | スキル新規作成・ワークフロー保存 | `skill-creator` |
+| hook（PreToolUse/Stop 等）の新設・改修・誤検知/暴発の修理 | `hook-development-guide` |
 
 ## Web リサーチツール選択（2軸主義 — 概要）
 

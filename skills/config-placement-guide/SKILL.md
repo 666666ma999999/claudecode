@@ -1,6 +1,6 @@
 ---
 name: config-placement-guide
-description: グローバル/プロジェクト設定の配置判断と検証ガイド
+description: グローバル/プロジェクト設定の配置判断と検証ガイド。NOT for: hook スクリプト自体の設計・誤検知修理→hook-development-guide
 triggers:
   - 設定配置
   - グローバル vs プロジェクト
