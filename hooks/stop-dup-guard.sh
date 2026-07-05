@@ -90,7 +90,17 @@ def find_dups(fp):
     lines = text.splitlines()
 
     # (A) 同一 H2/H3 見出しの重複(生成/自動ゾーン内も含むが高精度)
-    headings = [ln.strip() for ln in lines if re.match(r"^#{2,3}\s+\S", ln)]
+    #     fenced code block 内の見出し例示(テンプレ雛形等)は誤検知源のため除外(2026-07-05 実測: skill-creator/SKILL.md で5回連続誤発火)
+    headings = []
+    _in_fence = False
+    for ln in lines:
+        if ln.strip().startswith("```"):
+            _in_fence = not _in_fence
+            continue
+        if _in_fence:
+            continue
+        if re.match(r"^#{2,3}\s+\S", ln):
+            headings.append(ln.strip())
     hc = Counter(headings)
     dup_head = [h for h, c in hc.items() if c >= 2 and len(h) >= 6]
 
