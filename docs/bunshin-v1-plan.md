@@ -175,7 +175,7 @@ approach 1-8: ①Phase 0 新設 ②T7 で窓修理してから T8 追加 ③wiki
 
 ## Open Questions(実装前に要回答)
 
-- **Q1(Phase 0 と同時)**: 平文貼付された鍵の rotate 状況(アーカイブ保全は平文の保持を恒久化するため)。対象=6/24-25 の LINE/Meta トークン+深掘りで新規検出した4クラスタ: (a)5/13 OAuth client_secret JSONパス+client_id入りURL 2件 (b)6/8 別 client_secret JSONパス1件 (c)6/21 92字高エントロピー文字列5連投(.claude) (d)6/22 prime_suite prompt#72 の LINEチャネルアクセストークン+シークレット生値。※biz系8project 全2,272件は実鍵ヒット0件(スキャン済)。**(e・2026-07-02 分類検証で新規検出・最優先)** vault `00_Inbox/key_api.md` に sk-ant- 系4件+AIza 系2件が平文保存・**git 追跡済みで GitHub リモートに 2026-03-25 から push 済み**(履歴にも残存)。rotate(全6鍵の再発行)→ファイル撤去(または passvault 移設)が必須。未 rotate なら手順提示+先行マスク完了まで T1 適用禁止
+- **Q1(Phase 0 と同時)**: 平文貼付された鍵の rotate 状況(アーカイブ保全は平文の保持を恒久化するため)。対象=6/24-25 の LINE/Meta トークン+深掘りで新規検出した4クラスタ: (a)5/13 OAuth client_secret JSONパス+client_id入りURL 2件 (b)6/8 別 client_secret JSONパス1件 (c)6/21 92字高エントロピー文字列5連投(.claude) (d)6/22 prime_suite prompt#72 の LINEチャネルアクセストークン+シークレット生値。※biz系8project 全2,272件は実鍵ヒット0件(スキャン済)。**(e・2026-07-02 分類検証で新規検出・最優先)** vault `00_Inbox/key_api.md` に sk-ant- 系4件+AIza 系2件が平文保存・**git 追跡済みで GitHub リモートに 2026-03-25 から push 済み**(履歴にも残存)。rotate(全6鍵の再発行)→ファイル撤去(または passvault 移設)が必須。未 rotate なら手順提示+先行マスク完了まで T1 適用禁止。**(f・2026-07-06 Wave1 マスク処理で新規検出)** vault `02_ai/Prm/vivecording/vivecoring_memo.md` に sk-系1+AIza系1 が平文（obsidian_work=GitHub push 済み）→ rotate 対象 計8鍵に拡大（Wave1 教材コピー側はマスク済み・vault 原本は未処置）
 - **Q2(Phase 4 前・v1 は非依存)**: INBOX 投函がほぼ止まっているのは「対話で直接頼む方が速い」からですか？→ 素材源泉を **user_prompts(4/26〜の原文・一次)+transcripts アーカイブ(6/27〜のフル文脈)の二本立て**に置く本設計で良いか確認
 - **Q3 クローズ(2026-07-02)**: 起案の型(4段+11サブタイプ)は原文で本人の型と実証済み。「取る的/捨てる的」等のレポート様式のみ Phase 4 で軽く確認
 - **Q6(Phase 4 前・新規)**: P0 昇格判定則(同種の単発依頼2回目→「プロジェクト化しますか？」を分身が提案)を持たせますか？ 実史では昇格は全て人間判断で自律発火実績ゼロ=テンプレは書けるが未実証
@@ -305,7 +305,7 @@ CREATE TABLE d.user_prompts AS SELECT * FROM user_prompts WHERE created_at > '20
 
 ### 実行場所と残手番
 
-- 採掘・ledger 構築 = **masa-2**（vault は obsidian_work git 同期済み・データ転送不要）。**着手前チェック3点**: ① `git -C ~/.claude pull` 済みで本節が読める ② vault 側 pull 済み+conflict なし ③ `02_ai` の大文字小文字差分を glob が吸収している
+- 採掘・ledger 構築 = **masa-2**（vault は obsidian_work git 同期済み・データ転送不要）。**【2026-07-06 ユーザー決定で変更: Wave1 は MASA.local で実施済み】** 台帳453md(H142/A252/MIX59・S6 PASS)+教材47ファイル21.6万字(マスク149ヒット・S7b PASS)を MASA `~/.claude/archives/bunshin-corpus/vault/` に格納・ユーザー検収待ち。masa-2 に残る作業 = 既存正例プール2,170との合流・masa-2 user_prompts(5,516)との pair 突合・Wave2/3。**着手前チェック3点**: ① `git -C ~/.claude pull` 済みで本節が読める ② vault 側 pull 済み+conflict なし ③ `02_ai` の大文字小文字差分を glob が吸収している
 - MASA 側の残手番 = デルタ export 1コマンド + AirDrop のみ
 - **衛生（要ユーザー判断・原則即削除推奨）**: MASA `~/Desktop/bunshin-export/` に 7/4 原本 442MB が残置（iCloud Desktop 同期無効は確認済み）。masa-2 検収済み（司令塔 T3.5）を根拠に `rm -rf ~/Desktop/bunshin-export`（実行は人間）。保持例外は「再検収が必要な場合のみ」・最長 2026-08 末・理由を司令塔に1行記録
 
