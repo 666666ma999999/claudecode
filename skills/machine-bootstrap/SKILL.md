@@ -1,6 +1,6 @@
 ---
 name: machine-bootstrap
-description: 新しい Mac（または2台目）を現環境と同じ Claude Code + Codex CLI + MCP 並列開発環境に揃える。brew/npm/MCP/LaunchAgent の「機械的に入れれば済む層」を bulk 実行し、OAuth・SSH・API keys など「手で握る層」を honesty セクションに明示する。実施記録を inventory-diff.log に残すことで、何が自動化でき何が手動で残ったかを数値で証明する（記事 Fact-check 素材も兼ねる）。
+description: 新しい Mac（または2台目）を現環境と同じ Claude Code + Codex CLI + MCP 並列開発環境に揃える。brew/npm/MCP/LaunchAgent の「機械的に入れれば済む層」を bulk 実行し、OAuth・SSH・API keys など「手で握る層」を honesty セクションに明示する。実施記録を inventory/diff-YYYY-MM-DD.log に残すことで、何が自動化でき何が手動で残ったかを数値で証明する（記事 Fact-check 素材も兼ねる）。
 user_invocable: true
 allowed-tools:
   - Read
@@ -49,7 +49,7 @@ P1 = 骨組み + 自動化層のみ。以下の **4 STEP** が実装済み:
 - OAuth ログイン（Claude Code / Codex / gh / gcloud / grok-search）
 - SSH 秘密鍵（新規生成 → GitHub 登録を手動実施）
 - GPG 秘密鍵（現状ゼロ件・署名運用なし）
-- `~/.zshrc` の export 実値（`envrc.shared` に分離済）
+- `~/.zshrc` の export 実値（`~/.zshrc.local` に分離済）
 - X / Gmail / Drive の各 Cookie（influx 側 `x_profiles/` は手動コピー）
 
 ---
@@ -67,7 +67,7 @@ diff <(npm ls -g --depth=0 --parseable --json | jq -r '.dependencies | keys[]' |
      <(sort ~/.claude/skills/machine-bootstrap/inventory/npm-globals.txt)
 
 # 2. MCP
-claude  # 起動して /mcp で 6 サーバー authenticated を確認
+claude  # 起動して /mcp で mcp-template.json の 5 サーバー（codex / grok-search / playwright / postgresql / repomix）が authenticated を確認
 
 # 3. git maintenance（art_013 で設定した hourly/daily/weekly が動いているか）
 launchctl list | grep git-scm

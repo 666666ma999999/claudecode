@@ -17,6 +17,12 @@ AI / Claude Code 界隈で reply（返信・会話）を多くもらっている
 
 AI / Claude Code 界隈で **reply（返信・会話）をもらっている X 投稿**を、記事ネタ素材バンク（vault `x-article-stock.md`）に週1で溜める。
 
+## スコープ限定（2026-07-01 確定判断）
+
+本 skill の「手動優先」は **min_replies 付き reply 収集に限定**。一般トピックの X 検索収集には使わない（→ 第一選択は influx Cookie 自動収集）。
+
+**教訓（本 skill 自身が失敗例）**: 最終目的を確認せず 4 段ランブック+自己改善ループまで作り込み、Codex の「9 段は過剰」警告を無視した goal-unconfirmed over-build（mistakes.md 2026-06-19）。作成後の運用実績 0 件。**「効く」と分かるまで Stage を拡張しない。**
+
 ## このスキルの設計思想（なぜこの形か）
 
 agent team 設計 → Codex 敵対的レビュー（2026-06-19）の結論：
@@ -37,7 +43,7 @@ agent team 設計 → Codex 敵対的レビュー（2026-06-19）の結論：
 
 ## 前提
 
-- Obsidian Vault が `~/Documents/Obsidian Vault/` に存在し、`x-article-stock.md` がある
+- Obsidian Vault が `~/Documents/Obsidian Vault/` に存在し、`wiki/x-article-stock.md` がある
 - X に**ログイン済みのブラウザ**（advanced search の `min_replies:` はログイン時のみ安定）
 
 ## 実行フロー（4段）
@@ -146,4 +152,4 @@ python3 ~/.claude/skills/collect-reply-posts/analyze-feedback.py
 - `min_replies:` は X の非公式挙動。UI仕様変更で突然効かなくなりうる → その時は `gen-queries.sh` のクエリを都度検証。
 - 完全手動なので件数は人の集中力依存。回して「効く」と分かったら Stage 1-2 を influx DOM(`fetch-engagement`) or X API v2 で半自動化する（別タスク）。
 - reply 数は目視概数。正確値が要るなら influx の `fetch-engagement`（Cookie/DOM）で後から実測。
-- **Fable 5 は 2026-06-19 時点で `currently unavailable`**。評価役は当面 Stage 3 のフォールバック（現行セッションモデル）が務める。Fable 5 が使えるようになったら Stage 3 の評価を `model: fable` に切り替えるだけ（rubric・出力形式は不変）。
+- **Fable 5 は 2026-07-04 時点で利用可能**（claude-fable-5 稼働確認済）。Stage 3 の第一候補として使う。再び `currently unavailable` になった場合のみ Stage 3 のフォールバック（現行セッションモデル）に切り替える（rubric・出力形式は不変）。

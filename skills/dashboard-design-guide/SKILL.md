@@ -223,6 +223,8 @@ Python辞書・matplotlib用スニペットもそちらに記載。
 
 ## レイアウトテンプレート
 
+追加パターンと入力ヒアリング用ワークシートは `references/layout-patterns.md` / `references/intake-worksheet.md` に収録。
+
 ### テンプレートA: KPI + トレンド + 内訳
 
 構成:
@@ -248,6 +250,7 @@ Python辞書・matplotlib用スニペットもそちらに記載。
 
 ## matplotlib実装ルール
 
+- 実行環境: ホスト python3 に matplotlib は入っていない（ホストへのパッケージ導入は CLAUDE.md Docker-Only ルールで禁止）。対象プロジェクトの Docker/仮想環境経由で実行する。どちらも無い場合は実行方法をユーザーに確認する
 - フォント: macOSは `Hiragino Sans`、Linuxは `Noto Sans CJK JP`
 - `axes.unicode_minus = False`
 - 保存: `PNG`, `dpi=150`

@@ -124,8 +124,8 @@ gog --account work@example.com gmail search "is:unread"
 # Set default account via environment
 export GOG_ACCOUNT=work@example.com
 
-# Set default account in config
-gog config set default_account work@example.com
+# default_account という config キーは存在しない (valid keys: timezone, keyring_backend)
+export GOG_ACCOUNT=work@example.com
 ```
 
 ### Account Aliases

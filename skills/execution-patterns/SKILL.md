@@ -100,7 +100,7 @@ SubAgentにデータ抽出・分析を委託する前に、以下の基準で予
 ```
 Phase 1: データ抽出SubAgent
   - SQLクエリ → Python → CSV/TSVファイルに出力
-  - 出力先: project/boradmtg/tmp/{テーマ}_{YYYYMMDD}.csv
+  - 出力先: <project-root>/tmp/{テーマ}_{YYYYMMDD}.csv（プロジェクトの gitignore 済み tmp/ 配下）
   - SubAgentのコンテキストにクエリ結果を保持しない
 
 Phase 2: 分析・レポートSubAgent
@@ -113,7 +113,7 @@ Phase 2: 分析・レポートSubAgent
 
 | 項目 | 基準 |
 |------|------|
-| 配置先 | `project/boradmtg/tmp/` |
+| 配置先 | `<project-root>/tmp/`（gitignore 済み） |
 | 命名 | `{テーマ}_{YYYYMMDD}.csv` |
 | ライフサイクル | レポート完成後に手動削除（.gitignoreで追跡対象外） |
 | フォーマット | CSV（ヘッダー付き、UTF-8） |
@@ -144,15 +144,11 @@ Phase 2: 分析・レポートSubAgent
    - Deep Diveは1テーマ1SubAgent
 
 4. 中間ファイル配置
-   - 出力先: project/boradmtg/tmp/
+   - 出力先: <project-root>/tmp/
    - 命名: {テーマ}_{YYYYMMDD}.csv
 ```
 
-### 禁止事項
-
-- **100行超のSQLクエリ結果をSubAgentのコンテキストに保持**すること
-- **3フェーズ（抽出→分析→レポート）を1SubAgentに詰め込む**こと
-- **中間ファイルなしで大量データを次フェーズに渡す**こと
+禁止事項は §2 の「禁止事項」参照（同一内容のため一元化）。
 
 ## 4. デバッグ鉄則
 

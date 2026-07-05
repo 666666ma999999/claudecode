@@ -57,7 +57,6 @@
 - Material Bank パスは `~/Desktop/biz/make_article/config/categories.yaml` の `material_bank` フィールドを参照する:
   - `tech_tips` → `training_data/materials/tech_materials.jsonl`
   - `investment` → `training_data/materials/investment_materials.jsonl`
-  - `ceo_perspective` → `training_data/materials/ceo_materials.jsonl`
 - 絶対パス: `~/Desktop/biz/make_article/{material_bank}`
 - 既存JSONLから最大IDを確認し、`mat_XXX` の連番で採番
 - ファイルが空の場合は `mat_001` から開始
@@ -201,4 +200,4 @@
 - **Material Bank の書き込みパスは絶対パスを使用する**: `~/Desktop/biz/make_article/training_data/materials/`
 - このスキルはどのプロジェクトディレクトリからでも実行可能
 - git情報は現在のcwdのリポジトリから取得する
-- Codex MCP分析（C2 Agent）はPhase B実装。現在はスキップ
+- Codex MCP分析（C2 Agent）は SKILL.md STEP 2.5 に従い任意実行（ユーザーに y/N 確認・デフォルト No）

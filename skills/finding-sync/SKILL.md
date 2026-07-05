@@ -32,7 +32,7 @@ allowed-tools:
 
 以下のいずれかが満たされたとき:
 
-- ユーザーが `/finding <slug> <分類>` を入力した
+- ユーザーが「finding 追記」「確定知見の台帳更新」等のトリガー語で依頼した (`/finding` コマンドは commands/ に未実装)
 - ユーザーが「新しい確定知見を台帳に登録したい」と述べた
 - 分析スクリプトの実行結果が出て、その結果を恒久記録したい
 
@@ -163,7 +163,7 @@ fi
 ```bash
 # pre-commit hook を dry-run
 bash .git/hooks/pre-commit  # ステージング前なので空 exit
-# G1-G6 が pass することを確認
+# G1・G4-G6 が pass することを確認 (G2 数値ドリフト / G3 MOC 正本逆転は pre-commit 未実装・findings-workflow.md §ガード表に従い手動照合)
 ```
 
 VIOLATIONS=0 を確認してから完了報告。
@@ -187,7 +187,7 @@ VIOLATIONS=0 を確認してから完了報告。
 
 - `data-provenance-first`: 出典管理 (pkl + script + spec の 3 点セット)
 - `task-progress`: task.md 進捗管理
-- `obsidian-now-done`: vault NOW→DONE 移動 (本スキルからは呼ばない・MOC last_updated 更新のみ担当)
+- `/done` コマンド: vault NOW→DONE 移動 (旧 obsidian-now-done skill は skills/_dormant/ に退避済。本スキルからは呼ばない・MOC last_updated 更新のみ担当)
 - `find-skills`: 他のスキル検索
 
 ## 関連ドキュメント

@@ -139,7 +139,7 @@ def render_donut(spec, values, labels, output_path):
     fig, ax = plt.subplots(figsize=spec.figsize)
     fig.patch.set_facecolor('#1a1a2e')
 
-    colors = plt.cm.get_cmap('Set2')(np.linspace(0, 1, len(values)))
+    colors = plt.cm.Set2(np.linspace(0, 1, len(values)))
     wedges, texts, autotexts = ax.pie(
         values, labels=labels, autopct='%1.1f%%',
         colors=colors, pctdistance=0.75,
@@ -287,6 +287,7 @@ echo '{"values": [1,2,3], "labels": ["A","B","C"]}' | python scripts/data_viz_op
 # ファイル入力
 python scripts/data_viz_optimizer.py input.json
 
-# コンテキスト付き
-python scripts/data_viz_optimizer.py input.json --context '{"metric_name": "売上", "unit": "万円"}'
+# コンテキスト付き（CLI フラグは無い。JSON の data_context キーで渡す）
+# input.json 例: {"data": {"values": [...], "labels": [...]}, "data_context": {"metric_name": "売上", "unit": "万円"}}
+python scripts/data_viz_optimizer.py input.json
 ```

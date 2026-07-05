@@ -77,6 +77,7 @@ docker exec xstock-vnc python scripts/fetch_bookmarks.py \
 
 ### Step 5: 結果確認
 ```bash
+# 注意: Step 4 をラッパー経由で実行した場合の出力先は ~/Desktop/biz/make_article/data/bookmarks.jsonl（influx側 output/ は更新されない）
 wc -l "$INFLUX_ROOT/output/bookmarks.jsonl"
 head -3 "$INFLUX_ROOT/output/bookmarks.jsonl" | python3 -c "
 import sys,json
@@ -88,15 +89,16 @@ for l in sys.stdin:
 
 ### Step 6: 教師データ変換（オプション）
 ```bash
-# 生データをコピー
-cp "$INFLUX_ROOT/output/bookmarks.jsonl" "$INFLUX_ROOT/data/writing_style/bookmarks/raw/x_bookmarks.jsonl"
+# 生データをコピー（tier3_posting は autopost へ移設済み・autopost 側が現行）
+AUTOPOST_ROOT="$HOME/Desktop/biz/autopost"
+cp "$INFLUX_ROOT/output/bookmarks.jsonl" "$AUTOPOST_ROOT/data/writing_style/bookmarks/raw/x_bookmarks.jsonl"
 
 # 正規化・ラベリング
-cd "$INFLUX_ROOT"
-python3 extensions/tier3_posting/cli/build_style_dataset.py
+cd "$AUTOPOST_ROOT"
+python3 -m tier3_posting.cli.build_style_dataset
 
 # LLM補助ラベリング付き
-python3 extensions/tier3_posting/cli/build_style_dataset.py --use-llm
+python3 -m tier3_posting.cli.build_style_dataset --use-llm
 ```
 
 ## Failure handling
@@ -107,7 +109,7 @@ python3 extensions/tier3_posting/cli/build_style_dataset.py --use-llm
 
 ## Output
 - 生データ: `output/bookmarks.jsonl` (JSONL形式)
-- 教師データ: `data/writing_style/bookmarks/normalized.jsonl` (ラベル付きJSONL)
+- 教師データ: `~/Desktop/biz/autopost/data/writing_style/bookmarks/normalized.jsonl` (ラベル付きJSONL・influx側の同パスは2026-04で停止した旧世代)
 
 ## 関連ファイル
 - ラッパー: `~/Desktop/biz/make_article/scripts/fetch_and_ingest.sh`

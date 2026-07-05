@@ -315,7 +315,7 @@ The default timezone can be configured:
 
 ```bash
 # Set default timezone
-gog config set default_timezone America/New_York
+gog config set timezone America/New_York
 
 # Or via environment
 export GOG_TIMEZONE=Europe/London

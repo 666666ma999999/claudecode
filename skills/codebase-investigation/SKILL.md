@@ -3,7 +3,7 @@ name: codebase-investigation
 description: |
   大規模コードベースの構造把握・リファクタリング初期調査でrepomixを活用し、トークン効率を最大化する。
   キーワード: 構造把握, 全体像, アーキテクチャ, 依存関係, リファクタリング, 大規模調査, コードベース分析
-allowed-tools: [Read, Glob, Grep]
+allowed-tools: [Read, Glob, Grep, mcp__repomix__pack_codebase, mcp__repomix__pack_remote_repository, mcp__repomix__grep_repomix_output, mcp__repomix__read_repomix_output, mcp__repomix__attach_packed_output]
 compatibility: "requires: repomix MCP server"
 license: proprietary
 metadata:
@@ -69,7 +69,7 @@ pack_remote_repository(url="https://github.com/owner/repo")
 ```
 - OSSライブラリの構造理解
 - 競合プロジェクトの設計比較
-- **典型的な入力元**: `/gh-star-harvest` が出力する JSONL の `html_url`（副軸収集→有望リポの実装確認という接続ワークフロー）
+- **典型的な入力元**: `gh-star-harvest` スキルが出力する JSONL の `html_url`（副軸収集→有望リポの実装確認という接続ワークフロー）
 
 ## repomix を使わない場面
 
@@ -87,3 +87,7 @@ pack_remote_repository(url="https://github.com/owner/repo")
 |------|------------------|------------|--------|
 | 150KB | ~4,000 tokens | ~1,100 tokens | 72% |
 | 500KB | ~14,000 tokens | ~2,700 tokens | 81% |
+
+## 否定断定のゲート
+
+「無い / 存在しない / やっていない」は ①全 repo 全文 grep（拡張子・ディレクトリを絞らない）+ ②`git log origin/main`（未 pull 分含む）確認後のみ。母集合の全件数を先に確認してから絞る。**同じ問いが 2 回来たら探索不足を仮定して範囲を拡大**（同じ方法の再実行は禁止）。JSON を調べるときは全キー dump してから答える。

@@ -1,7 +1,7 @@
 # ストレージバックエンド別の引き継ぎ手順
 
 `data-sources.md` の `storage_backend` / `storage_locator` の具体実装。
-スキルの骨格（4 分類モデル・2 文書・gitignore 監査・push 前監査）は **provider 非依存**。
+スキルの骨格（5 分類モデル・2 文書・gitignore 監査・push 前監査）は **provider 非依存**。
 本ファイルが provider 差分を担う。新しい backend を使う場合はここに節を足す。
 
 ## 共通原則

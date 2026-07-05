@@ -96,7 +96,7 @@ src/
 - [ ] `src/extensions/{ext}/` 内からの import が `@/core`, `@/shared/*`, 自ext内のみ
 - [ ] 他の ext ディレクトリからの import がない
 - [ ] `src/core/` を変更していない
-- [ ] ESLint zones で違反なし（`npx ts-node scripts/validate-extension-isolation.ts`）
+- [ ] ESLint zones で違反なし（`npx ts-node scripts/validate-extension-isolation.ts` — ホスト直実行は block-host-installs hook で拒否されるため、プロジェクトの Docker コンテナ内で実行）
 
 ### Enable/Disable チェック
 

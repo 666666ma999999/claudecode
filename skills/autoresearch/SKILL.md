@@ -42,6 +42,8 @@ When the user says `/autoresearch [topic]` or "research X", use the given topic 
 ### B. Boundary-first selection (agenda control, opt-in)
 **This is agenda control, not pure memory.** DragonScale Memory.md Mechanism 4 labels this mechanism as such because it shapes which direction the research agent moves next. Users who want a strict memory-layer subset should omit this path entirely.
 
+> [!note] 2026-07-04 監査時点: `scripts/boundary-score.py` / `.vault-meta` / `DragonScale Memory.md` は本環境のどこにも存在しない。下の feature detection は常に `BOUNDARY_MODE=0` となり Section C に fallback する(意図された挙動・設置するまで Section B は休眠)。
+
 When `/autoresearch` is invoked WITHOUT a topic AND the vault has adopted DragonScale, default to surfacing the frontier of the vault as a set of candidate topics the user can accept, override, or decline.
 
 Feature detection (shell):
@@ -75,6 +77,10 @@ When `BOUNDARY_MODE=0` or the user declined every frontier pick, ask: "What topi
 ## Research Loop + Filing + Synthesis 構造
 
 ループ手順 (5 iteration 上限)、ファイル配置基準、synthesis ページのフロントマター/セクション構造の詳細は `references/loop-and-synthesis.md` を参照。
+
+## 出典検証（必須・skill 等の再利用資産に入れる場合）
+
+リサーチ agent の「verified」自己申告を信用しない。全出典を**全件独立再 fetch** して主張と突合する。スポットチェックは代替にならない（「実在 URL に別内容を当てる」型のハルシネーションはスポットを通過する。2026-05-30 に 48 出典中 26 件問題の実測）。
 
 ## After Filing
 

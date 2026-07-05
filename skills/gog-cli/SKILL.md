@@ -73,9 +73,9 @@ gog gmail search "is:unread" --max 10 --page <token>     # Pagination
 ### Settings
 
 ```bash
-gog config set default_timezone America/New_York
-gog config set default_account user@gmail.com
+gog config set timezone America/New_York   # valid keys: timezone, keyring_backend
 gog config list
+# デフォルトアカウントの config キーは存在しない → GOG_ACCOUNT 環境変数 or --account で指定
 ```
 
 ### Environment Variables

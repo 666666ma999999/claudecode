@@ -38,7 +38,8 @@ allowed-tools: [Bash, Read, Write, Edit, Glob, Grep]
 - [ ] lint/formatコマンドを確認・CLAUDE.mdに記載
 
 ### 5. タスク管理
-- [ ] `.claude/workspace/` ディレクトリ作成（必要時）
+- [ ] `tasks/` ディレクトリ作成、標準タスク開始時に `~/.claude/templates/task.md`（Decision Log 必要時）または `~/.claude/templates/task-light.md`（1セッション完結）を `tasks/<slug>.md` としてコピー（rules/05-plan-task-md.md 準拠）
+- [ ] `.claude/workspace/` ディレクトリ作成（SubAgent 中間成果物を置く場合のみ）
 
 ### 6. 作業メソドロジー（5手順デフォルト）
 - [ ] `~/.claude/templates/methodology-5step.md` をプロジェクトに配置（例: `docs/methodology-5step.md` または `plan.md` 冒頭に転記）

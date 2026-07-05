@@ -6,6 +6,10 @@ allowed-tools: Bash, Read
 
 # grok-collect-twittora
 
+## ⚠️ 前提事実（2026-07-01 確定判断）
+
+grok-search MCP の x_search は xAI 課金枠枯渇で**恒久 403**（実機確認 2026-06-29）。一般トピックの X 検索収集の**第一選択は influx Cookie 自動収集**（SafeXCollector.collect(search_url)・xstock-vnc・profile maaaki・Cookie 14日失効→refresh-x-cookies）。Grok 経路は課金復活時の次点。**403 時のフォールバック**: ログイン済みブラウザ自動操作（claude-in-chrome）で X 検索ライブを複数クエリ横断（net-new 18件取得の実績）。死んだ経路を提案の起点にしない。
+
 ## 発火・詳細（description から移設 2026-07-03）
 
 @twittora_ 向け (Claude Code / AI 活用) の X バズ投稿を Grok x_search で収集し、Obsidian Vault の .raw/ に material-bank 互換 (jsonl + md) で保存するスキル。influx Docker 経由で xai_sdk を実行し、出力ファイルを Vault に転送する。/grok-collect-twittora で起動。トリガー: 「grok 検索」「バズった投稿」「バズ投稿を取得」「X バズ収集」「Twitter バズ」「インプレッション高い投稿」「Twittora 素材」を含む依頼。一般的な Web 検索や mcp__grok-search ツールでの即時回答ではなく、必ず本スキル経由で influx Docker → Vault/.raw/ に保存すること。
@@ -97,12 +101,11 @@ cp "$SRC/grok-twittora-$TODAY.md" "$VAULT/01_Biz/x-operation/buzz-archive/buzz-$
 
 ## 関連
 
-- 収集対象アカウント: `~/Documents/Obsidian Vault/01_Biz/x-operation/twittora_.md`
-- 戦略 SSoT: `~/Documents/Obsidian Vault/01_Biz/x-operation/account-strategy-2026-04-24.md`
+- 収集結果アーカイブ: `~/Documents/Obsidian Vault/01_Biz/x-operation/buzz-archive/`
 - 既存の investment 路線収集 (kabuki666999): `~/Desktop/biz/influx/output/research/`
 
 ## 既知の制限
 
 - Grok API は実投稿の正確な likes/impressions を保証しない (LLM 経由の推定値)
 - 同一投稿の重複は id ベースで除去するが、別 query で同じ投稿が引っかかると captured_at は最初のもの
-- 1 回実行で約 8 query × 8 件 = 最大 64 件 (重複除去で 30〜50 件程度になることが多い)
+- 1 回実行で既定 10 query × 8 件 = 最大 80 件 (重複除去で 30〜50 件程度になることが多い)

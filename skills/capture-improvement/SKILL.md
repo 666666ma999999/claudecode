@@ -107,7 +107,6 @@ allowed-tools:
 3. X投稿カテゴリも判定:
    - Claude/AI/MCP/hooks/code関連 → `tech_tips`
    - 株/投資/市場関連 → `investment`
-   - 経営/組織/取締役関連 → `ceo_perspective`
    - 判定不能 → `AskUserQuestion` で確認
 
 ### STEP 2: 定量メトリクス取得（C1 Agent: Git Archaeology）

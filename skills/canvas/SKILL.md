@@ -84,7 +84,7 @@ If it does not exist, create it:
 Create `_attachments/images/canvas/` if it doesn't exist.
 
 **Detect aspect ratio:**
-Use `python3 -c "from PIL import Image; img=Image.open('[path]'); print(img.width, img.height)"` or `identify -format '%w %h' [path]`.
+Use `sips -g pixelWidth -g pixelHeight [path]` (macOS built-in). Fallbacks if unavailable: `python3 -c "from PIL import Image; img=Image.open('[path]'); print(img.width, img.height)"` or `identify -format '%w %h' [path]`.
 See `references/canvas-spec.md` for the full aspect ratio → canvas size table (7 ratios including 4:3, 3:4, ultra-wide). Do not use an inline table here. The spec is the single source of truth for sizing.
 
 **Position using auto-layout** (see Auto-Positioning section below).
@@ -205,7 +205,7 @@ wiki/canvases/design-ideas.canvas. 42 nodes (30 images, 4 text, 8 groups)
 1. Read canvas-spec.md before editing any canvas JSON.
 2. Always read the canvas file before writing. Parse existing nodes to avoid ID collisions and calculate auto-positions.
 3. Create `_attachments/images/canvas/` for downloaded/copied images.
-4. Update `wiki/index.md` when creating new canvases.
+4. Update `wiki/overview.md` ("## Canvases" subsection) when creating new canvases. Do not modify `wiki/index.md`.
 5. Report position and zone after every add operation.
 
 ## See Also

@@ -160,6 +160,10 @@ status値:
 | 全URLが status=other | DOM selector変化 or BOT検知 | `_scrape_impressions` / `_scrape_metric` のselector を最新仕様に更新 |
 | 特定URLが status=deleted | 投稿削除済み | 正常動作。skipped.log に記録 |
 
+### 連続 fail ガード（2026-06-20〜07-04 の教訓）
+
+cron 実行は fail を results.jsonl に記録するだけでは機能しない（約30連続 failed を2週間誰も見なかった）。①実行前に `docker info` で daemon 生存確認 ②セッション冒頭または週次で results.jsonl の直近連続 fail 数を確認 ③連続 3 fail で成果物鮮度アラート（ユーザー通知）を出し、エラー文中の refresh コマンドを**その場で実行**する（放置しない）。
+
 ## 実測パフォーマンス
 - Cold start含む1URL: 約11.5秒
 - 連続処理（ブラウザ再利用）: 1URL 2-3秒
@@ -169,6 +173,6 @@ status値:
 - ラッパー: `~/Desktop/biz/make_article/scripts/fetch_engagement_via_influx.sh`
 - 素材更新: `~/Desktop/biz/make_article/scripts/update_material_table.py`
 - 本体: `~/Desktop/biz/influx/scripts/fetch_engagement.py`
-- コアクラス: `~/Desktop/biz/influx/extensions/tier3_posting/impression_tracker/scraper.py`
+- コアクラス: `~/Desktop/biz/autopost/tier3_posting/impression_tracker/scraper.py`（2026-05-01 phase4 で influx/extensions/ から autopost リポへ物理分離）
 - **Cookie管理**: `~/Desktop/biz/influx/.claude/skills/refresh-x-cookies/SKILL.md`（Canonical）
 - **抽出スクリプト**: `~/Desktop/biz/influx/scripts/import_chrome_cookies.py`

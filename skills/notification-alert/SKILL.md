@@ -2,7 +2,7 @@
 name: notification-alert
 description: Claude Codeの入力待ち・許可要求時に通知（音声+ダイアログ+最前面化）を行う設定の管理とテスト。「通知テスト」「通知設定」「アラート確認」などのリクエストで発動。
 allowed-tools: [Bash, Read, Write, Edit, Glob, Grep]
-compatibility: "requires: macOS (osascript, terminal-notifier)"
+compatibility: "requires: macOS (osascript, say)"
 license: proprietary
 metadata:
   author: masaaki-nagasawa
@@ -18,11 +18,11 @@ metadata:
 Claude Codeが指示待ち状態になったとき、以下の方法で通知します：
 - **Terminal最前面化**: 他のアプリを使用中でも気づける
 - **音声読み上げ**: ミュート解除時に聞こえる
-- **ダイアログ表示**: OKを押すまで消えない
+- **通知表示**: 現行の live hook（`~/.claude/hooks/idle-notify.sh` / `permission-notify.sh`）は display notification 方式。OKを押すまで消えないダイアログ方式は check-and-enable.sh が新規書き込みする設定と通知テストコマンドでのみ使用
 
 ## 自動有効化機能
 
-**Claude Code起動時に自動で設定を確認し、通知設定がなければ自動追加します。**
+**SessionStart hook に check-and-enable.sh を登録した場合のみ、起動時に設定を確認し通知設定がなければ自動追加します（現在この hook は未登録・オプトイン機能）。**
 
 仕組み：
 1. `SessionStart` hookでスクリプトが実行される

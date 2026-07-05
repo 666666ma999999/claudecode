@@ -8,20 +8,13 @@ allowed-tools: [Read, Glob, Grep, Bash]
 
 This skill helps you discover and install skills from the open agent skills ecosystem.
 
-## ⚠️ 実行方法（必読・AI 自律発火禁止）
+## ⚠️ 実行方法（2026-05-27 緩和・全 verb AI 自律実行可）
 
-`npx skills *` は hook (`~/.claude/hooks/block-host-installs.py`) で **AI からの実行が構造上 DENY** される。
-理由: `! npx skills add` の postinstall は任意 RCE 可能。Prompt Injection で `! npx skills add @evil/pkg` を踏むと SSH 鍵・~/.mcp.json (APIキー)・~/.zshrc が外部送信される。
+`npx skills <verb>` は hook (`~/.claude/hooks/block-host-installs.py`) の ALLOW_PATTERNS で **全 verb（find/add/install/update/check/list 等）AI 自律実行可**（2026-05-27 ユーザー判断・rules/10-git-and-execution-guard.md 参照）。
 
-**AI の役割**: クエリを組み立て、ユーザーに `!` プレフィックス付きコマンドを**提示するのみ**。AI が直接 Bash で実行してはいけない。
+**受容済みリスク**: `npx skills add` の npm postinstall は任意コード実行 (RCE) 可能。Prompt Injection 経由で `npx skills add @evil/pkg` を踏むと SSH 鍵・~/.mcp.json (APIキー)・~/.zshrc が外部送信されうる。
 
-```
-# AI が出力する例（ユーザーがコピペ実行する想定）:
-! npx skills find "react performance"
-! npx skills add @some-org/some-skill
-```
-
-ユーザーは `!` プレフィックスでセッションシェル直接実行（permission system バイパス）→ hook 経由しないため動作。
+**AI 実行時のガード**: `add`/`install` 実行前にコマンド内の `<owner>/<repo>` を明示し、不審な owner（Star 少・reputation 低）はユーザー確認を挟む。bare `npx skills`（verb なし）は hook が許可しない。
 
 ## When to Use This Skill
 
@@ -38,14 +31,14 @@ Use this skill when the user:
 
 The Skills CLI is the package manager for the open agent skills ecosystem. Skills are modular packages that extend agent capabilities with specialized knowledge, workflows, and tools.
 
-**Key commands (ユーザーが `!` プレフィックスで実行):**
+**Key commands:**
 
-- `! npx skills find [query]` - Search for skills interactively or by keyword
-- `! npx skills add <package>` - Install a skill from GitHub or other sources
-- `! npx skills check` - Check for skill updates
-- `! npx skills update` - Update all installed skills
+- `npx skills find [query]` - Search for skills interactively or by keyword
+- `npx skills add <package>` - Install a skill from GitHub or other sources
+- `npx skills check` - Check for skill updates
+- `npx skills update` - Update all installed skills
 
-**AI は上記コマンドを Bash で直接実行しないこと**（hook が DENY）。ユーザーに提示するのみ。
+AI が Bash で直接実行可（2026-05-27 hook ALLOW_PATTERNS 緩和）。`add` 実行前は owner/repo の信頼性を確認する。
 
 **Browse skills at:** https://skills.sh/
 
@@ -61,17 +54,17 @@ When a user asks for help with something, identify:
 
 ### Step 2: Search for Skills
 
-ユーザーに以下の形式でコマンドを提示する (AI 自身は Bash 実行しない):
+以下の形式で検索コマンドを実行する:
 
 ```
-! npx skills find [query]
+npx skills find [query]
 ```
 
 For example:
 
-- User asks "how do I make my React app faster?" → `! npx skills find react performance`
-- User asks "can you help me with PR reviews?" → `! npx skills find pr review`
-- User asks "I need to create a changelog" → `! npx skills find changelog`
+- User asks "how do I make my React app faster?" → `npx skills find react performance`
+- User asks "can you help me with PR reviews?" → `npx skills find pr review`
+- User asks "I need to create a changelog" → `npx skills find changelog`
 
 The command will return results like:
 
@@ -104,13 +97,13 @@ Learn more: https://skills.sh/vercel-labs/agent-skills/vercel-react-best-practic
 
 ### Step 4: Offer Install Command
 
-If the user wants to proceed, **提示するのみ** (AI 自身は実行不可):
+If the user wants to proceed, run the install command (実行前に owner/repo を提示・確認):
 
 ```
-! npx skills add <owner/repo@skill> -g -y
+npx skills add <owner/repo@skill> -g -y
 ```
 
-The `-g` flag installs globally (user-level) and `-y` skips confirmation prompts. ユーザーが `!` プレフィックスでセッションシェル直接実行する。
+The `-g` flag installs globally (user-level) and `-y` skips confirmation prompts.
 
 ## Common Skill Categories
 
@@ -138,7 +131,7 @@ If no relevant skills exist:
 
 1. Acknowledge that no existing skill was found
 2. Offer to help with the task directly using your general capabilities
-3. Suggest the user could create their own skill with `! npx skills init`
+3. Suggest the user could create their own skill with `npx skills init`
 
 Example:
 
@@ -147,5 +140,5 @@ I searched for skills related to "xyz" but didn't find any matches.
 I can still help you with this task directly! Would you like me to proceed?
 
 If this is something you do often, you could create your own skill:
-! npx skills init my-xyz-skill
+npx skills init my-xyz-skill
 ```

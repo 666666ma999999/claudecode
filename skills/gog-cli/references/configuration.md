@@ -22,7 +22,7 @@ gog config path
 gog config list
 
 # Get specific value
-gog config get default_timezone
+gog config get timezone
 
 # List all available keys
 gog config keys
@@ -32,10 +32,10 @@ gog config keys
 
 ```bash
 # Set value
-gog config set default_timezone America/New_York
+gog config set timezone America/New_York
 
 # Remove value
-gog config unset default_timezone
+gog config unset timezone
 ```
 
 ---
@@ -52,22 +52,23 @@ gog config set keyring_backend file      # Encrypted file
 gog config set keyring_backend auto      # Auto-detect (default)
 ```
 
-### `default_timezone`
+### `timezone`
 
 Default timezone for time display (IANA format).
 
 ```bash
-gog config set default_timezone America/New_York
-gog config set default_timezone Europe/London
-gog config set default_timezone UTC
+gog config set timezone America/New_York
+gog config set timezone Europe/London
+gog config set timezone UTC
 ```
 
-### `default_account`
+### Default account
 
-Default account when `--account` not specified.
+`default_account` という config キーは存在しない (valid keys: `timezone`, `keyring_backend`)。アカウント指定は環境変数または `--account` を使う。
 
 ```bash
-gog config set default_account user@gmail.com
+export GOG_ACCOUNT=user@gmail.com
+gog gmail search "is:unread" --account user@gmail.com
 ```
 
 ### `account_aliases`

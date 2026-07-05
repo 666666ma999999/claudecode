@@ -181,8 +181,9 @@ Omit `color` entirely for the default (no border color, transparent label).
 Calculate from actual image dimensions using PIL or `identify`:
 
 ```bash
+sips -g pixelWidth -g pixelHeight path.png   # macOS built-in
+# fallbacks:
 python3 -c "from PIL import Image; img=Image.open('path.png'); print(img.width, img.height)"
-# or
 identify -format '%w %h' path.png
 ```
 

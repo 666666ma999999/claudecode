@@ -131,10 +131,10 @@ main "$@"
 
 1. スクリプトを `~/.claude/scripts/<name>.sh` に作成
 2. `chmod +x ~/.claude/scripts/<name>.sh`
-3. **1 台目で実行確認**: `./~/.claude/scripts/<name>.sh status` → `./<name>.sh apply` → 期待挙動を確認
+3. **1 台目で実行確認**: `~/.claude/scripts/<name>.sh status` → `~/.claude/scripts/<name>.sh apply` → 期待挙動を確認
 4. `cd ~/.claude && git add scripts/<name>.sh && git commit -m "feat(scripts): codify <何を> via <name>.sh"`
 5. 2 台目で `git pull` → 動作確認
-6. （必要なら）README に 1 行追記: `~/.claude/scripts/README.md` を使う運用なら `<name>.sh — <1 行要約>` を追加
+6. （必要なら）README に 1 行追記: `~/.claude/scripts/README.md` が存在する運用なら `<name>.sh — <1 行要約>` を追加（2026-07-04 現在このファイルは無い。無ければスキップ）
 
 ## 6. 他スキルとの関係（クロスリファレンス）
 

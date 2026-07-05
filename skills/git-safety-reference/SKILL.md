@@ -31,7 +31,7 @@ allowed-tools: [Read, Glob, Grep]
 
 ## コミット禁止ファイル（14カテゴリ）
 
-以下のファイルは**絶対にgitにコミットしない**。`~/.gitignore_global` + `file-protection.sh` + `security-scan.sh`で三重防御。
+以下のファイルは**絶対にgitにコミットしない**。機械ガードは `~/.claude/hooks/file-protection.sh`（settings.json 配線済）。`~/.gitignore_global` は未作成（core.excludesfile 未設定）、`security-scan.sh` は hooks/_archive/ に退避済・未配線（2026-07-04 時点）。
 
 | # | カテゴリ | パターン | 理由 |
 |---|---------|---------|------|

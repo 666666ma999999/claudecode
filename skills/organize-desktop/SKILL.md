@@ -137,7 +137,7 @@ ls ~/Desktop/ | grep -E '[-_]v[0-9]+|[-_]V[0-9]+|\([ 0-9]+\)'
 
 ```bash
 # ロールバックスクリプトを生成
-cat > ~/Desktop/.undo-organize.sh << 'SCRIPT_EOF'
+cat > ~/Desktop/.undo-organize.sh << SCRIPT_EOF
 #!/bin/bash
 # Generated: $(date)
 # Undo script for desktop organization
@@ -210,9 +210,6 @@ mv ~/Desktop/example.zip ~/Desktop/archive/
 | 除外対象 | 理由 |
 |---------|------|
 | `prm/` | プロジェクトディレクトリ |
-| `lotonum-sp/` | プロジェクトディレクトリ |
-| `ref/` | 参照用ディレクトリ |
-| `bk/` | バックアップディレクトリ |
 | `.git` を含むディレクトリ | gitリポジトリ（検出時は即停止して報告） |
 | `.DS_Store` | macOSシステムファイル |
 | `.undo-organize.sh` | ロールバックスクリプト |
@@ -240,7 +237,7 @@ mv ~/Desktop/example.zip ~/Desktop/archive/
 
 ## `--dry-run` モード
 
-`/organize-desktop --dry-run` で実行した場合:
+ユーザーが「dry-run」「計画だけ」「実行はしないで」等を指定した場合:
 - STEP 1（Analyze）と STEP 2（Plan）のみ実行
 - STEP 3 で計画を表示して終了（実行しない）
 - 「この計画で実行しますか？」と確認して待機

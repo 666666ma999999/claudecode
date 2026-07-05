@@ -168,7 +168,7 @@ export default manifest;
 }
 ```
 
-その後 codegen スクリプトを実行:
+その後 codegen スクリプトを実行（ホスト直実行は block-host-installs hook で拒否されるため、プロジェクトの Docker コンテナ内で実行）:
 ```bash
 npx ts-node scripts/generate-extension-loader.ts
 npx ts-node scripts/generate-eslint-zones.ts

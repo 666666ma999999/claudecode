@@ -11,7 +11,7 @@ description: >-
 
 Interact with Obsidian vaults via the Obsidian CLI to read, create, search, and manage notes, plus plugin/theme development (reload plugins, run JS, screenshots, inspect DOM). Use for vault CLI operations or Obsidian plugin debugging. Triggers (kepano bundle): 「obsidian-skills を使って」「obsidian CLI」「vault 操作」「Obsidian プラグイン開発」「DOM を調べて」.
 
-Use the `obsidian` CLI to interact with a running Obsidian instance. Requires Obsidian to be open.
+Use the `obsidian` CLI to interact with a running Obsidian instance. Requires Obsidian to be open **and** the CLI installed: run `command -v obsidian` first — if not found, install the command line tool per https://help.obsidian.md/cli (Obsidian 1.12+) before proceeding (2026-07-04 時点で本マシンは未インストール).
 
 ## Command reference
 

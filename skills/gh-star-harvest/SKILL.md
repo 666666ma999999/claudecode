@@ -81,7 +81,7 @@ description だけでは記事素材として判断できない Top リポは **
    https://github.com/{full_name}"
   ```
 - **対象**: Top 10 のうち description が曖昧 or 記事素材として使う予定のリポ
-- **出力の保管**: repomix 結果は記事素材メモとして `output/research/` などに保存
+- **出力の保管**: repomix 結果は記事素材メモとして `~/Desktop/biz/make_article/output/research/` に保存（初回は mkdir -p）
 
 これで「人気リポだが実はスカスカ」を事前検出できる。
 
@@ -93,7 +93,7 @@ Top 10 のうち、以下のリポは Material Bank の**候補**としてユー
 - まだ Material Bank にない
 - **STEP 3.5 で実装中身を確認済み**（深掘りしたリポは信頼度が上がる）
 
-ユーザー承認後、`training_data/materials/tech_tips.jsonl` に追記（スキーマは既存に準拠）。
+ユーザー承認後、`~/Desktop/biz/make_article/training_data/materials/tech_materials.jsonl` に追記（スキーマは既存に準拠。正本は `make_article/config/categories.yaml` の `material_bank`）。
 
 ### STEP 5: 次回実行の推奨
 
@@ -142,5 +142,5 @@ Top 10 のうち、以下のリポは Material Bank の**候補**としてユー
 
 - `/fetch-engagement` - X側の実測（2軸の主軸）
 - `codebase-investigation` / `repomix` - Top10リポの中身を深掘り（メタデータ→コード分析の橋渡し、STEP 3.5参照）
-- `/generate-x-article` - 集めた素材で記事生成
+- `/generate-x-article` - 集めた素材で記事生成（make_article プロジェクト専用 skill。cwd=~/Desktop/biz/make_article でのみ発動可）
 - `env-factcheck` - 実使用計測（自分 vs 世界）
