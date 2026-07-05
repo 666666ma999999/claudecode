@@ -130,7 +130,7 @@
     ],
     "defaultMode": "default"
   },
-  "model": "sonnet",
+  "model": "claude-fable-5[1m]",
   "skillOverrides": {
     "step1-manuscript": "name-only",
     "step2-menu-register": "name-only",
@@ -823,6 +823,7 @@
     "/Users/masaaki_nagasawa/.claude/rules/CLAUDE.md",
     "/Users/masaaki_nagasawa/.claude/rules/AGENTS.md"
   ],
+  "theme": "dark",
   "remoteControlAtStartup": true,
   "agentPushNotifEnabled": true,
   "autoMode": {
