@@ -20,6 +20,7 @@
 | 情報源 | 第一選択 | フォールバック |
 |---|---|---|
 | X(Twitter) バズ | `mcp__grok-search__web_search` sources=["x"] + `/fetch-engagement` | Codex自律 |
+| X 個別ポスト本文（grok クレジット切れ/ログイン壁時） | WebFetch `https://cdn.syndication.twimg.com/tweet-result?id=<STATUS_ID>&lang=ja&token=a`（認証不要・本文/X Articles はタイトル+リード取得可） | `publish.x.com/oembed?url=...`。X Articles 全文はログイン必須＝Chrome 拡張のみ（2026-07-06 実測: WebFetch 402/Firecrawl 失敗/jina 403/Playwright ログイン壁） |
 | GitHub star/trending | `/gh-star-harvest` (gh CLI + pushed:> + paginate) | WebFetch(github.com/trending) |
 | GitHub リポの中身を読む（star調査→コード深掘り連携） | `mcp__repomix__pack_remote_repository` / `codebase-investigation` | `gh api /repos/.../contents` |
 | Anthropic 公式 | WebFetch `anthropic.com/news` | WebSearch `site:anthropic.com` |
