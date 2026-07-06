@@ -43,7 +43,7 @@
 
 live ノート: `02_Ai/AI_adscrm/reports/AIads-cp-review.md`（`type: progress`・固定名上書き・約 580 行）。上の launch-candidates-v2（候補棚卸しの分析 findings 系・123 行）とは**別物**——**cp-review 系＝毎日見る運用司令塔(full)** ／ **launch-candidates＝候補棚卸しの分析 findings**。
 
-司令塔 skeleton（[templates/cockpit-report.md](file:///Users/masaaki_nagasawa/.claude/templates/cockpit-report.md)）の `{{スロット}}` に広告ドメインを当てはめた実例として読む（**数値は live ノートが正本・ここにコピーしない**＝コピーすると drift 防止に自己矛盾）。
+司令塔 skeleton（**vault** `templates/cockpit-report.md`（正本））の `{{スロット}}` に広告ドメインを当てはめた実例として読む（**数値は live ノートが正本・ここにコピーしない**＝コピーすると drift 防止に自己矛盾）。
 
 ## skeleton スロットへの広告ドメイン当てはめ（＝普遍層へ昇格させない要素）
 

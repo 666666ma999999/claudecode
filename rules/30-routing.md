@@ -23,7 +23,7 @@
 | git commit/push/事故 | `git-safety-reference` |
 | .mcp.json/APIキー | `secret-management` |
 | Obsidian NOW→DONE/`/done` | `/done` コマンド（自己完結・skill は _dormant）。NOW/DONE ボード新設は雛形 `templates/now-done.md` をコピー（汎用・全 project 共通・2026-06-16〜） |
-| vault にレポート/分析/findings を綺麗に整形・清書・報告書化・経営層1-pager/ダッシュボード化・**毎日見る運用司令塔/現状診断ボード/command-center/横断ダッシュボードを full で設計**・スクショ映え | `vault-report-writing`（設計担当・構文は `obsidian-markdown` に委譲。司令塔 skeleton=`templates/cockpit-report.md`） |
+| vault にレポート/分析/findings を綺麗に整形・清書・報告書化・経営層1-pager/ダッシュボード化・**毎日見る運用司令塔/現状診断ボード/command-center/横断ダッシュボードを full で設計**・スクショ映え | `vault-report-writing`（設計担当・構文は `obsidian-markdown` に委譲。司令塔 skeleton=**vault** `templates/cockpit-report.md`（正本・2026-07-06移設。repo側はstub）） |
 | アーキ判断・設計決定の記録 | `/save decision` → `wiki/meta/decisions.md` |
 | 失敗パターン・教訓・再発防止 | `/save mistake` → `wiki/meta/mistakes.md`（de-dup、2 回目以降は既存統合） |
 | 過去ノートの誤記訂正 | `rules/40-obsidian.md §訂正プロトコル` |

@@ -161,6 +161,6 @@ SORT last_updated DESC
 
 毎日まず開く full レポート。冒頭は**固定順**：📖30秒ストーリー（専門語ゼロ）→ 🎯ゴール&やること実行順表（NOW 順ミラー）→ `[!success]-` 数字版結論 → 💡かみくだき → §1 状態の地図（重症度降順・「やる順ではない」明記・`実行→`列で NOW# 相互参照）→ 各単位の現状診断表＋部品別 `[!todo]`（やること先頭 / なぜ後置 / 重い根拠は `[!abstract]-` 折りたたみ）→ §2 データ前提 → 関連表 → 自動生成ゾーン（Open Issues・最下段）。
 
-- **コピペ可 skeleton 全文（domain-neutral）**: [templates/cockpit-report.md](file:///Users/masaaki_nagasawa/.claude/templates/cockpit-report.md) ← 雛形の正本はこの 1 枚（ここに全文コピーしない）
+- **コピペ可 skeleton 全文（domain-neutral）**: **vault** `templates/cockpit-report.md`（正本・repo側はstub） ← 雛形の正本はこの 1 枚（ここに全文コピーしない）
 - **広告ドメインの当てはめ実例**: [model-case-aiads-v2.md](model-case-aiads-v2.md)（真ROAS・①KW②広告文③掲載商品④入札・6軸表）
 - **新ドメイン（CRM 司令塔等）**: skeleton はいじらず `model-case-<domain>.md` を 1 枚足してスロット当てはめだけ書く（普遍 skeleton は単一正本のまま増殖させない）。
