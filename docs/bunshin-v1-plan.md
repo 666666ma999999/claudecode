@@ -305,7 +305,7 @@ CREATE TABLE d.user_prompts AS SELECT * FROM user_prompts WHERE created_at > '20
 
 ### 実行場所と残手番
 
-- 採掘・ledger 構築 = **masa-2**（vault は obsidian_work git 同期済み・データ転送不要）。**【2026-07-06 ユーザー決定で変更: Wave1 は MASA.local で実施済み】** 台帳453md(H142/A252/MIX59・S6 PASS)+教材47ファイル21.6万字(マスク149ヒット・S7b PASS)を MASA `~/.claude/archives/bunshin-corpus/vault/` に格納。**検収完了(7/6・AI全数精査59体→ユーザー承認)**: 採用37ファイル19.4万字・AI貼付27箇所406行を除去(_strip-log.csv)・AI仕様書1+空雛形9を _dropped/ 退避(復元可)・最終スキャン S7b/承知しました/callout 全0。masa-2 に残る作業 = 既存正例プール2,170との合流・masa-2 user_prompts(5,516)との pair 突合・Wave2/3。**着手前チェック3点**: ① `git -C ~/.claude pull` 済みで本節が読める ② vault 側 pull 済み+conflict なし ③ `02_ai` の大文字小文字差分を glob が吸収している
+- 採掘・ledger 構築 = **masa-2**（vault は obsidian_work git 同期済み・データ転送不要）。**【2026-07-06 ユーザー決定で変更: Wave1 は MASA.local で実施済み】** 台帳453md(H142/A252/MIX59・S6 PASS)+教材47ファイル21.6万字(マスク149ヒット・S7b PASS)を MASA `~/.claude/archives/bunshin-corpus/vault/` に格納。**Wave1-3 全取り込み完了(7/6・延べ270体超のAI精査+ユーザー検収2回)**: 最終教材 **155ファイル・654,547字**(w1:37 / w2:87 / w3:31)。AI貼付除去 計49箇所5,547行(_strip-log.csv×3)・教材外20枚は _dropped/ 退避(復元可)・pair突合 計21ペア(全て草稿→清書・同一0)・最終独立スキャン(秘密9種/AI発話/callout/CLAUDE.md自動生成)全0。masa-2 残作業 = 正例プール2,170との合流・masa-2 user_prompts(5,516)との pair 突合のみ。**着手前チェック3点**: ① `git -C ~/.claude pull` 済みで本節が読める ② vault 側 pull 済み+conflict なし ③ `02_ai` の大文字小文字差分を glob が吸収している
 - MASA 側の残手番 = デルタ export 1コマンド + AirDrop のみ
 - **衛生（要ユーザー判断・原則即削除推奨）**: MASA `~/Desktop/bunshin-export/` に 7/4 原本 442MB が残置（iCloud Desktop 同期無効は確認済み）。masa-2 検収済み（司令塔 T3.5）を根拠に `rm -rf ~/Desktop/bunshin-export`（実行は人間）。保持例外は「再検収が必要な場合のみ」・最長 2026-08 末・理由を司令塔に1行記録
 
