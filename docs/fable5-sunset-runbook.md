@@ -35,6 +35,7 @@
    session 限定で深くするには `/effort` コマンド（max / ultracode）。環境変数 `CLAUDE_CODE_EFFORT_LEVEL` で指定できるのは max まで（ultracode は環境変数・settings.json とも不可、`/effort` のみ）。
    プロンプト中に `ultrathink` と書けば、その1回だけ深く考えさせられる。
    出典: https://code.claude.com/docs/en/model-config#adjust-effort-level
+   参考（未検証）: connect24h 記事は公式移行ガイドの逆読みから『Fable の high ≒ Opus 4.8 の xhigh』とし、Opus 切替時は xhigh を推奨している。
 
 4. **（任意）フォールバック設定**: `"fallbackModel": ["claude-sonnet-5", "claude-haiku-4-5"]`（配列・最大3つ）。
    Anthropic 側が過負荷のときに自動で切り替わる可用性フォールバック。
@@ -44,6 +45,21 @@
    設定経路は3つ: Agent 呼び出し時の model パラメータ／subagent の frontmatter の `model`／環境変数 `CLAUDE_CODE_SUBAGENT_MODEL`。
    出典: https://code.claude.com/docs/en/model-config
    公式エイリアス `opusplan` もある（挙動の詳細は model-config docs 参照）。
+   **注意: output style は Task/Agent で起動する SubAgent には効かない**（公式 docs の比較表: Agents は独自の system prompt を持つ）。SubAgent へ委譲するときは、`output-styles/fable5-like.md` 末尾の凝縮版ブロックを委譲プロンプトの末尾に貼る（connect24h 記事本文で同手法を確認）。
+
+---
+
+## 7/7 までにやる仕込み（任意）: リハーサル往復
+
+Fable 5 がいるうちにしかできない検証ループ（noel_ai_lab 記事の最重要提案）。切替後の構成を試運転し、ズレを **Fable 5 自身に修正させる**。期間終了後は「直せる側の AI」が手元にいない。
+
+1. 別ターミナルで試運転セッションを起動（`--settings` は CLI v2.1.201 実測で実在するフラグ）:
+   ```
+   claude --model claude-sonnet-5 --settings '{"outputStyle":"Fable5-like"}'
+   ```
+2. 実タスクを 1 つやらせて、ズレをメモ（結論が後回し／過剰な確認／検証の省略 など）
+3. Fable 5 のセッションに戻り、ズレを渡して「`output-styles/fable5-like.md` を修正して」と依頼
+4. もう 1 往復して収束させる
 
 ---
 
@@ -61,12 +77,13 @@
 
 | 主張 | 出どころ | VERDICT | 根拠 |
 |---|---|---|---|
-| Fable 5 の「振る舞い」は Anthropic 公式素材から output style として移植できる | connect24h 記事（タイトル+リード） | **一部真** | output style 機構と公式スニペットは実在（公式サンクション済みの経路）。ただし Fable 5 挙動の再現度そのものは未保証 |
-| output style は `/output-style` コマンドで有効化 | 同時期のX記事群 | **偽（古い）** | v2.1.91 で削除済み。`/config` か `outputStyle` キーで有効化 |
+| Fable 5 の「振る舞い」は Anthropic 公式素材から output style として移植できる | connect24h 記事（タイトル+リード） | **一部真** | output style 機構と公式スニペットは実在（公式サンクション済みの経路）。ただし Fable 5 挙動の再現度そのものは未保証 → 2026-07-06 記事本文取得後の照合で CONFIRM（記事自身も能力・safety classifier の限界を明記＝当表の評価と一致） |
+| output style は `/output-style` コマンドで有効化 | 同時期のX記事群 | **偽（古い）** | v2.1.91 で削除済み。`/config` か `outputStyle` キーで有効化。なお connect24h 記事本文は `/config → Output style → /clear` の正手順を案内しており誤りなし（偽なのは同時期の他記事群） |
 | settings.json `"effortLevel": "high"` で Sonnet 5 の思考が深くなる | @armadillo_ai 記事ミラー | **偽（high は no-op）** | high は既定値。深くするなら xhigh（persist可）/ max（session限定）。low/medium は浅くする方向で実効あり |
-| Anthropic は Fable 5 のシステムプロンプトを公式公開している | connect24h 記事リード | **真（ただし claude.ai 用）** | platform.claude.com/docs/en/release-notes/system-prompts に 2026-06-09 付で掲載。Claude Code harness prompt とは別物 |
-| Fable 5 がいるうちに「頭の中」を資産として抜き取っておくべき | noel_ai_lab 記事（タイトル+リード） | **未確認・ただし実施済み** | 記事本文は X ログイン壁で未取得のため主張の細部は未確認。『いるうちに資産化』という方針自体は妥当と判断し、本 runbook と output style を Fable 5 セッション（2026-07-06）で作成する形で実施 |
-| モデルID は claude-opus-4-8 / claude-sonnet-5 | 記事群 | **真** | model-config docs（`claude --help` が直接表示するのはエイリアスと claude-fable-5 の例のみ） |
+| Anthropic は Fable 5 のシステムプロンプトを公式公開している | connect24h 記事リード | **真（ただし claude.ai 用）** | platform.claude.com/docs/en/release-notes/system-prompts に 2026-06-09 付で掲載。Claude Code harness prompt とは別物 → 本文照合で CONFIRM（connect24h が参考文献として明記） |
+| Fable 5 がいるうちに「頭の中」を資産として抜き取っておくべき | noel_ai_lab 記事（タイトル+リード） | **真（本文確認済み）・処方箋は別軸** | 本文を influx Cookie 経路で取得し確認。記事の処方箋は①チャット限定成果物の回収②後任AI向け引き継ぎ書③リハーサル往復。本 runbook が実施したのは『振る舞い移植』であり別軸。③は下記『7/7 までにやる仕込み』として採用 |
+| モデルID は claude-opus-4-8 / claude-sonnet-5 | 記事群 | **真** | model-config docs（`claude --help` が直接表示するのはエイリアスと claude-fable-5 の例のみ） → 本文照合で矛盾なし |
+| Fable の effort high は Opus 4.8 の xhigh に相当（公式移行ガイドの逆読み） | connect24h 記事本文 | **未検証** | もっともらしいが移行ガイド原文での裏取り未実施。Opus 切替時に xhigh を試す価値はある |
 
 ---
 
@@ -95,5 +112,5 @@
 - https://platform.claude.com/docs/en/release-notes/system-prompts
 - https://code.claude.com/docs/en/output-styles
 - https://code.claude.com/docs/en/model-config
-- 記事1: https://x.com/connect24h/status/2073364135111508418 （本文はログイン壁・タイトル+リードのみ確認）
-- 記事2: https://x.com/noel_ai_lab/status/2073039341992194336 （同上）
+- 記事1: https://x.com/connect24h/status/2073364135111508418 （2026-07-06 本文取得済み・influx Cookie 経路。全文: ~/Desktop/biz/influx/output/x_articles/connect24h.txt）
+- 記事2: https://x.com/noel_ai_lab/status/2073039341992194336 （同上・noel_ai_lab.txt）
