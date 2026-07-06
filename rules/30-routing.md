@@ -46,6 +46,7 @@
 | プロジェクトの過去作業サマリー / 作業順序を git 履歴から把握 | `/project-history`（`~/.claude/scripts/project-history.sh`・期間/日別作業量/種類集計。「5手順マップして」で①〜⑤対応表） |
 | 作業メソドロジー雛形(0層+①〜⑥+メタ層)を現プロジェクトに配置 | `/methodology`（`~/.claude/scripts/place-methodology.sh`・`templates/methodology-5step.md` をコピー。お手本=`[[prime_suite-methodology-draft]]`） |
 | 今回のセッション目標を画面下(statusline)に常時表示・忘れ防止「今回の目標は〜」 | `session-goal` / `/session-goal`（`~/.claude/scripts/session-goal.sh`・作業ツリー(worktree)単位=worktreeごとに別目標・repo 外保存） |
+| Fable 5 終了/復帰の切替・Fable5ライク運用・output style 有効化 | `docs/fable5-sunset-runbook.md`（手順+ファクトチェック表）+ output style `Fable5-like`（`output-styles/fable5-like.md`・Fable 5 稼働中は有効化しない） |
 
 その他のカテゴリ（KPI・データ可視化・ダッシュボード・売上分析・スクレイピング・X Articles 12種・スキル管理・設定診断・Codex委譲 ほか）は `routing-table.md` 参照。
 
