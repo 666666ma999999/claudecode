@@ -7,6 +7,7 @@
 
 **適用範囲**: `~/Documents/Obsidian Vault/02_Ai/<project>/` 配下の**新規プロジェクトのみ**。
 既存プロジェクト（rohan/, AIshift.md, AIera.md, ai_dashboard/ 等）は**一切変更しない**。
+**例外（環境ゾーン・2026-07-05〜）**: `03_ClaudeEnv/`（repo = `~/.claude` 自身）は 02_Ai 外だが連携ゾーン=**Type A（repo 連携）**として本ルールを適用する。実体マッピングは 02_Ai の `plan.md`/`tasks/phase-tracker.md`/`docs/measures-detail.md` 三連ではなく、`~/.claude` 実体（`rules/`・`hooks/`・`skills/`・`scripts/`）＋ vault 索引カタログ（`ClaudeEnv_ope.md`=旧 `_README.md`・各 `*-catalog.md`）に読み替える。索引・frontmatter 6 必須は `~/.claude/scripts/update_claudeenv.py` が自動生成（手編集は再生成で上書き）。SessionStart で drift-watch P0＋手書き `## NOW/懸案` を注入（cwd=~/.claude 限定）。
 リビングリファレンス実装: `file:///Users/masaaki_nagasawa/Documents/Obsidian%20Vault/02_Ai/AI_adscrm/`
 
 ---
@@ -106,6 +107,7 @@ vault 全体でファイル名 unique を保証し、`[[plan]]` 等の ambiguous
 | ツール予約 | `CLAUDE.md` / `README.md` / `AGENTS.md` | Claude Code/GitHub/Codex が固定解決・改名不可 |
 | rules/05・§③ 固定 | `plan.md` / `tasks/NOW.md` / `tasks/phase-tracker.md` / `tasks/lessons.md` | 別ルールが `<root>/` 固定名を規約化（外部ツール/別ルールが要求＝改名不可） |
 | auto-gen/予約 | `_index.md` / `hot.md` / `decisions.md` / `mistakes.md` / `project-registry.md` | N-4・hook hardcode（既出） |
+| 横断HQ | `MASA_HQ.md`（vault root 直下・唯一） | decisions 2026-07-06 起票。入口リンク集+早見表のみ（**TODO は各 project 司令塔の管轄・HQ に置かない**）・有人更新のみ・1週間トライアル（〜7/13 開かれなければ撤去し本行も削除） |
 
 > 注: プロンプト箱・メモ帳は**かつて bare（`_INBOX.md`/`_MEMO.md`）だったが**、それらを握るのは自前スクリプト3つ(`vault-spot-runner.sh`/`weekly-vault-audit.sh`/月次棚卸し)だけ＝外部ツール非依存のため、2026-06-30 に `<project>_INBOX.md`/`<project>_MEMO.md` へ改名し**スクリプト側を `*_INBOX.md` グロブへ追従**。bare 例外から外れ既定(prefix)へ移行。
 
