@@ -13,6 +13,8 @@
 | タスク細分化・実装計画策定 | `task-planner` |
 | task進捗・stuck記録・セッション引き継ぎ | `task-progress` |
 | Obsidian NOW→DONE移動・元プロンプト/原文/証跡/refs/ログ保存・タスク完了記録・`/done` | `/done` コマンド（自己完結・skill は _dormant/obsidian-now-done） |
+| wikiキュー作って / wiki取り込み / URL取り込み / ✅処理して（第二の脳＝wiki知識化・queue経由） | `wiki-ingest` + `[[wiki-ingest-queue]]`（`wiki/meta/wiki-ingest-queue.md`・✅式の取り込み待合室。URL 1フロー=defuddle→`.raw/<topic>/`→wiki-ingest。取り込み時に関連既存ページへ根拠付き相互リンク+`## Updates`追記で「育つ」・完了を `wiki/log.md` に1行記録・処理済✅はキューから削除。SessionStart hook が未処理✅を通知） |
+| 今日の取り込みして / wiki自動取り込みの手動実行 / 第二の脳v3日次ジョブを今すぐ回す（無人・ハブ追記型） | 日次ジョブ `com.masa.wiki-daily-ingest`（毎日8:47・news収集8:07の後）。2段=`vault-prompt-runner.sh`(read-only claudeでpatch生成)→`wiki_ingest_apply.py`(柵・機械適用)。手動実走: `launchctl start com.masa.wiki-daily-ingest`。TCC 未付与時の直接実走: `/bin/bash -lc '~/.claude/scripts/vault-prompt-runner.sh "~/Documents/Obsidian Vault/00_General/prompts/scheduled/wiki-daily-ingest.md" && /usr/bin/python3 ~/.claude/scripts/wiki_ingest_apply.py "~/Documents/Obsidian Vault/wiki/meta/wiki-daily-ingest-result.md"'`。着地=ハブ5枚(`wiki/concepts/{AI活用と自動化,広告・マーケティング,占いビジネス,投資,事業戦略}.md`)の`## AI追記`節末尾のみ・新規ファイルは✅ゲート。柵=単一fenceのみ/allowlist外target拒否/秘密9種スキャン/4KB・12KB上限/flock/冪等(apply-log jsonl)。決定正本 `wiki/meta/decisions.md` 2026-07-06「無人AI書込はハブ追記型」・設計 `03_ClaudeEnv/ClaudeEnv-secondbrain-v2-plan.md` §v3 |
 | プロジェクト復帰・コンテキスト復元 | `project-recall` |
 | SubAgent委託・デバッグ・リファクタリング | `execution-patterns` |
 | 叩き台・探索・試作・UI案・API挙動確認・要件曖昧 | `/prototype` コマンド |

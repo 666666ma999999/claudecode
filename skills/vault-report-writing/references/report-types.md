@@ -10,7 +10,7 @@
 | **技術詳細 / 仕様** | 実装者 | 前提・再現手順・差分 | H2/H3・code block・脚注・section link | deep dive |
 | **分析レポート / findings** | 分析者・事業責任者 | 仮説・比較表・解釈 | 意味別 callout・表(Tufte)・Mermaid ツリー | evidence-first |
 | **進捗 / MOC / ダッシュボード** | PM・チーム | 今の変化・blocker・次 | frontmatter + Dataview/Bases・embed・折りたたみ | status / dashboard |
-| **司令塔（運用ダッシュボード）/ command-center** | 毎日開く運用者・横断統括者(PM) | ①📖30秒ストーリー(専門語ゼロ) → ②🎯ゴール&やること実行順表 → ③`[!success]-`数字版結論 | story-first + 🎯`[!todo]`実行順表 + 状態の地図表(実行順と別) + 末尾「データ前提」+「関連(正本リンク)」+ 自動生成ゾーン(最下段) | **full**（薄い索引にしない）・**固定名で上書き** |
+| **司令塔（運用ダッシュボード）/ command-center** | 毎日開く運用者・横断統括者(PM) | ①📖30秒ストーリー(専門語ゼロ) → ②🎯ゴール&やること**時間軸3層**(🔴きょう/🟡今週/🟢中長期=Phase) → ③`[!success]-`数字版結論 | story-first + 🎯`[!todo]`時間軸3層表 + 状態の地図表(実行順と別) + **図解2種(時間軸プロセス/システム設計+置き場所パス・skeleton §4・任意推奨)** + 末尾「データ前提」+「関連(正本リンク)」+ 自動生成ゾーン(最下段) | **full**（薄い索引にしない）・**固定名で上書き** |
 | **インシデント / ポストモーテム** | 運用・監査 | 事実→影響→暫定対応 | `[!danger]`・timeline・decision log | incident writeup |
 | **セキュリティ / リスク監査** | 決裁者+実装者 | 深刻度サマリ | 深刻度マトリクス・`[!bug]` finding・付録 foldable | findings-first |
 

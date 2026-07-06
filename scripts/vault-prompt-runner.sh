@@ -137,6 +137,8 @@ fi
   fi
   echo "source_prompt: \"${PROMPT_FILE/#$HOME/~}\""
   echo "generated_at: $DATE"
+  # generated_host: 実走ホスト機を記録 (2 台重複実行の検知材料・sb2 T1)。LLM 非依存で確実に埋める
+  echo "generated_host: $(whoami)@$(scutil --get LocalHostName 2>/dev/null || hostname -s 2>/dev/null || hostname)"
   echo "last_updated: $DATE"
   echo "tags:"
   echo "  - project/$PROJECT"

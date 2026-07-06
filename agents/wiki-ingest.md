@@ -36,6 +36,15 @@ You will be given:
 9. Check for contradictions with existing pages. Add `> [!contradiction]` callouts where needed.
 10. Return a summary of what you created and updated.
 
+## Chain Update（「育つ」＝取り込みで既存知識も更新する）
+
+新規ページを作って終わりにしない。知識は既存とつながって初めて育つ:
+
+- **相互リンク（関連が実在する場合のみ）**: 新規ページに関連する既存ページを最大 3〜5 枚選び、双方向にリンクする。**各リンクに「なぜ関連するか」の根拠を 1 行必ず添える**。
+- **`## Updates` 追記**: 既存ページ側には `## Updates` セクションへ `### YYYY-MM-DD` 見出しで差分を追記する（rules/40 訂正プロトコル準拠・**本文は書き換えない・取消線禁止**）。
+- **関連が無ければ更新 0 を許容**: 母数が少ない段階で無理にリンクを張らない。**無理リンク・薄い `## Updates` の量産は禁止**（質 > 量）。
+- **記録は orchestrator が担当**: この並列 sub-agent は `wiki/log.md` を直接書かない（single-writer・下記「Do NOT」）。作成・更新ページを Output Format で報告し、orchestrator が全 sub-agent 完了後に `wiki/log.md` へ 1 行 append（いつ・何を・更新ページ列挙）する。✅ キュー（`wiki/meta/wiki-ingest-queue.md`）経由の場合、処理済み✅項目の削除も orchestrator 側で行う。
+
 ## DragonScale address assignment (opt-in, single-writer)
 
 If the vault has adopted DragonScale Mechanism 2 (detected by `[ -x ./scripts/allocate-address.sh ] && [ -d ./.vault-meta ]`):
