@@ -40,6 +40,7 @@
 | ニュース収集・news JSONL確認 | `~/.claude/scripts/collect_news.py` + `.raw/news/YYYY-MM-DD.jsonl` |
 | news → wiki 昇格（知識化） | `wiki-ingest` または `/save` |
 | wikiキュー作って / wiki取り込み / URL取り込み / ✅処理して（第二の脳＝wiki知識化・queue経由） | `wiki-ingest` + `[[wiki-ingest-queue]]`（✅式の取り込み待合室。取り込み時に関連既存ページへ根拠付き相互リンク+`## Updates`追記で「育つ」・完了を `wiki/log.md` に1行記録・処理済✅はキューから削除） |
+| 今日の取り込みして / wiki自動取り込みの手動実行 / 第二の脳v3日次ジョブを今すぐ回す | 日次ジョブ `com.masa.wiki-daily-ingest`（毎日8:47・runner→`wiki_ingest_apply.py`柵）を手動実走: `launchctl start com.masa.wiki-daily-ingest`（TCC 未付与時は `/bin/bash -lc '~/.claude/scripts/vault-prompt-runner.sh "~/Documents/Obsidian Vault/00_General/prompts/scheduled/wiki-daily-ingest.md" && /usr/bin/python3 ~/.claude/scripts/wiki_ingest_apply.py "~/Documents/Obsidian Vault/wiki/meta/wiki-daily-ingest-result.md"'`）。ハブ5枚の`## AI追記`へ追記のみ（新規は✅ゲート）。決定 2026-07-06「無人AI書込はハブ追記型」 |
 | news → 深掘り | `autoresearch` |
 | ファイル配置 67 種仕分け / vault MOC 自動同期 | `rules/42-file-type-placement.md` + `/sync-vault-summary` skill |
 | プロジェクトの過去作業サマリー / 作業順序を git 履歴から把握 | `/project-history`（`~/.claude/scripts/project-history.sh`・期間/日別作業量/種類集計。「5手順マップして」で①〜⑤対応表） |
