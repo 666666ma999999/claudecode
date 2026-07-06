@@ -113,6 +113,14 @@ Route to the correct operation based on what the user says:
 
 ---
 
+## 取り込みフロー（URL・queue・「育つ」）
+
+- **URL 取り込みの 1 フロー**: `defuddle <url>`（本文抽出・ads/nav 除去）→ `.raw/<topic>/`（append-only 保存）→ `wiki-ingest`（知識ページ化）。起動は **queue 経由**（`wiki/meta/wiki-ingest-queue.md` に投函 →✅→「✅処理して」）または **即時**（「このURL取り込んで」）。
+- **queue（第二の脳の入口）**: `[[wiki-ingest-queue]]` は✅式の取り込み待合室。✅済み項目は取り込み後にキューから削除され、SessionStart hook が「未処理✅ N件」を通知する。
+- **「育つ」= Chain Update**: 取り込み時は新規ページを作るだけでなく、関連する既存ページ最大 3〜5 枚へ根拠付きで相互リンクし `## Updates` に日付追記する（関連が無ければ 0 で可・無理リンク禁止）。完了は `wiki/log.md` に 1 行記録。詳細は `wiki-ingest` skill を参照。
+
+---
+
 ## SCAFFOLD Operation
 
 Trigger: user describes what the vault is for.

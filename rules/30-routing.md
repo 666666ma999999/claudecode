@@ -39,6 +39,7 @@
 | SubAgent委譲判断 | `execution-patterns` |
 | ニュース収集・news JSONL確認 | `~/.claude/scripts/collect_news.py` + `.raw/news/YYYY-MM-DD.jsonl` |
 | news → wiki 昇格（知識化） | `wiki-ingest` または `/save` |
+| wikiキュー作って / wiki取り込み / URL取り込み / ✅処理して（第二の脳＝wiki知識化・queue経由） | `wiki-ingest` + `[[wiki-ingest-queue]]`（✅式の取り込み待合室。取り込み時に関連既存ページへ根拠付き相互リンク+`## Updates`追記で「育つ」・完了を `wiki/log.md` に1行記録・処理済✅はキューから削除） |
 | news → 深掘り | `autoresearch` |
 | ファイル配置 67 種仕分け / vault MOC 自動同期 | `rules/42-file-type-placement.md` + `/sync-vault-summary` skill |
 | プロジェクトの過去作業サマリー / 作業順序を git 履歴から把握 | `/project-history`（`~/.claude/scripts/project-history.sh`・期間/日別作業量/種類集計。「5手順マップして」で①〜⑤対応表） |

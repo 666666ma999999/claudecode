@@ -5,6 +5,10 @@
   <key>Label</key>
   <string>com.masa.monthly-prompt-stocktake</string>
   <!--
+    host: masaaki (MASA.local) — masa-2 では load しない
+      （このジョブは 1 台のホスト機に固定する。別 Mac (masa-2) では launchctl load しないこと。
+       result frontmatter の generated_host で実走ホストを突合し、2 台重複実行を検知する）
+
     月次 プロンプト棚卸し。全 project の prompts/_INBOX.md `## 📒 記録` 先月分を
     headless claude -p で採点し、wiki/meta/monthly-prompt-stocktake-result.md（固定名・上書き）へ
     「良かったプロンプト + 資産化おすすめ」を提案する（提案のみ・変更はしない）。
@@ -24,10 +28,10 @@
   <array>
     <string>/bin/bash</string>
     <string>-lc</string>
-    <string>/Users/masaaki_nagasawa/.claude/scripts/vault-prompt-runner.sh "/Users/masaaki_nagasawa/Documents/Obsidian Vault/00_General/prompts/scheduled/monthly-prompt-stocktake.md"</string>
+    <string>/Users/masaaki/.claude/scripts/vault-prompt-runner.sh "/Users/masaaki/Documents/Obsidian Vault/00_General/prompts/scheduled/monthly-prompt-stocktake.md"</string>
   </array>
   <key>WorkingDirectory</key>
-  <string>/Users/masaaki_nagasawa</string>
+  <string>/Users/masaaki</string>
   <key>StartCalendarInterval</key>
   <dict>
     <key>Day</key><integer>1</integer>
@@ -37,8 +41,8 @@
   <key>RunAtLoad</key>
   <false/>
   <key>StandardOutPath</key>
-  <string>/Users/masaaki_nagasawa/.claude/state/monthly-prompt-stocktake.out.log</string>
+  <string>/Users/masaaki/.claude/state/monthly-prompt-stocktake.out.log</string>
   <key>StandardErrorPath</key>
-  <string>/Users/masaaki_nagasawa/.claude/state/monthly-prompt-stocktake.err.log</string>
+  <string>/Users/masaaki/.claude/state/monthly-prompt-stocktake.err.log</string>
 </dict>
 </plist>
