@@ -7,6 +7,8 @@
 - 移植できるのは「振る舞い」だけ。素の賢さ・思考の深さの機構は移植できない（期待値注意）
 - 用意済みの output style `Fable5-like` を有効化するだけ。Fable 5 使用中は有効化しない
 
+> **自動化済み（2026-07-06 追記・ユーザー指示）**: 7/9 以降の初回セッション起動時に `hooks/fable5-sunset-autoswitch.sh`（SessionStart）が `model: opus` + `outputStyle: Fable5-like` を自動書込する（1回きり・バックアップ付き・手動切替済みなら上書きしない）。下の手動 3 手は「自動化をキャンセルした場合」と「切り戻し」用に残す。キャンセルは `touch ~/.claude/state/fable5-sunset-switched.done`。
+
 ---
 
 ## 切替手順（コピペ可）

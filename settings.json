@@ -529,6 +529,15 @@
             "command": "(~/.claude/hooks/postcompact-essentials.sh) 2>&1 | head -60"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/fable5-sunset-autoswitch.sh"
+          }
+        ]
       }
     ],
     "PermissionRequest": [
