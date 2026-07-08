@@ -221,11 +221,12 @@ OUT_TMP="$OUT_MD.tmp.$$"
     _TSEC="$(date -jf %Y-%m-%d "$DATE" +%s 2>/dev/null || true)"
     [ -n "$_WSEC" ] && [ -n "$_TSEC" ] && _WDAYS=$(( (_TSEC - _WSEC) / 86400 ))
   fi
+  echo ""   # 空行必須: 直前の引用行に lazy continuation で吸い込まれない (2026-07-08 表示修理)
   if [ -n "$_WDAYS" ]; then
     _WARN=""; [ "$_WDAYS" -gt 10 ] && _WARN=" ⚠️10日超"
-    echo "<!--freshness-->🕐 鮮度（毎朝8:00自動更新）: データ窓終端 ${WINDOW_END}＝${_WDAYS}日前${_WARN} ／ 更新 ${DATE}＝0日前"
+    echo "🕐 鮮度（毎朝8:00自動更新）: データ窓終端 ${WINDOW_END}＝${_WDAYS}日前${_WARN} ／ 更新 ${DATE}＝0日前 %%freshness%%"
   else
-    echo "<!--freshness-->🕐 鮮度（毎朝8:00自動更新）: データ窓終端 未記載 ／ 更新 ${DATE}＝0日前"
+    echo "🕐 鮮度（毎朝8:00自動更新）: データ窓終端 未記載 ／ 更新 ${DATE}＝0日前 %%freshness%%"
   fi
   echo ""
   printf '%s\n' "$RESULT"

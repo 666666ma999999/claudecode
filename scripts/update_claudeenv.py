@@ -706,7 +706,10 @@ COLLECTORS = [
 #   1. FRESH_MARK を含む「その1行」だけを書き換える。行が無いファイルには何も足さない。
 #   2. 人筆領域・本文・行動ルール正本には一切触れない。LLM 不使用・完全決定論。
 #   3. 対象は下の FRESHNESS_TARGETS 3枚のみ (勝手に増やさない)。
-FRESH_MARK = "<!--freshness-->"
+# marker は Obsidian 純正コメント %%…%% を行末に置く (2026-07-08 表示修理:
+# HTML コメント先頭置きは live preview で生表示され、引用直下だと lazy continuation で
+# 引用に吸い込まれる。鮮度行は必ず空行で独立させ、marker は行末)
+FRESH_MARK = "%%freshness%%"
 FRESHNESS_TARGETS = [
     VAULT / "02_Ai/AI_adscrm/AIads/AIads-cp-review.md",
     VAULT / "02_Ai/AI_adscrm/AIads/reports/adscrm-weekly-ops-review-result.md",
@@ -744,7 +747,7 @@ def stamp_freshness() -> list[str]:
             else:
                 wpart = "データ窓終端 未記載"
             gpart = f"更新 {gen}＝{(today - dt.date.fromisoformat(gen)).days}日前" if gen else "更新 未記載"
-            newline = f"{FRESH_MARK}🕐 鮮度（毎朝8:00自動更新）: {wpart} ／ {gpart}"
+            newline = f"🕐 鮮度（毎朝8:00自動更新）: {wpart} ／ {gpart} {FRESH_MARK}"
 
             new_text = re.sub(r"^.*" + re.escape(FRESH_MARK) + r".*$", newline, text, count=1, flags=re.M)
             if new_text != text:
