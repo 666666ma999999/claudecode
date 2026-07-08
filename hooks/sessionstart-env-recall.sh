@@ -51,8 +51,8 @@ fi
 #   collector-health.md「定期ジョブ健全性」節の🔴を数えて注入。無音失敗(6週間気づかず)の再発防止。
 CH="$VAULT/03_ClaudeEnv/collector-health.md"
 if [ -f "$CH" ]; then
-  # 見張り自身の死活: daily 8:00 更新のはずが2日超止まっていたら、見張りの停止こそを警報する
-  if [ -n "$(find "$CH" -mtime +2 2>/dev/null)" ]; then
+  # 見張り自身の死活: daily 8:00 更新のはずが48時間超止まっていたら、見張りの停止こそを警報する
+  if [ -n "$(find "$CH" -mmin +2880 2>/dev/null)" ]; then
     out="${out}🚨 見張り役(collector-health)自身が2日以上未更新 — daily 8:00 ジョブ停止の疑い（launchctl list | grep masa で確認）
 
 "

@@ -792,6 +792,8 @@ def scan_job_health() -> dict:
         for line in res.stdout.splitlines()[1:]:
             parts = line.split("\t")
             if len(parts) < 3:
+                parts = line.split(None, 2)  # 形式揺れ耐性 (Codex 指摘): 空白区切りへフォールバック
+            if len(parts) < 3:
                 continue
             pid, status, label = parts[0].strip(), parts[1].strip(), parts[2].strip()
             if not label.startswith(JOB_LABEL_PREFIXES):
@@ -801,8 +803,10 @@ def scan_job_health() -> dict:
                                 "flag": "🔴" if bad else "🟢"})
             if bad:
                 out["red"] += 1
-    except Exception:
-        pass
+    except Exception as e:
+        # 「取得失敗」と「該当なし」を表示で区別 (Codex 指摘)
+        out["jobs_error"] = str(e)[:120]
+        out["red"] += 1
 
     # (b) 期待成果物の鮮度 (masa-2 管轄ジョブも vault 同期ファイルで見える)
     for label, path, threshold, cadence in JOB_ARTIFACTS:
@@ -855,8 +859,10 @@ def render_job_health(jh: dict) -> list[str]:
     ]
     for j in jh["jobs"]:
         lines.append(f"| {j['flag']} | `{j['label']}` | {j['status']} |")
-    if not jh["jobs"]:
-        lines.append("| — | (launchctl 取得失敗 or 該当なし) | — |")
+    if jh.get("jobs_error"):
+        lines.append(f"| 🔴 | (launchctl 取得失敗: {jh['jobs_error']}) | — |")
+    elif not jh["jobs"]:
+        lines.append("| — | (該当ジョブなし) | — |")
     lines += [
         "",
         "### (b) 期待成果物の鮮度",

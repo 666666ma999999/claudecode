@@ -70,7 +70,7 @@ fm_get() {
 
 SLUG="${2:-$(basename "$PROMPT_FILE" .md)}"
 TOOLS="$(fm_get runner_tools)";   TOOLS="${TOOLS:-Read Grep Glob WebSearch}"
-WORKDIR="${3:-$(fm_get runner_workdir)}"; WORKDIR="${WORKDIR:-$HOME}"
+WORKDIR="${3:-$(fm_get runner_workdir)}"
 EXTRA_DIR="$(fm_get runner_extra_dir)"   # 任意: WORKDIR 外の追加読取許可 (例 vault の公式ルールブック)
 OUT_DIR="$(fm_get runner_out_dir)"
 # fail-fast (✅1a 2026-07-08): runner_out_dir 必須化・既定値フォールバック廃止。
@@ -79,6 +79,12 @@ OUT_DIR="$(fm_get runner_out_dir)"
 if [ -z "$OUT_DIR" ]; then
   echo "=== [$(date -Iseconds)] FATAL frontmatter-unreadable (runner_out_dir なし): $PROMPT_FILE ===" >> "$LOG"
   notify "🛑 FATAL: frontmatter解析不能 $(basename "$PROMPT_FILE") — runner_out_dir が読めません"
+  exit 2
+fi
+# workdir も既定値フォールバック全廃 (Codex 4255acd レビュー指摘): 未宣言なら $HOME で走らず停止
+if [ -z "$WORKDIR" ]; then
+  echo "=== [$(date -Iseconds)] FATAL frontmatter-unreadable (runner_workdir なし): $PROMPT_FILE ===" >> "$LOG"
+  notify "🛑 FATAL: runner_workdir 未宣言 $(basename "$PROMPT_FILE") — 既定値では実行しません"
   exit 2
 fi
 # ~ 展開 (2026-07-08): 2台Mac運用でユーザー名が違うため、prompt frontmatter は "~/..." で書き
@@ -105,7 +111,12 @@ if [ "$OUT_MODE" = "overwrite" ]; then
 else
   OUT_MD="$OUT_DIR/${SLUG}-result-${DATE}.md"
 fi
-mkdir -p "$OUT_DIR"
+# 出力先の作成・書込可能性も fail-fast (Codex 4255acd レビュー指摘: silent success 防止)
+if ! mkdir -p "$OUT_DIR" 2>>"$LOG" || [ ! -w "$OUT_DIR" ]; then
+  echo "=== [$(date -Iseconds)] FATAL out-dir-unwritable: $OUT_DIR ($PROMPT_FILE) ===" >> "$LOG"
+  notify "🛑 FATAL: 出力先に書けません $(basename "$OUT_DIR") ($SLUG)"
+  exit 2
+fi
 
 # fail-fast (✅1a 2026-07-08): 宣言された WORKDIR が実在しなければ $HOME で走らず停止。
 # 旧: silent fallback → 別Macで誤った cwd のまま生成される事故経路だった。
@@ -171,6 +182,9 @@ if [ $RC -ne 0 ] || [ -z "$RESULT" ]; then
 fi
 
 # --- レポート書き戻し (wrapper が書く・claude には Write 不要) ---
+# 一時ファイル経由 (Codex 4255acd 再指摘): 既存 OUT_MD が非空のまま書込に失敗すると
+# [ -s OUT_MD ] が旧成果物で通過し silent success になるため、tmp へ書いて検査後 mv。
+OUT_TMP="$OUT_MD.tmp.$$"
 {
   echo "---"
   echo "project: $PROJECT"
@@ -215,7 +229,15 @@ fi
   fi
   echo ""
   printf '%s\n' "$RESULT"
-} > "$OUT_MD"
+} > "$OUT_TMP"
+
+# 書込成功の確認 (Codex 4255acd レビュー指摘: silent success 遮断)。tmp が空/欠損 or mv 失敗 = exit 5
+if [ ! -s "$OUT_TMP" ] || ! mv -f "$OUT_TMP" "$OUT_MD" 2>>"$LOG"; then
+  rm -f "$OUT_TMP" 2>/dev/null
+  echo "=== [$(date -Iseconds)] FATAL write-failed: $OUT_MD ===" >> "$LOG"
+  notify "🛑 FATAL: レポート書込失敗 $(basename "$OUT_MD")"
+  exit 5
+fi
 
 # --- 品質ゲート (存在検査・fail-open・opt-in: runner_quality_gate) 2026-07-08 ---
 # 施策節の各アクションに「なぜ(放置コスト)語 + 実在する理由資料リンク」が揃っているかの存在検査。
@@ -250,9 +272,15 @@ if [ -n "$EMBED_WATCH" ] && [ -f "$GATE_PY" ]; then
     _e="$(echo "$_e" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"; _e="${_e/#\~/$HOME}"
     [ -f "$_e" ] && EMBED_FILES+=("$_e")
   done
-  if [ "${#EMBED_FILES[@]}" -gt 0 ] && ! EMB_OUT="$(/usr/bin/python3 "$GATE_PY" --embeds "${EMBED_FILES[@]}" 2>>"$LOG")"; then
-    echo "=== [$(date -Iseconds)] embed-check NG: ${EMB_OUT:0:300} ===" >> "$LOG"
-    notify "📡 embed断線: $SLUG の窓が壊れています（見出し不一致）"
+  if [ "${#EMBED_FILES[@]}" -gt 0 ]; then
+    if ! EMB_OUT="$(/usr/bin/python3 "$GATE_PY" --embeds "${EMBED_FILES[@]}" 2>>"$LOG")"; then
+      echo "=== [$(date -Iseconds)] embed-check NG: ${EMB_OUT:0:300} ===" >> "$LOG"
+      notify "📡 embed断線: $SLUG の窓が壊れています（見出し不一致）"
+    elif printf '%s' "$EMB_OUT" | grep -q '"gate_status": *"error"'; then
+      # embed 検査自身の故障も OK と区別 (Codex 4255acd レビュー指摘)
+      echo "=== [$(date -Iseconds)] embed-check ERROR (fail-open): ${EMB_OUT:0:300} ===" >> "$LOG"
+      notify "⚠️ embed検査 ERROR(fail-open): $SLUG — 検査が故障しています"
+    fi
   fi
 fi
 
