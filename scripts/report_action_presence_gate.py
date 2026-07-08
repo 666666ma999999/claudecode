@@ -99,6 +99,9 @@ def check_file(path):
         nxt = re.search(r"^#{1,%d}\s" % level, rest[m.end() - m.start():], re.M)
         section = rest[: (m.end() - m.start()) + (nxt.start() if nxt else len(rest))]
         starts = [mm.start() for mm in ITEM_RE.finditer(section)]
+        if not starts:
+            # カード形式 (2026-07-08〜): 番号付きリストが無い承認節は [!todo] callout を1カード=1項目とみなす
+            starts = [mm.start() for mm in re.finditer(r"^>\s*\[!todo\][+-]?\s", section, re.M)]
         sec_items = ([section[s:e] for s, e in zip(starts, starts[1:] + [len(section)])]
                      if starts else [section])
         items.extend(sec_items)
