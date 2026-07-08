@@ -47,6 +47,19 @@ STATE_DIR="$HOME/.claude/state"
 LOG="$STATE_DIR/vault-prompt-runner.log"
 mkdir -p "$STATE_DIR"
 
+notify() {  # $1=message
+  osascript -e "display notification \"$1\" with title \"Claude 定期実行\"" 2>/dev/null || true
+}
+
+# --- 読取自己診断 (✅1a fail-fast 2026-07-08) ---
+# TCC 下では [ -f ] が通るのに read できない (stat 可・read 不可) — 7/7・7/8 の
+# wiki-daily-ingest 実障害。読めない prompt で既定値のまま走らせない (silent fallback 廃止)。
+if ! head -c1 "$PROMPT_FILE" >/dev/null 2>&1; then
+  echo "=== [$(date -Iseconds)] FATAL prompt-unreadable (TCC?): $PROMPT_FILE ===" >> "$LOG"
+  notify "🛑 FATAL: prompt読取不能(TCC?) $(basename "$PROMPT_FILE") — Full Disk Access を確認"
+  exit 3
+fi
+
 # --- frontmatter からオプション抽出 (--- ... --- の最初のブロックのみ) ---
 fm_get() {
   awk -v key="$1" '
@@ -59,7 +72,15 @@ SLUG="${2:-$(basename "$PROMPT_FILE" .md)}"
 TOOLS="$(fm_get runner_tools)";   TOOLS="${TOOLS:-Read Grep Glob WebSearch}"
 WORKDIR="${3:-$(fm_get runner_workdir)}"; WORKDIR="${WORKDIR:-$HOME}"
 EXTRA_DIR="$(fm_get runner_extra_dir)"   # 任意: WORKDIR 外の追加読取許可 (例 vault の公式ルールブック)
-OUT_DIR="$(fm_get runner_out_dir)"; OUT_DIR="${OUT_DIR:-$HOME/Documents/Obsidian Vault/02_Ai/AI_adscrm/AIads/reports}"
+OUT_DIR="$(fm_get runner_out_dir)"
+# fail-fast (✅1a 2026-07-08): runner_out_dir 必須化・既定値フォールバック廃止。
+# 旧: 未取得時に AIads/reports へ既定 → wiki ジョブの生成物が広告プロジェクトへ混入する
+# 誤配置経路が実在した (7/7-7/8 runner log)。全 scheduled prompt は宣言済みを確認済み。
+if [ -z "$OUT_DIR" ]; then
+  echo "=== [$(date -Iseconds)] FATAL frontmatter-unreadable (runner_out_dir なし): $PROMPT_FILE ===" >> "$LOG"
+  notify "🛑 FATAL: frontmatter解析不能 $(basename "$PROMPT_FILE") — runner_out_dir が読めません"
+  exit 2
+fi
 # ~ 展開 (2026-07-08): 2台Mac運用でユーザー名が違うため、prompt frontmatter は "~/..." で書き
 # ここで実行機の $HOME に展開する (旧: 絶対パス直書き → 別Macで [ -d ] が落ち silent fallback)
 WORKDIR="${WORKDIR/#\~/$HOME}"; EXTRA_DIR="${EXTRA_DIR/#\~/$HOME}"; OUT_DIR="${OUT_DIR/#\~/$HOME}"
@@ -86,7 +107,28 @@ else
 fi
 mkdir -p "$OUT_DIR"
 
-[ -d "$WORKDIR" ] || WORKDIR="$HOME"
+# fail-fast (✅1a 2026-07-08): 宣言された WORKDIR が実在しなければ $HOME で走らず停止。
+# 旧: silent fallback → 別Macで誤った cwd のまま生成される事故経路だった。
+if [ ! -d "$WORKDIR" ]; then
+  echo "=== [$(date -Iseconds)] FATAL workdir-missing: $WORKDIR ($PROMPT_FILE) ===" >> "$LOG"
+  notify "🛑 FATAL: workdir 不在 $(basename "$WORKDIR") ($SLUG) — このMacでは実行できません"
+  exit 2
+fi
+
+# --- 手修正✍️検知 (✅1c 2026-07-08・Codex裁定: 毎回アーカイブでなく停止+通知) ---
+# 前回書込完了時の hash と現物が違う = 人が手を入れた。無警告で上書きして消さない。
+# 解除手順: 手修正を契約/ボードへ反映したら state/vault-runner-hashes/<name>.sha256 を削除。
+HASH_DIR="$STATE_DIR/vault-runner-hashes"; mkdir -p "$HASH_DIR"
+HASH_FILE="$HASH_DIR/$(basename "$OUT_MD").sha256"
+if [ -f "$OUT_MD" ] && [ -f "$HASH_FILE" ]; then
+  CUR_HASH="$(shasum -a 256 "$OUT_MD" 2>/dev/null | awk '{print $1}')"
+  SAVED_HASH="$(cat "$HASH_FILE" 2>/dev/null)"
+  if [ -n "$SAVED_HASH" ] && [ -n "$CUR_HASH" ] && [ "$CUR_HASH" != "$SAVED_HASH" ]; then
+    echo "=== [$(date -Iseconds)] HALT hand-edit detected: $OUT_MD (hash mismatch) — 契約反映後に $HASH_FILE を削除で再開 ===" >> "$LOG"
+    notify "✍️ 手修正検知: $(basename "$OUT_MD") — 上書き中止。契約反映→hashファイル削除で再開"
+    exit 4
+  fi
+fi
 
 MODEL_ARGS=()
 [ -n "$MODEL" ] && MODEL_ARGS=(--model "$MODEL")
@@ -142,6 +184,11 @@ fi
   echo "generated_at: $DATE"
   # generated_host: 実走ホスト機を記録 (2 台重複実行の検知材料・sb2 T1)。LLM 非依存で確実に埋める
   echo "generated_host: $(whoami)@$(scutil --get LocalHostName 2>/dev/null || hostname -s 2>/dev/null || hostname)"
+  # runner_rev: runner 自身の版を刻印 (✅1a 2026-07-08・2台Macの版ズレを result を見るだけで検知)
+  echo "runner_rev: $(git -C "$HOME/.claude" rev-parse --short HEAD 2>/dev/null || echo unknown)"
+  # window_end: 本文の機械可読行 `window_end: YYYY-MM-DD` を frontmatter へ転記 (✅1c 鮮度の正本)
+  WINDOW_END="$(printf '%s\n' "$RESULT" | grep -m1 -oE '^window_end:[[:space:]]*[0-9]{4}-[0-9]{2}-[0-9]{2}' | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}')"
+  [ -n "$WINDOW_END" ] && echo "window_end: $WINDOW_END"
   echo "last_updated: $DATE"
   echo "tags:"
   echo "  - project/$PROJECT"
@@ -153,6 +200,19 @@ fi
   echo ""
   echo "> 元プロンプト: \`${PROMPT_FILE/#$HOME/~}\` / 実行: headless \`claude -p\` / tools: $TOOLS / workdir: \`${WORKDIR/#$HOME/~}\`"
   echo "> ⚠️ 自動生成。人間レビュー前提（数値は repo 一次ソースで要確認）。"
+  # 鮮度行 (✅1c 2026-07-08): 生成時に初期値を書き、毎朝の鮮度スタンパ (update_claudeenv.py) が上書き更新
+  _WDAYS=""
+  if [ -n "$WINDOW_END" ]; then
+    _WSEC="$(date -jf %Y-%m-%d "$WINDOW_END" +%s 2>/dev/null || true)"
+    _TSEC="$(date -jf %Y-%m-%d "$DATE" +%s 2>/dev/null || true)"
+    [ -n "$_WSEC" ] && [ -n "$_TSEC" ] && _WDAYS=$(( (_TSEC - _WSEC) / 86400 ))
+  fi
+  if [ -n "$_WDAYS" ]; then
+    _WARN=""; [ "$_WDAYS" -gt 10 ] && _WARN=" ⚠️10日超"
+    echo "<!--freshness-->🕐 鮮度（毎朝8:00自動更新）: データ窓終端 ${WINDOW_END}＝${_WDAYS}日前${_WARN} ／ 更新 ${DATE}＝0日前"
+  else
+    echo "<!--freshness-->🕐 鮮度（毎朝8:00自動更新）: データ窓終端 未記載 ／ 更新 ${DATE}＝0日前"
+  fi
   echo ""
   printf '%s\n' "$RESULT"
 } > "$OUT_MD"
@@ -161,14 +221,43 @@ fi
 # 施策節の各アクションに「なぜ(放置コスト)語 + 実在する理由資料リンク」が揃っているかの存在検査。
 # 内容の妥当性は保証しない (presence gate)。NG でも書き戻しは止めない (成果物消失防止・警告バナー追記のみ)。
 QGATE="$(fm_get runner_quality_gate)"
-if [ "$QGATE" = "action-evidence" ] && [ -f "$HOME/.claude/scripts/report_action_presence_gate.py" ]; then
-  if ! GATE_OUT="$(/usr/bin/python3 "$HOME/.claude/scripts/report_action_presence_gate.py" --annotate "$OUT_MD" 2>>"$LOG")"; then
+GATE_PY="$HOME/.claude/scripts/report_action_presence_gate.py"
+if [ "$QGATE" = "action-evidence" ]; then
+  if [ ! -f "$GATE_PY" ]; then
+    # 無言スキップ廃止 (✅1a 2026-07-08): script 不在は SKIPPED として OK と区別する
+    echo "=== [$(date -Iseconds)] quality-gate SKIPPED (script missing: $GATE_PY) ===" >> "$LOG"
+    notify "⚠️ 品質ゲート SKIPPED: gate script 不在 ($SLUG) — ~/.claude を git pull"
+  elif ! GATE_OUT="$(/usr/bin/python3 "$GATE_PY" --annotate "$OUT_MD" 2>>"$LOG")"; then
     echo "=== [$(date -Iseconds)] quality-gate NG: ${GATE_OUT:0:300} ===" >> "$LOG"
-    osascript -e "display notification \"🚦品質ゲートNG: $SLUG（なぜ/理由資料の欠落）\" with title \"Claude 定期実行\"" 2>/dev/null || true
+    notify "🚦品質ゲートNG: $SLUG（なぜ/理由資料の欠落）"
+  elif printf '%s' "$GATE_OUT" | grep -q '"gate_status": *"error"'; then
+    # fail-open (exit 0) と fail-silent の分離: gate 自身の故障を OK と偽装しない
+    echo "=== [$(date -Iseconds)] quality-gate ERROR (fail-open・gate自身の故障): ${GATE_OUT:0:300} ===" >> "$LOG"
+    notify "⚠️ 品質ゲート ERROR(fail-open): $SLUG — gate が故障しています"
   else
     echo "=== [$(date -Iseconds)] quality-gate OK ===" >> "$LOG"
   fi
 fi
+
+# --- 📡embed 断線検査 (✅1c 2026-07-08・warn-only) ---
+# runner_embed_watch (カンマ区切り・~可) のノート内 ![[note#anchor]] が生成直後の実体に
+# 解決できるかを検査。7/13 型の「窓が静かに壊れる」を生成の直後に検知する。
+EMBED_WATCH="$(fm_get runner_embed_watch)"
+if [ -n "$EMBED_WATCH" ] && [ -f "$GATE_PY" ]; then
+  EMBED_FILES=()
+  IFS=',' read -ra _EW <<< "$EMBED_WATCH"
+  for _e in "${_EW[@]}"; do
+    _e="$(echo "$_e" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"; _e="${_e/#\~/$HOME}"
+    [ -f "$_e" ] && EMBED_FILES+=("$_e")
+  done
+  if [ "${#EMBED_FILES[@]}" -gt 0 ] && ! EMB_OUT="$(/usr/bin/python3 "$GATE_PY" --embeds "${EMBED_FILES[@]}" 2>>"$LOG")"; then
+    echo "=== [$(date -Iseconds)] embed-check NG: ${EMB_OUT:0:300} ===" >> "$LOG"
+    notify "📡 embed断線: $SLUG の窓が壊れています（見出し不一致）"
+  fi
+fi
+
+# 手修正検知用 hash 保存 (gate --annotate の追記後の最終形を記録)
+shasum -a 256 "$OUT_MD" 2>/dev/null | awk '{print $1}' > "$HASH_FILE" || true
 
 echo "=== [$(date -Iseconds)] OK -> $OUT_MD ($(wc -l < "$OUT_MD") lines) ===" >> "$LOG"
 # 成功も通知 (2026-07-04): 成果物が「書かれたが誰も読まない」状態の解消 (失敗時通知と対)

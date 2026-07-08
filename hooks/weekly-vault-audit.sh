@@ -215,6 +215,56 @@ while IFS= read -r f; do
 done < <(grep -rlE "^## Must Remember" "$VAULT/02_Ai" --include="*-playbook.md" 2>/dev/null)
 
 # ============================================================
+# 検証 11: reports/ 直下の dated 手作成ファイル 30日超 warn (2026-07-08 ✅3)
+# 検証8 sweep の対象外 (auto-generated でない提案書・handover 等) は自動移動しない
+# (D2「無人書込はハブ追記型・移動は人間ゲート」)。30日超を warn として列挙し
+# 退避コマンドを添える。violations には数えない (housekeeping)。
+# ============================================================
+stale_reports=""
+for f in "$VAULT/02_Ai/"*/reports/*.md "$VAULT/02_Ai/"*/*/reports/*.md; do
+  [ -f "$f" ] || continue
+  [ -L "$f" ] && continue
+  case "$f" in */_archive/*) continue ;; esac
+  base="$(basename "$f" .md)"
+  fdate="$(printf '%s' "$base" | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}$')"
+  [ -n "$fdate" ] || continue
+  fepoch="$(date -j -f "%Y-%m-%d" "$fdate" "+%s" 2>/dev/null)" || continue
+  age_days=$(( (now_epoch - fepoch) / 86400 ))
+  [ "$age_days" -gt 30 ] || continue
+  stale_reports="${stale_reports}- 🟡 stale-report (${age_days}d): ${f#$VAULT/} → 退避は人間✅で: mv \"$f\" \"$(dirname "$f")/_archive/\"\n"
+done
+
+# ============================================================
+# 検証 12: 承認カード block id (^why-*) の def/ref 突合 (2026-07-08 ✅3)
+# 参照 [[note#^why-...]] の id が定義 (^why-... 行) に実在するか。固定名ボードの
+# 書き換えで id が落ちると契約2本+result の理由資料リンクが静かに死ぬため機械検知。
+# ============================================================
+why_defs="$(grep -rhoE '(^|[[:space:]])\^why-[A-Za-z0-9-]+[[:space:]]*$' "$VAULT/02_Ai" --include="*.md" 2>/dev/null | grep -oE 'why-[A-Za-z0-9-]+' | sort -u)"
+why_refs="$(grep -rhoE '#\^why-[A-Za-z0-9-]+' "$VAULT" --include="*.md" 2>/dev/null | grep -oE 'why-[A-Za-z0-9-]+' | sort -u)"
+for rid in $why_refs; do
+  if ! printf '%s\n' "$why_defs" | grep -qx "$rid"; then
+    result="${result}- ❌ why-link-broken: 参照 #^${rid} の定義行 (^${rid}) が 02_Ai 配下に見つからない (承認カードの理由資料が断線)\n"
+    violations=$((violations + 1))
+  fi
+done
+
+# ============================================================
+# 検証 13: 大文字小文字だけ違う重複ディレクトリ + broken symlink (2026-07-08 ✅3)
+# git は 02_Ai/02_ai を別物として追跡できるため (macOS 非区別で偶然動くだけ)、
+# vault git index のトップレベル重複を warn。加えて 02_Ai 配下の切れた symlink を検出。
+# ============================================================
+case_dups="$(git -C "$VAULT" ls-tree HEAD --name-only 2>/dev/null | awk '{print tolower($0)}' | sort | uniq -d)"
+if [ -n "$case_dups" ]; then
+  result="${result}- ❌ case-split: vault git のトップレベルに大文字小文字だけ違う重複名: $(echo "$case_dups" | tr '\n' ' ') (git mv 2段で統一せよ)\n"
+  violations=$((violations + 1))
+fi
+while IFS= read -r sl; do
+  [ -z "$sl" ] && continue
+  result="${result}- ❌ broken-symlink: ${sl#$VAULT/} - リンク先不在 (窓が死んでいる。実体の git 管理化 or ミラー方式へ)\n"
+  violations=$((violations + 1))
+done < <(find "$VAULT/02_Ai" -type l ! -exec test -e {} \; -print 2>/dev/null)
+
+# ============================================================
 # audit ファイル append-only 更新
 # ============================================================
 mkdir -p "$(dirname "$AUDIT_FILE")"
@@ -247,6 +297,9 @@ fi
   fi
   if [ "$swept" -gt 0 ]; then
     echo -e "$swept_log"
+  fi
+  if [ -n "$stale_reports" ]; then
+    echo -e "$stale_reports"
   fi
 } >> "$AUDIT_FILE"
 

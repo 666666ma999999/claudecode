@@ -81,6 +81,20 @@ tags:
 必ずスコープ語を前置すること（例: `prime ad strategy.md`, `AIads_ope.md`）。
 vault 全体でファイル名 unique を保証し、`[[plan]]` 等の ambiguous wikilink を作らない。
 
+### 恒久 block id（承認カードの理由資料・2026-07-08 ✅3）
+
+承認カード等の根拠 deep link を支える恒久 block id は **`^why-<施策ID/slug>` 形式・vault 全体で unique**。
+**固定名で上書き更新するボード（cp-review 型）を書き換えるときは、既存の `^why-*` 行を必ず保存する**
+（落とすと契約・result からの理由資料リンクが静かに死ぬ）。断線は `weekly-vault-audit.sh` 検証12
+（def/ref 突合）が週次で機械検知する。台帳ファイルは作らない（grep で全列挙可能）。
+
+### vault 内部リンクの書式（2026-07-08 ✅3b）
+
+**vault 内部への file:// リンクは禁止**（file URI は絶対パスのみで HOME 非依存の書式が存在せず、
+2台Mac でユーザー名が違うと全滅する）。vault 内は必ず wikilink（`[[note]]`）。
+repo（vault 外）へのリンクだけ file:// を使ってよいが、壊れていたら「AI に『開いて』と言えば解決する」
+のが恒久導線（file:// は補助）。互換シム（ln -s）は**シンボリックリンク禁止方針と衝突するため不採用**（2026-07-08 ユーザー✅）。
+
 ### 例外 type の最小要件 (vault 全体に関わる特殊 type)
 
 以下の特殊 type は 6 フィールド全部は不要・最小要件で OK:

@@ -47,6 +47,25 @@ if [ -f "$QUEUE" ]; then
   fi
 fi
 
+# (1.7) 定期ジョブ健全性の1行注入 + 見張り自身の死活 (✅1a 見張り役の常設 2026-07-08)
+#   collector-health.md「定期ジョブ健全性」節の🔴を数えて注入。無音失敗(6週間気づかず)の再発防止。
+CH="$VAULT/03_ClaudeEnv/collector-health.md"
+if [ -f "$CH" ]; then
+  # 見張り自身の死活: daily 8:00 更新のはずが2日超止まっていたら、見張りの停止こそを警報する
+  if [ -n "$(find "$CH" -mtime +2 2>/dev/null)" ]; then
+    out="${out}🚨 見張り役(collector-health)自身が2日以上未更新 — daily 8:00 ジョブ停止の疑い（launchctl list | grep masa で確認）
+
+"
+  else
+    jn=$(awk '/^## 定期ジョブ健全性/{f=1;next} /^## /{f=0} f' "$CH" 2>/dev/null | grep -c '^| 🔴')
+    if [ "${jn:-0}" -gt 0 ] 2>/dev/null; then
+      out="${out}🚨 定期ジョブの失敗/停滞 ${jn}件 → [[collector-health]] の「定期ジョブ健全性」節を確認
+
+"
+    fi
+  fi
+fi
+
 # (2) drift-watch P0（公式追随・自作リプレイス候補・上位5件）
 if [ -f "$DRIFT" ]; then
   p0=$(awk '/^## .*P0/{f=1;next} /^## .*P1/{f=0} f' "$DRIFT" 2>/dev/null | grep '^### ' | head -5)

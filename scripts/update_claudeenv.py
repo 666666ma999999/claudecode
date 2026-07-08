@@ -75,16 +75,15 @@ def parse_frontmatter(md_path: Path) -> dict:
 
 
 def render_skills(skills: list[dict]) -> str:
-    lines = [
-        "---",
-        "auto-generated: true",
-        f"updated: {dt.datetime.now().isoformat(timespec='seconds')}",
-        "tags: [claude-env, catalog]",
-        "source-script: ~/.claude/scripts/update_claudeenv.py",
-        "update-trigger: PostToolUse(Write|Edit on ~/.claude/skills/) + git post-merge",
-        "scope: installed personal skills inventory (~/.claude/skills/)",
-        "related: [[hooks-catalog]], [[official-updates]], [[drift-watch]], [[_README]]",
-        "---",
+    lines = frontmatter(
+        project="ClaudeEnv",
+        type_="catalog",
+        folder="03_ClaudeEnv/",
+        categories="[[ClaudeEnv_ope]]",
+        tags="[claude-env, catalog]",
+        last_updated=dt.datetime.now().isoformat(timespec='seconds'),
+        related="[[hooks-catalog]], [[official-updates]], [[drift-watch]], [[ClaudeEnv_ope]]",
+    ) + [
         "",
         f"# Skills Catalog ({len(skills)} 個)",
         "",
@@ -96,7 +95,7 @@ def render_skills(skills: list[dict]) -> str:
         "各 skill の名前・description・allowed-tools・最終更新日を確認できます。  ",
         "更新は SKILL.md 編集 (PostToolUse hook) または `git pull` 後 (post-merge hook) に自動実行されます。  ",
         "新規 skill 検索・重複機能の確認・skill 棚卸し時の入口として使ってください。  ",
-        "関連: [[hooks-catalog]] / [[official-updates]] / [[drift-watch]] / [[_README]]",
+        "関連: [[hooks-catalog]] / [[official-updates]] / [[drift-watch]] / [[ClaudeEnv_ope]]",
         "",
         "## 一覧",
         "",
@@ -152,16 +151,15 @@ def scan_hooks() -> dict:
 def render_hooks(hooks: dict) -> str:
     n_active = len(hooks["active"])
     n_dormant = len(hooks["dormant"])
-    lines = [
-        "---",
-        "auto-generated: true",
-        f"updated: {dt.datetime.now().isoformat(timespec='seconds')}",
-        "tags: [claude-env, catalog]",
-        "source-script: ~/.claude/scripts/update_claudeenv.py",
-        "update-trigger: PostToolUse(Write|Edit on ~/.claude/hooks/ or settings.json)",
-        "scope: registered + unregistered hooks inventory",
-        "related: [[skills-catalog]], [[official-updates]], [[drift-watch]], [[_README]]",
-        "---",
+    lines = frontmatter(
+        project="ClaudeEnv",
+        type_="catalog",
+        folder="03_ClaudeEnv/",
+        categories="[[ClaudeEnv_ope]]",
+        tags="[claude-env, catalog]",
+        last_updated=dt.datetime.now().isoformat(timespec='seconds'),
+        related="[[skills-catalog]], [[official-updates]], [[drift-watch]], [[ClaudeEnv_ope]]",
+    ) + [
         "",
         f"# Hooks Catalog (active={n_active}, dormant={n_dormant})",
         "",
@@ -173,7 +171,7 @@ def render_hooks(hooks: dict) -> str:
         f"settings.json に登録され実際に発火する **Active hooks ({n_active})** と、ファイルだけ残っている **Dormant hooks ({n_dormant})** に分かれます。  ",
         "更新は hook ファイル or settings.json 編集時 (PostToolUse hook) に自動実行されます。  ",
         "Dormant を整理したい / どの hook が何 event に登録されているか確認したいときに使います。  ",
-        "関連: [[skills-catalog]] / [[_README]]",
+        "関連: [[skills-catalog]] / [[ClaudeEnv_ope]]",
         "",
         "## Active Hooks",
         "",
@@ -218,16 +216,15 @@ def load_recent_official(days: int = 14) -> list[dict]:
 def render_official(items: list[dict]) -> str:
     p0 = sum(1 for r in items if r.get("priority") == "P0")
     p1 = sum(1 for r in items if r.get("priority") == "P1")
-    lines = [
-        "---",
-        "auto-generated: true",
-        f"updated: {dt.datetime.now().isoformat(timespec='seconds')}",
-        "tags: [claude-env, official]",
-        "source-script: ~/.claude/scripts/update_claudeenv.py + ~/.claude/scripts/collect_news.py",
-        "update-trigger: daily 08:00 launchd (collect_news.py) + on-demand update_claudeenv.py",
-        "scope: Anthropic / Claude Code / MCP / Obsidian 公式更新の最新 50 件",
-        "related: [[drift-watch]], [[skills-catalog]], [[hooks-catalog]], [[_README]]",
-        "---",
+    lines = frontmatter(
+        project="ClaudeEnv",
+        type_="reference",
+        folder="03_ClaudeEnv/",
+        categories="[[ClaudeEnv_ope]]",
+        tags="[claude-env, official]",
+        last_updated=dt.datetime.now().isoformat(timespec='seconds'),
+        related="[[drift-watch]], [[skills-catalog]], [[hooks-catalog]], [[ClaudeEnv_ope]]",
+    ) + [
         "",
         f"# Official Updates ({len(items)} 件 / 直近 14 日)",
         "",
@@ -240,7 +237,7 @@ def render_official(items: list[dict]) -> str:
         "各行: Priority (P0=Breaking/P1=Feature/P2=Noise) / 公開日 / ソース / タイトル+URL。  ",
         "更新は毎朝 8:00 の launchd ジョブ + on-demand。生データは `.raw/news/YYYY-MM-DD.jsonl`。  ",
         "新機能チェック・公式変更追跡時の一次資料として使い、判断と紐付けは [[drift-watch]] 側で行います。  ",
-        "関連: [[drift-watch]] / [[_README]]",
+        "関連: [[drift-watch]] / [[ClaudeEnv_ope]]",
         "",
         "## 一覧",
         "",
@@ -305,16 +302,15 @@ def render_drift(drift: list[dict], health: dict) -> str:
 
     n_alerts = len(alerts)
     summary_status = f"現況: P0 **{len(p0)}** 件、P1 **{len(p1)}** 件" + (f"、🔴 source 沈黙 **{n_alerts}** 件" if n_alerts else "、source health 全 OK")
-    lines = [
-        "---",
-        "auto-generated: true",
-        f"updated: {now.isoformat(timespec='seconds')}",
-        "tags: [claude-env, drift]",
-        "source-script: ~/.claude/scripts/update_claudeenv.py",
-        "update-trigger: daily + on-demand (depends on official-updates.md)",
-        "scope: replacement candidates (official P0/P1 vs custom assets)",
-        "related: [[official-updates]], [[skills-catalog]], [[hooks-catalog]], [[_README]]",
-        "---",
+    lines = frontmatter(
+        project="ClaudeEnv",
+        type_="drift",
+        folder="03_ClaudeEnv/",
+        categories="[[ClaudeEnv_ope]]",
+        tags="[claude-env, drift]",
+        last_updated=now.isoformat(timespec='seconds'),
+        related="[[official-updates]], [[skills-catalog]], [[hooks-catalog]], [[ClaudeEnv_ope]]",
+    ) + [
         "",
         f"# Drift Watch (P0={len(p0)}, P1={len(p1)})",
         "",
@@ -327,7 +323,7 @@ def render_drift(drift: list[dict], health: dict) -> str:
         "各項目: タイトル+URL / source / matched_skills (自動推測) / **article_candidate** (X 投稿候補フラグ) / **posted_from** (投稿済み記事 ID)。  ",
         "更新は daily 8:00 + on-demand。source 沈黙 (72h 無更新) 時は冒頭に 🔴 アラート表示。  ",
         "まず P0 を確認 → 自環境への影響評価 → リプレイスする or 自作維持を判断。`article_candidate: yes` は `~/.claude/scripts/article_bridge.py` で `~/Desktop/biz/make_article/data/claudeenv_queue/` に転記され、make_article で記事化 → X 投稿。  ",
-        "関連: [[official-updates]] (一次情報) / [[skills-catalog]] (置換対象確認) / [[_README]]",
+        "関連: [[official-updates]] (一次情報) / [[skills-catalog]] (置換対象確認) / [[ClaudeEnv_ope]]",
         "",
     ]
     if alerts:
@@ -353,15 +349,43 @@ def render_drift(drift: list[dict], health: dict) -> str:
 
 
 # -----------------------------------------------------------------------------
+# frontmatter helper (rules/41 準拠: project/type/folder/categories/last_updated/tags 必須)
+# -----------------------------------------------------------------------------
+def frontmatter(project, type_, folder, categories, tags, last_updated, related=None, auto_generated=True):
+    lines = ["---",
+             f"project: {project}",
+             f"type: {type_}",
+             f"folder: {folder}",
+             f"categories: {categories}",
+             f"last_updated: {last_updated}",
+             f"tags: {tags}",
+             f"auto-generated: {str(auto_generated).lower()}"]
+    if related:
+        lines.append(f"related: {related}")
+    lines.append("---")
+    return lines
+
+
+# -----------------------------------------------------------------------------
 # main
 # -----------------------------------------------------------------------------
+NOW_START = "<!-- NOW:START -->"
+NOW_END = "<!-- NOW:END -->"
+
+
 def write_if_changed(path: Path, content: str) -> bool:
     """Write only if content differs. Returns True if file changed."""
     path.parent.mkdir(parents=True, exist_ok=True)
+    # 手書き NOW ブロックは再生成で消さない: 既存ファイルの NOW ブロックを新 content 側へ移植
+    if NOW_START in content and NOW_END in content and path.exists():
+        old = path.read_text(encoding="utf-8")
+        if NOW_START in old and NOW_END in old:
+            old_block = old[old.index(NOW_START): old.index(NOW_END) + len(NOW_END)]
+            content = content[:content.index(NOW_START)] + old_block + content[content.index(NOW_END) + len(NOW_END):]
     if path.exists():
         old = path.read_text(encoding="utf-8")
-        # strip auto-generated `updated:` line for compare
-        normalize = lambda s: re.sub(r"^updated: .*$", "updated: X", s, flags=re.M)
+        # strip auto-generated `last_updated:` line for compare
+        normalize = lambda s: re.sub(r"^last_updated: .*$", "last_updated: X", s, flags=re.M)
         if normalize(old) == normalize(content):
             return False
     path.write_text(content, encoding="utf-8")
@@ -400,16 +424,15 @@ def scan_rules() -> list[dict]:
 
 
 def render_rules(rules: list[dict]) -> str:
-    lines = [
-        "---",
-        "auto-generated: true",
-        f"updated: {dt.datetime.now().isoformat(timespec='seconds')}",
-        "tags: [claude-env, catalog]",
-        "source-script: ~/.claude/scripts/update_claudeenv.py",
-        "update-trigger: PostToolUse(Write|Edit on ~/.claude/rules/)",
-        "scope: global rules (CLAUDE.md と rules/*.md)",
-        "related: [[skills-catalog]], [[_README]]",
-        "---",
+    lines = frontmatter(
+        project="ClaudeEnv",
+        type_="catalog",
+        folder="03_ClaudeEnv/",
+        categories="[[ClaudeEnv_ope]]",
+        tags="[claude-env, catalog]",
+        last_updated=dt.datetime.now().isoformat(timespec='seconds'),
+        related="[[skills-catalog]], [[ClaudeEnv_ope]]",
+    ) + [
         "",
         f"# Rules Catalog ({len(rules)} 個)",
         "",
@@ -421,7 +444,7 @@ def render_rules(rules: list[dict]) -> str:
         "優先順位: `CLAUDE.md` > `rules/` > skills。各ルールの行数・最終更新・要旨を確認できます。  ",
         "更新は rule ファイル編集時 (PostToolUse hook) に自動実行されます。  ",
         "ルール衝突調査・棚卸し・新ルール検討時の起点として使ってください。  ",
-        "関連: [[skills-catalog]] / [[_README]]",
+        "関連: [[skills-catalog]] / [[ClaudeEnv_ope]]",
         "",
         "## 一覧",
         "",
@@ -454,16 +477,15 @@ def scan_agents() -> list[dict]:
 
 
 def render_agents(agents: list[dict]) -> str:
-    lines = [
-        "---",
-        "auto-generated: true",
-        f"updated: {dt.datetime.now().isoformat(timespec='seconds')}",
-        "tags: [claude-env, catalog]",
-        "source-script: ~/.claude/scripts/update_claudeenv.py",
-        "update-trigger: PostToolUse(Write|Edit on ~/.claude/agents/)",
-        "scope: custom subagents (~/.claude/agents/)",
-        "related: [[skills-catalog]], [[_README]]",
-        "---",
+    lines = frontmatter(
+        project="ClaudeEnv",
+        type_="catalog",
+        folder="03_ClaudeEnv/",
+        categories="[[ClaudeEnv_ope]]",
+        tags="[claude-env, catalog]",
+        last_updated=dt.datetime.now().isoformat(timespec='seconds'),
+        related="[[skills-catalog]], [[ClaudeEnv_ope]]",
+    ) + [
         "",
         f"# Agents Catalog ({len(agents)} 個)",
         "",
@@ -475,7 +497,7 @@ def render_agents(agents: list[dict]) -> str:
         "各 agent の description / 利用可能 tools を確認できます。  ",
         "更新は agent ファイル編集時 (PostToolUse hook) に自動実行。  ",
         "新規 agent 設計時の重複チェック・Twin Agents 構成確認に使います。  ",
-        "関連: [[skills-catalog]] / [[_README]]",
+        "関連: [[skills-catalog]] / [[ClaudeEnv_ope]]",
         "",
         "## 一覧",
         "",
@@ -521,16 +543,15 @@ def scan_commands() -> list[dict]:
 
 
 def render_commands(cmds: list[dict]) -> str:
-    lines = [
-        "---",
-        "auto-generated: true",
-        f"updated: {dt.datetime.now().isoformat(timespec='seconds')}",
-        "tags: [claude-env, catalog]",
-        "source-script: ~/.claude/scripts/update_claudeenv.py",
-        "update-trigger: PostToolUse(Write|Edit on ~/.claude/commands/)",
-        "scope: slash commands (~/.claude/commands/)",
-        "related: [[skills-catalog]], [[_README]]",
-        "---",
+    lines = frontmatter(
+        project="ClaudeEnv",
+        type_="catalog",
+        folder="03_ClaudeEnv/",
+        categories="[[ClaudeEnv_ope]]",
+        tags="[claude-env, catalog]",
+        last_updated=dt.datetime.now().isoformat(timespec='seconds'),
+        related="[[skills-catalog]], [[ClaudeEnv_ope]]",
+    ) + [
         "",
         f"# Commands Catalog ({len(cmds)} 個)",
         "",
@@ -542,7 +563,7 @@ def render_commands(cmds: list[dict]) -> str:
         "各コマンドの description / 最終更新を確認できます。  ",
         "更新は command ファイル編集時 (PostToolUse hook) に自動実行。  ",
         "コマンド一覧確認・重複命名チェックに使います。  ",
-        "関連: [[skills-catalog]] / [[_README]]",
+        "関連: [[skills-catalog]] / [[ClaudeEnv_ope]]",
         "",
         "## 一覧",
         "",
@@ -600,16 +621,15 @@ def scan_mcp_and_plugins() -> dict:
 def render_mcp_plugins(data: dict) -> str:
     mcp = data["mcp_servers"]
     plugins = data["plugins"]
-    lines = [
-        "---",
-        "auto-generated: true",
-        f"updated: {dt.datetime.now().isoformat(timespec='seconds')}",
-        "tags: [claude-env, catalog]",
-        "source-script: ~/.claude/scripts/update_claudeenv.py",
-        "update-trigger: on-demand (.mcp.json or installed_plugins.json change)",
-        "scope: MCP servers + Claude Code plugins",
-        "related: [[skills-catalog]], [[_README]]",
-        "---",
+    lines = frontmatter(
+        project="ClaudeEnv",
+        type_="catalog",
+        folder="03_ClaudeEnv/",
+        categories="[[ClaudeEnv_ope]]",
+        tags="[claude-env, catalog]",
+        last_updated=dt.datetime.now().isoformat(timespec='seconds'),
+        related="[[skills-catalog]], [[ClaudeEnv_ope]]",
+    ) + [
         "",
         f"# MCP & Plugins (mcp={len(mcp)}, plugins={len(plugins)})",
         "",
@@ -621,7 +641,7 @@ def render_mcp_plugins(data: dict) -> str:
         "各 MCP の起動コマンド or URL、plugin の有効状態を確認できます。  ",
         "更新は手動 (`.mcp.json` 編集後に `update_claudeenv.py --target mcp` を実行)。  ",
         "MCP 追加検討・plugin 棚卸し時に使います。シークレット管理は [[secret-management]] スキル参照。  ",
-        "関連: [[skills-catalog]] / [[_README]]",
+        "関連: [[skills-catalog]] / [[ClaudeEnv_ope]]",
         "",
         "## MCP Servers",
         "",
@@ -681,6 +701,182 @@ COLLECTORS = [
 ]
 
 
+# --- 鮮度スタンパ (✅1c 2026-07-08・機械メタ行の決定論的上書き) --------------------
+# 柵 (無人書込ハブ追記型決定 2026-07-06 の carve-out・Codex #4 裁定で柵明文化を条件に許可):
+#   1. FRESH_MARK を含む「その1行」だけを書き換える。行が無いファイルには何も足さない。
+#   2. 人筆領域・本文・行動ルール正本には一切触れない。LLM 不使用・完全決定論。
+#   3. 対象は下の FRESHNESS_TARGETS 3枚のみ (勝手に増やさない)。
+FRESH_MARK = "<!--freshness-->"
+FRESHNESS_TARGETS = [
+    VAULT / "02_Ai/AI_adscrm/AIads/AIads-cp-review.md",
+    VAULT / "02_Ai/AI_adscrm/AIads/reports/adscrm-weekly-ops-review-result.md",
+    VAULT / "02_Ai/AI_adscrm/AIads/reports/adscrm-biweekly-ads-pdca-result.md",
+]
+
+
+def stamp_freshness() -> list[str]:
+    """「この数字は何日前の窓か」を毎朝計算してマーカー行を更新 (fail-open)。"""
+    today = dt.date.today()
+    changed = []
+    for path in FRESHNESS_TARGETS:
+        try:
+            if not path.exists():
+                continue
+            text = path.read_text(encoding="utf-8")
+            if FRESH_MARK not in text:
+                continue
+            fm = text.split("\n---\n", 1)[0] if text.startswith("---\n") else ""
+            # 窓終端: frontmatter window_end: が正。無ければ period: 行の最終日付で代用
+            m = re.search(r"^window_end:\s*[\"']?(\d{4}-\d{2}-\d{2})", fm, re.M)
+            if not m:
+                pline = re.search(r"^period:.*$", fm, re.M)
+                dates = re.findall(r"\d{4}-\d{2}-\d{2}", pline.group(0)) if pline else []
+                wend = max(dates) if dates else None
+            else:
+                wend = m.group(1)
+            g = re.search(r"^(?:generated_at|last_updated):\s*[\"']?(\d{4}-\d{2}-\d{2})", fm, re.M)
+            gen = g.group(1) if g else None
+
+            if wend:
+                wdays = (today - dt.date.fromisoformat(wend)).days
+                warn = " ⚠️10日超" if wdays > 10 else ""
+                wpart = f"データ窓終端 {wend}＝{wdays}日前{warn}"
+            else:
+                wpart = "データ窓終端 未記載"
+            gpart = f"更新 {gen}＝{(today - dt.date.fromisoformat(gen)).days}日前" if gen else "更新 未記載"
+            newline = f"{FRESH_MARK}🕐 鮮度（毎朝8:00自動更新）: {wpart} ／ {gpart}"
+
+            new_text = re.sub(r"^.*" + re.escape(FRESH_MARK) + r".*$", newline, text, count=1, flags=re.M)
+            if new_text != text:
+                path.write_text(new_text, encoding="utf-8")
+                changed.append(f"freshness:{path.name}")
+        except Exception:
+            continue
+    return changed
+
+
+# --- 定期ジョブ健全性 (✅1a 見張り役の常設 2026-07-08) ---------------------------
+# 背景: wiki-daily-ingest の TCC 失敗 2/2・fetch-phase0b の6週間無音失敗(exit126)を
+# 誰も検知できなかった (bunshin-system-review-2026-07-08)。器は collector-health.md に
+# 相乗りし、新ジョブ・新ファイルは作らない。
+# 柵: 本 script の書込先は 03_ClaudeEnv/ の自動生成カタログのみ (人筆領域に触れない)。
+JOB_LABEL_PREFIXES = ("com.masa.", "com.masaaki.", "com.prime_ad.")
+# 期待成果物 (vault 同期されるファイル): このMacに load されていないジョブ (masa-2 管轄)
+# でも成果物の古さで故障が見える = 「警報が同期される場所に残る」の実装。
+JOB_ARTIFACTS = [
+    # (label, artifact path, 鮮度閾値日数, cadence 表示)
+    ("com.masa.wiki-daily-ingest",
+     VAULT / "wiki/meta/wiki-daily-ingest-result.md", 2, "daily 8:47"),
+    ("com.masa.vault-prompt-runner (weekly・masa-2)",
+     VAULT / "02_Ai/AI_adscrm/AIads/reports/adscrm-weekly-ops-review-result.md", 8, "毎週月 10:30"),
+    ("com.masa.vault-prompt-runner (biweekly・masa-2)",
+     VAULT / "02_Ai/AI_adscrm/AIads/reports/adscrm-biweekly-ads-pdca-result.md", 16, "第2/第4月 10:30"),
+]
+# 📅期日超過スキャン対象 (手動だが期日がある作業の監視穴を塞ぐ・書式: 📅due:YYYY-MM-DD)
+DUE_SCAN_FILES = [
+    VAULT / "02_Ai/AI_adscrm/AIads/AIads-cp-review.md",
+    VAULT / "02_Ai/AI_adscrm/AIads/AIads-meta-cp-review.md",
+]
+DUE_RE = re.compile(r"📅due:(\d{4}-\d{2}-\d{2})")
+
+
+def scan_job_health() -> dict:
+    """launchd ジョブの失敗・成果物の古さ・📅期日超過を収集 (fail-open: 例外は空で返す)。"""
+    import subprocess
+    today = dt.date.today()
+    out = {"jobs": [], "artifacts": [], "overdue": [], "red": 0}
+
+    # (a) launchctl list の非0 exit status
+    try:
+        res = subprocess.run(["launchctl", "list"], capture_output=True, text=True, timeout=10)
+        for line in res.stdout.splitlines()[1:]:
+            parts = line.split("\t")
+            if len(parts) < 3:
+                continue
+            pid, status, label = parts[0].strip(), parts[1].strip(), parts[2].strip()
+            if not label.startswith(JOB_LABEL_PREFIXES):
+                continue
+            bad = status not in ("0", "-")
+            out["jobs"].append({"label": label, "pid": pid, "status": status,
+                                "flag": "🔴" if bad else "🟢"})
+            if bad:
+                out["red"] += 1
+    except Exception:
+        pass
+
+    # (b) 期待成果物の鮮度 (masa-2 管轄ジョブも vault 同期ファイルで見える)
+    for label, path, threshold, cadence in JOB_ARTIFACTS:
+        try:
+            if path.exists():
+                last = dt.date.fromtimestamp(path.stat().st_mtime)
+                days = (today - last).days
+                flag = "🟢" if days <= threshold else ("🟡" if days <= threshold * 2 else "🔴")
+                last_str = last.isoformat()
+            else:
+                days, flag, last_str = "—", "🔴", "(なし)"
+            if flag == "🔴":
+                out["red"] += 1
+            out["artifacts"].append({"label": label, "file": path.name, "cadence": cadence,
+                                     "last": last_str, "days": days,
+                                     "threshold": threshold, "flag": flag})
+        except Exception:
+            continue
+
+    # (c) 📅due:YYYY-MM-DD 期日超過 (ボード上の手動タスク)
+    for f in DUE_SCAN_FILES:
+        try:
+            if not f.exists():
+                continue
+            for i, line in enumerate(f.read_text(encoding="utf-8").splitlines(), 1):
+                for m in DUE_RE.finditer(line):
+                    due = dt.date.fromisoformat(m.group(1))
+                    if due < today:
+                        out["overdue"].append({"file": f.name, "line": i, "due": m.group(1),
+                                               "days": (today - due).days,
+                                               "text": line.strip()[:80]})
+                        out["red"] += 1
+        except Exception:
+            continue
+    return out
+
+
+def render_job_health(jh: dict) -> list[str]:
+    lines = [
+        "",
+        "## 定期ジョブ健全性（launchd・✅1a 見張り役 2026-07-08〜）",
+        "",
+        "> 3系統で監視: (a) このMacの launchd 失敗 (b) 期待成果物の古さ（masa-2 管轄ジョブも vault 同期ファイルで見える） (c) ボードの `📅due:` 期日超過。",
+        "> 🔴 は SessionStart（cwd=~/.claude）で1行注入される。見張り自身の死活は本ファイルの更新時刻で hook が判定。",
+        "",
+        "### (a) このMacの launchd ステータス",
+        "",
+        "| | Job | Last Exit |",
+        "|---|---|---|",
+    ]
+    for j in jh["jobs"]:
+        lines.append(f"| {j['flag']} | `{j['label']}` | {j['status']} |")
+    if not jh["jobs"]:
+        lines.append("| — | (launchctl 取得失敗 or 該当なし) | — |")
+    lines += [
+        "",
+        "### (b) 期待成果物の鮮度",
+        "",
+        "| | Job | 成果物 | 周期 | 最終更新 | 経過日 | 閾値 |",
+        "|---|---|---|---|---|---|---|",
+    ]
+    for a in jh["artifacts"]:
+        lines.append(f"| {a['flag']} | `{a['label']}` | `{a['file']}` | {a['cadence']} | {a['last']} | {a['days']} | {a['threshold']}日 |")
+    lines += ["", "### (c) 📅期日超過（手動タスク）", ""]
+    if jh["overdue"]:
+        lines += ["| | どこ | 期日 | 超過 | 行 |", "|---|---|---|---|---|"]
+        for o in jh["overdue"]:
+            text = o["text"].replace("|", "\\|")
+            lines.append(f"| 🔴 | `{o['file']}:{o['line']}` | {o['due']} | {o['days']}日 | {text} |")
+    else:
+        lines.append("- 超過なし（`📅due:YYYY-MM-DD` マーカーをボード行に書くとここで監視される）")
+    return lines
+
+
 def scan_collector_health() -> list[dict]:
     """各 collector の最終更新を見て status を判定。"""
     today = dt.date.today()
@@ -725,18 +921,18 @@ def scan_collector_health() -> list[dict]:
 def render_collector_health(rows: list[dict]) -> str:
     auto_ok = sum(1 for r in rows if r["mode"] == "auto" and r["status"] == "🟢")
     auto_total = sum(1 for r in rows if r["mode"] == "auto")
-    lines = [
-        "---",
-        "auto-generated: true",
-        f"updated: {dt.datetime.now().isoformat(timespec='seconds')}",
-        "tags: [claude-env, collector-health]",
-        "source-script: ~/.claude/scripts/update_claudeenv.py",
-        "update-trigger: daily 08:00 (daily_digest.sh)",
-        "scope: Vault/.raw/ 配下の各収集パイプラインの生存状況",
-        "related: [[_README]], [[skills-catalog]]",
-        "---",
+    jh = scan_job_health()
+    lines = frontmatter(
+        project="ClaudeEnv",
+        type_="health",
+        folder="03_ClaudeEnv/",
+        categories="[[ClaudeEnv_ope]]",
+        tags="[claude-env, collector-health]",
+        last_updated=dt.datetime.now().isoformat(timespec='seconds'),
+        related="[[ClaudeEnv_ope]], [[skills-catalog]]",
+    ) + [
         "",
-        f"# Collector Health (auto={auto_ok}/{auto_total} 正常)",
+        f"# Collector Health (auto={auto_ok}/{auto_total} 正常・定期ジョブ🔴={jh['red']}件)",
         "",
         "> Vault/.raw/ 配下の各収集系の運用モードと最終更新を可視化。",
         "",
@@ -746,7 +942,7 @@ def render_collector_health(rows: list[dict]) -> str:
         "**重要**: `mode = manual` の collector は「自動化されていない=壊れている」**ではない**。意図的に手動運用しています。",
         "Status: `🟢 ok` / `🟡 stale` / `🔴 broken?` は **auto モードのみ** 健全性表示。`on-demand` は manual で「使うときに使う」を意味します。  ",
         "更新は daily 8:00 (daily_digest.sh) に自動実行。手動起動が必要な collector の対処方法は各行参照。  ",
-        "関連: [[_README]] / [[skills-catalog]] / [[drift-watch]]",
+        "関連: [[ClaudeEnv_ope]] / [[skills-catalog]] / [[drift-watch]]",
         "",
         "## 一覧",
         "",
@@ -759,6 +955,7 @@ def render_collector_health(rows: list[dict]) -> str:
         lines.append(
             f"| {r['status']} | `{r['name']}` | {r['mode']} | {r['last_updated']} | {r['stale_days']} | {trigger} | {note} |"
         )
+    lines += render_job_health(jh)
     lines += [
         "",
         "## モードの定義",
@@ -781,15 +978,26 @@ def render_collector_health(rows: list[dict]) -> str:
     return "\n".join(lines) + "\n"
 
 
-README_CONTENT = """---
-auto-generated: false
-tags: [claude-env, moc]
----
+README_CONTENT = "\n".join(frontmatter(
+    project="ClaudeEnv",
+    type_="moc",
+    folder="03_ClaudeEnv/",
+    categories="[[project-registry]]",
+    tags="[claude-env, moc]",
+    last_updated=dt.datetime.now().isoformat(timespec='seconds'),
+    auto_generated=False,
+)) + """
 
 # 03_ClaudeEnv — 索引
 
+## 📌 NOW / 懸案（手書き・自動生成で消えない）
+
+<!-- NOW:START -->
+- （ここに今の環境作業の懸案を手書き。再生成で保持される）
+<!-- NOW:END -->
+
 このディレクトリは **~/.claude/ グローバル環境を Obsidian で管理・閲覧** するためのカタログ集です。
-全ファイルは `~/.claude/scripts/update_claudeenv.py` が自動生成。手編集禁止。
+全ファイルは `~/.claude/scripts/update_claudeenv.py` が自動生成。手編集禁止（NOW セクションを除く）。
 
 ## カタログ 7 種類
 
@@ -839,7 +1047,7 @@ collect_news.py                                       ↓
 | どの agent を呼ぶか | [[agents-catalog]] |
 | 使えるスラッシュコマンドは | [[commands-catalog]] |
 | MCP は何が入ってる | [[mcp-and-plugins]] |
-| 全ファイル俯瞰 | このファイル (_README) |
+| 全ファイル俯瞰 | このファイル (ClaudeEnv_ope) |
 
 ## 関連設定
 
@@ -905,9 +1113,10 @@ def main() -> int:
     if "health" in targets:
         if write_if_changed(OUT_DIR / "collector-health.md", render_collector_health(scan_collector_health())):
             changed.append("collector-health.md")
+        changed += stamp_freshness()  # ✅1c 鮮度スタンパ (daily 8:00 に相乗り・機械メタ行のみ)
     if "readme" in targets:
-        if write_if_changed(OUT_DIR / "_README.md", README_CONTENT):
-            changed.append("_README.md")
+        if write_if_changed(OUT_DIR / "ClaudeEnv_ope.md", README_CONTENT):
+            changed.append("ClaudeEnv_ope.md")
 
     print(f"[update_claudeenv] target={args.target}, changed={changed or 'none'}")
     return 0
