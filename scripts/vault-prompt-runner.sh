@@ -60,6 +60,9 @@ TOOLS="$(fm_get runner_tools)";   TOOLS="${TOOLS:-Read Grep Glob WebSearch}"
 WORKDIR="${3:-$(fm_get runner_workdir)}"; WORKDIR="${WORKDIR:-$HOME}"
 EXTRA_DIR="$(fm_get runner_extra_dir)"   # 任意: WORKDIR 外の追加読取許可 (例 vault の公式ルールブック)
 OUT_DIR="$(fm_get runner_out_dir)"; OUT_DIR="${OUT_DIR:-$HOME/Documents/Obsidian Vault/02_Ai/AI_adscrm/AIads/reports}"
+# ~ 展開 (2026-07-08): 2台Mac運用でユーザー名が違うため、prompt frontmatter は "~/..." で書き
+# ここで実行機の $HOME に展開する (旧: 絶対パス直書き → 別Macで [ -d ] が落ち silent fallback)
+WORKDIR="${WORKDIR/#\~/$HOME}"; EXTRA_DIR="${EXTRA_DIR/#\~/$HOME}"; OUT_DIR="${OUT_DIR/#\~/$HOME}"
 MODEL="$(fm_get runner_model)"
 OUT_MODE="$(fm_get runner_out_mode)"; OUT_MODE="${OUT_MODE:-dated}"   # dated(既定・累積) | overwrite(固定名)
 
@@ -153,6 +156,19 @@ fi
   echo ""
   printf '%s\n' "$RESULT"
 } > "$OUT_MD"
+
+# --- 品質ゲート (存在検査・fail-open・opt-in: runner_quality_gate) 2026-07-08 ---
+# 施策節の各アクションに「なぜ(放置コスト)語 + 実在する理由資料リンク」が揃っているかの存在検査。
+# 内容の妥当性は保証しない (presence gate)。NG でも書き戻しは止めない (成果物消失防止・警告バナー追記のみ)。
+QGATE="$(fm_get runner_quality_gate)"
+if [ "$QGATE" = "action-evidence" ] && [ -f "$HOME/.claude/scripts/report_action_presence_gate.py" ]; then
+  if ! GATE_OUT="$(/usr/bin/python3 "$HOME/.claude/scripts/report_action_presence_gate.py" --annotate "$OUT_MD" 2>>"$LOG")"; then
+    echo "=== [$(date -Iseconds)] quality-gate NG: ${GATE_OUT:0:300} ===" >> "$LOG"
+    osascript -e "display notification \"🚦品質ゲートNG: $SLUG（なぜ/理由資料の欠落）\" with title \"Claude 定期実行\"" 2>/dev/null || true
+  else
+    echo "=== [$(date -Iseconds)] quality-gate OK ===" >> "$LOG"
+  fi
+fi
 
 echo "=== [$(date -Iseconds)] OK -> $OUT_MD ($(wc -l < "$OUT_MD") lines) ===" >> "$LOG"
 # 成功も通知 (2026-07-04): 成果物が「書かれたが誰も読まない」状態の解消 (失敗時通知と対)
