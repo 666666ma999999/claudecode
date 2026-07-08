@@ -285,6 +285,28 @@ if [ -n "$EMBED_WATCH" ] && [ -f "$GATE_PY" ]; then
   fi
 fi
 
+# --- CP章の構造検査 (✅金標準恒久化 2026-07-08・warn-only・書込なし=evergreenボード保護) ---
+# runner_cp_gate (~可・カンマ区切り) のボードに gate --cp-sections を当て、金標準の骨格
+# (⏱/窓/原因|狙い/判定/①〜④/状態タグ/やること/なぜ/折りたたみ) の欠落を生成直後に検知。
+CP_GATE="$(fm_get runner_cp_gate)"
+if [ -n "$CP_GATE" ] && [ -f "$GATE_PY" ]; then
+  CPG_FILES=()
+  IFS=',' read -ra _CG <<< "$CP_GATE"
+  for _c in "${_CG[@]}"; do
+    _c="$(echo "$_c" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"; _c="${_c/#\~/$HOME}"
+    [ -f "$_c" ] && CPG_FILES+=("$_c")
+  done
+  if [ "${#CPG_FILES[@]}" -gt 0 ]; then
+    if ! CPG_OUT="$(/usr/bin/python3 "$GATE_PY" --cp-sections "${CPG_FILES[@]}" 2>>"$LOG")"; then
+      echo "=== [$(date -Iseconds)] cp-sections NG: ${CPG_OUT:0:300} ===" >> "$LOG"
+      notify "📐 CP章の骨格欠落: $SLUG（ボードの金標準要素が欠けています）"
+    elif printf '%s' "$CPG_OUT" | grep -q '"gate_status": *"error"'; then
+      echo "=== [$(date -Iseconds)] cp-sections ERROR (fail-open): ${CPG_OUT:0:300} ===" >> "$LOG"
+      notify "⚠️ CP章検査 ERROR(fail-open): $SLUG"
+    fi
+  fi
+fi
+
 # 手修正検知用 hash 保存 (gate --annotate の追記後の最終形を記録)
 shasum -a 256 "$OUT_MD" 2>/dev/null | awk '{print $1}' > "$HASH_FILE" || true
 

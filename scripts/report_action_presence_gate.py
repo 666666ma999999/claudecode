@@ -150,6 +150,85 @@ def check_embeds(path):
     return broken
 
 
+# --- CP章の構造検査 (--cp-sections・2026-07-08 金標準の恒久化・Codex GO-WITH-CHANGES 反映) ---
+# 対象選抜 (文字列1本依存を避ける・Codex must-fix): ### 節のうち
+#   (1) 見出しに 真ROAS or CP を含む、または (2) 節内に ⏱時間軸callout + ①〜④のうち3個以上。
+#   denylist (見出しに含む): M3 / Meta / 付録 / 具体的な施策。
+# 候補だが構造未満 (📊診断なし等) は candidate_cp_unstructured として別warn。
+# presence gate 思想は維持: 存在検査のみ・因果の質は契約とskill checklistが担う。
+CP_DENY = ("M3", "Meta", "付録", "具体的な施策")
+PART_MARKS = ["①", "②", "③", "④"]
+PART_TITLE_RE = re.compile(r"^>\s*\[!(todo|note|abstract)\]([+-]?)\s*(.*)$", re.M)
+
+
+def check_cp_sections(path):
+    """returns (ng:[{section,missing}], warnings:[str])"""
+    raw = open(path, encoding="utf-8").read()
+    text = strip_noise(raw)
+    ng, warnings = [], []
+
+    heads = [(m.start(), m.group(1)) for m in re.finditer(r"^###\s+(.*)$", text, re.M)]
+    bounds = [h[0] for h in heads] + [len(text)]
+    for i, (start, title) in enumerate(heads):
+        sec = text[start:bounds[i + 1]]
+        # 次の ## (レベル2) で節が終わる場合も切る (自身の ### 見出し行はスキップして探す)
+        nl = sec.find("\n")
+        m2 = re.search(r"^##[^#]", sec[nl + 1:], re.M) if nl != -1 else None
+        if m2:
+            sec = sec[: nl + 1 + m2.start()]
+        if any(d in title for d in CP_DENY):
+            continue
+        has_clock = "⏱" in sec
+        marks_in_sec = sum(1 for p in PART_MARKS if p in sec)
+        if not (("真ROAS" in title or "CP" in title) or (has_clock and marks_in_sec >= 3)):
+            continue
+        # 候補確定。構造未満 (診断折りたたみ不在) は別warn
+        if "📊" not in sec:
+            warnings.append(f"candidate_cp_unstructured: {title[:40]} (📊診断なし・金標準未適用)")
+            continue
+        missing = []
+        if not re.search(r"^>\s*\[!tip\].*⏱", sec, re.M):
+            missing.append("⏱時間軸callout")
+        if not re.search(r"^\*\*窓\*\*:", sec, re.M):
+            missing.append("**窓**行")
+        if not (re.search(r"\|\s*\*\*(原因|狙い)\*\*\s*\|", sec) and re.search(r"\|\s*\*\*判定\*\*\s*\|", sec)):
+            missing.append("原因(狙い)/判定の2行")
+        # ①〜④: callout タイトル行にトークン存在 (「なし」も可・存在のみ)
+        part_titles = [m.group(3) for m in PART_TITLE_RE.finditer(sec)]
+        main_parts = [t for t in part_titles if re.match(r"[⓪①②③④](?![\-a-z])", t)]
+        for p in PART_MARKS:
+            if not any(t.startswith(p) for t in main_parts):
+                missing.append(f"部品{p}")
+        # [!todo] 部品の状態タグ+日付 / やること+なぜ
+        for m in PART_TITLE_RE.finditer(sec):
+            kind, fold, t = m.group(1), m.group(2), m.group(3)
+            if not re.match(r"[⓪①②③④](?![\-a-z])", t):
+                continue
+            # callout 本文 = タイトル行に続く > 行 (m.end()は行末=先頭要素は空なので捨てる)
+            body_lines = []
+            for line in sec[m.end():].split("\n")[1:]:
+                if not line.startswith(">"):
+                    break
+                body_lines.append(line)
+            body = "\n".join(body_lines)
+            if kind == "todo" and not (re.search(r"\*\*状態[:：]", body) and re.search(r"20\d\d-\d\d-\d\d", body)):
+                missing.append(f"{t[:14]}…の状態タグ(日付つき)")
+            if kind in ("todo", "note") and not ("やること" in body or "確認すること" in body):
+                missing.append(f"{t[:14]}…の「やること」")
+            if kind in ("todo", "note") and "なぜ" not in body:
+                missing.append(f"{t[:14]}…の「なぜ」")
+            if kind in ("todo", "note", "abstract") and fold != "-":
+                warnings.append(f"{title[:20]}: 折りたたみ`-`なし callout「{t[:20]}」(可視行増)")
+        if missing:
+            ng.append({"section": title[:50], "missing": missing})
+
+    # P8: 可視行の概算 (>で始まらない非空行) — warn のみ
+    visible = sum(1 for l in text.split("\n") if l.strip() and not l.startswith(">"))
+    if visible > 320:
+        warnings.append(f"可視行の概算 {visible} 行 > 320 (折りたたみ規律の確認を)")
+    return ng, warnings
+
+
 def annotate(path, ng, warnings):
     raw = open(path, encoding="utf-8").read()
     fails = "; ".join(f"{x['item']}→{'/'.join(x['missing'])}" for x in ng)[:500]
@@ -183,9 +262,28 @@ def main():
         mode, args = "scan", args[1:]
     elif args and args[0] == "--embeds":
         mode, args = "embeds", args[1:]
+    elif args and args[0] == "--cp-sections":
+        mode, args = "cp-sections", args[1:]
     if not args:
-        print("usage: report_action_presence_gate.py [--annotate|--scan|--embeds] <file.md>...", file=sys.stderr)
+        print("usage: report_action_presence_gate.py [--annotate|--scan|--embeds|--cp-sections] <file.md>...", file=sys.stderr)
         return 0
+
+    if mode == "cp-sections":
+        # CP章の構造検査 (存在検査のみ・書込なし=evergreenボード保護・NGでexit 1)
+        any_ng = False
+        for path in args:
+            try:
+                ng, warnings = check_cp_sections(path)
+            except Exception as e:  # fail-open だが故障は stdout で可視化
+                print(json.dumps({"file": path, "gate_status": "error", "error": str(e)[:200]}, ensure_ascii=False))
+                continue
+            if ng:
+                any_ng = True
+            detail = "; ".join(f"{x['section']}→{'/'.join(x['missing'])[:120]}" for x in ng)[:600]
+            print(f"[{'NG' if ng else 'OK'}] {path}" + (f" :: {detail}" if ng else ""))
+            for w in warnings:
+                print(f"  ⚠️ {w}")
+        return 1 if any_ng else 0
 
     if mode == "embeds":
         any_broken = False

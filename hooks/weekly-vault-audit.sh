@@ -265,6 +265,20 @@ while IFS= read -r sl; do
 done < <(find "$VAULT/02_Ai" -type l ! -exec test -e {} \; -print 2>/dev/null)
 
 # ============================================================
+# 検証 14: 司令塔CP章の骨格検査 (2026-07-08 金標準恒久化・warn相当)
+# gate --cp-sections で ⏱/窓/原因/判定/①〜④/状態タグ等の存在を週次でも機械検査
+# (runner 経路の検査と二重化・手動編集での骨格崩れも拾う)。violations に計上。
+# ============================================================
+CPG_PY="$HOME/.claude/scripts/report_action_presence_gate.py"
+CPG_BOARD="$VAULT/02_Ai/AI_adscrm/AIads/AIads-cp-review.md"
+if [ -f "$CPG_PY" ] && [ -f "$CPG_BOARD" ]; then
+  if ! cpg_out="$(/usr/bin/python3 "$CPG_PY" --cp-sections "$CPG_BOARD" 2>/dev/null)"; then
+    result="${result}- ❌ cp-sections: $(printf '%s' "$cpg_out" | head -1 | cut -c1-200) (CP章の金標準要素が欠落)\n"
+    violations=$((violations + 1))
+  fi
+fi
+
+# ============================================================
 # audit ファイル append-only 更新
 # ============================================================
 mkdir -p "$(dirname "$AUDIT_FILE")"
