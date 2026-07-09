@@ -279,6 +279,25 @@ if [ -f "$CPG_PY" ] && [ -f "$CPG_BOARD" ]; then
 fi
 
 # ============================================================
+# 検証 15: グローバルルール層 vs wiki/meta サマリの同期ドリフト (2026-07-09)
+# 「グローバルルールを変えたら wiki/meta のまとめも同セッション同期」が文章の約束のまま
+# 破られた実例 (2026-07-09 Bases窓グローバル化) の再発防止。3日猶予つき mtime 突合。
+# ============================================================
+WIKI_SUM="$VAULT/wiki/meta/file-placement-rules.md"
+if [ -f "$WIKI_SUM" ]; then
+  sum_m=$(stat -f %m "$WIKI_SUM" 2>/dev/null || echo 0)
+  for gsrc in "$HOME/.claude/rules/42-file-type-placement.md" "$VAULT/templates/cockpit-report.md" "$HOME/.claude/skills/vault-report-writing/SKILL.md"; do
+    [ -f "$gsrc" ] || continue
+    g_m=$(stat -f %m "$gsrc" 2>/dev/null || echo 0)
+    if [ $((g_m - sum_m)) -gt 259200 ]; then
+      result="${result}- ❌ wiki-sync-drift: $(basename "$gsrc") が wiki/meta/file-placement-rules.md より3日以上新しい (グローバルルール変更のwiki側同期漏れの疑い。同期不要なら file-placement-rules の last_updated を当日化して解消)\n"
+      violations=$((violations + 1))
+      break
+    fi
+  done
+fi
+
+# ============================================================
 # audit ファイル append-only 更新
 # ============================================================
 mkdir -p "$(dirname "$AUDIT_FILE")"
