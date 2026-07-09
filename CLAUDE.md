@@ -42,8 +42,7 @@
 
 ## plan.md / task.md 運用
 
-全標準タスクは plan.md (設計 SSoT) + task.md (実行追跡) の 2 層管理。
-**禁止**: plan.md/task.md なしで 3 ファイル以上変更、memory 更新で task.md 代替。詳細: `rules/05-plan-task-md.md`
+標準タスクの plan.md/task.md 二層管理ルール → `rules/05-plan-task-md.md`
 
 ## 標準ワークフロー
 

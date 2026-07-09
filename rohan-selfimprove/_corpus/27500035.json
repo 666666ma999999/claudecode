@@ -1,0 +1,52 @@
+{
+ "schema": "selfimprove-capture-v1",
+ "captured_at": "2026-07-03T18:41:00",
+ "ppv_id": "27500035",
+ "record_id": "reg_20260618164720_42764bf28436a981910dfaf3ccac4471",
+ "session_file": "reg_20260618164720_42764bf28436a981910dfaf3ccac4471.json",
+ "ids": {
+  "site_id": 275,
+  "site_namecode": "beppu",
+  "mid_id": null,
+  "menu_id": null
+ },
+ "input": {
+  "batch_file": null,
+  "config": null,
+  "csv_path": null,
+  "csv_row_text": null,
+  "product_row": null,
+  "title": null
+ },
+ "output": {
+  "n_subtitles": 0,
+  "n_code_bodies": 0,
+  "char_count": 0,
+  "manuscript": null,
+  "structured_manuscript": {},
+  "generation_provider_usage": null,
+  "keywords_sha256": null
+ },
+ "proofread": {
+  "status": "skipped",
+  "critical_count": null,
+  "warning_count": null,
+  "type_breakdown_critical": null,
+  "critical_types": [],
+  "model": null,
+  "truncated": null
+ },
+ "cost": {
+  "gpt_usd": 0.0,
+  "gemini_usd": 0.020623,
+  "rows": 7,
+  "null_usd_rows": 0,
+  "by_phase": {
+   "regen": 0.020623
+  },
+  "by_provider_model": {
+   "gemini:gemini-2.5-pro": 0.020623
+  },
+  "total_usd": 0.020623
+ }
+}

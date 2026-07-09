@@ -1,3 +1,10 @@
+---
+paths:
+  - "**/Obsidian Vault/**"
+  - "**/wiki/**"
+  - "~/.claude/**"
+---
+
 # ファイル種別 配置仕分け（プロジェクトルール v1・索引）
 
 > **✅ Status: Active** (2026-05-25 Phase 2 連動 / `~/.claude/state/vault-cc-enabled` flag gate)。
@@ -60,7 +67,7 @@
 
 - **gitignore 配下の自動生成物**: `*.pyc` / `__pycache__/` / `node_modules/` / ビルド成果物
 - **FE+BE 構成プロジェクト**（rohan 等）: `frontend/` `backend/` `routers/` 等の framework 規約配下 → 各 project の README/CLAUDE.md
-- **vault 非連携領域**: `00_General/` `00_Inbox/` `01_Biz/` `03_ClaudeEnv/` `Lifehack/` `Visual/` `tips/` `pf structure/` `projects/` `templates/` `attachments/` と `02_Ai/` 直下の単独 .md（AIera.md 等）
+- **vault 非連携領域**: `00_General/` `00_Inbox/` `01_Biz/` `Lifehack/` `Visual/` `tips/` `pf structure/` `projects/` `templates/` `attachments/` と `02_Ai/` 直下の単独 .md（AIera.md 等）〔`03_ClaudeEnv/` は 2026-07-05 に連携ゾーン（環境ゾーン・Type A）へ昇格したためリストから除外・`rules/41` 適用〕
 - **議事録（F 群）**: `01_Biz/` で project 独立運用
 
 ---

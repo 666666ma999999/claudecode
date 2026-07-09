@@ -128,9 +128,8 @@
       "Read(~/Documents/Obsidian Vault/**/*seed*)",
       "Read(~/Documents/Obsidian Vault/**/PassVault/**)"
     ],
-    "defaultMode": "default"
+    "defaultMode": "auto"
   },
-  "model": "claude-fable-5[1m]",
   "skillOverrides": {
     "step1-manuscript": "name-only",
     "step2-menu-register": "name-only",
@@ -142,51 +141,60 @@
     "step8-subtitle": "name-only",
     "register-all": "name-only",
     "verify-production": "name-only",
-    "retitle-product": "name-only",
+    "retitle-product": "off",
     "yudo-recommend": "name-only",
     "headline-optimizer": "name-only",
     "csv-format-converter": "name-only",
     "playwright-browser-automation": "name-only",
-    "fetch-bookmarks": "name-only",
+    "fetch-bookmarks": "off",
     "fetch-engagement": "name-only",
-    "gh-star-harvest": "name-only",
-    "max-scroll-scrape": "name-only",
-    "browser-automation-parallelization": "name-only",
-    "machine-bootstrap": "name-only",
-    "codify-config": "name-only",
-    "env-factcheck": "name-only",
+    "gh-star-harvest": "off",
+    "max-scroll-scrape": "off",
+    "browser-automation-parallelization": "off",
+    "machine-bootstrap": "off",
+    "codify-config": "off",
+    "env-factcheck": "off",
     "organize-desktop": "name-only",
     "capture-improvement": "name-only",
-    "project-bootstrap": "name-only",
-    "notification-alert": "name-only",
+    "project-bootstrap": "off",
+    "notification-alert": "off",
     "health": "name-only",
     "canvas": "name-only",
-    "json-canvas": "name-only",
+    "json-canvas": "off",
     "obsidian-bases": "name-only",
     "obsidian-cli": "name-only",
     "obsidian-markdown": "name-only",
-    "defuddle": "name-only",
+    "defuddle": "off",
     "wiki": "name-only",
     "wiki-fold": "name-only",
     "wiki-ingest": "name-only",
     "wiki-lint": "name-only",
-    "wiki-query": "name-only",
+    "wiki-query": "off",
     "save": "name-only",
     "autoresearch": "name-only",
     "obsidian-short-note-merge": "name-only",
     "obsidian-now-done": "name-only",
     "dashboard-design-guide": "name-only",
-    "data-visualization": "name-only",
+    "data-visualization": "off",
     "data-provenance-first": "name-only",
     "kpi-tree-first": "name-only",
     "sales-analysis": "name-only",
-    "salesmtg-dashboard-qa": "name-only",
-    "salesmtg-data-audit": "name-only",
+    "salesmtg-dashboard-qa": "off",
+    "salesmtg-data-audit": "off",
     "tool-selection-reference": "name-only",
     "skill-lifecycle-reference": "name-only",
     "git-safety-reference": "name-only",
-    "frontend-design": "name-only",
-    "claude-api": "name-only"
+    "frontend-design": "off",
+    "claude-api": "name-only",
+    "codebase-investigation": "off",
+    "collect-reply-posts": "off",
+    "config-placement-guide": "off",
+    "feature-dev-hybrid": "off",
+    "grok-collect-twittora": "off",
+    "opponent-review": "off",
+    "project-cross-pc-handoff": "off",
+    "search-best-practice": "off",
+    "secret-vault-setup": "off"
   },
   "hooks": {
     "PreToolUse": [
@@ -801,7 +809,7 @@
     "padding": 2
   },
   "enabledPlugins": {
-    "feature-dev@claude-code-plugins": true,
+    "feature-dev@claude-code-plugins": false,
     "claude-mem@thedotmack": true
   },
   "extraKnownMarketplaces": {
@@ -850,5 +858,6 @@
     "environment": [
       "macOS darwin23, cwd主に ~/Desktop/biz 配下, Docker開発環境"
     ]
-  }
+  },
+  "model": "claude-fable-5[1m]"
 }

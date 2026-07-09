@@ -1,0 +1,17 @@
+#!/bin/bash
+# X ブックマーク週次取得 (maaaki) → influx output/bookmarks.jsonl 更新
+# 2026-07-03 新設: X収集ループの正例学習ソース (fetch-bookmarks スキルの定期実行ラッパー)
+# 手動実行: bash ~/.claude/bin/obs-x-bookmarks
+set -euo pipefail
+DOCKER=/usr/local/bin/docker
+INFLUX="$HOME/Desktop/biz/influx"
+cd "$INFLUX"
+if ! "$DOCKER" ps --filter name=xstock-vnc --format '{{.Names}}' | grep -q xstock-vnc; then
+  "$DOCKER" compose -f docker-compose.vnc.yml up -d
+  sleep 20
+fi
+"$DOCKER" exec xstock-vnc python scripts/fetch_bookmarks.py \
+  --profile x_profiles/maaaki \
+  --out /app/output/bookmarks.jsonl \
+  --max-empty-batches 5 --max-runtime-min 20
+echo "$(date '+%F %T') bookmarks: $(wc -l < output/bookmarks.jsonl 2>/dev/null || echo 0) lines"

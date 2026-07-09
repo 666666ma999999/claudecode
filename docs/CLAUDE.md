@@ -20,4 +20,52 @@
 | #15030 | 8:23 PM | 🔵 | Obsidian vault integration architecture design document reviewed | ~746 |
 | #15028 | " | ⚖️ | Obsidian-Claude Code Integration Architecture Design | ~536 |
 | #15004 | 7:20 PM | 🔵 | Hook Architecture and Nested Documentation Structure | ~496 |
+
+### Jul 5, 2026
+
+| ID | Time | T | Title | Read |
+|----|------|---|-------|------|
+| #32582 | 10:58 PM | 🔴 | Training Source v3 design committed and synced creating cross-Mac resumption readiness after Codex 2-round adversarial review convergence | ~1250 |
+| #32581 | 10:57 PM | 🔴 | Training Source v3 design integrated into plan SSoT and vault command center with cross-references established | ~2118 |
+| #32580 | 10:56 PM | 🔴 | Plan SSoT cross-reference to 教材源泉 v3 design added documenting vault/claude-mem training source expansion | ~658 |
+| #32578 | 10:50 PM | ⚖️ | Codex adversarial review REJECTED vault integration design with 12 findings requiring major revision before approval | ~1074 |
+| #32569 | 10:38 PM | 🔵 | Vault provenance investigation reveals 14 INBOX files and 38 draft/memo files as human-written source candidates | ~632 |
+| #32565 | 10:35 PM | 🔵 | Clean corpus re-extraction corrects major classification errors revealing user's quality standards hidden in corrections | ~743 |
+| #32564 | 10:34 PM | 🔵 | Bunshin taxonomy v2 codifies 736 lines of user thinking patterns as two-dimensional classification system | ~690 |
+| #32562 | 10:32 PM | 🔵 | Comprehensive bunshin v1 plan implements closed-loop automation without new infrastructure | ~614 |
+| #32561 | " | 🔵 | Mapped existing bunshin digital twin infrastructure across three systems | ~454 |
+| #32544 | 10:05 PM | 🔵 | 03_ClaudeEnv vault integration exclusion mapped across governance files | ~781 |
+| #32522 | 10:01 PM | 🔵 | SessionStart Injection Architecture and File Placement Governance - Hook-Based Context Delivery and Cross-Environment Edit Permission Model | ~1553 |
+| #32511 | 9:58 PM | 🔵 | 03_ClaudeEnv Designated as Vault Non-Integration Zone - Intentionally Excluded from Claude-Obsidian Integration Rules | ~1044 |
+| #32445 | 1:25 PM | 🟣 | Final Adversarial Verifications Complete (20-24) - Universal Pattern Confirmed Across All 24 Assessments: Factual Grounding + Systematic Severity Overstatement + Missed Mitigations | ~2880 |
+| #32444 | 1:24 PM | 🟣 | Eighteenth and Nineteenth Adversarial Verifications Complete - Pattern Solidifies: Factual Grounding + Systematic Overstatement Holds Across 19 Assessments | ~2477 |
+| #32436 | 1:19 PM | 🟣 | Tenth Through Fifteenth Adversarial Verifications Complete - Pattern Holds Across All 15 Findings: Factually Accurate But Systematically Overstated | ~4610 |
+| #32430 | 1:18 PM | 🟣 | Seventh Through Ninth Adversarial Verifications Complete - Pattern Solidifies: Findings Factually Accurate But Systematically Overstate Severity | ~2654 |
+| #32428 | 1:15 PM | 🟣 | Sixth Adversarial Verification Complete - X収集既定 Fragmentation Finding REFUTED, Basename Collision Pattern CONFIRMED | ~1318 |
+| #32427 | 1:14 PM | 🟣 | Fifth Adversarial Verification Complete - User Policy Triple-Residence Finding Downgraded from Med to Low | ~1247 |
+| #32403 | 1:05 PM | 🔵 | Ground-Truth Confirmation Quantifies Token ROI and Frontmatter Schema Split | ~675 |
+| #32397 | 1:00 PM | 🔵 | Adversarial Audit Reveals Critical Drift Between Rules and Implementation | ~660 |
+| #32389 | 12:54 PM | 🔵 | Obsidian Integration Architecture with Strict Governance | ~587 |
+
+### Jul 6, 2026
+
+| ID | Time | T | Title | Read |
+|----|------|---|-------|------|
+| #33469 | 5:12 PM | ⚖️ | MASA_HQ.md vault headquarters file added to bare-allowlist as one-week navigation trial | ~550 |
+| #33357 | 3:32 PM | 🟣 | Second brain v3 daily automated wiki ingestion shipped: applier with 10-point fail-close fence and 8:47 daily job committed to production | ~1345 |
+| #33355 | 3:31 PM | 🔴 | Second Brain v3 implementation completed with comprehensive E2E validation: 5-hub architecture, daily automation, fail-close guards operational | ~1564 |
+| #33324 | 3:28 PM | 🔴 | Routing table updated with comprehensive Second Brain v3 daily automation documentation encoding hub-append model and multi-layer fencing specifications | ~1955 |
+| #33311 | 3:27 PM | 🔵 | Routing documentation already describes wiki-ingest Chain Update mechanism including queue cleanup and growth features | ~208 |
+| #33258 | 3:17 PM | 🔵 | Pre-implementation backup captures baseline state before second brain v2 deployment with 45-file wiki baseline and empty queue | ~1138 |
+| #33236 | 3:15 PM | 🔴 | Hostname and routing documentation verified showing wiki-ingest queue workflow integrated across routing-table.md and 30-routing.md | ~316 |
+| #33227 | 3:14 PM | 🔵 | wiki-ingest queue infrastructure implements ✅-gated approval workflow with SessionStart hook notification | ~838 |
+| #33179 | 12:59 PM | ✅ | Second brain v2 implementation committed: monthly stocktake restoration + wiki queue wiring + 5-layer cascade sync | ~845 |
+| #33143 | 12:45 PM | ✅ | Wiki-ingest queue-based knowledge capture workflow documented in routing table with checkmark processing pattern | ~1167 |
+| #33134 | 12:43 PM | 🔵 | Examined skill routing table revealing existing vault integration capabilities | ~542 |
+| #33133 | " | 🔵 | Wiki/Obsidian routing infrastructure mapped showing /save decision/mistake paths and vault-report-writing司令塔 design delegation | ~1067 |
+| #33130 | 12:42 PM | 🔵 | Wiki infrastructure audit reveals 4 commands requiring sync and missing routing-table entries | ~464 |
+| #33074 | 12:04 PM | 🔵 | Claude workflow detail documentation reveals comprehensive Obsidian integration constraints: 2-set operation, INBOX 1-file system, full-text preservation mandate | ~454 |
+| #33033 | 11:30 AM | ✅ | Bunshin project SSoT updated to Wave1-3 全取り込み完了: corpus extraction completed with 155 files (654,547 chars) validated through 270+ agents across two user inspection rounds | ~1158 |
+| #32681 | 10:35 AM | ✅ | Wave1 vault corpus validation documented as complete in project SSoT | ~442 |
+| #32611 | 12:28 AM | 🔴 | Wave1 extraction declared complete with S6/S7b PASS, plan updated documenting work shift to MASA.local, user inspection phase ready | ~1193 |
 </claude-mem-context>

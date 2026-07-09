@@ -1,3 +1,10 @@
+---
+paths:
+  - "**/Obsidian Vault/**"
+  - "**/wiki/**"
+  - "~/.claude/**"
+---
+
 # Vault プロジェクト構造ルール（索引・AI_adscrm 実装準拠）
 
 > **常時注入される薄い索引**。全テーブル・YAML例・allowlist・例外条項・更新フロー・Red Flags・段階移行判定は
@@ -5,6 +12,7 @@
 
 **適用範囲**: `~/Documents/Obsidian Vault/02_Ai/<project>/` 配下の**新規プロジェクトのみ**。
 既存プロジェクト（rohan/, AIera.md, ai_dashboard/ 等）は**一切変更しない**。リビング雛形: `02_Ai/AI_adscrm/`
+**例外（環境ゾーン・2026-07-05〜）**: `03_ClaudeEnv/`（repo = `~/.claude` 自身）は 02_Ai 外だが **連携ゾーン=Type A（repo 連携）として本ルールを適用**する。索引 MOC=`ClaudeEnv_ope.md`（旧 `_README.md`）／frontmatter 6 必須は `~/.claude/scripts/update_claudeenv.py` が生成／SessionStart で「懸案/NOW」を注入（cwd=~/.claude 限定・`hooks/sessionstart-env-recall.sh`）。詳細→ `docs/vault-project-structure-detail.md`
 
 ## 基本原則
 

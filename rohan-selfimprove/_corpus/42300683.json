@@ -1,0 +1,53 @@
+{
+ "schema": "selfimprove-capture-v1",
+ "captured_at": "2026-07-03T18:41:12",
+ "ppv_id": "42300683",
+ "record_id": "reg_20260630233621_a72c6ff568c8f03b58c2600c9e40804d",
+ "session_file": "reg_20260630233621_a72c6ff568c8f03b58c2600c9e40804d.json",
+ "ids": {
+  "site_id": 423,
+  "site_namecode": "hayatomo",
+  "mid_id": null,
+  "menu_id": null
+ },
+ "input": {
+  "batch_file": null,
+  "config": null,
+  "csv_path": null,
+  "csv_row_text": null,
+  "product_row": null,
+  "title": null
+ },
+ "output": {
+  "n_subtitles": 0,
+  "n_code_bodies": 0,
+  "char_count": 0,
+  "manuscript": null,
+  "structured_manuscript": {},
+  "generation_provider_usage": null,
+  "keywords_sha256": null
+ },
+ "proofread": {
+  "status": "skipped",
+  "critical_count": null,
+  "warning_count": null,
+  "type_breakdown_critical": null,
+  "critical_types": [],
+  "model": null,
+  "truncated": null
+ },
+ "cost": {
+  "gpt_usd": 1.005875,
+  "gemini_usd": 0.060998,
+  "rows": 15,
+  "null_usd_rows": 0,
+  "by_phase": {
+   "first-pass": 1.066873
+  },
+  "by_provider_model": {
+   "gpt:gpt-5.5": 1.005875,
+   "gemini:gemini-2.5-pro": 0.060998
+  },
+  "total_usd": 1.066873
+ }
+}
