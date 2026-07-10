@@ -109,3 +109,6 @@ playwright-line-profile/
 
 # 監査 Phase 3 退避先 (2026-07-04)
 /archive/
+
+# 実行ログ (claude-safe-update.log 等・端末固有)
+logs/
