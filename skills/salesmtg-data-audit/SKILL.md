@@ -49,7 +49,7 @@ swan-manageのCSVは新旧プラットフォームの2セットを含む。
 - 両方にデータあり → **エラー停止**（手動確認必要）
 - 両方とも空 → 欠損としてマーク
 
-**対応コード（generate_dashboard.py parse_csv内）:**
+**対応コード（generate_unified_dashboard.py parse_csv内）:**
 ```python
 # Skip empty duplicate rows (all values zero)
 if any(v != 0 for v in month_values.values()):

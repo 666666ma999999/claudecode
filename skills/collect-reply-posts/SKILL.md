@@ -7,7 +7,7 @@ allowed-tools:
   - Read
   - Edit
   - Write
-  - Task
+  - Agent
   - AskUserQuestion
 ---
 

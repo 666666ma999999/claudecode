@@ -1,6 +1,6 @@
 ---
 name: browser-automation-parallelization
-description: Playwrightベースのブラウザ自動化バッチを並列化する設計パターン。BrowserContext分離+Semaphoreスロット制御により、既存のグローバルmutexをコンバージョン単位の並行実行に置き換える。28時間→10時間程度への短縮を目的としたい時に使用。
+description: "Playwrightベースのブラウザ自動化バッチを並列化する設計パターン。BrowserContext分離+Semaphoreスロット制御により、既存のグローバルmutexをコンバージョン単位の並行実行に置き換える。28時間→10時間程度への短縮を目的としたい時に使用。NOT for: 単発のブラウザ操作、CMS側の重いロックがあるSTEP、外部APIの厳しいレート制限がある場合。"
 keywords: Playwright, 並列化, 並行実行, BrowserContext, Semaphore, ブラウザ自動化, スロット制御, mutex, batch parallelization, throughput
 triggers:
   - Playwright並列化

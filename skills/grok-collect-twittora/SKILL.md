@@ -104,8 +104,9 @@ cp "$SRC/grok-twittora-$TODAY.md" "$VAULT/01_Biz/x-operation/buzz-archive/buzz-$
 - 収集結果アーカイブ: `~/Documents/Obsidian Vault/01_Biz/x-operation/buzz-archive/`
 - 既存の investment 路線収集 (kabuki666999): `~/Desktop/biz/influx/output/research/`
 
-## 既知の制限
+## 既知の制限 → 実装済みの防御 (2026-07-10 実装同期)
 
-- Grok API は実投稿の正確な likes/impressions を保証しない (LLM 経由の推定値)
+- **Grok 捏造対策は実装済み**: `verify_tweet()` が投稿ごとに X 公開 syndication API (`cdn.syndication.twimg.com`) で一次照合し、①404=実在せず→破棄、②403/ネットワーク等で照合不能→隔離ファイル (`*.unverified.jsonl`) へ退避（正本に混ぜない）、③実在確認→likes/replies/author/本文を syndication 実値で上書き、の3分岐を行う。正本の likes/replies は推定値ではなく実測値。出典: `~/Desktop/biz/influx/scripts/grok_collect_twittora.py:109-235`、実行結果 `grok-twittora-2026-06-24.md`（正本20件/隔離0）・`-2026-06-25.md`（正本16件/隔離0）
+- impressions (view_count) のみ syndication API に無く照合不能のため引き続き Grok 推定値のまま（序列には使わない設計）
 - 同一投稿の重複は id ベースで除去するが、別 query で同じ投稿が引っかかると captured_at は最初のもの
 - 1 回実行で既定 10 query × 8 件 = 最大 80 件 (重複除去で 30〜50 件程度になることが多い)

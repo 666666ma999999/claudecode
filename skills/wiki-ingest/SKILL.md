@@ -1,6 +1,6 @@
 ---
 name: wiki-ingest
-description: "Ingest sources (files, URLs, batch) into the Obsidian wiki vault: create/update wiki pages, cross-reference, log. Triggers: ingest, process this source, add this to the wiki, read and file this, batch ingest, ingest all of these, ingest this url."
+description: "Ingest sources (files, URLs, batch) into the Obsidian wiki vault: create/update wiki pages, cross-reference, log. Triggers: ingest, process this source, ingest this, read and file this, batch ingest, ingest all of these, ingest this url."
 ---
 
 # wiki-ingest: Source Ingestion
@@ -39,7 +39,7 @@ Before ingesting any file, check `.raw/.manifest.json` to avoid re-processing un
 ```
 
 **Before ingesting a file:**
-1. Compute a hash: `md5sum [file] | cut -d' ' -f1` (or `sha256sum` on Linux).
+1. Compute a hash: `shasum -a 256 [file] | cut -d' ' -f1`（macOS/Linux 共通）。BSD 環境限定の代替として `md5 -q [file]` も可。
 2. Check if the path exists in `.manifest.json` with the same hash.
 3. If hash matches, skip. Report: "Already ingested (unchanged). Use `force` to re-ingest."
 4. If missing or hash differs, proceed with ingest.

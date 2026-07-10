@@ -3,6 +3,9 @@ name: defuddle
 description: >-
   Defuddle CLIでWebページ本文をクリーンなmarkdown抽出（WebFetch代替・省トークン）。URL読取・記事・ブログ・docsに。
   NOT for: .md終わりURL→WebFetch。Triggers(kepano-obsidian-skills bundle): obsidian-skillsを使って,obsidian-skills,URLを読んで,記事を取り込んで,記事を抽出,ブログを取得,ウェブページをきれいに,Webページから本文だけ,ノイズ除去,defuddle
+allowed-tools:
+  - Bash
+  - WebFetch
 ---
 
 # Defuddle

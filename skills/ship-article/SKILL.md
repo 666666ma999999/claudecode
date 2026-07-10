@@ -62,11 +62,11 @@ launchctl list | grep -i com.masa.make-article-metrics            # 定期計測
 
 ## 良い例（実績・results.jsonl 由来。2026-07-05 実測で照合済み）
 
-`art_021_teaser` は draft_created→**posted**（`https://x.com/twittora_/status/2064667131438915765`）→**metrics_snapshot** ×2 まで到達（results.jsonl で直接確認）。posted かつ metrics_snapshot の両方に達した実績は現状この1件のみ。①②③のうち①③は実例があるが、**② x-stock consumed の実績は現状ゼロ件**（x-article-stock.md に `state: consumed` の entry は1件も無い・related_article リンクも無し）。②を最後まで運ぶのは ship-article が新たに担う責務であり、過去に誰かが成功した工程ではない——ここが一番失敗しやすい箇所だと明記しておく。
+`art_013` が draft_created→**posted**（`https://x.com/twittora_/status/2052933092961309152`）まで到達（results.jsonl で直接確認）。ただし **metrics_snapshot はファイル全体で0件・②x-stock consumedもゼロ件** — ①posted の実績はこの1件のみで、②③の実績は現状ゼロ件。①②③すべて揃った実績はまだ無く、ship-articleが最後まで運ぶのは未踏の工程である旨を明記する。
 
 ## 悪い例（アンチパターン・出典: offense-synthesis N5）
 
-x-article-stock に **idea 75 件・posted 0 件**（実公開わずか 2 件・上記 art_021_teaser 含む）。x-stock は蓄積のみ・generate-x-article は project skill で、**idea→consumed を通す動線が誰の責務でもなかった**ため死蔵。ship-article は「蓄積だけで出荷ゼロ」を塞ぐために idea→consumed を最後まで運ぶ。ここで P4 の consumed 化を飛ばすと同じ死蔵に戻る。
+x-article-stock に **idea 75 件・posted 0 件**（実公開わずか 1 件（art_013））。x-stock は蓄積のみ・generate-x-article は project skill で、**idea→consumed を通す動線が誰の責務でもなかった**ため死蔵。ship-article は「蓄積だけで出荷ゼロ」を塞ぐために idea→consumed を最後まで運ぶ。ここで P4 の consumed 化を飛ばすと同じ死蔵に戻る。
 
 ## 出典（設計記録は散逸・2026-07-10監査で確認。本SKILLが現行の正本）
 

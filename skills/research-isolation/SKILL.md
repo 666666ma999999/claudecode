@@ -40,7 +40,7 @@ CLAUDE.md から 1 行リンクで参照する。
 
 > **役割分離（drift 防止の不変条件）**: 本 skill = *Why と型*。project doc = *固有の具体*。
 > **同じ Why を両方に書かない**。project-local の規約ファイルがあれば必ずそちらを優先し、
-> 無ければ本 skill のデフォルトに従う。SSoT は常に project doc 側。
+> 無ければ、project doc を新規作成するまで本skillの原則（隔離ブランチ・再生成物ignore・使い捨てプレフィックス）をそのまま適用する。SSoT は常に project doc 側。
 > （`vault-report-writing → obsidian-markdown` と同じ「設計担当 / 委譲」構造）
 
 ## いつ使う / 使わない

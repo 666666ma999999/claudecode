@@ -46,7 +46,7 @@ P1 = 骨組み + 自動化層のみ。以下の **4 STEP** が実装済み:
 - `~/Desktop/biz/` 配下の git clone 可能なプロジェクト再配置
 
 ### 非対象（明示的に手動）
-- OAuth ログイン（Claude Code / Codex / gh / gcloud / grok-search）
+- OAuth ログイン（Claude Code / Codex / gh / gcloud）
 - SSH 秘密鍵（新規生成 → GitHub 登録を手動実施）
 - GPG 秘密鍵（現状ゼロ件・署名運用なし）
 - `~/.zshrc` の export 実値（`~/.zshrc.local` に分離済）
@@ -67,7 +67,7 @@ diff <(npm ls -g --depth=0 --parseable --json | jq -r '.dependencies | keys[]' |
      <(sort ~/.claude/skills/machine-bootstrap/inventory/npm-globals.txt)
 
 # 2. MCP
-claude  # 起動して /mcp で mcp-template.json の 5 サーバー（codex / grok-search / playwright / postgresql / repomix）が authenticated を確認
+claude  # 起動して /mcp で mcp-template.json の 3 サーバー（codex / context7 / memory）が authenticated を確認
 
 # 3. git maintenance（art_013 で設定した hourly/daily/weekly が動いているか）
 launchctl list | grep git-scm
@@ -98,7 +98,6 @@ EOF
 
 ## 参照
 
-- `~/.claude/state/machine-inventory-2026-04-24.json` — 送り出し側スナップショット（生成日付: 2026-04-24）
 - `output/drafts/art_013_2pc_fastdev_tools_2026-04-19.md` — 2台並列運用の実運用記事
 - `refresh-x-cookies` skill（influx 側） — X Cookie の手動移行手順
 

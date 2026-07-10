@@ -4,6 +4,7 @@ description: >-
   Obsidian CLI で vault のノートを read/create/search/管理し、プラグイン/テーマ開発(reload, JS実行, screenshot, DOM検査)も行う。
   トリガー: obsidian-skills を使って, obsidian CLI, Obsidian プラグイン開発, DOM を調べて（ユーザーが obsidian-cli を明示指名した場合のみ・rules/40-obsidian.md「obsidian-cli ガード」準拠）。
   NOT for: /save /canvas /autoresearch /wiki-ingest 等 workflow skill からの自動委譲（禁止）, 一般の vault 書き込み（正系は wiki-ingest / save / canvas）
+allowed-tools: [Bash, Read]
 ---
 
 # Obsidian CLI

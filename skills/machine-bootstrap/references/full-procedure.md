@@ -126,7 +126,7 @@ codex --version        # 0.124 以降を期待
 
 ## STEP 3: MCP `.mcp.json` 配置
 
-グローバル MCP 設定（`~/.claude/.mcp.json`）を **構造だけコピー**し、値は空の `${VAR}` のままにする。現環境では 5 サーバー（codex / grok-search / playwright / postgresql / repomix）をこのファイルで管理しており、プロジェクトごとに `.mcp.json` を置かない運用。
+グローバル MCP 設定（`~/.claude/.mcp.json`）を **構造だけコピー**し、値は空の `${VAR}` のままにする。現環境では 3 サーバー（codex / context7 / memory）をこのファイルで管理しており、プロジェクトごとに `.mcp.json` を置かない運用。
 
 ```bash
 cp ~/.claude/skills/machine-bootstrap/inventory/mcp-template.json \
@@ -139,9 +139,9 @@ cp ~/.claude/skills/machine-bootstrap/inventory/mcp-template.json \
 
 ```bash
 # ~/.zshrc.local 末尾に追加する雛形（値は手で埋める）
-export XAI_API_KEY=xai-...                    # grok-search MCP 用
-export DB_CONNECTION_STRING=postgres://...    # postgresql MCP 用
-# Claude Code / Codex の API 認証は OAuth フロー（STEP 4）で行うため .zshrc への直 export は不要
+export OPENAI_API_KEY=sk-...                  # codex MCP 用（mcp-template.json の ${OPENAI_API_KEY}）
+export CODEX_PATH=/path/to/codex              # codex MCP 用（mcp-template.json の ${CODEX_PATH}・`command -v codex` の出力）
+# Claude Code の API 認証は OAuth フロー（STEP 4）で行うため .zshrc への直 export は不要
 ```
 
 ### 参照すべき inventory ファイル
@@ -161,7 +161,7 @@ cd ~/Desktop/biz/make_article
 claude
 ```
 
-Claude Code 内で `/mcp` を叩いて、mcp-template.json の 5 サーバーが authenticated で揃うこと。
+Claude Code 内で `/mcp` を叩いて、mcp-template.json の 3 サーバーが authenticated で揃うこと。
 
 ---
 

@@ -5,6 +5,7 @@ description: |
   金融データ（BTC乖離率、騰落率等）に特化した決定木を持ち、X(Twitter)投稿用の
   インパクト最大化（タイトル・アノテーション・色強度）を自動適用する。
   3レイヤーパイプライン: 統計分析 → チャート型選択 → インパクト最適化。
+  NOT for: 経営資料・行政資料・KPI監視・役員向けダッシュボード（→ dashboard-design-guide）
 allowed-tools: ["Bash(python:*)", Read, Write, Edit, Glob, Grep]
 compatibility: "requires: Python 3.x, numpy, matplotlib"
 license: proprietary

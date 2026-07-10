@@ -99,10 +99,10 @@ tags: [<タグ配列・省略時は空配列 []>]
 idea_YYYYMMDD_NNN 「<title>」を x-article-stock.md に追加 (source: <source_project>)
 ```
 
-記事化は別フロー: `make_article` cwd で collect-materials skill 経由。
+記事化は別フロー: `make_article` cwd の `generate-x-article` skill 経由（`material_ids` に `x-stock:idea_*` を含めると該当entryの `state` が自動で `consumed` に更新される）。
 
 ## state 運用（参考）
 
 - 新規追加時: 常に `state: idea`
-- 記事化後: ユーザーが手動で `state: consumed` に更新（この skill は変更しない）
+- 記事化後: `generate-x-article` 経由（`material_ids` に `x-stock:idea_*` 指定）なら該当 entry の `state` は自動で `consumed` に更新される。それ以外の手動記事化ではユーザーが手動で `state: consumed` に更新（本 skill 自身は state を変更しない）
 - 使用中の stage: `idea` / `draft` / `consumed` の 3 段階（state 集計テーブル準拠。旧多段階は既存 entry 互換で残置）
