@@ -35,6 +35,7 @@
 | hook の新設・改修・誤検知/暴発の修理 | `hook-development-guide` |
 | 成果を X 記事化→投稿→計測まで出荷・x-stock 消化 | `ship-article`(`/ship-article`) |
 | 探索的分析の隔離・使い捨てスクリプト/中間データ管理・リサーチ worktree 運用・確定知見の昇格 | `research-isolation`（思想・型／全プロジェクト普遍）。具体は各 project の `docs/research-workflow.md` |
+| 調査の1枚台帳・research サマリー・調査まとめ・research ディレクトリ運用・調査ノート統合・「調査どこだっけ」 | `vault-research-ledger`（vault 側: 台帳 `_summary.md`・命名・重複統合。雛形正本=vault `templates/research-summary.md`。repo 側の隔離は `research-isolation`） |
 | task細分化/進捗/復帰 | `task-planner` / `task-progress` / `project-recall` |
 | SubAgent委譲判断 | `execution-patterns` |
 | ニュース収集・news JSONL確認 | `~/.claude/scripts/collect_news.py` + `.raw/news/YYYY-MM-DD.jsonl` |
