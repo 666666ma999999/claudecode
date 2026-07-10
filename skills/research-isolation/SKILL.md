@@ -139,3 +139,4 @@ CLAUDE.md からリンクする。
 - `git-safety-reference` — ブランチ削除・`rm --cached`・明示ステージングの git 安全則
 - プロジェクトの規約ファイル（例 `docs/research-workflow.md`）— 上表「固有」列の SSoT
 - プロジェクトの確定知見 skill（例 `finding-sync`）— 原則 3 の昇格先
+- vault 側の research/ 配置・1枚台帳（`_summary.md`）・命名・重複統合 → 兄弟 skill `vault-research-ledger`（本 skill は repo 側のみを担当）

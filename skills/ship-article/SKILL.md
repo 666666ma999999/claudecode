@@ -25,7 +25,7 @@ allowed-tools:
 「Claude で作ったプロダクトの成果」を X 記事にして**投稿・計測まで**運ぶ薄い司令塔。
 記事の中身・レビュー・計測の実装は**一切持たない**。既存スキルを順に呼ぶだけ。
 
-## 絶対原則（設計 SSoT: tasks/p-ship-article.md）
+## 絶対原則（設計記録は散逸・2026-07-10監査で確認。本SKILLが現行の正本）
 
 - **thin wrapper**: 各 Phase は既存スキル/既存パイプラインへ delegate。ship-article は state 遷移と gate 判定のみ。
 - **記事本文ロジックを書かない**: 生成・レビュー・計測は make_article / global スキルの責務。ここに複製しない。
@@ -68,7 +68,7 @@ launchctl list | grep -i com.masa.make-article-metrics            # 定期計測
 
 x-article-stock に **idea 75 件・posted 0 件**（実公開わずか 2 件・上記 art_021_teaser 含む）。x-stock は蓄積のみ・generate-x-article は project skill で、**idea→consumed を通す動線が誰の責務でもなかった**ため死蔵。ship-article は「蓄積だけで出荷ゼロ」を塞ぐために idea→consumed を最後まで運ぶ。ここで P4 の consumed 化を飛ばすと同じ死蔵に戻る。
 
-## 出典（いずれも gitignore 内・この Mac のみ・repo 同期対象外の履歴資料）
+## 出典（設計記録は散逸・2026-07-10監査で確認。本SKILLが現行の正本）
 
-- 採用設計: `~/.claude/tasks/p-ship-article.md`（Codex + Friction Analyst 2 並列レビュー済み）
-- ボトルネック実測: `~/.claude/tasks/p-skills-audit-2026-07-files/audit/offense-synthesis.md` §N5
+- 採用設計: Codex + Friction Analyst 2 並列レビュー済み（元ファイルは散逸）
+- ボトルネック実測: offense-synthesis §N5（元ファイルは散逸）

@@ -172,7 +172,7 @@ cron 実行は fail を results.jsonl に記録するだけでは機能しない
 ## 関連ファイル
 - ラッパー: `~/Desktop/biz/make_article/scripts/fetch_engagement_via_influx.sh`
 - 素材更新: `~/Desktop/biz/make_article/scripts/update_material_table.py`
-- 本体: `~/Desktop/biz/influx/scripts/fetch_engagement.py`
+- 本体: `~/Desktop/biz/autopost/scripts/fetch_engagement.py`
 - コアクラス: `~/Desktop/biz/autopost/tier3_posting/impression_tracker/scraper.py`（2026-05-01 phase4 で influx/extensions/ から autopost リポへ物理分離）
 - **Cookie管理**: `~/Desktop/biz/influx/.claude/skills/refresh-x-cookies/SKILL.md`（Canonical）
 - **抽出スクリプト**: `~/Desktop/biz/influx/scripts/import_chrome_cookies.py`
