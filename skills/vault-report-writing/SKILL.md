@@ -1,6 +1,7 @@
 ---
 name: vault-report-writing
 description: "vaultレポート設計（構文→obsidian-markdown）。トリガー:vaultに綺麗なレポート,Obsidianレポート,レポート整形/清書,綺麗にまとめて,経営層サマリ/エグゼクティブサマリ/1-pager,findings清書,ダッシュボード化,インシデント報告書/ポストモーテム,ゴール&やること先頭,目標と次アクション,優先順位とその理由,BLUF/結論先出し,スクショ映え,report craft,司令塔/command-center,運用ダッシュボード/現状診断ボード,横断司令塔,毎日見るダッシュボード,analysis note,MOC,security report。NOT for: コード実装・データ抽出そのもの（→各project skill）/1〜3行の事実メモ/Obsidian構文の質問のみ（→obsidian-markdown）。"
+allowed-tools: [Read, Write, Edit, Bash, Grep]
 ---
 
 # Vault Report Writing — レポート設計 skill

@@ -149,3 +149,13 @@ find ~/.claude/projects -name "*.jsonl" -mtime -30 \
   }
 }
 ```
+
+## 対象拡大: live 状態の実機照合（2026-07-11 C4 裁定・skills-audit §7 candidate-4 を吸収）
+
+定量主張に加え、**「実装済み／未実装／parked／現状は〜」という状態の断定**も本 skill の対象。主張の前に正本 3 点を実機照合する（mistakes.md「point-in-time を真値化」系ルール④の act-time 手順）:
+
+1. **live config の既定値**: 本番の `docker-compose.override.yml` / `config.py` 等で該当 flag が実際に ON か
+2. **git ancestry**: `git merge-base --is-ancestor <commit> origin/<default>` で main 反映済みか
+3. **tracker status**: `tasks/phase-tracker.md` 等の status（🟢=本採用）
+
+MEMORY 末尾・scratch README・plan.md frontmatter の現在形 state 記述は point-in-time で drift する（同日自分が書いた README ですら drift 源）→ 鵜呑み禁止・上記 3 点で照合してから断定する。

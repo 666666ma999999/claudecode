@@ -214,3 +214,7 @@ For standalone visual production (12 templates, 6 layout algorithms, AI generati
 presentations), see [claude-canvas](https://github.com/AgriciDaniel/claude-canvas).
 This skill handles wiki-scoped visual boards. claude-canvas handles full-featured
 canvas orchestration for any project.
+
+## 統合（2026-07-11 P6 裁定）
+
+- 構文レイヤーの旧 skill `json-canvas`（JSON Canvas 仕様・ノード/エッジ書式）は本 skill に統合 → `references/json-canvas-syntax.md`（補助資料は `references/json-canvas-extra/`）。本 skill=操作・設計、references=構文、の 2 層（vault-report-writing↔obsidian-markdown と同型）

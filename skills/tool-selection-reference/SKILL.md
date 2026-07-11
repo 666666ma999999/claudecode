@@ -1,10 +1,10 @@
 ---
 name: tool-selection-reference
 description: |
-  ツール選択の詳細ガイド。Webスクレイピング3段階エスカレーション
-  （WebFetch→Firecrawl→Playwright）判定フロー、SubAgent vs Agent Teams判定表。
+  ツール選択の詳細ガイド。Webスクレイピング段階エスカレーション
+  （WebFetch→Playwright）判定フロー、SubAgent vs Agent Teams判定表。
   Web情報取得時、エージェント構成検討時に使用。
-  キーワード: Webスクレイピング, Firecrawl, Playwright, SubAgent, Agent Teams, ツール選択
+  キーワード: Webスクレイピング, Playwright, SubAgent, Agent Teams, ツール選択
   NOT for: 通常のファイル操作、コード編集
 allowed-tools: [Read, Glob, Grep]
 ---
@@ -19,27 +19,26 @@ allowed-tools: [Read, Glob, Grep]
 
 ```
 Level 0: WebFetch（静的HTML）→ 追加設定不要・キャッシュ付き・最速
-Level 1: Firecrawl（JSレンダリング + actions + LLM抽出）→ bot検知回避(stealth)対応
-Level 2: Playwright（フルブラウザ制御）→ ログイン・セッション管理・CDP・iframe/Shadow DOM
+Level 1: Playwright / claude-in-chrome（JSレンダリング・ページ操作・フルブラウザ制御）
 ```
+
+> ⚠ 旧 Level1 の Firecrawl と X 用 Grok Search は **MCP 未配線**（2026-07-11 `claude mcp list` 実測・全スコープ不在）。再導入するまで推奨から除外（下の代替表）。
 
 ### 判定フロー
 
 ```
-1. ログイン/セッション管理が必要？ → YES → Playwright系
-2. X（Twitter）のデータ？ → YES → Grok Search（mcp grok-search）
-3. サイト全体クロール/リスト駆動バッチ？ → YES → Firecrawl（crawl/batch）
-4. 単純なページ操作（クリック/スクロール/入力）？ → YES → Firecrawl actions
-5. JSレンダリング/サイト全体クロール？ → YES → Firecrawl MCP
-6. LLMベース構造化データ抽出？ → YES → Firecrawl extract
-7. それ以外 → WebFetch
+1. ログイン/セッション管理が必要？ → YES → Playwright系 / claude-in-chrome
+2. X（Twitter）のデータ？ → YES → influx Cookie 経路（既定・docs/web-research-tools.md）
+3. サイト全体クロール/リスト駆動バッチ？ → YES → Playwright + スクリプト（または Codex 委譲）
+4. 単純なページ操作（クリック/スクロール/入力）？ → YES → claude-in-chrome / Playwright
+5. LLMベース構造化データ抽出？ → YES → WebFetch(+prompt) / Codex
+6. それ以外 → WebFetch
 ```
 
 ### 優先順位（同機能の場合）
 
 1. **WebFetch** — 最速・最軽量
-2. **Firecrawl** — JSレンダリング + LLM抽出
-3. **Playwright系** — フルブラウザが必要な場合のみ
+2. **Playwright系 / claude-in-chrome** — JS レンダリング・フルブラウザが必要な場合のみ
 
 ## 2. Web リサーチツール選択（調査・検索）
 
@@ -47,9 +46,9 @@ Level 2: Playwright（フルブラウザ制御）→ ログイン・セッショ
 
 ```
 1. 単純な事実確認・1〜2ページ参照？ → WebSearch + WebFetch
-2. 複数ソース横断・比較分析・深掘り調査？ → Codex
-3. 特定サイトの全ページクロール・構造化データ抽出？ → Firecrawl
-4. X(Twitter)データ？ → Grok Search、代替: Codex（Yahoo!リアルタイム経由）
+2. 複数ソース横断・比較分析・深掘り調査？ → Codex / deep-research
+3. 特定サイトの全ページクロール・構造化データ抽出？ → Playwright + スクリプト
+4. X(Twitter)データ？ → influx Cookie 経路（既定）、代替: Codex（Yahoo!リアルタイム経由）
 ```
 
 ### 判定根拠（2026-03-27 検証済み）
@@ -58,8 +57,10 @@ Level 2: Playwright（フルブラウザ制御）→ ログイン・セッショ
 |--------|-----------|---------------|--------|
 | WebSearch + WebFetch | 検索結果次第 | ページ単位で手動読み込み | 無料 |
 | Codex | 一次情報源に自律到達 | 要約済みで即使える | OpenAI API |
-| Firecrawl | 全文取得（大量） | 後処理が必要 | セルフホスト無料 |
-| Grok Search | X公式データ | 即使える | xAI API |
+| Playwright / claude-in-chrome | フルブラウザ（ログイン可） | セットアップ済み | 無料 |
+| influx Cookie 経路（X 専用） | X 実データ | コンテナ起動で即 | 無料 |
+
+> 旧表の Firecrawl（セルフホスト）/ Grok Search（xAI API）は MCP 未配線のため除外（2026-07-11）。再配線したらこの表へ戻す。
 
 ## 3. SubAgent vs Agent Teams
 

@@ -59,18 +59,32 @@ allowed-tools: [Read, Glob, Grep, Bash]
 - 広告費が月次売上CSVに存在しないセグメント → ①広告費に`N/A`
 - KPI CSVが存在しないセグメント → 因果分解を非表示
 
-### 5. 検証コマンド
+### 5. 検証コマンド（汎用版・2026-07-11 P4 裁定）
+
+> 旧版は単一定数 `DASHBOARD_DATA` 前提で、現行 HTML（`PL_DATA`/`BOARD_DATA` 等 15 定数に分割済み・2026-07-11 実測）では必ず AttributeError。**まず定数を発見してから検証する** 2 段構えに変更。
 
 ```python
-# DASHBOARD_DATAからセグメント別の値を抽出して検証
+# STEP A: HTML 内の全データ定数を発見（定数名にハードコード依存しない）
 python3 -c "
-import json, re
-html = open('output/dashboard_unified.html').read()
-m = re.search(r'const DASHBOARD_DATA = ({.*?});\s*\n', html, re.DOTALL)
+import re, sys
+html = open(sys.argv[1]).read()
+consts = sorted(set(re.findall(r'const ([A-Z_]+) *=', html)))
+print('発見した定数:', consts)
+" output/dashboard_unified_<YYYYMM>.html
+
+# STEP B: 発見した定数ごとに JSON 抽出して検証（例: 粗利構成は PL_DATA・セグメント別は BOARD_DATA）
+python3 -c "
+import json, re, sys
+html = open(sys.argv[1]).read()
+name = sys.argv[2]  # STEP A で見つけた定数名
+m = re.search(r'const ' + name + r' *= *({.*?});\s*\n', html, re.DOTALL)
+assert m, f'{name} が見つからない（STEP A の一覧から選ぶ）'
 data = json.loads(m.group(1))
-# ... セグメント別の値を出力
-"
+print(name, '→ keys:', list(data)[:10] if isinstance(data, dict) else type(data))
+" output/dashboard_unified_<YYYYMM>.html PL_DATA
 ```
+
+役割の目安（2026-07-11 時点の実測・定数は増減しうるので STEP A を必ず先に）: 粗利構成 = `PL_DATA`（マージ規則 `PL_MERGE_MAP`/`PL_SEG_MAP`）／セグメント別ボード = `BOARD_DATA`／日次・月次 = `DAILY_DATA`/`MONTHLY_DATA`/`MTD_DATA`。
 
 ### 6. ブラウザ確認（必須）
 

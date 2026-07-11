@@ -38,7 +38,7 @@
 | コード重複・dual-path・DRY違反 | `20-code-quality.md` + `70-architecture.md` 参照 |
 | BEパイプライン重複・BE設計 | `70-architecture.md`「BE 固有」参照 |
 | vanilla FE設計・Command/Query分離・FEパイプライン | `70-architecture.md`「FE 固有」参照 |
-| 3F+設計判断・大規模アーキ判断・公開API変更・二択判断 | `opponent-review`（軽い前提検証は `/review --mode=challenge`） |
+| 3F+設計判断・大規模アーキ判断・公開API変更・二択判断 | `plan-adversarial-review`（旧 opponent-review は 2026-07-11 吸収・汎用型は同 skill references/opponent-review-general.md）（軽い前提検証は `/review --mode=challenge`） |
 
 ### コード品質・リファクタリング
 
@@ -70,8 +70,8 @@
 | トリガー | 参照スキル |
 |---------|-----------|
 | KPI分解・構成要素・ドリルダウン・因果分析・計算式定義 | `kpi-tree-first` |
-| データ可視化・チャート生成 | `data-visualization` |
-| 経営層向けダッシュボード・デジタル庁ガイドブック準拠・matplotlib PNG | `dashboard-design-guide` |
+| データ可視化・チャート生成（**X 投稿用・単発チャート**） | `data-visualization`（現在 off=一覧非表示・使う時は skillOverrides 解除。経営層向けは dashboard-design-guide） |
+| 経営層向けダッシュボード・デジタル庁ガイドブック準拠・matplotlib PNG | `dashboard-design-guide`（X 投稿用の単発チャートは data-visualization） |
 | vault に司令塔/現状診断ボード/運用ダッシュボードを **full** で設計（薄い索引でなく判断材料を内包）・経営層1-pager・findings 清書・スクショ映え | `vault-report-writing`（設計／構文は `obsidian-markdown`。配置構造は rules/41・42 が正本。MOC の薄い索引化は `/sync-vault-summary`。※ `dashboard-design-guide`=matplotlib PNG生成・`salesmtg-dashboard-qa`=表示QA とは射程が別） |
 | 売上分析・多変数分析 | `sales-analysis` |
 | salesmtg CSV整合性・粗利構成不整合・スクレイピング後検証 | `salesmtg-data-audit` |
@@ -102,7 +102,7 @@
 | Webページ本文のクリーン抽出（WebFetch 代替・省トークン） | `defuddle` |
 | 新しい Mac の初期構築・環境複製 | `machine-bootstrap` |
 | 高機密情報（銀行/証券/仮想通貨）の vault 基盤構築 | `secret-vault-setup` |
-| JSON Canvas ファイル生成・編集 | `json-canvas` |
+| JSON Canvas ファイル生成・編集 | `canvas`（構文は references/json-canvas-syntax.md・2026-07-11 統合） |
 | @twittora_ 向け（Claude Code/AI活用）Xバズ投稿を Grok x_search で収集し Vault/.raw/ へ保存 | `grok-collect-twittora`（`/grok-collect-twittora`。NOT for: 一般Web検索の即時回答→必ず本スキル経由で保存） |
 | Obsidian CLI の read/create/search・プラグイン/テーマ開発（DOM検査等）**ユーザー明示指名時のみ** | `obsidian-cli`（rules/40-obsidian.md「obsidian-cli ガード」準拠。workflow skill からの自動委譲は禁止・正系は wiki-ingest/save/canvas） |
 

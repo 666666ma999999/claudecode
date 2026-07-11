@@ -17,6 +17,8 @@ allowed-tools: Read Write Edit Bash Glob Grep
 
 rules/42 対象ファイル (plan/measures/spec/analysis/CLAUDE/README/data-sources 等) を Claude 自身が 1-3 行に要約し、vault MOC (02_Ai/`<group>`/`<sub>`_ope.md) の 「🔁 最新更新ログ」セクションに prepend、frontmatter last_updated を当日へ更新する。 edit-history.jsonl (同 session の Edit/Write) と git diff を source of truth とする。 Triggers on: "/sync-vault-summary", "vault MOC 同期", "MOC 更新", "vault サマリー追記", "VAULT_SUMMARY_SUGGEST" (Stop hook 警告を見たとき).
 
+> **⚠️ 現状（2026-07-11 実測）**: 起動フラグ `~/.claude/state/vault-cc-enabled` が**不在のため、本 skill は STEP 0 で常に即 abort する**（現役の list/resolve/issues も動かない）。使う場合はフラグを作成してから。
+>
 > **⚠️ 2026-06-14 RETIRED（誤用注意）**: 「🔁 最新更新ログ」への append は**廃止**（rules/41 §④・MOC 自動ログ全廃）。helper の `append` subcommand は **no-op**（`scripts/sync-vault-summary.py` cmd_append）。よって本 skill の **STEP 2-4（append 系手順）は実行しても何も起きない**。現状で有効に残るのは `list`（候補抽出）/ `resolve`（repo→MOC マッピング）/ `cmd_issues`（Open Issues ライブミラー）のみ。**本 skill の全面改訂は vault 構造リフォーム施策で実施予定** → [[vault-restructure-proposal]]。それまで append を再実装しないこと。
 
 repo のファイル編集を **Claude が 1-3 行に要約** → vault MOC の「🔁 最新更新ログ」に prepend するスキル。**（↑ 上記のとおり append は廃止済。以下の記述は歴史的経緯・改訂待ち）**
@@ -57,7 +59,7 @@ MOC=$(python3 ~/.claude/scripts/sync-vault-summary.py resolve <repo_file>)
 ```
 
 heuristic マッピング:
-- `/prime_suite/prime_ad/` → `02_Ai/AI_adscrm/AIads_ope.md`
+- `/prime_suite/prime_ad/` → `02_Ai/AI_adscrm/AIads/AIads_ope.md`
 - `/prime_suite/prime_crm/` → `02_Ai/AI_adscrm/AIcrm/AIcrm_ope.md`
 - `/prime_suite/` → `02_Ai/AI_adscrm/adscrm_cross.md`
 - `/biz/make_article/` → `02_Ai/make_article/make_article_ope.md`
@@ -89,17 +91,9 @@ diff が空 (commit 済 / 実質変更なし) ならその候補は skip。
 - 数値・将来推測は書かない (rules/40 事実確認ルール)
 - ファイル全体ではなく **diff の意味要約**
 
-### 2-4. MOC に append
-```bash
-python3 ~/.claude/scripts/sync-vault-summary.py append "$MOC" "<entry text>"
-```
+### 2-4. MOC に append — **RETIRED（no-op・実行しても何も起きない）**
 
-helper が以下を atomic に実行:
-- `## 🔁 最新更新ログ (自動生成・β)` セクションを frontmatter 直後に新設 (なければ)
-- セクション直下に entry を prepend (newest top)
-- 同日+同 basename の重複 entry を merge (置換)
-- frontmatter `last_updated` を当日へ
-- 既存 H2 (`## 主要 KPI` 等) は絶対に編集しない
+旧仕様の全文 → `references/append-retired.md`（再実装禁止・rules/41 §④）。
 
 ## STEP 3: 確認報告
 処理した件数とサマリーをユーザーに 5 行以内で報告:

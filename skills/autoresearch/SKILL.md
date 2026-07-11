@@ -108,7 +108,7 @@ Research complete: [Topic]
 Rounds: N | Searches: N | Pages created: N
 
 Created:
-  wiki/questions/Research: [Topic].md (synthesis)
+  wiki/concepts/Research: [Topic].md (synthesis・frontmatter に `status: open-question` を付ければ未解決の問いとして検索可。※ wiki/questions/ は不採用 — 2026-07-11 P9 裁定・wiki 4 分類〔Sources/Entities/Concepts/Meta〕を増やさない)
   wiki/sources/[Source 1].md
   wiki/concepts/[Concept 1].md
   wiki/entities/[Entity 1].md
@@ -122,7 +122,7 @@ Key findings:
 - [Finding 2]
 - [Finding 3]
 
-Open questions filed: N
+Open questions filed: N (= concepts/ 内の status: open-question 件数)
 ```
 
 ---
