@@ -45,11 +45,12 @@ paths:
 - vault MOC は**司令塔**。実体（詳細手順・統計根拠・Session Handoff）を repo からコピーしない
 - **自動フィード禁止（2026-06-14）**: ロボット生成ログ（`## 🔁 最新更新ログ` 等）を MOC に置かない。ライブミラー（`## 📋 Open Issues`）は MOC 最下段の自動生成ゾーンのみ許容。全文→ detail
 - **例外: implementation-notes** = vault `02_Ai/<group>/<project>-impl-notes.md` が意思決定ログの唯一の正本（テンプレ `~/.claude/templates/impl-notes.md`）
+- **例外: research 台帳** = 採用済み `research/` の `_summary.md` が調査台帳の vault 正本（research/ 配下限定・MOC は入口導線のみ・知見本文の二重記載禁止・リンクは path-qualified 必須。運用正本 = skill `vault-research-ledger`・2026-07-10）
 - **同期義務（必須）**: repo の施策状態・優先順位・KPI を変更したセッションでは**同セッション内で** vault MOC も更新し `last_updated` を当日に（hook `vault-moc-sync-guard.sh`）。禁止基準・Red Flags 全表→ detail
 
 ## 検証 / 更新フロー
 
-- 機械検証: `weekly-vault-audit.sh`（週次 launchd）: MOC 存在 / frontmatter 6 必須 / Phase 正本 / wikilink ambiguity / 自動フィード残存
+- 機械検証: `weekly-vault-audit.sh`（手動実行・launchd 未設定・2026-07-10 現状追認）: MOC 存在 / frontmatter 6 必須 / Phase 正本 / wikilink ambiguity / 自動フィード残存 / research 台帳整合（`_summary.md` 必須・bare `[[_summary]]` 禁止）
 - 更新順序: ①実装 → ②本ルール → ③guide を同セッション内（「rules だけ変えて終わり」禁止）→ detail
 
 ## 優先順位

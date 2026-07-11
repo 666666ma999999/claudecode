@@ -12,7 +12,7 @@
 
 **配置先(一次ソース検証済み)**:
 - plan.md(設計SSoT): `~/.claude/docs/bunshin-v1-plan.md` — 理由: `~/.claude/plan.md` は vault-control-center 用に既存占有。`~/.claude/plans/` は data-retention.sh L130 で14日削除。**`~/.claude/tasks/` は .gitignore 対象と実測確認(git check-ignore で ignored)= 2台Mac同期に乗らないため設計SSoTは置けない**。docs/ は git 追跡・既存の docs/routing-table.md 等と同型。scope-prefix 命名(rules/41 §②)準拠
-- task.md(実行追跡): `~/.claude/tasks/p-bunshin-v1.md` — 既存 `p-*.md` 慣行に追従。data-retention の cleanup_dirs はディレクトリのみ削除(実測: 5/16 の p-passvault-*.md が生存)でファイルは安全。ローカル限定だが実行追跡はマシン単位で可
+- task.md(実行追跡): `~/.claude/tasks/bunshin-review-impl.md`（2026-07-10 注記: 当初案の `p-bunshin-v1.md` は作成されず、実運用はこのファイルに移行済み）。data-retention の cleanup_dirs はディレクトリのみ削除(実測: 5/16 の p-passvault-*.md が生存)でファイルは安全。ローカル限定だが実行追跡はマシン単位で可
 
 ---
 

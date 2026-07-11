@@ -3,7 +3,9 @@
 # focus mode ではユーザーは“最終テキストメッセージ”だけを見る。よって最終メッセージ単体に
 # 結論(=ユーザーが取るアクション/選ぶ選択肢)が載っていなければ「回答消失」に等しい。
 #
-# 4-Tier:
+# 5-Tier:
+#  Tier0 hook再開・回答消失ガード: Stop hookブロック後の継続ターンが短い追記のみ(直前の長文回答が不可視化)を拒否
+#        (2026-07-10 rohan実害・mistakes.md append-only-stophook-x-focusmode-erases-answer の act-time 強制)
 #  Tier1 回答消失ガード: フッターだけ/本文空の最終メッセージを拒否(L153再発防止・最優先)
 #  Tier2 提案 × フッター無し: 決定ブロックを先頭・根拠中段・フッター末尾を1メッセージで(co-location要求)
 #  Tier3 提案 × フッター有り × 結論が先頭に無い: 決定ブロックを先頭へ(埋没是正・提案限定=完了報告は巻き込まない)
@@ -148,6 +150,61 @@ def already_blocked(tag):
         return False
     except OSError:
         return True              # 状態を書けない → ブロックしない側に倒す(fail-open)
+
+# ============ Tier 0: hook再開ターンの回答消失ガード(stop_hook_active=true 限定) ============
+# Stop hook が一度 block すると継続が同一応答内で走り、focus mode では“継続後の最終メッセージだけ”が表示される。
+# 直前に実質的な回答本文(長文)を出していたのに、継続で「誤検知です」等の短い追記のみで停止すると回答が画面から消える
+# (2026-07-10 rohan 実害 / mistakes.md append-only-stophook-x-focusmode-erases-answer)。
+# 検知: 同ターン内(直近の実ユーザー発話まで)の assistant テキスト最大長>=250(compact) ∧ 最終<100 ∧ 最終が直前の40%未満
+#       ∧ 結論ブロックが先頭に無い → 1回だけ block して本文の再掲を要求(already_blocked("t0")+SESSION_CAPで自己制限)。
+hook_active = str(data.get("stop_hook_active", False)).lower() == "true"
+final_compact_len = len(re.sub(r"[\s#>*\-`|・>]", "", last_text))
+if hook_active and final_compact_len < 100 and not decision_at_top:
+    def _txt(obj):
+        c = obj.get("message", {}).get("content", "")
+        if isinstance(c, str):
+            return c
+        if isinstance(c, list):
+            return "\n".join(b.get("text", "") for b in c if isinstance(b, dict) and b.get("type") == "text")
+        return ""
+    def _real_user(obj):
+        # ターン境界=実ユーザー発話のみ。hook注入(isMeta/system-reminder/stop hook結果/tool_resultのみ)は境界にしない
+        if obj.get("type") != "user" or obj.get("isMeta"):
+            return False
+        t = _txt(obj).strip()
+        return bool(t) and "<system-reminder" not in t and "stop hook" not in t.lower()
+    prev_best = 0
+    skipped_final = False
+    scanned = 0
+    for raw in reversed(lines):
+        scanned += 1
+        if scanned > 400:          # 巨大transcript対策: 直近400行で打ち切り(fail-open)
+            break
+        raw = raw.strip()
+        if not raw:
+            continue
+        try:
+            obj = json.loads(raw)
+        except json.JSONDecodeError:
+            continue
+        if _real_user(obj):
+            break
+        if obj.get("type") != "assistant":
+            continue
+        t = _txt(obj)
+        if not t.strip():
+            continue
+        if not skipped_final:      # 最初に見つかる assistant テキスト = last_text 自身
+            skipped_final = True
+            continue
+        prev_best = max(prev_best, len(re.sub(r"[\s#>*\-`|・>]", "", t)))
+    if prev_best >= 250 and final_compact_len < prev_best * 0.4:
+        if already_blocked("t0"):
+            sys.exit(0)
+        BLOCK("Stop hookブロック後の継続ターンです。focus modeでは“この最終メッセージだけ”が表示され、"
+              f"ブロック前に書いた回答本文(実質約{prev_best}字)は画面に出ません。"
+              "hook対応の一言だけで停止せず、回答本文(『## ✅ 結論 / 決めること』を先頭に、根拠も含めて)を"
+              "丸ごと再掲して1メッセージで出し直してください。")
 
 # ============ Tier 1: 回答消失ガード(最優先・トリガー語/短文除外より前・stop_hook_active非依存) ============
 # フッターはあるが実本文が実質空 → focus modeでフッターしか見えない事故(L153)。

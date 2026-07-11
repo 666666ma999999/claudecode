@@ -6,7 +6,7 @@ Claude Code フック実装のディレクトリ。
 
 | ディレクトリ | 意味 | 復活手順 |
 |---|---|---|
-| `hooks/*.sh` `hooks/*.py` | **active**: settings.json から実行される現役フック（40 本） | — |
+| `hooks/*.sh` `hooks/*.py` | **active**: settings.json から実行される現役フック（58 本・2026-07-10 実カウント） | — |
 | `hooks/_*.sh` `hooks/_*.py` | **infrastructure**: フック自体ではなく支援スクリプト（`_profile-wrapper.sh` 等） | — |
 | `hooks/_dormant/` | **休眠**: 過去登録解除した便利系。settings.json に再登録すれば復活 | settings.json に command path を再追加 |
 | `hooks/_archive/` | **退役**: 実害があり再採用しない。削除候補（要レビュー） | 復活非推奨 |
