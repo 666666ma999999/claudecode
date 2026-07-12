@@ -112,3 +112,7 @@ playwright-line-profile/
 
 # 実行ログ (claude-safe-update.log 等・端末固有)
 logs/
+
+# マシン依存 symlink（ユーザー名が2台で異なるため各マシンでローカル作成・2026-07-12）
+data/bookmarks.jsonl
+data/bookmarks-normalized.jsonl
