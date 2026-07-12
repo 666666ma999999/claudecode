@@ -560,6 +560,15 @@
             "command": "~/.claude/hooks/sessionstart-env-git-drift.sh"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/machine-local-bootstrap.sh"
+          }
+        ]
       }
     ],
     "PermissionRequest": [
