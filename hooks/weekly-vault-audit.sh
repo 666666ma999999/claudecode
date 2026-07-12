@@ -298,13 +298,7 @@ if [ -f "$WIKI_SUM" ]; then
 fi
 
 # ============================================================
-# 検証 16: research 台帳整合 (2026-07-10・skill vault-research-ledger)
-# 採用済み research/ には台帳 _summary.md 必須 + bare [[_summary]] リンク禁止
-# (固定名のため複数 project 展開で曖昧リンク化する。path-qualified 必須)
-# 除外: templates/ (雛形は説明文に literal を含む) / wiki/meta/decisions.md (append-only・
-#       過去エントリ編集禁止) / research/ 配下 (2026-07-10 以前の自己参照 legacy を grandfather。
-#       skill が新規は path-qualified を義務化済み・検知面は MOC と一般ファイル)
-# ============================================================
+====================================================
 for rdir in "$VAULT/02_Ai"/*/research "$VAULT/02_Ai"/*/*/research; do
   [ -d "$rdir" ] || continue
   if [ ! -f "$rdir/_summary.md" ]; then
@@ -324,7 +318,44 @@ if [ -n "$bare_files" ]; then
   violations=$((violations + 1))
 fi
 
+=======
+# 検証 16: vault git 健全性 + プロジェクトフォルダ構造ガード (2026-07-07)
+# 実事故: 2026-07-06 22:54 MASA.local 側で AIads/ が「売りあて/」に意図せずリネーム
+# → git merge が衝突で 12h+ 停止・自動バックアップ停止・別セッションがリネームに追従改修。
+# (a) 止まったマージ (MERGE_HEAD 残存 / unmerged paths / obsidian-git 衝突メモ) を検出
+# (b) 必須プロジェクトフォルダの実在を確認 (消えた=リネーム/削除の疑い)
+# ネットワーク非依存 (fetch しない・既存 ref のみ)。
 # ============================================================
+if [ -d "$VAULT/.git" ]; then
+  if [ -f "$VAULT/.git/MERGE_HEAD" ]; then
+    result="${result}- ❌ git-health: マージが未完了のまま停止中 (MERGE_HEAD 残存)。自動バックアップが止まっている。衝突を解消して commit せよ\n"
+    violations=$((violations + 1))
+  fi
+  if [ -n "$(git -C "$VAULT" ls-files -u 2>/dev/null | head -1)" ]; then
+    result="${result}- ❌ git-health: unmerged paths (衝突未解消ファイル) が残存\n"
+    violations=$((violations + 1))
+  fi
+  if [ -f "$VAULT/conflict-files-obsidian-git.md" ] && [ ! -f "$VAULT/.git/MERGE_HEAD" ]; then
+    # 衝突は解消済みなのにメモが残存 = obsidian-git が未削除 (info 扱いにせず軽微違反で可視化)
+    result="${result}- ❌ git-health: conflict-files-obsidian-git.md が残存 (衝突解消済みなら削除してよい)\n"
+    violations=$((violations + 1))
+  fi
+fi
+for required_dir in "02_Ai/AI_adscrm/AIads" "02_Ai/AI_adscrm/AIcrm"; do
+  if [ ! -d "$VAULT/$required_dir" ]; then
+    result="${result}- ❌ structure: $required_dir が存在しない (意図しないリネーム/削除の疑い。git log で直近の rename を確認し復旧せよ。実例: 2026-07-06 売りあて事故)\n"
+    violations=$((violations + 1))
+  fi
+done
+
+# ============================================================
+# 検証 17: research 台帳整合 (2026-07-10・skill vault-research-ledger)
+# 採用済み research/ には台帳 _summary.md 必須 + bare [[_summary]] リンク禁止
+# (固定名のため複数 project 展開で曖昧リンク化する。path-qualified 必須)
+# 除外: templates/ (雛形は説明文に literal を含む) / wiki/meta/decisions.md (append-only・
+#       過去エントリ編集禁止) / research/ 配下 (2026-07-10 以前の自己参照 legacy を grandfather。
+#       skill が新規は path-qualified を義務化済み・検知面は MOC と一般ファイル)
+# # ============================================================
 # audit ファイル append-only 更新
 # ============================================================
 mkdir -p "$(dirname "$AUDIT_FILE")"
@@ -351,7 +382,7 @@ fi
   echo ""
   echo "## $TIMESTAMP (violations: $violations, swept: $swept)"
   if [ "$violations" -eq 0 ]; then
-    echo "- ✅ all checks passed (frontmatter / ambiguity / registry / K-3 placement / repo-only files / context-bloat / must-remember)"
+    echo "- ✅ all checks passed (frontmatter / ambiguity / registry / K-3 placement / repo-only files / context-bloat / must-remember / git-health / structure)"
   else
     echo -e "$result"
   fi
