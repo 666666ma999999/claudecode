@@ -539,6 +539,7 @@ echo "[vault-sync][Stop] push done" >&2
 ## 4. bootstrap
 
 保存先: `~/.claude/bin/bootstrap-vault-sync-salesmtg.sh`
+（as-built 注記・2026-07-10: 実装済み実体は `~/.claude/bin/bootstrap-vault-sync-report.sh`（`SLUG="report"`）。salesmtg 版は未作成のまま、report プロジェクト向けとして稼働している）
 
 ```bash
 #!/usr/bin/env bash

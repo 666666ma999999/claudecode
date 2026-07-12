@@ -133,7 +133,7 @@
 ## 関連ファイル
 
 - 設計 SSoT: `~/.claude/plan.md`
-- 実装記録: `~/.claude/tasks/p-a-claude-obsidian-integration.md`
+- 実装記録: （実装記録は散逸・2026-07-10監査で確認）
 - 不変ルール: `~/.claude/rules/40-obsidian.md`
 - vault バックアップ: `~/.claude/state/vault-backup-20260424/`（手動削除まで保持）
 - vault 内スナップショット: `<vault>/wiki/meta/claude-obsidian-integration-20260424.md`

@@ -1,7 +1,7 @@
 # 応答構造（focus mode対応）詳細 — 現場Claudeの提案が読めない問題の解消
 
 > **薄い索引は `CLAUDE.md`「## 応答構造（focus mode対応）」**。本ファイルは背景・実例・テンプレ全文・hook契約の SSoT。
-> 機械保証の実体 = `hooks/stop-evidence-footer.sh`（4-Tier）。一次資料 = `state/readability-work/`（gitignore）。
+> 機械保証の実体 = `hooks/stop-evidence-footer.sh`（5-Tier）。一次資料 = `state/readability-work/`（gitignore）。
 
 ## 1. なぜ作ったか（背景）
 
@@ -58,12 +58,13 @@ Sources:
 3. `---` の下に 🔍根拠フッターと Sources を隔離。
 4. **フッター/根拠だけの最終メッセージ禁止**（focus mode で回答消失になる）。
 
-## 3. 機械保証：`hooks/stop-evidence-footer.sh`（4-Tier契約）
+## 3. 機械保証：`hooks/stop-evidence-footer.sh`（5-Tier契約）
 
 soft（本規約）＝良い初回応答を出させる主レバー。machine（hook）＝壊れた最終メッセージを止める安全網。役割分担。
 
 | Tier | 発火条件 | ブロック内容 | 対象 |
 |---|---|---|---|
+| **Tier0 hook再開・回答消失** | `stop_hook_active=true` ∧ 同ターン直前の assistant テキスト≥250字(compact) ∧ 最終<100字 ∧ 直前の40%未満 ∧ 結論先頭でない | 「hook対応の一言で停止せず、回答本文を丸ごと再掲して1メッセージで」 | 2026-07-10 rohan 実害（dup-guard誤検知→1行継続で回答消失）の恒久対策。テスト=`hooks/tests/test-stop-evidence-footer-t0.sh` |
 | **Tier1 回答消失** | フッター有り ∧ 実本文が実質空 ∧ 結論先頭でない | 「フッターだけ。冒頭に結論ブロックを置き本文＋フッターを1メッセージで」 | 最優先・トリガー語/短文除外より前 |
 | **Tier2 co-location** | `is_choice_proposal` ∧ フッター無し | 「決定ブロック先頭・根拠中段・フッター末尾を1メッセージで」 | L145初回形 |
 | **Tier3 埋没是正** | `is_choice_proposal` ∧ フッター有り ∧ 結論が先頭に無い | 「決定ブロックを先頭へ移せ」 | **推奨つき選択依頼限定**＝完了/検証報告・純粋質問は巻き込まない |

@@ -5,6 +5,7 @@ description: >
   /save mistake, file this, save to wiki, save this session, file this conversation,
   keep this, save this analysis, add this to the wiki, 決定を記録, 方針確定, 教訓,
   再発防止, 同じミス, lesson learned
+  NOT for: 外部ソース(URL/ファイル)の取り込み→wiki-ingest / 定量改善・体験素材の登録→capture-improvement / 記事ネタの一時ストック→x-stock
 allowed-tools: Read Write Edit Glob Grep
 ---
 

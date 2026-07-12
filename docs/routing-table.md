@@ -14,13 +14,14 @@
 | task進捗・stuck記録・セッション引き継ぎ | `task-progress` |
 | Obsidian NOW→DONE移動・元プロンプト/原文/証跡/refs/ログ保存・タスク完了記録・`/done` | `/done` コマンド（自己完結・skill は _dormant/obsidian-now-done） |
 | wikiキュー作って / wiki取り込み / URL取り込み / ✅処理して（第二の脳＝wiki知識化・queue経由） | `wiki-ingest` + `[[wiki-ingest-queue]]`（`wiki/meta/wiki-ingest-queue.md`・✅式の取り込み待合室。URL 1フロー=defuddle→`.raw/<topic>/`→wiki-ingest。取り込み時に関連既存ページへ根拠付き相互リンク+`## Updates`追記で「育つ」・完了を `wiki/log.md` に1行記録・処理済✅はキューから削除。SessionStart hook が未処理✅を通知） |
+| wiki の健全性チェック・orphan/dead link/古い主張検出・wiki監査・掃除 | `wiki-lint`（"lint the wiki", "health check", "wiki audit"） |
+| wiki から引用付き回答・"what do you know about"・wiki 検索・要約 | `wiki-query`（quick/standard/deep） |
 | 今日の取り込みして / wiki自動取り込みの手動実行 / 第二の脳v3日次ジョブを今すぐ回す（無人・ハブ追記型） | 日次ジョブ `com.masa.wiki-daily-ingest`（毎日8:47・news収集8:07の後）。2段=`vault-prompt-runner.sh`(read-only claudeでpatch生成)→`wiki_ingest_apply.py`(柵・機械適用)。手動実走: `launchctl start com.masa.wiki-daily-ingest`。TCC 未付与時の直接実走: `/bin/bash -lc '~/.claude/scripts/vault-prompt-runner.sh "~/Documents/Obsidian Vault/00_General/prompts/scheduled/wiki-daily-ingest.md" && /usr/bin/python3 ~/.claude/scripts/wiki_ingest_apply.py "~/Documents/Obsidian Vault/wiki/meta/wiki-daily-ingest-result.md"'`。着地=ハブ5枚(`wiki/concepts/{AI活用と自動化,広告・マーケティング,占いビジネス,投資,事業戦略}.md`)の`## AI追記`節末尾のみ・新規ファイルは✅ゲート。柵=単一fenceのみ/allowlist外target拒否/秘密9種スキャン/4KB・12KB上限/flock/冪等(apply-log jsonl)。決定正本 `wiki/meta/decisions.md` 2026-07-06「無人AI書込はハブ追記型」・設計 `03_ClaudeEnv/ClaudeEnv-secondbrain-v2-plan.md` §v3 |
 | プロジェクト復帰・コンテキスト復元 | `project-recall` |
 | SubAgent委託・デバッグ・リファクタリング | `execution-patterns` |
 | 叩き台・探索・試作・UI案・API挙動確認・要件曖昧 | `/prototype` コマンド |
 | 実装完了・完了報告前・検証完了 | `implementation-checklist` |
 | 新機能/MVP開始・4項目ブリーフ収集→Plan mode起動 | `new-feature` |
-| 新機能開発・設計比較・3並列アーキテクチャ比較が必要 | `feature-dev-hybrid` |
 | 新プロジェクト初期化(.gitignore/Docker/CLAUDE.md 等) | `project-bootstrap` |
 | ベスプラ検索・Claude Code運用改善・最新Tips | `search-best-practice` |
 | Plan mode前スキル検索・外部レジストリ検索 | `find-skills` |
@@ -37,7 +38,7 @@
 | コード重複・dual-path・DRY違反 | `20-code-quality.md` + `70-architecture.md` 参照 |
 | BEパイプライン重複・BE設計 | `70-architecture.md`「BE 固有」参照 |
 | vanilla FE設計・Command/Query分離・FEパイプライン | `70-architecture.md`「FE 固有」参照 |
-| 3F+設計判断・大規模アーキ判断・公開API変更・二択判断 | `opponent-review`（軽い前提検証は `/review --mode=challenge`） |
+| 3F+設計判断・大規模アーキ判断・公開API変更・二択判断 | `plan-adversarial-review`（旧 opponent-review は 2026-07-11 吸収・汎用型は同 skill references/opponent-review-general.md）（軽い前提検証は `/review --mode=challenge`） |
 
 ### コード品質・リファクタリング
 
@@ -69,8 +70,8 @@
 | トリガー | 参照スキル |
 |---------|-----------|
 | KPI分解・構成要素・ドリルダウン・因果分析・計算式定義 | `kpi-tree-first` |
-| データ可視化・チャート生成 | `data-visualization` |
-| 経営層向けダッシュボード・デジタル庁ガイドブック準拠・matplotlib PNG | `dashboard-design-guide` |
+| データ可視化・チャート生成（**X 投稿用・単発チャート**） | `data-visualization`（現在 off=一覧非表示・使う時は skillOverrides 解除。経営層向けは dashboard-design-guide） |
+| 経営層向けダッシュボード・デジタル庁ガイドブック準拠・matplotlib PNG | `dashboard-design-guide`（X 投稿用の単発チャートは data-visualization） |
 | vault に司令塔/現状診断ボード/運用ダッシュボードを **full** で設計（薄い索引でなく判断材料を内包）・経営層1-pager・findings 清書・スクショ映え | `vault-report-writing`（設計／構文は `obsidian-markdown`。配置構造は rules/41・42 が正本。MOC の薄い索引化は `/sync-vault-summary`。※ `dashboard-design-guide`=matplotlib PNG生成・`salesmtg-dashboard-qa`=表示QA とは射程が別） |
 | 売上分析・多変数分析 | `sales-analysis` |
 | salesmtg CSV整合性・粗利構成不整合・スクレイピング後検証 | `salesmtg-data-audit` |
@@ -101,7 +102,9 @@
 | Webページ本文のクリーン抽出（WebFetch 代替・省トークン） | `defuddle` |
 | 新しい Mac の初期構築・環境複製 | `machine-bootstrap` |
 | 高機密情報（銀行/証券/仮想通貨）の vault 基盤構築 | `secret-vault-setup` |
-| JSON Canvas ファイル生成・編集 | `json-canvas` |
+| JSON Canvas ファイル生成・編集 | `canvas`（構文は references/json-canvas-syntax.md・2026-07-11 統合） |
+| @twittora_ 向け（Claude Code/AI活用）Xバズ投稿を Grok x_search で収集し Vault/.raw/ へ保存 | `grok-collect-twittora`（`/grok-collect-twittora`。NOT for: 一般Web検索の即時回答→必ず本スキル経由で保存） |
+| Obsidian CLI の read/create/search・プラグイン/テーマ開発（DOM検査等）**ユーザー明示指名時のみ** | `obsidian-cli`（rules/40-obsidian.md「obsidian-cli ガード」準拠。workflow skill からの自動委譲は禁止・正系は wiki-ingest/save/canvas） |
 
 ### 記事生成・検証（X Articles パイプライン）
 

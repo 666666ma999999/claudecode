@@ -24,7 +24,7 @@ allowed-tools: [Read, Glob, Grep, Bash]
 ## Prerequisites
 - influxプロジェクト: `~/Desktop/biz/influx`（INFLUX_ROOT環境変数 or デフォルト）
 - Docker: `docker-compose.vnc.yml` が存在し `xstock-vnc` コンテナ起動可能
-- **Cookie**: `x_profiles/<account>/cookies.json` が有効（account は `maaaki` or `kabuki666999`）
+- **Cookie**: `x_profiles/<account>/cookies.json` が有効（account は `maaaki` or `kabuki666999`）（kabuki666999 は初回セットアップ未実施・2026-07 時点。使用前に influx の refresh-x-cookies skill で Cookie 作成が必要）
 
 ## Workflow
 
@@ -47,6 +47,7 @@ docker ps --filter name=xstock-vnc --format "{{.Status}}" | grep -q "^Up" || \
 ACCOUNT="maaaki"  # or kabuki666999
 python3 -c "import os,time;p=f'$HOME/Desktop/biz/influx/x_profiles/$ACCOUNT/cookies.json';print(int((time.time()-os.path.getmtime(p))/86400),'days')"
 ```
+（kabuki666999 は初回セットアップ未実施・2026-07 時点。使用前に influx の refresh-x-cookies skill で Cookie 作成が必要）
 
 **Cookie期限切れ時** → **influx側 `refresh-x-cookies` スキル** 参照:
 ```bash

@@ -68,4 +68,13 @@
 | #33033 | 11:30 AM | ✅ | Bunshin project SSoT updated to Wave1-3 全取り込み完了: corpus extraction completed with 155 files (654,547 chars) validated through 270+ agents across two user inspection rounds | ~1158 |
 | #32681 | 10:35 AM | ✅ | Wave1 vault corpus validation documented as complete in project SSoT | ~442 |
 | #32611 | 12:28 AM | 🔴 | Wave1 extraction declared complete with S6/S7b PASS, plan updated documenting work shift to MASA.local, user inspection phase ready | ~1193 |
+
+### Jul 10, 2026
+
+| ID | Time | T | Title | Read |
+|----|------|---|-------|------|
+| #35037 | 4:22 PM | ✅ | Tier 0 guard fully documented in 5-Tier contract table with trigger conditions and test reference | ~604 |
+| #35036 | 4:21 PM | ✅ | Updated response-structure-detail.md header from 4-Tier to 5-Tier notation | ~359 |
+| #35035 | " | 🔵 | Located remaining 4-Tier references requiring update to 5-Tier for consistency | ~373 |
+| #34871 | 12:17 PM | ✅ | Synchronized file-placement-detail.md to reflect 67→71 type expansion with O group addition note | ~527 |
 </claude-mem-context>

@@ -13,11 +13,9 @@
       "mcp__repomix",
       "mcp__codex__codex",
       "mcp__codex__codex-reply",
-      "mcp__firecrawl",
       "mcp__chrome-devtools",
       "mcp__playwright",
       "mcp__postgresql",
-      "mcp__grok-search",
       "mcp__google-search-console",
       "Monitor",
       "WebSearch",
@@ -161,7 +159,6 @@
     "notification-alert": "off",
     "health": "name-only",
     "canvas": "name-only",
-    "json-canvas": "off",
     "obsidian-bases": "name-only",
     "obsidian-cli": "name-only",
     "obsidian-markdown": "name-only",
@@ -192,7 +189,6 @@
     "config-placement-guide": "off",
     "feature-dev-hybrid": "off",
     "grok-collect-twittora": "off",
-    "opponent-review": "off",
     "project-cross-pc-handoff": "off",
     "search-best-practice": "off",
     "secret-vault-setup": "off"
@@ -556,6 +552,15 @@
             "command": "~/.claude/hooks/fable5-sunset-autoswitch.sh"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/sessionstart-env-git-drift.sh"
+          }
+        ]
       }
     ],
     "PermissionRequest": [
@@ -648,16 +653,6 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/stop-vault-summary-suggest.sh",
-            "timeout": 5
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
             "command": "~/.claude/hooks/vault-moc-sync-guard.sh",
             "timeout": 5
           }
@@ -687,6 +682,15 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/stop-dup-guard.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/stop-backlog-guard.sh"
           }
         ]
       }

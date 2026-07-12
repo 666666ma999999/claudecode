@@ -3,7 +3,7 @@
 #
 # 週次で vault プロジェクト構造の整合性を検証する。
 # rules/41 ④章 grep 検証コマンドを統合実行し、結果を append-only audit ファイルに追記。
-# launchd で週次起動 (~/Library/LaunchAgents/com.masa.vault-audit.plist 経由)。
+# 手動実行（launchd 未設定・2026-07-10 現状追認）。
 # 違反検出時は SessionStart hook が次回起動時に warning 注入。
 #
 # 設計根拠: ~/.claude/plan.md L9「動く hook 1 個＋使われる住所録」+ rules/41 ④章 grep 検証
@@ -298,6 +298,27 @@ if [ -f "$WIKI_SUM" ]; then
 fi
 
 # ============================================================
+====================================================
+for rdir in "$VAULT/02_Ai"/*/research "$VAULT/02_Ai"/*/*/research; do
+  [ -d "$rdir" ] || continue
+  if [ ! -f "$rdir/_summary.md" ]; then
+    result="${result}- ❌ research-ledger: ${rdir#$VAULT/} に台帳 _summary.md が無い (雛形 = templates/research-summary.md・skill vault-research-ledger)\n"
+    violations=$((violations + 1))
+  fi
+done
+bare_files=$(grep -rlF --include='*.md' '[[_summary]]' "$VAULT" 2>/dev/null \
+  | grep -v "^$VAULT/templates/" \
+  | grep -v "wiki/meta/decisions.md" \
+  | grep -v "/research/" \
+  | grep -v "/_archive/" \
+  | head -5)
+if [ -n "$bare_files" ]; then
+  bare_cnt=$(printf '%s\n' "$bare_files" | wc -l | tr -d ' ')
+  result="${result}- ❌ research-ledger: bare [[_summary]] リンク ${bare_cnt} ファイル (path-qualified [[<path>/research/_summary|…]] へ修正・skill vault-research-ledger): $(printf '%s' "$bare_files" | tr '\n' ' ' | sed "s|$VAULT/||g")\n"
+  violations=$((violations + 1))
+fi
+
+=======
 # 検証 16: vault git 健全性 + プロジェクトフォルダ構造ガード (2026-07-07)
 # 実事故: 2026-07-06 22:54 MASA.local 側で AIads/ が「売りあて/」に意図せずリネーム
 # → git merge が衝突で 12h+ 停止・自動バックアップ停止・別セッションがリネームに追従改修。
@@ -326,7 +347,15 @@ for required_dir in "02_Ai/AI_adscrm/AIads" "02_Ai/AI_adscrm/AIcrm"; do
     violations=$((violations + 1))
   fi
 done
+
 # ============================================================
+# 検証 17: research 台帳整合 (2026-07-10・skill vault-research-ledger)
+# 採用済み research/ には台帳 _summary.md 必須 + bare [[_summary]] リンク禁止
+# (固定名のため複数 project 展開で曖昧リンク化する。path-qualified 必須)
+# 除外: templates/ (雛形は説明文に literal を含む) / wiki/meta/decisions.md (append-only・
+#       過去エントリ編集禁止) / research/ 配下 (2026-07-10 以前の自己参照 legacy を grandfather。
+#       skill が新規は path-qualified を義務化済み・検知面は MOC と一般ファイル)
+# # ============================================================
 # audit ファイル append-only 更新
 # ============================================================
 mkdir -p "$(dirname "$AUDIT_FILE")"

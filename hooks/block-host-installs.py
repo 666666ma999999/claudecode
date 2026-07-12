@@ -67,6 +67,44 @@ ALLOW_PATTERNS = [
 ]
 
 
+# --- 誤検知修正 (2026-07-10) -------------------------------------------------
+# 旧実装は heredoc 本文・引数のクォート内文字列も deny 照合していたため、
+# `grep "npm install"` や python heredoc 内の文書テキストで誤 deny が発生した。
+# deny パターン自体は緩めず、「実行されないテキスト」だけを照合対象から外す。
+
+# python heredoc (`python3 - <<'EOF' ... EOF`) の本文は python コードであり
+# シェルで実行されないため除外する（既存の `python -c` 除外と同等の扱い）。
+# ⚠️ bash/sh/zsh の heredoc は本文がそのまま実行されるため除去しない。
+_PY_HEREDOC_RE = re.compile(
+    r"(python3?[^\n<;|&]*<<-?\s*'?(\w+)'?[^\n]*\n)(.*?)(^\2\s*$)",
+    re.DOTALL | re.MULTILINE,
+)
+
+# 引数文字列を実行しない読み取り専用テキスト検索コマンド。
+# これらのクォート内リテラルは deny 照合前に除去する。
+# ⚠️ echo/printf は `echo "pip install x" | sh` でリテラルが実行に化けるため含めない。
+_QUOTE_SAFE_CMDS = ("grep", "egrep", "fgrep", "rg", "ag", "ack", "git", "find")
+
+_QUOTED_RE = re.compile(r"'[^']*'|\"[^\"]*\"")
+
+
+def strip_python_heredoc_bodies(cmd: str) -> str:
+    """python heredoc の本文を deny 照合対象から除去する。"""
+    return _PY_HEREDOC_RE.sub(lambda m: m.group(1) + m.group(4), cmd)
+
+
+def strip_quoted_literals_if_safe(candidate: str) -> str:
+    """先頭コマンドが読み取り専用検索系のときだけクォート内を除去した文字列を返す。"""
+    stripped = candidate.strip()
+    if not stripped:
+        return candidate
+    first = stripped.split()[0].rsplit("/", 1)[-1]
+    if first in _QUOTE_SAFE_CMDS:
+        return _QUOTED_RE.sub("", candidate)
+    return candidate
+# -----------------------------------------------------------------------------
+
+
 def deny(reason: str):
     print(json.dumps({
         "hookSpecificOutput": {
@@ -114,9 +152,13 @@ def main():
     if re.match(r"^\s*python3?\s+-c\b", cmd.strip()):
         return
 
+    # python heredoc 本文（シェルで実行されないテキスト）を照合対象から除去
+    # (2026-07-10 誤検知修正。[;&|] 分割前に行うこと — 本文中の | 等で断片化するため)
+    cmd_scan = strip_python_heredoc_bodies(cmd)
+
     # 内部コマンドも検査（bash -c "pip install ..." 対策）
-    inner = extract_inner_command(cmd)
-    candidates = {cmd.strip(), inner.strip()}
+    inner = extract_inner_command(cmd_scan)
+    candidates = {cmd_scan.strip(), inner.strip()}
 
     # && や ; で繋がれた複数コマンドも検査
     for candidate in list(candidates):
@@ -141,8 +183,11 @@ def main():
         if allowed:
             continue
 
+        # 読み取り専用検索コマンドのクォート内リテラルは実行されないため除去して照合
+        scan_target = strip_quoted_literals_if_safe(candidate)
+
         for pattern in DENY_PATTERNS:
-            if re.search(pattern, candidate):
+            if re.search(pattern, scan_target):
                 deny(
                     "ホスト環境でのパッケージインストール/venv作成は禁止されています。\n"
                     "Docker経由で実行してください:\n"

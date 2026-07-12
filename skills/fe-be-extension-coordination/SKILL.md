@@ -17,151 +17,16 @@ metadata:
 
 ## 1. 共有エクステンション設定
 
-### extension-contracts パッケージ
-
 FEとBEで共有するエクステンション定義を一元管理するnpmパッケージ（またはgit submodule）。
 
-```
-extension-contracts/           # 独立リポジトリ or monorepo内パッケージ
-├── package.json
-├── src/
-│   ├── extension-ids.ts       # EXTENSION_IDS 定数
-│   ├── extensions.yaml        # 有効エクステンション一覧（SSOT）
-│   ├── events/                # 共有イベント型
-│   │   ├── index.ts
-│   │   └── user-events.ts
-│   └── api/                   # APIコントラクト型
-│       ├── index.ts
-│       └── user-api.ts
-└── tsconfig.json
-```
-
-### EXTENSION_IDS 定数
-
-```typescript
-// extension-contracts/src/extension-ids.ts
-export const EXTENSION_IDS = {
-  USER_MANAGEMENT: 'user-management',
-  NOTIFICATION: 'notification',
-  BILLING: 'billing',
-  ANALYTICS: 'analytics',
-} as const;
-
-export type ExtensionId = typeof EXTENSION_IDS[keyof typeof EXTENSION_IDS];
-```
-
-### extensions.yaml (Single Source of Truth)
-
-```yaml
-# extension-contracts/src/extensions.yaml
-extensions:
-  - id: user-management
-    fe: true
-    be: true
-    description: "ユーザー管理"
-  - id: notification
-    fe: true
-    be: true
-    description: "通知システム"
-  - id: billing
-    fe: true
-    be: true
-    description: "課金・決済"
-  - id: analytics
-    fe: false       # FEなし（BEのみ）
-    be: true
-    description: "分析・レポート"
-```
-
-### ランタイム設定サービス（オプション）
-
-```typescript
-// BE: Extension Configuration API
-// GET /api/extensions/config
-// Returns: { enabled: ExtensionId[], featureFlags: Record<string, boolean> }
-// FE: Fetches config at boot to sync enabled extensions
-```
+詳細（ディレクトリ構成・EXTENSION_IDS 定数・extensions.yaml・ランタイム設定サービス）→ `references/shared-extension-config.md`
 
 ## 2. APIコントラクト調整
 
 ### OpenAPI spec per extension
 
 各エクステンションが自身のOpenAPI specを持つ。
-
-```
-be-repo/
-└── extensions/
-    └── user-management/
-        └── openapi.yaml       # per-extension OpenAPI spec
-```
-
-```yaml
-# extensions/user-management/openapi.yaml
-openapi: "3.0.3"
-info:
-  title: "User Management Extension API"
-  version: "1.0.0"
-paths:
-  /api/user-management/users:
-    get:
-      operationId: listUsers
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
-    post:
-      operationId: createUser
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserCreate'
-components:
-  schemas:
-    User:
-      type: object
-      properties:
-        id: { type: string }
-        name: { type: string }
-        email: { type: string, format: email }
-    UserCreate:
-      type: object
-      required: [name, email]
-      properties:
-        name: { type: string }
-        email: { type: string, format: email }
-```
-
-### CI型生成ワークフロー
-
-```yaml
-# .github/workflows/generate-types.yml
-name: Generate API Types
-on:
-  push:
-    paths:
-      - 'extensions/*/openapi.yaml'
-
-jobs:
-  generate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Generate TypeScript types
-        run: |
-          for spec in extensions/*/openapi.yaml; do
-            ext=$(basename $(dirname $spec))
-            npx openapi-typescript "$spec" -o "generated/api/${ext}.d.ts"
-          done
-      - name: Publish to extension-contracts
-        run: |
-          cp generated/api/* ../extension-contracts/src/api/
-          cd ../extension-contracts && npm version patch && npm publish
-```
+詳細（OpenAPI spec 例・CI型生成ワークフロー）→ `references/api-contract-examples.md`
 
 ## 3. 一貫したExtension ID
 
@@ -178,44 +43,7 @@ jobs:
 | DB table prefix | snake_case | `ext_user_management_*` |
 | EXTENSION_IDS key | UPPER_SNAKE_CASE | `USER_MANAGEMENT` |
 
-### CI検証スクリプト
-
-```typescript
-// scripts/validate-extension-ids.ts
-import { EXTENSION_IDS } from 'extension-contracts';
-import fs from 'fs';
-import yaml from 'js-yaml';
-
-// 1. FE extensions check
-const feExtensions = fs.readdirSync('fe-repo/src/extensions');
-// 2. BE extensions check
-const beExtensions = fs.readdirSync('be-repo/src/extensions');
-// 3. extensions.yaml check
-const config = yaml.load(
-  fs.readFileSync('extension-contracts/src/extensions.yaml', 'utf8')
-);
-
-const ids = Object.values(EXTENSION_IDS);
-
-for (const id of ids) {
-  const ext = config.extensions.find((e: any) => e.id === id);
-  if (!ext) {
-    console.error(`Missing in extensions.yaml: ${id}`);
-    process.exit(1);
-  }
-  if (ext.fe && !feExtensions.includes(id)) {
-    console.error(`FE directory missing for: ${id}`);
-    process.exit(1);
-  }
-  // Python BE uses snake_case
-  const beDir = id.replace(/-/g, '_');
-  if (ext.be && !beExtensions.includes(id) && !beExtensions.includes(beDir)) {
-    console.error(`BE directory missing for: ${id}`);
-    process.exit(1);
-  }
-}
-console.log('All extension IDs are consistent!');
-```
+詳細（CI検証スクリプト）→ `references/extension-id-validation.md`
 
 ## 4. デプロイ協調
 
@@ -227,102 +55,11 @@ console.log('All extension IDs are consistent!');
 3. BE: 旧エンドポイント廃止 → デプロイ
 ```
 
-### Compatibility Matrix
-
-```yaml
-# extension-contracts/compatibility.yaml
-compatibility:
-  user-management:
-    be: ">=1.2.0"
-    fe: ">=1.1.0"
-    notes: "BE 1.2.0 adds new /profile endpoint used by FE 1.1.0+"
-  notification:
-    be: ">=1.0.0"
-    fe: ">=1.0.0"
-```
-
-### CI Pipeline 連携
-
-```yaml
-# .github/workflows/deploy-check.yml
-name: Cross-repo Compatibility Check
-on:
-  pull_request:
-    paths:
-      - 'extensions/*/openapi.yaml'
-
-jobs:
-  check:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Compare with FE expectations
-        run: |
-          # Fetch FE repo's expected API types
-          # Compare with BE's OpenAPI spec
-          # Fail if breaking changes detected
-          npx openapi-diff prev.yaml current.yaml
-```
+詳細（Compatibility Matrix・CI Pipeline 連携）→ `references/deploy-coordination-examples.md`
 
 ## 5. イベントコントラクト共有
 
-### SharedEvents interface
-
-```typescript
-// extension-contracts/src/events/index.ts
-export interface SharedEvents {
-  // User events
-  'user:created': { userId: string; email: string };
-  'user:updated': { userId: string; changes: string[] };
-  'user:deleted': { userId: string };
-
-  // Notification events
-  'notification:created': {
-    message: string;
-    level: 'info' | 'warn' | 'error';
-    targetUserId?: string;
-  };
-
-  // Billing events
-  'billing:payment-completed': {
-    orderId: string;
-    amount: number;
-    currency: string;
-  };
-  'billing:subscription-changed': { userId: string; plan: string };
-}
-```
-
-### FEでの使用
-
-```typescript
-// FE: src/core/types/events.ts
-// extension-contracts から re-export
-export type { SharedEvents as CoreEvents } from 'extension-contracts';
-```
-
-### BEでの使用
-
-```python
-# BE (Python): core/interfaces/events.py
-# TypedDict で SharedEvents を再現
-from typing import TypedDict
-
-class UserCreatedEvent(TypedDict):
-    userId: str
-    email: str
-
-class NotificationCreatedEvent(TypedDict):
-    message: str
-    level: str  # 'info' | 'warn' | 'error'
-    targetUserId: str | None
-```
-
-```typescript
-// BE (Node.js): core/interfaces/events.ts
-// extension-contracts から直接 import
-import type { SharedEvents } from 'extension-contracts';
-export type CoreEvents = SharedEvents;
-```
+詳細（SharedEvents interface・FE/BEでの使用例）→ `references/event-contract-examples.md`
 
 ## 6. 10のルール
 

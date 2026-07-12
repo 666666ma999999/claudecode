@@ -49,7 +49,7 @@ swan-manageのCSVは新旧プラットフォームの2セットを含む。
 - 両方にデータあり → **エラー停止**（手動確認必要）
 - 両方とも空 → 欠損としてマーク
 
-**対応コード（generate_dashboard.py parse_csv内）:**
+**対応コード（generate_unified_dashboard.py parse_csv内）:**
 ```python
 # Skip empty duplicate rows (all values zero)
 if any(v != 0 for v in month_values.values()):
@@ -94,3 +94,10 @@ CSVファイル: 月次売上-mobile-YYYY-MM-sites.csv
 
 - `salesmtg/CLAUDE.md` — データソースの正本定義
 - `salesmtg/development.md` — データフロー・計算式仕様
+
+## 母数確定ゲート（2026-07-11 C1 裁定・出典: rohan tasks/lessons.md 母数取り違え 2026-06-03/04/11 の 3 回再発）
+
+件数・率・完了率・「全 N 件中」を報告する**直前**に必ず:
+1. 取得コマンドの limit・レンジ上限を確認して外す（固定上限つき取得を母数にしない）
+2. 分母を全件実測してから言う
+3. 報告文に「分母の実測値と取得方法」を併記する

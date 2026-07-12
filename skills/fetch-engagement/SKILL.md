@@ -28,7 +28,7 @@ allowed-tools: [Read, Write, Glob, Grep, Bash]
 ## Prerequisites
 - influxプロジェクト: `~/Desktop/biz/influx`（`INFLUX_ROOT` 環境変数 or デフォルト）
 - Docker: `docker-compose.vnc.yml` が存在し `xstock-vnc` コンテナが起動可能
-- **Cookie**: `x_profiles/<account>/cookies.json` が有効（account は `kabuki666999` or `maaaki`）
+- **Cookie**: `x_profiles/<account>/cookies.json` が有効（account は `kabuki666999` or `maaaki`）（kabuki666999 は初回セットアップ未実施・2026-07 時点。使用前に influx の refresh-x-cookies skill で Cookie 作成が必要）
   - 14日以上経つと期限切れの可能性。refresh手順は influx側 `refresh-x-cookies` スキル参照
 - make_article側ラッパー: `scripts/fetch_engagement_via_influx.sh`
 
@@ -172,7 +172,7 @@ cron 実行は fail を results.jsonl に記録するだけでは機能しない
 ## 関連ファイル
 - ラッパー: `~/Desktop/biz/make_article/scripts/fetch_engagement_via_influx.sh`
 - 素材更新: `~/Desktop/biz/make_article/scripts/update_material_table.py`
-- 本体: `~/Desktop/biz/influx/scripts/fetch_engagement.py`
+- 本体: `~/Desktop/biz/autopost/scripts/fetch_engagement.py`
 - コアクラス: `~/Desktop/biz/autopost/tier3_posting/impression_tracker/scraper.py`（2026-05-01 phase4 で influx/extensions/ から autopost リポへ物理分離）
 - **Cookie管理**: `~/Desktop/biz/influx/.claude/skills/refresh-x-cookies/SKILL.md`（Canonical）
 - **抽出スクリプト**: `~/Desktop/biz/influx/scripts/import_chrome_cookies.py`

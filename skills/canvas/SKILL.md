@@ -1,6 +1,6 @@
 ---
 name: canvas
-description: "Obsidian canvas操作(wiki視覚層・zone自動配置・/banana連携)。発火: /canvas, canvas new, canvas add image, canvas add text, canvas add pdf, canvas add note, canvas zone, canvas list, canvas from banana, add to canvas, put this on the canvas, open canvas, create canvas"
+description: "Obsidian canvas操作(wiki視覚層・zone自動配置・/banana連携)。発火: /canvas, canvas new, canvas add image, canvas add text, canvas add pdf, canvas add note, canvas zone, canvas list, canvas from banana, add to canvas, put this on the canvas, open canvas, create canvas。NOT for: テキスト統合→/save, 構造化知識のリサーチ→/autoresearch, プロジェクト固有分析→02_Ai配下(rules/42)"
 allowed-tools: Read Write Edit Glob Grep
 ---
 
@@ -68,7 +68,7 @@ If it does not exist, create it:
 
 1. Slugify the name: lowercase, spaces → hyphens, strip special chars.
 2. Create `wiki/canvases/[slug].canvas` with the starter structure, title updated to `# [Name]`.
-3. Add entry to `wiki/overview.md` under a "## Canvases" subsection (append after the Current State section). Do not modify `wiki/index.md`. It uses a fixed section schema (Domains, Entities, Concepts, Sources, Questions, Comparisons).
+3. Add entry to `wiki/overview.md` under a "## Canvases" subsection (append after the Current State section). Do not modify `wiki/index.md`. It uses a fixed section schema (Sources, Entities, Concepts, Meta) — verified against wiki/index.md L32-46.
 4. Report: "Created wiki/canvases/[slug].canvas"
 
 ---
@@ -214,3 +214,7 @@ For standalone visual production (12 templates, 6 layout algorithms, AI generati
 presentations), see [claude-canvas](https://github.com/AgriciDaniel/claude-canvas).
 This skill handles wiki-scoped visual boards. claude-canvas handles full-featured
 canvas orchestration for any project.
+
+## 統合（2026-07-11 P6 裁定）
+
+- 構文レイヤーの旧 skill `json-canvas`（JSON Canvas 仕様・ノード/エッジ書式）は本 skill に統合 → `references/json-canvas-syntax.md`（補助資料は `references/json-canvas-extra/`）。本 skill=操作・設計、references=構文、の 2 層（vault-report-writing↔obsidian-markdown と同型）

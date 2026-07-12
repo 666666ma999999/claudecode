@@ -1,6 +1,7 @@
 ---
 name: obsidian-markdown
-description: "Obsidian Flavored Markdown の作成・編集。Triggers: .md in Obsidian, wikilinks, embeds, callouts, properties, frontmatter, tags, 「obsidian-skills を使って」「Obsidianノート編集」「ウィキリンク」「コールアウト」「frontmatter 整える」「.md 編集」."
+description: "Obsidian Flavored Markdown の作成・編集。Triggers: .md in Obsidian, wikilinks, embeds, callouts, properties, frontmatter, tags, 「obsidian-skills を使って」「Obsidianノート編集」「ウィキリンク」「コールアウト」「frontmatter 整える」「.md 編集」. NOT for: standard Markdown (headings, bold, italic, lists, quotes, code blocks, tables) -- assumed knowledge."
+allowed-tools: [Read, Write, Edit]
 ---
 
 # Obsidian Flavored Markdown Skill

@@ -102,3 +102,7 @@ Agent B（Scope Challenger）:
 3. 成功基準を達成するための最小実装は何か
 計画: [プラン内容]」
 ```
+
+## 吸収（2026-07-11 P6 裁定）
+
+- 汎用版の旧 skill `opponent-review` は本 skill に吸収し `_dormant` へ退避。計画以外（実装後コード等）への汎用敵対レビューが必要な場合の型 → `references/opponent-review-general.md`

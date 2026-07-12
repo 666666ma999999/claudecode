@@ -35,6 +35,7 @@
 | hook の新設・改修・誤検知/暴発の修理 | `hook-development-guide` |
 | 成果を X 記事化→投稿→計測まで出荷・x-stock 消化 | `ship-article`(`/ship-article`) |
 | 探索的分析の隔離・使い捨てスクリプト/中間データ管理・リサーチ worktree 運用・確定知見の昇格 | `research-isolation`（思想・型／全プロジェクト普遍）。具体は各 project の `docs/research-workflow.md` |
+| 調査の1枚台帳・research サマリー・調査まとめ・research ディレクトリ運用・調査ノート統合・「調査どこだっけ」 | `vault-research-ledger`（vault 側: 台帳 `_summary.md`・命名・重複統合。雛形正本=vault `templates/research-summary.md`。repo 側の隔離は `research-isolation`） |
 | task細分化/進捗/復帰 | `task-planner` / `task-progress` / `project-recall` |
 | SubAgent委譲判断 | `execution-patterns` |
 | ニュース収集・news JSONL確認 | `~/.claude/scripts/collect_news.py` + `.raw/news/YYYY-MM-DD.jsonl` |
@@ -42,7 +43,7 @@
 | wikiキュー作って / wiki取り込み / URL取り込み / ✅処理して（第二の脳＝wiki知識化・queue経由） | `wiki-ingest` + `[[wiki-ingest-queue]]`（✅式の取り込み待合室。取り込み時に関連既存ページへ根拠付き相互リンク+`## Updates`追記で「育つ」・完了を `wiki/log.md` に1行記録・処理済✅はキューから削除） |
 | 今日の取り込みして / wiki自動取り込みの手動実行 / 第二の脳v3日次ジョブを今すぐ回す | 日次ジョブ `com.masa.wiki-daily-ingest`（毎日8:47・runner→`wiki_ingest_apply.py`柵）を手動実走: `launchctl start com.masa.wiki-daily-ingest`（TCC 未付与時は `/bin/bash -lc '~/.claude/scripts/vault-prompt-runner.sh "~/Documents/Obsidian Vault/00_General/prompts/scheduled/wiki-daily-ingest.md" && /usr/bin/python3 ~/.claude/scripts/wiki_ingest_apply.py "~/Documents/Obsidian Vault/wiki/meta/wiki-daily-ingest-result.md"'`）。ハブ5枚の`## AI追記`へ追記のみ（新規は✅ゲート）。決定 2026-07-06「無人AI書込はハブ追記型」 |
 | news → 深掘り | `autoresearch` |
-| ファイル配置 67 種仕分け / vault MOC 自動同期 | `rules/42-file-type-placement.md` + `/sync-vault-summary` skill |
+| ファイル配置 67 種仕分け / vault MOC 同期（list/resolve/issues のみ・**MOC自動append は 2026-06-14 RETIRED**） | `rules/42-file-type-placement.md` + `/sync-vault-summary` skill |
 | プロジェクトの過去作業サマリー / 作業順序を git 履歴から把握 | `/project-history`（`~/.claude/scripts/project-history.sh`・期間/日別作業量/種類集計。「5手順マップして」で①〜⑤対応表） |
 | 作業メソドロジー雛形(0層+①〜⑥+メタ層)を現プロジェクトに配置 | `/methodology`（`~/.claude/scripts/place-methodology.sh`・`templates/methodology-5step.md` をコピー。お手本=`[[prime_suite-methodology-draft]]`） |
 | 新規成果物の形式を決める前の前例検索・「以前どこかで作ってた」・車輪の再発明チェック | `precedent-check`（mem-search+FS+routing+vault MOC の 4 経路検索・前例に形式を揃える。2026-07-12 新設） |

@@ -7,6 +7,15 @@
 
 ## 実行ガード
 
+### ~/.claude（グローバル環境）の同セッション commit＋push 義務（2026-07-12 ユーザー恒久指示）
+
+グローバル環境（skills/hooks/settings/rules/scripts/commands/docs）に実質変更を加えたセッションは、**同セッション内で検証後に commit → push まで行う**。このルール自体が恒久承認＝コミットの都度のユーザー確認は不要（「commit はユーザーが求めた時のみ」の一般則に対する、この repo 限定の恒久指示）。
+- 理由: ~/.claude の正本は git で 2 台（masa-2）に同期される。未 commit/未 push は他マシンの hook・スキル drift になる（実害: 2026-07-11 実測 64 ファイル・29h 滞留・未 push 3 commit ＝ masa-2 に丸一日分の環境変更が未達）
+- vault の同期義務（rules/41 §④・同セッション内 MOC 更新）の repo 版
+- 作法は従来どおり: 意味単位のコミット・`git add -A`/`.` 禁止・コミット前に検証（hook は bash -n・settings は JSON パース）
+
+
+
 ### ブロッカープロトコル
 
 以下発生時、即座に停止してユーザーに確認:
