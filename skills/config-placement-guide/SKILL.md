@@ -43,9 +43,16 @@ allowed-tools: [Read, Glob, Grep, Bash]
   │       └─ MCP   → .mcp.json (プロジェクトルート)
   │
   └─ git管理外にしたいか？ (個人設定)
-      ├─ YES → .claude/settings.local.json / `claude mcp add --scope local`
+      ├─ YES (プロジェクト) → .claude/settings.local.json / `claude mcp add --scope local`
+      ├─ YES (グローバル・マシン固有) → ~/.claude/settings.local.json
       └─ NO  → 上記の通常パスへ
 ```
+
+### マシン固有設定は ~/.claude/settings.local.json へ（2026-07-12 検証済）
+
+ユーザーレベルの `~/.claude/settings.local.json` は公式サポートされており、優先度は `~/.claude/settings.json` より**上**（CLI flag > env `ANTHROPIC_MODEL` > `~/.claude/settings.local.json` > project settings > `~/.claude/settings.json`）。
+
+~/.claude を git で複数マシン同期している場合、マシンごとに値が異なる設定は settings.json に置くと pull のたびにコンフリクトする（実例: `model` が masa-2=fable-5 / 他方=sonnet で 2 回衝突）。→ `model` 等のマシン固有キーは `~/.claude/settings.local.json`（.gitignore 済）へ。マシン依存の絶対パス symlink（ユーザー名が異なる等）も同様に untrack + .gitignore。
 
 ## 注意事項
 
