@@ -130,6 +130,7 @@
     ],
     "defaultMode": "auto"
   },
+  "model": "claude-fable-5[1m]",
   "skillOverrides": {
     "step1-manuscript": "name-only",
     "step2-menu-register": "name-only",
@@ -859,6 +860,5 @@
     "environment": [
       "macOS darwin23, cwd主に ~/Desktop/biz 配下, Docker開発環境"
     ]
-  },
-  "model": "sonnet"
+  }
 }

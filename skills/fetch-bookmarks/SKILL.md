@@ -111,6 +111,10 @@ python3 -m tier3_posting.cli.build_style_dataset --use-llm
 - 生データ: `output/bookmarks.jsonl` (JSONL形式)
 - 教師データ: `~/Desktop/biz/autopost/data/writing_style/bookmarks/normalized.jsonl` (ラベル付きJSONL・influx側の同パスは2026-04で停止した旧世代)
 
+## 下流パイプライン（2026-07-12〜）
+
+- **x-keywords**（ブックマーク→X検索キーワード群の自己改善パイプライン）: `~/.claude/bin/obs-x-keywords` が本スキルの fetch を `--append`（累積・URL重複排除・消失バグ修正済）+ `--status-json`（SUCCESS/DEGRADED 分類用）付きで週次実行する。手動は `/x-keywords`。設計=`~/.claude/docs/x-keywords-plan.md`
+
 ## 関連ファイル
 - ラッパー: `~/Desktop/biz/make_article/scripts/fetch_and_ingest.sh`
 - 本体テンプレ: `~/Desktop/biz/make_article/scripts/fetch_bookmarks_for_influx.py`（influxへコピーして使用）

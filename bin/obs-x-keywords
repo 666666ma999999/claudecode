@@ -1,0 +1,423 @@
+#!/bin/bash
+# X検索キーワード群パイプライン wrapper（週次自動 + 手動操作）
+# 設計正本: ~/.claude/docs/x-keywords-plan.md §A（フロー全体）・§H #7
+# 参考(変更禁止・読むだけ): ~/.claude/bin/obs-x-bookmarks
+#
+# 引数:
+#   --fetch          launchd既定。docker経由でfetch_bookmarks.pyを実行してからworklist以降を回す
+#   --no-fetch       手動専用。fetchをスキップしfetch_status=SKIPPED_MANUALとして続行
+#   --force --reason "<理由>"   トリガー条件を無視して再生成（--reasonは必須・観測窓を進めない）
+#   --render-only    ingest --render-onlyのみ実行（台帳から latest.json/ノートを再導出。書込系だがLLM呼び出しなし）
+#   --show           latest.jsonのgen/rev/クラスタ数と直近fetch_runを表示して終了（書込なし・全Mac許可）
+#
+# 手動実行例:
+#   bash ~/.claude/bin/obs-x-keywords --show
+#   bash ~/.claude/bin/obs-x-keywords --no-fetch --force --reason "manual regen"
+set -uo pipefail  # 各コマンドのexitを自前でハンドルするため-eは使わない
+
+DOCKER=/usr/local/bin/docker
+INFLUX="$HOME/Desktop/biz/influx"
+LOGFILE="$HOME/.claude/state/x-keywords.log"
+# hostnameの実値（2026-07-12実測・`hostname`コマンド出力）。他Mac(MASA.local)では
+# 書込系（--fetch/--no-fetch/--render-only）を拒否し、--showのみ許可する。
+ALLOWED_HOST="masa-2.local"
+
+mkdir -p "$(dirname "$LOGFILE")"
+
+log() {  # $1=1行メッセージ（date付きで追記）
+  echo "$(date '+%F %T') $1" >> "$LOGFILE"
+}
+
+notify() {  # $1=メッセージ
+  osascript -e "display notification \"$1\" with title \"x-keywords\"" 2>/dev/null || true
+}
+
+# --- 実行環境解決（launchdの/bin/bash -lは.bash_profileのみロードし.zshrcは読まない。
+#     PATH拡張に依存できないため、python3の所在とロケールを自前で解決する） ---
+export LC_ALL=en_US.UTF-8
+
+resolve_python3() {
+  local candidates=()
+  if command -v python3 >/dev/null 2>&1; then
+    candidates+=("$(command -v python3)")
+  fi
+  candidates+=("/opt/homebrew/bin/python3" "/usr/local/bin/python3")
+  local c
+  for c in "${candidates[@]}"; do
+    # 3.9以上を要求（本パイプライン4スクリプトの実動作環境で実測確認済み。
+    # masa-2.localの実機はシステムpython3が3.9.6でHomebrewにpython3という無版数
+    # symlinkが存在しないため、3.10を要求すると実機で恒常的にFATALになる）。
+    if [[ -x "$c" ]] && "$c" -c "import sys; assert sys.version_info >= (3, 9)" 2>/dev/null; then
+      echo "$c"
+      return 0
+    fi
+  done
+  return 1
+}
+
+PYTHON3="$(resolve_python3)"
+if [[ -z "$PYTHON3" ]]; then
+  notify "FATAL: python3(>=3.9)が見つかりません"
+  log "FATAL python3_not_found (command -v / Homebrewパスとも失敗)"
+  echo "FATAL: python3(>=3.9) が見つかりません（command -v / Homebrewパスとも失敗）" >&2
+  exit 1
+fi
+
+# --- fetch結果分類（--status-jsonの中身を読んでSUCCESS/DEGRADED/FAILEDを決める純関数） ---
+
+read_status_json() {  # $1=status_json_path → stopped_reason/dom_count/observed_url_countを3行で標準出力
+  # 変数名は"path"を避ける（zshではpath配列がPATHとリンクしており、localで上書きすると
+  # 同一スコープ内のコマンド探索が壊れる。本スクリプトはbash実行前提だが踏まない）。
+  local status_json_path="$1"
+  if [[ ! -f "$status_json_path" ]]; then
+    printf '\n-1\n-1\n'
+    return
+  fi
+  "$PYTHON3" -c "
+import json
+try:
+    d = json.load(open('$status_json_path', encoding='utf-8'))
+    print(d.get('stopped_reason', ''))
+    print(int(d.get('dom_count', 0)))
+    print(int(d.get('observed_url_count', 0)))
+except Exception:
+    print('')
+    print(-1)
+    print(-1)
+"
+}
+
+classify_fetch_status() {
+  # $1=fetch_exit $2=lines_before $3=lines_after $4=status_json_path
+  # $5=前回SUCCESS時のobserved_url_count（空文字なら比較スキップ）
+  # 規則: exit非0 or 件数減少→FAILED / stopped_reason=max_runtime→DEGRADED /
+  #       dom_count<=0(status-json欠落・不正含む)→DEGRADED /
+  #       前回SUCCESSのobserved_url_countがあり今回がその50%未満→DEGRADED / それ以外→SUCCESS
+  local fetch_exit="$1" lines_before="$2" lines_after="$3" status_json_path="$4" prev_observed="$5"
+
+  if [[ $fetch_exit -ne 0 || $lines_after -lt $lines_before ]]; then
+    echo "FAILED"
+    return
+  fi
+
+  local info stopped_reason dom_count observed_url_count
+  info=$(read_status_json "$status_json_path")
+  stopped_reason=$(echo "$info" | sed -n '1p')
+  dom_count=$(echo "$info" | sed -n '2p')
+  observed_url_count=$(echo "$info" | sed -n '3p')
+
+  if [[ "$stopped_reason" == "max_runtime" ]]; then
+    echo "DEGRADED"
+    return
+  fi
+
+  if [[ $dom_count -le 0 ]]; then
+    echo "DEGRADED"
+    return
+  fi
+
+  if [[ -n "$prev_observed" && $prev_observed -gt 0 ]] && (( observed_url_count * 2 < prev_observed )); then
+    echo "DEGRADED"
+    return
+  fi
+
+  echo "SUCCESS"
+}
+
+MODE_FETCH=false
+MODE_NO_FETCH=false
+FORCE=false
+REASON=""
+RENDER_ONLY=false
+SHOW_ONLY=false
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --fetch) MODE_FETCH=true; shift ;;
+    --no-fetch) MODE_NO_FETCH=true; shift ;;
+    --force) FORCE=true; shift ;;
+    --reason) REASON="${2:-}"; shift 2 ;;
+    --render-only) RENDER_ONLY=true; shift ;;
+    --show) SHOW_ONLY=true; shift ;;
+    *) echo "unknown arg: $1" >&2; exit 2 ;;
+  esac
+done
+
+CURRENT_HOST="$(hostname)"
+if [[ "$CURRENT_HOST" != "$ALLOWED_HOST" && "$SHOW_ONLY" != true ]]; then
+  echo "ERROR: host guard — このMac($CURRENT_HOST)は${ALLOWED_HOST}ではありません。書込系(--fetch/--no-fetch/--render-only)は${ALLOWED_HOST}限定・--showのみ許可" >&2
+  exit 2
+fi
+
+cd "$INFLUX" || { echo "ERROR: cd $INFLUX failed" >&2; exit 2; }
+
+# --- --show: latest.json + 直近fetch_runを表示して終了（書込なし・全Mac許可） ---
+if [[ "$SHOW_ONLY" == true ]]; then
+  "$PYTHON3" -c "
+import json
+from pathlib import Path
+
+latest_path = Path('output/bookmarks/keywords_latest.json')
+ledger_path = Path('output/bookmarks/keywords_ledger.jsonl')
+
+if not latest_path.exists():
+    print('(latest.json 未生成)')
+else:
+    latest = json.loads(latest_path.read_text(encoding='utf-8'))
+    print(
+        f\"gen={latest.get('generation')} rev={latest.get('revision')} \"
+        f\"active={len(latest.get('active_clusters', []))} dormant={len(latest.get('dormant_clusters', []))} \"
+        f\"proposals={len(latest.get('proposals', []))}\"
+    )
+    print(f\"last_fetch_success_at={latest.get('last_fetch_success_at')}\")
+
+if ledger_path.exists():
+    last_fetch_run = None
+    with open(ledger_path, encoding='utf-8') as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                ev = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if ev.get('type') == 'fetch_run':
+                last_fetch_run = ev
+    if last_fetch_run:
+        print(
+            f\"直近fetch_run: status={last_fetch_run.get('status')} ts={last_fetch_run.get('ts')} \"
+            f\"raw_line_count={last_fetch_run.get('raw_line_count')} url_count={last_fetch_run.get('url_count')}\"
+        )
+    else:
+        print('直近fetch_run: (記録なし)')
+else:
+    print('(台帳未生成)')
+"
+  HTML_OUT="output/bookmarks/x_keywords.html"
+  if [[ -f "$HTML_OUT" ]]; then
+    open "$HTML_OUT"
+  fi
+  exit 0
+fi
+
+# --- --render-only: ingest --render-only のみ（LLM呼び出しなし。台帳から再導出） ---
+if [[ "$RENDER_ONLY" == true ]]; then
+  "$PYTHON3" scripts/bookmarks_keyword_ingest.py /dev/null --render-only
+  RC=$?
+  if [[ $RC -eq 0 ]]; then
+    log "RENDER_ONLY ok"
+  else
+    log "RENDER_ONLY failed rc=$RC"
+  fi
+  exit $RC
+fi
+
+if $MODE_FETCH && $MODE_NO_FETCH; then
+  echo "ERROR: --fetch と --no-fetch は同時指定不可" >&2
+  exit 2
+fi
+if ! $MODE_FETCH && ! $MODE_NO_FETCH; then
+  echo "ERROR: --fetch か --no-fetch のいずれかが必須（--show/--render-onlyでない場合）" >&2
+  exit 2
+fi
+if $FORCE && [[ -z "$REASON" ]]; then
+  echo "ERROR: --force には --reason が必須" >&2
+  exit 2
+fi
+
+# --- fetch段階 ---
+FETCH_STATUS=""
+OBSERVED_URL_COUNT=0
+if $MODE_FETCH; then
+  BOOKMARKS_FILE="$INFLUX/output/bookmarks.jsonl"
+  STATUS_JSON_FILE="$INFLUX/output/bookmarks_status.json"
+  LEDGER_FILE="output/bookmarks/keywords_ledger.jsonl"
+  LINES_BEFORE=$(wc -l < "$BOOKMARKS_FILE" 2>/dev/null || echo 0)
+  rm -f "$STATUS_JSON_FILE"
+
+  if ! "$DOCKER" ps --filter name=xstock-vnc --format '{{.Names}}' | grep -q xstock-vnc; then
+    "$DOCKER" compose -f docker-compose.vnc.yml up -d
+    sleep 20
+  fi
+  "$DOCKER" exec xstock-vnc python scripts/fetch_bookmarks.py \
+    --profile x_profiles/maaaki \
+    --out /app/output/bookmarks.jsonl \
+    --status-json /app/output/bookmarks_status.json \
+    --append --max-empty-batches 5 --max-runtime-min 20
+  FETCH_EXIT=$?
+
+  LINES_AFTER=$(wc -l < "$BOOKMARKS_FILE" 2>/dev/null || echo 0)
+
+  # 前回SUCCESS時のobserved_url_count（台帳になければ空文字＝比較スキップ）。
+  PREV_OBSERVED=$("$PYTHON3" -c "
+import json
+prev = ''
+try:
+    with open('$LEDGER_FILE', encoding='utf-8') as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                ev = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if ev.get('type') == 'fetch_run' and ev.get('status') == 'SUCCESS':
+                v = ev.get('observed_url_count')
+                if v is not None:
+                    prev = str(int(v))
+except FileNotFoundError:
+    pass
+print(prev)
+")
+
+  FETCH_STATUS=$(classify_fetch_status "$FETCH_EXIT" "$LINES_BEFORE" "$LINES_AFTER" "$STATUS_JSON_FILE" "$PREV_OBSERVED")
+
+  OBSERVED_URL_COUNT=$(read_status_json "$STATUS_JSON_FILE" | sed -n '3p')
+  if [[ -z "$OBSERVED_URL_COUNT" || $OBSERVED_URL_COUNT -lt 0 ]]; then
+    OBSERVED_URL_COUNT=0
+  fi
+
+  case "$FETCH_STATUS" in
+    SUCCESS) ;;
+    DEGRADED)
+      # dom_count<=0（status-json欠落含む）・max_runtime停止・既知URLの再表示止まり(50%未満)
+      # のいずれか。実行自体はexit 0だが、次回SUCCESS時まで世代生成をしない部分取得として扱う。
+      log "FETCH_DEGRADED exit=$FETCH_EXIT lines_before=$LINES_BEFORE lines_after=$LINES_AFTER observed_url_count=$OBSERVED_URL_COUNT prev_observed=$PREV_OBSERVED"
+      ;;
+    *)
+      log "FETCH_FAILED exit=$FETCH_EXIT lines_before=$LINES_BEFORE lines_after=$LINES_AFTER"
+      "$PYTHON3" scripts/bookmarks_keyword_worklist.py --fetch-status FAILED --record-fetch-run \
+        --observed-url-count "$OBSERVED_URL_COUNT" >> "$LOGFILE" 2>&1
+      notify "FAILED (fetch exit=$FETCH_EXIT, lines ${LINES_BEFORE}->${LINES_AFTER})"
+      log "FAILED lines_before=$LINES_BEFORE lines_after=$LINES_AFTER"
+      exit 1
+      ;;
+  esac
+else
+  FETCH_STATUS="SKIPPED_MANUAL"
+fi
+
+# --- worklist ---
+WORKLIST_OUT="output/bookmarks/keyword_worklist.json"
+WORKLIST_ARGS=(--fetch-status "$FETCH_STATUS" --record-fetch-run --observed-url-count "$OBSERVED_URL_COUNT")
+if $FORCE; then
+  WORKLIST_ARGS+=(--force --reason "$REASON")
+fi
+
+"$PYTHON3" scripts/bookmarks_keyword_worklist.py "${WORKLIST_ARGS[@]}"
+WORKLIST_EXIT=$?
+
+case $WORKLIST_EXIT in
+  0) ;;
+  3) notify "ABORT: ノート評価に未知の値 (worklist exit=3)"; log "WORKLIST_ABORT exit=3 unknown_eval_values"; exit 3 ;;
+  4) notify "ABORT: raw整合性エラー (worklist exit=4)"; log "WORKLIST_ABORT exit=4 raw_integrity_failed"; exit 4 ;;
+  5) notify "ABORT: 台帳破損 (worklist exit=5)"; log "WORKLIST_ABORT exit=5 ledger_corruption"; exit 5 ;;
+  *) notify "ABORT: worklist exit=$WORKLIST_EXIT"; log "WORKLIST_ABORT exit=$WORKLIST_EXIT"; exit "$WORKLIST_EXIT" ;;
+esac
+
+WORKLIST_INFO=$("$PYTHON3" -c "
+import json
+d = json.load(open('$WORKLIST_OUT', encoding='utf-8'))
+print(d['trigger']['fired'])
+print(d['fetch_status'])
+")
+FIRED=$(echo "$WORKLIST_INFO" | sed -n '1p')
+WL_FETCH_STATUS=$(echo "$WORKLIST_INFO" | sed -n '2p')
+
+if [[ "$FIRED" != "True" ]]; then
+  if [[ "$WL_FETCH_STATUS" == "DEGRADED" ]]; then
+    notify "DEGRADED (部分取得。raw保存・統計更新のみ。世代生成は次回SUCCESS時)"
+    log "DEGRADED fetch_status=DEGRADED"
+  else
+    notify "NO_CHANGE"
+    log "NO_CHANGE fetch_status=$WL_FETCH_STATUS"
+  fi
+  exit 0
+fi
+
+# --- 世代生成: LLM実行 → ingest ---
+RUNNER="$HOME/.claude/scripts/vault-prompt-runner.sh"
+PROMPT="$HOME/Documents/Obsidian Vault/00_General/prompts/scheduled/x-keywords-weekly.md"
+RESULT_MD="output/bookmarks/x-keywords-weekly-result.md"
+
+# runner失敗時に前週の古いresultを再ingestしてしまう穴の対策:
+# 呼び出しごとに (1)既存resultを削除 (2)runner実行 (3)exit確認 (4)result存在確認、
+# の順を必ず守る。どちらか失敗したらRUNNER_FAILEDとして即終了しingestを呼ばない。
+run_generation_once() {  # $1=ログ用ラベル（例: "1回目" "2回目(retry)"）
+  rm -f "$RESULT_MD"
+  "$RUNNER" "$PROMPT"
+  local runner_exit=$?
+  # runner自身の成功/失敗通知は仕様上抑制不可（runnerは変更禁止ファイル）。
+  # ingestの結果でwrapper側の最終通知を出すため、ここでの二重通知は許容する。
+  if [[ $runner_exit -ne 0 ]]; then
+    notify "RUNNER_FAILED ($1): runner exit=$runner_exit"
+    log "RUNNER_FAILED ($1) runner_exit=$runner_exit"
+    return 90
+  fi
+  if [[ ! -f "$RESULT_MD" ]]; then
+    notify "RUNNER_FAILED ($1): resultファイル未生成"
+    log "RUNNER_FAILED ($1) result_missing"
+    return 90
+  fi
+  return 0
+}
+
+run_generation_once "1回目"
+GEN_RC=$?
+if [[ $GEN_RC -eq 90 ]]; then
+  exit 90
+fi
+
+"$PYTHON3" scripts/bookmarks_keyword_ingest.py "$RESULT_MD"
+INGEST_EXIT=$?
+
+if [[ $INGEST_EXIT -eq 6 ]]; then
+  log "INGEST_REJECTED (1回目) retry"
+  run_generation_once "2回目(retry)"
+  GEN_RC=$?
+  if [[ $GEN_RC -eq 90 ]]; then
+    exit 90
+  fi
+  "$PYTHON3" scripts/bookmarks_keyword_ingest.py "$RESULT_MD"
+  INGEST_EXIT=$?
+  if [[ $INGEST_EXIT -eq 6 ]]; then
+    notify "REJECTED (2回連続reject)"
+    log "REJECTED exit=6 (2回連続)"
+    exit 6
+  fi
+fi
+
+if [[ $INGEST_EXIT -eq 3 ]]; then
+  notify "TOCTOU中止: ノートが処理中に変更されたため上書きを見送り (ingest exit=3)"
+  log "TOCTOU exit=3"
+  exit 3
+fi
+
+if [[ $INGEST_EXIT -ne 0 ]]; then
+  notify "FAILED: ingest exit=$INGEST_EXIT"
+  log "FAILED ingest exit=$INGEST_EXIT"
+  exit $INGEST_EXIT
+fi
+
+# HTML render（他エージェントが並行作成中の別スクリプト・未配置なら防御的にskip）。
+# ingest成功後のみ実行するため、latest.json/台帳の受理済み世代を前提にできる。
+if [[ -f "scripts/bookmarks_keyword_render_html.py" ]]; then
+  "$PYTHON3" scripts/bookmarks_keyword_render_html.py
+  RENDER_HTML_EXIT=$?
+  if [[ $RENDER_HTML_EXIT -ne 0 ]]; then
+    log "RENDER_HTML failed rc=$RENDER_HTML_EXIT (ingestは既に成功済み・後続に影響なし)"
+  fi
+else
+  log "skip: render_html未配置"
+fi
+
+GEN_INFO=$("$PYTHON3" -c "
+import json
+d = json.load(open('output/bookmarks/keywords_latest.json', encoding='utf-8'))
+print(f\"gen{d.get('generation')} rev{d.get('revision')}\")
+")
+notify "UPDATED $GEN_INFO"
+log "UPDATED $GEN_INFO"
+exit 0

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.masa.x-keywords-weekly</string>
+  <!--
+    host: masa-2 (masa-2.local) 固定 — 他 Mac (MASA.local) では load しないこと。
+      （influx リポジトリ・docker (xstock-vnc) が masa-2 にしかない前提のジョブ。
+       obs-x-keywords 冒頭の hostname ガードも masa-2 以外では書込系を拒否する二重防御）
+
+    X検索キーワード群パイプライン（設計正本: ~/.claude/docs/x-keywords-plan.md §A）。
+    毎週土曜 10:00 に obs-x-keywords --fetch を実行する:
+      1. docker (xstock-vnc) 経由で fetch_bookmarks.py --append を実行
+      2. bookmarks_keyword_worklist.py でdelta/トリガー判定 + fetch_runイベント記録
+      3. トリガー発火時のみ vault-prompt-runner.sh でLLM生成 → bookmarks_keyword_ingest.py で柵通し
+      4. 最終状態 (UPDATED/NO_CHANGE/DEGRADED/FAILED/REJECTED) を1回だけ Mac通知
+
+    ⚠️ Docker Desktop 依存: xstock-vnc コンテナが未起動なら obs-x-keywords が
+       docker compose up -d するが、Docker Desktop自体（アプリ）が起動していないと
+       docker コマンドそのものが失敗する。Docker Desktop アプリの起動状態を要確認。
+
+    /bin/bash -l は .bash_profile を読む（.zshrc は読まない）。本ジョブは secrets 不要・
+    claude CLI 認証は keychain・PATH は wrapper (obs-x-keywords) / runner
+    (vault-prompt-runner.sh) 側でそれぞれ解決するため、login profile のシークレット類には
+    依存しない。
+    ~/Documents (TCC 保護) への読み書きは vault-prompt-runner.sh (bash 経路) が担当。
+
+    ⚠️ 正本はステージング (~/.claude/launchd/)。activate:
+        cp ~/.claude/launchd/com.masa.x-keywords-weekly.plist ~/Library/LaunchAgents/
+        launchctl unload ~/Library/LaunchAgents/com.masa.x-keywords-weekly.plist 2>/dev/null
+        launchctl load   ~/Library/LaunchAgents/com.masa.x-keywords-weekly.plist
+    手動テスト: launchctl start com.masa.x-keywords-weekly
+    停止:       launchctl unload ~/Library/LaunchAgents/com.masa.x-keywords-weekly.plist
+  -->
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>-lc</string>
+    <string>/Users/masaaki_nagasawa/.claude/bin/obs-x-keywords --fetch</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/masaaki_nagasawa</string>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key>
+    <integer>6</integer>
+    <key>Hour</key>
+    <integer>10</integer>
+    <key>Minute</key>
+    <integer>0</integer>
+  </dict>
+  <key>RunAtLoad</key>
+  <false/>
+  <key>StandardOutPath</key>
+  <string>/Users/masaaki_nagasawa/.claude/state/x-keywords-weekly.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/masaaki_nagasawa/.claude/state/x-keywords-weekly.err.log</string>
+</dict>
+</plist>

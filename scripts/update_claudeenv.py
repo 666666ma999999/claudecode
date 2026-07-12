@@ -774,6 +774,15 @@ JOB_ARTIFACTS = [
      VAULT / "02_Ai/AI_adscrm/AIads/reports/adscrm-weekly-ops-review-result.md", 8, "毎週月 10:30"),
     ("com.masa.vault-prompt-runner (biweekly・masa-2)",
      VAULT / "02_Ai/AI_adscrm/AIads/reports/adscrm-biweekly-ads-pdca-result.md", 16, "第2/第4月 10:30"),
+    # repoパス(influx/output/bookmarks/keywords_ledger.jsonl)ではなくvaultノートを採用。
+    # 理由: scan_job_health()はpath.exists()がFalseの場合を無条件で🔴とする(スキップ分岐なし・下記参照)。
+    # influxリポジトリはmasa-2ローカルのみに存在し、daily_digest.sh(update_claudeenv.py --target health)は
+    # MASA.local側でも動く前提のため、repoパスを使うとMASA.local側の実行で毎回誤🔴になる。
+    # vaultノートはObsidian同期でどちらのMacからも同じmtimeが見えるため誤🔴を避けられる
+    # (該当コード: 本関数 else 節 `days, flag, last_str = "—", "🔴", "(なし)"` にスキップ分岐がない)。
+    # 閾値40日 = トリガー上限28日(ELAPSED_TRIGGER_DAYS) + 未実行猶予バッファ。
+    ("com.masa.x-keywords-weekly (masa-2)",
+     VAULT / "02_Ai/influx/influx_x_search_keywords.md", 40, "毎週土 10:00"),
 ]
 # 📅期日超過スキャン対象 (手動だが期日がある作業の監視穴を塞ぐ・書式: 📅due:YYYY-MM-DD)
 DUE_SCAN_FILES = [
