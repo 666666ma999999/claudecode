@@ -552,6 +552,15 @@
             "command": "~/.claude/hooks/fable5-sunset-autoswitch.sh"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/sessionstart-env-git-drift.sh"
+          }
+        ]
       }
     ],
     "PermissionRequest": [
