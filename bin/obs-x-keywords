@@ -42,6 +42,7 @@ run_digest_step() {
     # shellcheck disable=SC1091
     source "$HOME/.envrc.shared"
   fi
+  export XAI_API_KEY  # docker compose run -e XAI_API_KEYへの伝搬にはexport必須（sourceだけでは不十分）
   if [[ -z "${XAI_API_KEY:-}" ]]; then
     log "$DIGEST_STATUS"
     return 0
@@ -59,7 +60,7 @@ run_digest_step() {
   fi
 
   local apply_output apply_exit
-  apply_output=$("$PYTHON3" scripts/bookmarks_keyword_digest_apply.py 2>&1)
+  apply_output=$("$PYTHON3" scripts/bookmarks_keyword_digest_apply.py --run-id "$digest_run_id" 2>&1)
   apply_exit=$?
   log "DIGEST_APPLY exit=$apply_exit: $apply_output"
 
@@ -375,9 +376,17 @@ FIRED=$(echo "$WORKLIST_INFO" | sed -n '1p')
 WL_FETCH_STATUS=$(echo "$WORKLIST_INFO" | sed -n '2p')
 
 # --- digestステップ（fetch分類+fetch_run記録の後・NO_CHANGE早期exitより前。regenとは
-#     独立に毎週実行。digestの失敗はどの経路でもwrapper全体をfailさせない） ---
-run_digest_step
-log "DIGEST(embedded) result: $DIGEST_STATUS"
+#     独立に毎週実行。digestの失敗はどの経路でもwrapper全体をfailさせない）。
+#     fetch_status==SUCCESSの場合のみ実行（DEGRADED/SKIPPED_MANUALでは古い/部分的な
+#     latest_snapshot.jsonをcollectに渡すことになり収集の質が保証できないため見送る。
+#     --digest-onlyは本節を通らず常に無条件実行） ---
+if [[ "$FETCH_STATUS" == "SUCCESS" ]]; then
+  run_digest_step
+  log "DIGEST(embedded) result: $DIGEST_STATUS"
+else
+  DIGEST_STATUS="DIGEST_SKIPPED (fetch not success)"
+  log "DIGEST(embedded) skipped: fetch_status=$FETCH_STATUS"
+fi
 
 if [[ "$FIRED" != "True" ]]; then
   if [[ "$WL_FETCH_STATUS" == "DEGRADED" ]]; then
