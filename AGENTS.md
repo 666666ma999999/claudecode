@@ -1,50 +1,16 @@
 <claude-mem-context>
 # Memory Context
 
-# [.claude] recent context, 2026-07-12 4:41pm GMT+9
+# [.claude] recent context, 2026-07-13 2:36pm GMT+9
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (20,298t read) | 1,585,764t work | 99% savings
+Stats: 50 obs (19,979t read) | 988,832t work | 98% savings
 
 ### Jul 11, 2026
-5734 3:57p ✅ ~/.claude config repo pushed to GitHub — local and origin/main now in sync
-5759 5:58p ⚖️ X検索キーワード最適化システムの設計方針確定
-5762 " 🔵 X/ブックマーク関連の既存スキル・コマンド群を確認
-5764 " 🔵 ブックマークデータの既存インフラ全容が判明
-5765 " 🔵 ~/.claude/data/bookmarks.jsonl が実際には存在しない
-5767 5:59p 🔵 ブックマークデータの実在場所とJSONLスキーマ全容が確認された
-5768 6:00p 🔵 obs-x-bookmarks バイナリが ~/.claude/bin/ に存在する
-5769 " 🔵 obs-x-bookmarks は17行のbashラッパーでmaaakiアカウントのブックマークを週次取得する
-5770 " 🔵 grok-collect-twittora コマンドがGrok APIでXバズ投稿を収集しVaultへ保存する
-5775 " ⚖️ X検索強化システム設計方針の策定
-5771 " 🔵 influx/output/research/ は株式シグナル追跡パイプラインで、ブックマーク収集とは別系統
-5782 6:10p ⚖️ X検索キーワード最適化システムの設計方針決定
-5784 6:15p 🔵 influxリポジトリ調査: データ実態・慣例・/bookmarks symlink断絶を確認
-5785 " ⚖️ X-keywordsパイプライン詳細設計v1確定: 14ファイル変更・4バッチ検証計画
-5786 " 🔵 Codex敵対的レビュー: X-keywords設計にP0欠陥6件・P1問題12件を発見
-5777 6:16p ⚖️ Adversarial Review Initiated for X Bookmark Keyword Pipeline (bright-inventing-puppy)
-5778 6:17p 🔵 obs-x-bookmarks Confirmed Missing --append Flag: Silent Data Loss Bug
-5779 " 🔵 vault-prompt-runner.sh Architecture: Hardened Fail-Fast Guards Inherited by x-keywords Pipeline
-5780 " 🔵 wiki_ingest_apply.py Gate Pattern: 9-Type Secret Scan + Hardcoded Allowlist Used as Blueprint for bookmarks_keyword_ingest.py
-5790 6:23p ⚖️ X-keywords設計v2確定: Codex P0-6件を全採用、自動reinforce/retire廃止・台帳唯一正本・量トリガー再生成に改訂
-5791 " ⚖️ Codex R2 結果: NO-GO。計画書v1本文とv2差分が矛盾共存 (P0-7) ＋ P1×10件の未仕様化。承認前2条件が必須
-5792 6:27p ⚖️ Codex R3（最終確認）: GO-WITH-CHANGES。設計書v2統合版でR2承認条件を全充足。残条件3件は実装契約レベル
-5811 6:40p ⚖️ X検索最適化システムの設計方針決定
-5824 6:53p 🟣 B2 fast_verify complete: bookmarks keyword worklist test suite all 42 tests pass
-5832 7:43p 🟣 x-keywords B2 (worklist generation) completed with 42 tests passing
-5834 " 🟣 B3 Ingest CLI: bookmarks_keyword_ingest.py (1026 lines)
-5835 " 🔴 Worklist loading order bug fixed in bookmarks_keyword_ingest.py
-5833 8:21p 🔵 vault-prompt-runner.sh frontmatter schema confirmed for x-keywords B5 wiring
-5836 9:40p 🔴 Worklist loading order fix applied twice due to accidental full-file Write revert
-S2424 B3完了確認 + B4着手: LLMプロンプト正本作成・X bookmark新規fetch・Opus世代1生成へのステップ (Jul 11 at 9:43 PM)
-S2430 続けて (B4継続) — X bookmarks キーワード世代1 baseline生成 → 機械検証 → PSA/PSA10語境界エラー修正 (Jul 11 at 9:45 PM)
 5872 9:48p 🟣 LLM Prompt正本 for X Keyword Extraction Created
-5873 " 🟣 X Bookmark Fetch Completed: 292 Lines (+47 New Bookmarks)
-5874 " 🔵 B4 Pipeline State: Prompt Done, Fetch Done, Baseline Ingest Pending
-S2436 B5 wiring continuation: launchd plist作成・Claude command作成・wrapper B8項目確定（influx X keyword pipeline） (Jul 11 at 9:49 PM)
 ### Jul 12, 2026
 5893 8:26a ⚖️ Global Skill Candidacy: Cross-Project Web Page Search
 5896 9:46a 🔵 bookmarks_viewer.html — Previously Built X Bookmarks Web Viewer Found
@@ -58,36 +24,80 @@ S2436 B5 wiring continuation: launchd plist作成・Claude command作成・wrapp
 5906 1:42p 🔴 obs-x-keywords host-guard has Unicode corruption on ALLOWED_HOST variable reference (line 56)
 5916 1:59p 🔴 ALLOWED_HOST encoding bug FIXED via Edit tool: host guard now emits explicit ERROR message with exit 2
 5918 " 🔴 precedent-check skill created: 4-path search before creating any new artifact (mem-search / FS / routing / vault MOC)
-S2437 B5 wiring 続き（x-keywordsパイプライン全体の配線完了）— 前セッションから「続けて」で再開 (Jul 12 at 2:02 PM)
-S2438 B5 wiring完了後のB6ループ実証E2E検証開始 — worklist stale test修正・validator-b6-loop spawned (Jul 12 at 2:05 PM)
-S2443 influx X keyword pipeline safety hardening — B7a完了報告受信 + B7b実装継続中（P0-3 validate_worklist_freshness + P1-1 pipeline lock 実装） (Jul 12 at 2:10 PM)
 5930 2:13p 🔵 X Bookmark Fetcher — Dual-Source Scroll+GraphQL Architecture
 5931 4:01p 🔵 X Keyword Pipeline — Security & Freshness Hardening (B7a/B7b Batch)
-S2444 B7b実装継続: ingest/柵の P0-3/P0-4/eval_history 修正 — bookmarks_keyword_ingest.py への複数 Edit (Jul 12 at 4:03 PM)
-S2445 influxプロジェクト: 部分取得のDEGRADED分類強化 (最終P0修正をbuilder-b7a-wrapperに指示) (Jul 12 at 4:06 PM)
 5939 4:11p 🟣 influx ingest テストスイートに秘密スキャン回避ケースとworklist鮮度検証クラスを追加
-S2446 influxプロジェクト継続: 最終P0「部分取得がSUCCESSになる」修正をbuilder-b7a-wrapperに委譲・待機中 (Jul 12 at 4:12 PM)
 5944 4:26p 🔴 x-keywords pipeline: P0×5 + P1×6 security/correctness fixes all completed
+5948 " 🟣 fetch_bookmarks.py + wrapper: 5-case fetch status classification with observed_url_count
 5945 4:29p 🔵 Test suite: 72/102 tests ERROR due to sandbox tempdir restriction in Claude Code execution context
 5946 " 🔵 fetch_bookmarks.py _write_status_json lacks observed_url_count field
-S2447 influxプロジェクト最終P0修正: fetch_bookmarks.py の _write_status_json に observed_url_count を追加し、テストを更新（builder-b7a-wrapper による実装完了） (Jul 12 at 4:33 PM)
-**Investigated**: - fetch_bookmarks.py lines 115-159 を2回 Read: _write_status_json の payload dict に saved/dom_count/graphql_count/stopped_reason の4フィールドはあるが observed_url_count が欠落していることを確認
-    - tests/test_fetch_bookmarks_append.py lines 168-215 を Read: TestWriteStatusJson クラスの既存テストが observed_url_count を期待していないことを確認
+5961 4:34p 🔵 influx P0 fix セッション継続 — リトライfetch結果待ち
+5965 4:46p 🔴 リトライfetchで observed_url_count=286 の基準値が台帳に記録 — Codex Condition 1 達成
+5966 4:56p ✅ x-keywords パイプライン実装完了 — task.md/plan.md を最終状態に更新
+5970 4:58p ✅ x-keywords パイプライン — グローバルルーティング・スキルドキュメント・プロジェクトメモリを一括更新
+5976 5:31p 🔵 ~/.claude repo behind origin/main by 7 commits with local modifications
+5977 " 🔵 ~/.claude origin/main contains 7 new commits with hooks, skills, and env automation
+5978 7:45p 🟣 x-keywords pipeline and precedent-check skill staged for commit
+5979 " 🟣 Committed x-keywords pipeline + precedent-check skill (1ccec58e)
+5980 " 🔵 Merge conflict on pull: 3 files conflicted between local and origin/main
+5981 " 🔵 settings.json model conflict: local "claude-fable-5[1m]" vs origin "sonnet"
+5982 7:46p 🔵 Bookmark JSONL conflicts have 0 conflict markers and 0 lines on both sides
+5983 " 🔵 Bookmark JSONL "conflicts" are symlinks with diverged target paths (65 vs 56 bytes)
+5984 " 🔵 Symlink conflict root cause: different macOS usernames across machines (masaaki vs masaaki_nagasawa)
+5985 " 🔵 git checkout --ours failed silently for symlink conflicts ("Updated 0 paths")
+5986 7:47p ✅ config-placement-guide updated: ~/.claude/settings.local.json for machine-specific settings
+5987 7:57p 🔴 ~/.claude multi-machine git sync: model key and symlinks separated from tracked files
+S2453 ~/.claude git sync conflict fix between two Macs — user asked "よく分かりません" (I don't understand) about what to do next (Jul 12 at 8:00 PM)
+S2454 「AIで作業してください」— 新セッション開始、作業内容未定 (Jul 12 at 8:44 PM)
+5988 8:45p 🔵 hook-development-guide SKILL.md — Claude Code hook設計ガイドの内容確認
+5989 " 🔵 ~/.claude SessionStart hooks 完全一覧（settings.json実測）
+S2455 GitHub pull request — confirmed ~/.claude repo is already up to date with remote (Jul 12 at 8:50 PM)
+5992 8:50p 🟣 machine-local-bootstrap.sh — マシン固有設定の SessionStart 自動生成 hook 新設
+5993 8:51p ✅ User initiated GitHub pull on secondary Mac
+S2484 prime_suite AIが「言うことを聞かなくなった」原因調査と復旧 (Jul 12 at 9:00 PM)
+### Jul 13, 2026
+6122 1:21p ⚖️ x-keywords v2 AI検索代行ダイジェスト 設計レビュー依頼（軽量敵対的・P0/P1のみ）
+6125 1:28p 🔵 prime_suite project location confirmed
+6126 " 🔵 prime_suite monorepo structure: CLAUDE.md/AGENTS.md layout
+6128 " 🔵 prime_suite uses claude-fable-5[1m] model; Fable5 sunset hook already triggered
+6130 1:29p 🔵 Fable5 sunset hook fired on 2026-07-09 but settings.json was subsequently reverted to claude-fable-5[1m]
+6127 " 🔵 Global ~/.claude instruction file size baseline measured
+S2490 prime_suite AI品質低下の根本原因調査と修復 — fable5-sunset hook による opus 自動切替が主因と特定・Fable5復帰済み。ユーザー要求「解決方法をfable5で敵対的レビューをcodexでやって」に対応中 (Jul 13 at 1:29 PM)
+6134 " ⚖️ prime_suite AI品質低下の解決策レビュー方針: Fable5+Codex敵対的レビュー採用
+6129 1:30p 🔵 Stop hook blocked response for missing observation evidence
+S2491 prime_suite AI品質低下の根本原因調査と修復 — fable5-sunset hook による opus 自動切替が主因と特定・Fable5復帰済み。ユーザー要求「解決方法をfable5で敵対的レビューをcodexでやって」に対応中 (Jul 13 at 1:30 PM)
+6131 " 🔵 AGENTS.md injects claude-mem context header; settings.json model change is uncommitted
+S2492 prime_suite AI品質低下の根本原因調査・Fable5モデル復帰・Codex敵対的レビュー実施 — 解決計画に対して P0/P1 の重要な修正要件が発見された (Jul 13 at 2:19 PM)
+S2493 Fable5自動切替hook空振り格下げの復旧作業 — Codex敵対的レビューのP0/P1全修正 + メモリ更新 + commit/push完了 (Jul 13 at 2:20 PM)
+6146 2:22p 🔵 outputStyle: Fable5-like + Fable 5 model の二重指定が品質低下の原因と判明
+S2495 Memory observer session: recording durable observations from primary session's Fable5 sunset hook retirement, Codex P0/P1 fixes, double-edit pattern in memory files, git merge with masa-2 asa-board changes, and final push confirmation (Jul 13 at 2:22 PM)
+S2496 Fable5 sunset recovery: model audit across prime_suite sessions to verify recovery status and diagnose ongoing quality issues (Jul 13 at 2:34 PM)
+**Investigated**: - git log -S 'Fable5-like' to pinpoint when outputStyle entered and was removed from settings.json
+    - settings.json.bak-fable5switch (pre-hook backup, 7/8 22:27) contents: confirms outputStyle was NOT present before the hook
+    - settings.local.json mtime and model key placement
+    - prime_suite session JSONL files: model usage counts across last 4 sessions (7/9, 7/10, 7/13 morning, 7/13 afternoon)
+    - Current session's system prompt: direct observation of Output Style: Fable5-like still active in open sessions
 
-**Learned**: - observed_url_count の正しい計算式: `len(set(dom_bookmarks) | set(graphql_bookmarks))` — dom と gql は dict なので keys が URL。重複URLは和集合で1件にカウント（dom 1件 + gql 2件でstatus/1が重複 → 和集合は2件）
-    - 既存テスト test_writes_saved_dom_graphql_counts_and_reason は `assertEqual(payload, {...})` で完全一致チェックをしているため、新フィールド追加と同時にテスト側も更新必須
-    - 取得ロジック変更禁止の制約を守りつつ、カウント計算のみを _write_status_json 内で完結させる設計が適切
+**Learned**: - **outputStyle: Fable5-like entered settings.json via the 7/9 19:58 merge conflict resolution commit** (47eaf772), NOT from the original autoswitch hook. The backup (7/8 22:27) confirms outputStyle was absent pre-hook.
+    - **The "4 days of opus downgrade" premise was partially wrong**: opus downgrade lasted only ~hours on 7/9 (hook fired 02:12, Fable 5 restored by 19:58). The real 4-day issue was **Fable 5 + Fable5-like double-specification** running simultaneously from 7/9 19:58 through 7/13 14:23.
+    - **7/10 session (5b9bde25): 1,463× claude-fable-5, 15× sonnet, 3× opus** — nearly pure Fable 5, but with double-spec active the entire time
+    - **7/9 evening session (2841d3c2): 324× claude-fable-5, 37× claude-sonnet-5, 4× opus** — Fable 5 dominant, double-spec active
+    - **7/13 morning session (d0027049): 293× claude-opus-4-8, 182× claude-fable-5** — unexpected opus dominance; cause unconfirmed (possible Fable 5 rate-limit fallback or API outage). status.claude.com reported Opus/Sonnet errors today.
+    - **7/13 afternoon session (e3bf66b2): 475× claude-fable-5, 1× opus-4-8** — recovery confirmed for new sessions started after 14:23 fix
+    - Settings changes take effect only at session start; all currently-open sessions still carry the old double-spec state
 
-**Completed**: - **fetch_bookmarks.py 編集完了**: `_write_status_json` のdocstring に `observed_url_count` フィールド説明を追記し、`observed_url_count = len(set(dom_bookmarks) | set(graphql_bookmarks))` を payload 前に追加、payloadに `"observed_url_count": observed_url_count` を追記（Edit 成功確認済み）
-    - **テスト更新完了**: `test_writes_saved_dom_graphql_counts_and_reason` に `"observed_url_count": 2` を期待値追加（dom/gql の重複URLによる和集合2件を明示コメント付きで記述）、`test_dom_count_zero_is_preserved_not_omitted` に `self.assertEqual(payload["observed_url_count"], 0)` を追加
-    - Codex再判定で4件P0解消確認済み（前セッション）、B7bの93テスト・PY39・wrapper --show実機検証はmain済み
+**Completed**: - settings.json: model key + outputStyle + fable5-sunset SessionStart hook registration removed (grep 0 confirmed, JSON parse OK)
+    - fable5-sunset-autoswitch.sh retired to hooks/_retired/ via git mv
+    - fable5-sunset-runbook.md top section replaced (not appended) with correct conclusions
+    - Memory files updated (double-edit pattern: two rounds each for project_fable5-sunset-prep.md and MEMORY.md)
+    - commit 66013a04 pushed; merged masa-2 asa-board commits (ort strategy); origin/main = 60e30ad9 confirmed
+    - Root cause timeline established: hook fire (7/9 02:12) → short opus period → merge added outputStyle (7/9 19:58) → 4-day double-spec → fix (7/13 14:23)
 
-**Next Steps**: - bash -n での構文チェック実行
-    - 全fetcher+worklist テスト実行（93テスト + 今回更新分）してPASS確認
-    - classify_fetch_status() 関数のwrapper側実装と5ケース分類テストの実行・出力確認
-    - bookmarks_keyword_worklist.py への --observed-url-count N フラグ追加（1フラグのみ許可）
-    - main検証 → Codex最終判定 → launchctl load 手順提示 → implementation-checklist
+**Next Steps**: No further implementation tasks. User action required:
+    1. Close all open Claude sessions and reopen — settings changes (outputStyle removal) only take effect in new sessions
+    2. On masa-2: run `cd ~/.claude && git pull` BEFORE launching Claude (old hook may still fire without pull)
+    The 7/13 morning opus dominance (293 turns) is unresolved — monitor in future sessions; likely Fable 5 API fallback during an outage
 
 
-Access 1586k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 989k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>
