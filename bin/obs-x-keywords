@@ -10,9 +10,15 @@
 #   --render-only    ingest --render-onlyのみ実行（台帳から latest.json/ノートを再導出。書込系だがLLM呼び出しなし）
 #   --show           latest.jsonのgen/rev/クラスタ数と直近fetch_runを表示して終了（書込なし・全Mac許可）
 #
+# 環境変数:
+#   DIGEST_COLLECTOR=browser（既定）ログイン済みVNCブラウザでX検索を直接収集する無料版
+#                            (bookmarks_keyword_digest_collect_browser.py)。
+#   DIGEST_COLLECTOR=xai     xai_sdk/API課金版(bookmarks_keyword_digest_collect.py)。旧経路。
+#
 # 手動実行例:
 #   bash ~/.claude/bin/obs-x-keywords --show
 #   bash ~/.claude/bin/obs-x-keywords --no-fetch --force --reason "manual regen"
+#   DIGEST_COLLECTOR=xai bash ~/.claude/bin/obs-x-keywords --digest-only
 set -uo pipefail  # 各コマンドのexitを自前でハンドルするため-eは使わない
 
 DOCKER=/usr/local/bin/docker
@@ -36,7 +42,49 @@ notify() {  # $1=メッセージ
 # 呼び出し前提: cd "$INFLUX" 済み・$PYTHON3/$DOCKER 解決済み。
 # 結果はグローバル変数DIGEST_STATUSへ格納する（呼び出し側が通知メッセージに含める）。
 # digestの失敗はどの経路でもこの関数の外へexitを伝播させない（fail-soft）。
+# dispatcher: DIGEST_COLLECTOR=browser（既定・無料/VNCブラウザ収集）| xai（旧API課金版）。
 run_digest_step() {
+  local collector="${DIGEST_COLLECTOR:-browser}"
+  if [[ "$collector" == "xai" ]]; then
+    run_digest_step_xai
+  else
+    run_digest_step_browser
+  fi
+}
+
+# --- digestステップ: ブラウザ収集版（既定・無料。ログイン済みVNCブラウザでX検索を直接収集。
+#     bookmarks_keyword_digest_collect_browser.py。apply/柵は xai 版と共通） ---
+run_digest_step_browser() {
+  local digest_inbox="output/bookmarks/digest_inbox"
+  mkdir -p "$digest_inbox"
+  cp "output/bookmarks/keywords_latest.json" "$digest_inbox/latest_snapshot.json" 2>/dev/null || true
+
+  local digest_run_id
+  digest_run_id=$("$PYTHON3" -c "import uuid; print(uuid.uuid4().hex)")
+
+  if ! "$DOCKER" ps --filter name=xstock-vnc --format '{{.Names}}' | grep -q xstock-vnc; then
+    "$DOCKER" compose -f docker-compose.vnc.yml up -d
+    sleep 20
+  fi
+
+  if ! "$DOCKER" exec -e DISPLAY=:99 xstock-vnc python scripts/bookmarks_keyword_digest_collect_browser.py --profile x_profiles/maaaki --run-id "$digest_run_id"; then
+    log "DIGEST_COLLECT_FAILED(browser) run_id=$digest_run_id (fail-soft: applyへ進む。前回statusが古ければapply側がSKIPPED_STALEにする)"
+  fi
+
+  local apply_output apply_exit
+  apply_output=$("$PYTHON3" scripts/bookmarks_keyword_digest_apply.py --run-id "$digest_run_id" 2>&1)
+  apply_exit=$?
+  log "DIGEST_APPLY(browser) exit=$apply_exit: $apply_output"
+
+  DIGEST_STATUS=$(echo "$apply_output" | grep -oE '(DIGEST_APPLIED|DIGEST_DEGRADED|DIGEST_SKIPPED|SKIPPED_STALE).*' | tail -1)
+  if [[ -z "$DIGEST_STATUS" ]]; then
+    DIGEST_STATUS="DIGEST_UNKNOWN (apply exit=$apply_exit)"
+  fi
+  return 0
+}
+
+# --- digestステップ: xai_sdk版（DIGEST_COLLECTOR=xai指定時のみ・API課金。旧経路） ---
+run_digest_step_xai() {
   DIGEST_STATUS="DIGEST_SKIPPED (no key)"
   if [[ -f "$HOME/.envrc.shared" ]]; then
     # shellcheck disable=SC1091
@@ -56,13 +104,13 @@ run_digest_step() {
   digest_run_id=$("$PYTHON3" -c "import uuid; print(uuid.uuid4().hex)")
 
   if ! "$DOCKER" compose run --rm -e XAI_API_KEY xstock python scripts/bookmarks_keyword_digest_collect.py --run-id "$digest_run_id"; then
-    log "DIGEST_COLLECT_FAILED run_id=$digest_run_id (fail-soft: applyへ進む。前回statusが古ければapply側がSKIPPED_STALEにする)"
+    log "DIGEST_COLLECT_FAILED(xai) run_id=$digest_run_id (fail-soft: applyへ進む。前回statusが古ければapply側がSKIPPED_STALEにする)"
   fi
 
   local apply_output apply_exit
   apply_output=$("$PYTHON3" scripts/bookmarks_keyword_digest_apply.py --run-id "$digest_run_id" 2>&1)
   apply_exit=$?
-  log "DIGEST_APPLY exit=$apply_exit: $apply_output"
+  log "DIGEST_APPLY(xai) exit=$apply_exit: $apply_output"
 
   DIGEST_STATUS=$(echo "$apply_output" | grep -oE '(DIGEST_APPLIED|DIGEST_DEGRADED|DIGEST_SKIPPED|SKIPPED_STALE).*' | tail -1)
   if [[ -z "$DIGEST_STATUS" ]]; then
