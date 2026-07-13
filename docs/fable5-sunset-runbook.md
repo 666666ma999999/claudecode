@@ -19,7 +19,9 @@
    Sonnet 5 は Claude Code v2.1.197+、Opus 4.8 は v2.1.154+ が必要（現環境 v2.1.201 なので両方 OK）。
    出典: https://code.claude.com/docs/en/model-config
 
-2. **output style 有効化**: `~/.claude/settings.json` に `"outputStyle": "Fable5-like"` を追加するか、`/config` → "Output style" で選ぶ。
+> **⚠️ 2026-07-13 更新（案① 恒久化）**: `model` と `outputStyle` は git 同期の `settings.json` に**ベタ書きしない**（2台 Mac で pull 衝突＋Fable 機での二重がけの元）。マシン固有値は `~/.claude/settings.local.json`（.gitignore 済・優先度は settings.json より上）に置き、`hooks/machine-local-bootstrap.sh` が SessionStart でキー単位に冪等補正する（`masaaki_nagasawa`→model=fable・outputStyle なし／その他→model=sonnet・outputStyle=Fable5-like）。下記手順で settings.json を直接編集する案内は旧方式。手で切り替えたい時も settings.local.json を編集すること。
+
+2. **output style 有効化**: `~/.claude/settings.local.json` に `"outputStyle": "Fable5-like"` を置く（bootstrap が自動生成するので通常は手作業不要）。旧: `~/.claude/settings.json` へ追加、または `/config` → "Output style" で選ぶ。
    スタイル本体は `~/.claude/output-styles/fable5-like.md` に作成済み。
    `/config` で選ぶと project の `.claude/settings.local.json` に保存される点に注意（global にしたければ settings.json に手書きする）。
    **注意（古い情報に釣られない）**: `/output-style` スラッシュコマンドは v2.1.73 で deprecated、v2.1.91 で削除済み。X記事等の古い解説がこれを紹介していても実行できない。

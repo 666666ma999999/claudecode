@@ -848,7 +848,6 @@
       }
     }
   },
-  "outputStyle": "Fable5-like",
   "spinnerTipsOverride": {
     "excludeDefault": false,
     "tips": [
