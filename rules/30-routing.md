@@ -46,7 +46,7 @@
 | ファイル配置 67 種仕分け / vault MOC 同期（list/resolve/issues のみ・**MOC自動append は 2026-06-14 RETIRED**） | `rules/42-file-type-placement.md` + `/sync-vault-summary` skill |
 | プロジェクトの過去作業サマリー / 作業順序を git 履歴から把握 | `/project-history`（`~/.claude/scripts/project-history.sh`・期間/日別作業量/種類集計。「5手順マップして」で①〜⑤対応表） |
 | 作業メソドロジー雛形(0層+①〜⑥+メタ層)を現プロジェクトに配置 | `/methodology`（`~/.claude/scripts/place-methodology.sh`・`templates/methodology-5step.md` をコピー。お手本=`[[prime_suite-methodology-draft]]`） |
-| 新規成果物の形式を決める前の前例検索・「以前どこかで作ってた」・車輪の再発明チェック | `precedent-check`（mem-search+FS+routing+vault MOC の 4 経路検索・前例に形式を揃える。2026-07-12 新設） |
+| 新規成果物の形式を決める前の前例検索・「以前どこかで作ってた」・車輪の再発明チェック | `precedent-check`（FS+routing+vault MOC の 3 経路検索＋claude-mem 利用可能時のみ mem-search 追加・前例に形式を揃える。2026-07-12 新設） |
 | X検索キーワード集の表示/更新/再生成・ブックマーク由来キーワード | `/x-keywords`（wrapper=`~/.claude/bin/obs-x-keywords`・週次 launchd `com.masa.x-keywords-weekly`・成果物=vault `influx_x_search_keywords.md`(✅評価入力面) + `influx/output/bookmarks/x_keywords.html`(閲覧コピー用)。設計=`docs/x-keywords-plan.md`） |
 | 今回のセッション目標を画面下(statusline)に常時表示・忘れ防止「今回の目標は〜」 | `session-goal` / `/session-goal`（`~/.claude/scripts/session-goal.sh`・作業ツリー(worktree)単位=worktreeごとに別目標・repo 外保存） |
 | Fable 5 終了/復帰の切替・Fable5ライク運用・output style 有効化 | `docs/fable5-sunset-runbook.md`（手順+ファクトチェック表）+ output style `Fable5-like`（`output-styles/fable5-like.md`・Fable 5 稼働中は有効化しない） |
