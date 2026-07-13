@@ -11,15 +11,46 @@ set -u
 CLAUDE_DIR="$HOME/.claude"
 created=""
 
-# 1) settings.local.json — model のマシン固有指定（優先度: settings.json より上）
-if [ ! -f "$CLAUDE_DIR/settings.local.json" ]; then
-  case "${USER:-}" in
-    masaaki_nagasawa) model="claude-fable-5[1m]" ;;
-    *)                model="sonnet" ;;
-  esac
-  printf '{\n  "model": "%s"\n}\n' "$model" > "$CLAUDE_DIR/settings.local.json"
-  created="$created settings.local.json(model=$model)"
-fi
+# 1) settings.local.json — マシン固有の model / outputStyle（優先度: settings.json より上）
+#    ファイルが既存でも「キー」単位で冪等に補正する（file存在チェックだけだと空の
+#    settings.local.json が既にあるマシンで一生補正されない＝2026-07-13 の詰まり）。
+#    masaaki / masaaki_nagasawa = 実機2台とも Fable 機 → model=fable・outputStyle は付けない
+#                                   （Fable 本体に Fable5-like を被せると二重がけで品質劣化）
+#                                   ※ユーザー確認 2026-07-13:「この Mac は今まで通り Fable のまま」
+#    その他                      = sonnet 機 → model=sonnet・outputStyle=Fable5-like（mimicry で
+#                                   Fable ライクに）。Fable サンセット時 or 第3の機の保険として残す。
+case "${USER:-}" in
+  masaaki|masaaki_nagasawa) want_model="claude-fable-5[1m]"; want_style="" ;;
+  *)                        want_model="sonnet";             want_style="Fable5-like" ;;
+esac
+changed=$(LOCAL_FILE="$CLAUDE_DIR/settings.local.json" WANT_MODEL="$want_model" WANT_STYLE="$want_style" /usr/bin/python3 - <<'PY'
+import json, os
+p = os.environ["LOCAL_FILE"]
+want_model = os.environ["WANT_MODEL"]
+want_style = os.environ["WANT_STYLE"]  # "" = そのキーを消す
+try:
+    with open(p) as f:
+        d = json.load(f)
+    if not isinstance(d, dict):
+        d = {}
+except Exception:
+    d = {}
+chg = []
+if d.get("model") != want_model:
+    d["model"] = want_model; chg.append("model=%s" % want_model)
+if want_style:
+    if d.get("outputStyle") != want_style:
+        d["outputStyle"] = want_style; chg.append("outputStyle=%s" % want_style)
+elif "outputStyle" in d:
+    del d["outputStyle"]; chg.append("outputStyle=removed")
+if chg:
+    with open(p, "w") as f:
+        json.dump(d, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+print(",".join(chg))
+PY
+)
+[ -n "$changed" ] && created="$created settings.local.json($changed)"
 
 # 2) bookmarks.jsonl symlink — リンク先は両マシンとも $HOME/Desktop/biz/influx 配下
 if [ ! -e "$CLAUDE_DIR/data/bookmarks.jsonl" ]; then

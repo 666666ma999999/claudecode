@@ -88,7 +88,7 @@ Claude の画像トークンはピクセル依存（`⌈w/28⌉×⌈h/28⌉ ≒ 
 
 ## 自己改善 + Memory Update Protocol
 
-メモリ: Claude-Mem (活動記録・自動) / Memory MCP (意図的に保存)。
+メモリ: Memory MCP (意図的に保存)。Claude-Mem は 2026-07-13 軽量化で停止中（A/B 測定・復帰= enabledPlugins を true）。
 学習ループ: 修正受けたら `tasks/lessons.md` 記録 → 再発防止ルール追記。
 MEMORY.md 更新: 読んでから書く / index+link のみ (3 行超は topics/ 分離) / 重複禁止 / 150 行目標・200 行上限 (**hook 強制**) / 3 ヶ月未参照は archive/ 移動。
 

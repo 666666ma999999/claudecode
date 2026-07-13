@@ -328,7 +328,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/posttooluse-edit-history.sh"
+            "command": "~/.claude/hooks/posttooluse-edit-history.py"
           }
         ]
       },
@@ -823,7 +823,7 @@
   },
   "enabledPlugins": {
     "feature-dev@claude-code-plugins": false,
-    "claude-mem@thedotmack": true
+    "claude-mem@thedotmack": false
   },
   "extraKnownMarketplaces": {
     "claude-code-plugins": {
@@ -851,7 +851,7 @@
       "事実確認は必ずツールで実態を確認してから"
     ]
   },
-  "effortLevel": "high",
+  "effortLevel": "medium",
   "tui": "fullscreen",
   "skipWorkflowUsageWarning": true,
   "claudeMdExcludes": [
