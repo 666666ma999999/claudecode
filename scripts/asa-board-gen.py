@@ -209,7 +209,27 @@ def scan_inboxes():
         scanned_file_count += 1
         if text is None:
             continue
-        matched = [l.strip()[:60] for l in iter_content_lines(text) if "🔵" in l]
+        # 実案件のみ数える: 全 INBOX 共通のテンプレ行（セクション見出し・使い方説明）は除外。
+        # 「🔵 セクション内の行」に限定し、さらに定型文パターンを弾く（2026-07-13 偽陽性修正:
+        # 旧実装は見出し+説明文で 28 件と過大計上。実案件は数件だった）。
+        TEMPLATE_PATTERNS = ("投函🔵 → 記録📒", "INBOX見て", "やってほしいことを 🔵 に貼り")
+        # HTML コメント（<!-- 例: ... --> の投函例示）は案件ではないので丸ごと除去
+        import re as _re
+        text = _re.sub(r"<!--.*?-->", "", text, flags=_re.S)
+        matched = []
+        in_blue_section = False
+        for l in iter_content_lines(text):
+            s = l.strip()
+            if s.startswith("#"):
+                in_blue_section = "🔵" in s
+                continue
+            if not in_blue_section or not s:
+                continue
+            if s.startswith(">") or s in ("---", "***"):
+                continue
+            if any(pat in s for pat in TEMPLATE_PATTERNS):
+                continue
+            matched.append(s[:60])
         if matched:
             results.append({"file": f, "count": len(matched), "lines": matched})
     return results
@@ -400,7 +420,7 @@ def build_board(ledger, inbox_results, check_wait_results, wiki_queue, anomalies
     wq_total = wiki_queue["count"] if wiki_queue else 0
     lines.append("| 面 | 件数 | ファイル数 |")
     lines.append("|---|---|---|")
-    lines.append(f"| INBOX 🔵 | {inbox_total} | {len(inbox_results)} |")
+    lines.append(f"| INBOX 🔵 未処理（行数・複数行で1案件のことあり） | {inbox_total} | {len(inbox_results)} |")
     lines.append(f"| ✅待ちマーカー | {kk_total} | {len(check_wait_results)} |")
     lines.append(f"| wiki 取り込みキュー未処理 | {wq_total} | {'1' if wiki_queue else '0'} |")
     lines.append("")
