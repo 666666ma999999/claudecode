@@ -41,6 +41,13 @@ block 系 hook は「1 停止・1 メッセージにつき最大 1 回」を sta
 hook が `>> log.jsonl` で append するなら、無制限増殖を止める retention を同時に用意する。
 修理実績: `aaa51127`（追記専用ログの無制限増殖を data-retention で恒久キャップ）。cap の型は `hooks/data-retention.sh`（mtime ベースの世代削除）を踏襲する。
 
+### ⑤ 高頻度 hook は単一プロセス（python3 多重 spawn 禁止）
+Read/Edit 等の全ツール呼び出しで発火する hook は、bash 内で `python3 -c` を項目ごとに呼ばない（spawn 1回≈30-50ms が積算）。stdin を 1 回読む単一 python ファイルにする。
+実測: `posttooluse-edit-history` は 6 spawn の旧 .sh が 231ms/call、単一 .py 化で 80ms/call（2026-07-13 軽量化・commit `a36a37f`）。shebang は `#!/usr/bin/env -S python3 -I`（-I で site 読込を省き起動短縮）。
+
+### ⑥ 共有 state の並行安全（flock は専用 lock ファイル + atomic rotate）
+複数セッションが同じ state/*.jsonl に書く hook は、**データファイル自身でなく `<file>.lock` を flock(LOCK_EX)** し、rotate は tmp へ全量書き→`os.replace()` の atomic 差し替えにする。データファイル自身の truncate→rewrite は、flock を取らない読み手（他 hook）が空/途中ファイルを正常値として読む静かな欠落を生む。`os.replace` は inode が変わるためデータファイル自身への flock と併用不可＝専用 lock ファイル必須。正典実装: `hooks/posttooluse-edit-history.py`（Codex 敵対レビュー 2026-07-13 で確定した型）。
+
 ## headless ガード（定期実行での無効化）
 
 Stop / UserPromptSubmit 系の block は、`claude -p` の headless 実行（vault-prompt-runner）では**出力を分断して本文を消す**。定期実行で走る hook は先頭で環境変数ガードして即 exit する。
