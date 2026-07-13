@@ -1,6 +1,6 @@
 ---
 description: X検索キーワード群パイプライン（influxプロジェクト）の状態表示・手動更新・再生成
-argument-hint: "[show|update|regen|render]"
+argument-hint: "[show|update|regen|render|digest]"
 ---
 
 # X検索キーワード群パイプライン操作
@@ -21,6 +21,10 @@ $ARGUMENTS
     - fetchをスキップし、既存rawのまま強制的に次世代を生成（手動確認・observation windowは進めない）
 - `render` → `bash ~/.claude/bin/obs-x-keywords --render-only`
     - 台帳から latest.json とノートを再導出するだけ（LLM呼び出しなし）
+- `digest` → `bash ~/.claude/bin/obs-x-keywords --digest-only`
+    - fetchなしでinbox準備→収集(Docker/xai_sdk)→確定（柵）のみ実行し、候補記事ダイジェストを
+      台帳へ追記してWebページ（`x_keywords.html`）上部を再生成する。週次自動のdigestステップを
+      単体で手動実行する場合に使う。`XAI_API_KEY`未設定時はDIGEST_SKIPPEDで完走する
 
 ## 実行後にすること
 
