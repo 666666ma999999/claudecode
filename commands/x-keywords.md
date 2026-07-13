@@ -22,9 +22,11 @@ $ARGUMENTS
 - `render` → `bash ~/.claude/bin/obs-x-keywords --render-only`
     - 台帳から latest.json とノートを再導出するだけ（LLM呼び出しなし）
 - `digest` → `bash ~/.claude/bin/obs-x-keywords --digest-only`
-    - fetchなしでinbox準備→収集(Docker/xai_sdk)→確定（柵）のみ実行し、候補記事ダイジェストを
+    - fetchなしでinbox準備→収集(Docker)→確定（柵）のみ実行し、候補記事ダイジェストを
       台帳へ追記してWebページ（`x_keywords.html`）上部を再生成する。週次自動のdigestステップを
-      単体で手動実行する場合に使う。`XAI_API_KEY`未設定時はDIGEST_SKIPPEDで完走する
+      単体で手動実行する場合に使う。既定=ブラウザ収集（無料・ログイン済みVNCブラウザでX検索を
+      直接収集）。`DIGEST_COLLECTOR=xai`指定時のみ旧xai_sdk/API課金版を使う
+      （`XAI_API_KEY`未設定時はDIGEST_SKIPPEDで完走する）
 
 ## 実行後にすること
 
