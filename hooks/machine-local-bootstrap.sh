@@ -14,12 +14,14 @@ created=""
 # 1) settings.local.json — マシン固有の model / outputStyle（優先度: settings.json より上）
 #    ファイルが既存でも「キー」単位で冪等に補正する（file存在チェックだけだと空の
 #    settings.local.json が既にあるマシンで一生補正されない＝2026-07-13 の詰まり）。
-#    masaaki_nagasawa = Fable 機 → model=fable・outputStyle は付けない
+#    masaaki / masaaki_nagasawa = 実機2台とも Fable 機 → model=fable・outputStyle は付けない
 #                                   （Fable 本体に Fable5-like を被せると二重がけで品質劣化）
-#    その他           = sonnet 機 → model=sonnet・outputStyle=Fable5-like（mimicry で Fable ライクに）
+#                                   ※ユーザー確認 2026-07-13:「この Mac は今まで通り Fable のまま」
+#    その他                      = sonnet 機 → model=sonnet・outputStyle=Fable5-like（mimicry で
+#                                   Fable ライクに）。Fable サンセット時 or 第3の機の保険として残す。
 case "${USER:-}" in
-  masaaki_nagasawa) want_model="claude-fable-5[1m]"; want_style="" ;;
-  *)                want_model="sonnet";             want_style="Fable5-like" ;;
+  masaaki|masaaki_nagasawa) want_model="claude-fable-5[1m]"; want_style="" ;;
+  *)                        want_model="sonnet";             want_style="Fable5-like" ;;
 esac
 changed=$(LOCAL_FILE="$CLAUDE_DIR/settings.local.json" WANT_MODEL="$want_model" WANT_STYLE="$want_style" /usr/bin/python3 - <<'PY'
 import json, os
