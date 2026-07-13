@@ -3,11 +3,12 @@
 **作成: 2026-07-06 / 出典: INBOX投函 X記事2本のファクトチェック結果**
 
 ## ✅ 結論（3行）
-- 7/7 に Fable 5 の定額利用が終わったら、この手順で「Fable 5 ライク」運用に切り替える（所要 2 分）
+- **Fable 5 は 2026-07-13 時点で提供継続中**。切替はモデルピッカー/実リクエストで提供終了を観測してから**手動判断のみ**で行う（固定日での自動切替はしない）
 - 移植できるのは「振る舞い」だけ。素の賢さ・思考の深さの機構は移植できない（期待値注意）
-- 用意済みの output style `Fable5-like` を有効化するだけ。Fable 5 使用中は有効化しない
+- output style `Fable5-like` は Fable 以外のモデルに切り替えた時だけ有効化する。**Fable 5 使用中は有効化しない**（本体ハーネスと二重指示になり品質低下）
 
-> **自動化済み（2026-07-06 追記・ユーザー指示）**: 7/9 以降の初回セッション起動時に `hooks/fable5-sunset-autoswitch.sh`（SessionStart）が `model: opus` + `outputStyle: Fable5-like` を自動書込する（1回きり・バックアップ付き・手動切替済みなら上書きしない）。下の手動 3 手は「自動化をキャンセルした場合」と「切り戻し」用に残す。キャンセルは `touch ~/.claude/state/fable5-sunset-switched.done`。
+> **自動切替は退役済み（2026-07-13）**: 旧 `hooks/fable5-sunset-autoswitch.sh` は 7/9 02:12 に発火して model を opus に格下げしたが、Fable 5 は実際には提供継続中で「予防切替の空振り」となった（prime_suite での指示追従低下の主因）。7/13 に model 復旧・SessionStart 登録解除・本体を `hooks/_retired/` へ移動。
+> **masa-2 側の手順（重要・順序厳守）**: marker（`state/fable5-sunset-switched.done`）と `settings.local.json` は git 管理外のため、masa-2 では旧 hook が生き残っている可能性がある。**Claude を起動する前に** `cd ~/.claude && git pull` で退役変更を先に取り込むこと。先に起動してしまう場合は `touch ~/.claude/state/fable5-sunset-switched.done` で発火を止めてから。model はマシン固有（`settings.local.json`）管理なので、pull 後に `/model` で Fable 5 を設定する。
 
 ---
 

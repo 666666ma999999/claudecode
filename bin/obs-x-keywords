@@ -32,6 +32,45 @@ notify() {  # $1=メッセージ
   osascript -e "display notification \"$1\" with title \"x-keywords\"" 2>/dev/null || true
 }
 
+# --- digestステップ（候補記事ダイジェスト収集→確定。Codex R1差分#6/#1参照） ---
+# 呼び出し前提: cd "$INFLUX" 済み・$PYTHON3/$DOCKER 解決済み。
+# 結果はグローバル変数DIGEST_STATUSへ格納する（呼び出し側が通知メッセージに含める）。
+# digestの失敗はどの経路でもこの関数の外へexitを伝播させない（fail-soft）。
+run_digest_step() {
+  DIGEST_STATUS="DIGEST_SKIPPED (no key)"
+  if [[ -f "$HOME/.envrc.shared" ]]; then
+    # shellcheck disable=SC1091
+    source "$HOME/.envrc.shared"
+  fi
+  export XAI_API_KEY  # docker compose run -e XAI_API_KEYへの伝搬にはexport必須（sourceだけでは不十分）
+  if [[ -z "${XAI_API_KEY:-}" ]]; then
+    log "$DIGEST_STATUS"
+    return 0
+  fi
+
+  local digest_inbox="output/bookmarks/digest_inbox"
+  mkdir -p "$digest_inbox"
+  cp "output/bookmarks/keywords_latest.json" "$digest_inbox/latest_snapshot.json" 2>/dev/null || true
+
+  local digest_run_id
+  digest_run_id=$("$PYTHON3" -c "import uuid; print(uuid.uuid4().hex)")
+
+  if ! "$DOCKER" compose run --rm -e XAI_API_KEY xstock python scripts/bookmarks_keyword_digest_collect.py --run-id "$digest_run_id"; then
+    log "DIGEST_COLLECT_FAILED run_id=$digest_run_id (fail-soft: applyへ進む。前回statusが古ければapply側がSKIPPED_STALEにする)"
+  fi
+
+  local apply_output apply_exit
+  apply_output=$("$PYTHON3" scripts/bookmarks_keyword_digest_apply.py --run-id "$digest_run_id" 2>&1)
+  apply_exit=$?
+  log "DIGEST_APPLY exit=$apply_exit: $apply_output"
+
+  DIGEST_STATUS=$(echo "$apply_output" | grep -oE '(DIGEST_APPLIED|DIGEST_DEGRADED|DIGEST_SKIPPED|SKIPPED_STALE).*' | tail -1)
+  if [[ -z "$DIGEST_STATUS" ]]; then
+    DIGEST_STATUS="DIGEST_UNKNOWN (apply exit=$apply_exit)"
+  fi
+  return 0
+}
+
 # --- 実行環境解決（launchdの/bin/bash -lは.bash_profileのみロードし.zshrcは読まない。
 #     PATH拡張に依存できないため、python3の所在とロケールを自前で解決する） ---
 export LC_ALL=en_US.UTF-8
@@ -130,6 +169,7 @@ FORCE=false
 REASON=""
 RENDER_ONLY=false
 SHOW_ONLY=false
+DIGEST_ONLY=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -139,6 +179,7 @@ while [[ $# -gt 0 ]]; do
     --reason) REASON="${2:-}"; shift 2 ;;
     --render-only) RENDER_ONLY=true; shift ;;
     --show) SHOW_ONLY=true; shift ;;
+    --digest-only) DIGEST_ONLY=true; shift ;;
     *) echo "unknown arg: $1" >&2; exit 2 ;;
   esac
 done
@@ -213,12 +254,20 @@ if [[ "$RENDER_ONLY" == true ]]; then
   exit $RC
 fi
 
+# --- --digest-only: fetchなしでinbox準備→collect→applyのみ実行（hostnameガード内） ---
+if [[ "$DIGEST_ONLY" == true ]]; then
+  run_digest_step
+  log "DIGEST_ONLY result: $DIGEST_STATUS"
+  notify "$DIGEST_STATUS"
+  exit 0
+fi
+
 if $MODE_FETCH && $MODE_NO_FETCH; then
   echo "ERROR: --fetch と --no-fetch は同時指定不可" >&2
   exit 2
 fi
 if ! $MODE_FETCH && ! $MODE_NO_FETCH; then
-  echo "ERROR: --fetch か --no-fetch のいずれかが必須（--show/--render-onlyでない場合）" >&2
+  echo "ERROR: --fetch か --no-fetch のいずれかが必須（--show/--render-only/--digest-onlyでない場合）" >&2
   exit 2
 fi
 if $FORCE && [[ -z "$REASON" ]]; then
@@ -326,13 +375,26 @@ print(d['fetch_status'])
 FIRED=$(echo "$WORKLIST_INFO" | sed -n '1p')
 WL_FETCH_STATUS=$(echo "$WORKLIST_INFO" | sed -n '2p')
 
+# --- digestステップ（fetch分類+fetch_run記録の後・NO_CHANGE早期exitより前。regenとは
+#     独立に毎週実行。digestの失敗はどの経路でもwrapper全体をfailさせない）。
+#     fetch_status==SUCCESSの場合のみ実行（DEGRADED/SKIPPED_MANUALでは古い/部分的な
+#     latest_snapshot.jsonをcollectに渡すことになり収集の質が保証できないため見送る。
+#     --digest-onlyは本節を通らず常に無条件実行） ---
+if [[ "$FETCH_STATUS" == "SUCCESS" ]]; then
+  run_digest_step
+  log "DIGEST(embedded) result: $DIGEST_STATUS"
+else
+  DIGEST_STATUS="DIGEST_SKIPPED (fetch not success)"
+  log "DIGEST(embedded) skipped: fetch_status=$FETCH_STATUS"
+fi
+
 if [[ "$FIRED" != "True" ]]; then
   if [[ "$WL_FETCH_STATUS" == "DEGRADED" ]]; then
-    notify "DEGRADED (部分取得。raw保存・統計更新のみ。世代生成は次回SUCCESS時)"
-    log "DEGRADED fetch_status=DEGRADED"
+    notify "DEGRADED (部分取得。raw保存・統計更新のみ。世代生成は次回SUCCESS時) | digest: $DIGEST_STATUS"
+    log "DEGRADED fetch_status=DEGRADED digest=$DIGEST_STATUS"
   else
-    notify "NO_CHANGE"
-    log "NO_CHANGE fetch_status=$WL_FETCH_STATUS"
+    notify "NO_CHANGE | digest: $DIGEST_STATUS"
+    log "NO_CHANGE fetch_status=$WL_FETCH_STATUS digest=$DIGEST_STATUS"
   fi
   exit 0
 fi
@@ -352,13 +414,13 @@ run_generation_once() {  # $1=ログ用ラベル（例: "1回目" "2回目(retry
   # runner自身の成功/失敗通知は仕様上抑制不可（runnerは変更禁止ファイル）。
   # ingestの結果でwrapper側の最終通知を出すため、ここでの二重通知は許容する。
   if [[ $runner_exit -ne 0 ]]; then
-    notify "RUNNER_FAILED ($1): runner exit=$runner_exit"
-    log "RUNNER_FAILED ($1) runner_exit=$runner_exit"
+    notify "RUNNER_FAILED ($1): runner exit=$runner_exit | digest: $DIGEST_STATUS"
+    log "RUNNER_FAILED ($1) runner_exit=$runner_exit digest=$DIGEST_STATUS"
     return 90
   fi
   if [[ ! -f "$RESULT_MD" ]]; then
-    notify "RUNNER_FAILED ($1): resultファイル未生成"
-    log "RUNNER_FAILED ($1) result_missing"
+    notify "RUNNER_FAILED ($1): resultファイル未生成 | digest: $DIGEST_STATUS"
+    log "RUNNER_FAILED ($1) result_missing digest=$DIGEST_STATUS"
     return 90
   fi
   return 0
@@ -383,21 +445,21 @@ if [[ $INGEST_EXIT -eq 6 ]]; then
   "$PYTHON3" scripts/bookmarks_keyword_ingest.py "$RESULT_MD"
   INGEST_EXIT=$?
   if [[ $INGEST_EXIT -eq 6 ]]; then
-    notify "REJECTED (2回連続reject)"
-    log "REJECTED exit=6 (2回連続)"
+    notify "REJECTED (2回連続reject) | digest: $DIGEST_STATUS"
+    log "REJECTED exit=6 (2回連続) digest=$DIGEST_STATUS"
     exit 6
   fi
 fi
 
 if [[ $INGEST_EXIT -eq 3 ]]; then
-  notify "TOCTOU中止: ノートが処理中に変更されたため上書きを見送り (ingest exit=3)"
-  log "TOCTOU exit=3"
+  notify "TOCTOU中止: ノートが処理中に変更されたため上書きを見送り (ingest exit=3) | digest: $DIGEST_STATUS"
+  log "TOCTOU exit=3 digest=$DIGEST_STATUS"
   exit 3
 fi
 
 if [[ $INGEST_EXIT -ne 0 ]]; then
-  notify "FAILED: ingest exit=$INGEST_EXIT"
-  log "FAILED ingest exit=$INGEST_EXIT"
+  notify "FAILED: ingest exit=$INGEST_EXIT | digest: $DIGEST_STATUS"
+  log "FAILED ingest exit=$INGEST_EXIT digest=$DIGEST_STATUS"
   exit $INGEST_EXIT
 fi
 
@@ -418,6 +480,6 @@ import json
 d = json.load(open('output/bookmarks/keywords_latest.json', encoding='utf-8'))
 print(f\"gen{d.get('generation')} rev{d.get('revision')}\")
 ")
-notify "UPDATED $GEN_INFO"
-log "UPDATED $GEN_INFO"
+notify "UPDATED $GEN_INFO | digest: $DIGEST_STATUS"
+log "UPDATED $GEN_INFO digest=$DIGEST_STATUS"
 exit 0
