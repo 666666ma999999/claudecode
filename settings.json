@@ -823,7 +823,7 @@
   },
   "enabledPlugins": {
     "feature-dev@claude-code-plugins": false,
-    "claude-mem@thedotmack": false
+    "claude-mem@thedotmack": true
   },
   "extraKnownMarketplaces": {
     "claude-code-plugins": {
