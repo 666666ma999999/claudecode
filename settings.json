@@ -328,7 +328,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/posttooluse-edit-history.sh"
+            "command": "~/.claude/hooks/posttooluse-edit-history.py"
           }
         ]
       },
