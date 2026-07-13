@@ -560,6 +560,15 @@
             "command": "~/.claude/hooks/machine-local-bootstrap.sh"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "(~/.claude/hooks/sessionstart-asa-board.sh) 2>&1 | head -5"
+          }
+        ]
       }
     ],
     "PermissionRequest": [
