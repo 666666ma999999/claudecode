@@ -24,7 +24,7 @@ BEFORE=$("$NPM_BIN/npm" ls -g @anthropic-ai/claude-code --depth=0 2>/dev/null | 
 if "$NPM_BIN/npm" install -g @anthropic-ai/claude-code@latest >> "$LOG" 2>&1; then
     AFTER=$("$NPM_BIN/npm" ls -g @anthropic-ai/claude-code --depth=0 2>/dev/null | grep -o '@anthropic-ai/claude-code@[0-9.]*' | head -1)
     if [ "$BEFORE" = "$AFTER" ]; then
-        echo "[$(ts)] OK: 最新のまま（$AFTER）" >> "$LOG"
+        echo "[$(ts)] OK: 最新のまま（${AFTER}）" >> "$LOG"
     else
         echo "[$(ts)] UPDATED: $BEFORE → $AFTER" >> "$LOG"
     fi

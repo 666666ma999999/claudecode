@@ -27,6 +27,11 @@
 #   runner_extra_dir: "/Users/.../Documents/Obsidian Vault"  # 任意: WORKDIR 外の追加読取許可 (--add-dir 2本目・例 vault の公式ルールブック)
 set -uo pipefail
 
+# launchd は locale 未設定（C ロケール）で起動する。C のままだと bash の ${VAR:0:N} が
+# バイト単位で切れて日本語が化ける（ログ/frontmatter に「理由資�」等・2026-07-14 恒久対応）。
+# さらに "$VAR全角" の変数名解釈も壊れる（同日 SLUG unbound 実障害）。UTF-8 を明示して両方を塞ぐ。
+export LC_ALL=en_US.UTF-8
+
 PROMPT_FILE="${1:-}"
 if [ -z "$PROMPT_FILE" ] || [ ! -f "$PROMPT_FILE" ]; then
   echo "usage: vault-prompt-runner.sh <prompt-file.md> [out-slug] [work-dir]" >&2
@@ -299,7 +304,7 @@ if [ -n "$CP_GATE" ] && [ -f "$GATE_PY" ]; then
   if [ "${#CPG_FILES[@]}" -gt 0 ]; then
     if ! CPG_OUT="$(/usr/bin/python3 "$GATE_PY" --cp-sections "${CPG_FILES[@]}" 2>>"$LOG")"; then
       echo "=== [$(date -Iseconds)] cp-sections NG: ${CPG_OUT:0:300} ===" >> "$LOG"
-      notify "📐 CP章の骨格欠落: $SLUG（ボードの金標準要素が欠けています）"
+      notify "📐 CP章の骨格欠落: ${SLUG}（ボードの金標準要素が欠けています）"
     elif printf '%s' "$CPG_OUT" | grep -q '"gate_status": *"error"'; then
       echo "=== [$(date -Iseconds)] cp-sections ERROR (fail-open): ${CPG_OUT:0:300} ===" >> "$LOG"
       notify "⚠️ CP章検査 ERROR(fail-open): $SLUG"
