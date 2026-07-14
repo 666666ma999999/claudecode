@@ -52,6 +52,7 @@
 | X検索キーワード集の表示/更新/再生成・ブックマーク由来キーワード | `/x-keywords`（wrapper=`~/.claude/bin/obs-x-keywords`・週次 launchd `com.masa.x-keywords-weekly`・成果物=vault `influx_x_search_keywords.md`(✅評価入力面) + `influx/output/bookmarks/x_keywords.html`(閲覧コピー用)。設計=`docs/x-keywords-plan.md`） |
 | 今回のセッション目標を画面下(statusline)に常時表示・忘れ防止「今回の目標は〜」 | `session-goal` / `/session-goal`（`~/.claude/scripts/session-goal.sh`・作業ツリー(worktree)単位=worktreeごとに別目標・repo 外保存） |
 | Fable 5 終了/復帰の切替・Fable5ライク運用・output style 有効化 | `docs/fable5-sunset-runbook.md`（手順+ファクトチェック表）+ output style `Fable5-like`（`output-styles/fable5-like.md`・Fable 5 稼働中は有効化しない） |
+| 企画・方針の敵対的レビュー・2 モデル議論・「Fable と Codex に議論させて」・一致/割れ報告 | `/adversarial-review <議題> [--light]`（2 独立レビュアー=同モデル別文脈+Codex 異モデル・承認ゲート 2 つ・2026-07-14 新設）。Plan 中の設計リスクは従来どおり `plan-adversarial-review` |
 
 その他のカテゴリ（KPI・データ可視化・ダッシュボード・売上分析・スクレイピング・X Articles 12種・スキル管理・設定診断・Codex委譲 ほか）は `routing-table.md` 参照。
 
