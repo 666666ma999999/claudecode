@@ -91,6 +91,10 @@
 | X(Twitter)投稿エンゲージメント取得・候補URLの実測検証・いいね数確認 | `fetch-engagement` |
 | X Cookie再取得・Chrome→x_profiles抽出・auth_token更新・`import_chrome_cookies.py` | influx側 `refresh-x-cookies`（`~/Desktop/biz/influx/.claude/skills/refresh-x-cookies/SKILL.md`、VNC方式は2026-04-21に廃止） |
 | UIデザイン品質・カラーパレット・タイポグラフィ・コンポーネント設計 | `frontend-design` |
+| 有償生成API発注UI・estimate/confirm・二重課金・日次コスト上限・課金迂回路の監査 | `paid-generation-gate-audit`（2026-07-14 新設・reading-factory Phase C 敵対レビュー由来） |
+| 人間承認ボタン・承認フロー設計・承認の証拠性/失効・reaperからの承認待ち保護 | `human-approval-design`（同上） |
+| 動画からの種コマ/候補フレーム抽出・鮮明度スコア・単独人物判定の方式比較ベンチ | `media-candidate-bench`（同上） |
+| ジョブ/ワークフロー状態機械の実装改修・遷移表からのテスト導出・CAS/二重送信/再起動 | `state-machine-test-gen`（同上） |
 | Gmail・カレンダー・Drive・Google Sheets・スプレッドシート・Google Docs・Slides・`docs.google.com/spreadsheets/`・`docs.google.com/document/`・`drive.google.com/`・Google Workspace操作 | `gog-cli`（WebFetch は認証を通せないため禁止。`PreToolUse(WebFetch)` hook で自動 deny される） |
 | 通知設定・アラート設定 | `notification-alert` |
 | デスクトップ整理・ファイル整理 | `organize-desktop` |
