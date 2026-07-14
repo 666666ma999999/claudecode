@@ -114,7 +114,7 @@ def mask_secrets(text):
 
     # --- マーカー無害化 (Phase 2 writer の行頭マーカー探索を本文が偽装できないように) ---
     # zero-width space (U+200B) を挿入。可視性は変わらない
-    text = _re.sub(r"<!--(\s*prompt-history)", "<!--​\\1", text)
+    text = _re.sub(r"<!--(\s*(?:prompt-history|evt:))", "<!--​\\1", text)
     text = _re.sub(r"(?m)^(\s*event_id\s*:)", "​\\1", text)
 
     return text, sorted(set(hits))

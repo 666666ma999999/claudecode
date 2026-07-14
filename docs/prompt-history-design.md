@@ -35,9 +35,17 @@
 - ルーティング: `config/prompt-history-routing.json`（repo 管理・`~` 相対で 2台のユーザー名差を吸収）prefix 最長一致 → 外れたら `git rev-parse --git-common-dir` で worktree→主repo 再判定 → `unrouted:<cwd>`。判定不能でも捕捉は必ず行う
 - テスト: `hooks/tests/test_prompt_history_capture.py` 17件（実事故形状: c8b2e8fc 同型の日本語平文認証情報・.env 貼付・URL埋込認証を含む。sanitized-fixtures 禁止準拠）
 
-## Phase 2（未着手・有効化ゲートあり）
+## Phase 2（実装済み 2026-07-14・同日有効化）
 
-**ゲート**: 受領票を数日ソーク → 伏字出力の人間レビュー合格 + 本設計書の敵対テスト全 PASS が確認されるまで、`.queue` の git 同期と writer を有効化しない（それまで vault `.gitignore` に `.queue` を入れておく）。
+**ゲート通過の記録**: 受領票 55 件の機械再スキャン（漏れ 0）＋全件目視 → ユーザー「今すぐ作って」で同日有効化（当初の数日ソークは短縮・ユーザー判断）。
+
+**実装**: `scripts/prompt-history-reflect.py`（Step A 転送 + Step B writer 反映の単一スクリプト）＋ `hooks/sessionstart-prompt-history-reflect.sh`（SessionStart 起動）。テスト = `hooks/tests/test_prompt_history_reflect.py` 13件。
+
+**設計からの実装判断（Decision Log）**:
+1. **起動は launchd でなく SessionStart hook の日次スタンプ方式**（20h guard・バックグラウンド実行・ログ `state/prompt-history/reflect.log`）。理由: launchd は vault(~/Documents) への TCC/FDA 未付与で沈黙死する実績。Claude セッションは確実に権限を持ち毎日起動する
+2. **ACK 機構の簡素化**: 受領票の削除条件 =「queue への転送完了（vault git の耐久保存）+30日」。queue 自体が同期・耐久のため writer 死亡でもデータ喪失なし（v3 条件2 の意図を単純構造で充足）
+3. **unrouted の反映時再解決**: 住所録（cwd_prefixes）への追記が過去の未ルート受領票にも遡及して効く
+4. **マーカー無害化は reflect 側でも再実施**（多層防御・hook 修正前の旧受領票や queue 改ざん耐性。テスト 4 が実際にこの穴を検出した）
 
 Codex GO 条件（v3 必須変更 8 + 微修正 5・全採用）:
 1. flock(1) 不使用（macOS に無い）→ Python fcntl【Phase 1 で実装済】

@@ -18,6 +18,8 @@
     "aiads": "02_Ai/AI_adscrm/AIads/prompts/AIads_INBOX.md",
     "aicrm": "02_Ai/AI_adscrm/AIcrm/prompts/AIcrm_INBOX.md"
   },
+  "writer_host_uuid": "2713e440-c5ed-4028-bdca-b0de14d46a04",
+  "vault_root": "~/Documents/Obsidian Vault",
   "exclude_cwd_prefixes": [
     "~/.claude-mem"
   ],
@@ -31,6 +33,9 @@
     "~/Desktop/biz/pokeca-invest": "pokeca-invest",
     "~/Desktop/biz/chacha": "chacha",
     "~/Desktop/prm/rohan": "rohan",
+    "~/Desktop/prm/prime_suite": "aiads",
+    "~/Desktop/prm/prime_suite/prime_ad": "aiads",
+    "~/Desktop/prm/prime_suite/prime_crm": "aicrm",
     "~/Documents/Obsidian Vault": "general",
     "~/Documents/Obsidian Vault/03_ClaudeEnv": "claude-env",
     "~/Documents/Obsidian Vault/02_Ai/bunshin": "bunshin",

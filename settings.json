@@ -431,6 +431,16 @@
         "hooks": [
           {
             "type": "command",
+            "command": "(~/.claude/hooks/sessionstart-prompt-history-reflect.sh) 2>&1 | head -5",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
             "command": "case \"$PWD\" in *make_article*) (~/Desktop/biz/make_article/hooks/improvement-ingest-check.sh) 2>&1 | head -10 ;; esac"
           }
         ]
@@ -882,6 +892,5 @@
     "environment": [
       "macOS darwin23, cwd主に ~/Desktop/biz 配下, Docker開発環境"
     ]
-  },
-  "model": "claude-fable-5[1m]"
+  }
 }
