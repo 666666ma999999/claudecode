@@ -164,9 +164,24 @@ def render_event(r):
     return out
 
 
+def find_markers(text):
+    """行全体一致のマーカーを厳密に探す (本文中の部分文字列を拾わない・Codex 指摘)。
+    返り値: (begin_line_start, end_line_start) / 異常 (欠落・重複・逆順) は None。"""
+    b = [m.start() for m in re.finditer(r"(?m)^" + re.escape(BEGIN) + r"[ \t]*$", text)]
+    e = [m.start() for m in re.finditer(r"(?m)^" + re.escape(END) + r"[ \t]*$", text)]
+    if len(b) == 0 and len(e) == 0:
+        return None  # 節なし → 新設対象
+    if len(b) == 1 and len(e) == 1 and b[0] < e[0]:
+        return (b[0], e[0])
+    return "invalid"
+
+
 def ensure_section(text):
-    """マーカー節が無ければ末尾に新設して返す (既存本文は不変)。"""
-    if BEGIN in text and END in text and text.index(BEGIN) < text.index(END):
+    """マーカー節が無ければ末尾に新設。異常マーカーは (None, "invalid") を返し呼び元で skip。"""
+    m = find_markers(text)
+    if m == "invalid":
+        return None, "invalid"
+    if m is not None:
         return text, False
     if not text.endswith("\n"):
         text += "\n"
@@ -175,6 +190,27 @@ def ensure_section(text):
              "編集しない。全文検索用。秘密値は捕捉時に伏字済み。\n\n"
              f"{BEGIN}\n{END}\n")
     return text, True
+
+
+UUID_RE = re.compile(r"[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[0-9a-f]{4}-[0-9a-f]{12}")
+TS_RE = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}")
+
+
+def valid_record(r):
+    """queue レコードの構造検証 (改ざん queue からの構造注入・writer 停止を防ぐ・Codex 指摘)。"""
+    if not isinstance(r, dict):
+        return False
+    if not (isinstance(r.get("event_id"), str) and UUID_RE.fullmatch(r["event_id"])):
+        return False
+    if not (isinstance(r.get("ts"), str) and TS_RE.match(r["ts"])):
+        return False
+    route = r.get("route")
+    if not (isinstance(route, str) and 0 < len(route) < 512 and "\n" not in route):
+        return False
+    p = r.get("prompt")
+    if p is not None and not isinstance(p, str):
+        return False
+    return True
 
 
 def reflect(cfg, host_uuid):
@@ -193,6 +229,7 @@ def reflect(cfg, host_uuid):
 
     # 全ホストの queue を読む
     events = []
+    invalid = 0
     for host in sorted(os.listdir(qroot)) if os.path.isdir(qroot) else []:
         hdir = os.path.join(qroot, host)
         if not os.path.isdir(hdir):
@@ -208,9 +245,16 @@ def reflect(cfg, host_uuid):
                     try:
                         r = json.loads(line)
                     except Exception:
+                        invalid += 1
                         continue
-                    if r.get("event_id") and r["event_id"] not in ledger:
+                    if not valid_record(r):
+                        invalid += 1
+                        continue
+                    if r["event_id"] not in ledger:
                         events.append(r)
+
+    if invalid:
+        print(f"[reflect] WARN 構造不正の queue レコード {invalid} 件を隔離 (未処理)")
 
     # dedupe (queue 二重転送耐性) + 時刻順
     seen = set()
@@ -256,21 +300,57 @@ def reflect(cfg, host_uuid):
         if not os.path.exists(inbox):
             print(f"[reflect] WARN inbox missing: {inbox} — {sum(len(v) for v in by_date.values())} 件スキップ (台帳未登録・次回再試行)")
             continue
+        st0 = os.stat(inbox)
         with open(inbox, encoding="utf-8") as f:
-            text = f.read()
-        text, created = ensure_section(text)
+            orig = f.read()
+        text, created = ensure_section(orig)
+        if created == "invalid":
+            print(f"[reflect] WARN {os.path.basename(inbox)}: マーカーが欠落/重複/逆順 — 書込み中止 (手で修復を)")
+            continue
+
+        # クラッシュ窓の修復 (Codex 指摘): 台帳未登録でも INBOX に既にアンカーが
+        # あるイベントは再追記せず台帳側を修復する
         block_lines = []
         ids_here = []
+        repaired = []
         for date in sorted(by_date):
-            evs = by_date[date]
+            evs = []
+            for r in by_date[date]:
+                if f"<!-- evt:{r['event_id']} -->" in orig:
+                    repaired.append(r["event_id"])
+                else:
+                    evs.append(r)
+            if not evs:
+                continue
             block_lines.append(f"> [!note]- {date}（{len(evs)}件）\n")
             for r in evs:
                 block_lines.extend(render_event(r))
                 ids_here.append(r["event_id"])
             block_lines.append("\n")
-        # END マーカー行の直前へ挿入 (行頭の厳密一致のみ・本文偽装は hook 側で ZWSP 無害化済み)
-        idx = text.index(END)
+        if repaired:
+            print(f"[reflect] {os.path.basename(inbox)}: 台帳修復 {len(repaired)} 件 (前回クラッシュ分)")
+            reflected_ids.extend(repaired)
+        if not block_lines:
+            continue
+
+        # END マーカー行 (行全体一致) の直前へ挿入
+        m = find_markers(text)
+        if m is None or m == "invalid":
+            print(f"[reflect] WARN {os.path.basename(inbox)}: マーカー異常 — 書込み中止")
+            continue
+        idx = m[1]
         text = text[:idx] + "".join(block_lines) + text[idx:]
+
+        # テスト用: 読込→置換の競合窓を意図的に広げる (Obsidian 同時編集テスト)
+        if os.environ.get("PROMPT_HISTORY_TEST_SLEEP"):
+            import time
+            time.sleep(float(os.environ["PROMPT_HISTORY_TEST_SLEEP"]))
+
+        # Obsidian 同時編集ガード (Codex 指摘): 読込時点から実ファイルが変わっていたら中止
+        st1 = os.stat(inbox)
+        if (st1.st_mtime_ns, st1.st_size) != (st0.st_mtime_ns, st0.st_size):
+            print(f"[reflect] WARN {os.path.basename(inbox)}: 読込後に外部編集を検知 — 中止 (次回再試行)")
+            continue
 
         tmp = tempfile.NamedTemporaryFile(mode="w", dir=os.path.dirname(inbox),
                                           delete=False, encoding="utf-8")
@@ -297,13 +377,32 @@ def reflect(cfg, host_uuid):
     if reflected_ids:
         locked_append(ledger_path, [i + "\n" for i in reflected_ids])
     print(f"[reflect] total reflected={len(reflected_ids)}")
+
+    # queue/ledger の肥大監視 (削除はユーザー承認制・警告のみ)
+    try:
+        qsize = sum(os.path.getsize(os.path.join(dp, fn))
+                    for dp, _, fns in os.walk(qroot) for fn in fns)
+        lsize = os.path.getsize(ledger_path) if os.path.exists(ledger_path) else 0
+        if qsize > 5 * 1024 * 1024 or lsize > 5 * 1024 * 1024:
+            print(f"[reflect] ⚠️ queue={qsize//1024}KB ledger={lsize//1024}KB — 圧縮/整理をユーザーに相談すること")
+    except Exception:
+        pass
     _stamp_success(cfg)
 
 
 def _stamp_success(cfg):
+    """writer の INBOX 反映成功スタンプ (vault 内 = 両 Mac に同期・相互監視用)。"""
     try:
-        p = os.path.join(queue_root(cfg), "writer-last-success")
-        with open(p, "w") as f:
+        with open(os.path.join(queue_root(cfg), "writer-last-success"), "w") as f:
+            f.write(datetime.now().astimezone().isoformat(timespec="seconds") + "\n")
+    except Exception:
+        pass
+
+
+def _stamp_local_success():
+    """hook の 20h guard 用ローカル成功スタンプ (試行スタンプと分離・非 writer 機も書く)。"""
+    try:
+        with open(os.path.join(BASE, "reflect-last-success"), "w") as f:
             f.write(datetime.now().astimezone().isoformat(timespec="seconds") + "\n")
     except Exception:
         pass
@@ -327,6 +426,7 @@ def main():
         return 1
     transfer(cfg, host_uuid)
     reflect(cfg, host_uuid)
+    _stamp_local_success()
     return 0
 
 

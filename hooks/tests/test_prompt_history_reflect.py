@@ -163,13 +163,73 @@ def main():
         finally:
             shutil.rmtree(tmp2, ignore_errors=True)
 
+        # --- (11) クラッシュ窓修復: 台帳が消えても INBOX 既存分は再追記せず台帳修復 ---
+        os.unlink(os.path.join(state, "reflected-ledger.jsonl"))
+        size_b = len(read(vault, paths["claude-env"]))
+        r5 = run(env)
+        ce5 = read(vault, paths["claude-env"])
+        led = open(os.path.join(state, "reflected-ledger.jsonl")).read()
+        check("11 crash-repair", len(ce5) == size_b and "台帳修復" in r5.stdout
+              and len([l for l in led.splitlines() if l.strip()]) >= 6, r5.stdout)
+
+        # --- (12) 外部編集 (Obsidian) を検知して中止 ---
+        write_receipts(state, [receipt("claude-env", "外部編集競合テスト", ts_hm="12:00")])
+        env_slow = dict(env)
+        env_slow["PROMPT_HISTORY_TEST_SLEEP"] = "1.0"
+        import threading
+        inbox_path = os.path.join(vault, paths["claude-env"])
+
+        def edit_during():
+            import time
+            time.sleep(0.4)
+            with open(inbox_path, "a") as f:
+                f.write("\nユーザーの同時編集行\n")
+        th = threading.Thread(target=edit_during)
+        th.start()
+        r6 = run(env_slow)
+        th.join()
+        ce6 = read(vault, paths["claude-env"])
+        check("12 concurrent-edit-abort", "外部編集を検知" in r6.stdout
+              and "ユーザーの同時編集行" in ce6 and "外部編集競合テスト" not in ce6, r6.stdout)
+        # 次回 (競合なし) は反映される
+        r7 = run(env)
+        ce7 = read(vault, paths["claude-env"])
+        check("12b retry-succeeds", "外部編集競合テスト" in ce7
+              and "ユーザーの同時編集行" in ce7, r7.stdout)
+
+        # --- (13) マーカー重複 (📒 に行全体の偽 END) → 書込み中止 ---
+        with open(inbox_path) as f:
+            good = f.read()
+        with open(inbox_path, "w") as f:
+            f.write(good + "\n<!-- prompt-history:end -->\n")
+        write_receipts(state, [receipt("claude-env", "マーカー異常時の投入", ts_hm="13:00")])
+        r8 = run(env)
+        ce8 = read(vault, paths["claude-env"])
+        check("13 invalid-markers-abort", "マーカーが欠落/重複/逆順" in r8.stdout
+              and "マーカー異常時の投入" not in ce8, r8.stdout)
+        with open(inbox_path, "w") as f:
+            f.write(good)  # 修復
+
+        # --- (14) 改ざん queue: 不正レコードは隔離・正常分は処理 ---
+        qdir = os.path.join(vault, "03_ClaudeEnv", "prompts", ".queue", host)
+        with open(os.path.join(qdir, TODAY + ".jsonl"), "a") as f:
+            f.write('{"event_id":"not-a-uuid","ts":"x","route":"a\\nb","prompt":1}\n')
+            f.write('{"event_id":"' + str(uuid.uuid4()) + '","ts":"' + TODAY
+                    + 'T14:00:00+09:00","route":"claude-env","prompt":"改ざん隣の正常レコード","held":false}\n')
+        r9 = run(env)
+        ce9 = read(vault, paths["claude-env"])
+        check("14 tampered-queue", "構造不正の queue レコード 1 件" in r9.stdout
+              and "改ざん隣の正常レコード" in ce9, r9.stdout)
+
         # --- (10) INBOX 消滅時はスキップ・台帳に載せず次回再試行 ---
-        write_receipts(state, [receipt("aiads", "消えたINBOX宛", ts_hm="11:00")])
+        n_led = len([l for l in open(os.path.join(state, "reflected-ledger.jsonl"))
+                     if l.strip()])
+        write_receipts(state, [receipt("aiads", "消えたINBOX宛", ts_hm="15:00")])
         os.unlink(os.path.join(vault, paths["aiads"]))
         r4 = run(env)
         ledger2 = open(os.path.join(state, "reflected-ledger.jsonl")).read()
         check("10 missing-inbox-retry", "WARN inbox missing" in r4.stdout
-              and len([l for l in ledger2.splitlines() if l.strip()]) == 6, r4.stdout)
+              and len([l for l in ledger2.splitlines() if l.strip()]) == n_led, r4.stdout)
 
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
