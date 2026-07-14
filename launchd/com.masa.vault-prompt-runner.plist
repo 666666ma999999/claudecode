@@ -9,13 +9,14 @@
     /bin/bash -lc で login profile (nvm PATH + ~/.zshrc secrets) をロード。
     ~/Documents (TCC 保護) への書込は bash 経路で回避。
 
-    【1系統統合 2026-06-16】毎週月曜 10:30 発火。bash -lc 内の DOM 判定で
-      第2月曜(dom 8-14) / 第4月曜(dom 22-28) → 隔週深掘り PDCA プロンプト
-                                               (Google + Meta の 2 本を順次実行・2026-07-14 Meta 追加)
-      それ以外の月曜               → 従来の軽量 ops-review プロンプト
-    を選択する (= 1 plist でモード切替)。
-    週番号式は prime_ad/scripts/drift_check_daily.sh:155-157 と同一 (SSoT 1本)。
-    時刻 10:30 = 集計ジョブ (09:00/09:30) 完了後の鮮度を担保。
+    【1系統統合 2026-06-16 / 経過日方式へ改修 2026-07-14】毎週月曜 10:30 発火。
+      前回深掘りから 12 日以上経過 → 隔週深掘り PDCA (Google + Meta の 2 本を順次実行)
+      12 日未満                    → 従来の軽量 ops-review プロンプト
+    旧 DOM(8-14/22-28) 判定は廃止: Mac がスリープで月曜を取り逃すと launchd の
+    catch-up が翌日以降の日付で走り、DOM 窓を外れて深掘りが丸ごと欠落する欠陥があった
+    (2026-07-14 敵対的レビュー S11)。経過日方式なら取り逃し翌週に自動リカバリ。
+    状態: ~/.claude/state/biweekly-last-deep (深掘り 2 本とも rc=0 の時だけ日付を記録
+    = 失敗時は翌週リトライ)。時刻 10:30 = 集計ジョブ (09:00/09:30) 完了後の鮮度を担保。
 
     ⚠️ このファイルはステージング (~/.claude/launchd/)。activate するには:
         cp ~/.claude/launchd/com.masa.vault-prompt-runner.plist ~/Library/LaunchAgents/
@@ -27,7 +28,7 @@
   <array>
     <string>/bin/bash</string>
     <string>-lc</string>
-    <string>dom=$(( 10#$(TZ=Asia/Tokyo date '+%d') )); D="/Users/masaaki_nagasawa/Documents/Obsidian Vault/02_Ai/AI_adscrm/AIads/prompts/scheduled"; R="/Users/masaaki_nagasawa/.claude/scripts/vault-prompt-runner.sh"; if { [ "$dom" -ge 8 ] &amp;&amp; [ "$dom" -le 14 ]; } || { [ "$dom" -ge 22 ] &amp;&amp; [ "$dom" -le 28 ]; }; then "$R" "$D/adscrm-biweekly-ads-pdca.md"; "$R" "$D/adscrm-biweekly-meta-pdca.md"; else "$R" "$D/adscrm-weekly-ops-review.md"; fi</string>
+    <string>D="/Users/masaaki_nagasawa/Documents/Obsidian Vault/02_Ai/AI_adscrm/AIads/prompts/scheduled"; R="/Users/masaaki_nagasawa/.claude/scripts/vault-prompt-runner.sh"; S="$HOME/.claude/state/biweekly-last-deep"; last=$(cat "$S" 2>/dev/null || echo 2000-01-01); le=$(date -j -f %Y-%m-%d "$last" +%s 2>/dev/null || echo 0); days=$(( ( $(date +%s) - le ) / 86400 )); if [ "$days" -ge 12 ]; then "$R" "$D/adscrm-biweekly-ads-pdca.md" &amp;&amp; "$R" "$D/adscrm-biweekly-meta-pdca.md" &amp;&amp; TZ=Asia/Tokyo date +%Y-%m-%d > "$S"; else "$R" "$D/adscrm-weekly-ops-review.md"; fi</string>
   </array>
   <key>WorkingDirectory</key>
   <string>/Users/masaaki_nagasawa/Desktop/prm/prime_suite/prime_ad</string>
