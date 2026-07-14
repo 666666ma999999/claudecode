@@ -37,6 +37,7 @@
 | 探索的分析の隔離・使い捨てスクリプト/中間データ管理・リサーチ worktree 運用・確定知見の昇格 | `research-isolation`（思想・型／全プロジェクト普遍）。具体は各 project の `docs/research-workflow.md` |
 | 調査の1枚台帳・research サマリー・調査まとめ・research ディレクトリ運用・調査ノート統合・「調査どこだっけ」 | `vault-research-ledger`（vault 側: 台帳 `_summary.md`・命名・重複統合。雛形正本=vault `templates/research-summary.md`。repo 側の隔離は `research-isolation`） |
 | ファクト台帳・自社ファクト/ローカルルールの保存・「どの数字が本当」「換算係数どこ」「正本はどれ」・確定した定義/閾値/裁定ルールを台帳へ | `vault-facts-ledger`（project ごと vault `<sub>-facts.md` 1枚・F#事実/R#裁定の2型・参照実装=AIads-facts。分析知見は finding-sync/key_findings へ・2026-07-14 新設） |
+| 🧾実行履歴の1件を📒記録へ昇格・「これを📒に転記して」・プロンプト履歴の清書 | skill 不要の手動運用: AI がその場で〈### 日付｜一言 ＋ いつ/なぜ/結果 ＋ 全文〉形式で該当 INBOX の 📒 へ転記（全文は 🧾 から複製・消さない）。仕組み全体 = `~/.claude/docs/prompt-history-design.md` |
 | task細分化/進捗/復帰 | `task-planner` / `task-progress` / `project-recall` |
 | SubAgent委譲判断 | `execution-patterns` |
 | ニュース収集・news JSONL確認 | `~/.claude/scripts/collect_news.py` + `.raw/news/YYYY-MM-DD.jsonl` |

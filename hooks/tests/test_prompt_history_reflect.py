@@ -234,6 +234,34 @@ def main():
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
+    # --- (15) 並び順 = 新しいものが上 (日付降順・日内降順・後の反映が上に積まれる) ---
+    tmp3 = tempfile.mkdtemp(prefix="phr-test3-")
+    try:
+        env3, state3, vault3, host3, paths3 = make_env(tmp3)
+        y = "2026-01-01"
+        old_line = json.dumps({"ts": f"{y}T09:00:00+09:00", "event_id": str(uuid.uuid4()),
+                               "host_uuid": "h", "session_id": "s", "cwd": "/x",
+                               "route": "claude-env", "prompt": "昔の件", "mask_hits": [],
+                               "held": False}, ensure_ascii=False) + "\n"
+        write_receipts(state3, [old_line,
+                                receipt("claude-env", "今日の朝", ts_hm="09:00"),
+                                receipt("claude-env", "今日の夜", ts_hm="21:00")])
+        run(env3)
+        ce = read(vault3, paths3["claude-env"])
+        i_today_new = ce.index("今日の夜")
+        i_today_old = ce.index("今日の朝")
+        i_past = ce.index("昔の件")
+        ok_order = i_today_new < i_today_old < i_past
+        # 2回目の反映が既存ブロックの上に積まれる
+        write_receipts(state3, [receipt("claude-env", "さらに後の件", ts_hm="22:00")])
+        run(env3)
+        ce2 = read(vault3, paths3["claude-env"])
+        ok_stack = ce2.index("さらに後の件") < ce2.index("今日の夜")
+        check("15 newest-first", ok_order and ok_stack,
+              "order=%s stack=%s" % (ok_order, ok_stack))
+    finally:
+        shutil.rmtree(tmp3, ignore_errors=True)
+
     print("\n%d passed, %d failed" % (PASS, FAIL))
     sys.exit(1 if FAIL else 0)
 

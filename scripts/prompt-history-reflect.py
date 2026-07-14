@@ -186,8 +186,8 @@ def ensure_section(text):
     if not text.endswith("\n"):
         text += "\n"
     text += (f"\n---\n\n{SECTION_HEADER}\n\n"
-             "> 自動記録（UserPromptSubmit hook → 日次反映）。手動の 📒 記録とは別管理・"
-             "編集しない。全文検索用。秘密値は捕捉時に伏字済み。\n\n"
+             "> ⚙️ **自動生成の生ログ**（新しい順・全数・秘密値伏字済み）。清書済みの正式記録は上の 📒 が正。"
+             "残す価値がある件は「これを 📒 に転記して」と言えば AI が〈いつ・なぜ・結果〉付きで昇格させる。\n\n"
              f"{BEGIN}\n{END}\n")
     return text, True
 
@@ -313,7 +313,8 @@ def reflect(cfg, host_uuid):
         block_lines = []
         ids_here = []
         repaired = []
-        for date in sorted(by_date):
+        # 並びは 📒 と同じ「新しいものが上」(日付降順・日内も新しい時刻が上・D案 2026-07-14)
+        for date in sorted(by_date, reverse=True):
             evs = []
             for r in by_date[date]:
                 if f"<!-- evt:{r['event_id']} -->" in orig:
@@ -322,7 +323,8 @@ def reflect(cfg, host_uuid):
                     evs.append(r)
             if not evs:
                 continue
-            block_lines.append(f"> [!note]- {date}（{len(evs)}件）\n")
+            evs.sort(key=lambda x: x.get("ts", ""), reverse=True)
+            block_lines.append(f"> [!note]- {date}（{len(evs)}件・自動記録）\n")
             for r in evs:
                 block_lines.extend(render_event(r))
                 ids_here.append(r["event_id"])
@@ -333,12 +335,12 @@ def reflect(cfg, host_uuid):
         if not block_lines:
             continue
 
-        # END マーカー行 (行全体一致) の直前へ挿入
+        # BEGIN マーカー行 (行全体一致) の直後へ挿入 = 新しい反映が常に上に積まれる (D案)
         m = find_markers(text)
         if m is None or m == "invalid":
             print(f"[reflect] WARN {os.path.basename(inbox)}: マーカー異常 — 書込み中止")
             continue
-        idx = m[1]
+        idx = text.index("\n", m[0]) + 1
         text = text[:idx] + "".join(block_lines) + text[idx:]
 
         # テスト用: 読込→置換の競合窓を意図的に広げる (Obsidian 同時編集テスト)
