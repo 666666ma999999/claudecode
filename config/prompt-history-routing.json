@@ -1,0 +1,41 @@
+{
+  "_comment": "prompt-history の cwd→route 振り分け表。route 名 = routes キー。パスは ~ 相対 (両Macのユーザー名差を吸収)。最長プレフィクス一致。未登録 cwd は unrouted:<cwd> として受領票に記録されるので、ソーク中に増えた unrouted を見てここに追記する。SSoT: docs/prompt-history-design.md",
+  "routes": {
+    "claude-env": "03_ClaudeEnv/prompts/ClaudeEnv_INBOX.md",
+    "general": "00_General/prompts/General_INBOX.md",
+    "influx": "02_Ai/influx/prompts/influx_INBOX.md",
+    "autopost": "02_Ai/autopost/prompts/autopost_INBOX.md",
+    "make_article": "02_Ai/make_article/prompts/make_article_INBOX.md",
+    "pokeca-invest": "02_Ai/pokeca-invest/prompts/pokeca-invest_INBOX.md",
+    "chacha": "02_Ai/Prm/prompts/AiPrmChacha_INBOX.md",
+    "vivecording": "02_Ai/Prm/vivecording/prompts/AiPrmVivecording_INBOX.md",
+    "rohan": "02_Ai/rohan/prompts/rohan_INBOX.md",
+    "monemone": "02_Ai/monemone/prompts/monemone_INBOX.md",
+    "bunshin": "02_Ai/bunshin/prompts/bunshin_INBOX.md",
+    "totty": "02_Ai/totty/prompts/totty_INBOX.md",
+    "uranai": "02_Ai/Uranai/prompts/Uranai_INBOX.md",
+    "report": "02_Ai/ai_dashboard/prompts/report_INBOX.md",
+    "aiads": "02_Ai/AI_adscrm/AIads/prompts/AIads_INBOX.md",
+    "aicrm": "02_Ai/AI_adscrm/AIcrm/prompts/AIcrm_INBOX.md"
+  },
+  "exclude_cwd_prefixes": [
+    "~/.claude-mem"
+  ],
+  "cwd_prefixes": {
+    "~/.claude": "claude-env",
+    "~/Desktop/biz/influx": "influx",
+    "~/Desktop/prm/influx": "influx",
+    "~/Desktop/biz/autopost": "autopost",
+    "~/Desktop/prm/autopost": "autopost",
+    "~/Desktop/biz/make_article": "make_article",
+    "~/Desktop/biz/pokeca-invest": "pokeca-invest",
+    "~/Desktop/biz/chacha": "chacha",
+    "~/Desktop/prm/rohan": "rohan",
+    "~/Documents/Obsidian Vault": "general",
+    "~/Documents/Obsidian Vault/03_ClaudeEnv": "claude-env",
+    "~/Documents/Obsidian Vault/02_Ai/bunshin": "bunshin",
+    "~/Documents/Obsidian Vault/02_Ai/monemone": "monemone",
+    "~/Documents/Obsidian Vault/02_Ai/totty": "totty",
+    "~/Documents/Obsidian Vault/02_Ai/Uranai": "uranai"
+  }
+}
