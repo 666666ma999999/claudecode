@@ -290,6 +290,7 @@ def main():
         with open(receipt_file, "a") as f:
             f.write(line)
             f.flush()
+            os.fsync(f.fileno())  # 電源断で直近の受領票を失わない (恒久性レビュー P2)
         os.chmod(receipt_file, 0o600)
     finally:
         try:

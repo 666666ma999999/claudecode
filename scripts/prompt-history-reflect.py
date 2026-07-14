@@ -15,6 +15,7 @@ import fcntl
 import json
 import os
 import re
+import subprocess
 import sys
 import tempfile
 from datetime import datetime, timedelta
@@ -107,9 +108,12 @@ def transfer(cfg, host_uuid):
     with open(os.path.join(qdir, "heartbeat"), "w") as f:
         f.write(datetime.now().astimezone().isoformat(timespec="seconds") + "\n")
 
-    # 転送済み + 30 日超の受領票を purge (queue=vault git が耐久正本になった後のみ)
+    # 転送済み + 30 日超の受領票を purge。ただし削除は「対応する queue ファイルが
+    # GitHub に push 済み (= 2台目にも届く耐久保存になった)」を確認してからのみ。
+    # 未 push・git 不在・確認不能は保持側に倒す (データ喪失ゼロ・Codex/Fable5 P0)。
     cutoff = (datetime.now() - timedelta(days=RECEIPT_RETENTION_DAYS)).strftime("%Y-%m-%d")
     purged = 0
+    held_unpushed = 0
     for name in list(cursor.keys()):
         if name[:10] < cutoff:
             src = os.path.join(receipts_dir, name)
@@ -117,15 +121,45 @@ def transfer(cfg, host_uuid):
                 with open(src) as f:
                     n_lines = len(f.readlines())
                 if cursor.get(name, 0) >= n_lines:
-                    os.unlink(src)
-                    for suf in (".lock",):
+                    qfile = os.path.join(qdir, name)
+                    if queue_file_pushed(cfg, qfile):
+                        os.unlink(src)
                         try:
-                            os.unlink(src + suf)
+                            os.unlink(src + ".lock")
                         except FileNotFoundError:
                             pass
-                    purged += 1
-    print(f"[transfer] host={host_uuid[:8]} moved={moved} purged={purged}")
+                        purged += 1
+                    else:
+                        held_unpushed += 1
+    extra = f" held_unpushed={held_unpushed}" if held_unpushed else ""
+    print(f"[transfer] host={host_uuid[:8]} moved={moved} purged={purged}{extra}")
     return moved
+
+
+def queue_file_pushed(cfg, qfile):
+    """qfile が vault の git remote に push 済みか。確認できない時は False (=保持=安全側)。"""
+    vroot = vault_root(cfg)
+    try:
+        inside = subprocess.run(
+            ["git", "-C", vroot, "rev-parse", "--is-inside-work-tree"],
+            capture_output=True, text=True, timeout=10)
+        if inside.returncode != 0 or inside.stdout.strip() != "true":
+            return False  # 非 git vault (worktree/.git ファイル含む): 消さない
+        rel = os.path.relpath(qfile, vroot)
+        # 追跡されていて、かつ upstream に到達済みのコミットに含まれるか
+        r = subprocess.run(
+            ["git", "-C", vroot, "log", "-1", "--format=%H", "@{u}", "--", rel],
+            capture_output=True, text=True, timeout=10)
+        if r.returncode != 0 or not r.stdout.strip():
+            return False  # upstream 未設定 or push 済みコミットに未登場
+        # ローカル作業ツリーの現在内容が、その push 済みコミットと一致するか
+        # (push 後にローカルで追記されていれば未 push 分があるので保持)
+        diff = subprocess.run(
+            ["git", "-C", vroot, "diff", "--quiet", "@{u}", "--", rel],
+            capture_output=True, timeout=10)
+        return diff.returncode == 0
+    except Exception:
+        return False
 
 
 # ---------- Step B: queue → INBOX 反映 (writer のみ) ----------
@@ -227,9 +261,10 @@ def reflect(cfg, host_uuid):
     except FileNotFoundError:
         pass
 
-    # 全ホストの queue を読む
+    # 全ホストの queue を読む。1 ファイルが読めなくても (権限/破損) 全体を止めない
     events = []
     invalid = 0
+    unreadable = 0
     for host in sorted(os.listdir(qroot)) if os.path.isdir(qroot) else []:
         hdir = os.path.join(qroot, host)
         if not os.path.isdir(hdir):
@@ -237,7 +272,12 @@ def reflect(cfg, host_uuid):
         for name in sorted(os.listdir(hdir)):
             if not re.fullmatch(r"\d{4}-\d{2}-\d{2}\.jsonl", name):
                 continue
-            with open(os.path.join(hdir, name)) as f:
+            try:
+                fh = open(os.path.join(hdir, name))
+            except Exception:
+                unreadable += 1
+                continue
+            with fh as f:
                 for line in f:
                     line = line.strip()
                     if not line:
@@ -255,6 +295,8 @@ def reflect(cfg, host_uuid):
 
     if invalid:
         print(f"[reflect] WARN 構造不正の queue レコード {invalid} 件を隔離 (未処理)")
+    if unreadable:
+        print(f"[reflect] WARN 読めない queue ファイル {unreadable} 件をスキップ (権限/破損)")
 
     # dedupe (queue 二重転送耐性) + 時刻順
     seen = set()
@@ -410,6 +452,122 @@ def _stamp_local_success():
         pass
 
 
+def reconcile(cfg, host_uuid):
+    """end-to-end 照合: 捕捉した全 event_id (queue 全ホスト + ローカル receipts) が
+    INBOX に反映されたかを突き合わせ、未反映の内訳を reconcile-status.json に書く。
+    拾えるサイレント欠落: queue→INBOX 反映失敗・1枚停止・パス改名・receipt→queue 転送失敗。
+    拾えないもの: capture hook 完全停止 (未来の receipt が無いこと自体は件数照合では見えない)。
+    writer 機のみが全 INBOX を見られるので writer が実施する。"""
+    if cfg.get("writer_host_uuid") != host_uuid:
+        return
+    routes = cfg.get("routes", {})
+
+    def dest_key(route):
+        """反映先 INBOX の key。reflect 本体の grouping と同一 (re_resolve → routes 判定)。"""
+        resolved = re_resolve_route(cfg, route)
+        return resolved if resolved in routes else "general"
+
+    scan_failures = []
+
+    def scan_events(fp):
+        """1 jsonl から (event_id, dest_key) を yield。ファイル open 失敗は scan_failures に記録
+        (照合の母集団が欠けた状態を scan_ok=False として surface する・Codex 指摘)。"""
+        try:
+            fh = open(fp)
+        except Exception:
+            scan_failures.append(fp)
+            return
+        with fh as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    r = json.loads(line)
+                except Exception:
+                    continue
+                if valid_record(r):
+                    yield r["event_id"], dest_key(r.get("route", ""))
+
+    qroot = queue_root(cfg)
+    captured = {}  # event_id -> dest_key (queue 全ホスト + ローカル未転送 receipts)
+    for host in sorted(os.listdir(qroot)) if os.path.isdir(qroot) else []:
+        hdir = os.path.join(qroot, host)
+        if not os.path.isdir(hdir):
+            continue
+        for name in sorted(os.listdir(hdir)):
+            if re.fullmatch(r"\d{4}-\d{2}-\d{2}\.jsonl", name):
+                for eid, k in scan_events(os.path.join(hdir, name)):
+                    captured[eid] = k
+    # ローカル未転送 receipts も母集団へ (receipt→queue の欠落=転送失敗も検知・Codex 指摘)
+    rdir = os.path.join(BASE, "receipts")
+    for name in sorted(os.listdir(rdir)) if os.path.isdir(rdir) else []:
+        if re.fullmatch(r"\d{4}-\d{2}-\d{2}\.jsonl", name):
+            for eid, k in scan_events(os.path.join(rdir, name)):
+                captured.setdefault(eid, k)
+
+    # 反映済み = 全 INBOX の <!-- evt:ID --> 実数
+    reflected = set()
+    vroot = vault_root(cfg)
+    for rel in routes.values():
+        inbox = os.path.join(vroot, rel)
+        if os.path.exists(inbox):
+            try:
+                with open(inbox, encoding="utf-8") as f:
+                    for m in re.finditer(r"<!-- evt:([0-9a-f-]{36}) -->", f.read()):
+                        reflected.add(m.group(1))
+            except Exception:
+                scan_failures.append(inbox)
+
+    missing = [eid for eid in captured if eid not in reflected]
+    matched = sum(1 for eid in captured if eid in reflected)
+    # route 別の未反映内訳 + INBOX の実在チェック (パス改名検知)
+    by_route = {}
+    for eid in missing:
+        by_route[captured[eid]] = by_route.get(captured[eid], 0) + 1
+    missing_inboxes = [k for k in by_route
+                       if k not in routes or not os.path.exists(os.path.join(vroot, routes[k]))]
+
+    status = {
+        "ts": datetime.now().astimezone().isoformat(timespec="seconds"),
+        "captured_total": len(captured),      # queue + ローカル receipts の unique event_id
+        "matched_total": matched,             # captured のうち INBOX に載っている数
+        "reflected_total": len(reflected),    # INBOX の全アンカー (過去分含む・比較には matched を使う)
+        "unreflected": len(missing),
+        "scan_ok": not scan_failures,
+        "by_route": dict(sorted(by_route.items(), key=lambda x: -x[1])),
+        "missing_or_renamed_inboxes": missing_inboxes,
+    }
+    try:
+        p = os.path.join(BASE, "reconcile-status.json")
+        tmp = p + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(status, f, ensure_ascii=False, indent=2)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp, p)
+    except Exception:
+        pass
+    if missing:
+        print(f"[reconcile] 未反映 {len(missing)} 件 / 捕捉 {len(captured)} · 反映 {len(reflected)}"
+              + (f" · INBOX不明 {missing_inboxes}" if missing_inboxes else ""))
+    else:
+        print(f"[reconcile] 全 {len(captured)} 件 反映済み")
+
+
+def re_resolve_route(cfg, route):
+    """reconcile 用: unrouted:<cwd> を住所録で解決 (reflect の re_resolve と同ロジック)。"""
+    if not route.startswith("unrouted:"):
+        return route
+    p = route[len("unrouted:"):]
+    best = None
+    for prefix, name in cfg.get("cwd_prefixes", {}).items():
+        if p == prefix or p.startswith(prefix.rstrip("/") + "/"):
+            if best is None or len(prefix) > len(best[0]):
+                best = (prefix, name)
+    return best[1] if best else "general"
+
+
 def main():
     os.umask(0o077)
     os.makedirs(BASE, exist_ok=True)
@@ -428,6 +586,7 @@ def main():
         return 1
     transfer(cfg, host_uuid)
     reflect(cfg, host_uuid)
+    reconcile(cfg, host_uuid)
     _stamp_local_success()
     return 0
 

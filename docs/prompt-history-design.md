@@ -70,6 +70,18 @@ INBOX 側の形（Phase 2 実装時）:
 - **cwd ベースの捕捉除外**（`exclude_cwd_prefixes`・claude-mem observer）は厳密な「ユーザー投稿」判定ではない: `~/.claude-mem` 内で人間が打てば除外され、observer が別 cwd で動けば捕捉される。現運用のノイズ除去として許容
 - **サイズ上限 200KB（UTF-8 バイト）超**は held:true（本文は transcript のみ）
 
+## Phase 3（実装済み 2026-07-14）— 恒久性の穴を塞ぐ
+
+Fable5×Codex 敵対レビュー（一次＋クロス2巡）で実コード確認された「データ喪失2経路＋監視の穴」に対応。
+
+1. **purge の push 確認ゲート** (`reflect.py` `queue_file_pushed`): 受領票は「vault queue が git remote に push 済み（`git log @{u}` に登場＋`git diff @{u}` クリーン）」を確認してからのみ削除。未push・git不在・確認不能は保持（データ喪失ゼロ）
+2. **受領票 fsync** (`userpromptsubmit-prompt-history.py`): 電源断で直近を失わない
+3. **reconcile** (`reflect.py` `reconcile`): 毎回 writer が「捕捉した event_id（queue 全ホスト **＋ writer 機のローカル未転送 receipts**）のうち INBOX に載った数（matched）」を照合し `state/prompt-history/reconcile-status.json` へ（`captured_total`/`matched_total`/`unreflected`/route別内訳/INBOX 改名検知）。これで **queue→INBOX の反映失敗・1枚停止・パス改名、および receipt→queue の転送失敗**を可視化。`scan_ok=false` は母集団ファイルの読取り失敗（照合が不完全）を示す。**既知の限界**: capture hook が完全停止して receipt がそもそも生成されない状態は reconcile では検知できない（未来の受領票が無いことは件数照合では見えない）。現行の SessionStart 警告は「writer-last-success 不在時に古い受領票が 48h 滞留」しか見ないため、この完全停止は未カバー（今後の課題として design に明記）。
+4. **SessionStart 警告の強化** (`sessionstart-*.sh`): reconcile 未反映 ≥20 件で具体警告／writer 不在・3日更新なしで引き継ぎ案内／stale 警告を二択手順（①writer機で起動 ②Obsidian同期確認）に
+5. writer 引き継ぎは半自動（案内＋設定1行差し替え。完全自動選出はスプリットブレイン risk で不採用）
+- テスト: `hooks/tests/test_prompt_history_durability.py` 13件（push未確認保持/commit未push保持/push後purge/git不在保持/upstream無し保持/reconcile一致/改名検知/receipt-only検知/held計上/scan_ok=false/警告文/引き継ぎ案内/writer健在時は案内なし）
+- **スコープ外（レビューで一段下と裁定）**: queue/ログ肥大の自動ローテ（警告のみ）・TOCTOU 完全排除・cursor ハッシュ化・launchd 併用（両レビュー一致で不要）
+
 ## レビューで否決した案（再提案しない）
 
 - 全文 JSONL を新たな恒久正本にする（transcript と二重正本になる）

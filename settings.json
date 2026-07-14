@@ -430,7 +430,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "(~/.claude/hooks/sessionstart-prompt-history-reflect.sh) 2>&1 | head -5",
+            "command": "(~/.claude/hooks/sessionstart-prompt-history-reflect.sh) 2>&1 | head -14",
             "timeout": 10
           }
         ]
