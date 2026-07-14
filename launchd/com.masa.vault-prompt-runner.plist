@@ -11,8 +11,9 @@
 
     【1系統統合 2026-06-16】毎週月曜 10:30 発火。bash -lc 内の DOM 判定で
       第2月曜(dom 8-14) / 第4月曜(dom 22-28) → 隔週深掘り PDCA プロンプト
+                                               (Google + Meta の 2 本を順次実行・2026-07-14 Meta 追加)
       それ以外の月曜               → 従来の軽量 ops-review プロンプト
-    を選択する (= 1 plist でモード切替・レポートは常に1枚)。
+    を選択する (= 1 plist でモード切替)。
     週番号式は prime_ad/scripts/drift_check_daily.sh:155-157 と同一 (SSoT 1本)。
     時刻 10:30 = 集計ジョブ (09:00/09:30) 完了後の鮮度を担保。
 
@@ -26,7 +27,7 @@
   <array>
     <string>/bin/bash</string>
     <string>-lc</string>
-    <string>dom=$(( 10#$(TZ=Asia/Tokyo date '+%d') )); if { [ "$dom" -ge 8 ] &amp;&amp; [ "$dom" -le 14 ]; } || { [ "$dom" -ge 22 ] &amp;&amp; [ "$dom" -le 28 ]; }; then P="/Users/masaaki_nagasawa/Documents/Obsidian Vault/02_Ai/AI_adscrm/AIads/prompts/scheduled/adscrm-biweekly-ads-pdca.md"; else P="/Users/masaaki_nagasawa/Documents/Obsidian Vault/02_Ai/AI_adscrm/AIads/prompts/scheduled/adscrm-weekly-ops-review.md"; fi; /Users/masaaki_nagasawa/.claude/scripts/vault-prompt-runner.sh "$P"</string>
+    <string>dom=$(( 10#$(TZ=Asia/Tokyo date '+%d') )); D="/Users/masaaki_nagasawa/Documents/Obsidian Vault/02_Ai/AI_adscrm/AIads/prompts/scheduled"; R="/Users/masaaki_nagasawa/.claude/scripts/vault-prompt-runner.sh"; if { [ "$dom" -ge 8 ] &amp;&amp; [ "$dom" -le 14 ]; } || { [ "$dom" -ge 22 ] &amp;&amp; [ "$dom" -le 28 ]; }; then "$R" "$D/adscrm-biweekly-ads-pdca.md"; "$R" "$D/adscrm-biweekly-meta-pdca.md"; else "$R" "$D/adscrm-weekly-ops-review.md"; fi</string>
   </array>
   <key>WorkingDirectory</key>
   <string>/Users/masaaki_nagasawa/Desktop/prm/prime_suite/prime_ad</string>
