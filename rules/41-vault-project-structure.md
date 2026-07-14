@@ -47,6 +47,8 @@ paths:
 - **例外: implementation-notes** = vault `02_Ai/<group>/<project>-impl-notes.md` が意思決定ログの唯一の正本（テンプレ `~/.claude/templates/impl-notes.md`）
 - **例外: research 台帳** = 採用済み `research/` の `_summary.md` が調査台帳の vault 正本（research/ 配下限定・MOC は入口導線のみ・知見本文の二重記載禁止・リンクは path-qualified 必須。運用正本 = skill `vault-research-ledger`・2026-07-10）
 - **同期義務（必須）**: repo の施策状態・優先順位・KPI を変更したセッションでは**同セッション内で** vault MOC も更新し `last_updated` を当日に（hook `vault-moc-sync-guard.sh`）。禁止基準・Red Flags 全表→ detail
+- **出口ルール（退役・2026-07-14 追加）**: 生成物 md には「出口」を用意する。①後継に置き換わった ②本文が自ら superseded と認めた ③特定時点の一発物、のいずれかになった md は放置せず退場させる: 後継あり → `_archive/`（後継への `[[リンク]]` を本文冒頭に1行付す）／ 時点レポート → `reports/`（dated・凍結）。トップ直下・サブ直下には living（playbook / guide / 司令塔 / 現役 task）だけを残す。判定軸は `type` でなく「後継に置き換わったか」。退場時は inbound リンクを張替え/除去し dead link を残さない
+- **重要数値の再導出禁止（2026-07-14 追加）**: 母数・単価・換算係数など判断を左右する数値は各レポートで独自に再計算して埋め込まない。正本を 1 つ（原則 repo 側）に定め各所はそこを参照する（同じ数字が複数ファイルで食い違う＝ドリフト事故の主因。実例: LINE 配信母数 835 / 1,969 / 約 9,850 が並存し正誤不能になった）
 
 ## 検証 / 更新フロー
 
