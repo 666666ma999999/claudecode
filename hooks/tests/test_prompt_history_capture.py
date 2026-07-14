@@ -200,6 +200,82 @@ def main():
         check("14c exclude-claude-mem", n_after == n_before,
               "excluded prompt was recorded")
 
+        # (16) 短い秘密・数値PIN・引用符内空白 (Codex NO-GO 再現形状)
+        r = run_hook('password: abc\nPIN_PASSWORD=123456\nPORT=8000\n'
+                     'password: "correct horse battery staple"', home)
+        txt = file_text(home)
+        rec, _ = last_record(home)
+        check("16 short+quoted-secrets",
+              ": abc" not in rec["prompt"] and "123456" not in rec["prompt"]
+              and "correct horse battery staple" not in txt
+              and "PORT=8000" in rec["prompt"], repr(rec["prompt"]))
+
+        # (17) 成功経路の stdout/stderr 無出力 + event_id/host_uuid が有効 UUIDv4
+        import uuid as _uuid
+        r = run_hook("stdout check", home)
+        rec, _ = last_record(home)
+        ok_uuid = True
+        try:
+            ok_uuid = (_uuid.UUID(rec["event_id"]).version == 4
+                       and _uuid.UUID(rec["host_uuid"]).version == 4)
+        except Exception:
+            ok_uuid = False
+        check("17 silent+uuidv4", r.stdout == "" and r.stderr == "" and ok_uuid,
+              "stdout=%r uuid_ok=%s" % (r.stdout, ok_uuid))
+
+        # (18) 200KB 超プロンプト → held:true・本文なし
+        big = "A" * 200_001 + " CANARY_BIG_zz17"
+        r = run_hook(big, home)
+        rec, _ = last_record(home)
+        check("18 oversize-held", rec["held"] is True and rec["prompt"] is None
+              and "CANARY_BIG_zz17" not in file_text(home), repr(rec)[:80])
+
+        # (19) config 破損でも捕捉は続行 (unrouted)
+        cfg_file = os.path.join(home, ".claude", "config", "prompt-history-routing.json")
+        with open(cfg_file, "w") as f:
+            f.write("{broken json")
+        r = run_hook("broken config check", home, cwd="/tmp")
+        rec, _ = last_record(home)
+        check("19 broken-config", r.returncode == 0 and rec["route"].startswith("unrouted:"),
+              repr(rec["route"]))
+
+        # (20) host_uuid 初回並行生成 → 全受領票が同一 UUID (専用 flock で直列化)
+        home2 = tempfile.mkdtemp(prefix="ph-test2-")
+        try:
+            procs = []
+            for i in range(10):
+                payload = json.dumps({"session_id": "init-%d" % i, "cwd": "/tmp",
+                                      "prompt": "init race %d" % i})
+                env = dict(os.environ); env["HOME"] = home2
+                procs.append(subprocess.Popen([sys.executable, "-I", HOOK],
+                                              stdin=subprocess.PIPE, env=env, text=True))
+                procs[-1].stdin.write(payload); procs[-1].stdin.close()
+            for pr in procs:
+                pr.wait(timeout=15)
+            with open(receipt_path(home2)) as f:
+                uuids = {json.loads(l)["host_uuid"] for l in f if l.strip()}
+            with open(os.path.join(home2, ".claude", "state", "prompt-history",
+                                   "host-uuid")) as f:
+                file_uuid = f.read().strip()
+            check("20 host-uuid-race", len(uuids) == 1 and uuids == {file_uuid},
+                  "uuids=%s file=%s" % (uuids, file_uuid))
+        finally:
+            shutil.rmtree(home2, ignore_errors=True)
+
+        # (20b) 空/不正な host-uuid ファイル残骸 → ロック下で有効 UUIDv4 に再生成
+        hu = os.path.join(home, ".claude", "state", "prompt-history", "host-uuid")
+        with open(hu, "w") as f:
+            f.write("")
+        run_hook("empty host-uuid recovery", home)
+        with open(hu) as f:
+            v = f.read().strip()
+        try:
+            ok = _uuid.UUID(v).version == 4
+        except Exception:
+            ok = False
+        rec, _ = last_record(home)
+        check("20b empty-hostuuid-recovery", ok and rec["host_uuid"] == v, repr(v))
+
         # (15) パーミッション 0600
         mode = oct(os.stat(receipt_path(home)).st_mode & 0o777)
         check("15 perm-0600", mode == "0o600", mode)

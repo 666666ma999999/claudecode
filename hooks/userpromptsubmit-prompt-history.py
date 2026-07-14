@@ -66,21 +66,27 @@ def mask_secrets(text):
     )
 
     # --- 層2: 汎用 key=value / .env 形式 (値部のみ伏字・キーは残す) ---
+    # 値は引用符囲み (空白含む全体) or 非空白連。長さ下限なし (短い秘密も伏字・Codex NO-GO 対応)
     sub(
         r"(?i)((?:\b(?:password|passwd|pwd|secret|token|api[_-]?key|apikey|"
         r"access[_-]?key|client[_-]?secret|private[_-]?key|credentials?)"
         r"[A-Za-z0-9_-]*|パスワード|APIキー|認証トークン|秘密鍵)"
-        r"[ \t]*[:=：][ \t]*[\"']?)([^\s\"',;、。]{4,})",
+        r"[ \t]*[:=：][ \t]*)(\"[^\"\n]+\"|'[^'\n]+'|[^\s\"',;、。]+)",
         "CREDENTIAL",
         repl=r"\1" + REDACTED % "CREDENTIAL",
     )
-    # .env 形式行 (大文字 KEY=値)。値が 8 字未満 or 明白な非秘密 (true/false/数値) は残す
+    # .env 形式行 (大文字 KEY=値)。非秘密キー (許可リスト) の bool/数値のみ残す。
+    # 長さ下限なし: PIN_PASSWORD=123456 等の短い秘密も伏字 (Codex NO-GO 対応)
+    NONSECRET_KEY = r"(?:PORT|DEBUG|TIMEOUT|RETRY|RETRIES|WORKERS|VERBOSE|LOG_LEVEL|LANG|LC_ALL|TZ|NODE_ENV|ENV|MODE|VERSION|LIMIT|MAX|MIN)[A-Z0-9_]*"
+
     def env_repl(m):
-        val = m.group(2)
-        if len(val) < 8 or val.lower() in ("true", "false") or val.isdigit():
+        key, val = m.group(1), m.group(2)
+        if val.lower() in ("true", "false") or (
+            val.isdigit() and _re.fullmatch(NONSECRET_KEY + "=", key)
+        ):
             return m.group(0)
         hits.append("ENV_VALUE")
-        return m.group(1) + REDACTED % "ENV_VALUE"
+        return key + REDACTED % "ENV_VALUE"
 
     import re as _re
 
@@ -198,17 +204,37 @@ def main():
     receipts_dir = os.path.join(base, "receipts")
     os.makedirs(receipts_dir, exist_ok=True)
 
-    # host_uuid: 初回生成しローカル保存 (hostname 不使用)
+    # host_uuid: 初回生成しローカル保存 (hostname 不使用)。
+    # 読取り/生成の全体を専用 flock で覆い単一 UUID を決定的に保証 (Codex 再指摘対応)。
+    # 空/不正ファイルが残っていてもロック下で再生成される
     host_uuid_path = os.path.join(base, "host-uuid")
-    try:
-        with open(host_uuid_path) as f:
-            host_uuid = f.read().strip()
-        if not host_uuid:
-            raise ValueError
-    except Exception:
-        host_uuid = str(uuid.uuid4())
-        with open(host_uuid_path, "w") as f:
-            f.write(host_uuid + "\n")
+
+    def _read_valid_uuid():
+        try:
+            with open(host_uuid_path) as f:
+                v = f.read().strip()
+            return str(uuid.UUID(v))
+        except Exception:
+            return None
+
+    host_uuid = _read_valid_uuid()
+    if not host_uuid:
+        hl_fd = os.open(host_uuid_path + ".lock", os.O_CREAT | os.O_RDWR, 0o600)
+        try:
+            fcntl.flock(hl_fd, fcntl.LOCK_EX)
+            host_uuid = _read_valid_uuid()
+            if not host_uuid:
+                host_uuid = str(uuid.uuid4())
+                with open(host_uuid_path, "w") as f:
+                    f.write(host_uuid + "\n")
+                    f.flush()
+                    os.fsync(f.fileno())
+        finally:
+            try:
+                fcntl.flock(hl_fd, fcntl.LOCK_UN)
+            except Exception:
+                pass
+            os.close(hl_fd)
 
     config_path = os.path.join(home, ".claude", "config", "prompt-history-routing.json")
 
@@ -232,10 +258,13 @@ def main():
     if record["route"] == "__excluded__":
         return
 
-    # マスキング。例外時は held:true・本文なし (生文を絶対に出さない)
+    # マスキング。例外・サイズ超過時は held:true・本文なし (生文を絶対に出さない)
+    # 上限 200KB: 巨大貼付での timeout/メモリ圧迫を防ぐ。原文は transcript に残る (Codex 指摘)
     try:
         if os.environ.get("PROMPT_HISTORY_FORCE_MASK_ERROR") == "1":
             raise RuntimeError("forced mask error (test)")
+        if len(prompt.encode("utf-8", errors="replace")) > 200_000:
+            raise ValueError("oversize prompt")
         masked, hits = mask_secrets(prompt)
         record["prompt"] = masked
         record["mask_hits"] = hits
@@ -243,9 +272,11 @@ def main():
         record["held"] = True
         record["prompt"] = None
         try:
+            # 例外の型名のみ記録 (メッセージは入力断片を含みうるため書かない・Codex 指摘)
             with open(os.path.join(base, "capture-warnings.log"), "a") as w:
-                w.write("%s mask-error event_id=%s session=%s: %r\n"
-                        % (record["ts"], record["event_id"], session_id, e))
+                w.write("%s mask-error event_id=%s session=%s type=%s\n"
+                        % (record["ts"], record["event_id"], session_id,
+                           e.__class__.__name__))
         except Exception:
             pass
 

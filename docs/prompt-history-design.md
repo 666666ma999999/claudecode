@@ -55,6 +55,12 @@ INBOX 側の形（Phase 2 実装時）:
 - 日別 `> [!note]- YYYY-MM-DD（N件）` callout。各件 = ts+session 短縮 ID の行 + 動的長フェンス（本文中の最長バッククォート連より長い）で全文
 - 挿入は end マーカー直前へ append（📒 記録の「新しいものを上」とは独立・見出しリネーム耐性）
 
+## 既知の制限（Codex コードレビュー 3巡 GO の許容条件・2026-07-14）
+
+- **非 UTF-8 stdin**: fail-open で受領票を残さない（安全側。原文は transcript にも残らない可能性があるが、Claude Code の hook 入力は実運用上 UTF-8）
+- **cwd ベースの捕捉除外**（`exclude_cwd_prefixes`・claude-mem observer）は厳密な「ユーザー投稿」判定ではない: `~/.claude-mem` 内で人間が打てば除外され、observer が別 cwd で動けば捕捉される。現運用のノイズ除去として許容
+- **サイズ上限 200KB（UTF-8 バイト）超**は held:true（本文は transcript のみ）
+
 ## レビューで否決した案（再提案しない）
 
 - 全文 JSONL を新たな恒久正本にする（transcript と二重正本になる）
