@@ -252,7 +252,7 @@ if [ "$QGATE" = "action-evidence" ]; then
     notify "⚠️ 品質ゲート SKIPPED: gate script 不在 ($SLUG) — ~/.claude を git pull"
   elif ! GATE_OUT="$(/usr/bin/python3 "$GATE_PY" --annotate "$OUT_MD" 2>>"$LOG")"; then
     echo "=== [$(date -Iseconds)] quality-gate NG: ${GATE_OUT:0:300} ===" >> "$LOG"
-    notify "🚦品質ゲートNG: $SLUG（なぜ/理由資料の欠落）"
+    notify "🚦品質ゲートNG: ${SLUG}（なぜ/理由資料の欠落）"
   elif printf '%s' "$GATE_OUT" | grep -q '"gate_status": *"error"'; then
     # fail-open (exit 0) と fail-silent の分離: gate 自身の故障を OK と偽装しない
     echo "=== [$(date -Iseconds)] quality-gate ERROR (fail-open・gate自身の故障): ${GATE_OUT:0:300} ===" >> "$LOG"

@@ -803,6 +803,16 @@
             "timeout": 5
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/userpromptsubmit-prompt-history.py",
+            "timeout": 5
+          }
+        ]
       }
     ],
     "SubagentStop": [
@@ -872,5 +882,6 @@
     "environment": [
       "macOS darwin23, cwd主に ~/Desktop/biz 配下, Docker開発環境"
     ]
-  }
+  },
+  "model": "claude-fable-5[1m]"
 }
