@@ -18,12 +18,12 @@
 | 行き詰まり・stuck引渡 | `/rescue` |
 | リファクタ戦略/安全性 | `refactoring-guide` / `refactoring-safety` |
 | テスト失敗・TDD | `test-fixing` |
-| 全機能棚卸し→全数テスト→修正→全数再テストの回帰ループ・ユーザーストーリー台帳 | `story-test-loop`(`/story-test-loop`・全プロダクト共通) |
+| 全機能棚卸し→全数テスト→修正→全数再テストの回帰ループ・ユーザーストーリー台帳 | `story-test-loop`(`/story-test-loop`) |
 | セキュリティ監査 | `security-twin-audit` |
 | git commit/push/事故 | `git-safety-reference` |
 | .mcp.json/APIキー | `secret-management` |
-| Obsidian NOW→DONE/`/done` | `/done` コマンド（自己完結・skill は _dormant）。NOW/DONE ボード新設は雛形 `templates/now-done.md` をコピー（汎用・全 project 共通・2026-06-16〜） |
-| vault にレポート/分析/findings を綺麗に整形・清書・報告書化・経営層1-pager/ダッシュボード化・**毎日見る運用司令塔/現状診断ボード/command-center/横断ダッシュボードを full で設計**・スクショ映え | `vault-report-writing`（設計担当・構文は `obsidian-markdown` に委譲。司令塔 skeleton=**vault** `templates/cockpit-report.md`（正本・2026-07-06移設。repo側はstub）） |
+| Obsidian NOW→DONE/`/done` | `/done` コマンド（自己完結）。ボード新設は雛形 `templates/now-done.md` をコピー |
+| vault にレポート/分析/findings を綺麗に整形・清書・報告書化・経営層1-pager/ダッシュボード化・**毎日見る運用司令塔/現状診断ボード/command-center/横断ダッシュボードを full で設計**・スクショ映え | `vault-report-writing`（設計担当・構文→`obsidian-markdown`。司令塔 skeleton=vault `templates/cockpit-report.md`） |
 | アーキ判断・設計決定の記録 | `/save decision` → `wiki/meta/decisions.md` |
 | 失敗パターン・教訓・再発防止 | `/save mistake` → `wiki/meta/mistakes.md`（de-dup、2 回目以降は既存統合） |
 | 過去ノートの誤記訂正 | `rules/40-obsidian.md §訂正プロトコル` |
@@ -31,28 +31,28 @@
 | Web リサーチ | `~/.claude/docs/web-research-tools.md` |
 | Google Workspace | `gog-cli`（WebFetch禁止） |
 | 叩き台/探索/UI試作 | `/prototype` |
-| 本人(MASA)の型でテーマから起案プロンプトを生成・分身で起案 | `bunshin-kian`(`/bunshin-kian <テーマ>`・分身の生成器 v0) |
+| 本人(MASA)の型でテーマから起案プロンプトを生成・分身で起案 | `bunshin-kian`(`/bunshin-kian <テーマ>`) |
 | hook の新設・改修・誤検知/暴発の修理 | `hook-development-guide` |
 | 成果を X 記事化→投稿→計測まで出荷・x-stock 消化 | `ship-article`(`/ship-article`) |
-| 探索的分析の隔離・使い捨てスクリプト/中間データ管理・リサーチ worktree 運用・確定知見の昇格 | `research-isolation`（思想・型／全プロジェクト普遍）。具体は各 project の `docs/research-workflow.md` |
-| 調査の1枚台帳・research サマリー・調査まとめ・research ディレクトリ運用・調査ノート統合・「調査どこだっけ」 | `vault-research-ledger`（vault 側: 台帳 `_summary.md`・命名・重複統合。雛形正本=vault `templates/research-summary.md`。repo 側の隔離は `research-isolation`） |
-| ファクト台帳・自社ファクト/ローカルルールの保存・「どの数字が本当」「換算係数どこ」「正本はどれ」・確定した定義/閾値/裁定ルールを台帳へ | `vault-facts-ledger`（project ごと vault `<sub>-facts.md` 1枚・F#事実/R#裁定の2型・参照実装=AIads-facts。分析知見は finding-sync/key_findings へ・2026-07-14 新設） |
-| 🧾実行履歴の1件を📒記録へ昇格・「これを📒に転記して」・プロンプト履歴の清書 | skill 不要の手動運用: AI がその場で〈### 日付｜一言 ＋ いつ/なぜ/結果 ＋ 全文〉形式で該当 INBOX の 📒 へ転記（全文は 🧾 から複製・消さない）。仕組み全体 = `~/.claude/docs/prompt-history-design.md` |
+| 探索的分析の隔離・使い捨てスクリプト/中間データ管理・リサーチ worktree 運用・確定知見の昇格 | `research-isolation`（思想・型）。具体→各 project `docs/research-workflow.md` |
+| 調査の1枚台帳・research サマリー・調査まとめ・research ディレクトリ運用・調査ノート統合・「調査どこだっけ」 | `vault-research-ledger`（台帳 `_summary.md`・雛形=vault `templates/research-summary.md`・repo 側隔離→`research-isolation`） |
+| ファクト台帳・自社ファクト/ローカルルールの保存・「どの数字が本当」「換算係数どこ」「正本はどれ」・確定した定義/閾値/裁定ルールを台帳へ | `vault-facts-ledger`（`<sub>-facts.md` 1枚・F#/R# 2型・参照実装=AIads-facts。分析知見→ finding-sync） |
+| 🧾実行履歴の1件を📒記録へ昇格・「これを📒に転記して」・プロンプト履歴の清書 | skill 不要: AI が〈### 日付｜一言＋いつ/なぜ/結果＋全文〉で該当 INBOX 📒 へ転記（消さない）。全体= `docs/prompt-history-design.md` |
 | task細分化/進捗/復帰 | `task-planner` / `task-progress` / `project-recall` |
 | SubAgent委譲判断 | `execution-patterns` |
 | ニュース収集・news JSONL確認 | `~/.claude/scripts/collect_news.py` + `.raw/news/YYYY-MM-DD.jsonl` |
 | news → wiki 昇格（知識化） | `wiki-ingest` または `/save` |
-| wikiキュー作って / wiki取り込み / URL取り込み / ✅処理して（第二の脳＝wiki知識化・queue経由） | `wiki-ingest` + `[[wiki-ingest-queue]]`（✅式の取り込み待合室。取り込み時に関連既存ページへ根拠付き相互リンク+`## Updates`追記で「育つ」・完了を `wiki/log.md` に1行記録・処理済✅はキューから削除） |
-| 今日の取り込みして / wiki自動取り込みの手動実行 / 第二の脳v3日次ジョブを今すぐ回す | 日次ジョブ `com.masa.wiki-daily-ingest`（毎日8:47・runner→`wiki_ingest_apply.py`柵）を手動実走: `launchctl start com.masa.wiki-daily-ingest`（TCC 未付与時は `/bin/bash -lc '~/.claude/scripts/vault-prompt-runner.sh "~/Documents/Obsidian Vault/00_General/prompts/scheduled/wiki-daily-ingest.md" && /usr/bin/python3 ~/.claude/scripts/wiki_ingest_apply.py "~/Documents/Obsidian Vault/wiki/meta/wiki-daily-ingest-result.md"'`）。ハブ5枚の`## AI追記`へ追記のみ（新規は✅ゲート）。決定 2026-07-06「無人AI書込はハブ追記型」 |
+| wikiキュー作って / wiki取り込み / URL取り込み / ✅処理して（第二の脳＝wiki知識化・queue経由） | `wiki-ingest` + `[[wiki-ingest-queue]]`（✅式の待合室・相互リンク+`## Updates`で育てる・完了は `wiki/log.md` 1行・処理済✅は削除） |
+| 今日の取り込みして / wiki自動取り込みの手動実行 / 第二の脳v3日次ジョブを今すぐ回す | 日次ジョブ `com.masa.wiki-daily-ingest`（毎日8:47）を `launchctl start com.masa.wiki-daily-ingest` で実走（TCC 未付与時の代替コマンド→ `routing-table.md` §wiki-daily-ingest）。ハブ5枚の`## AI追記`へ追記のみ（新規は✅ゲート・決定 2026-07-06） |
 | news → 深掘り | `autoresearch` |
 | ファイル配置 67 種仕分け / vault MOC 同期（list/resolve/issues のみ・**MOC自動append は 2026-06-14 RETIRED**） | `rules/42-file-type-placement.md` + `/sync-vault-summary` skill |
-| プロジェクトの過去作業サマリー / 作業順序を git 履歴から把握 | `/project-history`（`~/.claude/scripts/project-history.sh`・期間/日別作業量/種類集計。「5手順マップして」で①〜⑤対応表） |
-| 作業メソドロジー雛形(0層+①〜⑥+メタ層)を現プロジェクトに配置 | `/methodology`（`~/.claude/scripts/place-methodology.sh`・`templates/methodology-5step.md` をコピー。お手本=`[[prime_suite-methodology-draft]]`） |
-| 新規成果物の形式を決める前の前例検索・「以前どこかで作ってた」・車輪の再発明チェック | `precedent-check`（FS+routing+vault MOC の 3 経路検索＋claude-mem 利用可能時のみ mem-search 追加・前例に形式を揃える。2026-07-12 新設） |
-| X検索キーワード集の表示/更新/再生成・ブックマーク由来キーワード | `/x-keywords`（wrapper=`~/.claude/bin/obs-x-keywords`・週次 launchd `com.masa.x-keywords-weekly`・成果物=vault `influx_x_search_keywords.md`(✅評価入力面) + `influx/output/bookmarks/x_keywords.html`(閲覧コピー用)。設計=`docs/x-keywords-plan.md`） |
-| 今回のセッション目標を画面下(statusline)に常時表示・忘れ防止「今回の目標は〜」 | `session-goal` / `/session-goal`（`~/.claude/scripts/session-goal.sh`・作業ツリー(worktree)単位=worktreeごとに別目標・repo 外保存） |
-| Fable 5 終了/復帰の切替・Fable5ライク運用・output style 有効化 | `docs/fable5-sunset-runbook.md`（手順+ファクトチェック表）+ output style `Fable5-like`（`output-styles/fable5-like.md`・Fable 5 稼働中は有効化しない） |
-| 企画・方針の敵対的レビュー・2 モデル議論・「Fable と Codex に議論させて」・一致/割れ報告 | `/adversarial-review <議題> [--light]`（2 独立レビュアー=同モデル別文脈+Codex 異モデル・承認ゲート 2 つ・2026-07-14 新設）。Plan 中の設計リスクは従来どおり `plan-adversarial-review` |
+| プロジェクトの過去作業サマリー / 作業順序を git 履歴から把握 | `/project-history`（`scripts/project-history.sh`・「5手順マップして」で①〜⑤対応表） |
+| 作業メソドロジー雛形(0層+①〜⑥+メタ層)を現プロジェクトに配置 | `/methodology`（`scripts/place-methodology.sh`・雛形コピー。お手本=`[[prime_suite-methodology-draft]]`） |
+| 新規成果物の形式を決める前の前例検索・「以前どこかで作ってた」・車輪の再発明チェック | `precedent-check`（FS+routing+vault MOC の3経路検索・前例に形式を揃える） |
+| X検索キーワード集の表示/更新/再生成・ブックマーク由来キーワード | `/x-keywords`（wrapper・週次 launchd・成果物一覧と設計→ `docs/x-keywords-plan.md`） |
+| 今回のセッション目標を画面下(statusline)に常時表示・忘れ防止「今回の目標は〜」 | `session-goal` / `/session-goal`（`scripts/session-goal.sh`・会話単位・repo 外保存） |
+| Fable 5 終了/復帰の切替・Fable5ライク運用・output style 有効化 | `docs/fable5-sunset-runbook.md` + output style `Fable5-like`（Fable 5 稼働中は有効化しない） |
+| 企画・方針の敵対的レビュー・2 モデル議論・「Fable と Codex に議論させて」・一致/割れ報告 | `/adversarial-review <議題> [--light]`（2独立レビュアー=同モデル別文脈+Codex 異モデル・承認ゲート2つ）。Plan中の設計リスク→`plan-adversarial-review` |
 
 その他のカテゴリ（KPI・データ可視化・ダッシュボード・売上分析・スクレイピング・X Articles 12種・スキル管理・設定診断・Codex委譲 ほか）は `routing-table.md` 参照。
 

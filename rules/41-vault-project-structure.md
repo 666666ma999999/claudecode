@@ -12,7 +12,7 @@ paths:
 
 **適用範囲**: `~/Documents/Obsidian Vault/02_Ai/<project>/` 配下の**新規プロジェクトのみ**。
 既存プロジェクト（rohan/, AIera.md, ai_dashboard/ 等）は**一切変更しない**。リビング雛形: `02_Ai/AI_adscrm/`
-**例外（環境ゾーン・2026-07-05〜）**: `03_ClaudeEnv/`（repo = `~/.claude` 自身）は 02_Ai 外だが **連携ゾーン=Type A（repo 連携）として本ルールを適用**する。索引 MOC=`ClaudeEnv_ope.md`（旧 `_README.md`）／frontmatter 6 必須は `~/.claude/scripts/update_claudeenv.py` が生成／SessionStart で「懸案/NOW」を注入（cwd=~/.claude 限定・`hooks/sessionstart-env-recall.sh`）。詳細→ `docs/vault-project-structure-detail.md`
+**例外（環境ゾーン・2026-07-05〜）**: `03_ClaudeEnv/`（repo=`~/.claude`）は 02_Ai 外だが Type A として本ルール適用（MOC=`ClaudeEnv_ope.md`・frontmatter は script 生成）。詳細→ detail
 
 ## 基本原則
 
@@ -47,8 +47,8 @@ paths:
 - **例外: implementation-notes** = vault `02_Ai/<group>/<project>-impl-notes.md` が意思決定ログの唯一の正本（テンプレ `~/.claude/templates/impl-notes.md`）
 - **例外: research 台帳** = 採用済み `research/` の `_summary.md` が調査台帳の vault 正本（research/ 配下限定・MOC は入口導線のみ・知見本文の二重記載禁止・リンクは path-qualified 必須。運用正本 = skill `vault-research-ledger`・2026-07-10）
 - **同期義務（必須）**: repo の施策状態・優先順位・KPI を変更したセッションでは**同セッション内で** vault MOC も更新し `last_updated` を当日に（hook `vault-moc-sync-guard.sh`）。禁止基準・Red Flags 全表→ detail
-- **出口ルール（退役・2026-07-14 追加）**: 生成物 md には「出口」を用意する。①後継に置き換わった ②本文が自ら superseded と認めた ③特定時点の一発物、のいずれかになった md は放置せず退場させる: 後継あり → `_archive/`（後継への `[[リンク]]` を本文冒頭に1行付す）／ 時点レポート → `reports/`（dated・凍結）。トップ直下・サブ直下には living（playbook / guide / 司令塔 / 現役 task）だけを残す。判定軸は `type` でなく「後継に置き換わったか」。退場時は inbound リンクを張替え/除去し dead link を残さない
-- **重要数値の再導出禁止（2026-07-14 追加）**: 母数・単価・換算係数など判断を左右する数値は各レポートで独自に再計算して埋め込まない。正本を 1 つ（原則 repo 側）に定め各所はそこを参照する（同じ数字が複数ファイルで食い違う＝ドリフト事故の主因。実例: LINE 配信母数 835 / 1,969 / 約 9,850 が並存し正誤不能になった）
+- **出口ルール（退役・2026-07-14）**: ①後継に置換 ②自認 superseded ③時点物 になった md は放置せず退場（後継あり→`_archive/`+冒頭に後継リンク1行／時点物→`reports/` 凍結）。直下は living のみ・退場時は inbound を張替え dead link を残さない。全文→ detail §出口ルール
+- **重要数値の再導出禁止（2026-07-14）**: 母数・単価等の判断数値は正本1つ（原則 repo）を参照し、各レポートで再計算して埋め込まない（実例: LINE 母数 835/1,969/9,850 並存事故）。全文→ detail §再導出禁止
 
 ## 検証 / 更新フロー
 

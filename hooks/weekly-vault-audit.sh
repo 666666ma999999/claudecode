@@ -313,9 +313,12 @@ done
 bare_files=$(grep -rlF --include='*.md' '[[_summary]]' "$VAULT" 2>/dev/null \
   | grep -v "^$VAULT/templates/" \
   | grep -v "wiki/meta/decisions.md" \
+  | grep -v "wiki/meta/_audit/" \
+  | grep -v "03_ClaudeEnv/" \
   | grep -v "/research/" \
   | grep -v "/_archive/" \
   | head -5)
+# _audit/=違反メッセージ自身が [[_summary]] を含む自己参照 / 03_ClaudeEnv/=計器盤の diff 引用（code 内・linkify されない）— 2026-07-15 誤検知除外
 if [ -n "$bare_files" ]; then
   bare_cnt=$(printf '%s\n' "$bare_files" | wc -l | tr -d ' ')
   result="${result}- ❌ research-ledger: bare [[_summary]] リンク ${bare_cnt} ファイル (path-qualified [[<path>/research/_summary|…]] へ修正・skill vault-research-ledger): $(printf '%s' "$bare_files" | tr '\n' ' ' | sed "s|$VAULT/||g")\n"
