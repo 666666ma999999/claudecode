@@ -38,7 +38,7 @@
 | 調査の1枚台帳・research サマリー・調査まとめ・research ディレクトリ運用・調査ノート統合・「調査どこだっけ」 | `vault-research-ledger`（台帳 `_summary.md`・雛形=vault `templates/research-summary.md`・repo 側隔離→`research-isolation`） |
 | ファクト台帳・自社ファクト/ローカルルールの保存・「どの数字が本当」「換算係数どこ」「正本はどれ」・確定した定義/閾値/裁定ルールを台帳へ | `vault-facts-ledger`（`<sub>-facts.md` 1枚・F#/R# 2型・参照実装=AIads-facts。分析知見→ finding-sync） |
 | 🧾実行履歴の1件を📒記録へ昇格・「これを📒に転記して」・プロンプト履歴の清書 | skill 不要: AI が〈### 日付｜一言＋いつ/なぜ/結果＋全文〉で該当 INBOX 📒 へ転記（消さない）。全体= `docs/prompt-history-design.md` |
-| task細分化/進捗/復帰 | `task-planner` / `task-progress` / `project-recall` |
+| task細分化/進捗/復帰・**task完了時の退避/滞留** | `task-planner` / `task-progress`（§出口） / `project-recall` |
 | SubAgent委譲判断 | `execution-patterns` |
 | ニュース収集・news JSONL確認 | `~/.claude/scripts/collect_news.py` + `.raw/news/YYYY-MM-DD.jsonl` |
 | news → wiki 昇格（知識化） | `wiki-ingest` または `/save` |

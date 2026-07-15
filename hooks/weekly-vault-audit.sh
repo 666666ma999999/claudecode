@@ -363,27 +363,46 @@ done
 #       過去エントリ編集禁止) / research/ 配下 (2026-07-10 以前の自己参照 legacy を grandfather。
 #       skill が新規は path-qualified を義務化済み・検知面は MOC と一般ファイル)
 # ============================================================
-# 検証 18: repo task 退場滞留 (2026-07-15・rules/05 出口ルール)
-# NOW.md の Done/Superseded に記載済みの task md が tasks/ 直下に残存していないか
-# (完了→同セッション archive 退避の執行漏れを週次で検知。実例: prime_ad で完了 task が
-#  2ヶ月滞留・2026-07-15 敵対レビューで「出口ルールはあるが完了時の強制がない」と確定)
+# 検証 18: repo task 退場滞留 (2026-07-15・rules/05 出口ルール / 同日 全 project 化)
+# project-registry の **root**: 行から対象 repo を発見し (新 config 不要・registry が住所録の
+# 正本)、NOW.md の Done/Superseded に記載済みの task md の tasks/ 直下残存を警告する。
+# 誤検知ガード (2026-07-15 敵対レビュー指摘):
+#   (a) config/*.yaml の task_md: が指す basename = 機械入力につき除外 (rules/05 と同じ事前検索)
+#   (b) Done 掲載 = 14 日以上未更新のファイルのみ nag (「レビュー期日待ち」の意図的残置を許容)
+#   (c) Superseded 掲載 = 即 nag
+#   (d) 見出しは tolower 比較 (templates/now-done.md の ## DONE 表記とも整合)
 # ============================================================
-for tasks_dir in "$HOME/Desktop/prm/prime_suite/prime_ad/tasks" "$HOME/Desktop/prm/prime_suite/prime_crm/tasks"; do
-  now_md="$tasks_dir/NOW.md"
-  [ -f "$now_md" ] || continue
-  done_section=$(awk '/^## /{flag=0} /^## Done/{flag=1} /^## Superseded/{flag=1} flag' "$now_md")
-  [ -n "$done_section" ] || continue
-  for f in "$tasks_dir"/*.md; do
-    [ -f "$f" ] || continue
-    base=$(basename "$f")
-    case "$base" in NOW.md|CLAUDE.md|phase-tracker.md|lessons.md) continue;; esac
-    if printf '%s' "$done_section" | grep -qF "$base"; then
-      project_name=$(basename "$(dirname "$tasks_dir")")
-      result="${result}- ❌ task-exit: ${project_name}/tasks/${base} は NOW.md の Done/Superseded に記載済みなのに直下に残存 (完了時は同セッションで tasks/archive/ へ退避・rules/05)\n"
-      violations=$((violations + 1))
-    fi
+REGISTRY_MD="$VAULT/wiki/meta/project-registry.md"
+if [ -f "$REGISTRY_MD" ]; then
+  registry_roots=$(grep -oE '\*\*root\*\*: `[^`]+`' "$REGISTRY_MD" | sed -E 's/.*`([^`]+)`.*/\1/')
+  for proot in $registry_roots; do
+    case "$proot" in "~"*) proot="$HOME${proot#\~}";; esac
+    [ -d "$proot" ] || continue
+    machine_refs=$(grep -hoE 'task_md:[^#]*' "$proot"/config/*.yaml "$proot"/*/config/*.yaml 2>/dev/null | grep -oE '[A-Za-z0-9._-]+\.md' | sort -u)
+    for now_md in "$proot/tasks/NOW.md" "$proot"/*/tasks/NOW.md; do
+      [ -f "$now_md" ] || continue
+      tasks_dir=$(dirname "$now_md")
+      loc="${tasks_dir#"$HOME"/}"
+      done_section=$(awk '{l=tolower($0)} l ~ /^## /{flag=0} l ~ /^## done/{flag=1} l ~ /^## superseded/{flag=2} flag{print flag":"$0}' "$now_md")
+      [ -n "$done_section" ] || continue
+      for f in "$tasks_dir"/*.md; do
+        [ -f "$f" ] || continue
+        base=$(basename "$f")
+        case "$base" in NOW.md|CLAUDE.md|phase-tracker.md|lessons.md) continue;; esac
+        if printf '%s\n' "$machine_refs" | grep -qxF "$base"; then continue; fi
+        if printf '%s\n' "$done_section" | grep -F "$base" | grep -q '^2:'; then
+          result="${result}- ❌ task-exit: ${loc}/${base} は NOW.md の Superseded 記載済みなのに直下に残存 (同セッションで tasks/archive/ へ退避・rules/05)\n"
+          violations=$((violations + 1))
+        elif printf '%s\n' "$done_section" | grep -F "$base" | grep -q '^1:'; then
+          if [ -n "$(find "$f" -mtime +14 2>/dev/null)" ]; then
+            result="${result}- ❌ task-exit: ${loc}/${base} は NOW.md の Done 記載済み・14日以上未更新のまま直下に残存 (tasks/archive/ へ退避・rules/05)\n"
+            violations=$((violations + 1))
+          fi
+        fi
+      done
+    done
   done
-done
+fi
 
 # ============================================================
 # audit ファイル append-only 更新

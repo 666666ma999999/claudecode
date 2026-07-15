@@ -253,3 +253,17 @@ tasks/phase-tracker.md 冒頭に下記コメントで監視する:
 - **UC8**: イテレーション追跡 → Iteration History
 - **UC9**: 進捗の可視化 → Progress Snapshot + What Was Done
 - **UC10**: フィードバック蓄積 → Feedback and Preferences
+
+## 出口（task 完了時の退避手順・2026-07-15 新設）
+
+完了した task md を tasks/ 直下に残さない（rules/05 §出口の手順書。背景: prime_ad で完了 task が 2 ヶ月滞留 → 敵対レビューで「出口ルールは紙に存在・完了時の引き金と見張りが無い」と確定・decisions.md 2026-07-15）。
+
+**引き金**: NOW.md（あれば）の Done/Superseded に完了 1 行を書いた**その同セッション**で実行する。
+
+1. **機械参照の事前検索（必須・スキップ禁止）**: `rg "<basename>" <root>/config/*.yaml <root>/*/config/*.yaml`（`task_md:` 紐付け）+ parser の glob（例: `tasks/m*-*.md` を走査するスクリプト）+ plan.md / 他 task からの参照を検索。**機械入力 or 現役参照が 1 件でもあれば archive しない**（実例: M19 は checker がパスをハードコード・移動すると実行時エラー）
+2. **完了の実証**: 本文 Status / 成功基準が実際に完了を示すか確認（NOW に「済」とあっても本文 active なら先に本文を裁定。「古い」は完了の証拠ではない）
+3. `git mv tasks/<name>.md tasks/archive/<name>.md`（履歴保全・`rm`+新規作成は禁止）
+4. **inbound リンク張替え**: 現役文書（NOW/plan/稼働 task/vault MOC）のリンクを archive パスへ更新。**歴史記録（vault の dated レポート・_archive）は書き換えない**
+5. 後継がある場合は archive 先ファイル冒頭に `> 後継: [[...]]` を 1 行（rules/41 §出口ルールと同作法）
+
+**サマリーの正本 = NOW.md の Done/Superseded 表**（新サマリーファイル・vault 完了一覧は作らない＝三重管理禁止）。滞留は週次監査（weekly-vault-audit.sh 検証 18・project-registry 駆動）が警告する。
