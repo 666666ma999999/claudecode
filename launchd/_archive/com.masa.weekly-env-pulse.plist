@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.masa.weekly-env-pulse</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/masaaki_nagasawa/.claude/scripts/weekly_env_pulse.sh</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/masaaki_nagasawa/.claude</string>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key><integer>1</integer>
+    <key>Hour</key><integer>8</integer>
+    <key>Minute</key><integer>5</integer>
+  </dict>
+  <key>RunAtLoad</key>
+  <false/>
+  <key>StandardOutPath</key>
+  <string>/Users/masaaki_nagasawa/.claude/state/weekly_env_pulse.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/masaaki_nagasawa/.claude/state/weekly_env_pulse.err.log</string>
+</dict>
+</plist>
