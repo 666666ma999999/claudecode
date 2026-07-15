@@ -85,12 +85,10 @@
 |---------|-----------|
 | Web リサーチ・情報検索・調査 | 下記「Web リサーチツール選択」参照 |
 | Webスクレイピング・Agent Teams構成 | `tool-selection-reference` |
-| 無限スクロール・大量データスクレイピング・Playwright逐次保存 | `max-scroll-scrape` |
 | Playwright並列化・ブラウザ自動化高速化・mutex競合解消 | `browser-automation-parallelization` |
 | X(Twitter)ブックマーク取得・教師データ変換 | `fetch-bookmarks` |
 | X(Twitter)投稿エンゲージメント取得・候補URLの実測検証・いいね数確認 | `fetch-engagement` |
 | X Cookie再取得・Chrome→x_profiles抽出・auth_token更新・`import_chrome_cookies.py` | influx側 `refresh-x-cookies`（`~/Desktop/biz/influx/.claude/skills/refresh-x-cookies/SKILL.md`、VNC方式は2026-04-21に廃止） |
-| UIデザイン品質・カラーパレット・タイポグラフィ・コンポーネント設計 | `frontend-design` |
 | 有償生成API発注UI・estimate/confirm・二重課金・日次コスト上限・課金迂回路の監査 | `paid-generation-gate-audit`（2026-07-14 新設・reading-factory Phase C 敵対レビュー由来） |
 | 人間承認ボタン・承認フロー設計・承認の証拠性/失効・reaperからの承認待ち保護 | `human-approval-design`（同上） |
 | 動画からの種コマ/候補フレーム抽出・鮮明度スコア・単独人物判定の方式比較ベンチ | `media-candidate-bench`（同上） |

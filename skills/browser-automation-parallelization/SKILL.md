@@ -148,6 +148,5 @@ Phase 3: Option B/D へ拡張（必要時のみ）
 
 ## 関連スキル
 
-- `max-scroll-scrape`: Playwrightスクレイピング全般（逐次パターン）
 - `execution-patterns`: SubAgent並列委託との使い分け
 - `tool-selection-reference`: Playwright vs Firecrawl の選択基準

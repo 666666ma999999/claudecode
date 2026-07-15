@@ -148,7 +148,6 @@
     "fetch-bookmarks": "off",
     "fetch-engagement": "name-only",
     "gh-star-harvest": "off",
-    "max-scroll-scrape": "off",
     "browser-automation-parallelization": "off",
     "machine-bootstrap": "off",
     "codify-config": "off",
@@ -182,7 +181,6 @@
     "tool-selection-reference": "name-only",
     "skill-lifecycle-reference": "name-only",
     "git-safety-reference": "name-only",
-    "frontend-design": "off",
     "claude-api": "name-only",
     "codebase-investigation": "off",
     "collect-reply-posts": "off",
@@ -246,15 +244,6 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/verify-step-guard.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/enforce-extension-pattern.py"
           }
         ]
       },
@@ -330,15 +319,6 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/posttooluse-edit-history.py"
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/check-extension-imports.py"
           }
         ]
       },
