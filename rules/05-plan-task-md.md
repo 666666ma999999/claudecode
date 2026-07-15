@@ -43,6 +43,7 @@ plan.md 側: 各 Phase 見出し直後に `<a id="phase-<N>"></a>`
 - セッション開始: `ls plan.md tasks/*.md` → plan.md → 該当 task.md の Session Handoff / Stuck Context 確認
 - 着手時: トリガー判定 → plan.md 作成/更新 → task.md 起こす → `## 成功基準` 定義 → `EnterPlanMode`
 - セッション終了: Session Handoff 更新 / Progress Snapshot 最新化 / 未完なら Failures/Stuck 必須 / phase-tracker 反映
+- **task 完了時（出口・2026-07-15）**: NOW.md（あれば）の Done/Superseded へ 1 行集約した**同セッション**で、対応する tasks/*.md を `git mv` で tasks/archive/ へ退避・inbound リンク張替え（作法 = rules/41 §出口ルール）。**移動前に必ず**設定ファイル（measures.yaml 等の `task_md:`）・parser の glob・plan.md 参照を検索し、機械入力/現役参照なら archive しない。完了サマリーの正本は NOW.md Done 表＝**新サマリーファイルを作らない**。週次監査（検証 18）が滞留を警告
 
 ## 禁止
 

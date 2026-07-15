@@ -362,7 +362,30 @@ done
 # 除外: templates/ (雛形は説明文に literal を含む) / wiki/meta/decisions.md (append-only・
 #       過去エントリ編集禁止) / research/ 配下 (2026-07-10 以前の自己参照 legacy を grandfather。
 #       skill が新規は path-qualified を義務化済み・検知面は MOC と一般ファイル)
-# # ============================================================
+# ============================================================
+# 検証 18: repo task 退場滞留 (2026-07-15・rules/05 出口ルール)
+# NOW.md の Done/Superseded に記載済みの task md が tasks/ 直下に残存していないか
+# (完了→同セッション archive 退避の執行漏れを週次で検知。実例: prime_ad で完了 task が
+#  2ヶ月滞留・2026-07-15 敵対レビューで「出口ルールはあるが完了時の強制がない」と確定)
+# ============================================================
+for tasks_dir in "$HOME/Desktop/prm/prime_suite/prime_ad/tasks" "$HOME/Desktop/prm/prime_suite/prime_crm/tasks"; do
+  now_md="$tasks_dir/NOW.md"
+  [ -f "$now_md" ] || continue
+  done_section=$(awk '/^## /{flag=0} /^## Done/{flag=1} /^## Superseded/{flag=1} flag' "$now_md")
+  [ -n "$done_section" ] || continue
+  for f in "$tasks_dir"/*.md; do
+    [ -f "$f" ] || continue
+    base=$(basename "$f")
+    case "$base" in NOW.md|CLAUDE.md|phase-tracker.md|lessons.md) continue;; esac
+    if printf '%s' "$done_section" | grep -qF "$base"; then
+      project_name=$(basename "$(dirname "$tasks_dir")")
+      result="${result}- ❌ task-exit: ${project_name}/tasks/${base} は NOW.md の Done/Superseded に記載済みなのに直下に残存 (完了時は同セッションで tasks/archive/ へ退避・rules/05)\n"
+      violations=$((violations + 1))
+    fi
+  done
+done
+
+# ============================================================
 # audit ファイル append-only 更新
 # ============================================================
 mkdir -p "$(dirname "$AUDIT_FILE")"
