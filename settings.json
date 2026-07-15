@@ -128,6 +128,7 @@
     ],
     "defaultMode": "auto"
   },
+  "model": "claude-fable-5[1m]",
   "skillOverrides": {
     "step1-manuscript": "name-only",
     "step2-menu-register": "name-only",
@@ -682,6 +683,15 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/stop-obs-before-claim.sh"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/stop-vault-record-gate.sh",
+            "timeout": 15
           }
         ]
       },

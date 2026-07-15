@@ -52,7 +52,7 @@ paths:
 
 ## 検証 / 更新フロー
 
-- 機械検証: `weekly-vault-audit.sh`（手動実行・launchd 未設定・2026-07-10 現状追認）: MOC 存在 / frontmatter 6 必須 / Phase 正本 / wikilink ambiguity / 自動フィード残存 / research 台帳整合（`_summary.md` 必須・bare `[[_summary]]` 禁止）
+- 機械検証: `weekly-vault-audit.sh`（launchd `com.masa.vault-audit` 定期実行＋手動可・2026-07-15 訂正: 旧「launchd 未設定」は stale）: MOC 存在 / frontmatter 6 必須 / Phase 正本 / wikilink ambiguity / 自動フィード残存 / research 台帳整合（`_summary.md` 必須・bare `[[_summary]]` 禁止）
 - 更新順序: ①実装 → ②本ルール → ③guide を同セッション内（「rules だけ変えて終わり」禁止）→ detail
 
 ## 優先順位
