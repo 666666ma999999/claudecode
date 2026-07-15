@@ -14,7 +14,7 @@ INPUT=$(cat)
 export HOOK_INPUT="$INPUT"
 
 python3 -I <<'PYEOF'
-import json, os, re, sys
+import json, os, re, subprocess, sys
 from collections import Counter
 
 try:
@@ -87,6 +87,33 @@ def find_dups(fp):
         text = open(fp, encoding="utf-8").read()
     except OSError:
         return [], []
+    return dups_from_text(text)
+
+
+def baseline_dups(fp):
+    """git HEAD 時点の同ファイルに既に在った重複集合を返す。
+    編集前から存在する重複 = 意図的テンプレート反復(L1/L2/L3 層構造等)の可能性が高く、
+    このセッションの編集が「新たに作った」重複だけを警告対象にする(2026-07-15 修理:
+    linkage-ads-crm.md の意図的反復に毎停止誤発火していたクラスの根絶)。
+    未追跡/非repo/git失敗は空集合(=全重複を新規扱い・fail-close側)。"""
+    d = os.path.dirname(fp) or "."
+    try:
+        top = subprocess.run(["git", "-C", d, "rev-parse", "--show-toplevel"],
+                             capture_output=True, text=True, timeout=3)
+        if top.returncode != 0:
+            return set(), set()
+        rel = os.path.relpath(fp, top.stdout.strip())
+        show = subprocess.run(["git", "-C", d, "show", f"HEAD:{rel}"],
+                              capture_output=True, text=True, timeout=3)
+        if show.returncode != 0:
+            return set(), set()
+        dh, db = dups_from_text(show.stdout)
+        return set(dh), set(db)
+    except Exception:
+        return set(), set()
+
+
+def dups_from_text(text):
     lines = text.splitlines()
 
     # (A) 同一 H2/H3 見出しの重複(生成/自動ゾーン内も含むが高精度)
@@ -141,6 +168,12 @@ for fp in md_files:
     if not os.path.isfile(fp) or excluded(fp):
         continue
     dh, db = find_dups(fp)
+    if not (dh or db):
+        continue
+    # HEAD 基準比較: 編集前から在った重複(意図的反復)は除外し、新規に作られた重複だけ警告
+    base_dh, base_db = baseline_dups(fp)
+    dh = [h for h in dh if h not in base_dh]
+    db = [b for b in db if b not in base_db]
     if dh or db:
         hits.append((fp, dh, db))
 
