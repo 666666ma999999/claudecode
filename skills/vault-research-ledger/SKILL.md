@@ -21,7 +21,7 @@ description: |
 
 | 置く場所 | 中身 |
 |---|---|
-| **vault `research/`** | 台帳 `_summary.md` 1 枚のみ（カテゴリ別詳細を内蔵・＋依頼受付 `_requests/` 任意） |
+| **vault `research/`** | 台帳 `_summary.md` 1 枚のみ（カテゴリ別詳細を内蔵。依頼も台帳の 📮依頼表で管理・`_requests/` は 2026-07-15 廃止） |
 | **repo** | 生データ・スクリプト・中間生成物・プロンプト全文・実験ログ（隔離の型 = `research-isolation` skill、具体 = 各 project の `docs/research-workflow.md`） |
 
 目安: **50KB を超える生表・ドリルダウンは repo 側**。vault はサマリーと知見だけ（正本: rules/41「vault=索引+サマリー / SSoT は repo」）。
@@ -32,20 +32,20 @@ description: |
 vault research/                      repo <project>/reports/
 ├── _summary.md ← 台帳（唯一の入口・     ├── research-notes/    ← 現役ノート全文（台帳カテゴリ節の出典）
 │     カテゴリ別詳細を内蔵）             ├── research-archive/raw/           ← ドリルダウン生表
-└── _requests/  ← 依頼票の受付（任意）   ├── research-archive/archive/       ← 退役ノート（削除しない）
+                                        ├── research-archive/archive/       ← 退役ノート（削除しない）
                                       └── research-archive/requests-done/ ← 完了済み依頼票
 ```
 
-vault に置くのは**台帳 `_summary.md` 1 枚（＋依頼受付）だけ**。調査の詳細は台帳内の **📁 カテゴリ節**（LTV 調査／流入経路 等・各 10〜20 行の要点＋repo 全文住所）に集約し、ノート全文・生表・退役・完了票はすべて repo へ（2026-07-10 ユーザー裁定「細かい research は obsidian 側に置かない」）。vault に `_raw/`・`_archive/` や個別ノートを**残さない**。`_requests/` は依頼運用を採用した project のみ（自動作成しない）。
+vault に置くのは**台帳 `_summary.md` 1 枚（＋依頼受付）だけ**。調査の詳細は台帳内の **📁 カテゴリ節**（LTV 調査／流入経路 等・各 10〜20 行の要点＋repo 全文住所）に集約し、ノート全文・生表・退役・完了票はすべて repo へ（2026-07-10 ユーザー裁定「細かい research は obsidian 側に置かない」）。vault に `_raw/`・`_archive/` や個別ノートを**残さない**。依頼は台帳内の 📮依頼表（状態列 pending/done/dropped）で管理する（`_requests/` フォルダは利用実績ゼロのため 2026-07-15 廃止・decisions 同日エントリ）。
 
 **opt-in**: research/ の新設は decisions 2026-05-27 の 4 条件＋ユーザー✅が必要（自動展開禁止）。リファレンス実装 = `02_Ai/AI_adscrm/AIcrm/research/`。
 
 ## 台帳 `_summary.md`（この skill の核）
 
 - **固定名 `_summary.md`**・research/ 直下・雛形の正本 = vault `templates/research-summary.md`
-- **書式は report ルール（`vault-report-writing`）を世襲**（Write/Edit 前に同 skill を起動）: 冒頭 `[!todo]` 🎯ゴール&やること → `[!success]` 確定知見 BLUF → 長表の前に読み方ガイド 1 行 → 詳細（_archive/_requests）は `[!abstract]-` 折りたたみ隔離 → callout 語彙固定（`[!tip]` 等の語彙外 callout 禁止）
+- **書式は report ルール（`vault-report-writing`）を世襲**（Write/Edit 前に同 skill を起動）: 冒頭 `[!todo]` 🎯ゴール&やること → `[!success]` 確定知見 BLUF → 長表の前に読み方ガイド 1 行 → 詳細（_archive・📮依頼表）は `[!abstract]-` 折りたたみ隔離 → callout 語彙固定（`[!tip]` 等の語彙外 callout 禁止）
 - **リンクは path-qualified 必須**: 固定名は複数 project 展開で basename が重複するため、MOC 等からは `[[<path>/research/_summary|research 台帳]]` 形式でリンクする。bare `[[_summary]]` は曖昧リンク化するため禁止
-- 構成: 冒頭に **✅確定知見サマリー**（BLUF・各行 =「（観測日付）気づき → `[[#カテゴリ見出し]]`」＝同一ファイル内ジャンプ）→ **調査詳細（カテゴリ別・`##` 直置き）** → **🆕 新着 Bases 窓（最下部 1 箇所のみ・カテゴリごとに置かない）** → 🗂 repo 細部資料表・supersede 折りたたみ・_requests 表
+- 構成: 冒頭に **✅確定知見サマリー**（BLUF・各行 =「（観測日付）気づき → `[[#カテゴリ見出し]]`」＝同一ファイル内ジャンプ）→ **調査詳細（カテゴリ別・`##` 直置き）** → **🆕 新着 Bases 窓（最下部 1 箇所のみ・カテゴリごとに置かない）** → 🗂 repo 細部資料表・supersede 折りたたみ・📮依頼表（日付|状態 pending/done/dropped|テーマ|結果リンク）
 - **カテゴリの中身は 4 列表（ユーザー指定サマリーフォーマット・2026-07-10 確定）**: `##` カテゴリ = **意思決定の問い**（例: `## LTV調査`/`## 流入経路`・5〜9 個まで、超えたら統合・傘見出しを挟まない）。各カテゴリ = 「何を調べたか 1 行」＋ **表「レポート内容 / サマリー / 調査日 / 格納箇所」**（1 行 = 1 サブ切り口〔軸語彙: 悩み別/時間窓別/チャネル別/顧客層別/商品別/時期別〕・サマリーは元ノート引き写し・複数点は `<br>` 区切り・格納箇所 = repo `research-notes/` 住所）＋「→ 施策への使いどころ 1 行」。新カテゴリは既存に収まらない調査が出たときに `##` を足し BLUF に知見行を足す
 - **🆕 新着 Bases 窓**: 手動索引の腐敗対策として、project の `reports/` 新着 md を自動一覧する base ブロックを台帳に置く（正本形 = vault `templates/cockpit-report.md` の 🆕窓・パスは小文字の実パスをハードコード。`this.file.folder` は research/ から sibling の reports/ に届かない）。✅待ち施策だけの窓（type: proposal）は司令塔ボード側の管轄 — 台帳は調査視点の新着のみ
 - **気づき行の合格基準（3 秒テスト）**: 読んで 3 秒で「何がわかった・何に効く（so-what）」が取れること。**「〜を実施/確立/分析した」という活動報告だけの行は禁止**（知見に言い換える）。内部記号・コード名（author 名・セグメント記号等）は callout 冒頭の用語行か初出で 1 語 gloss する（正本: vault-report-writing「初出用語 gloss」）

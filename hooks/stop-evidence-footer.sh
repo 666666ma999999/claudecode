@@ -3,10 +3,12 @@
 # focus mode ではユーザーは“最終テキストメッセージ”だけを見る。よって最終メッセージ単体に
 # 結論(=ユーザーが取るアクション/選ぶ選択肢)が載っていなければ「回答消失」に等しい。
 #
-# 5-Tier:
+# 5-Tier(+Tier1b):
 #  Tier0 hook再開・回答消失ガード: Stop hookブロック後の継続ターンが短い追記のみ(直前の長文回答が不可視化)を拒否
 #        (2026-07-10 rohan実害・mistakes.md append-only-stophook-x-focusmode-erases-answer の act-time 強制)
 #  Tier1 回答消失ガード: フッターだけ/本文空の最終メッセージを拒否(L153再発防止・最優先)
+#  Tier1b AskUserQuestion同時呼び出しガード: 同一メッセージで本文(断定/提案≥200字)の後にAskUserQuestionを呼ぶ構成を拒否
+#        (2026-07-14 prime_suite実害・focus modeでツールUIが最終表示を差し替え本文が消える。Fable5/Codex敵対レビューで裏取り)
 #  Tier2 提案 × フッター無し: 決定ブロックを先頭・根拠中段・フッター末尾を1メッセージで(co-location要求)
 #  Tier3 提案 × フッター有り × 結論が先頭に無い: 決定ブロックを先頭へ(埋没是正・提案限定=完了報告は巻き込まない)
 #  Tier4 断定を含む完了/検証報告 × フッター無し: 従来どおり末尾に🔍根拠フッター(#1/#3/#5 の act-time 強制)
@@ -45,10 +47,16 @@ if not tpath or not os.path.isfile(tpath):
     sys.exit(0)  # fail-open
 
 # --- 最終 assistant テキスト抽出(実績あるローカル型: transcript逆走。last_assistant_message は当環境で実績ゼロ・未採用) ---
+# has_askuq: last_text より後(同ターン内・実ユーザー発話に達する前)に AskUserQuestion tool_use があるか。
+#   実データ全数調査(2026-07-14 Validator検証・AskUserQuestion含む98メッセージ全数): テキストと
+#   AskUserQuestion tool_use は同一メッセージに同居せず、必ず「本文メッセージ→AskUserQuestion単独メッセージ」
+#   の別行構成(98/98)。よって"同一メッセージ"ではなく"last_text 発生後・同ターン内"で検出する。
 last_text = ""
+has_askuq = False
 try:
     with open(tpath, encoding="utf-8") as f:
         lines = f.readlines()
+    found_text = False
     for line in reversed(lines):
         line = line.strip()
         if not line:
@@ -57,17 +65,30 @@ try:
             obj = json.loads(line)
         except json.JSONDecodeError:
             continue
-        if obj.get("type") != "assistant":
+        otype = obj.get("type")
+        if otype == "user" and not obj.get("isMeta"):
+            uc = obj.get("message", {}).get("content", "")
+            if isinstance(uc, list):
+                uc = "\n".join(b.get("text", "") for b in uc if isinstance(b, dict) and b.get("type") == "text")
+            uc = (uc or "").strip()
+            if uc and "<system-reminder" not in uc and "stop hook" not in uc.lower():
+                break  # 実ユーザー発話 = ターン境界。これより前(古いターン)の AskUserQuestion は数えない
+            continue
+        if otype != "assistant":
             continue
         c = obj.get("message", {}).get("content", "")
         if isinstance(c, str):
-            txt = c
+            txt, blocks = c, []
         elif isinstance(c, list):
             txt = "\n".join(b.get("text", "") for b in c if isinstance(b, dict) and b.get("type") == "text")
+            blocks = c
         else:
-            txt = ""
-        if txt.strip():
+            txt, blocks = "", []
+        if not found_text and any(isinstance(b, dict) and b.get("type") == "tool_use" and b.get("name") == "AskUserQuestion" for b in blocks):
+            has_askuq = True
+        if not found_text and txt.strip():
             last_text = txt
+            found_text = True
             break
 except OSError:
     sys.exit(0)
@@ -221,8 +242,23 @@ if not (has_assert or is_proposal):
     sys.exit(0)   # 断定も提案も無い(質問・計画・雑談)→対象外
 if len(last_text) < 200:
     sys.exit(0)   # 短文除外(儀式コスト回避)
-# 質問tail除外: ユーザーへ問うだけのターン(AskUserQuestion 直前等)。
-#   ただし「埋没した“推奨つき”選択肢提案」(is_choice_proposal ∧ 結論が先頭に無い)は除外しない=restructureさせる(実L145形)。
+
+# ============ Tier 1b: AskUserQuestion同ターン呼び出し × 本文に断定/提案あり(focus mode本文消失) ============
+#   質問tail除外(次ブロック)は「本文そのものが最終表示になる」純粋な問いかけターン用の免除。
+#   AskUserQuestionツールが同一ターン内(別メッセージでも可)で呼ばれる場合はツールUIが最終表示を差し替え、
+#   直前の本文(断定/提案を含む≥200字)は画面から消える(2026-07-14 prime_suite実害・Fable5/Codex敵対レビューで裏取り済み)。
+#   →この場合は質問tail除外を適用せずblockし、判断材料をtool input側へ収容させる。
+if has_askuq:
+    if already_blocked("t1b"):
+        sys.exit(0)
+    BLOCK("この応答は本文(結論/根拠等)の後、同一ターン内でAskUserQuestionツールを呼んでいます。"
+          "focus modeではAskUserQuestionの選択UIが最終表示となり、直前の本文が画面から消えます"
+          "(2026-07-14 prime_suite実害)。次のいずれかで直してください:\n"
+          "  (A) 判断材料(結論・根拠の要点)をAskUserQuestionのquestion/header/options自体に収容し、本文には出さない\n"
+          "  (B) 本文はこのまま出し、AskUserQuestionは呼ばずに次ターンでユーザーの自然言語の返信を待つ")
+
+# 質問tail除外: ユーザーへ問うだけのターン(本文そのものが最終表示になるケース。AskUserQuestion併用時はTier1bが先に処理)。
+#   ただし「埋没した"推奨つき"選択肢提案」(is_choice_proposal ∧ 結論が先頭に無い)は除外しない=restructureさせる(実L145形)。
 #   推奨のない純粋な選択質問は is_choice_proposal=False なので除外が効き、誤ブロックしない(validator新規2)。
 is_buried_proposal = is_choice_proposal and not decision_at_top
 if (not is_buried_proposal) and re.search(

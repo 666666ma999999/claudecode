@@ -3,7 +3,7 @@
 #
 # 週次で vault プロジェクト構造の整合性を検証する。
 # rules/41 ④章 grep 検証コマンドを統合実行し、結果を append-only audit ファイルに追記。
-# 手動実行（launchd 未設定・2026-07-10 現状追認）。
+# 実行: launchd `com.masa.vault-audit`（定期）+ 手動実行可（2026-07-15 訂正: 旧「launchd 未設定」記述は stale だった）。
 # 違反検出時は SessionStart hook が次回起動時に warning 注入。
 #
 # 設計根拠: ~/.claude/plan.md L9「動く hook 1 個＋使われる住所録」+ rules/41 ④章 grep 検証
@@ -298,7 +298,11 @@ if [ -f "$WIKI_SUM" ]; then
 fi
 
 # ============================================================
-====================================================
+# 検証 17: research 台帳 (2026-07-09 グローバル新設・skill vault-research-ledger)
+# (a) research/ を持つ project に台帳 _summary.md が必須
+# (b) bare [[_summary]] リンク禁止 (basename 衝突があるため path-qualified 必須)
+# ※ 2026-07-15 修理: マージ残骸でヘッダが欠損し裸行 ==== が実行時エラーを出していた
+# ============================================================
 for rdir in "$VAULT/02_Ai"/*/research "$VAULT/02_Ai"/*/*/research; do
   [ -d "$rdir" ] || continue
   if [ ! -f "$rdir/_summary.md" ]; then
@@ -309,16 +313,19 @@ done
 bare_files=$(grep -rlF --include='*.md' '[[_summary]]' "$VAULT" 2>/dev/null \
   | grep -v "^$VAULT/templates/" \
   | grep -v "wiki/meta/decisions.md" \
+  | grep -v "wiki/meta/_audit/" \
+  | grep -v "03_ClaudeEnv/" \
   | grep -v "/research/" \
   | grep -v "/_archive/" \
   | head -5)
+# _audit/=違反メッセージ自身が [[_summary]] を含む自己参照 / 03_ClaudeEnv/=計器盤の diff 引用（code 内・linkify されない）— 2026-07-15 誤検知除外
 if [ -n "$bare_files" ]; then
   bare_cnt=$(printf '%s\n' "$bare_files" | wc -l | tr -d ' ')
   result="${result}- ❌ research-ledger: bare [[_summary]] リンク ${bare_cnt} ファイル (path-qualified [[<path>/research/_summary|…]] へ修正・skill vault-research-ledger): $(printf '%s' "$bare_files" | tr '\n' ' ' | sed "s|$VAULT/||g")\n"
   violations=$((violations + 1))
 fi
 
-=======
+# ============================================================
 # 検証 16: vault git 健全性 + プロジェクトフォルダ構造ガード (2026-07-07)
 # 実事故: 2026-07-06 22:54 MASA.local 側で AIads/ が「売りあて/」に意図せずリネーム
 # → git merge が衝突で 12h+ 停止・自動バックアップ停止・別セッションがリネームに追従改修。

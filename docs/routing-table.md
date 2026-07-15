@@ -177,3 +177,10 @@ BE/FEは独立に判定し、それぞれのルールを並行適用する。
 
 実装完了時: ① 新機能/新パターン/再発バグか → ② 今後も繰り返し使う知見か → ③ 既存スキルに追加可能か。
 詳細フロー（Q0-Q3 / 横展開チェック / 重複チェック）: `skill-lifecycle-reference` スキル参照。
+
+## wiki-daily-ingest（TCC 未付与時の代替コマンド・rules/30 から移設 2026-07-15）
+
+`launchctl start com.masa.wiki-daily-ingest` が TCC 未付与で失敗する時:
+```bash
+/bin/bash -lc '~/.claude/scripts/vault-prompt-runner.sh "~/Documents/Obsidian Vault/00_General/prompts/scheduled/wiki-daily-ingest.md" && /usr/bin/python3 ~/.claude/scripts/wiki_ingest_apply.py "~/Documents/Obsidian Vault/wiki/meta/wiki-daily-ingest-result.md"'
+```

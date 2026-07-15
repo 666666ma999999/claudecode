@@ -242,3 +242,11 @@ AI_adscrm/ 実装変更時は **同セッション内で**: ①実装 → ②rul
 ### 機械的 drift 検知
 
 `~/.claude/hooks/weekly-vault-audit.sh` が週次で ④章 grep 検証を実行 (launchd `com.masa.vault-audit.plist`)。違反検出時は `sessionstart-vault-audit-warning.sh` が次回 SessionStart で warning 注入。検証内容: (1) MOC `_ope.md` 存在 (2) frontmatter 6 必須フィールド (例外 type 除く) (3) Phase 正本 (4) wikilink ambiguity 検出。
+
+## 出口ルール（退役・2026-07-14 新設・rules/41 §④ の全文）
+
+生成物 md には「出口」を用意する。①後継に置き換わった ②本文が自ら superseded と認めた ③特定時点の一発物、のいずれかになった md は放置せず退場させる: 後継あり → `_archive/`（後継への `[[リンク]]` を本文冒頭に1行付す）／ 時点レポート → `reports/`（dated・凍結）。トップ直下・サブ直下には living（playbook / guide / 司令塔 / 現役 task）だけを残す。判定軸は `type` でなく「後継に置き換わったか」。退場時は inbound リンクを張替え/除去し dead link を残さない。背景 = 2026-07-14 AIcrm 棚卸し（前世代 LINE ファイル 6 件が5日間滞留・敵対レビュー2ラウンドで「出口の不在」が唯一の生存真因）。
+
+## 重要数値の再導出禁止（2026-07-14 新設・rules/41 §④ の全文）
+
+母数・単価・換算係数など判断を左右する数値は各レポートで独自に再計算して埋め込まない。正本を 1 つ（原則 repo 側）に定め各所はそこを参照する。同じ数字が複数ファイルで食い違う＝ドリフト事故の主因。実例: LINE 配信母数 835 / 1,969 / 約 9,850 が同一スプリントの三つ子レポートに並存し正誤判定不能になった（2026-07-14 発覚・grow-cvr/refact/past-delivery の3本）。
