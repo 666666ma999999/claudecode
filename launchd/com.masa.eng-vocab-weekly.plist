@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.masa.eng-vocab-weekly</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>-lc</string>
+    <string>/usr/bin/python3 ~/.claude/scripts/eng_vocab_extract.py &amp;&amp; ~/.claude/scripts/vault-prompt-runner.sh "$HOME/Documents/Obsidian Vault/00_General/prompts/scheduled/eng-vocab-weekly.md" &amp;&amp; /usr/bin/python3 ~/.claude/scripts/eng_vocab_apply.py "$HOME/Documents/Obsidian Vault/00_Inbox/eng-reports/eng-vocab-weekly-result.md"</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <dict><key>Weekday</key><integer>0</integer><key>Hour</key><integer>8</integer><key>Minute</key><integer>23</integer></dict>
+  <key>StandardOutPath</key><string>/tmp/com.masa.eng-vocab-weekly.log</string>
+  <key>StandardErrorPath</key><string>/tmp/com.masa.eng-vocab-weekly.err</string>
+</dict>
+</plist>
