@@ -28,6 +28,7 @@ allowed-tools: [Read, Write, Glob, Grep, Bash]
 ## Prerequisites
 - influxプロジェクト: `~/Desktop/biz/influx`（`INFLUX_ROOT` 環境変数 or デフォルト）
 - Docker: `docker-compose.vnc.yml` が存在し `xstock-vnc` コンテナが起動可能
+- **tier3_posting マウント**: `fetch_engagement.py` は `tier3_posting.impression_tracker`（phase4 で autopost repo へ物理分離）を import するため、compose に `../autopost/tier3_posting:/app/tier3_posting:ro` が必要（2026-07-16 追加済み）。`ModuleNotFoundError: tier3_posting` が出たらコンテナが古い＝ `docker compose -f docker-compose.vnc.yml up -d` で再作成（env は `.env` の COOKIE_ENCRYPTION_KEY のみ必須・2026-07-16 実測）
 - **Cookie**: `x_profiles/<account>/cookies.json` が有効（account は `kabuki666999` or `maaaki`）（kabuki666999 は初回セットアップ未実施・2026-07 時点。使用前に influx の refresh-x-cookies skill で Cookie 作成が必要）
   - 14日以上経つと期限切れの可能性。refresh手順は influx側 `refresh-x-cookies` スキル参照
 - make_article側ラッパー: `scripts/fetch_engagement_via_influx.sh`
