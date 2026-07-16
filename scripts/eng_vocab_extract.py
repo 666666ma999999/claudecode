@@ -22,7 +22,8 @@ OUT = os.path.join(OUT_DIR, "worklist.json")
 def chrome_time(dt):
     return int((dt - datetime(1601, 1, 1)).total_seconds() * 1_000_000)
 
-WORD_Q = re.compile(r"^([a-zA-Z][a-zA-Z \-']{1,40}?)\s*(?:の)?(?:意味|とは|訳|和訳|日本語)$")
+WORD_FWD = re.compile(r"^([a-zA-Z][a-zA-Z \-'\.]{1,60}?)\s*(?:の)?(?:意味|とは|訳|和訳|日本語)\s*[.。!?！？]*$")
+WORD_REV = re.compile(r"^(?:意味|とは|訳|和訳|日本語)[\s:：]+([a-zA-Z][a-zA-Z \-'\.]{1,60}?)\s*[.。!?！？]*$")
 JP = re.compile(r"[ぁ-んァ-ン一-龥]")
 
 def extract_history_words(days=7):
@@ -46,10 +47,11 @@ def extract_history_words(days=7):
             for url, _ in cur.fetchall():
                 q = parse_qs(urlparse(url).query).get("q", [""])[0]
                 q = unquote_plus(q).strip()
-                m = WORD_Q.match(q)
+                m = WORD_FWD.match(q) or WORD_REV.match(q)
                 if m:
-                    w = m.group(1).strip().lower()
-                    words[w] = words.get(w, 0) + 1
+                    w = m.group(1).strip().rstrip(".。 ").strip().lower()
+                    if w:
+                        words[w] = words.get(w, 0) + 1
             con.close()
         except Exception as e:
             print(f"[warn] {prof}: {e}", file=sys.stderr)
