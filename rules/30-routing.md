@@ -15,6 +15,7 @@
 | FE新機能/ページ/ウィジェット | `fe-extension-pattern` |
 | FE+BE連携・APIコントラクト | `fe-be-extension-coordination` |
 | デバッグ・根本原因 | `debugging-guide` |
+| リポ全体把握・大規模コード調査・久しぶりのコード把握 | `codebase-investigation`（repomix 経由） |
 | 行き詰まり・stuck引渡 | `/rescue` |
 | リファクタ戦略/安全性 | `refactoring-guide` / `refactoring-safety` |
 | テスト失敗・TDD | `test-fixing` |

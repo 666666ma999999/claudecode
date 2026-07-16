@@ -3,7 +3,9 @@ name: security-twin-audit
 description: |
   Security Twin Agents（Black Hacker + White Hacker）によるセキュリティ監査を実行する。
   Agent Teams を使用して攻撃者視点と防御者視点で並行分析し、統合レポートを生成する。
-  キーワード: セキュリティ監査, security audit, 脆弱性診断, Red Team, Blue Team, Twin Agents
+  キーワード: セキュリティ監査, security audit, 脆弱性診断, Red Team, Blue Team, Twin Agents,
+  セキュリティ差分監査, PRセキュリティレビュー, 差分限定監査（旧 /review-security を吸収 2026-07-16・
+  差分限定は「対象=git diff の変更範囲」と指定して本スキルを使う）
   NOT for: 単純なコード修正、テスト実行、通常のコードレビュー
 allowed-tools: [Read, Glob, Grep, Bash, Agent, TaskCreate, TaskUpdate, TaskList, SendMessage]
 ---
