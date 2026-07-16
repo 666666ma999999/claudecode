@@ -48,13 +48,10 @@ paths:
 - **例外: implementation-notes** = vault `02_Ai/<group>/<project>-impl-notes.md` が意思決定ログの唯一の正本（テンプレ `~/.claude/templates/impl-notes.md`）
 - **例外: research 台帳** = 採用済み `research/` の `_summary.md` が調査台帳の vault 正本（research/ 配下限定・MOC は入口導線のみ・知見本文の二重記載禁止・リンクは path-qualified 必須。運用正本 = skill `vault-research-ledger`・2026-07-10）
 - **同期義務（必須）**: repo の施策状態・優先順位・KPI を変更したセッションでは**同セッション内で** vault MOC も更新し `last_updated` を当日に（hook `vault-moc-sync-guard.sh`）。禁止基準・Red Flags 全表→ detail
-- **出口ルール（退役・2026-07-14／R33-36 改修 2026-07-16）**: vault は「判断前・現役最新」を保ち、下記になった md は **repo へ退避**（vault 内 `_archive/` でなく repo 側 `reports/archive/` 等へ＝人間は二度見ないため。research が既に台帳＋repo移管で先取り実装済み）:
-  - ①**ジャッジ済み**（✅/❌裁定が decisions 等で確認できる proposal/decision）→ repo へ
-  - ②**定期レポート 3 世代以上前**（同系列で直近 2 世代のみ vault・それ以前 repo。「振り返っても 2 回前まで」）
-  - ③**更新済み調査の旧版**（superseded・最新版のみ vault）→ repo へ
-  - ④後継置換・時点物（従来どおり・後継あり→冒頭に後継リンク1行）
-  - **例外（R36）**: 本人手書き `<project>_MEMO.md` は見返す資産＝vault に残す（退避しない）
-  直下は living のみ・退場時は inbound を張替え dead link を残さない。全文→ detail §出口ルール
+- **出口ルール（退役・2026-07-14／R32-36 3層化 2026-07-16）**: vault reports/ 直下は現役 living のみ。退場する md は **「人間が後で"なぜこう決めたか／どういうルールか"を引くか」で退避先を2分**（R32「よく見る／時々見る／貯める」の3層）:
+  - **vault `<project>/_archive/` へ（＝"時々見返す"層）**: **意思決定**（type: decision・裁定理由・なぜこう決めたか）・**ルールブック的な設計正本**（稼働中の設計を定義したもの）・経緯記録。**本人手書き `<project>_MEMO.md` も vault に残す（R36）**
+  - **repo `reports/archive/` へ（＝"二度見ない・AI 用冷凍庫"）**: 後継に**内容が継承された調査旧版**（superseded）・定期レポートの**旧世代**（直近 2 世代のみ vault・それ以前 repo）・**時点スナップショット**・実行完了した使い捨て提案。research は台帳＋repo 移管で先取り実装済み
+  退場時は inbound を張替え（MOC 等 書換可のみ・decisions 等 append-only の歴史リンクは切れ許容）。全文→ detail §出口ルール
 - **重要数値の再導出禁止（2026-07-14）**: 母数・単価等の判断数値は正本1つ（原則 repo）を参照し、各レポートで再計算して埋め込まない（実例: LINE 母数 835/1,969/9,850 並存事故）。全文→ detail §再導出禁止
 
 ## 検証 / 更新フロー
