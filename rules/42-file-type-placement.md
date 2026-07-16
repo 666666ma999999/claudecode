@@ -26,6 +26,7 @@ paths:
 - **例外**: implementation-notes は vault SSoT（rules/41 §④）
 - **secrets / 認証情報は placement 禁止**（M-1・全 repo）。`~/.zshrc` export + `${VAR}` 参照（`secret-management` skill）
 - **命名**: 汎用名（`plan.md` / `measures.md` / `summary.md` / `index.md` 等）単体禁止・スコープ語前置（rules/41 §②）
+- **architecture（機能マップ・システム全体像）**: 責務・機能境界・オーナーマップ=vault 正本／モジュール・呼出関係・デプロイ構成=repo（当面は手書き・自動生成はしない）。ファイル名は `<project>-architecture.md`（scope-prefix・rules/41 §② 準拠）。図は補助ビュー・正本は構造化した I/O・依存表。
 
 ## プロジェクトタイプ判定
 

@@ -38,6 +38,7 @@
 | コード重複・dual-path・DRY違反 | `20-code-quality.md` + `70-architecture.md` 参照 |
 | BEパイプライン重複・BE設計 | `70-architecture.md`「BE 固有」参照 |
 | vanilla FE設計・Command/Query分離・FEパイプライン | `70-architecture.md`「FE 固有」参照 |
+| システム全体像・機能マップ・アーキ図・input/output・各機能の役割を図で・人に説明する構成図 | `templates/architecture.md`（雛形コピー・新設 2026-07-16。図は補助・正本は I/O/依存表） |
 | 3F+設計判断・大規模アーキ判断・公開API変更・二択判断 | `plan-adversarial-review`（旧 opponent-review は 2026-07-11 吸収・汎用型は同 skill references/opponent-review-general.md）（軽い前提検証は `/review --mode=challenge`） |
 
 ### コード品質・リファクタリング

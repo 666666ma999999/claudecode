@@ -17,6 +17,7 @@ paths:
 ## 基本原則
 
 - **vault = 索引 + サマリー / 実体の SSoT は repo**（例外: implementation-notes は vault SSoT・§④）
+- **architecture の窓**: MOC に「🏗 システム全体像（architecture）」の窓1行を許可（repo の `<project>-architecture.md` への file:// リンク＋責務の一言サマリー）。図の実体は vault に貼らない（repo が正本・vault は窓）。
 - 新規プロジェクトは **MOC 1 ファイル統合構成**（`<project>_ope.md` に戦略入口・Phase 入口・施策サマリー・データソース・連携を統合）
 - 同じ情報を vault と repo の両方に書かない（40-obsidian.md Anti-drift 原則）
 

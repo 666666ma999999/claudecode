@@ -1,6 +1,6 @@
 # plan.md / task.md 運用ルール（要約）
 
-全標準タスクは **plan.md（設計 SSoT）+ task.md（実行追跡）の 2 層構造**。詳細: `~/.claude/docs/plan-task-md-detail.md`。
+全標準タスクの正本は **4 種**（2026-07-16 確定・一般名）: **plan**（戦略 SSoT・Why/成功基準）/ **spec**（定義 SSoT・数値/計算式/スキーマ）/ **architecture**（機能マップ・チャート＋I/O＋各機能の役割・新設）/ **task**（実行追跡）。本ルールは **plan/task** を扱う（spec/architecture の配置は `rules/42`・vault 表示は `rules/41`）。詳細: `~/.claude/docs/plan-task-md-detail.md`。
 
 ## 役割分担
 
@@ -9,6 +9,9 @@
 - **task-light.md**: 1 セッション完結用の軽量版
 
 重複禁止: 同じ情報を両方に書かない。task.md → plan.md へリンク（`plan.md#成功基準` 等）。
+
+**task の 3 役（時間スパンで分ける・2026-07-16）**: `NOW.md`＝短期の優先順位（日々）／ `phase-tracker.md`＝長期の Phase 地図（週単位・節目）／ 個別 `tasks/*.md`＝単発の作業追跡。各 project が正本を CLAUDE.md 1 行で宣言（既存: prime_ad/crm＝NOW.md＋phase-tracker＋tasks/\*・他＝phase-tracker＋tasks/\*）。一本化しない（時間スパンが違う）。
+**vault↔repo 配分（4 種共通・人間裁定=vault 正本／機械参照=repo 正本・2026-07-16 敵対レビュー2回確定）**: plan 戦略層=vault 候補／feature 実装計画=repo ・ spec=repo 実体＋vault 窓 ・ architecture 責務/境界=vault／モジュール/依存=repo ・ task=全 repo・vault 窓 ・ decisions/impl-notes=vault 正本。原則: 実体 SSoT=repo・vault=窓（コピー置かない・二重に書かない）。全文→ detail。
 
 **vault との境界**: Obsidian 連携全条項 (`tasks/*.md` ↔ `wiki/meta/decisions.md` の SSoT 境界、wikilink 参照ルール、訂正プロトコル) は `rules/40-obsidian.md` 参照。重複定義は同ファイルに集約。
 
