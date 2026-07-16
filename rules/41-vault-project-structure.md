@@ -53,6 +53,7 @@ paths:
   - **vault `<project>/_archive/` へ（＝"時々見返す"層）**: **意思決定**（type: decision・裁定理由・なぜこう決めたか）・**ルールブック的な設計正本**（稼働中の設計を定義したもの）・経緯記録。**本人手書き `<project>_MEMO.md` も vault に残す（R36）**
   - **repo `reports/archive/` へ（＝"二度見ない・AI 用冷凍庫"）**: 後継に**内容が継承された調査旧版**（superseded）・定期レポートの**旧世代**（直近 2 世代のみ vault・それ以前 repo）・**時点スナップショット**・実行完了した使い捨て提案。research は台帳＋repo 移管で先取り実装済み
   **索引規約（2026-07-16）**: vault `_archive/` の実体は種類別に**台帳へ 1 行索引**（台帳＝索引・`_archive`＝実体・"どこに何の決定/ルールがあるか"を引ける R16/R19）: 調査→`research/_summary.md` / 意思決定→`wiki/meta/decisions.md`（横断アーキ判断）or MOC の決定索引（project 施策決定）/ ルールブック的（設計正本・施策定石）→`<sub>-playbook.md`・`<sub>-facts.md`。**索引なしの `_archive` 直置き禁止**。二度見ない（スナップ・会議資料・定期レポ旧世代）は索引不要＝repo `reports/archive/` へ。
+- **reports の扱い（2026-07-16 敵対レビュー2体一致・reports 専用台帳は作らない）**: reports/ も上記3層で判定するが report は「実行時に全文を開く運用物」ゆえ追加ガード: (i) 固定名 living（運用診断ボード）は退避対象から**除外**（`<project>` 直下常駐） (ii) inbound に**現役 living/runbook が参照中は退避禁止**（現役手順書のリンクが死ぬ） (iii) 未決着（open_questions/next_actions あり）は退避不可・要対応は task/MOC へ (iv) **一望は手動台帳を作らず** MOC の既存 dated 表 or Bases 自動窓で（数値は本体から反映・手書き転記しない＝§④再導出禁止と整合）。「多い」体感は命名の工程差別化＋MOC 一言説明で解消。
   退場時は inbound を張替え（MOC 等 書換可のみ・decisions 等 append-only の歴史リンクは切れ許容）。全文→ detail §出口ルール
 - **重要数値の再導出禁止（2026-07-14）**: 母数・単価等の判断数値は正本1つ（原則 repo）を参照し、各レポートで再計算して埋め込まない（実例: LINE 母数 835/1,969/9,850 並存事故）。全文→ detail §再導出禁止
 
