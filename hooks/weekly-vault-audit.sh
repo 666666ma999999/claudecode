@@ -404,6 +404,29 @@ if [ -f "$REGISTRY_MD" ]; then
   done
 fi
 
+# 検証 19: superseded レポート/調査の vault 直下残存 (2026-07-16・rules/41 出口ルール R33-36)
+# frontmatter `supersedes: [[旧版]]` を持つ後継があり、その旧版が同 reports/ 直下に living 残存
+# = repo 退避対象 (R35「更新済み調査の旧版は repo へ」)。
+# R34(定期レポ3世代超)/R33(ジャッジ済み) は誤検知回避のため機械検知せず、rules/41 出口ルール +
+# 人手/AI 退避に委ねる (機械は確実な supersedes 被参照のみ warn)。
+# R36 例外: 本人手書き *_MEMO.md は退避対象外につき除外。
+for rdir in "$VAULT"/02_Ai/*/reports "$VAULT"/02_Ai/*/*/reports; do
+  [ -d "$rdir" ] || continue
+  loc="${rdir#"$VAULT"/}"
+  for f in "$rdir"/*.md; do
+    [ -f "$f" ] || continue
+    case "$(basename "$f")" in *_MEMO*) continue;; esac
+    sups=$(grep -oE 'supersedes:.*' "$f" 2>/dev/null | grep -oE '\[\[[^]]+\]\]' | tr -d '[]')
+    for s in $sups; do
+      sbase=$(basename "$s" .md)
+      if [ -f "$rdir/$sbase.md" ]; then
+        result="${result}- ⚠️ report-exit(R35): ${loc}/${sbase}.md は後継 $(basename "$f" .md) に superseded 済みなのに vault 直下に残存 (repo へ退避・rules/41 出口ルール)\n"
+        violations=$((violations + 1))
+      fi
+    done
+  done
+done
+
 # ============================================================
 # audit ファイル append-only 更新
 # ============================================================
