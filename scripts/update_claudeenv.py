@@ -783,6 +783,10 @@ JOB_ARTIFACTS = [
     # 閾値40日 = トリガー上限28日(ELAPSED_TRIGGER_DAYS) + 未実行猶予バッファ。
     ("com.masa.x-keywords-weekly (masa-2)",
      VAULT / "02_Ai/influx/influx_x_search_keywords.md", 40, "毎週土 10:00"),
+    # chat-cards は承認系: 監査ログ=ハートビート（apply 成功ごとに毎時更新・0件でも書く）。
+    # 丸1日止まると🟡・2日で🔴。通知はカード有時のみなので沈黙とシステム死の区別はこの行が担う。
+    ("com.masa.chat-cards-hourly",
+     VAULT / "00_Inbox/chat-reports/chat-cards-audit.md", 1, "8-21時 毎時:18"),
 ]
 # 📅期日超過スキャン対象 (手動だが期日がある作業の監視穴を塞ぐ・書式: 📅due:YYYY-MM-DD)
 DUE_SCAN_FILES = [
