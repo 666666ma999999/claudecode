@@ -12,9 +12,10 @@ from datetime import datetime, timedelta, timezone
 HOME = os.path.expanduser("~")
 STATE_DIR = os.path.join(HOME, ".claude/state/chat-cards")
 LAST_RUN_F = os.path.join(STATE_DIR, "last_run.txt")
+CANDIDATE_F = os.path.join(STATE_DIR, "last_run_candidate.txt")  # apply 成功時のみ昇格（commit-on-success）
 OUT = os.path.join(STATE_DIR, "worklist.json")
 SELF_ID = "users/102884527284642128717"  # MASA（2026-07-13 実測同定: 90スペース・最多発言）
-MAX_PER_SPACE = 15
+MAX_PER_SPACE = 50  # 夜間バックログ(21→8時)でも1スペース50件あれば取りこぼさない
 
 def gog(args):
     r = subprocess.run(["gog"] + args, capture_output=True, text=True, timeout=120)
@@ -80,7 +81,9 @@ def main():
     }
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=1)
-    open(LAST_RUN_F, "w").write(started.isoformat())
+    # last_run はここでは前進させない。apply 成功後に candidate を昇格する
+    # （runner/apply が落ちた批を次回再抽出できるように。重複カードは見える事故・欠落は見えない事故）
+    open(CANDIDATE_F, "w").write(started.isoformat())
     print(f"[ok] spaces={len(spaces)} new_items={len(items)} window_from={last_run.isoformat()} -> {OUT}")
 
 if __name__ == "__main__":

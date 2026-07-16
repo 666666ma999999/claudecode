@@ -10,7 +10,55 @@ from datetime import datetime
 
 HOME = os.path.expanduser("~")
 INBOX = os.path.join(HOME, "Documents/Obsidian Vault/00_Inbox/承認INBOX.md")
-WORKLIST = os.path.join(HOME, ".claude/state/chat-cards/worklist.json")
+AUDIT = os.path.join(HOME, "Documents/Obsidian Vault/00_Inbox/chat-reports/chat-cards-audit.md")
+STATE_DIR = os.path.join(HOME, ".claude/state/chat-cards")
+WORKLIST = os.path.join(STATE_DIR, "worklist.json")
+LAST_RUN_F = os.path.join(STATE_DIR, "last_run.txt")
+CANDIDATE_F = os.path.join(STATE_DIR, "last_run_candidate.txt")
+
+AUDIT_HEADER = """---
+project: general
+type: log
+folder: "00_Inbox/chat-reports/"
+tags:
+  - chat-cards
+  - audit
+---
+
+# 🩺 chat-cards 監査ログ（毎時・ハートビート兼用）
+
+> 毎回の実行結果1行＋情報のみの内訳。**このファイルの更新時刻が生存確認**（丸1日止まると
+> collector-health の成果物監視が🔴を出す）。「情報のみ」への誤落ち（見逃し）はここで抜き打ち確認する。
+
+"""
+
+
+def commit_last_run():
+    """柵の最終段: apply まで成功した時だけ観測窓を前進（commit-on-success）"""
+    if os.path.exists(CANDIDATE_F):
+        os.replace(CANDIDATE_F, LAST_RUN_F)
+
+
+def append_audit(stamp, n_expected, n_cards, kinds_summary, warn, info):
+    """毎実行1エントリを監査ログへ prepend。0件でも書く＝ハートビート"""
+    entry = f"- **{stamp}** 入力{n_expected}・カード{n_cards}（{kinds_summary}）"
+    if warn:
+        entry += f" {warn}"
+    entry += "\n"
+    if info:
+        for line in info.splitlines()[1:]:  # 見出し行を除く
+            if line.strip():
+                entry += f"    {line.strip()}\n"
+    if os.path.exists(AUDIT):
+        body = open(AUDIT, encoding="utf-8").read()
+        m = re.search(r"(?m)^- \*\*", body)  # 最初のエントリ行の直前に挿入（新しい順）
+        head, rest = (body[: m.start()], body[m.start():]) if m else (body, "")
+        lines = (entry + rest).splitlines(keepends=True)
+        new = head + "".join(lines[:400])  # 直近分だけ保持（肥大防止）
+    else:
+        new = AUDIT_HEADER + entry
+    os.makedirs(os.path.dirname(AUDIT), exist_ok=True)
+    open(AUDIT, "w", encoding="utf-8").write(new)
 
 
 def coverage_warning(result, n_cards):
@@ -62,12 +110,18 @@ def main():
     info = re.search(r"### 📄 情報のみ.*", result, re.S)
     n = len(cards)
     warn = coverage_warning(result, n)
+    try:
+        expected = len(json.load(open(WORKLIST))["items"])
+    except Exception:
+        expected = -1
+    stamp = datetime.now().strftime("%m/%d %H:%M")
 
     if n == 0 and not warn:
-        print("[ok] カード0件（無音）")
+        append_audit(stamp, expected, 0, "要対応なし", None, info.group(0) if info else "")
+        commit_last_run()
+        print("[ok] カード0件（無音・監査ログ更新）")
         return
 
-    stamp = datetime.now().strftime("%m/%d %H:%M")
     block = f"\n## ⏰ {stamp}（{n}件）\n\n"
     if warn:
         block += f"> [!warning] {warn}\n\n"
@@ -94,6 +148,8 @@ def main():
     summary = f"要承認{kinds.count('要承認')}・要返信{kinds.count('要返信')}・判定不能{kinds.count('判定不能')}"
     if warn:
         summary += " ⚠️照合NG"
+    append_audit(stamp, expected, n, summary, warn, info.group(0) if info else "")
+    commit_last_run()
     notify("🃏 承認カード", f"{summary} — 承認INBOXへ")
     print(f"[ok] {n}件追記 + 通知（{summary}）" + (f" {warn}" if warn else ""))
 
