@@ -116,3 +116,6 @@ logs/
 # マシン依存 symlink（ユーザー名が2台で異なるため各マシンでローカル作成・2026-07-12）
 data/bookmarks.jsonl
 data/bookmarks-normalized.jsonl
+
+# claude-mem worker-service が自動再生成する context dump（端末固有・commit すると2台間で毎回 churn・2026-07-16）
+/AGENTS.md
