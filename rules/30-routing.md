@@ -46,7 +46,7 @@
 | wikiキュー作って / wiki取り込み / URL取り込み / ✅処理して（第二の脳＝wiki知識化・queue経由） | `wiki-ingest` + `[[wiki-ingest-queue]]`（✅式の待合室・相互リンク+`## Updates`で育てる・完了は `wiki/log.md` 1行・処理済✅は削除） |
 | 今日の取り込みして / wiki自動取り込みの手動実行 / 第二の脳v3日次ジョブを今すぐ回す | 日次ジョブ `com.masa.wiki-daily-ingest`（毎日8:47）を `launchctl start com.masa.wiki-daily-ingest` で実走（TCC 未付与時の代替コマンド→ `routing-table.md` §wiki-daily-ingest）。ハブ5枚の`## AI追記`へ追記のみ（新規は✅ゲート・決定 2026-07-06） |
 | news → 深掘り | `autoresearch` |
-| ファイル配置 67 種仕分け / vault MOC 同期（list/resolve/issues のみ・**MOC自動append は 2026-06-14 RETIRED**） | `rules/42-file-type-placement.md` + `/sync-vault-summary` skill |
+| ファイル配置 71 種仕分け / vault MOC 同期（list/resolve/issues のみ・**MOC自動append は 2026-06-14 RETIRED**） | `rules/42-file-type-placement.md` + `/sync-vault-summary` skill |
 | プロジェクトの過去作業サマリー / 作業順序を git 履歴から把握 | `/project-history`（`scripts/project-history.sh`・「5手順マップして」で①〜⑤対応表） |
 | 作業メソドロジー雛形(0層+①〜⑥+メタ層)を現プロジェクトに配置 | `/methodology`（`scripts/place-methodology.sh`・雛形コピー。お手本=`[[prime_suite-methodology-draft]]`） |
 | 新規成果物の形式を決める前の前例検索・「以前どこかで作ってた」・車輪の再発明チェック | `precedent-check`（FS+routing+vault MOC の3経路検索・前例に形式を揃える） |

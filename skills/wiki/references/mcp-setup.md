@@ -55,6 +55,8 @@ Capabilities: read notes, write notes, search, patch frontmatter fields, append 
 
 No Obsidian plugin needed. Reads the vault directory directly.
 
+> ⚠️ 2026-07-16: このサーバー（mcpvault）は**現行 `.mcp.json` に未導入**（実構成は postgresql / repomix / codex / grok-search / playwright の 5 つ）。以下は導入する場合の手順として保持。vault 操作は wiki 系 skill / obsidian-cli 経由が正系。
+
 ```bash
 claude mcp add-json obsidian-vault '{
   "type": "stdio",

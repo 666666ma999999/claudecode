@@ -164,3 +164,4 @@ SORT last_updated DESC
 - **コピペ可 skeleton 全文（domain-neutral）**: **vault** `templates/cockpit-report.md`（正本・repo側はstub） ← 雛形の正本はこの 1 枚（ここに全文コピーしない）
 - **広告ドメインの当てはめ実例**: [model-case-aiads-v2.md](model-case-aiads-v2.md)（真ROAS・①KW②広告文③掲載商品④入札・6軸表）
 - **新ドメイン（CRM 司令塔等）**: skeleton はいじらず `model-case-<domain>.md` を 1 枚足してスロット当てはめだけ書く（普遍 skeleton は単一正本のまま増殖させない）。
+- **新媒体/システムへの横展開時の禁止事項**: 既存ボードの雛形コピーは禁止。因果モデルから KPI を導く（共通化してよいのは採算ゲートのみ）（出典: AIads-playbook・2026-06-25 Meta ボードコピー失敗の教訓）。

@@ -14,7 +14,7 @@
 - **ファイル編集は cwd 内のみ**: 他プロジェクト編集禁止。SubAgent 委託時も絶対パスで cwd 配下を明示。例外: `~/.claude/` 配下
 - **曖昧は `AskUserQuestion`**: 仮定で進めず確認。複数解釈可能な指示は選択肢提示
 - **SubAgent 積極活用**: メイン context をクリーンに保つ。リサーチ・調査・並列分析は委託。1 SubAgent 1 タスク。独立性高は `isolation: "worktree"`
-- **Obsidian/vault 連携**: 入口 `rules/40-obsidian.md` / 構造 `rules/41` / 配置 67 種 `rules/42`。書き分け: アーキ判断→`wiki/meta/decisions.md` / ミス・教訓→`wiki/meta/mistakes.md`(de-dup) / 実行追跡→`<repo>/tasks/*.md` / 設計 SSoT→`<repo>/plan.md` / 概念→`wiki/{concepts,entities}/`。2 セット運用（global 4 ルール × project の Vault Integration 節）と MOC 自動 append 廃止の全文 → `docs/claude-workflow-detail.md`
+- **Obsidian/vault 連携**: 入口 `rules/40-obsidian.md` / 構造 `rules/41` / 配置 71 種 `rules/42`。書き分け: アーキ判断→`wiki/meta/decisions.md` / ミス・教訓→`wiki/meta/mistakes.md`(de-dup) / 実行追跡→`<repo>/tasks/*.md` / 設計 SSoT→`<repo>/plan.md` / 概念→`wiki/{concepts,entities}/`。2 セット運用（global 4 ルール × project の Vault Integration 節）と MOC 自動 append 廃止の全文 → `docs/claude-workflow-detail.md`
 
 ## タスク規模判定（最優先）
 

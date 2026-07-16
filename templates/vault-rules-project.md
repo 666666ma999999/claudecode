@@ -4,12 +4,12 @@
 使い方: 本ファイルの "## Vault Integration" 以下を各 project の CLAUDE.md にコピーし、
 `<...>` プレースホルダーを当 project の値で埋める。
 
-グローバル版 (全 project 共通の 3 ルール) は `~/.claude/CLAUDE.md` §Obsidian §連携 2 セット を参照。
+グローバル版 (全 project 共通の 4 ルール) は `~/.claude/docs/claude-workflow-detail.md` §連携 2 セット を参照。
 -->
 
 ## Vault Integration
 
-本プロジェクトの Claude × Obsidian 連携。グローバル版は `~/.claude/CLAUDE.md` §Obsidian §連携 2 セット 参照。本セクションは **当 project 固有の投影**。
+本プロジェクトの Claude × Obsidian 連携。グローバル版は `~/.claude/docs/claude-workflow-detail.md` §連携 2 セット 参照。本セクションは **当 project 固有の投影**。
 
 **プロジェクト MOC**: `vault/02_Ai/<group>/<project>_ope.md` (任意)
 

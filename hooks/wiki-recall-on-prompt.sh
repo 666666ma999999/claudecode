@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# wiki-recall-on-prompt.sh — UserPromptSubmit hook
+# wiki-recall-on-prompt.sh — SessionStart hook
 #
 # wiki/meta/decisions.md / mistakes.md の最新 entry を
 # stdout に出力して Claude の context に注入する。
 #
 # 設計理由 (plan.md#phase-e):
 # - 過去 2 回が「rule を書いても Claude が参照しない」で失敗した。
-# - UserPromptSubmit hook で物理的に prompt の前に注入することで参照を強制する。
+# - SessionStart hook で物理的に prompt の前に注入することで参照を強制する。
 # - 全文ではなく entry header + 短い summary に絞ってトークン節約。
 #
 # 2026-05-25: vault cwd guard 撤去 — repo cwd でも mistakes.md が context 注入されるよう

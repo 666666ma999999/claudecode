@@ -24,7 +24,7 @@ paths:
 
 - `02_Ai/<project>/` には MOC `<project>_ope.md`（索引・サマリー・file:// リンクのみ）。実体は repo 側: 戦略→`plan.md` / Phase 正本→`tasks/phase-tracker.md` / 施策本体→`docs/measures-detail.md`
 - subproject MOC は group 直下に直置き（複数 md が要る時のみ `<subproject>/` を切る）。横断 MOC は `<group>_ope.md`
-- 生成物: dated レポート→`<group>/reports/`。プロンプトは `<project>_INBOX.md` 1 枚（投函＋📒記録・全文保存）。定期実行のみ `prompts/scheduled/`。**`spot/`・`_README` は作らない（2026-06-26〜）**
+- 生成物: **固定名で上書き・毎日見る living →`<project>` 直下 / 日付つきで増える dated →`<group>/reports/`**（2 行判定・出典 AIads_ope・2026-07-16 global 化）。プロンプトは `<project>_INBOX.md` 1 枚（投函＋📒記録・全文保存）。定期実行のみ `prompts/scheduled/`。**`spot/`・`_README` は作らない（2026-06-26〜）**
 - **registry は `wiki/meta/project-registry.md` に固定**（hook hardcode・全 group 共通）
 - `wiki/` `refs/` `.raw/` は 40-obsidian.md に従い append-only。既存プロジェクトの段階移行判定（3 条件 OR）→ detail
 
@@ -33,6 +33,7 @@ paths:
 - 全ファイルに **6 フィールド必須**: `project` / `type` / `folder`（末尾スラッシュ）/ `categories`（親MOC wikilink）/ `last_updated` / `tags`。YAML 例・type 別追加フィールド→ detail。例外 type（concept/registry/guide）は最小要件で OK
 - **汎用名単体禁止**（`plan.md`/`measures.md`/`index.md` 等）。スコープ語前置・vault 全体で basename unique・ambiguous wikilink を作らない
 - **横断共通ファイル**（複数 project で同名展開されるもの）の判定は 1 問: 「**basename が path 抜きで履歴/タブ/wikilink に単独で出て、どの project か分かるか**」→ **既定 = `<project>_` prefix 必須**（`<project>_ope.md` / `<project>-impl-notes.md` / `<project>_INBOX.md` / `<project>_MEMO.md`）。bare 例外は **detail の allowlist のみ**（CLAUDE.md/README.md/plan.md/tasks/NOW.md 等のツール・別ルール予約名＝改名不可のものだけ）。機械ガード G2（重複 basename）/ G3（危険 bare wikilink）→ detail
+- **`<project>_MEMO.md` の運用（全 project 共通・2026-07-16 global 化）**: ▶欄=実行プロンプト（「メモ見て」で AI 実行→結果を INBOX 📒 へ転記・状態管理も AI）／💭欄=思いつき（原文のまま・整形しない）。全文 → `docs/prompt-history-design.md`。MEMO は本人手書きの見返す資産＝下記出口ルールの退避対象外（R36 例外）
 
 ## ③Phase / MOC 構造
 
@@ -47,7 +48,13 @@ paths:
 - **例外: implementation-notes** = vault `02_Ai/<group>/<project>-impl-notes.md` が意思決定ログの唯一の正本（テンプレ `~/.claude/templates/impl-notes.md`）
 - **例外: research 台帳** = 採用済み `research/` の `_summary.md` が調査台帳の vault 正本（research/ 配下限定・MOC は入口導線のみ・知見本文の二重記載禁止・リンクは path-qualified 必須。運用正本 = skill `vault-research-ledger`・2026-07-10）
 - **同期義務（必須）**: repo の施策状態・優先順位・KPI を変更したセッションでは**同セッション内で** vault MOC も更新し `last_updated` を当日に（hook `vault-moc-sync-guard.sh`）。禁止基準・Red Flags 全表→ detail
-- **出口ルール（退役・2026-07-14）**: ①後継に置換 ②自認 superseded ③時点物 になった md は放置せず退場（後継あり→`_archive/`+冒頭に後継リンク1行／時点物→`reports/` 凍結）。直下は living のみ・退場時は inbound を張替え dead link を残さない。全文→ detail §出口ルール
+- **出口ルール（退役・2026-07-14／R33-36 改修 2026-07-16）**: vault は「判断前・現役最新」を保ち、下記になった md は **repo へ退避**（vault 内 `_archive/` でなく repo 側 `reports/archive/` 等へ＝人間は二度見ないため。research が既に台帳＋repo移管で先取り実装済み）:
+  - ①**ジャッジ済み**（✅/❌裁定が decisions 等で確認できる proposal/decision）→ repo へ
+  - ②**定期レポート 3 世代以上前**（同系列で直近 2 世代のみ vault・それ以前 repo。「振り返っても 2 回前まで」）
+  - ③**更新済み調査の旧版**（superseded・最新版のみ vault）→ repo へ
+  - ④後継置換・時点物（従来どおり・後継あり→冒頭に後継リンク1行）
+  - **例外（R36）**: 本人手書き `<project>_MEMO.md` は見返す資産＝vault に残す（退避しない）
+  直下は living のみ・退場時は inbound を張替え dead link を残さない。全文→ detail §出口ルール
 - **重要数値の再導出禁止（2026-07-14）**: 母数・単価等の判断数値は正本1つ（原則 repo）を参照し、各レポートで再計算して埋め込まない（実例: LINE 母数 835/1,969/9,850 並存事故）。全文→ detail §再導出禁止
 
 ## 検証 / 更新フロー

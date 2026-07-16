@@ -7,7 +7,7 @@
 
 - 方式: AgriciDaniel/claude-obsidian の Karpathy LLM Wiki パターン
 - vault パス: `~/Documents/Obsidian Vault/`
-- 構成要素: 11 skills + 4 slash commands + 2 agents + 4 hooks + 1 MCP server (mcpvault)
+- 構成要素: skills + slash commands + agents + hooks（個数は変動。最新は rules/40-obsidian.md と実ファイルを参照）
 - 目的: Obsidian vault を Claude Code の第二の脳として運用、セッション間で文脈・知見を継承
 
 ## Vault 構造
@@ -36,7 +36,7 @@
 ### `/wiki`
 
 - 引数なし
-- 動作: ① Obsidian インストール確認 → ② `.obsidian/` 検出 → ③ MCP server (`mcpvault`) 確認 → ④ 「この vault は何用？」を 1 回だけ質問 → ⑤ 構造を scaffold して提示
+- 動作: ① Obsidian インストール確認 → ② `.obsidian/` 検出 → ③ 「この vault は何用？」を 1 回だけ質問 → ④ 構造を scaffold して提示
 - vault 設定済みなら最近の ingest を確認して「続きから」を提案
 
 ### `/save [name]`
@@ -83,15 +83,7 @@
 | `update hot cache` | `wiki/hot.md` を最新会話文脈で刷新 | `wiki` |
 | `query the wiki ...` | wiki 内検索（filename / 内容） | `wiki-query` |
 
-## MCP Server (mcpvault)
-
-- 登録名: `mcpvault`
-- パッケージ: `@bitbonsai/mcpvault@latest`
-- 環境変数: `MCPVAULT_PATH=${HOME}/Documents/Obsidian Vault`
-- 設定ファイル: `~/.claude/.mcp.json`
-- 確認: `claude mcp list` で `mcpvault: connected` 表示
-
-## スキル一覧（8 種・active）
+## スキル一覧（active・個数は変動。最新は rules/40-obsidian.md と実ファイルを参照）
 
 `~/.claude/skills/` 配下:
 
@@ -107,7 +99,7 @@
 | `obsidian-markdown` | Obsidian 拡張 markdown 仕様 |
 | `defuddle` | Web ページ → 整形 markdown |
 
-退避済み (`skills/_dormant/`、30日未使用): `wiki-fold` / `obsidian-bases` / `obsidian-short-note-merge`。必要時に戻す。
+退避済み (`skills/_dormant/`、30日未使用): `wiki-fold` / `obsidian-bases` / `obsidian-short-note-merge` / `json-canvas`。必要時に戻す。
 
 各スキルの引数・出力例・失敗パターンの正典は対応 `SKILL.md`。
 

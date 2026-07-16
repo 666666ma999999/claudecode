@@ -22,8 +22,8 @@ CLAUDE.md「行動原則 §Obsidian」の **総則 + index** (2026-04-24〜)。O
 ## 適用条件
 
 - 対象 vault: `~/Documents/Obsidian Vault/`
-- 構成要素: workflow skills + slash commands + kepano skills (primitive 層) + agents + 連携 hook 群 + vault MCP (mcpvault)（個数は変動するため数値を持たせない・実数は `settings.json`/`hooks/` を参照）
-- 退避済み skill (`skills/_dormant/`、30 日未使用): `obsidian-bases` / `obsidian-short-note-merge` / `wiki-fold` / `obsidian-now-done`。**ただし `/done` コマンド (`commands/done.md`) は自己完結化済み・現役**（dormant skill には依存しない・2026-06-13 修理）
+- 構成要素: workflow skills + slash commands + kepano skills (primitive 層) + agents + 連携 hook 群（個数は変動するため数値を持たせない・実数は `settings.json`/`hooks/` を参照）
+- 退避済み skill (`skills/_dormant/`、30 日未使用): `obsidian-bases` / `obsidian-short-note-merge` / `wiki-fold` / `obsidian-now-done` / `json-canvas`（canvas skill へ統合）。**ただし `/done` コマンド (`commands/done.md`) は自己完結化済み・現役**（dormant skill には依存しない・2026-06-13 修理）
 - vault 外プロジェクトでは vault **file 操作系** hook が no-op（`[ -d wiki ] && [ -d .git ]` または vault path ガードによる）。**warning 系** hook (`wiki-auto-capture-on-stop.sh` 等) は cwd 不問で警告 stdout を発火可 (vault file 操作はしない・Phase 2 2026-05-24〜)
 - **基本方針**: 知識化は claude-obsidian (`wiki/`)、証跡 refs/ は `/done` コマンド (自己完結・現役) が append-only で書く
 
@@ -56,7 +56,6 @@ claude-obsidian (workflow 層) が「**何を作るか**」、kepano (primitive 
 | kepano skill | 役割 | 上位 workflow からの扱い |
 |---|---|---|
 | `obsidian-markdown` | wikilink/embed/callout/properties 構文 | `save` / `wiki-ingest` の構文整形に委譲 |
-| `json-canvas` | `.canvas` JSON Spec 1.0 準拠生成 | `canvas` から JSON 生成規則を委譲 |
 | `defuddle` | URL → 本文 markdown 抽出（.md URL 不可） | `autoresearch` / `wiki-ingest` の HTML 抽出を置換 |
 | `obsidian-cli` | vault CRUD（要 Obsidian 起動） | **管理者用例外ツール**。一般 workflow から自動発火禁止 |
 
@@ -77,7 +76,7 @@ vault 全域 CRUD 可能なため、§不変ルールを一発で破る危険が
 |---|---|---|---|
 | SessionStart | * | `wiki-dormant-warn.sh` | 過去 7 日 `wiki/meta/decisions.md` `mistakes.md` 追加 0 件で alert |
 | SessionStart | * | `vault-sync-sessionstart.sh` | report プロジェクト pull（既存・継続） |
-| UserPromptSubmit | * | `wiki-recall-on-prompt.sh` | `wiki/meta/decisions.md` `mistakes.md` 最新 5 件を context 注入 |
+| SessionStart（起動時） | * | `wiki-recall-on-prompt.sh` | `wiki/meta/decisions.md` `mistakes.md` 最新 5 件を context 注入 |
 | Stop | * | `wiki-auto-capture-on-stop.sh` | **二系統 (2026-05-23 午後〜)**: 決定/採用/却下ワード → decisions.md 30 分未更新で警告 / 教訓/失敗/再発ワード → mistakes.md 30 分未更新で警告（de-dup リマインド付）。初版 exit 0、Phase 2 audit 後 exit 2 化検討 |
 | Stop | * | `stop-obs-refs-index.sh` | `refs/` 配下の `_index.md` を再生成（既存・継続） |
 | Stop | * | `vault-sync-stop.sh` | report プロジェクト push（既存・継続） |

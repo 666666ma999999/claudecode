@@ -56,7 +56,7 @@
 ```yaml
 ---
 project: <project-name>            # 例: prime_ad / prime_crm
-type: <note-type>                  # moc / plan / measures-index / progress / implementation-notes / stub / concept / registry / hub
+type: <note-type>                  # moc / plan / measures-index / progress / implementation-notes / stub / concept / registry / hub / playbook / reference / analysis / proposal
 folder: "02_Ai/<project>/"         # ← vault 相対パス・末尾スラッシュ必須・Dataview/Bases クエリ用
 categories:                        # ← 所属 MOC への wikilink (kepano 式)
   - "[[<parent-MOC>]]"
@@ -66,6 +66,8 @@ tags:
   - type/<note-type>
 ---
 ```
+
+**analysis** = 読むだけの調査・分析（✅不要）／**proposal** = ✅裁定が要る施策提案。フォルダは分けず type で機械仕分けする（2026-07-16 global 昇格・出典 AIads-playbook:328。フォルダは分けず type で機械仕分け＝✅待ち施策だけの一覧窓を作れる）。
 
 ### type 別追加フィールド (任意)
 

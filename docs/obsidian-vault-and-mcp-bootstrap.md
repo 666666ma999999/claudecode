@@ -1,5 +1,7 @@
 # Obsidian Vault + MCP 再現手順書（別Mac向け・自己完結版）
 
+> ⚠️ **2026-07-16 注記**: **mcpvault は現行構成に未導入**（実際の `.mcp.json` は postgresql/repomix/codex/grok-search/playwright の 5 サーバー）。本手順書の mcpvault 関連 STEP は当時の検討記録＝**スキップする**。vault 操作は wiki 系 skill / obsidian-cli 経由で行う。
+
 まっさらな別Mac で、現環境と同じ Claude Code + Obsidian vault + MCP（mcpvault 含む）構成を
 **この 1 ファイルだけで** 構築する手順書。Phase 0 で OS 前提から立ち上げ、STEP 1-8 で vault と MCP を再現する。
 

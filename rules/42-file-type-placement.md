@@ -7,7 +7,7 @@ paths:
 
 # ファイル種別 配置仕分け（プロジェクトルール v1・索引）
 
-> **⏸ Status: 休眠中**（`state/vault-cc-enabled` flag 未設置＝ゲート対象 hook 4本は no-op。有効化は flag 作成で・2026-07-10 裁定）。
+> **✅ Status: 稼働中**（`state/vault-cc-enabled` flag 在り〔2026-06-14〜〕＝ゲート対象 hook 4本が稼働。休眠は flag 削除で。2026-07-10 裁定は休眠意図だったが flag は残存し実際は稼働中だったため、2026-07-16 実態に合わせ Active に訂正）。
 > **本ファイルは常時ロードされる薄い索引**。71 種の詳細表・備考・命名規約・根拠・適用順序・運用履歴は
 > **`docs/file-placement-detail.md`（= `~/.claude/docs/file-placement-detail.md`）を必要時 Read**。
 > （`30-routing.md` → `docs/routing-table.md` と同型の分離・2026-05-30 スリム化）
@@ -58,7 +58,7 @@ paths:
 | **L** ライフサイクル | 3 | refs→repo `<sub>/refs/` 集約 / bak・legacy→`archive/` 隔離保持 |
 | **M** データ・運用 | 6 | **secrets=禁止** / logs・data raw/processed・cache→repo gitignore / reports→repo+vault サマリ |
 | **N** ファイル命名規約 | 8 | research / concepts / sources / meta / raw / MOC / impl-notes / claude-task の type 別命名形式 |
-| **O** 仕事フォルダ横断・迷子防止 | 4 | Desktop=一時面（帰属不明→`_desk-archive/YYYY-MM/`）/ prm・biz トップ=project+機能ファイルのみ（旧版は STALE/BACKUP 命名）/ vault root=HQ以外裸置き禁止 / `~/.claude` root=allowlist外平置き禁止（2026-07-10 監査追加・Desktop 1枚版=`~/Desktop/_placement-rules.md`） |
+| **O** 仕事フォルダ横断・迷子防止 | 4 | Desktop=一時面（帰属不明→`_desk-archive/YYYY-MM/`）/ prm・biz トップ=project+機能ファイルのみ（旧版は STALE/BACKUP 命名）/ vault root=HQ以外裸置き禁止 / `~/.claude` root=allowlist外平置き禁止（2026-07-10 監査追加・領域版=`vault:03_ClaudeEnv/placement-rules.md`〔旧 Desktop 1枚版は不在・2026-07-16 張替〕） |
 
 **合計 71 種**（カバー率 100% は 67 種時点の実測: prime_ad 92 + prime_crm 57 + vault AI_adscrm 12 ファイル。O 群は 2026-07-10 横断監査由来）。
 

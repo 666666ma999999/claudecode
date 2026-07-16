@@ -41,7 +41,7 @@
 
 ## 司令塔（command-center）モデルケース：AIads-cp-review.md
 
-live ノート: `02_Ai/AI_adscrm/reports/AIads-cp-review.md`（`type: progress`・固定名上書き・約 580 行）。上の launch-candidates-v2（候補棚卸しの分析 findings 系・123 行）とは**別物**——**cp-review 系＝毎日見る運用司令塔(full)** ／ **launch-candidates＝候補棚卸しの分析 findings**。
+live ノート: `02_Ai/AI_adscrm/AIads-cp-review.md`（プロジェクト直下・`type: progress`・固定名上書き・約 580 行）。上の launch-candidates-v2（候補棚卸しの分析 findings 系・123 行）とは**別物**——**cp-review 系＝毎日見る運用司令塔(full)** ／ **launch-candidates＝候補棚卸しの分析 findings**。
 
 司令塔 skeleton（**vault** `templates/cockpit-report.md`（正本））の `{{スロット}}` に広告ドメインを当てはめた実例として読む（**数値は live ノートが正本・ここにコピーしない**＝コピーすると drift 防止に自己矛盾）。
 
