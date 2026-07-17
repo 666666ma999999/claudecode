@@ -6,7 +6,7 @@
 - ~/.claude/state/chat-cards/worklist.json に書き出す（runner プロンプトが Read する）
 本人許可: 2026-07-16 業務Chatの常設AI処理を本人（事業責任者）権限で許容済み。ローカル処理・社外共有なし。
 """
-import json, os, subprocess, sys
+import json, os, shutil, subprocess, sys
 from datetime import datetime, timedelta, timezone
 
 HOME = os.path.expanduser("~")
@@ -17,8 +17,13 @@ OUT = os.path.join(STATE_DIR, "worklist.json")
 SELF_ID = "users/102884527284642128717"  # MASA（2026-07-13 実測同定: 90スペース・最多発言）
 MAX_PER_SPACE = 50  # 夜間バックログ(21→8時)でも1スペース50件あれば取りこぼさない
 
+# launchd は最小 PATH のため絶対パスで解決（2026-07-17 実障害: FileNotFoundError 'gog' ×4回連続）
+GOG_BIN = shutil.which("gog") or next(
+    (p for p in ("/opt/homebrew/bin/gog", "/usr/local/bin/gog") if os.path.exists(p)), "gog")
+
+
 def gog(args):
-    r = subprocess.run(["gog"] + args, capture_output=True, text=True, timeout=120)
+    r = subprocess.run([GOG_BIN] + args, capture_output=True, text=True, timeout=120)
     if r.returncode != 0:
         raise RuntimeError(f"gog {' '.join(args)}: {r.stderr[:200]}")
     return r.stdout
