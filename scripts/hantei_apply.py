@@ -59,8 +59,8 @@ VAULT = os.path.join(HOME, "Documents", "Obsidian Vault")
 ADSCRM_DIR = os.path.join(VAULT, "02_Ai", "AI_adscrm", "AIads")
 
 DEFAULT_REPORTS = [
-    os.path.join(ADSCRM_DIR, "reports", "adscrm-biweekly-ads-pdca-result.md"),
-    os.path.join(ADSCRM_DIR, "reports", "adscrm-weekly-ops-review-result.md"),
+    os.path.join(ADSCRM_DIR, "reports", "_ai", "adscrm-biweekly-ads-pdca-result.md"),
+    os.path.join(ADSCRM_DIR, "reports", "_ai", "adscrm-weekly-ops-review-result.md"),
 ]
 DEFAULT_INBOX = os.path.join(ADSCRM_DIR, "prompts", "AIads_INBOX.md")
 DEFAULT_REPO = os.path.join(HOME, "Desktop", "prm", "prime_suite", "prime_ad")

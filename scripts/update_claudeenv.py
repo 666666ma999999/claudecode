@@ -712,8 +712,8 @@ COLLECTORS = [
 FRESH_MARK = "%%freshness%%"
 FRESHNESS_TARGETS = [
     VAULT / "02_Ai/AI_adscrm/AIads/AIads-cp-review.md",
-    VAULT / "02_Ai/AI_adscrm/AIads/reports/adscrm-weekly-ops-review-result.md",
-    VAULT / "02_Ai/AI_adscrm/AIads/reports/adscrm-biweekly-ads-pdca-result.md",
+    VAULT / "02_Ai/AI_adscrm/AIads/reports/_ai/adscrm-weekly-ops-review-result.md",
+    VAULT / "02_Ai/AI_adscrm/AIads/reports/_ai/adscrm-biweekly-ads-pdca-result.md",
 ]
 
 
@@ -771,9 +771,9 @@ JOB_ARTIFACTS = [
     ("com.masa.wiki-daily-ingest",
      VAULT / "wiki/meta/wiki-daily-ingest-result.md", 2, "daily 8:47"),
     ("com.masa.vault-prompt-runner (weekly・masa-2)",
-     VAULT / "02_Ai/AI_adscrm/AIads/reports/adscrm-weekly-ops-review-result.md", 8, "毎週月 10:30"),
+     VAULT / "02_Ai/AI_adscrm/AIads/reports/_ai/adscrm-weekly-ops-review-result.md", 8, "毎週月 10:30"),
     ("com.masa.vault-prompt-runner (biweekly・masa-2)",
-     VAULT / "02_Ai/AI_adscrm/AIads/reports/adscrm-biweekly-ads-pdca-result.md", 16, "第2/第4月 10:30"),
+     VAULT / "02_Ai/AI_adscrm/AIads/reports/_ai/adscrm-biweekly-ads-pdca-result.md", 16, "第2/第4月 10:30"),
     # repoパス(influx/output/bookmarks/keywords_ledger.jsonl)ではなくvaultノートを採用。
     # 理由: scan_job_health()はpath.exists()がFalseの場合を無条件で🔴とする(スキップ分岐なし・下記参照)。
     # influxリポジトリはmasa-2ローカルのみに存在し、daily_digest.sh(update_claudeenv.py --target health)は

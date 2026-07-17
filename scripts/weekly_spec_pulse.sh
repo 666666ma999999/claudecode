@@ -18,7 +18,7 @@ set -uo pipefail
 PY=/usr/bin/python3
 HOME_DIR="$HOME"
 RAW_DIR="$HOME_DIR/Documents/Obsidian Vault/.raw/news"
-OUT_DIR="$HOME_DIR/Documents/Obsidian Vault/02_Ai/AI_adscrm/AIads/reports"
+OUT_DIR="$HOME_DIR/Documents/Obsidian Vault/02_Ai/AI_adscrm/AIads/reports/_ai"
 MAPPING="$HOME_DIR/.claude/data/spec-pulse-mapping.yaml"
 HEALTH="$HOME_DIR/.claude/state/news_health.json"
 STATE_DIR="$HOME_DIR/.claude/state"
