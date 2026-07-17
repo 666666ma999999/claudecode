@@ -3,11 +3,12 @@
 <plist version="1.0">
 <dict>
   <key>Label</key><string>com.masa.chat-cards-hourly</string>
+  <!-- TCC対策 2026-07-17: bash直実行だとDocuments(vault)を読めずFDA付与のGUI操作が必要になる。
+       app bundle経由ならOS標準の「書類フォルダへのアクセス許可」ダイアログが自動で出て、
+       ユーザーは「許可」1クリックで済む（chain実体は ChatCards.app 内の do shell script） -->
   <key>ProgramArguments</key>
   <array>
-    <string>/bin/bash</string>
-    <string>-lc</string>
-    <string>/usr/bin/python3 ~/.claude/scripts/chat_card_extract.py &amp;&amp; ~/.claude/scripts/vault-prompt-runner.sh "$HOME/Documents/Obsidian Vault/00_General/prompts/scheduled/chat-cards-hourly.md" &amp;&amp; /usr/bin/python3 ~/.claude/scripts/chat_card_apply.py "$HOME/Documents/Obsidian Vault/00_Inbox/chat-reports/chat-cards-hourly-result.md"</string>
+    <string>/Applications/ChatCards.app/Contents/MacOS/applet</string>
   </array>
   <key>StartCalendarInterval</key>
   <array>
