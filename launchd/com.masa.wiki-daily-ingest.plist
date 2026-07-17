@@ -17,10 +17,10 @@
     runner が非ゼロ終了なら && で applier は実行されない（壊れた result を適用しない）。
     適用先・上限・秘密検査・冪等・flock は applier 側にハードコード（vault md から任意経路を作らせない）。
 
-    /bin/bash -lc で login profile (nvm PATH + ~/.zshrc secrets) をロード。
-    ~/Documents (TCC 保護) への読み書きは runner/applier(bash 経路) が担当。
-    ⚠️ launchd 自動発火は macOS TCC で失敗しうる（既知）。GUI で /bin/bash に Full Disk Access 付与が必要。
-       付与しない場合の代替 = 手動実走（下記 activate の手動テスト or 「今日の取り込みして」）。
+    TCC 対策 (2026-07-17 確定): bash 直実行は ~/Documents を TCC に無音拒否されるため、
+    VaultJobs.app（許可ダイアログ取得済み app bundle）経由で実行する。ジョブ本体の分岐は
+    EnvironmentVariables の CLAUDE_JOB → ~/.claude/scripts/vault-job-dispatch.sh。
+    ⚠️ VaultJobs.app を再ビルドすると TCC 許可が無効化される（再生成は build-vaultjobs-app.sh）。
 
     ⚠️ 正本はステージング (~/.claude/launchd/)。activate:
         cp ~/.claude/launchd/com.masa.wiki-daily-ingest.plist ~/Library/LaunchAgents/
@@ -31,10 +31,12 @@
   -->
   <key>ProgramArguments</key>
   <array>
-    <string>/bin/bash</string>
-    <string>-lc</string>
-    <string>/Users/masaaki/.claude/scripts/vault-prompt-runner.sh "/Users/masaaki/Documents/Obsidian Vault/00_General/prompts/scheduled/wiki-daily-ingest.md" &amp;&amp; /usr/bin/python3 /Users/masaaki/.claude/scripts/wiki_ingest_apply.py "/Users/masaaki/Documents/Obsidian Vault/wiki/meta/wiki-daily-ingest-result.md"</string>
+    <string>/Applications/VaultJobs.app/Contents/MacOS/applet</string>
   </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>CLAUDE_JOB</key><string>wiki</string>
+  </dict>
   <key>WorkingDirectory</key>
   <string>/Users/masaaki</string>
   <key>StartCalendarInterval</key>

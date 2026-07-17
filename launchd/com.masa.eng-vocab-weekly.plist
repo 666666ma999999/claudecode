@@ -3,12 +3,16 @@
 <plist version="1.0">
 <dict>
   <key>Label</key><string>com.masa.eng-vocab-weekly</string>
+  <!-- TCC対策 2026-07-17: bash直実行は ~/Documents を無音拒否されるため VaultJobs.app 経由。
+       本体分岐は CLAUDE_JOB → vault-job-dispatch.sh。app再ビルドは許可無効化に注意 -->
   <key>ProgramArguments</key>
   <array>
-    <string>/bin/bash</string>
-    <string>-lc</string>
-    <string>/usr/bin/python3 ~/.claude/scripts/eng_vocab_extract.py &amp;&amp; ~/.claude/scripts/vault-prompt-runner.sh "$HOME/Documents/Obsidian Vault/00_General/prompts/scheduled/eng-vocab-weekly.md" &amp;&amp; /usr/bin/python3 ~/.claude/scripts/eng_vocab_apply.py "$HOME/Documents/Obsidian Vault/00_Inbox/eng-reports/eng-vocab-weekly-result.md"</string>
+    <string>/Applications/VaultJobs.app/Contents/MacOS/applet</string>
   </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>CLAUDE_JOB</key><string>eng</string>
+  </dict>
   <key>StartCalendarInterval</key>
   <dict><key>Weekday</key><integer>0</integer><key>Hour</key><integer>8</integer><key>Minute</key><integer>23</integer></dict>
   <key>StandardOutPath</key><string>/tmp/com.masa.eng-vocab-weekly.log</string>
