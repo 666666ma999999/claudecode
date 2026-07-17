@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 # Weekly Spec Pulse: 過去 7 日の .raw/news/*.jsonl から spec_pulse 系を集約し
-# vault/02_Ai/AI_adscrm/AIads/reports/weekly-update-YYYY-MM-DD.md を生成する。
+# vault/02_Ai/AI_adscrm/AIads/reports/AIads-spec-pulse-YYYY-MM-DD.md を生成する。
 # (2026-06-13: 出力先を project wiki/ → reports/ へ移設。rules/42 K-3 project 内 wiki/ 廃止)
+# (2026-07-17: 出力名 weekly-update-* → AIads-spec-pulse-* に改名。裸名は rules/41 §② 命名規約違反のため)
 #
 # launchd: ~/Library/LaunchAgents/com.masa.weekly-spec-pulse.plist (月曜 09:30 JST)
 # 起案: ~/Desktop/prm/prime_suite/prime_ad/tasks/spec-pulse-plan.md
 # マッピング: ~/.claude/data/spec-pulse-mapping.yaml
 #
 # 出力:
-#   - vault/02_Ai/AI_adscrm/AIads/reports/weekly-update-YYYY-MM-DD.md  (人間用 + SessionStart 注入)
+#   - vault/02_Ai/AI_adscrm/AIads/reports/AIads-spec-pulse-YYYY-MM-DD.md  (人間用 + SessionStart 注入)
 #   - ~/.claude/state/weekly-spec-pulse.last_run             (mtime 死活監視)
 #   - ~/.claude/state/weekly-spec-pulse.log                  (ログ)
 
@@ -27,7 +28,7 @@ LOG="$STATE_DIR/weekly-spec-pulse.log"
 mkdir -p "$OUT_DIR" "$STATE_DIR"
 TODAY=$(date +%Y-%m-%d)
 TS=$(date -Iseconds)
-OUT_MD="$OUT_DIR/weekly-update-$TODAY.md"
+OUT_MD="$OUT_DIR/AIads-spec-pulse-$TODAY.md"
 
 {
   echo "=== [$TS] weekly_spec_pulse start ==="

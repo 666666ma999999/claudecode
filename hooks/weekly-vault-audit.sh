@@ -428,6 +428,24 @@ for rdir in "$VAULT"/02_Ai/*/reports "$VAULT"/02_Ai/*/*/reports; do
 done
 
 # ============================================================
+# 検証 20: dead link 双方向検知 (2026-07-17・rules/41 §④ 逆参照ガード機械化)
+# 実事故: 2026-07-17 レポート統合で repo NOW.md の設計 SSoT file:// リンクが断線
+# (旧 audit は wikilink ambiguity のみで検知不能だった)。
+# 実体は scripts/vault_dead_link_check.py (macOS bash 3.2 は <() 内 heredoc を
+# パースできないため外部ファイル化・2026-07-17)。
+# (a) AI_adscrm 現役文書の dead wikilink (b) vault→repo file:// (c) repo→vault 逆参照
+# 除外: _archive/・_INBOX・AGENTS/CLAUDE・*-result.md・symlink・code fence/inline code 内
+# ============================================================
+DLC_PY="$HOME/.claude/scripts/vault_dead_link_check.py"
+if [ -f "$DLC_PY" ]; then
+  while IFS= read -r dl_line; do
+    [ -z "$dl_line" ] && continue
+    result="${result}- ❌ ${dl_line}\n"
+    violations=$((violations + 1))
+  done < <(/usr/bin/python3 "$DLC_PY" 2>/dev/null)
+fi
+
+# ============================================================
 # audit ファイル append-only 更新
 # ============================================================
 mkdir -p "$(dirname "$AUDIT_FILE")"
