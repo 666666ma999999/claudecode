@@ -19,7 +19,8 @@ from pathlib import Path
 
 HOME = Path.home()
 VAULT = HOME / "Documents/Obsidian Vault"
-SCOPE = VAULT / "02_Ai/AI_adscrm"
+# 検査対象プロジェクト（整理済みのものから順次追加・2026-07-17: make_article 追加）
+SCOPE_DIRS = [VAULT / "02_Ai/AI_adscrm", VAULT / "02_Ai/make_article"]
 
 WIKILINK = re.compile(r'!?\[\[([^\]|#]+)')
 FILEURI = re.compile(r'file://(/Users/[^)\s>"\'（」・]+)')
@@ -43,6 +44,11 @@ def lines_outside_fence(p: Path):
 
 
 def scope_files():
+    for scope in SCOPE_DIRS:
+        yield from _scope_files_one(scope)
+
+
+def _scope_files_one(SCOPE):
     for p in SCOPE.rglob("*.md"):
         if p.is_symlink():
             continue
