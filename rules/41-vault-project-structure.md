@@ -24,6 +24,7 @@ paths:
 ## ①ディレクトリ & ファイル構成
 
 - `02_Ai/<project>/` には MOC `<project>_ope.md`（索引・サマリー・file:// リンクのみ）。実体は repo 側: 戦略→`plan.md` / Phase 正本→`tasks/phase-tracker.md` / 施策本体→`docs/measures-detail.md`
+- **プロジェクトのルール類は `<project>/rules/` に集約**（ルール窓・playbook・ルールブック類。グローバル `~/.claude/rules/` と同名＝人間の迷子防止・2026-07-17 ユーザー恒久指示）。**vault 直下 `wiki/` は横断の第二の脳＝改名・移動・プロジェクト私物化は禁止**（機械参照 40 ファイル実測・K-3「project 内 wiki/ 廃止」も維持）。各ルール窓の冒頭に**境界1行**（「横断の知識・決定= vault `wiki/`／この工房の掟=ここ」）を必ず書く
 - subproject MOC は group 直下に直置き（複数 md が要る時のみ `<subproject>/` を切る）。横断 MOC は `<group>_ope.md`
 - 生成物の配置は **3 値判定（2026-07-17 改・「固定名」の自己矛盾解消）**: **人が更新する固定名 living**（司令塔・施策ブック）→`<project>` 直下 / **機械が上書きする固定名 runner 出力**（`…-result.md` 等）→`<group>/reports/` / **日付つき dated** →`<group>/reports/`。プロンプトは `<project>_INBOX.md` 1 枚（投函＋📒記録・全文保存）。定期実行のみ `prompts/scheduled/`。**`spot/`・`_README` は作らない（2026-06-26〜）**
 - **registry は `wiki/meta/project-registry.md` に固定**（hook hardcode・全 group 共通）
