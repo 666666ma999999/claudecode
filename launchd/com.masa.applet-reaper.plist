@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.masa.applet-reaper</string>
+  <!-- ChatCards/VaultJobs applet の残留掃除（30分毎）。居座り1匹で毎時ジョブが全停止した
+       2026-07-17 実障害の再発防止。TCC 不要（pgrep/kill のみ）なので bash 直実行 -->
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/masaaki/.claude/scripts/applet-reaper.sh</string>
+  </array>
+  <key>StartInterval</key><integer>1800</integer>
+  <key>StandardOutPath</key><string>/tmp/com.masa.applet-reaper.log</string>
+  <key>StandardErrorPath</key><string>/tmp/com.masa.applet-reaper.err</string>
+</dict>
+</plist>
