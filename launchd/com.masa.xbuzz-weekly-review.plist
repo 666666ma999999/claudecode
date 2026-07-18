@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.masa.xbuzz-weekly-review</string>
+  <!-- x-buzz 週次トリガー（2026-07-18 新設・戦略停止5週間の再発防止=実行の引き金）。
+       ステージング: ~/.claude/launchd/ が正本・activate は LaunchAgents へ cp + launchctl load -->
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>-lc</string>
+    <string>"/Users/masaaki_nagasawa/.claude/scripts/vault-prompt-runner.sh" "/Users/masaaki_nagasawa/Documents/Obsidian Vault/02_Ai/x-buzz/make_article/prompts/scheduled/x-buzz-weekly-review.md"</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/masaaki_nagasawa/Desktop/biz/make_article</string>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key><integer>0</integer>
+    <key>Hour</key><integer>21</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+  <key>RunAtLoad</key>
+  <false/>
+  <key>StandardOutPath</key>
+  <string>/Users/masaaki_nagasawa/.claude/state/xbuzz-weekly-review.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/masaaki_nagasawa/.claude/state/xbuzz-weekly-review.err.log</string>
+</dict>
+</plist>
