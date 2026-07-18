@@ -862,6 +862,9 @@
     ]
   },
   "effortLevel": "xhigh",
+  "remote": {
+    "defaultEnvironmentId": "env_01QWFn7ytSieeucaghTZq2ww"
+  },
   "tui": "fullscreen",
   "skipWorkflowUsageWarning": true,
   "claudeMdExcludes": [
