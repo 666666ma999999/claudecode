@@ -448,6 +448,33 @@ if [ -f "$DLC_PY" ]; then
 fi
 
 # ============================================================
+# 検証 21: ドラフト滞留 + 名前と状態の乖離 (2026-07-18・rules/41 §④ ドラフト運用)
+# 実事故: x-operation-rework DRAFT 580行が2ヶ月化石化 / delegation-charter-draft が
+# 採択済みのまま -draft 名で残存。判定キーは basename *-draft.md（大文字/下線ゆらぎ含む）。
+# (a) 30日超の未決着ドラフト → 🟡 warn (housekeeping・移動は人間ゲート)
+# (b) 承認済み(✅/approved)なのに -draft 名のまま → ❌ 違反 (名前か置き場を動かせ)
+# ============================================================
+draft_stale=""
+while IFS= read -r f; do
+  [ -z "$f" ] && continue
+  case "$f" in */_archive/*|*/works/*|*/ai_dashboard/*|*/rohan/*) continue ;; esac  # 既存プロジェクトは rules/41 適用外
+  fst="$(awk '/^---$/{c++; if(c==2)exit} c==1' "$f" 2>/dev/null | grep -E '^status:' | head -1)"
+  if printf '%s' "$fst" | grep -qE '✅|採択|approved|承認'; then
+    result="${result}- ❌ draft-drift: ${f#$VAULT/} - 承認済みなのに -draft 名のまま (rules/41 §④: -draft を外すか _archive/ へ)\n"
+    violations=$((violations + 1))
+    continue
+  fi
+  fm_epoch=""
+  fdate="$(awk '/^---$/{c++; if(c==2)exit} c==1' "$f" 2>/dev/null | grep -E '^last_updated:' | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}' | head -1)"
+  [ -n "$fdate" ] && fm_epoch="$(date -j -f "%Y-%m-%d" "$fdate" "+%s" 2>/dev/null)"
+  [ -z "$fm_epoch" ] && fm_epoch="$(stat -f %m "$f" 2>/dev/null || echo "$now_epoch")"
+  d_age=$(( (now_epoch - fm_epoch) / 86400 ))
+  if [ "$d_age" -gt 30 ]; then
+    draft_stale="${draft_stale}- 🟡 draft-stale (${d_age}d): ${f#$VAULT/} - 30日超の未決着ドラフト (決裁するか closure: abandoned で箱内 _archive/ へ)\n"
+  fi
+done < <(find "$VAULT/02_Ai" "$VAULT/03_ClaudeEnv" -type f \( -iname "*-draft.md" -o -iname "*_draft.md" \) 2>/dev/null)
+
+# ============================================================
 # audit ファイル append-only 更新
 # ============================================================
 mkdir -p "$(dirname "$AUDIT_FILE")"
@@ -483,6 +510,9 @@ fi
   fi
   if [ -n "$stale_reports" ]; then
     echo -e "$stale_reports"
+  fi
+  if [ -n "$draft_stale" ]; then
+    echo -e "$draft_stale"
   fi
 } >> "$AUDIT_FILE"
 

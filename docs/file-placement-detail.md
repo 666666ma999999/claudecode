@@ -59,7 +59,7 @@
 | # | 種別 | vault | repo | 全文側 |
 |---|---|---|---|---|
 | 0-1 | 知識 / GTD / 日記 / PM ToDo | project root 直下 | — | **vault** |
-| 0-2 | draft | project root | — | **vault** |
+| 0-2 | draft | `<project>/notes/`（2026-07-18 訂正: 旧「project root」は振り切り版と矛盾＝580行化石の温床だった。命名 `-draft` 小文字・rules/41 §④ ドラフト運用参照） | — | **vault** |
 | 0-3 | 仕様 | 住所 + サマリ | 全文 | **repo** |
 | 0-4 | 施策 | 住所 + 1 行サマリ | 全文 | **repo** |
 | 0-5 | 計画 / 施策ファイル | サマリ | 全文 | **repo** |

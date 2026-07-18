@@ -17,6 +17,7 @@ paths:
 ## 基本原則
 
 - **vault = 索引 + サマリー / 実体の SSoT は repo**（例外: implementation-notes は vault SSoT・§④）
+- **例外: reference-mirror（2026-07-18 正本化・reading-factory 発）** = ユーザーが「vault で読みたい」と明示要望した repo 正本に限り、vault へ全文ミラー可。条件: AI の自発作成禁止／同時 **3 枚まで**／編集は repo 側のみ（vault 手編集禁止）／frontmatter に `type: reference-mirror`・`source_of_truth`（repo file:// 必須）・`edit_policy: repo-only`・`mirror_slot: n/3` 必須／冒頭に「閲覧用ミラー・編集は repo 側」callout。正本更新時は AI が全文 overwrite（キャッシュ性質＝rules/40 の完全上書き可クラスの拡張）
 - **architecture の窓**: MOC に「🏗 システム全体像（architecture）」の窓1行を許可（repo の `<project>-architecture.md` への file:// リンク＋責務の一言サマリー）。図の実体は vault に貼らない（repo が正本・vault は窓）。
 - **群全体の連携・役割文書 = architecture 層の vault 側（2026-07-18 裁定）**: 責務・境界・誰が何を担うかの本人構想メモは **`<group>/notes/`**（例 `notes/adscrm-role.md`・振り切り版で notes/ へ）・玄関 MOC に窓1行。**02_Ai 直下への直置き禁止**（群の持ち物は群の中へ）。**本人手書き原文は不改変**（frontmatter も付けない・AI は監査注記のみ併記・audit 検証1 対象外）
 - 新規プロジェクトは **MOC 1 ファイル統合構成**（`<project>_ope.md` に戦略入口・Phase 入口・施策サマリー・データソース・連携を統合）
@@ -59,6 +60,7 @@ paths:
   **索引規約（2026-07-16）**: vault `_archive/` の実体は種類別に**台帳へ 1 行索引**（台帳＝索引・`_archive`＝実体・"どこに何の決定/ルールがあるか"を引ける R16/R19）: 調査→`research/_summary.md` / 意思決定→`wiki/meta/decisions.md`（横断アーキ判断）or MOC の決定索引（project 施策決定）/ ルールブック的（設計正本・施策定石）→`<sub>-playbook.md`・`<sub>-facts.md`。**索引なしの `_archive` 直置き禁止**。二度見ない（スナップ・会議資料・定期レポ旧世代）は索引不要＝repo `reports/archive/` へ。
 - **reports の扱い（2026-07-16 敵対レビュー2体一致・reports 専用台帳は作らない）**: reports/ も上記3層で判定するが report は「実行時に全文を開く運用物」ゆえ追加ガード: (i) 固定名 living（運用診断ボード）は退避対象から**除外**（`<project>` 直下常駐） (ii) inbound に**現役 living/runbook が参照中は退避禁止**（現役手順書のリンクが死ぬ） (iii) 未決着（open_questions/next_actions あり）は退避不可・要対応は task/MOC へ (iv) **一望は手動台帳を作らず** MOC の既存 dated 表 or Bases 自動窓で（数値は本体から反映・手書き転記しない＝§④再導出禁止と整合）。「多い」体感は命名の工程差別化＋MOC 一言説明で解消。
   退場時は inbound を張替え（MOC 等 書換可のみ・decisions 等 append-only の歴史リンクは切れ許容）。全文→ detail §出口ルール
+- **ドラフト運用（2026-07-18 確定・Fable5+Codex 収束）**: ドラフトは**正本候補でなく「決裁用の作業容器」**。置き場= `<project>/notes/`・命名= `<project>-<題名>-draft.md`（小文字 -draft 統一・日付は frontmatter）・本人は frontmatter 不要（**AI が初回接触時に `type: draft`＋昇格先宣言を付与**＝「不改変」は本文の話）。昇格は**決裁行単位**（各行に行き先を書き承認と同セッションで正本へ搬出・一部承認のまま放置禁止）。**承認した瞬間に名前か置き場が必ず動く**（-draft を外す or _archive/）・宿題ゼロ確認まで閉鎖禁止。**draft 発プロジェクト**: 種はどこに書いてもよい→AI が箱ごと建てる（`<project>/` 新設＋_ope 雛形＋notes/ 収納。実例=totty）・立ち消えは closure: abandoned で箱内 _archive/
 - **統合（N 本→1 本）も出口ルールの適用対象（2026-07-17）**: supersede は移動と同格＝inbound 全数検索→張替え→退避。**削除は禁止**（承認欄付き原本は vault `_archive/` に保存）。**frontmatter aliases は既存 `[[旧名]]` リンクを解決しない**（リンク補完専用・公式 doc+実測確認）＝改名/統合の安全網にならない。**repo→vault 逆参照ガード**: vault md の退避/改名/統合の前に repo 側も `Obsidian` パス・旧 basename で grep 必須（実害 2026-07-17: NOW.md の設計 SSoT リンク切れ）
 - **重要数値の再導出禁止（2026-07-14）**: 母数・単価等の判断数値は正本1つ（原則 repo）を参照し、各レポートで再計算して埋め込まない（実例: LINE 母数 835/1,969/9,850 並存事故）。全文→ detail §再導出禁止
 
