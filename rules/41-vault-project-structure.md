@@ -49,7 +49,7 @@ paths:
 
 - vault MOC は**司令塔**。実体（詳細手順・統計根拠・Session Handoff）を repo からコピーしない
 - **自動フィード禁止（2026-06-14）**: ロボット生成ログ（`## 🔁 最新更新ログ` 等）を MOC に置かない。ライブミラー（`## 📋 Open Issues`）は MOC 最下段の自動生成ゾーンのみ許容。全文→ detail
-- **例外: implementation-notes** = vault `02_Ai/<group>/<project>-impl-notes.md` が意思決定ログの唯一の正本（テンプレ `~/.claude/templates/impl-notes.md`）
+- **例外: implementation-notes** = vault `02_Ai/<group>/<project>-impl-notes.md` が意思決定ログの唯一の正本（テンプレ `~/.claude/templates/impl-notes.md`）。**位置づけ＝第二の脳のプロジェクト分室**（「なぜそうしたか」の記録帳・掟ではない・直下が定位置＝2026-07-18 裁定）。昇格の流れ: **決定→impl-notes に記録→横断で効くものは wiki `decisions.md` へ→運用の決まりは `<project>/rules/` へ**
 - **例外: research 台帳** = 採用済み `research/` の `_summary.md` が調査台帳の vault 正本（research/ 配下限定・MOC は入口導線のみ・知見本文の二重記載禁止・リンクは path-qualified 必須。運用正本 = skill `vault-research-ledger`・2026-07-10）
 - **例外: 施策ブック** = ユーザーが読み・承認する「設計＋実行手順」の統合1枚（初例 `AIcrm-line-v3-measures.md`）は **vault SSoT**（2026-07-17 ユーザー裁定）。repo は NOW/実行追跡から file:// で参照（repo 側に写しを作らない）
 - **同期義務（必須）**: repo の施策状態・優先順位・KPI を変更したセッションでは**同セッション内で** vault MOC も更新し `last_updated` を当日に（hook `vault-moc-sync-guard.sh`）。禁止基準・Red Flags 全表→ detail
