@@ -18,6 +18,7 @@ paths:
 
 - **vault = 索引 + サマリー / 実体の SSoT は repo**（例外: implementation-notes は vault SSoT・§④）
 - **architecture の窓**: MOC に「🏗 システム全体像（architecture）」の窓1行を許可（repo の `<project>-architecture.md` への file:// リンク＋責務の一言サマリー）。図の実体は vault に貼らない（repo が正本・vault は窓）。
+- **群全体の連携・役割文書 = architecture 層の vault 側（2026-07-18 裁定）**: 責務・境界・誰が何を担うかの本人構想メモは **`<group>/` 直下**（例 `adscrm-role.md`）・玄関 MOC に窓1行。**02_Ai 直下への直置き禁止**（群の持ち物は群の中へ）。**本人手書き原文は不改変**（frontmatter も付けない・AI は監査注記のみ併記・audit 検証1 対象外）
 - 新規プロジェクトは **MOC 1 ファイル統合構成**（`<project>_ope.md` に戦略入口・Phase 入口・施策サマリー・データソース・連携を統合）
 - 同じ情報を vault と repo の両方に書かない（40-obsidian.md Anti-drift 原則）
 

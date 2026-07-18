@@ -46,6 +46,8 @@ for f in "$VAULT/02_Ai/AI_adscrm/"*.md \
   if head -1 "$f" 2>/dev/null | grep -q '<claude-mem-context>'; then
     continue
   fi
+  # 本人手書き原文 (原文不改変・frontmatter 付与禁止・rules/41 R36) はスキップ (2026-07-18)。
+  case "$(basename "$f")" in adscrm-role.md) continue;; esac
   # 例外 type (concept/registry/guide) スキップ
   if awk '/^---$/{c++; if(c==2)exit} c==1' "$f" 2>/dev/null | grep -qE '^type: (concept|registry|guide)$'; then
     continue
