@@ -43,9 +43,18 @@ fi
 # 旧版は node バージョンをハードコード (v22.18.0) し、かつ実行は素の `claude` を呼んでいたため、
 # claude/node の自動アップグレードでパスが変わると launchd 実行が rc=127
 # 'claude: command not found' で落ちた (2026-06-22 実障害)。バージョン非依存で解決する。
-CLAUDE_BIN="$(command -v claude 2>/dev/null || true)"
-[ -z "$CLAUDE_BIN" ] && CLAUDE_BIN="$(ls -t "$HOME"/.nvm/versions/node/*/bin/claude 2>/dev/null | head -1)"
-[ -z "$CLAUDE_BIN" ] && CLAUDE_BIN="claude"
+# 2026-07-18 実障害: nvm v22.16.0 の残骸 claude が MODULE_NOT_FOUND で即死するのに
+# ls -t の先頭に来て launchd 実行が全滅した（21:19/10:00 FAILED rc=1）。
+# 対策: 候補を順に `--version` で実走確認してから採用（native installer ~/.local/bin を優先）。
+resolve_claude() {
+  local c
+  for c in "$(command -v claude 2>/dev/null)" "$HOME/.local/bin/claude" \
+           $(ls -t "$HOME"/.nvm/versions/node/*/bin/claude 2>/dev/null); do
+    [ -n "$c" ] && [ -x "$c" ] && "$c" --version >/dev/null 2>&1 && { echo "$c"; return; }
+  done
+  echo "claude"
+}
+CLAUDE_BIN="$(resolve_claude)"
 [ -x "$CLAUDE_BIN" ] && export PATH="$(dirname "$CLAUDE_BIN"):$PATH"
 
 STATE_DIR="$HOME/.claude/state"

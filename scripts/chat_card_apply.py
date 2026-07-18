@@ -144,7 +144,7 @@ def main():
         new = HEADER + block
     open(INBOX, "w", encoding="utf-8").write(new)
 
-    kinds = re.findall(r"### 🃏 \[(要承認|要返信|判定不能)\]", result)
+    kinds = re.findall(r"### 🃏 \[?(要承認|要返信|判定不能)\]?", result)  # 括弧ゆれ許容(2026-07-18実出力)
     summary = f"要承認{kinds.count('要承認')}・要返信{kinds.count('要返信')}・判定不能{kinds.count('判定不能')}"
     if warn:
         summary += " ⚠️照合NG"
