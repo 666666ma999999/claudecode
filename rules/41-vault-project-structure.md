@@ -27,7 +27,7 @@ paths:
 - `02_Ai/<project>/` には MOC `<project>_ope.md`（索引・サマリー・file:// リンクのみ）。実体は repo 側: 戦略→`plan.md` / Phase 正本→`tasks/phase-tracker.md` / 施策本体→`docs/measures-detail.md`
 - **プロジェクトのルール類は `<project>/rules/` に集約**（ルール窓・playbook・ルールブック類。グローバル `~/.claude/rules/` と同名＝人間の迷子防止・2026-07-17 ユーザー恒久指示）。**vault 直下 `wiki/` は横断の第二の脳＝改名・移動・プロジェクト私物化は禁止**（機械参照 40 ファイル実測・K-3「project 内 wiki/ 廃止」も維持）。各ルール窓の冒頭に**境界1行**（「横断の知識・決定= vault `wiki/`／この工房の掟=ここ」）を必ず書く
 - subproject MOC は group 直下に直置き（複数 md が要る時のみ `<subproject>/` を切る）。横断 MOC は `<group>_ope.md`
-- 生成物の配置は **3 値判定（2026-07-18 振り切り版・ユーザー裁定）**: **人が更新する固定名 living**（診断ボード・施策ブック・サブMOC・symlink 窓）→**`<project>/boards/`** / **機械が上書きする固定名 runner 出力**（`…-result.md` 等）→`<group>/reports/_ai/` / **日付つき dated** →`<group>/reports/`。**直下に置けるのは `<project>_ope.md`（玄関）と AGENTS.md（自動）のみ**
+- 生成物の配置は **3 値判定（2026-07-18 振り切り版・ユーザー裁定）**: **人が更新する固定名 living**（診断ボード・施策ブック・サブMOC・symlink 窓）→**`<project>/boards/`** / **機械が上書きする固定名 runner 出力**（`…-result.md` 等）→`<group>/reports/_ai/` / **日付つき dated** →`<group>/reports/`。**直下に置けるのは `<project>_ope.md`（玄関）・`<project>_MEMO.md`（人間の書き込み口＝外出し・2026-07-18 追裁定）・AGENTS.md（自動）のみ**
 - **👤/🤖 の層分離（2026-07-17 裁定 B → 07-18 振り切り版）**: **👤 人間が読む層 = `<project>_ope`（玄関）・`boards/`（毎日見る板）・`rules/`（掟）・`works/`（作品）・`notes/`（記録帳・手書き）・reports/ 直下の成果物** / **🤖 AI・機械の層 = `reports/_ai/`**（runner 上書き出力・仕様書・発注書控え・台帳・返信文控え）**・`_archive/`**。`_ai/` は `_` 接頭でツリー最下部に沈む。人間向けボードが埋め込む `![[…]]` は basename 解決のため `_ai/` 移動でも切れない（実証済み）。初適用 = AIads/reports（10本を _ai/ へ・2026-07-17）プロンプトは `<project>_INBOX.md` 1 枚（投函＋📒記録・全文保存）。定期実行のみ `prompts/scheduled/`。**`spot/`・`_README` は作らない（2026-06-26〜）**
 - **registry は `wiki/meta/project-registry.md` に固定**（hook hardcode・全 group 共通）
 - `wiki/` `refs/` `.raw/` は 40-obsidian.md に従い append-only。既存プロジェクトの段階移行判定（3 条件 OR）→ detail
@@ -49,7 +49,7 @@ paths:
 
 - vault MOC は**司令塔**。実体（詳細手順・統計根拠・Session Handoff）を repo からコピーしない
 - **自動フィード禁止（2026-06-14）**: ロボット生成ログ（`## 🔁 最新更新ログ` 等）を MOC に置かない。ライブミラー（`## 📋 Open Issues`）は MOC 最下段の自動生成ゾーンのみ許容。全文→ detail
-- **例外: implementation-notes** = vault **`<project>/notes/<project>-impl-notes.md`** が意思決定ログの唯一の正本（テンプレ `~/.claude/templates/impl-notes.md`・2026-07-18 振り切り版で `notes/` へ・本人手書き `_MEMO.md` も同居）。**位置づけ＝第二の脳のプロジェクト分室**（「なぜそうしたか」の記録帳・掟ではない）。昇格の流れ: **決定→impl-notes に記録→横断で効くものは wiki `decisions.md` へ→運用の決まりは `<project>/rules/` へ**
+- **例外: implementation-notes** = vault **`<project>/notes/<project>-impl-notes.md`** が意思決定ログの唯一の正本（テンプレ `~/.claude/templates/impl-notes.md`・2026-07-18 振り切り版で `notes/` へ。`_MEMO.md` は人間の書き込み口のため**直下**＝同日追裁定）。**位置づけ＝第二の脳のプロジェクト分室**（「なぜそうしたか」の記録帳・掟ではない）。昇格の流れ: **決定→impl-notes に記録→横断で効くものは wiki `decisions.md` へ→運用の決まりは `<project>/rules/` へ**
 - **例外: research 台帳** = 採用済み `research/` の `_summary.md` が調査台帳の vault 正本（research/ 配下限定・MOC は入口導線のみ・知見本文の二重記載禁止・リンクは path-qualified 必須。運用正本 = skill `vault-research-ledger`・2026-07-10）
 - **例外: 施策ブック** = ユーザーが読み・承認する「設計＋実行手順」の統合1枚（初例 `AIcrm-line-v3-measures.md`）は **vault SSoT**（2026-07-17 ユーザー裁定）。repo は NOW/実行追跡から file:// で参照（repo 側に写しを作らない）
 - **同期義務（必須）**: repo の施策状態・優先順位・KPI を変更したセッションでは**同セッション内で** vault MOC も更新し `last_updated` を当日に（hook `vault-moc-sync-guard.sh`）。禁止基準・Red Flags 全表→ detail
