@@ -198,7 +198,7 @@ def iter_content_lines(text: str):
 
 def scan_inboxes():
     global scanned_file_count
-    files = sorted(VAULT.glob("02_Ai/*/prompts/*_INBOX.md"))
+    files = sorted(set(VAULT.glob("02_Ai/*/prompts/*_INBOX.md")) | set(VAULT.glob("02_Ai/*/*/prompts/*_INBOX.md")))  # 2026-07-18: 群配下（x-buzz/AI_adscrm サブ）も拾う
     claude_env_inbox = VAULT / "03_ClaudeEnv" / "prompts" / "ClaudeEnv_INBOX.md"
     if claude_env_inbox.exists() and claude_env_inbox not in files:
         files.append(claude_env_inbox)

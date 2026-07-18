@@ -782,7 +782,7 @@ JOB_ARTIFACTS = [
     # (該当コード: 本関数 else 節 `days, flag, last_str = "—", "🔴", "(なし)"` にスキップ分岐がない)。
     # 閾値40日 = トリガー上限28日(ELAPSED_TRIGGER_DAYS) + 未実行猶予バッファ。
     ("com.masa.x-keywords-weekly (masa-2)",
-     VAULT / "02_Ai/influx/influx_x_search_keywords.md", 40, "毎週土 10:00"),
+     VAULT / "02_Ai/x-buzz/influx-x/influx_x_search_keywords.md", 40, "毎週土 10:00"),
     # chat-cards は承認系: 監査ログ=ハートビート（apply 成功ごとに毎時更新・0件でも書く）。
     # 丸1日止まると🟡・2日で🔴。通知はカード有時のみなので沈黙とシステム死の区別はこの行が担う。
     ("com.masa.chat-cards-hourly",
