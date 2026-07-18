@@ -272,7 +272,7 @@ done < <(find "$VAULT/02_Ai" -type l ! -exec test -e {} \; -print 2>/dev/null)
 # (runner 経路の検査と二重化・手動編集での骨格崩れも拾う)。violations に計上。
 # ============================================================
 CPG_PY="$HOME/.claude/scripts/report_action_presence_gate.py"
-CPG_BOARD="$VAULT/02_Ai/AI_adscrm/AIads/AIads-cp-review.md"
+CPG_BOARD="$VAULT/02_Ai/AI_adscrm/AIads/boards/AIads-cp-review.md"
 if [ -f "$CPG_PY" ] && [ -f "$CPG_BOARD" ]; then
   if ! cpg_out="$(/usr/bin/python3 "$CPG_PY" --cp-sections "$CPG_BOARD" 2>/dev/null)"; then
     result="${result}- ❌ cp-sections: $(printf '%s' "$cpg_out" | head -1 | cut -c1-200) (CP章の金標準要素が欠落)\n"

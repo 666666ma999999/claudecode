@@ -711,7 +711,7 @@ COLLECTORS = [
 # 引用に吸い込まれる。鮮度行は必ず空行で独立させ、marker は行末)
 FRESH_MARK = "%%freshness%%"
 FRESHNESS_TARGETS = [
-    VAULT / "02_Ai/AI_adscrm/AIads/AIads-cp-review.md",
+    VAULT / "02_Ai/AI_adscrm/AIads/boards/AIads-cp-review.md",
     VAULT / "02_Ai/AI_adscrm/AIads/reports/_ai/adscrm-weekly-ops-review-result.md",
     VAULT / "02_Ai/AI_adscrm/AIads/reports/_ai/adscrm-biweekly-ads-pdca-result.md",
 ]
@@ -790,8 +790,8 @@ JOB_ARTIFACTS = [
 ]
 # 📅期日超過スキャン対象 (手動だが期日がある作業の監視穴を塞ぐ・書式: 📅due:YYYY-MM-DD)
 DUE_SCAN_FILES = [
-    VAULT / "02_Ai/AI_adscrm/AIads/AIads-cp-review.md",
-    VAULT / "02_Ai/AI_adscrm/AIads/AIads-meta-cp-review.md",
+    VAULT / "02_Ai/AI_adscrm/AIads/boards/AIads-cp-review.md",
+    VAULT / "02_Ai/AI_adscrm/AIads/boards/AIads-meta-cp-review.md",
 ]
 DUE_RE = re.compile(r"📅due:(\d{4}-\d{2}-\d{2})")
 
