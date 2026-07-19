@@ -4,14 +4,15 @@
 <dict>
   <key>Label</key>
   <string>com.masa.xbuzz-buzz-collect</string>
-  <!-- バズ事例収集の再開（2026-07-18 裁定5/7・約3ヶ月凍結からの再稼働）。
-       毎週月 20:30（21:00 の週次ピックが最新コーパスを参照できる順序）。
-       XAI_API_KEY は login shell (~/.zshrc) から。コンテナ停止時は即失敗＝ログで検知 -->
+  <!-- バズ事例収集 週次（毎週月 20:30・21:00 の週次ピックが最新コーパスを参照できる順序）。
+       2026-07-19 改: Grok x_search（クレジット枯渇で停止）→ ログイン検索スクレイプ版
+       x_search_collect_twittora.py へ切替（2026-07-01 確定判断「第一選択は Cookie 自動収集」の実装）。
+       収集後、vault .raw/（正本）へ当日分をコピー。コンテナ停止時は即失敗＝ログで検知 -->
   <key>ProgramArguments</key>
   <array>
     <string>/bin/bash</string>
     <string>-lc</string>
-    <string>docker exec -e XAI_API_KEY="$XAI_API_KEY" xstock-vnc python3 /app/scripts/grok_collect_twittora.py</string>
+    <string>docker exec -e DISPLAY=:99 xstock-vnc python3 /app/scripts/x_search_collect_twittora.py --days 7 &amp;&amp; TODAY=$(date +%Y-%m-%d); cp "$HOME/Desktop/biz/influx/output/grok_twittora/grok-twittora-$TODAY.jsonl" "$HOME/Documents/Obsidian Vault/.raw/" 2>/dev/null || true</string>
   </array>
   <key>StartCalendarInterval</key>
   <dict>
