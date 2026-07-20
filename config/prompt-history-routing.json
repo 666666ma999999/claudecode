@@ -26,9 +26,7 @@
   "cwd_prefixes": {
     "~/.claude": "claude-env",
     "~/Desktop/biz/influx": "influx",
-    "~/Desktop/prm/influx": "influx",
     "~/Desktop/biz/autopost": "autopost",
-    "~/Desktop/prm/autopost": "autopost",
     "~/Desktop/biz/make_article": "make_article",
     "~/Desktop/biz/pokeca-invest": "pokeca-invest",
     "~/Desktop/biz/chacha": "chacha",
