@@ -475,6 +475,34 @@ while IFS= read -r f; do
 done < <(find "$VAULT/02_Ai" "$VAULT/03_ClaudeEnv" -type f \( -iname "*-draft.md" -o -iname "*_draft.md" \) 2>/dev/null)
 
 # ============================================================
+# 検証 22: 平文シークレットの vault 流入 (2026-07-19)
+# 実事故: totty(previous).md / vivecoring_memo.md 他 5 ファイルに実 API キー 6 本
+# (Anthropic2/OpenAI3/Google1) が平文で残存し、private repo とはいえ GitHub 履歴へ同期
+# されていた。伏せ字化しても履歴には残るため、流入そのものを毎週止める。
+# 判定: 実キーのプレフィクス形状のみ (伏せ字 REDACTED_* とダミー XXXX 末尾は除外)。
+# 検出値は絶対に出力しない (ファイル名・行番号・種別のみ)。
+# ============================================================
+while IFS= read -r hit; do
+  [ -z "$hit" ] && continue
+  result="${result}- ❌ secret-in-vault: ${hit} (鍵を無効化 → 伏せ字化 → 値は ~/.zshrc の export へ・secret-management skill)\n"
+  violations=$((violations + 1))
+done < <(
+  grep -rnE '(sk-ant-api03-|sk-proj-|AIzaSy|AKIA[0-9A-Z]{16})[A-Za-z0-9_-]{15,}' "$VAULT" \
+    --include="*.md" --include="*.json" --include="*.txt" --include="*.py" --include="*.sh" \
+    --include="*.yaml" --include="*.yml" 2>/dev/null \
+    | grep -v '/\.git/' | grep -v 'REDACTED_' | grep -vE 'XXXX' \
+    | awk -F: -v v="$VAULT/" '{
+        kind = "unknown";
+        if ($0 ~ /sk-ant-api03-/) kind = "Anthropic";
+        else if ($0 ~ /sk-proj-/) kind = "OpenAI";
+        else if ($0 ~ /AIzaSy/) kind = "Google";
+        else if ($0 ~ /AKIA/) kind = "AWS";
+        f = $1; sub(v, "", f);
+        print f " 行" $2 " (" kind ")";
+      }'
+)
+
+# ============================================================
 # audit ファイル append-only 更新
 # ============================================================
 mkdir -p "$(dirname "$AUDIT_FILE")"
