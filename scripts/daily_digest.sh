@@ -48,8 +48,20 @@ TS=$(date -Iseconds)
         RED_N=$(grep -oE '定期ジョブ🔴=([0-9]+)件' "$CH" | grep -oE '[0-9]+' | head -1)
         if [ -n "${RED_N:-}" ] && [ "$RED_N" -gt 0 ]; then
           RED_JOBS=$(grep -E '^\| 🔴 \| `com\.' "$CH" | sed -E 's/^\| 🔴 \| `([^`]+)`.*/\1/' | head -5 | tr '\n' ' ')
-          osascript -e "display notification \"$RED_JOBS\" with title \"定期ジョブ🔴 ${RED_N}件（collector-health）\"" 2>/dev/null || true
-          echo "[notify] 定期ジョブ🔴 ${RED_N}件 通知: $RED_JOBS"
+          # collector-health.md は vault git で 2 台に同期される。(a)節は「最後に再生成した
+          # ホストのローカル状態」しか映らないので、生成ホスト(@host)と自機を突き合わせて
+          # 「他機の故障」を自機の故障として通知しない（2026-07-21・誤読の実害あり）。
+          CH_HOST=$(grep -oE '定期ジョブ🔴=[0-9]+件 @[^)]+' "$CH" | sed -E 's/.*@//' | head -1)
+          ME=$(hostname)
+          if [ -z "${CH_HOST:-}" ]; then
+            SCOPE="生成ホスト不明"
+          elif [ "$CH_HOST" = "$ME" ]; then
+            SCOPE="このMac"
+          else
+            SCOPE="他機 $CH_HOST — 自機では対処不可"
+          fi
+          osascript -e "display notification \"$RED_JOBS\" with title \"定期ジョブ🔴 ${RED_N}件（${SCOPE}）\"" 2>/dev/null || true
+          echo "[notify] 定期ジョブ🔴 ${RED_N}件 (${SCOPE}) 通知: $RED_JOBS"
         fi
       fi
     fi

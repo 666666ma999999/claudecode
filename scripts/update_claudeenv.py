@@ -775,7 +775,7 @@ def stamp_freshness() -> list[str]:
 # 相乗りし、新ジョブ・新ファイルは作らない。
 # 柵: 本 script の書込先は 03_ClaudeEnv/ の自動生成カタログのみ (人筆領域に触れない)。
 JOB_LABEL_PREFIXES = ("com.masa.", "com.masaaki.", "com.prime_ad.")
-# 期待成果物 (vault 同期されるファイル): このMacに load されていないジョブ (masa-2 管轄)
+# 期待成果物 (vault 同期されるファイル): 生成ホストに load されていないジョブ (他機管轄)
 # でも成果物の古さで故障が見える = 「警報が同期される場所に残る」の実装。
 JOB_ARTIFACTS = [
     # (label, artifact path, 鮮度閾値日数, cadence 表示)
@@ -809,9 +809,14 @@ DUE_RE = re.compile(r"📅due:(\d{4}-\d{2}-\d{2})")
 
 def scan_job_health() -> dict:
     """launchd ジョブの失敗・成果物の古さ・📅期日超過を収集 (fail-open: 例外は空で返す)。"""
+    import socket
     import subprocess
     today = dt.date.today()
-    out = {"jobs": [], "artifacts": [], "overdue": [], "red": 0}
+    # (a)節は launchctl list を叩いたホストのローカル状態しか映さないが、出力先の
+    # collector-health.md は vault git で 2 台(MASA / masa-2)に同期される。生成ホストを
+    # 記録しないと「他機のジョブ失敗」を自機の失敗と誤読する (2026-07-21 実害)。
+    out = {"jobs": [], "artifacts": [], "overdue": [], "red": 0,
+           "host": socket.gethostname()}
 
     # (a) launchctl list の非0 exit status
     try:
@@ -876,10 +881,13 @@ def render_job_health(jh: dict) -> list[str]:
         "",
         "## 定期ジョブ健全性（launchd・✅1a 見張り役 2026-07-08〜）",
         "",
-        "> 3系統で監視: (a) このMacの launchd 失敗 (b) 期待成果物の古さ（masa-2 管轄ジョブも vault 同期ファイルで見える） (c) ボードの `📅due:` 期日超過。",
+        "> 3系統で監視: (a) 生成ホストの launchd 失敗 (b) 期待成果物の古さ（他機管轄ジョブも vault 同期ファイルで見える） (c) ボードの `📅due:` 期日超過。",
         "> 🔴 は SessionStart（cwd=~/.claude）で1行注入される。見張り自身の死活は本ファイルの更新時刻で hook が判定。",
         "",
-        "### (a) このMacの launchd ステータス",
+        f"### (a) launchd ステータス（生成ホスト: {jh.get('host', '不明')}）",
+        "",
+        f"> ⚠️ この表は **{jh.get('host', '不明')} のローカル状態のみ**。別ホストのジョブは載らず、"
+        "別ホストで再生成すると上書きされる。自機に無いジョブ名が 🔴 でも自機の故障ではない。",
         "",
         "| | Job | Last Exit |",
         "|---|---|---|",
@@ -965,7 +973,9 @@ def render_collector_health(rows: list[dict]) -> str:
         related="[[ClaudeEnv_ope]], [[skills-catalog]]",
     ) + [
         "",
-        f"# Collector Health (auto={auto_ok}/{auto_total} 正常・定期ジョブ🔴={jh['red']}件)",
+        # 「定期ジョブ🔴=N件」の書式は daily_digest.sh:48 が grep する契約。変更時は同時に直すこと。
+        f"# Collector Health (auto={auto_ok}/{auto_total} 正常・定期ジョブ🔴={jh['red']}件"
+        f" @{jh.get('host', '不明')})",
         "",
         "> Vault/.raw/ 配下の各収集系の運用モードと最終更新を可視化。",
         "",
