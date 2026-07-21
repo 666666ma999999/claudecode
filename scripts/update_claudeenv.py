@@ -663,6 +663,17 @@ def render_mcp_plugins(data: dict) -> str:
 # -----------------------------------------------------------------------------
 COLLECTORS = [
     {
+        # 2026-07-21 x-buzz 裁定5: 自投稿計測の死活 (cron_metrics_snapshot.sh が毎回書く
+        # ハートビート。止まる=計測ライン死亡。fail_streak/quarantined も本文に記録)
+        "name": "engagement-heartbeat",
+        "mode": "auto",
+        "trigger": "launchd com.masa.make-article-metrics (毎日9/21時)",
+        "path_glob": ".raw/engagement-heartbeat.md",
+        "skill_or_cmd": "cron_metrics_snapshot.sh",
+        "stale_threshold_days": 1,
+        "note": "x-buzz 自投稿計測の死活。fail_streak>=3 は macOS 通知も発火",
+    },
+    {
         "name": "news",
         "mode": "auto",
         "trigger": "launchd daily 08:00",

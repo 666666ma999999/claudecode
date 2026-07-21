@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.masa.xbuzz-tracer</string>
+  <!-- x-buzz ライブ・バズトレーサー（2026-07-21 裁定1+7）。
+       ウォッチリスト13アカを1日3回巡回し、投稿の伸びを時系列追記。
+       official 新投稿 / 急上昇（likes/時）を検知したら macOS 通知（書くかは人間判断）。
+       コンテナ停止時は即失敗＝err ログで検知 -->
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>-lc</string>
+    <string>bash "$HOME/Desktop/biz/influx/scripts/xbuzz_tracer_run.sh"</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <array>
+    <dict><key>Hour</key><integer>8</integer><key>Minute</key><integer>52</integer></dict>
+    <dict><key>Hour</key><integer>13</integer><key>Minute</key><integer>47</integer></dict>
+    <dict><key>Hour</key><integer>21</integer><key>Minute</key><integer>12</integer></dict>
+  </array>
+  <key>RunAtLoad</key>
+  <false/>
+  <key>StandardOutPath</key>
+  <string>/Users/masaaki_nagasawa/.claude/state/xbuzz-tracer.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/masaaki_nagasawa/.claude/state/xbuzz-tracer.err.log</string>
+</dict>
+</plist>
