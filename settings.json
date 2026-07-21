@@ -700,6 +700,15 @@
             "command": "~/.claude/hooks/stop-backlog-guard.sh"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/stop-influx-loop-closing.sh"
+          }
+        ]
       }
     ],
     "PreCompact": [
