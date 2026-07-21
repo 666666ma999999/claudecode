@@ -57,9 +57,17 @@ if [ -f "$CH" ]; then
 
 "
   else
-    jn=$(awk '/^## 定期ジョブ健全性/{f=1;next} /^## /{f=0} f' "$CH" 2>/dev/null | grep -c '^| 🔴')
+    # (a)節はホスト別ブロックに分かれている(2026-07-21)。自機ブロックだけ数える＝
+    # 他機(masa-2)の🔴を自機の故障として注入しない。旧書式(ブロック無し)は従来どおり節全体を数える。
+    me=$(hostname)
+    own=$(awk -v h="$me" 'index($0,"<!-- jobhost:"h" -->"){f=1;next} index($0,"<!-- /jobhost:"h" -->"){f=0} f' "$CH" 2>/dev/null)
+    if [ -n "$own" ]; then
+      jn=$(printf '%s\n' "$own" | grep -c '^| 🔴' || true)
+    else
+      jn=$(awk '/^## 定期ジョブ健全性/{f=1;next} /^## /{f=0} f' "$CH" 2>/dev/null | grep -c '^| 🔴' || true)
+    fi
     if [ "${jn:-0}" -gt 0 ] 2>/dev/null; then
-      out="${out}🚨 定期ジョブの失敗/停滞 ${jn}件 → [[collector-health]] の「定期ジョブ健全性」節を確認
+      out="${out}🚨 定期ジョブの失敗/停滞 ${jn}件（このMacの分のみ） → [[collector-health]] の「定期ジョブ健全性」節を確認
 
 "
     fi

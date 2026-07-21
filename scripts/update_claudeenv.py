@@ -876,28 +876,55 @@ def scan_job_health() -> dict:
     return out
 
 
-def render_job_health(jh: dict) -> list[str]:
-    lines = [
-        "",
-        "## 定期ジョブ健全性（launchd・✅1a 見張り役 2026-07-08〜）",
-        "",
-        "> 3系統で監視: (a) 生成ホストの launchd 失敗 (b) 期待成果物の古さ（他機管轄ジョブも vault 同期ファイルで見える） (c) ボードの `📅due:` 期日超過。",
-        "> 🔴 は SessionStart（cwd=~/.claude）で1行注入される。見張り自身の死活は本ファイルの更新時刻で hook が判定。",
-        "",
-        f"### (a) launchd ステータス（生成ホスト: {jh.get('host', '不明')}）",
-        "",
-        f"> ⚠️ この表は **{jh.get('host', '不明')} のローカル状態のみ**。別ホストのジョブは載らず、"
-        "別ホストで再生成すると上書きされる。自機に無いジョブ名が 🔴 でも自機の故障ではない。",
+JOBHOST_RE = re.compile(r"<!-- jobhost:(?P<h>[^>]+?) -->\n(?P<body>.*?)\n<!-- /jobhost:(?P=h) -->", re.S)
+
+
+def collect_jobhost_blocks(text: str) -> dict:
+    """既存 collector-health.md から他ホストの (a) ブロックを回収する。
+
+    (a)節は launchctl を叩いたホストのローカル状態しか映せないため、2 台(MASA/masa-2)が
+    同じファイルを再生成すると後勝ちで相手の行が消えていた(2026-07-21 ユーザー裁定で
+    「1枚のままホスト別に区切る」方式を採用)。自機ブロックだけ差し替え、他機分は
+    verbatim で残す。
+    """
+    return {m.group("h"): m.group("body").splitlines() for m in JOBHOST_RE.finditer(text or "")}
+
+
+def render_job_health(jh: dict, existing_text: str = "") -> list[str]:
+    host = jh.get("host", "不明")
+    own = [
+        f"#### 🖥 {host}（観測日 {dt.date.today().isoformat()}）",
         "",
         "| | Job | Last Exit |",
         "|---|---|---|",
     ]
     for j in jh["jobs"]:
-        lines.append(f"| {j['flag']} | `{j['label']}` | {j['status']} |")
+        own.append(f"| {j['flag']} | `{j['label']}` | {j['status']} |")
     if jh.get("jobs_error"):
-        lines.append(f"| 🔴 | (launchctl 取得失敗: {jh['jobs_error']}) | — |")
+        own.append(f"| 🔴 | (launchctl 取得失敗: {jh['jobs_error']}) | — |")
     elif not jh["jobs"]:
-        lines.append("| — | (該当ジョブなし) | — |")
+        own.append("| — | (該当ジョブなし) | — |")
+
+    blocks = collect_jobhost_blocks(existing_text)
+    blocks[host] = own  # 自機ブロックだけ差し替え（他機は保全）
+    lines = [
+        "",
+        "## 定期ジョブ健全性（launchd・✅1a 見張り役 2026-07-08〜）",
+        "",
+        "> 3系統で監視: (a) 各ホストの launchd 失敗 (b) 期待成果物の古さ（他機管轄ジョブも vault 同期ファイルで見える） (c) ボードの `📅due:` 期日超過。",
+        "> 🔴 は SessionStart（cwd=~/.claude）で1行注入される。見張り自身の死活は本ファイルの更新時刻で hook が判定。",
+        "",
+        "### (a) launchd ステータス（ホスト別）",
+        "",
+        "> ⚠️ launchd の状態は**そのホストからしか観測できない**ため、ホストごとにブロックを分けている。"
+        "再生成するホストは自分のブロックだけを書き換え、他ホストのブロックはそのまま残す（＝相手の記録を消さない）。"
+        "他ホストのブロックは「観測日」が古いままになることがあり、その場合は相手機で再生成されるまで更新されない。"
+        "**自機に存在しないジョブ名が 🔴 でも自機の故障ではない。**",
+        "",
+    ]
+    for h in [host] + sorted(k for k in blocks if k != host):  # 自機を先頭
+        lines += [f"<!-- jobhost:{h} -->"] + blocks[h] + [f"<!-- /jobhost:{h} -->", ""]
+    lines.pop()  # 末尾の余分な空行
     lines += [
         "",
         "### (b) 期待成果物の鮮度",
@@ -963,6 +990,11 @@ def render_collector_health(rows: list[dict]) -> str:
     auto_ok = sum(1 for r in rows if r["mode"] == "auto" and r["status"] == "🟢")
     auto_total = sum(1 for r in rows if r["mode"] == "auto")
     jh = scan_job_health()
+    # 他ホストの (a) ブロックを保全するため、既存ファイルを先に読む（無ければ空）
+    try:
+        existing_text = (OUT_DIR / "collector-health.md").read_text(encoding="utf-8")
+    except OSError:
+        existing_text = ""
     lines = frontmatter(
         project="ClaudeEnv",
         type_="health",
@@ -998,7 +1030,7 @@ def render_collector_health(rows: list[dict]) -> str:
         lines.append(
             f"| {r['status']} | `{r['name']}` | {r['mode']} | {r['last_updated']} | {r['stale_days']} | {trigger} | {note} |"
         )
-    lines += render_job_health(jh)
+    lines += render_job_health(jh, existing_text)
     lines += [
         "",
         "## モードの定義",

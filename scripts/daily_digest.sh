@@ -45,27 +45,34 @@ TS=$(date -Iseconds)
     if [ "${CH_NOTIFY:-1}" = "1" ]; then
       CH="$HOME_DIR/Documents/Obsidian Vault/03_ClaudeEnv/collector-health.md"
       if [ -f "$CH" ]; then
-        RED_N=$(grep -oE '定期ジョブ🔴=([0-9]+)件' "$CH" | grep -oE '[0-9]+' | head -1)
-        if [ -n "${RED_N:-}" ] && [ "$RED_N" -gt 0 ]; then
+        # (a)節はホスト別ブロック `<!-- jobhost:<host> -->` に分かれている（2026-07-21）。
+        # 自機ブロックだけを見て通知する＝他機の🔴で叩き起こされない。旧書式（ブロック無し）の
+        # ファイルが残っている間は、従来どおり H1 の「定期ジョブ🔴=N件 @host」で判定する。
+        ME=$(hostname)
+        OWN=$(awk -v h="$ME" 'index($0,"<!-- jobhost:"h" -->"){f=1;next} index($0,"<!-- /jobhost:"h" -->"){f=0} f' "$CH")
+        NOTIFY=1
+        if [ -n "${OWN:-}" ]; then
+          RED_N=$(printf '%s\n' "$OWN" | grep -cE '^\| 🔴 ' | head -1)
+          RED_JOBS=$(printf '%s\n' "$OWN" | grep -E '^\| 🔴 \| `com\.' | sed -E 's/^\| 🔴 \| `([^`]+)`.*/\1/' | head -5 | tr '\n' ' ')
+          SCOPE="このMac"
+        else
+          RED_N=$(grep -oE '定期ジョブ🔴=([0-9]+)件' "$CH" | grep -oE '[0-9]+' | head -1)
           RED_JOBS=$(grep -E '^\| 🔴 \| `com\.' "$CH" | sed -E 's/^\| 🔴 \| `([^`]+)`.*/\1/' | head -5 | tr '\n' ' ')
-          # collector-health.md は vault git で 2 台に同期される。(a)節は「最後に再生成した
-          # ホストのローカル状態」しか映らないので、生成ホスト(@host)と自機を突き合わせて
-          # 「他機の故障」を自機の故障として通知しない（2026-07-21・誤読の実害あり）。
           CH_HOST=$(grep -oE '定期ジョブ🔴=[0-9]+件 @[^)]+' "$CH" | sed -E 's/.*@//' | head -1)
-          ME=$(hostname)
           # 他機分はデスクトップ通知しない（2026-07-21 ユーザー判断: 自機から対処不可能な
           # 通知はノイズ）。ただし握り潰さず、ログには必ず1行残す（fail-loud 維持）。
           # 生成ホストが読めない場合は「他機と断定できない」ので通知する側に倒す。
           # CH_NOTIFY_OTHER=1 で他機分も通知する運用に戻せる。
-          NOTIFY=1
           if [ -z "${CH_HOST:-}" ]; then
-            SCOPE="生成ホスト不明"
+            SCOPE="生成ホスト不明(旧書式)"
           elif [ "$CH_HOST" = "$ME" ]; then
-            SCOPE="このMac"
+            SCOPE="このMac(旧書式)"
           else
             SCOPE="他機 $CH_HOST — 自機では対処不可"
             [ "${CH_NOTIFY_OTHER:-0}" = "1" ] || NOTIFY=0
           fi
+        fi
+        if [ -n "${RED_N:-}" ] && [ "$RED_N" -gt 0 ]; then
           if [ "$NOTIFY" = "1" ]; then
             osascript -e "display notification \"$RED_JOBS\" with title \"定期ジョブ🔴 ${RED_N}件（${SCOPE}）\"" 2>/dev/null || true
             echo "[notify] 定期ジョブ🔴 ${RED_N}件 (${SCOPE}) 通知: $RED_JOBS"
