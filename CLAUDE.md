@@ -90,6 +90,7 @@ Claude の画像トークンはピクセル依存（`⌈w/28⌉×⌈h/28⌉ ≒ 
 
 メモリ: Claude-Mem (活動記録・自動。2026-07-13 軽量化版: Haiku観測+Read系間引き+日次4回掃除ジョブ) / Memory MCP (意図的に保存)。
 学習ループ: 修正受けたら `tasks/lessons.md` 記録 → 再発防止ルール追記。
+教訓・再発防止ルールを `mistakes.md` / `lessons.md` / `skills/` に書いた直後、その1件を〈this project限定 / 他project横展開 / global昇格〉のどれにするか即自問して1行残す（セッション末尾の一括判定は context 枯渇で落ちるため、横展開判定を発生時点の bounded な瞬間に寄せる）。
 MEMORY.md 更新: 読んでから書く / index+link のみ (3 行超は topics/ 分離) / 重複禁止 / 150 行目標・200 行上限 (**hook 強制**) / 3 ヶ月未参照は archive/ 移動。
 
 ### 指示・修正の永続化

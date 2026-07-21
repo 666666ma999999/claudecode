@@ -3,6 +3,67 @@
 
 # hot path 高速化: bash で早期フィルタ（tool_name != Write/Edit なら python3 起動を回避）
 INPUT=$(cat)
+
+# Stop 時: 同一セッションの編集履歴を観測し、project 知見だけが編集された場合に1回だけ警告する。
+# warn-only / fail-open: stdout への注意喚起のみで、終了コードによるブロックは行わない。
+export HOOK_INPUT="$INPUT"
+python3 -I <<'PYWARN'
+import hashlib
+import json
+import os
+from pathlib import Path
+
+try:
+    data = json.loads(os.environ.get("HOOK_INPUT", ""))
+    session_id = str(data.get("session_id", "") or "")
+    if data.get("tool_name") or not session_id:
+        raise SystemExit(0)
+
+    home = Path.home()
+    state_dir = home / ".claude" / "state"
+    history = state_dir / "edit-history.jsonl"
+    if not history.exists():
+        raise SystemExit(0)
+
+    edited = []
+    for line in history.read_text(encoding="utf-8", errors="replace").splitlines():
+        try:
+            entry = json.loads(line)
+        except (json.JSONDecodeError, TypeError):
+            continue
+        if str(entry.get("session", "")) == session_id and entry.get("file"):
+            edited.append(str(entry["file"]))
+
+    global_root = str(home / ".claude") + "/"
+    project_knowledge = any(
+        ("/.claude/skills/" in path or "/.claude/rules/" in path)
+        and not path.startswith(global_root)
+        for path in edited
+    )
+    global_knowledge = any(
+        path.startswith(global_root + "skills/")
+        or path.startswith(global_root + "rules/")
+        or path.endswith("/wiki/meta/mistakes.md")
+        for path in edited
+    )
+    if not project_knowledge or global_knowledge:
+        raise SystemExit(0)
+
+    marker_dir = state_dir / "global-promotion-warned"
+    marker_dir.mkdir(parents=True, exist_ok=True)
+    marker = marker_dir / hashlib.sha256(session_id.encode("utf-8")).hexdigest()
+    if marker.exists():
+        raise SystemExit(0)
+    marker.touch()
+
+    print("⚠️ project 側の .claude/skills または .claude/rules だけが編集されています。")
+    print("project固有の知見か、global昇格すべきかを STEP 3 の3判定で確認したか？（warn-only・続行可）")
+except SystemExit:
+    pass
+except Exception:
+    pass
+PYWARN
+
 case "$INPUT" in
     *'"tool_name":"Write"'*|*'"tool_name":"Edit"'*|*'"tool_name": "Write"'*|*'"tool_name": "Edit"'*) ;;
     *) exit 0 ;;
@@ -16,7 +77,7 @@ mkdir -p "$STATE_DIR"
 
 # 単一 python3 起動で分類判定 → pending 更新 → JSON出力 まで処理
 # stdin は heredoc に占有されるため、INPUT を環境変数経由で Python に渡す（JSON injection 対策）
-export PENDING_FILE FE_VERIFIED HOOK_INPUT="$INPUT"
+export PENDING_FILE FE_VERIFIED
 python3 -I <<'PYEOF'
 import json
 import os
