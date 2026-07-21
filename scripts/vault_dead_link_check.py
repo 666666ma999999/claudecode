@@ -20,7 +20,7 @@ from pathlib import Path
 HOME = Path.home()
 VAULT = HOME / "Documents/Obsidian Vault"
 # 検査対象プロジェクト（整理済みのものから順次追加・2026-07-17: make_article 追加）
-SCOPE_DIRS = [VAULT / "02_Ai/AI_adscrm", VAULT / "02_Ai/make_article"]
+SCOPE_DIRS = [VAULT / "02_Ai/AI_adscrm", VAULT / "02_Ai/x-buzz"]
 
 WIKILINK = re.compile(r'!?\[\[([^\]|#]+)')
 FILEURI = re.compile(r'file://(/Users/[^)\s>"\'（」・]+)')
@@ -84,7 +84,7 @@ def main():
                 if base not in basenames:
                     print(f"dead-wikilink: {rel} → [[{t}]] の実体なし (aliases はリンクを解決しない・rules/41 §④ 張替え必須)")
             for m in FILEURI.finditer(ln):
-                path = urllib.parse.unquote(m.group(1)).rstrip("/").rstrip("`")
+                path = urllib.parse.unquote(m.group(1)).split("#")[0].rstrip("/").rstrip("`")  # #見出しフラグメントは存在判定から除外
                 if not path.startswith(str(HOME) + "/"):
                     continue
                 if not os.path.exists(path):
@@ -112,7 +112,7 @@ def main():
             if "Obsidian" not in text:
                 continue
             for m in FILEURI.finditer(text):
-                path = urllib.parse.unquote(m.group(1)).rstrip("/")
+                path = urllib.parse.unquote(m.group(1)).split("#")[0].rstrip("/")
                 if "Obsidian Vault" not in path or not path.startswith(str(HOME) + "/"):
                     continue
                 key = (str(p), path)

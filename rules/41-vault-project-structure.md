@@ -17,8 +17,9 @@ paths:
 ## 基本原則
 
 - **vault = 索引 + サマリー / 実体の SSoT は repo**（例外: implementation-notes は vault SSoT・§④）
+- **例外: reference-mirror（2026-07-18 正本化・reading-factory 発）** = ユーザーが「vault で読みたい」と明示要望した repo 正本に限り、vault へ全文ミラー可。条件: AI の自発作成禁止／同時 **3 枚まで**／編集は repo 側のみ（vault 手編集禁止）／frontmatter に `type: reference-mirror`・`source_of_truth`（repo file:// 必須）・`edit_policy: repo-only`・`mirror_slot: n/3` 必須／冒頭に「閲覧用ミラー・編集は repo 側」callout。正本更新時は AI が全文 overwrite（キャッシュ性質＝rules/40 の完全上書き可クラスの拡張）
 - **architecture の窓**: MOC に「🏗 システム全体像（architecture）」の窓1行を許可（repo の `<project>-architecture.md` への file:// リンク＋責務の一言サマリー）。図の実体は vault に貼らない（repo が正本・vault は窓）。
-- **群全体の連携・役割文書 = architecture 層の vault 側（2026-07-18 裁定）**: 責務・境界・誰が何を担うかの本人構想メモは **`<group>/` 直下**（例 `adscrm-role.md`）・玄関 MOC に窓1行。**02_Ai 直下への直置き禁止**（群の持ち物は群の中へ）。**本人手書き原文は不改変**（frontmatter も付けない・AI は監査注記のみ併記・audit 検証1 対象外）
+- **群全体の連携・役割文書 = architecture 層の vault 側（2026-07-18 裁定）**: 責務・境界・誰が何を担うかの本人構想メモは **`<group>/notes/`**（例 `notes/adscrm-role.md`・振り切り版で notes/ へ）・玄関 MOC に窓1行。**02_Ai 直下への直置き禁止**（群の持ち物は群の中へ）。**本人手書き原文は不改変**（frontmatter も付けない・AI は監査注記のみ併記・audit 検証1 対象外）
 - 新規プロジェクトは **MOC 1 ファイル統合構成**（`<project>_ope.md` に戦略入口・Phase 入口・施策サマリー・データソース・連携を統合）
 - 同じ情報を vault と repo の両方に書かない（40-obsidian.md Anti-drift 原則）
 
@@ -27,8 +28,8 @@ paths:
 - `02_Ai/<project>/` には MOC `<project>_ope.md`（索引・サマリー・file:// リンクのみ）。実体は repo 側: 戦略→`plan.md` / Phase 正本→`tasks/phase-tracker.md` / 施策本体→`docs/measures-detail.md`
 - **プロジェクトのルール類は `<project>/rules/` に集約**（ルール窓・playbook・ルールブック類。グローバル `~/.claude/rules/` と同名＝人間の迷子防止・2026-07-17 ユーザー恒久指示）。**vault 直下 `wiki/` は横断の第二の脳＝改名・移動・プロジェクト私物化は禁止**（機械参照 40 ファイル実測・K-3「project 内 wiki/ 廃止」も維持）。各ルール窓の冒頭に**境界1行**（「横断の知識・決定= vault `wiki/`／この工房の掟=ここ」）を必ず書く
 - subproject MOC は group 直下に直置き（複数 md が要る時のみ `<subproject>/` を切る）。横断 MOC は `<group>_ope.md`
-- 生成物の配置は **3 値判定（2026-07-17 改・「固定名」の自己矛盾解消）**: **人が更新する固定名 living**（司令塔・施策ブック）→`<project>` 直下 / **機械が上書きする固定名 runner 出力**（`…-result.md` 等）→`<group>/reports/` / **日付つき dated** →`<group>/reports/`。
-- **👤/🤖 の層分離（2026-07-17 ユーザー裁定 B）**: **👤 人間が読む層 = 直下・`rules/`・`works/`・reports/ 直下の人間向け成果物** / **🤖 AI・機械の層 = `reports/_ai/`**（runner 上書き出力・仕様書・発注書控え・台帳・返信文控え）**・`_archive/`**。`_ai/` は `_` 接頭でツリー最下部に沈む。人間向けボードが埋め込む `![[…]]` は basename 解決のため `_ai/` 移動でも切れない（実証済み）。初適用 = AIads/reports（10本を _ai/ へ・2026-07-17）プロンプトは `<project>_INBOX.md` 1 枚（投函＋📒記録・全文保存）。定期実行のみ `prompts/scheduled/`。**`spot/`・`_README` は作らない（2026-06-26〜）**
+- 生成物の配置は **3 値判定（2026-07-18 振り切り版・ユーザー裁定）**: **人が更新する固定名 living**（診断ボード・施策ブック・サブMOC・symlink 窓）→**`<project>/boards/`** / **機械が上書きする固定名 runner 出力**（`…-result.md` 等）→`<group>/reports/_ai/` / **日付つき dated** →`<group>/reports/`。**直下に置けるのは `<project>_ope.md`（玄関）・`<project>_MEMO.md`（人間の書き込み口＝外出し・2026-07-18 追裁定）・AGENTS.md（自動）のみ**
+- **👤/🤖 の層分離（2026-07-17 裁定 B → 07-18 振り切り版）**: **👤 人間が読む層 = `<project>_ope`（玄関）・`boards/`（毎日見る板）・`rules/`（掟）・`works/`（作品）・`notes/`（記録帳・手書き）・reports/ 直下の成果物** / **🤖 AI・機械の層 = `reports/_ai/`**（runner 上書き出力・仕様書・発注書控え・台帳・返信文控え）**・`_archive/`**。`_ai/` は `_` 接頭でツリー最下部に沈む。人間向けボードが埋め込む `![[…]]` は basename 解決のため `_ai/` 移動でも切れない（実証済み）。初適用 = AIads/reports（10本を _ai/ へ・2026-07-17）プロンプトは `<project>_INBOX.md` 1 枚（投函＋📒記録・全文保存）。定期実行のみ `prompts/scheduled/`。**`spot/`・`_README` は作らない（2026-06-26〜）**
 - **registry は `wiki/meta/project-registry.md` に固定**（hook hardcode・全 group 共通）
 - `wiki/` `refs/` `.raw/` は 40-obsidian.md に従い append-only。既存プロジェクトの段階移行判定（3 条件 OR）→ detail
 
@@ -49,7 +50,7 @@ paths:
 
 - vault MOC は**司令塔**。実体（詳細手順・統計根拠・Session Handoff）を repo からコピーしない
 - **自動フィード禁止（2026-06-14）**: ロボット生成ログ（`## 🔁 最新更新ログ` 等）を MOC に置かない。ライブミラー（`## 📋 Open Issues`）は MOC 最下段の自動生成ゾーンのみ許容。全文→ detail
-- **例外: implementation-notes** = vault `02_Ai/<group>/<project>-impl-notes.md` が意思決定ログの唯一の正本（テンプレ `~/.claude/templates/impl-notes.md`）。**位置づけ＝第二の脳のプロジェクト分室**（「なぜそうしたか」の記録帳・掟ではない・直下が定位置＝2026-07-18 裁定）。昇格の流れ: **決定→impl-notes に記録→横断で効くものは wiki `decisions.md` へ→運用の決まりは `<project>/rules/` へ**
+- **例外: implementation-notes** = vault **`<project>/notes/<project>-impl-notes.md`** が意思決定ログの唯一の正本（テンプレ `~/.claude/templates/impl-notes.md`・2026-07-18 振り切り版で `notes/` へ。`_MEMO.md` は人間の書き込み口のため**直下**＝同日追裁定）。**位置づけ＝第二の脳のプロジェクト分室**（「なぜそうしたか」の記録帳・掟ではない）。昇格の流れ: **決定→impl-notes に記録→横断で効くものは wiki `decisions.md` へ→運用の決まりは `<project>/rules/` へ**
 - **例外: research 台帳** = 採用済み `research/` の `_summary.md` が調査台帳の vault 正本（research/ 配下限定・MOC は入口導線のみ・知見本文の二重記載禁止・リンクは path-qualified 必須。運用正本 = skill `vault-research-ledger`・2026-07-10）
 - **例外: 施策ブック** = ユーザーが読み・承認する「設計＋実行手順」の統合1枚（初例 `AIcrm-line-v3-measures.md`）は **vault SSoT**（2026-07-17 ユーザー裁定）。repo は NOW/実行追跡から file:// で参照（repo 側に写しを作らない）
 - **同期義務（必須）**: repo の施策状態・優先順位・KPI を変更したセッションでは**同セッション内で** vault MOC も更新し `last_updated` を当日に（hook `vault-moc-sync-guard.sh`）。禁止基準・Red Flags 全表→ detail
@@ -59,6 +60,7 @@ paths:
   **索引規約（2026-07-16）**: vault `_archive/` の実体は種類別に**台帳へ 1 行索引**（台帳＝索引・`_archive`＝実体・"どこに何の決定/ルールがあるか"を引ける R16/R19）: 調査→`research/_summary.md` / 意思決定→`wiki/meta/decisions.md`（横断アーキ判断）or MOC の決定索引（project 施策決定）/ ルールブック的（設計正本・施策定石）→`<sub>-playbook.md`・`<sub>-facts.md`。**索引なしの `_archive` 直置き禁止**。二度見ない（スナップ・会議資料・定期レポ旧世代）は索引不要＝repo `reports/archive/` へ。
 - **reports の扱い（2026-07-16 敵対レビュー2体一致・reports 専用台帳は作らない）**: reports/ も上記3層で判定するが report は「実行時に全文を開く運用物」ゆえ追加ガード: (i) 固定名 living（運用診断ボード）は退避対象から**除外**（`<project>` 直下常駐） (ii) inbound に**現役 living/runbook が参照中は退避禁止**（現役手順書のリンクが死ぬ） (iii) 未決着（open_questions/next_actions あり）は退避不可・要対応は task/MOC へ (iv) **一望は手動台帳を作らず** MOC の既存 dated 表 or Bases 自動窓で（数値は本体から反映・手書き転記しない＝§④再導出禁止と整合）。「多い」体感は命名の工程差別化＋MOC 一言説明で解消。
   退場時は inbound を張替え（MOC 等 書換可のみ・decisions 等 append-only の歴史リンクは切れ許容）。全文→ detail §出口ルール
+- **ドラフト運用（2026-07-18 確定・Fable5+Codex 収束）**: ドラフトは**正本候補でなく「決裁用の作業容器」**。置き場= `<project>/notes/`・命名= `<project>-<題名>-draft.md`（小文字 -draft 統一・日付は frontmatter）・本人は frontmatter 不要（**AI が初回接触時に `type: draft`＋昇格先宣言を付与**＝「不改変」は本文の話）。昇格は**決裁行単位**（各行に行き先を書き承認と同セッションで正本へ搬出・一部承認のまま放置禁止）。**承認した瞬間に名前か置き場が必ず動く**（-draft を外す or _archive/）・宿題ゼロ確認まで閉鎖禁止。**draft 発プロジェクト**: 種はどこに書いてもよい→AI が箱ごと建てる（`<project>/` 新設＋_ope 雛形＋notes/ 収納。実例=totty）・立ち消えは closure: abandoned で箱内 _archive/
 - **統合（N 本→1 本）も出口ルールの適用対象（2026-07-17）**: supersede は移動と同格＝inbound 全数検索→張替え→退避。**削除は禁止**（承認欄付き原本は vault `_archive/` に保存）。**frontmatter aliases は既存 `[[旧名]]` リンクを解決しない**（リンク補完専用・公式 doc+実測確認）＝改名/統合の安全網にならない。**repo→vault 逆参照ガード**: vault md の退避/改名/統合の前に repo 側も `Obsidian` パス・旧 basename で grep 必須（実害 2026-07-17: NOW.md の設計 SSoT リンク切れ）
 - **重要数値の再導出禁止（2026-07-14）**: 母数・単価等の判断数値は正本1つ（原則 repo）を参照し、各レポートで再計算して埋め込まない（実例: LINE 母数 835/1,969/9,850 並存事故）。全文→ detail §再導出禁止
 

@@ -8,7 +8,7 @@
 
 1. **ユーザー**: masaaki_nagasawa（masaaki@mkb.ne.jp）・非エンジニア = BLUF + 平易な言葉で
 2. **作業状態の正本**: 直前の状態はこの下に自動注入される `state/compact-restore.md`、継続作業は `<repo>/tasks/*.md` の Session Handoff を読む
-3. **プロジェクト入口**: 記事 = `~/Desktop/biz/make_article/`（playbook は vault `02_Ai/make_article/`）／環境 = `~/.claude/`（GitHub 同期・2台運用。`~/.claude-mem/` は Mac 固有・rsync 禁止）
+3. **プロジェクト入口**: 記事 = `~/Desktop/biz/make_article/`（playbook は vault `02_Ai/x-buzz/make_article/`）／環境 = `~/.claude/`（GitHub 同期・2台運用。`~/.claude-mem/` は Mac 固有・rsync 禁止）
 
 ## 行動原則（compact で失いがち）
 

@@ -26,6 +26,7 @@ CLAUDE.md「行動原則 §Obsidian」の **総則 + index** (2026-04-24〜)。O
 - 退避済み skill (`skills/_dormant/`、30 日未使用): `obsidian-bases` / `obsidian-short-note-merge` / `wiki-fold` / `obsidian-now-done` / `json-canvas`（canvas skill へ統合）。**ただし `/done` コマンド (`commands/done.md`) は自己完結化済み・現役**（dormant skill には依存しない・2026-06-13 修理）
 - vault 外プロジェクトでは vault **file 操作系** hook が no-op（`[ -d wiki ] && [ -d .git ]` または vault path ガードによる）。**warning 系** hook (`wiki-auto-capture-on-stop.sh` 等) は cwd 不問で警告 stdout を発火可 (vault file 操作はしない・Phase 2 2026-05-24〜)
 - **基本方針**: 知識化は claude-obsidian (`wiki/`)、証跡 refs/ は `/done` コマンド (自己完結・現役) が append-only で書く
+- **repo 側の証跡**: `<repo>/…/evidence/` は refs/ の repo 版（判定時点の凍結スナップショット・append-only・削除禁止 archive のみ・dist 等の後続更新に追随しない）。URL/成果物の提示前に昇格（2026-07-18 正本化・出所 reading-factory）
 
 ## 基本コマンド（カタログ）
 

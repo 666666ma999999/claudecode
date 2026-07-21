@@ -44,7 +44,7 @@ paths:
 
 | 群 | 種別数 | 配置の要点 |
 |---|---|---|
-| **0** 既決定 | 8 | 知識/draft→vault root直下 / 仕様・施策・計画・分析→repo 全文+vault 索引 / X ネタ`wiki/x-article-stock.md`・wiki 知識化`wiki/`→vault cross |
+| **0** 既決定 | 8 | 知識→vault root直下・draft→`<project>/notes/`（2026-07-18 改） / 仕様・施策・計画・分析→repo 全文+vault 索引 / X ネタ`wiki/x-article-stock.md`・wiki 知識化`wiki/`→vault cross |
 | **A** 実行追跡 | 5 | repo `tasks/`（`<slug>.md` / `phase-tracker.md`(Session Handoff含) / `lessons.md`） |
 | **B** メタ・思考ログ | 4 | decisions/mistakes→vault `wiki/meta/`(cross) / impl-notes→**vault SSoT 例外** / 旧版→repo `archive/` |
 | **C** データ・スキーマ | 5 | repo `docs/`（`data-sources.md` / `data_lineage.yaml` / `schema-*.md` / `glossary.md` / `rationales/`） |

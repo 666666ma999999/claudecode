@@ -52,7 +52,8 @@ HEURISTIC_MAP = [
     ("/prime_suite/prime_ad/", "02_Ai/AI_adscrm/AIads/AIads_ope.md"),
     ("/prime_suite/prime_crm/", "02_Ai/AI_adscrm/AIcrm/AIcrm_ope.md"),
     ("/prime_suite/", "02_Ai/AI_adscrm/adscrm_cross.md"),
-    ("/biz/make_article/", "02_Ai/make_article/make_article_ope.md"),
+    ("/biz/make_article/", "02_Ai/x-buzz/make_article/make_article_ope.md"),
+    ("/biz/autopost/", "02_Ai/x-buzz/autopost/autopost_ope.md"),
     ("/biz/influx/", "02_Ai/influx/influx_ope.md"),
     ("/biz/pokeca-invest/", "02_Ai/pokeca-invest/pokeca-invest_ope.md"),
 ]
@@ -437,7 +438,7 @@ def cmd_kanban_view(board_path: str, results_jsonl: str | None = None) -> int:
 
     lines.append("%% kanban:settings")
     lines.append('```')
-    lines.append('{"kanban-plugin":"basic","new-note-folder":"02_Ai/make_article"}')
+    lines.append('{"kanban-plugin":"basic","new-note-folder":"02_Ai/x-buzz/make_article"}')
     lines.append('```')
     lines.append("%%")
 

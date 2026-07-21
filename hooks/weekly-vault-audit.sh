@@ -272,7 +272,7 @@ done < <(find "$VAULT/02_Ai" -type l ! -exec test -e {} \; -print 2>/dev/null)
 # (runner 経路の検査と二重化・手動編集での骨格崩れも拾う)。violations に計上。
 # ============================================================
 CPG_PY="$HOME/.claude/scripts/report_action_presence_gate.py"
-CPG_BOARD="$VAULT/02_Ai/AI_adscrm/AIads/AIads-cp-review.md"
+CPG_BOARD="$VAULT/02_Ai/AI_adscrm/AIads/boards/AIads-cp-review.md"
 if [ -f "$CPG_PY" ] && [ -f "$CPG_BOARD" ]; then
   if ! cpg_out="$(/usr/bin/python3 "$CPG_PY" --cp-sections "$CPG_BOARD" 2>/dev/null)"; then
     result="${result}- ❌ cp-sections: $(printf '%s' "$cpg_out" | head -1 | cut -c1-200) (CP章の金標準要素が欠落)\n"
@@ -448,6 +448,61 @@ if [ -f "$DLC_PY" ]; then
 fi
 
 # ============================================================
+# 検証 21: ドラフト滞留 + 名前と状態の乖離 (2026-07-18・rules/41 §④ ドラフト運用)
+# 実事故: x-operation-rework DRAFT 580行が2ヶ月化石化 / delegation-charter-draft が
+# 採択済みのまま -draft 名で残存。判定キーは basename *-draft.md（大文字/下線ゆらぎ含む）。
+# (a) 30日超の未決着ドラフト → 🟡 warn (housekeeping・移動は人間ゲート)
+# (b) 承認済み(✅/approved)なのに -draft 名のまま → ❌ 違反 (名前か置き場を動かせ)
+# ============================================================
+draft_stale=""
+while IFS= read -r f; do
+  [ -z "$f" ] && continue
+  case "$f" in */_archive/*|*/works/*|*/ai_dashboard/*|*/rohan/*) continue ;; esac  # 既存プロジェクトは rules/41 適用外
+  fst="$(awk '/^---$/{c++; if(c==2)exit} c==1' "$f" 2>/dev/null | grep -E '^status:' | head -1)"
+  if printf '%s' "$fst" | grep -qE '✅|採択|approved|承認'; then
+    result="${result}- ❌ draft-drift: ${f#$VAULT/} - 承認済みなのに -draft 名のまま (rules/41 §④: -draft を外すか _archive/ へ)\n"
+    violations=$((violations + 1))
+    continue
+  fi
+  fm_epoch=""
+  fdate="$(awk '/^---$/{c++; if(c==2)exit} c==1' "$f" 2>/dev/null | grep -E '^last_updated:' | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}' | head -1)"
+  [ -n "$fdate" ] && fm_epoch="$(date -j -f "%Y-%m-%d" "$fdate" "+%s" 2>/dev/null)"
+  [ -z "$fm_epoch" ] && fm_epoch="$(stat -f %m "$f" 2>/dev/null || echo "$now_epoch")"
+  d_age=$(( (now_epoch - fm_epoch) / 86400 ))
+  if [ "$d_age" -gt 30 ]; then
+    draft_stale="${draft_stale}- 🟡 draft-stale (${d_age}d): ${f#$VAULT/} - 30日超の未決着ドラフト (決裁するか closure: abandoned で箱内 _archive/ へ)\n"
+  fi
+done < <(find "$VAULT/02_Ai" "$VAULT/03_ClaudeEnv" -type f \( -iname "*-draft.md" -o -iname "*_draft.md" \) 2>/dev/null)
+
+# ============================================================
+# 検証 22: 平文シークレットの vault 流入 (2026-07-19)
+# 実事故: totty(previous).md / vivecoring_memo.md 他 5 ファイルに実 API キー 6 本
+# (Anthropic2/OpenAI3/Google1) が平文で残存し、private repo とはいえ GitHub 履歴へ同期
+# されていた。伏せ字化しても履歴には残るため、流入そのものを毎週止める。
+# 判定: 実キーのプレフィクス形状のみ (伏せ字 REDACTED_* とダミー XXXX 末尾は除外)。
+# 検出値は絶対に出力しない (ファイル名・行番号・種別のみ)。
+# ============================================================
+while IFS= read -r hit; do
+  [ -z "$hit" ] && continue
+  result="${result}- ❌ secret-in-vault: ${hit} (鍵を無効化 → 伏せ字化 → 値は ~/.zshrc の export へ・secret-management skill)\n"
+  violations=$((violations + 1))
+done < <(
+  grep -rnE '(sk-ant-api03-|sk-proj-|AIzaSy|AKIA[0-9A-Z]{16})[A-Za-z0-9_-]{15,}' "$VAULT" \
+    --include="*.md" --include="*.json" --include="*.txt" --include="*.py" --include="*.sh" \
+    --include="*.yaml" --include="*.yml" 2>/dev/null \
+    | grep -v '/\.git/' | grep -v 'REDACTED_' | grep -vE 'XXXX' \
+    | awk -F: -v v="$VAULT/" '{
+        kind = "unknown";
+        if ($0 ~ /sk-ant-api03-/) kind = "Anthropic";
+        else if ($0 ~ /sk-proj-/) kind = "OpenAI";
+        else if ($0 ~ /AIzaSy/) kind = "Google";
+        else if ($0 ~ /AKIA/) kind = "AWS";
+        f = $1; sub(v, "", f);
+        print f " 行" $2 " (" kind ")";
+      }'
+)
+
+# ============================================================
 # audit ファイル append-only 更新
 # ============================================================
 mkdir -p "$(dirname "$AUDIT_FILE")"
@@ -483,6 +538,9 @@ fi
   fi
   if [ -n "$stale_reports" ]; then
     echo -e "$stale_reports"
+  fi
+  if [ -n "$draft_stale" ]; then
+    echo -e "$draft_stale"
   fi
 } >> "$AUDIT_FILE"
 

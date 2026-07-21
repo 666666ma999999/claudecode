@@ -62,7 +62,7 @@ heuristic マッピング:
 - `/prime_suite/prime_ad/` → `02_Ai/AI_adscrm/AIads/AIads_ope.md`
 - `/prime_suite/prime_crm/` → `02_Ai/AI_adscrm/AIcrm/AIcrm_ope.md`
 - `/prime_suite/` → `02_Ai/AI_adscrm/adscrm_cross.md`
-- `/biz/make_article/` → `02_Ai/make_article/make_article_ope.md`
+- `/biz/make_article/` → `02_Ai/x-buzz/make_article/make_article_ope.md`
 
 ### 2-2. 対象ファイル Read + git diff 取得
 **必須**: 「自編集ファイルの記憶過信」mistakes.md 由来で、要約前に必ず Read で全体把握。

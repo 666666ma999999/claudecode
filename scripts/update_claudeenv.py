@@ -711,7 +711,7 @@ COLLECTORS = [
 # 引用に吸い込まれる。鮮度行は必ず空行で独立させ、marker は行末)
 FRESH_MARK = "%%freshness%%"
 FRESHNESS_TARGETS = [
-    VAULT / "02_Ai/AI_adscrm/AIads/AIads-cp-review.md",
+    VAULT / "02_Ai/AI_adscrm/AIads/boards/AIads-cp-review.md",
     VAULT / "02_Ai/AI_adscrm/AIads/reports/_ai/adscrm-weekly-ops-review-result.md",
     VAULT / "02_Ai/AI_adscrm/AIads/reports/_ai/adscrm-biweekly-ads-pdca-result.md",
 ]
@@ -782,7 +782,7 @@ JOB_ARTIFACTS = [
     # (該当コード: 本関数 else 節 `days, flag, last_str = "—", "🔴", "(なし)"` にスキップ分岐がない)。
     # 閾値40日 = トリガー上限28日(ELAPSED_TRIGGER_DAYS) + 未実行猶予バッファ。
     ("com.masa.x-keywords-weekly (masa-2)",
-     VAULT / "02_Ai/influx/influx_x_search_keywords.md", 40, "毎週土 10:00"),
+     VAULT / "02_Ai/x-buzz/influx-x/influx_x_search_keywords.md", 40, "毎週土 10:00"),
     # chat-cards は承認系: 監査ログ=ハートビート（apply 成功ごとに毎時更新・0件でも書く）。
     # 丸1日止まると🟡・2日で🔴。通知はカード有時のみなので沈黙とシステム死の区別はこの行が担う。
     ("com.masa.chat-cards-hourly",
@@ -790,8 +790,8 @@ JOB_ARTIFACTS = [
 ]
 # 📅期日超過スキャン対象 (手動だが期日がある作業の監視穴を塞ぐ・書式: 📅due:YYYY-MM-DD)
 DUE_SCAN_FILES = [
-    VAULT / "02_Ai/AI_adscrm/AIads/AIads-cp-review.md",
-    VAULT / "02_Ai/AI_adscrm/AIads/AIads-meta-cp-review.md",
+    VAULT / "02_Ai/AI_adscrm/AIads/boards/AIads-cp-review.md",
+    VAULT / "02_Ai/AI_adscrm/AIads/boards/AIads-meta-cp-review.md",
 ]
 DUE_RE = re.compile(r"📅due:(\d{4}-\d{2}-\d{2})")
 
