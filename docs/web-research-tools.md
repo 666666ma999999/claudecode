@@ -2,6 +2,9 @@
 
 `30-routing.md` から分離（2026-04-26）。Web リサーチ系スキル選定の正典。
 
+> **🔎 検索・調査の前に必ず**: vault `02_Ai/search-playbook.md`（**検索攻略ノート**）を先に引く — ドメイン別の勝ちパターン・見張り台帳・効く/効かない条件の正本。ノートに該当ドメインがあれば、その手法・資産（chacha 人リスト / 3ソース照合 / x-keywords 等）を第一選択にし、ゼロからの場当たり検索をしない。検索後は同ノートに1行ログ（効いた/外れた＋条件）を書き戻す（2026-07-21 敵対レビュー2R 確定）。
+> MCP の接続状態の正本は `claude mcp list` のみ。本文書に接続状態を書かない。
+
 **情報収集の主軸は 2 つだけ**。残りは補助情報として必要時に使う。
 
 ## 主軸・副軸の定義
@@ -12,7 +15,7 @@
 | **副軸** | **GitHub star**（`gh` CLI + `/gh-star-harvest`） | 客観性・継続性 | 世界中のdevが投票した結果、数値が絶対 |
 | 補助 | 公式・Anthropic直系 | 確度最高 | 出現頻度低、補助扱い |
 | 補助 | MCPレジストリ（pulsemcp/smithery等） | 範囲狭い | 特定記事テーマの時のみ |
-| 補助 | firecrawl MCP（導入済・self-host localhost:3002） | JS描画ページも綺麗にMarkdown化 | WebFetchで読めない動的ページのscrape/crawl/extract |
+| 補助 | firecrawl MCP（cloud 版 `npx firecrawl-mcp`・User scope 全プロジェクト） | JS描画ページも綺麗にMarkdown化。`firecrawl_search` は一般 Web 検索の第一候補（builtin WebSearch より内容抽出が濃い） | 動的ページの scrape/crawl/extract。旧 self-host localhost:3002 は廃止（2026-07-21） |
 | 補助 | HN/Reddit/Zenn/Qiita/はてブ等 | X/GitHubと重複 | Codex経由でまとめて横断 |
 
 ## 情報源ごとの推奨ツール

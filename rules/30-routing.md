@@ -30,6 +30,7 @@
 | 過去ノートの誤記訂正 | `rules/40-obsidian.md §訂正プロトコル` |
 | `/save` `/wiki` `/canvas` `/autoresearch` | claude-obsidian 系 |
 | Web リサーチ | `~/.claude/docs/web-research-tools.md` |
+| 検索・調査・リサーチ依頼全般（探す/確かめる/見張る・勝ちパターン・見張り台帳・「◯◯調べて」） | **先に vault `02_Ai/search-playbook.md`（検索攻略ノート）**→ 手段選択は `web-research-tools.md` |
 | Google Workspace | `gog-cli`（WebFetch禁止） |
 | 叩き台/探索/UI試作 | `/prototype` |
 | 本人(MASA)の型でテーマから起案プロンプトを生成・分身で起案 | `bunshin-kian`(`/bunshin-kian <テーマ>`) |

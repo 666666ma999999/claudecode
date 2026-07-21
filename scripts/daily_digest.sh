@@ -24,6 +24,11 @@ TS=$(date -Iseconds)
     --health "$HOME_DIR/.claude/state/news_health.json" \
     || echo "[warn] collect_news.py exit=$?"
 
+  # step 1b: 検索履歴 index.db の増分取込み（冪等・2026-07-21 追加: 18日stale＋未スケジュールが検索棚卸し不能の真因だった）
+  echo "--- step 1b: ingest-jsonl-to-sqlite.py ---"
+  "$PY" "$HOME_DIR/.claude/scripts/ingest-jsonl-to-sqlite.py" \
+    || echo "[warn] ingest-jsonl-to-sqlite exit=$?"
+
   # update_claudeenv.py は Vault がある場合のみ
   if [ -d "$HOME_DIR/Documents/Obsidian Vault/03_ClaudeEnv" ]; then
     echo "--- step 2: update_claudeenv.py --target official ---"
