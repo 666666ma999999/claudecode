@@ -53,15 +53,25 @@ TS=$(date -Iseconds)
           # 「他機の故障」を自機の故障として通知しない（2026-07-21・誤読の実害あり）。
           CH_HOST=$(grep -oE '定期ジョブ🔴=[0-9]+件 @[^)]+' "$CH" | sed -E 's/.*@//' | head -1)
           ME=$(hostname)
+          # 他機分はデスクトップ通知しない（2026-07-21 ユーザー判断: 自機から対処不可能な
+          # 通知はノイズ）。ただし握り潰さず、ログには必ず1行残す（fail-loud 維持）。
+          # 生成ホストが読めない場合は「他機と断定できない」ので通知する側に倒す。
+          # CH_NOTIFY_OTHER=1 で他機分も通知する運用に戻せる。
+          NOTIFY=1
           if [ -z "${CH_HOST:-}" ]; then
             SCOPE="生成ホスト不明"
           elif [ "$CH_HOST" = "$ME" ]; then
             SCOPE="このMac"
           else
             SCOPE="他機 $CH_HOST — 自機では対処不可"
+            [ "${CH_NOTIFY_OTHER:-0}" = "1" ] || NOTIFY=0
           fi
-          osascript -e "display notification \"$RED_JOBS\" with title \"定期ジョブ🔴 ${RED_N}件（${SCOPE}）\"" 2>/dev/null || true
-          echo "[notify] 定期ジョブ🔴 ${RED_N}件 (${SCOPE}) 通知: $RED_JOBS"
+          if [ "$NOTIFY" = "1" ]; then
+            osascript -e "display notification \"$RED_JOBS\" with title \"定期ジョブ🔴 ${RED_N}件（${SCOPE}）\"" 2>/dev/null || true
+            echo "[notify] 定期ジョブ🔴 ${RED_N}件 (${SCOPE}) 通知: $RED_JOBS"
+          else
+            echo "[notify-skip] 定期ジョブ🔴 ${RED_N}件 (${SCOPE}) 通知抑止(CH_NOTIFY_OTHER=1 で有効化): $RED_JOBS"
+          fi
         fi
       fi
     fi
