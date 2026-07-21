@@ -119,3 +119,4 @@ data/bookmarks-normalized.jsonl
 
 # claude-mem worker-service が自動再生成する context dump（端末固有・commit すると2台間で毎回 churn・2026-07-16）
 /AGENTS.md
+/rules/CLAUDE.md
