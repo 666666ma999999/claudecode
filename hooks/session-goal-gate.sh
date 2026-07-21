@@ -13,6 +13,11 @@
 # 仕組み: session-goal.sh と同一のパス計算（worktree 単位）で目標ファイルを引く。
 #         新しい保存先・新フォーマットは作らない（既存 state を再利用）。
 
+# headless ガード (2026-07-21): vault-prompt-runner の無人 claude -p では返信者がいないため、
+# このゲートが応答を乗っ取ると結果 md がパッチ0個になり wiki_ingest_apply が毎日 ABORT する（7/19・7/21 実障害）。
+# Stop 系 hook 群と同じ既存マーカーで自粛する。
+[ -n "${VAULT_PROMPT_RUNNER:-}" ] && exit 0
+
 input=$(cat)
 
 # UserPromptSubmit hook の stdin JSON から cwd と session_id を取る（無ければ fallback）
