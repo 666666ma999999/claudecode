@@ -169,7 +169,7 @@ else
 fi
 
 # Parse quota data
-five_h_pct=0; five_h_reset="--"; seven_d_pct=0; seven_d_reset="--"
+five_h_pct=0; five_h_reset="--"; seven_d_pct=0; seven_d_reset="--"; fable_pct=""
 if [ -f "$USAGE_CACHE" ]; then
   five_h_pct=$(jq -r '.five_hour.utilization // 0' "$USAGE_CACHE" 2>/dev/null)
   seven_d_pct=$(jq -r '.seven_day.utilization // 0' "$USAGE_CACHE" 2>/dev/null)
@@ -204,6 +204,11 @@ if [ -f "$USAGE_CACHE" ]; then
   }
   five_h_reset=$(_time_until "$five_h_reset_raw")
   seven_d_reset=$(_time_until "$seven_d_reset_raw")
+
+  # Fable — model-scoped weekly limit。limits[] に is_active な weekly_scoped として現れる。
+  # (Fable 未使用時はこの entry が無く fable_pct="" のまま → 2行目に表示されない)
+  # reset は 7d と同一の週次ウィンドウなので冗長。バー+% のみ出す。
+  fable_pct=$(jq -r 'first(.limits[]? | select(.scope.model.display_name == "Fable") | .percent) // empty' "$USAGE_CACHE" 2>/dev/null)
 fi
 
 # Build quota progress bars (5 chars each)
@@ -221,6 +226,14 @@ five_h_int=$(awk "BEGIN {printf \"%.0f\", ${five_h_pct:-0}}")
 seven_d_int=$(awk "BEGIN {printf \"%.0f\", ${seven_d_pct:-0}}")
 five_h_bar=$(_mini_bar "$five_h_int")
 seven_d_bar=$(_mini_bar "$seven_d_int")
+
+# Fable セグメント (データが有るときだけ 2行目末尾に付ける)
+fable_seg=""
+if [ -n "$fable_pct" ]; then
+  fable_int=$(awk "BEGIN {printf \"%.0f\", ${fable_pct:-0}}")
+  fable_bar=$(_mini_bar "$fable_int")
+  fable_seg=$(printf " │ 🎭 Fable %s %d%%" "$fable_bar" "$fable_int")
+fi
 
 
 # Periodic cleanup
@@ -263,13 +276,14 @@ printf "🤖 %s │ ⚡%s │ 📊 %s%% used / %s%% remaining\n" \
   "$effort_level" \
   "$used_pct" \
   "$remaining_pct"
-printf "⏱ 5h %s %d%% (%s) │ 📅 7d %s %d%% (%s)\n" \
+printf "⏱ 5h %s %d%% (%s) │ 📅 7d %s %d%% (%s)%s\n" \
   "$five_h_bar" \
   "$five_h_int" \
   "$five_h_reset" \
   "$seven_d_bar" \
   "$seven_d_int" \
-  "$seven_d_reset"
+  "$seven_d_reset" \
+  "$fable_seg"
 printf "🔀 %s │ 📁 %s" \
   "$git_branch" \
   "$project_name"
