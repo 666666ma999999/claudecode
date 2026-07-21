@@ -7,7 +7,7 @@
 の承認カード（`[!todo]` callout の「あなたの返事」行）。
 
 設計裁定（2026-07-11 team-lead）:
-  1. `tasks/NOW.md` はこのMacに実在しない（masa-2 側が正本の可能性）ため自動書込は行わない。
+  1. `tasks/NOW.md` は MASA.local に実在しない（masa-2 側が正本の可能性）ため自動書込は行わない。
      カード見出しに M番号が明記されている場合のみ `tasks/mN-*.md` Metadata Status 更新の
      **提案**を出力するに留める（書込なし・Q→M自動対応表は作らない）。
   2. `interventions.csv` は既定では新規作成しない。ファイルが既にあれば追記するが、
@@ -526,7 +526,7 @@ def main():
     if not need_inbox_cards and not (do_csv and need_csv_cards):
         if not do_csv and not csv_exists:
             print("\n[interventions.csv] ファイル不在: %s" % args.csv)
-            print("  masa-2 側が正本の可能性があるため、このMacでは新規作成しません（--create-csv 未指定）。")
+            print("  masa-2 側が正本の可能性があるため、実行中のホストでは新規作成しません（--create-csv 未指定）。")
         print("\n新規裁定なし（全カード処理済み）。終了。")
         return 0
 
@@ -579,7 +579,7 @@ def main():
             print("  csv 追記をスキップします（INBOX 側は影響を受けません）。")
     elif not do_csv:
         print("\n[interventions.csv] ファイル不在: %s" % args.csv)
-        print("  masa-2 側が正本の可能性があるため、このMacでは新規作成しません（--create-csv 未指定）。")
+        print("  masa-2 側が正本の可能性があるため、実行中のホストでは新規作成しません（--create-csv 未指定）。")
         print("  作成する場合は --create-csv を明示してください。")
 
     if not args.apply:

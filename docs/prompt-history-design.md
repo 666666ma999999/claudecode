@@ -16,7 +16,7 @@
 [両Mac] 転送ジョブ (Phase 2)
   └→ vault 内 03_ClaudeEnv/prompts/.queue/<host_uuid>/YYYY-MM-DD.jsonl (ホスト別=衝突ゼロ)
        └→ git 同期は既存 Obsidian Git プラグイン相乗り (自前 pull/push なし)
-[writer=このMac 1台のみ] 日次ジョブ (Phase 2)
+[writer=2台のうち1台のみ(要固定・どちらかは未確定)] 日次ジョブ (Phase 2)
   └→ 各 INBOX の <!-- prompt-history:begin/end --> マーカー間へ日別ブロック append
        (動的長コードフェンス・日別 callout 折りたたみ・冪等台帳で dedupe)
 ```

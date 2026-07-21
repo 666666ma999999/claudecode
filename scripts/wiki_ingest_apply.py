@@ -9,7 +9,7 @@
 決定正本: vault `wiki/meta/decisions.md` 2026-07-06「無人AI書込はハブ追記型」。
 設計正本: vault `03_ClaudeEnv/ClaudeEnv-secondbrain-v2-plan.md`（§v3 追補）。
 
-python3 標準ライブラリのみ（このMacは 3.9.6）。任意コマンド実行なし・
+python3 標準ライブラリのみ（MASA.local は 3.9.6 で実確認・2026-07-21）。任意コマンド実行なし・
 target は下記 ALLOWLIST にハードコード（vault md の frontmatter から経路を作らせない）。
 
 usage: wiki_ingest_apply.py <result-md-path>

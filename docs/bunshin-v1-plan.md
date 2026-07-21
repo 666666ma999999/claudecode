@@ -1,3 +1,4 @@
+> 🖥 **本文中の「このMac」「別Mac」の読み替え定義**（2026-07-21 追記）: 本ドキュメントは **masa-2.local (masaaki_nagasawa)** 上で書かれている。本文中の「**このMac**」= `masa-2.local`、「**別Mac**」= `MASA.local (masaaki)`（T3.5 の「別Mac(MASA.local) 保全」記述で確定）。**MASA.local 側で読むと意味が反転する**ので注意。姉妹ドキュメント `docs/bunshin-taxonomy-v2.md` も同じ定義。
 > **Status: ✅ Phase 0-3準備 実装完了 (2026-07-02・commit未実施=ユーザー確認待ち)**
 > 生成経路: 5面検証 workflow → 敵対反証2本 → 3アーキテクト独立立案 → 審査統合 → Codex 敵対レビュー2周 (REJECT→APPROVE-WITH-CHANGES→全反映)。
 > 検証の一次データ: 本セッション workflow w0roar5in / w74fhf9be (transcripts は14日で消えるため要点は本ファイルに内蔵済み)。
