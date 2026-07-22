@@ -19,7 +19,7 @@ allowed-tools: [Read, Glob, Grep]
 |---|---|
 | `git push --force`, `git push -f`, `git push origin +*` | `--force-with-lease` |
 | `git reset --hard` | `git stash` + `git reset --soft` |
-| `git checkout .`, `git restore .` | 個別ファイル指定 |
+| `git checkout .`, `git restore .` | `git stash push -- <file>`（**個別ファイル指定の `git checkout -- <file>` も避ける**: 不可逆破棄のため auto モードの classifier に拒否される。stash なら可逆で通る。捨てて良いと確定後に `git stash drop`。2026-07-22） |
 | `git clean -f/-df` | `git clean -n` で確認後、個別削除 |
 | `git branch -D` | `git branch -d` |
 | `git rebase main/master` | `git merge` |
