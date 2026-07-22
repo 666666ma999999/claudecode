@@ -11,7 +11,7 @@
 
 | 位置づけ | ツール | 指標の性格 | 用途 |
 |---|---|---|---|
-| **主軸** | **X バズ**（grok-search + `/fetch-engagement` 2段） | 鮮度・バイラル兆候 | いいね/views/RTの実測、今Xで何が流行ってるか |
+| **主軸** | **X バズ**（**Xログイン(Cookie)経路 `/fetch-engagement`** ＋ 他人いいね=syndication） | 鮮度・バイラル兆候 | いいね/views/RTの実測、今Xで何が流行ってるか。※grok は 2026-07-22 廃止裁定（課金しない）— 再提起禁止 |
 | **副軸** | **GitHub star**（`gh` CLI + `/gh-star-harvest`） | 客観性・継続性 | 世界中のdevが投票した結果、数値が絶対 |
 | 補助 | 公式・Anthropic直系 | 確度最高 | 出現頻度低、補助扱い |
 | 補助 | MCPレジストリ（pulsemcp/smithery等） | 範囲狭い | 特定記事テーマの時のみ |
@@ -22,7 +22,7 @@
 
 | 情報源 | 第一選択 | フォールバック |
 |---|---|---|
-| X(Twitter) バズ | `mcp__grok-search__web_search` sources=["x"] + `/fetch-engagement` | Codex自律 |
+| X(Twitter) バズ | **Xログイン(Cookie)経路 `/fetch-engagement`**（views/likes実測）＋ 他人いいね=syndication（無認証） | Codex自律 ※grok=廃止(2026-07-22 裁定・課金しない) |
 | X 個別ポスト本文（grok クレジット切れ/ログイン壁時） | WebFetch `https://cdn.syndication.twimg.com/tweet-result?id=<STATUS_ID>&lang=ja&token=a`（認証不要・X Articles はタイトル+リードまで） | `publish.x.com/oembed?url=...` |
 | **X Articles（長文記事）全文** — ログイン必須 | **influx Cookie 経路**: `docker exec -i xstock-vnc python3 -` heredoc で `collector.cookie_crypto.load_cookies_or_raise("/app/x_profiles/maaaki/cookies.json")` → Playwright headless で記事 URL へ goto → innerText をスクロール収集（2026-07-06 実測成功: 36日前 Cookie で 2 記事全文取得。API 系 6 経路全滅時も生存） | Chrome 拡張（要接続）。Cookie 失効時は influx `refresh-x-cookies` |
 | GitHub star/trending | `/gh-star-harvest` (gh CLI + pushed:> + paginate) | WebFetch(github.com/trending) |
@@ -39,7 +39,7 @@
 ## 日常運用フロー
 
 ```
-毎日:    X バズ候補取得（grok-search + /fetch-engagement）
+毎日:    X バズ候補取得（Xログイン(Cookie)経路 /fetch-engagement）
 毎週:    GitHub star 収集（/gh-star-harvest 7 claude-code 50）
 必要時:  公式blog 直読み / MCPレジストリ API叩き
 横断:    Codex に任せる（1軸で見えない時のみ）
@@ -52,7 +52,7 @@
 ### SNS の大原則（2026-07-22 実測）: 露出は自分だけ・他人は反応だけ
 | SNS | 他人について読める | 自分だけ（Insights） | 取得の入口 |
 |---|---|---|---|
-| X | いいね数（views は返らない・実測） | imp/engagements/クリック | 他人=`cdn.syndication.twimg.com/tweet-result?id=<id>&lang=ja&token=a`／自社or対象=`/fetch-engagement`(Cookie・views含む)／grok は課金切れ時403→フォールバック |
+| X | いいね数（views は返らない・実測） | imp/engagements/クリック | 他人=`cdn.syndication.twimg.com/tweet-result?id=<id>&lang=ja&token=a`／自社or対象=`/fetch-engagement`(Cookie・views含む)。**grok=廃止(2026-07-22裁定)** |
 | ニコニコ | 再生/コメント/マイリスト（全公開・実測） | クリエイター詳細 | `ext.nicovideo.jp/api/getthumbinfo/<smID>`（無認証・最も他人が開いている） |
 | YouTube | 再生/いいね/コメント（WebFetchでは不可・API要） | 維持率/流入/収益 | Data API v3 `videos.list`（`YOUTUBE_API_KEY`）。search endpoint は quota 大 |
 | Instagram | いいね/コメント（ログイン壁）・**リーチ/imp/保存は不可** | リーチ/imp/保存/属性 | 自社=Meta Graph（要 instagram_manage_insights・現トークンは ads_read のみ）／他人=実質不可 |
@@ -79,13 +79,14 @@
 - ポケカ: PSA Population Report・公式大会参加者
 
 ### フォールバックの鉄則
-- 検索ツールは1回試して認証/課金/接続エラーなら即フォールバック（grok403→syndication いいね/builtin、GSC auth error→復旧まで検索流入は空欄扱い）。接続状態は本文書に固定しない（下の Don'ts）。
+- 検索ツールは1回試して認証/課金/接続エラーなら即フォールバック（例: GSC auth error→復旧まで検索流入は空欄扱い）。接続状態は本文書に固定しない（下の Don'ts）。X の数字の正ルートは上の SNS 表（Cookie経路・grok は廃止）。
 
 ## Don'ts
 
 - **builtinで済むものをMCPで呼ばない** — GitHub starは`gh`、WebSearchはbuiltin。MCP経由は10倍遅い
 - **grepで集計しない** — JSONL は `jq` か `env-factcheck`。grep は artifact に騙される
 - **同一ソースを複数スキルから独立に叩かない** — Canonical Module原則のリサーチ版
-- **X/バズ系クエリを WebSearch(builtin) で取らない** — バズ・いいね・話題・トレンド・バイラルを含む X検索は **`mcp__grok-search__web_search` sources=["x"]** を使う。WebSearch(builtin) は likes/views を返さないため `/fetch-engagement` での再計測が必要になり二度手間（実測: builtin 409回 / grok-search 62回 の棲み分けが崩れていた）
+- **X/バズ系クエリを WebSearch(builtin) で取らない** — バズ・いいね・話題・トレンド・バイラルの数字は **Xログイン(Cookie)経路 `/fetch-engagement`**（views/likes実測）＋他人いいね=syndication を使う。WebSearch(builtin) は likes/views を返さない
+- **grok を X 検索の選択肢として再提起しない** — 2026-07-22 ユーザー裁定で**廃止（課金しない）**。「grok 403=要復旧/課金判断」と書くのは誤り。X の数字の正ルートは上記 Cookie 経路（毎回同じ誤りの再発防止・recurring-mistakes `x-numbers-cookie-route`）
 - **補助ルートを個別に直叩きしない** — HN/Reddit/Zenn/Qiita/はてブ/Hugging Face 等は Codex MCP の「横断」機能に任せる。個別curl叩きは情報源追加のたびにルーティング表が肥大する
 - **どのツールが今使えるかを本文書に書かない** — 検索ツールは1回試して認証/課金/接続エラーなら即フォールバック列へ移る。接続・課金状態の正本は `claude mcp list`（本文書冒頭の掟）。「grok が今使える/使えない」等を本文に固定しない（drift 源になる）
