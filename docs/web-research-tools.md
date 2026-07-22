@@ -45,6 +45,42 @@
 横断:    Codex に任せる（1軸で見えない時のみ）
 ```
 
+## 量的計器（M8「数字で絞る」）の取得ルート
+
+> 攻略ノート `02_Ai/search-playbook.md` §7 計器索引の実務詳細。候補の量的KPIを〈①確定=読むだけ / ②推定=集めて計算 / ③あやふや=M5+芽観察〉で取る。値タグ[絶対/相対/公式推定/順位]必須・**数字大≠良い**。取得可否は揺れる（API有料化・仕様変更）→ 索引に固定せず、分野着手時に1回実測してから使う。
+
+### SNS の大原則（2026-07-22 実測）: 露出は自分だけ・他人は反応だけ
+| SNS | 他人について読める | 自分だけ（Insights） | 取得の入口 |
+|---|---|---|---|
+| X | いいね数（views は返らない・実測） | imp/engagements/クリック | 他人=`cdn.syndication.twimg.com/tweet-result?id=<id>&lang=ja&token=a`／自社or対象=`/fetch-engagement`(Cookie・views含む)／grok は課金切れ時403→フォールバック |
+| ニコニコ | 再生/コメント/マイリスト（全公開・実測） | クリエイター詳細 | `ext.nicovideo.jp/api/getthumbinfo/<smID>`（無認証・最も他人が開いている） |
+| YouTube | 再生/いいね/コメント（WebFetchでは不可・API要） | 維持率/流入/収益 | Data API v3 `videos.list`（`YOUTUBE_API_KEY`）。search endpoint は quota 大 |
+| Instagram | いいね/コメント（ログイン壁）・**リーチ/imp/保存は不可** | リーチ/imp/保存/属性 | 自社=Meta Graph（要 instagram_manage_insights・現トークンは ads_read のみ）／他人=実質不可 |
+| TikTok | 再生/いいね/コメント（scrape脆弱） | 維持/流入 | 候補=Creative Center(radar既存)／自社=TikTok API(要申請) |
+| Facebook | 公開Pageの反応（個人post不可） | Page Insights | 自社=Graph(Page token)／他人organic=不可 |
+| LINE公式 | **不可**（他社は取れない） | 友だち/ブロック/開封/クリック | 自社=Messaging Insight(`LINE_CHANNEL_TOKEN`・稼働) |
+| note | スキ数（公開） | PV/売上 | 他人=公式記事ページ WebFetch／自社=ダッシュボード |
+| Threads/Pinterest/Twitch | 反応の一部のみ公開 | 各Insights | 自社API(要token)／他人詳細は不可 |
+
+### 無認証で即読める確定計器（2026-07-22 実測済み・低頻度で）
+- はてブ件数: `https://bookmark.hatenaapis.com/count/entry?url=<URL>` → 裸の整数
+- Qiita: `https://qiita.com/api/v2/items?query=<kw>`（60req/h）→ likes_count/stocks_count
+- Zenn: `https://zenn.dev/api/articles?order=liked_count` → liked_count
+- iTunes/App Store: `https://itunes.apple.com/search?term=<kw>&country=jp&entity=software` → averageUserRating/userRatingCount
+- PubMed件数: `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=<q>&retmode=json` → esearchresult.count（件数≠正しさ）
+- Wikipedia閲覧: Wikimedia Pageviews API ／ npm: npm Downloads API ／ Trends日次: WebFetch `trends.google.com/trending/rss?geo=JP`（相対）
+- 取れなかった実例: Reddit `top.json`=WebFetch遮断・PatentsView=要APIキー → Codex横断 or 別ルート
+
+### 分野別の確定計器（鍵あり・分野の回に実測して索引へ）
+- 株: EDINET API(`EDINET_API_KEY`)・J-Quants(`JQUANTS_API_KEY`)・JPX空売り/信用残・TDnet
+- マネタイズ/生活: e-Stat(要appId)・法人番号・政府調達
+- 健康: PubMed件数・ClinicalTrials.gov・PMDA・厚労省(e-Stat)
+- 旅行: 観光庁宿泊統計・JNTO・気象庁
+- ポケカ: PSA Population Report・公式大会参加者
+
+### フォールバックの鉄則
+- 検索ツールは1回試して認証/課金/接続エラーなら即フォールバック（grok403→syndication いいね/builtin、GSC auth error→復旧まで検索流入は空欄扱い）。接続状態は本文書に固定しない（下の Don'ts）。
+
 ## Don'ts
 
 - **builtinで済むものをMCPで呼ばない** — GitHub starは`gh`、WebSearchはbuiltin。MCP経由は10倍遅い
