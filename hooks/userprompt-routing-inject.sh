@@ -73,7 +73,7 @@ inject_mistake_rule() {
 # fetch-failure-ladder: URL / 取得 / fetch / 動的 / X tweet
 if echo "$prompt" | grep -qiE "URL|取得失敗|fetch|動的|tweet|x\.com|スクレイプ|scrape"; then
   inject_mistake_rule "fetch-failure-ladder" "fetch-failure-ladder" \
-    "URL/動的コンテンツ取得失敗を宣言する前に WebFetch → mcp__grok-search__web_search → Playwright の最低3経路を試す。web_fetch と web_search は別経路。"
+    "URL/動的コンテンツ取得失敗を宣言する前に WebFetch → mcp__firecrawl__firecrawl_search → Playwright の最低3経路を試す（grok は 2026-07-22 廃止・はしごから除外）。"
 fi
 
 # fact-claim-proof: 公式 / 実装 / 現状 / 配置 / 存在
@@ -86,6 +86,12 @@ fi
 if echo "$prompt" | grep -qiE "もっとシンプル|もっと簡潔|もっと簡単|もっと最小|もっと削|よりシンプル|より簡単"; then
   inject_mistake_rule "simplify-converge" "simplify-converge" \
     "「もっとシンプル」2回目以降は新案探索を止め、最小案 + 失うもの(捨てる複雑性)を 1 文で明示して収束する。"
+fi
+
+# judgment-number-first: 提案 / 施策 / 見積 / 予算 / 費用 / 効果 / 比較 / 数字を出しそうな依頼
+if echo "$prompt" | grep -qiE "提案|施策|見積|予算|費用|コスト|いくら|試算|効果|案を|プラン|比較|調べて|分析"; then
+  inject_mistake_rule "judgment-number-first" "judgment-number-first" \
+    "判断を左右する導出値は 算出(式)・前提(出所)・確度 を先出し。実測値の合計・差・比率・期間換算は単位が件数/日数でも対象。施策・提案は各項目に根拠数字を添えるか、無い項目は「根拠数字なし・定性判断」と項目内に明示する。"
 fi
 
 exit 0
