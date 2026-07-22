@@ -29,6 +29,46 @@ TS=$(date -Iseconds)
   "$PY" "$HOME_DIR/.claude/scripts/ingest-jsonl-to-sqlite.py" \
     || echo "[warn] ingest-jsonl-to-sqlite exit=$?"
 
+  # step 1c: 月1・検索攻略ノート健診の投函（毎月21日・冪等・2026-07-22 敵対レビュー2R 追加）
+  # 背景: 学習ループに発火機構が無く「月1健診(次回…ごろ)」が願望で止まる問題の恒久対策。
+  # index.db を step1b に相乗りさせたのと同じ reuse 方式。自動実行ではなく INBOX 投函＋通知。
+  if [ "$(date +%d)" = "21" ]; then
+    SP_INBOX="$HOME_DIR/Documents/Obsidian Vault/03_ClaudeEnv/prompts/ClaudeEnv_INBOX.md"
+    SP_MONTH=$(date +%Y-%m)
+    SP_MARKER="$LOG_DIR/search-playbook-checkup-$SP_MONTH.done"
+    if [ -f "$SP_INBOX" ] && [ ! -f "$SP_MARKER" ]; then
+      if "$PY" - "$SP_INBOX" "$SP_MONTH" <<'PYEOF'
+import sys, io
+inbox, month = sys.argv[1], sys.argv[2]
+task = (
+    f"- [ ] 🩺 検索攻略ノート月1健診（{month}）: `02_Ai/search-playbook.md` §4-A の効いた率を採点"
+    "（当月の検索から 成功1/失敗1/重い判断1/新手法1 を抜き取り→効いた数/10 を記帳→成績表の更新案→✅カード提示）。"
+    "準拠（検索前にノートを引いたか）も点検。出典: 2026-07-22 敵対レビュー2R\n"
+)
+with io.open(inbox, "r", encoding="utf-8") as f:
+    lines = f.readlines()
+anchor = "## 🔵 やってほしいこと（投函・未処理）"
+placed = False
+for i, ln in enumerate(lines):
+    if ln.strip() == anchor:
+        lines.insert(i + 1, task)
+        placed = True
+        break
+if not placed:
+    lines.append("\n" + task)
+with io.open(inbox, "w", encoding="utf-8") as f:
+    f.writelines(lines)
+PYEOF
+      then
+        touch "$SP_MARKER"
+        echo "[checkup] 検索攻略ノート月1健診を INBOX へ投函 ($SP_MONTH)"
+        osascript -e 'display notification "「INBOX見て」で健診を実行できます" with title "🩺 検索攻略ノート 月1健診の時期です"' 2>/dev/null || true
+      else
+        echo "[warn] search-playbook checkup failed"
+      fi
+    fi
+  fi
+
   # update_claudeenv.py は Vault がある場合のみ
   if [ -d "$HOME_DIR/Documents/Obsidian Vault/03_ClaudeEnv" ]; then
     echo "--- step 2: update_claudeenv.py --target official ---"
