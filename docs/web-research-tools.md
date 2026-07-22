@@ -23,7 +23,7 @@
 | 情報源 | 第一選択 | フォールバック |
 |---|---|---|
 | X(Twitter) バズ | **Xログイン(Cookie)経路 `/fetch-engagement`**（views/likes実測）＋ 他人いいね=syndication（無認証） | Codex自律 ※grok=廃止(2026-07-22 裁定・課金しない) |
-| X 個別ポスト本文（grok クレジット切れ/ログイン壁時） | WebFetch `https://cdn.syndication.twimg.com/tweet-result?id=<STATUS_ID>&lang=ja&token=a`（認証不要・X Articles はタイトル+リードまで） | `publish.x.com/oembed?url=...` |
+| X 個別ポスト本文（ログイン壁時） | WebFetch `https://cdn.syndication.twimg.com/tweet-result?id=<STATUS_ID>&lang=ja&token=a`（認証不要・X Articles はタイトル+リードまで） | `publish.x.com/oembed?url=...` |
 | **X Articles（長文記事）全文** — ログイン必須 | **influx Cookie 経路**: `docker exec -i xstock-vnc python3 -` heredoc で `collector.cookie_crypto.load_cookies_or_raise("/app/x_profiles/maaaki/cookies.json")` → Playwright headless で記事 URL へ goto → innerText をスクロール収集（2026-07-06 実測成功: 36日前 Cookie で 2 記事全文取得。API 系 6 経路全滅時も生存） | Chrome 拡張（要接続）。Cookie 失効時は influx `refresh-x-cookies` |
 | GitHub star/trending | `/gh-star-harvest` (gh CLI + pushed:> + paginate) | WebFetch(github.com/trending) |
 | GitHub リポの中身を読む（star調査→コード深掘り連携） | `mcp__repomix__pack_remote_repository` / `codebase-investigation` | `gh api /repos/.../contents` |
