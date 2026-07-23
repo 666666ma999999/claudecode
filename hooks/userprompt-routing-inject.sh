@@ -12,10 +12,17 @@ try:
     print(d.get("prompt") or d.get("user_prompt") or "")
 except Exception:
     print("")' 2>/dev/null || echo "")
+cwd=$(echo "$input" | python3 -c 'import sys,json
+try:
+    d=json.load(sys.stdin)
+    print(d.get("cwd") or "")
+except Exception:
+    print("")' 2>/dev/null || echo "")
 
 # 短すぎるプロンプト・空プロンプトはスキップ
 [ -z "$prompt" ] && exit 0
-[ "${#prompt}" -lt 12 ] && exit 0
+# 8文字未満はスキップ (旧12: 「制作指示書にまとめて」=10文字が素通りした実害 2026-07-23)
+[ "${#prompt}" -lt 8 ] && exit 0
 
 ROUTING="$HOME/.claude/rules/30-routing.md"
 [ ! -f "$ROUTING" ] && exit 0
@@ -91,7 +98,20 @@ fi
 # judgment-number-first: 提案 / 施策 / 見積 / 指示書 / まとめ / ランキング等、数字・優先順位を出しそうな依頼
 if echo "$prompt" | grep -qiE "提案|施策|見積|予算|費用|コスト|いくら|試算|効果|案を|プラン|比較|調べて|分析|指示書|まとめ|整形|清書|レポート|ランキング|優先順|順位"; then
   inject_mistake_rule "judgment-number-first" "judgment-number-first" \
-    "判断を左右する導出値は 算出(式)・前提(出所)・確度 を先出し。実測値の合計・差・比率・期間換算は単位が件数/日数でも対象。施策・提案は各項目に根拠数字を添えるか、無い項目は「根拠数字なし・定性判断」と項目内に明示。優先順位・ランキングには掲載式（並べ替え規則と各行の計算）を必ず併記する。"
+    "判断を左右する導出値は 算出(式)・前提(出所)・確度 を先出し。実測値の合計・差・比率・期間換算は単位が件数/日数でも対象。数値を書く前に資料ドメインの正本の該当節を実読する（案内表= docs/response-structure-detail.md §6。広告=費用対効果連鎖式・株=catalog§0のみ・CRM=効果額に観察値注記）。施策・提案は各項目に根拠数字を添えるか、無い項目・不明ドメインは「根拠数字なし・定性判断」と明示。優先順位・ランキングには掲載式（並べ替え規則と各行の計算）を必ず併記する。"
+  # ドメインのヒント (cwd ベース・確定ではない。確定は応答時に対象ファイルで行う)
+  domain_hint=""
+  case "$cwd" in
+    *influx*) domain_hint="株投資（influx・正本=stock-algo-kpi-catalog §0のみ）" ;;
+    *pokeca*) domain_hint="ポケカ（2期目・価値判定と採算は別正本）" ;;
+    *prime_ad*|*AIads*) domain_hint="広告・獲得（prime_ad・費用対効果連鎖式）" ;;
+    *prime_crm*) domain_hint="CRM・顧客（prime_crm spec §1・効果額に観察値注記）" ;;
+    *prime_suite*) domain_hint="prime_suite（広告/CRM 同居・cwd では確定不能）" ;;
+    *rohan*|*reading-factory*) domain_hint="占い制作（定性寄り・項目単位で定性宣言可）" ;;
+  esac
+  if [ -n "$domain_hint" ]; then
+    echo "  （cwdヒント: ${domain_hint} の可能性。確定は編集対象ファイルで行う）"
+  fi
 fi
 
 exit 0
