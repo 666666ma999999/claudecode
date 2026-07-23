@@ -32,3 +32,19 @@ for k, meta in info.items():
     print(f"  {k}: {meta.get('name')}")
 PY
 echo "✅ 完了。Chrome を起動すると各窓の名前に ${HOST} が表示されます"
+
+# ── 常時見える目印: 窓の色（ポリシー・端末ローカル・Google同期されない） ──
+# masa-2=青 / それ以外(MASA等)=赤。--undo で削除。
+if [ "${1:-}" = "--undo" ]; then
+  defaults delete com.google.Chrome BrowserThemeColor 2>/dev/null || true
+  defaults delete com.google.Chrome EnterpriseCustomLabel 2>/dev/null || true
+  echo "窓の色ポリシーを削除しました"
+else
+  case "$HOST" in
+    masa-2*) COLOR="#1a73e8";;   # 青
+    *)       COLOR="#d93025";;   # 赤
+  esac
+  defaults write com.google.Chrome BrowserThemeColor -string "$COLOR"
+  defaults write com.google.Chrome EnterpriseCustomLabel -string "$HOST"
+  echo "窓の色: $COLOR ($HOST) を設定。Chrome 再起動後に反映"
+fi
