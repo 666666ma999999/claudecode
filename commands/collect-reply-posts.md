@@ -25,4 +25,4 @@ AI/Claude Code 界隈で reply（返信・議論）を多くもらっている X
 
 ## 関連
 
-- 収集軸違い（likes/バズ）: `/grok-collect-twittora`
+- 収集軸違い（likes/バズ）だった `grok-collect-twittora` は 2026-07-23 撤去済（grok 課金廃止裁定 2026-07-22）

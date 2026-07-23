@@ -185,7 +185,6 @@
     "collect-reply-posts": "off",
     "config-placement-guide": "off",
     "feature-dev-hybrid": "off",
-    "grok-collect-twittora": "off",
     "project-cross-pc-handoff": "off",
     "search-best-practice": "off",
     "secret-vault-setup": "off"

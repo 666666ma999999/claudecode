@@ -106,7 +106,6 @@
 | 新しい Mac の初期構築・環境複製 | `machine-bootstrap` |
 | 高機密情報（銀行/証券/仮想通貨）の vault 基盤構築 | `secret-vault-setup` |
 | JSON Canvas ファイル生成・編集 | `canvas`（構文は references/json-canvas-syntax.md・2026-07-11 統合） |
-| @twittora_ 向け（Claude Code/AI活用）Xバズ投稿を Grok x_search で収集し Vault/.raw/ へ保存 | `grok-collect-twittora`（`/grok-collect-twittora`。NOT for: 一般Web検索の即時回答→必ず本スキル経由で保存） |
 | Obsidian CLI の read/create/search・プラグイン/テーマ開発（DOM検査等）**ユーザー明示指名時のみ** | `obsidian-cli`（rules/40-obsidian.md「obsidian-cli ガード」準拠。workflow skill からの自動委譲は禁止・正系は wiki-ingest/save/canvas） |
 
 ### 記事生成・検証（X Articles パイプライン）

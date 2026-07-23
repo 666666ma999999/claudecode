@@ -683,15 +683,6 @@ COLLECTORS = [
         "note": "RSS/GitHub 6+4 source、無料",
     },
     {
-        "name": "grok-twittora",
-        "mode": "manual",
-        "trigger": "/collect-training-data (skill: grok-collect-twittora)",
-        "path_glob": ".raw/grok-twittora-*.jsonl",
-        "skill_or_cmd": "grok-collect-twittora",
-        "stale_threshold_days": 14,
-        "note": "Grok x_search 課金 ($0.4-0.8/回)。daily 化非推奨",
-    },
-    {
         "name": "material-bank",
         "mode": "manual",
         "trigger": "Stop hook auto (transcript-scanner) + /ingest-improvements (make_article)",
@@ -1041,14 +1032,12 @@ def render_collector_health(rows: list[dict]) -> str:
         "",
         "## 手動 collector の起動方法",
         "",
-        "- `grok-twittora`: `/collect-training-data` (Grok API 課金あり)",
         "- `material-bank`: Stop hook auto-capture + `/ingest-improvements` (make_article project, /collect-materials は _dormant 退避)",
         "",
         "## なぜ全部自動化しないか",
         "",
-        "1. `grok-twittora`: 1 回 $0.4-0.8 課金。daily 化で年 $150-300 のサイレント浪費を防ぐため手動",
-        "2. `material-bank`: 「ユーザー固有の体験」を素材にする思想。機械収集で太らせると独自性が崩壊",
-        "3. `lessons`: 失敗ログは経験後に手動記録するもので、能動収集ではない",
+        "1. `material-bank`: 「ユーザー固有の体験」を素材にする思想。機械収集で太らせると独自性が崩壊",
+        "2. `lessons`: 失敗ログは経験後に手動記録するもので、能動収集ではない",
     ]
     return "\n".join(lines) + "\n"
 
