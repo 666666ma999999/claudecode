@@ -284,9 +284,11 @@ printf "⏱ 5h %s %d%% (%s) │ 📅 7d %s %d%% (%s)%s\n" \
   "$seven_d_int" \
   "$seven_d_reset" \
   "$fable_seg"
-printf "🔀 %s │ 📁 %s" \
+# 🖥 = この Claude が動いている Mac (2台運用の取り違え防止・2026-07-23 恒久対策)
+printf "🔀 %s │ 📁 %s │ 🖥 %s" \
   "$git_branch" \
-  "$project_name"
+  "$project_name" \
+  "$(hostname -s)"
 # 4行目: 今回のセッション目標 (作業中に「今やろうとしてること」を見失わない anchor)
 if [ -n "$session_goal" ]; then
   if [ -n "$_goal_stale" ]; then
