@@ -5,7 +5,7 @@ description: |
   脆弱性の緩和策・セキュリティ設計改善を提案する。
   セキュリティ監査、コードレビュー、PR レビュー時に使用。
   キーワード: 防御, mitigation, 多層防御, セキュリティ設計, hardening
-tools: Read, Grep, Glob, Bash, WebSearch, WebFetch
+tools: Read, Grep, Glob, Bash, WebSearch, WebFetch, SendMessage
 model: sonnet
 ---
 

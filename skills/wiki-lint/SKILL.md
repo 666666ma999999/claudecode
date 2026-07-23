@@ -4,6 +4,7 @@ description: >
   Obsidian wiki vault health check (orphans, dead links, stale claims, frontmatter gaps,
   Dataview dashboard, canvas map). Triggers: lint, health check, clean up wiki,
   check the wiki, wiki maintenance, find orphans, wiki audit.
+allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
 ---
 
 # wiki-lint: Wiki Health Check

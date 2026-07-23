@@ -1,6 +1,7 @@
 ---
 name: wiki-ingest
 description: "Ingest sources (files, URLs, batch) into the Obsidian wiki vault: create/update wiki pages, cross-reference, log. Triggers: ingest, process this source, ingest this, read and file this, batch ingest, ingest all of these, ingest this url."
+allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, WebFetch]
 ---
 
 # wiki-ingest: Source Ingestion
@@ -106,7 +107,7 @@ Steps:
 
 1. **Read** the source completely. Do not skim.
 2. **Discuss** key takeaways with the user. Ask: "What should I emphasize? How granular?" Skip this if the user says "just ingest it."
-3. **Create** source summary in `wiki/sources/`. Use the source frontmatter schema from `skills/wiki/references/frontmatter.md` (the `### source` section). Assign an address per the **Address Assignment** section below.
+3. **Create** source summary in `wiki/sources/`. Use the source frontmatter schema from `~/.claude/skills/wiki/references/frontmatter.md` (the `### source` section). Assign an address per the **Address Assignment** section below.
 4. **Create or update** entity pages for every person, org, product, and repo mentioned. One page per entity. Assign addresses to new entity pages.
 5. **Create or update** concept pages for significant ideas and frameworks. Assign addresses to new concept pages.
 6. **Update** relevant domain page(s) and their `_index.md` sub-indexes.
@@ -170,7 +171,7 @@ Token budget matters. Follow these rules during ingest:
 ## Contradictions
 
 > [!note] Custom callout dependency
-> The `[!contradiction]` callout type used below is a **custom callout** defined in `.obsidian/snippets/vault-colors.css` (auto-installed by `/wiki` scaffold). It renders with reddish-brown styling and an alert-triangle icon when the snippet is enabled. If the snippet is missing, Obsidian falls back to default callout styling, so the page still works without the visual flourish. See [[skills/wiki/references/css-snippets.md]] for the four custom callouts (`contradiction`, `gap`, `key-insight`, `stale`).
+> The `[!contradiction]` callout type used below is a **custom callout** defined in `.obsidian/snippets/vault-colors.css` (auto-installed by `/wiki` scaffold). It renders with reddish-brown styling and an alert-triangle icon when the snippet is enabled. If the snippet is missing, Obsidian falls back to default callout styling, so the page still works without the visual flourish. See `~/.claude/skills/wiki/references/css-snippets.md` for the four custom callouts (`contradiction`, `gap`, `key-insight`, `stale`).
 
 When new info contradicts an existing wiki page:
 
