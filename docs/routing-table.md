@@ -95,6 +95,7 @@
 | 動画からの種コマ/候補フレーム抽出・鮮明度スコア・単独人物判定の方式比較ベンチ | `media-candidate-bench`（同上） |
 | ジョブ/ワークフロー状態機械の実装改修・遷移表からのテスト導出・CAS/二重送信/再起動 | `state-machine-test-gen`（同上） |
 | Gmail・カレンダー・Drive・Google Sheets・スプレッドシート・Google Docs・Slides・`docs.google.com/spreadsheets/`・`docs.google.com/document/`・`drive.google.com/`・Google Workspace操作 | `gog-cli`（WebFetch は認証を通せないため禁止。`PreToolUse(WebFetch)` hook で自動 deny される） |
+| ローカル文書ファイルの作成・編集・抽出 — PDF（結合/分割/フォーム/OCR）・Word `.docx`・PowerPoint `.pptx`・Excel `.xlsx`/CSV 整形 | 公式 `pdf` / `docx` / `pptx` / `xlsx`（anthropics/skills @1f630fd を 2026-07-23 コピー導入・棚卸し裁定③。用途: taxreturn 申告書類・collect_receipt 領収書・report 役員資料。Google Docs/Sheets 上の操作は gog-cli） |
 | 通知設定・アラート設定 | `notification-alert` |
 | デスクトップ整理・ファイル整理 | `organize-desktop` |
 | 設定配置・グローバル vs プロジェクト | `config-placement-guide` |
