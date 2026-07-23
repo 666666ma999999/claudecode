@@ -57,6 +57,12 @@ resolve_claude() {
 CLAUDE_BIN="$(resolve_claude)"
 [ -x "$CLAUDE_BIN" ] && export PATH="$(dirname "$CLAUDE_BIN"):$PATH"
 
+# 2026-07-23 恒久修理: 環境に無効な ANTHROPIC_API_KEY があると headless claude が
+# 'Invalid API key' で rc=1 全滅する（定期ジョブ5本が同時死・実障害）。headless 実行は
+# Max プランの OAuth ログインで通すのが正なので、API キー系は明示的に unset して
+# claude.ai 認証を優先させる（キーの有無に依存しない・値は伏せたまま）。
+unset ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN CLAUDE_CODE_OAUTH_TOKEN 2>/dev/null || true
+
 STATE_DIR="$HOME/.claude/state"
 LOG="$STATE_DIR/vault-prompt-runner.log"
 mkdir -p "$STATE_DIR"
