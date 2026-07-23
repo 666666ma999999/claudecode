@@ -22,7 +22,7 @@
 | 叩き台・探索・試作・UI案・API挙動確認・要件曖昧 | `/prototype` コマンド |
 | 実装完了・完了報告前・検証完了 | `implementation-checklist` |
 | 新機能/MVP開始・4項目ブリーフ収集→Plan mode起動 | `new-feature` |
-| 新プロジェクト初期化(.gitignore/Docker/CLAUDE.md 等) | `project-bootstrap` |
+| 新プロジェクト初期化(.gitignore/Docker/CLAUDE.md 等) | `project-bootstrap`（CLAUDE.md 生成は公式 `/init` 併用。旧 /init-project コマンドは 2026-07-23 統合済） |
 | ベスプラ検索・Claude Code運用改善・最新Tips | `search-best-practice` |
 | Plan mode前スキル検索・外部レジストリ検索 | `find-skills` |
 | Plan中のアーキテクチャ判断・設計リスク分析 | `plan-adversarial-review` |
@@ -78,7 +78,7 @@
 | salesmtg CSV整合性・粗利構成不整合・スクレイピング後検証 | `salesmtg-data-audit` |
 | salesmtg ダッシュボード表示・セグメント統一・N/A表示・QA | `salesmtg-dashboard-qa` |
 | プロジェクト改善記録・改善メモ・X記事ネタ・定量改善・「これ記事化したい」「素材化」「マテリアルに」（質的体験も可） | `capture-improvement` |
-| 占い商品改題・11体Agent Pipeline | `retitle-product` |
+| 占い商品改題・11体Agent Pipeline | rohan プロジェクト側 `retitle-product`＋`/retitle`（2026-07-23 グローバルから移設。rohan で作業時のみ発火） |
 
 ### ツール・ユーティリティ
 
@@ -86,7 +86,7 @@
 |---------|-----------|
 | Web リサーチ・情報検索・調査 | 下記「Web リサーチツール選択」参照 |
 | Webスクレイピング・Agent Teams構成 | `tool-selection-reference` |
-| Playwright並列化・ブラウザ自動化高速化・mutex競合解消 | `browser-automation-parallelization` |
+| Playwright並列化・ブラウザ自動化高速化・mutex競合解消 | `execution-patterns`（references/browser-automation-parallelization.md・2026-07-23 吸収） |
 | X(Twitter)ブックマーク取得・教師データ変換 | `fetch-bookmarks` |
 | X(Twitter)投稿エンゲージメント取得・候補URLの実測検証・いいね数確認 | `fetch-engagement` |
 | X Cookie再取得・Chrome→x_profiles抽出・auth_token更新・`import_chrome_cookies.py` | influx側 `refresh-x-cookies`（`~/Desktop/biz/influx/.claude/skills/refresh-x-cookies/SKILL.md`、VNC方式は2026-04-21に廃止） |
