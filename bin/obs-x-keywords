@@ -333,6 +333,39 @@ if $MODE_FETCH; then
   LINES_BEFORE=$(wc -l < "$BOOKMARKS_FILE" 2>/dev/null || echo 0)
   rm -f "$STATUS_JSON_FILE"
 
+  # --- identity guard（2026-07-23 恒久対策）---
+  # 事故: 合鍵ラベル「maaaki」の中身が別人 @kabuki666999 で、別人のブックマークを数週間取り込んでいた。
+  # 対策: fetch のたびに合鍵の twid と宣言ファイル(expected_account.json)を突き合わせ、不一致なら fail-loud で中断。
+  EXPECTED_FILE="$INFLUX/x_profiles/maaaki/expected_account.json"
+  COOKIE_FILE="$INFLUX/x_profiles/maaaki/cookies.json"
+  if [ -f "$EXPECTED_FILE" ] && [ -f "$COOKIE_FILE" ]; then
+    ID_CHECK=$(/usr/bin/python3 - "$COOKIE_FILE" "$EXPECTED_FILE" <<'PYEOF'
+import json, sys, urllib.parse
+try:
+    ck = json.load(open(sys.argv[1])); exp = json.load(open(sys.argv[2]))
+    names = {c.get("name"): c.get("value") for c in ck}
+    twid = urllib.parse.unquote(names.get("twid") or "").replace("u=", "")
+    if twid == exp.get("uid"):
+        print("OK " + exp.get("handle", "?"))
+    else:
+        print(f"MISMATCH actual_uid={twid or 'none'} expected=@{exp.get('handle')}({exp.get('uid')})")
+except Exception as e:
+    print(f"UNVERIFIED {type(e).__name__}")
+PYEOF
+)
+    case "$ID_CHECK" in
+      OK\ *)
+        echo "identity guard OK: 合鍵=@${ID_CHECK#OK }" ;;
+      MISMATCH*)
+        echo "ERROR: identity guard — 合鍵が宣言アカウントと不一致（$ID_CHECK）。別人のブックマーク混入事故(2026-07-23 kabuki混入)の再発防止のため中断。masa-2 の Chrome(Default) に @twittora_ でログイン → import_chrome_cookies.py で合鍵を入れ直すこと" >&2
+        exit 12 ;;
+      *)
+        echo "WARN: identity guard 検証不能（$ID_CHECK）— 続行するが要確認" >&2 ;;
+    esac
+  else
+    echo "WARN: identity guard skip（expected_account.json か cookies.json が無い）" >&2
+  fi
+
   if ! "$DOCKER" ps --filter name=xstock-vnc --format '{{.Names}}' | grep -q xstock-vnc; then
     "$DOCKER" compose -f docker-compose.vnc.yml up -d
     sleep 20
