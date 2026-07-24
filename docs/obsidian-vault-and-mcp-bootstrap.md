@@ -2,6 +2,16 @@
 
 > ⚠️ **2026-07-16 注記**: **mcpvault は現行構成に未導入**（実際の `.mcp.json` は postgresql/repomix/codex/grok-search/playwright の 5 サーバー）。本手順書の mcpvault 関連 STEP は当時の検討記録＝**スキップする**。vault 操作は wiki 系 skill / obsidian-cli 経由で行う。
 
+## MCP 構成の正本（2026-07-24 実測・health 監査 S4）
+
+実セッションに現れるサーバーは3層から来る。「`.mcp.json` に無いのに繋がっている」は乖離ではなくこの層構造が理由:
+
+| 層 | 置き場所 | サーバー | 備考 |
+|---|---|---|---|
+| project（git 共有・2台同期） | `~/.claude/.mcp.json` | postgresql / repomix / codex / grok-search / playwright | grok-search は settings.local.json で無効化（2026-07-22 廃止裁定） |
+| user スコープ（マシンローカル・git 外） | `~/.claude.json` の `mcpServers` | 上記5つと**重複** + context7 / chrome-devtools / google-search-console / firecrawl / memory | 重複5件は正本二重化。**変更時は `.mcp.json` 側を正とする**。user 側重複の削除は次回整理候補（ユーザー裁定待ち・2026-07-24 記録のみ） |
+| プラグイン提供 | claude-mem / claude-in-chrome 拡張 | mcp-search 系 / chrome 操作系 | プラグイン更新に追従・手動管理外 |
+
 まっさらな別Mac で、現環境と同じ Claude Code + Obsidian vault + MCP（mcpvault 含む）構成を
 **この 1 ファイルだけで** 構築する手順書。Phase 0 で OS 前提から立ち上げ、STEP 1-8 で vault と MCP を再現する。
 
