@@ -471,7 +471,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/vault-sync-sessionstart.sh"
+            "command": "(~/.claude/hooks/vault-sync-sessionstart.sh) 2>&1 | head -30"
           }
         ]
       },
@@ -498,7 +498,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/sessionstart-github-issues.sh",
+            "command": "(~/.claude/hooks/sessionstart-github-issues.sh) 2>&1 | head -30",
             "timeout": 15
           }
         ]
@@ -508,7 +508,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/wiki-dormant-warn.sh"
+            "command": "(~/.claude/hooks/wiki-dormant-warn.sh) 2>&1 | head -15"
           }
         ]
       },
@@ -517,7 +517,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/sessionstart-vault-audit-warning.sh"
+            "command": "(~/.claude/hooks/sessionstart-vault-audit-warning.sh) 2>&1 | head -15"
           }
         ]
       },
@@ -545,7 +545,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/sessionstart-env-git-drift.sh"
+            "command": "(~/.claude/hooks/sessionstart-env-git-drift.sh) 2>&1 | head -40"
           }
         ]
       },
@@ -554,7 +554,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/machine-local-bootstrap.sh"
+            "command": "(~/.claude/hooks/machine-local-bootstrap.sh) 2>&1 | head -50"
           }
         ]
       },
@@ -888,7 +888,18 @@
     "**/plugins/**",
     "**/node_modules/**",
     "/Users/masaaki_nagasawa/.claude/rules/CLAUDE.md",
-    "/Users/masaaki_nagasawa/.claude/rules/AGENTS.md"
+    "/Users/masaaki_nagasawa/.claude/rules/AGENTS.md",
+    "/Users/masaaki_nagasawa/.claude/agents/**",
+    "/Users/masaaki_nagasawa/.claude/bin/**",
+    "/Users/masaaki_nagasawa/.claude/commands/**",
+    "/Users/masaaki_nagasawa/.claude/data/**",
+    "/Users/masaaki_nagasawa/.claude/docs/**",
+    "/Users/masaaki_nagasawa/.claude/hooks/**",
+    "/Users/masaaki_nagasawa/.claude/launchd/**",
+    "/Users/masaaki_nagasawa/.claude/scripts/**",
+    "/Users/masaaki_nagasawa/.claude/skills/**",
+    "/Users/masaaki_nagasawa/.claude/tests/**",
+    "/Users/masaaki_nagasawa/.claude/rohan-selfimprove/**"
   ],
   "theme": "dark",
   "remoteControlAtStartup": true,
