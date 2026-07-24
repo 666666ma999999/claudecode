@@ -42,6 +42,8 @@ opponent-review の計画フェーズ特化版。
 
 ### Step 1: 2つのSubAgentを並列起動
 
+両Agentは読み取り専用（Read/Glob/Grep）で分析のみ。ファイルの編集・削除・git操作・プラン書き換えは禁止し、結果は下記フォーマットのテキストで返す（プラン反映はLeadがStep 3で行う）。
+
 ```
 Agent A（Builder）:
 「あなたはBuilderです。以下の計画について、実現可能性・価値・利点を主張してください。

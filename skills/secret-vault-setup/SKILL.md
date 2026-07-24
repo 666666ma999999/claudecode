@@ -39,6 +39,8 @@ Agent (black-hacker):           漏洩経路の網羅列挙
 Agent (white-hacker):           防御設計の具体手順
 ```
 
+**3エージェントとも読み取り専用・分析のみ（ファイル編集/削除/git操作/Write禁止）。機密ファイルの中身は読ませず、パス・ファイル名レベルの列挙に留める。** 結果はテキストで返し、deny 追加や構築はユーザー確認後に Lead が実施する。
+
 **観点固定リスト**（プロンプトに必ず含める）:
 - `~/.claude/settings.json` の `permissions.deny` に vault Read 禁止があるか
 - 既存 Obsidian Vault の `.obsidian/plugins/obsidian-git` 自動 push 設定

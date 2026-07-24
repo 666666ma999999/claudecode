@@ -86,6 +86,7 @@ bash ~/.claude/skills/collect-reply-posts/gen-queries.sh
 - **第一候補 = Fable 5（`claude-fable-5`）**。議論の質判定（賛否の割れ・専門性・皮肉や定型挨拶の見分け）と見出し生成という"編集者的判断"に向く。Agent tool の `model: fable` で評価役を委譲する。採用候補を10件以下に絞った後、質判定＋論点＋見出しを **まとめて1回**（3分割しない）。
 - **フォールバック = 現行セッションモデル**。Fable 5 が利用不可（`currently unavailable`）の場合や、軽い量なら現行モデルが同じ rubric で同じ仕事をする。評価の中身は同一で、スロットを差し替えるだけ。
 - ユーザーに「何を評価するか」を一切負わせない。判定に迷う投稿も AI が「採用/却下＋理由」を出す。
+- **評価役Agentは判定のみ（読み取り専用・ファイル編集/削除/git操作禁止）。** 結果は上記整形フォーマットのテキストで返し、x-article-stock への保存は Stage 4 で main が /x-stock 経由で行う。
 
 ### Stage 4: x-article-stock に保存（/x-stock）
 

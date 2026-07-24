@@ -36,6 +36,8 @@ Q2. ユーザーの意図は何か？
 
 ## Phase Protocol（全シナリオ共通）
 
+探索系Agent（Explorer / Historian / DiffAnalyzer / ModuleExplorer）は読み取り専用で調査のみ。ファイル編集・削除・git書込は行わず、結果はテキストで返す（Memory保存はP3でLeadだけが実施）。
+
 Agent Teamsを使うシナリオ（A/B/C/A+）は以下の3フェーズで実行:
 
 | Phase | 名称 | 内容 |
