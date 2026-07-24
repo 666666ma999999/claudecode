@@ -158,7 +158,7 @@ r1 短文→pass / r2 質問tail→pass / r3 Tier4→block。
 
 | 仕事の種類 | 要る根拠（平易） | 正本ルール |
 |---|---|---|
-| 提案（施策・企画・予算） | **式**。数字には必ず式・作れない項目だけ「根拠数字なし・定性判断」と明示して出す（2026-07-23裁定） | judgment-number-first |
+| 提案（施策・企画・予算） | **式**。数字には必ず式・作れない項目だけ「根拠数字なし・定性判断」と明示して出す（2026-07-23裁定）。**＋実行場所を必ず明記**（広告媒体:Meta／プロジェクト:prime_ad 等・2026-07-24恒久） | judgment-number-first |
 | 調べ物（調査・事実確認） | **出どころ**（URL/ファイル/実測日） | fact-claim-proof・data-source-first |
 | 分析（比較・順位・判定） | **式＋出どころの両方**（順位には掲載式） | judgment-number-first＋data-provenance-first |
 | 記録（議事録・転記・教訓） | **原文のまま**（要約・言い換えしない） | memo-content-verbatim（feedback memory・rules/41） |
