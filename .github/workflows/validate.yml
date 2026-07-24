@@ -6,11 +6,13 @@ on:
     paths:
       - 'skills/**'
       - 'hooks/**'
+      - 'agents/**'
       - 'scripts/validate-skills-hooks.sh'
   pull_request:
     paths:
       - 'skills/**'
       - 'hooks/**'
+      - 'agents/**'
 
 jobs:
   validate:
@@ -29,5 +31,6 @@ jobs:
           ln -sf "$GITHUB_WORKSPACE/skills" $HOME/.claude/skills
           ln -sf "$GITHUB_WORKSPACE/hooks" $HOME/.claude/hooks
           ln -sf "$GITHUB_WORKSPACE/scripts" $HOME/.claude/scripts
+          ln -sf "$GITHUB_WORKSPACE/agents" $HOME/.claude/agents
       - name: Run validation
         run: bash scripts/validate-skills-hooks.sh

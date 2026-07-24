@@ -33,7 +33,7 @@
 - **当 project 独自の上書き可**: `<例: x-article-stock.md の state=posted 移行で entry remove>`
 
 ### 4. Ingest (外部情報を vault に取り込み・更新)
-- グローバル自動取得を活用 (ニュース `collect_news.py` / twittora `grok-collect-twittora` / bookmarks `fetch-bookmarks` → `.raw/`)
+- グローバル自動取得を活用 (ニュース `collect_news.py` / bookmarks `fetch-bookmarks` → `.raw/`)
 - 当 project 固有の手動 ingest (任意): `<例: 公式 docs を /autoresearch <topic> で wiki/sources/<topic>.md に保存>`
 - 当 project 固有の `.raw/<source>/` サブディレクトリ (任意): `<例: .raw/<project-source>/>`
 - 昇格先 (任意): `wiki/sources/<page>.md` (更新は `## Updates` 差分追記、本文書き換え禁止)

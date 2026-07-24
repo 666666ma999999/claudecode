@@ -5,7 +5,7 @@ description: |
   脆弱性・攻撃ベクトル・バイパス手法を特定する。
   セキュリティ監査、コードレビュー、PR レビュー時に使用。
   キーワード: 脆弱性, 攻撃, OWASP, injection, bypass, security audit
-tools: Read, Grep, Glob, Bash, WebSearch, WebFetch
+tools: Read, Grep, Glob, Bash, WebSearch, WebFetch, SendMessage
 model: sonnet
 ---
 

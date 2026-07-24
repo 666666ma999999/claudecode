@@ -15,6 +15,8 @@ allowed-tools: [Read, Glob, Grep]
 SubAgent委託時、デバッグ時、大量データ分析時、リファクタリング時に使用。
 NOT for: 単純なタスク実行、1ファイル修正、デバッグの根本原因分析手法のみ（→ debugging-guide）、リファクタリング戦略そのもの（→ refactoring-guide）
 
+**Playwright/ブラウザ自動化バッチの並列化**（旧 browser-automation-parallelization skill・2026-07-23 吸収）: 並列化設計・mutex競合解消・ワーカー分割の詳細は `references/browser-automation-parallelization.md` を Read すること。
+
 ## 1. SubAgent委託の必須条件と並列構成
 
 ### 委託必須条件（CLAUDE.md「SubAgent強制ルール」の実行詳細）

@@ -105,4 +105,4 @@ Agent B（Scope Challenger）:
 
 ## 吸収（2026-07-11 P6 裁定）
 
-- 汎用版の旧 skill `opponent-review` は本 skill に吸収し `_dormant` へ退避。計画以外（実装後コード等）への汎用敵対レビューが必要な場合の型 → `references/opponent-review-general.md`
+- 汎用版の旧 skill `opponent-review` は本 skill に吸収後、2026-07-23 に削除。計画以外（実装後コード等）への汎用敵対レビューが必要な場合の型は `references/opponent-review-general.md` に保存。

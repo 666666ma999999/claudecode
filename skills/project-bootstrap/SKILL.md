@@ -4,8 +4,8 @@ description: |
   新プロジェクト初期化チェックリスト。.gitignore整備、Docker設定確認、
   CLAUDE.md作成、テスト・lint定義、task.mdテンプレート配置を統合実行する。
   シークレットは ~/.zshrc 直接 export 方式を採用（`secret-management` スキル参照）。
-  /init-project コマンド実行時、新しいプロジェクトディレクトリのセットアップ時に使用。
-  キーワード: プロジェクト初期化, セットアップ, init, 新規プロジェクト, 環境構築
+  新しいプロジェクトディレクトリのセットアップ時に使用（旧 /init-project コマンドは 2026-07-23 本スキルへ統合）。
+  キーワード: プロジェクト初期化, セットアップ, init, init-project, 新規プロジェクト, 環境構築
   NOT for: 既存プロジェクトの通常作業、コード修正、デバッグ
 allowed-tools: [Bash, Read, Write, Edit, Glob, Grep]
 ---
@@ -19,7 +19,7 @@ allowed-tools: [Bash, Read, Write, Edit, Glob, Grep]
 
 ### 1. 基本ファイル作成
 - [ ] `.gitignore` — `~/.claude/templates/project/.gitignore` をコピーしてプロジェクト固有パターンを追加
-- [ ] `CLAUDE.md` — `~/.claude/templates/project/CLAUDE.md` をコピーしてプレースホルダーを置換
+- [ ] `CLAUDE.md` — 既存コードがあるプロジェクトは**公式 `/init` で生成**してから `~/.claude/templates/project/CLAUDE.md` の規約（Docker-only 等）を追記。空プロジェクトはテンプレートをコピーしてプレースホルダーを置換
 - [ ] `.mcp.json` — 必要に応じて `~/.claude/templates/project/.mcp.json.example` を参考に作成（`${VAR}` プレースホルダーで参照）
 
 ### 2. シークレット管理

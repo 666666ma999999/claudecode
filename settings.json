@@ -139,7 +139,6 @@
     "step8-subtitle": "name-only",
     "register-all": "name-only",
     "verify-production": "name-only",
-    "retitle-product": "off",
     "yudo-recommend": "name-only",
     "headline-optimizer": "name-only",
     "csv-format-converter": "name-only",
@@ -147,7 +146,6 @@
     "fetch-bookmarks": "off",
     "fetch-engagement": "name-only",
     "gh-star-harvest": "off",
-    "browser-automation-parallelization": "off",
     "machine-bootstrap": "off",
     "codify-config": "off",
     "env-factcheck": "off",
@@ -185,7 +183,6 @@
     "collect-reply-posts": "off",
     "config-placement-guide": "off",
     "feature-dev-hybrid": "off",
-    "grok-collect-twittora": "off",
     "project-cross-pc-handoff": "off",
     "search-best-practice": "off",
     "secret-vault-setup": "off"
@@ -901,5 +898,6 @@
     "environment": [
       "macOS darwin23, cwd主に ~/Desktop/biz 配下, Docker開発環境"
     ]
-  }
+  },
+  "model": "claude-fable-5[1m]"
 }

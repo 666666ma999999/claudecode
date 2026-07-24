@@ -22,7 +22,7 @@
 ## 標準ワークフロー（全文・0.5/1.5 含む）
 
 0. **plan.md/task.md 確認** → plan.md → 該当 task.md の Session Handoff/Stuck Context
-0.5. **新プロジェクト着手時のみ**: `/init-project`（環境基盤）+ `/methodology`（作業の型 = 0層+①〜⑥+メタ層を配置）→ 各ステップの「問い」に当 project のデータ・ツールで答える。概念=[[作業メソドロジー]] / 雛形=`templates/methodology-5step.md`
+0.5. **新プロジェクト着手時のみ**: `project-bootstrap` スキル（環境基盤・CLAUDE.md 生成は公式 `/init` 併用。旧 /init-project は 2026-07-23 統合）+ `/methodology`（作業の型 = 0層+①〜⑥+メタ層を配置）→ 各ステップの「問い」に当 project のデータ・ツールで答える。概念=[[作業メソドロジー]] / 雛形=`templates/methodology-5step.md`
 1. **スキル確認**（Plan 前必須）: `30-routing.md` → なければ `find-skills`
 1.5. **曖昧点洗い出し**（3 ファイル以上）: エッジケース・エラー・統合ポイント列挙、不明点は `AskUserQuestion`
 2. **Plan モード**: 必須セクション Goal/Architecture/Tasks/Verification/成功基準。アーキ判断は `plan-adversarial-review` 検討

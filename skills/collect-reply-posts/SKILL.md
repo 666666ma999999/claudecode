@@ -15,7 +15,7 @@ allowed-tools:
 
 ## 発火・詳細（description から移設 2026-07-03）
 
-AI / Claude Code 界隈で reply（返信・会話）を多くもらっている X 投稿を、記事ネタ素材として週1で半手動収集するスキル。探索=手動（保存済み advanced search クエリ）、reply数確認=目視、意味づけ=LLM1回、保存=/x-stock の4段。grok-collect-twittora（likes基準のバズ収集）の補完で、こちらは『議論を呼んでいる＝reply軸』を拾う。/collect-reply-posts で起動。トリガー: 「reply 収集」「返信が多い投稿」「議論を呼んでいる投稿」「reply の多い X」「議論投稿収集」「賛否が割れている投稿」「collect-reply-posts」を含む依頼。
+AI / Claude Code 界隈で reply（返信・会話）を多くもらっている X 投稿を、記事ネタ素材として週1で半手動収集するスキル。探索=手動（保存済み advanced search クエリ）、reply数確認=目視、意味づけ=LLM1回、保存=/x-stock の4段。こちらは『議論を呼んでいる＝reply軸』を拾う（likes/バズ軸の旧 grok-collect-twittora は 2026-07-23 撤去済）。/collect-reply-posts で起動。トリガー: 「reply 収集」「返信が多い投稿」「議論を呼んでいる投稿」「reply の多い X」「議論投稿収集」「賛否が割れている投稿」「collect-reply-posts」を含む依頼。
 
 AI / Claude Code 界隈で **reply（返信・会話）をもらっている X 投稿**を、記事ネタ素材バンク（vault `x-article-stock.md`）に週1で溜める。
 
@@ -138,16 +138,9 @@ python3 ~/.claude/skills/collect-reply-posts/analyze-feedback.py
 
 → クエリ別採用率と却下理由を見て、LLM に gen-queries.sh の改善案（低採用クエリの淘汰 / 高採用キーワードの追加 / `min_replies` 閾値の上下）を diff で出させ、**人間が承認したものだけ** `gen-queries.sh` に反映。反映時は `gen-queries.sh` 冒頭の `# CHANGELOG` に「日付・変更・根拠となった採用率」を1行残す。Fable5 を使うならこの改善案生成で1回（スポット）。
 
-## grok-collect-twittora との違い（混同しない）
+## 旧 grok-collect-twittora との関係
 
-| | grok-collect-twittora | collect-reply-posts（本スキル） |
-|---|---|---|
-| 軸 | likes / impression（バズ） | **reply / 会話（議論）** |
-| 経路 | Grok x_search（API・自動） | X Web UI advanced search（手動目視） |
-| 出口 | `.raw/` jsonl+md プール | `x-article-stock.md`（記事ネタ） |
-| 用途 | @twittora_ 素材プール更新 | 議論ネタの記事化候補 |
-
-両者は併存。バズ収集はあちら、議論ネタ収集はこちら。
+likes/バズ軸の `grok-collect-twittora` は **2026-07-23 撤去済**（grok 課金廃止裁定 2026-07-22）。本スキルは reply/会話（議論）軸で軸が異なるため代替関係にはない。バズ軸の収集が再び必要になったら、ブラウザ経路（influx Cookie / claude-in-chrome）で別途設計する。
 
 ## 既知の制限・将来の拡張
 

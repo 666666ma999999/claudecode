@@ -16,6 +16,7 @@ set -uo pipefail
 CLAUDE_HOME="${HOME}/.claude"
 SKILLS_DIR="${CLAUDE_HOME}/skills"
 HOOKS_DIR="${CLAUDE_HOME}/hooks"
+AGENTS_DIR="${CLAUDE_HOME}/agents"
 
 pass=0
 fail=0
@@ -92,15 +93,30 @@ fi
 
 echo ""
 echo "=== 4. allowed-tools validity ==="
-# 既知のビルトインツール + MCP
-KNOWN_TOOLS="Read Write Edit NotebookEdit Bash Grep Glob AskUserQuestion WebSearch WebFetch Agent Skill TodoWrite ExitPlanMode EnterPlanMode KillShell BashOutput Monitor TaskCreate TaskUpdate TaskList TaskGet TaskOutput TaskStop SendMessage CronCreate CronDelete CronList RemoteTrigger PushNotification EnterWorktree ExitWorktree TeamCreate TeamDelete ScheduleWakeup ToolSearch"
+# 現行セッションで実在を確認できるビルトインツール（MCP は別扱い）
+KNOWN_TOOLS="Read Write Edit NotebookEdit Bash Grep Glob AskUserQuestion WebSearch WebFetch Agent Skill ExitPlanMode EnterPlanMode TaskOutput TaskStop SendMessage CronCreate CronDelete CronList RemoteTrigger PushNotification EnterWorktree ExitWorktree ScheduleWakeup ToolSearch Monitor BashOutput KillShell TodoWrite"
 t_warn=0
 for skill_md in "$SKILLS_DIR"/*/SKILL.md; do
     [ -f "$skill_md" ] || continue
     skill_name=$(basename "$(dirname "$skill_md")")
-    # frontmatter (first --- ... ---) から allowed-tools のリスト形式エントリのみ抽出
+    # frontmatter から allowed-tools の角括弧配列・ブロック配列・角括弧なし1行値を抽出
     fm=$(awk 'BEGIN{s=0} /^---$/{if(s==0){s=1;next} if(s==1){s=2;exit}} s==1{print}' "$skill_md")
-    tools=$(echo "$fm" | awk '/^allowed-tools:/{flag=1; next} /^[a-zA-Z_]/{flag=0} flag' | grep -E '^\s*-\s*[A-Za-z]' | awk '{print $NF}')
+    tools=$(
+        {
+            echo "$fm" |
+                sed -nE 's/^allowed-tools:[[:space:]]*\[([^]]*)\].*$/\1/p' |
+                tr ',' '\n'
+            echo "$fm" |
+                awk '/^allowed-tools:[[:space:]]*$/{flag=1; next} /^[a-zA-Z_]/{flag=0} flag' |
+                sed -nE 's/^[[:space:]]*-[[:space:]]*(.*)$/\1/p'
+            echo "$fm" |
+                sed -nE '/^allowed-tools:[[:space:]]*\[/d; s/^allowed-tools:[[:space:]]+(.+)$/\1/p' |
+                sed -E "s/^[[:space:]'\"]+//; s/[[:space:]'\"]+$//" |
+                tr ', ' '\n\n'
+        } |
+            sed -E "s/^[[:space:]'\"]+//; s/[[:space:]'\"]+$//; s/\([^)]*\)$//" |
+            sed '/^$/d'
+    )
     for t in $tools; do
         # MCP tools start with mcp__ — skip
         case "$t" in
@@ -115,10 +131,42 @@ done
 echo "  warnings: $t_warn"
 
 echo ""
+echo "=== 5. Agent tools validity ==="
+a_warn=0
+# fail-loud: agents ディレクトリ自体が無いと「0件走査で緑」になり検証が素通りする
+if [ ! -d "$AGENTS_DIR" ]; then
+    errors+=("[agent] agents dir not found: $AGENTS_DIR (検証が空振りするため配置を確認)")
+    a_warn=$((a_warn + 1))
+fi
+for agent_md in "$AGENTS_DIR"/*.md; do
+    [ -f "$agent_md" ] || continue
+    agent_name=$(basename "$agent_md" .md)
+    fm=$(awk 'BEGIN{s=0} /^---$/{if(s==0){s=1;next} if(s==1){s=2;exit}} s==1{print}' "$agent_md")
+    tools=$(
+        echo "$fm" |
+            sed -nE 's/^tools:[[:space:]]*(.+)$/\1/p' |
+            tr ',' '\n' |
+            sed -E "s/^[[:space:]'\"]+//; s/[[:space:]'\"]+$//; s/\([^)]*\)$//" |
+            sed '/^$/d'
+    )
+    for t in $tools; do
+        case "$t" in
+            mcp__*|\*) continue ;;
+        esac
+        if ! echo " $KNOWN_TOOLS " | grep -q " $t "; then
+            errors+=("[agent] $agent_name: unknown tool '$t' in tools")
+            a_warn=$((a_warn + 1))
+        fi
+    done
+done
+echo "  warnings: $a_warn"
+
+echo ""
 echo "=== Summary ==="
 echo "  skills OK: $pass, failed: $fail"
 echo "  hooks  OK: $h_pass, failed: $h_fail"
 echo "  tool warnings: $t_warn"
+echo "  agent tool warnings: $a_warn"
 
 if [ ${#errors[@]} -gt 0 ]; then
     echo ""
@@ -126,6 +174,9 @@ if [ ${#errors[@]} -gt 0 ]; then
     for e in "${errors[@]}"; do
         echo "  ✗ $e"
     done
-    [ "$fail" -gt 0 ] || [ "$h_fail" -gt 0 ] && exit 1
+    # 未知ツール（廃止 API の再混入等）も失敗扱い。warn のまま exit 0 だと CI が緑で通り抜ける
+    if [ "$fail" -gt 0 ] || [ "$h_fail" -gt 0 ] || [ "$t_warn" -gt 0 ] || [ "$a_warn" -gt 0 ]; then
+        exit 1
+    fi
 fi
 exit 0
