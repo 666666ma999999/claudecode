@@ -86,6 +86,7 @@
 |---------|-----------|
 | Web リサーチ・情報検索・調査 | 下記「Web リサーチツール選択」参照 |
 | Webスクレイピング・Agent Teams構成 | `tool-selection-reference` |
+| ログイン必須サイトの裏取り・公式サイトで照合・認証サイトのスポット確認 | `auth-site-spot-check`（人在席・少数限定・X計測は fetch-engagement） |
 | Playwright並列化・ブラウザ自動化高速化・mutex競合解消 | `browser-automation-parallelization` |
 | X(Twitter)ブックマーク取得・教師データ変換 | `fetch-bookmarks` |
 | X(Twitter)投稿エンゲージメント取得・候補URLの実測検証・いいね数確認 | `fetch-engagement` |
